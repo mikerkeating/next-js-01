@@ -14,14 +14,14 @@
 **So that** I can verify critical functionality works after each deployment before merging PRs
 
 ## Acceptance Criteria
-- [ ] Playwright installed and configured per canonical versions
-- [ ] Smoke test suite validates health endpoint returns 200 OK with "healthy" status
-- [ ] Smoke test verifies homepage loads successfully
-- [ ] Smoke test verifies no console errors on page load
-- [ ] Tests can run against any deployment URL via `BASE_URL` environment variable
-- [ ] Test results output to `playwright-report/` directory
-- [ ] Tests complete within 60 seconds for full suite
-- [ ] `pnpm test:e2e:smoke` command runs the smoke test suite
+- [x] Playwright installed and configured per canonical versions
+- [x] Smoke test suite validates health endpoint returns 200 OK with "healthy" status
+- [x] Smoke test verifies homepage loads successfully
+- [x] Smoke test verifies no console errors on page load
+- [x] Tests can run against any deployment URL via `BASE_URL` environment variable
+- [x] Test results output to `playwright-report/` directory
+- [x] Tests complete within 60 seconds for full suite
+- [x] `pnpm test:e2e:smoke` command runs the smoke test suite
 
 ## Technical Requirements
 
@@ -60,9 +60,9 @@ npx playwright install chromium
 ## Test Requirements
 
 ### Manual Verification
-- [ ] `pnpm test:e2e:smoke` runs successfully against local dev server
+- [x] `pnpm test:e2e:smoke` runs successfully against local dev server
 - [ ] Tests pass against Vercel preview deployment
-- [ ] HTML report generated in `playwright-report/`
+- [x] HTML report generated in `playwright-report/`
 
 ### Verification Commands
 ```bash
@@ -182,23 +182,23 @@ Key pattern notes:
 ## Verification Checklist
 
 ### Pre-Verification
-- [ ] S4 (Health Check Endpoint) completed
-- [ ] S5 (Environment Variables) completed
-- [ ] Local environment matches [canonical versions](/docs/2-technical/references/canonical-versions.md)
+- [x] S4 (Health Check Endpoint) completed
+- [x] S5 (Environment Variables) completed
+- [x] Local environment matches [canonical versions](/docs/2-technical/references/canonical-versions.md)
 
 ### Implementation Quality
-- [ ] All acceptance criteria met
-- [ ] Playwright installed and Chromium browser available
-- [ ] `pnpm test:e2e:smoke` executes without errors locally
+- [x] All acceptance criteria met
+- [x] Playwright installed and Chromium browser available
+- [x] `pnpm test:e2e:smoke` executes without errors locally
 - [ ] Tests pass against Vercel preview deployment URL
-- [ ] `pnpm lint` and `pnpm type-check` pass
+- [x] `pnpm lint` and `pnpm type-check` pass
 
 ### Git Hygiene
 - [ ] Conventional commit message used (e.g., `test(e2e): add Playwright smoke test suite`)
-- [ ] No unrelated changes included
-- [ ] playwright-report/ and test-results/ not committed
+- [x] No unrelated changes included
+- [x] playwright-report/ and test-results/ not committed
 
 ## Status
-- **State**: Not Started
+- **State**: Implementation Complete
 - **PR**: -
 - **Completed**: -

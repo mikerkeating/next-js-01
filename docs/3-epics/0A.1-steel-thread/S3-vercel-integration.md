@@ -138,6 +138,91 @@ Reference [TAD: Vercel Project Configuration](/docs/2-technical/2-tad-steel-thre
 - [ ] No secrets committed
 
 ## Status
-- **State**: Not Started
+- **State**: Ready for Vercel Dashboard Setup
 - **PR**: -
 - **Completed**: -
+
+## Vercel Dashboard Setup Instructions
+
+The following steps must be completed manually in the Vercel dashboard:
+
+### Step 1: Import Project
+
+1. Go to [Vercel Dashboard](https://vercel.com/dashboard)
+2. Click **"Add New..."** → **"Project"**
+3. Select **"Import Git Repository"**
+4. Connect to GitHub if not already connected
+5. Find and import `mikerkeating/next-js-01`
+
+### Step 2: Configure Project Settings
+
+During import or in Project Settings:
+
+| Setting | Value |
+|---------|-------|
+| **Framework Preset** | Next.js (auto-detected) |
+| **Root Directory** | `.` (project root) |
+| **Build Command** | `pnpm build` (from vercel.json) |
+| **Install Command** | `pnpm install` (from vercel.json) |
+| **Node.js Version** | 22.x |
+
+### Step 3: Configure Git Integration
+
+In **Project Settings** → **Git**:
+
+1. Set **Production Branch** to `development`
+2. Enable **Preview Deployments** for all branches
+3. Enable **Comments on Pull Requests**
+
+### Step 4: Verify GitHub App Permissions
+
+Ensure the Vercel GitHub App has:
+- Read access to code
+- Write access to pull requests (for comments)
+- Write access to deployments
+
+### Step 5: Test Deployment
+
+1. Push any change to `development` branch
+2. Verify deployment starts in Vercel dashboard
+3. Create a test PR to verify preview deployment
+4. Check that preview URL comment appears on PR
+
+### Verification After Setup
+
+Once Vercel dashboard setup is complete, mark the following as checked:
+
+- [ ] Vercel project imported from GitHub
+- [ ] Node.js version set to 22.x
+- [ ] Production branch set to `development`
+- [ ] Preview deployments enabled
+- [ ] Test deployment to `development` succeeds
+- [ ] Test PR creates preview deployment with URL comment
+- [ ] SSL certificate auto-provisioned (check HTTPS works)
+
+## Completion Notes
+
+### Summary
+
+Created `vercel.json` configuration file to specify pnpm as the package manager and added HSTS security header. Updated `README.md` with Vercel deployment badge and preview deployment documentation. The remaining work requires manual Vercel dashboard configuration which is documented above.
+
+### Files Changed
+
+| File | Purpose |
+|------|---------|
+| `vercel.json` | Vercel project configuration with pnpm install/build commands and HSTS header |
+| `README.md` | Added deployment badge and preview deployment documentation |
+| `docs/3-epics/0A.1-steel-thread/S3-vercel-integration.md` | Added Vercel dashboard setup instructions |
+
+### Implementation Notes
+
+This story is primarily infrastructure configuration via the Vercel dashboard. The code changes provide:
+
+1. **vercel.json**: Ensures Vercel uses pnpm for install/build and adds HSTS security header
+2. **README.md updates**: Documents deployment workflow for developers
+
+The manual Vercel dashboard steps must be completed to fully satisfy all acceptance criteria. The checklist above tracks completion of those manual steps.
+
+### Known Issues
+
+None - straightforward infrastructure configuration.
