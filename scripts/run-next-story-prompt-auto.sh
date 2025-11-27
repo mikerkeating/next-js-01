@@ -3,6 +3,12 @@
 # Non-interactive script to execute story prompts until MAX_TURNS is reached
 # Usage: ./scripts/run-next-story-prompt-auto.sh [PROMPTS_FILE]
 #        ./scripts/run-next-story-prompt-auto.sh --prompts-file <file>
+#        ./scripts/run-next-story-prompt-auto.sh --max-epics 5 --claude-max-turns 30
+#        ./scripts/run-next-story-prompt-auto.sh --prompts-file <your-file.md> --max-epics 5  
+#
+# Environment variables (can be overridden by command-line arguments):
+#   MAX_EPICS          - Maximum number of epics to process (default: 20)
+#   CLAUDE_MAX_TURNS   - Maximum turns per Claude session (default: 50)
 #
 # This version runs without confirmation prompts - use with caution!
 # Add --dry-run flag to preview without executing
@@ -16,8 +22,8 @@
 
 PROMPTS_FILE=""
 DRY_RUN=false
-MAX_EPICS=20
-CLAUDE_MAX_TURNS=50
+MAX_EPICS="${MAX_EPICS:-20}"
+CLAUDE_MAX_TURNS="${CLAUDE_MAX_TURNS:-50}"
 LOG_DIR="logs"
 
 # Logging function with timestamps
@@ -140,7 +146,7 @@ while [ $EPICS_COMPLETED -lt $MAX_EPICS ]; do
         --verbose \
         --max-turns "$CLAUDE_MAX_TURNS" \
         --output-format json \
-        --allowedTools "Read(*) Edit(*) Write(*) Bash(*) Glob(*) Grep(*) Task(*) TodoWrite(*)" \
+        --allowedTools "Read(*) Edit(*) Write(*) Bash(pnpm*) Bash(gh*) Bash(*) Glob(*) Grep(*) Task(*) TodoWrite(*)" \
         2>&1 | awk -v max_turns="$CLAUDE_MAX_TURNS" '
         BEGIN { turn = 0 }
         /"role"[[:space:]]*:[[:space:]]*"assistant"/ {

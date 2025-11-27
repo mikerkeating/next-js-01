@@ -26,6 +26,11 @@ export const env = createEnv({
     // Notifications (optional)
     SLACK_WEBHOOK_URL: z.string().url().optional(),
 
+    // Basic Auth (optional - disabled when not set)
+    // Used for pre-release protection before public release
+    BASIC_AUTH_USERNAME: z.string().min(1).optional(),
+    BASIC_AUTH_PASSWORD: z.string().min(1).optional(),
+
     // Encryption (optional for steel thread)
     ENCRYPTION_KEY: z
       .string()
@@ -64,6 +69,8 @@ export const env = createEnv({
     SENTRY_ORG: process.env.SENTRY_ORG,
     SENTRY_PROJECT: process.env.SENTRY_PROJECT,
     SLACK_WEBHOOK_URL: process.env.SLACK_WEBHOOK_URL,
+    BASIC_AUTH_USERNAME: process.env.BASIC_AUTH_USERNAME,
+    BASIC_AUTH_PASSWORD: process.env.BASIC_AUTH_PASSWORD,
     ENCRYPTION_KEY: process.env.ENCRYPTION_KEY,
 
     // Client

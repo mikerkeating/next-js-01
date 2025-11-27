@@ -58,6 +58,8 @@ We now have the `EPIC.md` files for the following epics. Sense check these again
 - 3A.1: CDN & Asset Management Application
 - 3A.2: Routing Application Shell
 
+---
+
 ## List Stories for an Epic - `0A.1-steel-thread` - DONE
 
 For the list of stories under `## Stories` of `docs/3-epics/0A.1-steel-thread/EPIC.md`, generate a new markdown file `docs/3-epics/0A.1-steel-thread/story-details-prompts.md` with, for each story, a heading line (at ### level) and a single statement underneath as per `usage` and `example` below. Wrap each statement within ````markdown` block
@@ -76,31 +78,33 @@ We now have the story md files for the docs/3-epics/0A.1-steel-thread/EPIC.md wi
 
 ## Check the stories vs the epic - `0A.1-steel-thread` - DONE
 
-We now have the story md files for the docs/3-epics/0A.1-steel-thread/EPIC.md within `docs/3-epics/0A.1-steel-thread`. Sense check these vs docs/3-epics/0A.1-steel-thread/EPIC.md to validate the these stories will deliver the acceptance criteria in the epic. 
+We now have the story md files for the docs/3-epics/0A.1-steel-thread/EPIC.md within `docs/3-epics/0A.1-steel-thread`. Sense check these vs `docs/3-epics/0A.1-steel-thread/EPIC.md` to validate the these stories will deliver the acceptance criteria in the epic. 
 
-## Generate list of stories to implement for the epic
+---
 
-For the list of stories under `## Stories` of `docs/3-epics/0A.1-steel-thread/EPIC.md`, generate a new markdown file `docs/3-epics/0A.1-steel-thread/story-implementation-prompts.md` with, for each story, a heading line (at ### level) and a single statement underneath as per `usage` and `example` below. Wrap each statement within ````markdown` block
+Use the .claude/agents/engineering-manager.md subagent to evalate each story within `docs/3-epics/0A.1-steel-thread`. The engineering manager should identify the engineering roles (e.g. backend, database, devops, frontend, fullstack) for each story. There should be a primary role and may be a secondary role. If a handoff is needed from primary to secondary role, this should be noted. Output a resourcing table into a new markdown file: `docs/3-epics/0A.1-steel-thread/story-resourcing.md`. The output should not include code, sequencing, sizing, critical path analysis, dependencies or other information which exists in existing files.
 
-> **Usage:** `execute @docs/0-process/references/story-dev-prompt.md for [story-path]`
+---
+
+## Generate list of stories with implementation prompts
+
+For the stories listed in `## Resourcing Table` of `docs/3-epics/0A.1-steel-thread/story-resourcing.md`, generate a new markdown file `docs/3-epics/0A.1-steel-thread/story-implementation-prompts.md` with, for each story, a heading line (at ### level) and a single statement underneath as per `usage` and `example` below. Wrap each statement within ````markdown` block
+
+> **Usage:** `use @.claude/agents/[agent].md to execute @docs/0-process/references/story-dev-prompt.md for [story-path]`
 >
-> Example: `execute @docs/0-process/references/story-dev-prompt.md for docs/3-epics/0A.1-steel-thread/S1-create-nextjs-app.md`
+> Example: `use @.claude/agents/engineer-backend.md to execute @docs/0-process/references/story-dev-prompt.md for docs/3-epics/0A.1-steel-thread/S2-env-config.md`
 
 ## Impl the stories
 
 `./scripts/run-next-story-prompt-auto.sh --prompts-file docs/3-epics/0A.1-steel-thread/story-implementation-prompts.md`
 
+---
 
-## Generate list of stories to check for the epic
+## Check the stories deliver the epic `0A.1-steel-thread`
 
-For the list of stories under `## Stories` of `docs/3-epics/0A.1-steel-thread/EPIC.md`, generate a new markdown file `docs/3-epics/0A.1-steel-thread/story-check-prompts.md` with, for each story, a heading line (at ### level) and a single statement underneath as per `usage` and `example` below. Wrap each statement within ````markdown` block
-
-> **Usage:** `execute @docs/0-process/references/epic-story-check-prompt-template.md for Epic {EpicID}`
+> **Usage:** `execute @docs/0-process/references/epic-story-check-prompt-template.md for Epic 0A.1`
 >
 > Example: `execute @docs/0-process/references/epic-story-check-prompt-template.md for Epic 1A.2`
-
-## Check the stories
-
 
 
 

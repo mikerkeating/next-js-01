@@ -8,7 +8,7 @@
 
 ## Task
 
-Evaluate whether the stories for the specified Epic fully deliver the epic's acceptance criteria. Create a `story-eval.md` file documenting the analysis.
+Evaluate whether the stories for the specified Epic fully deliver the epic's acceptance criteria. Create a `epic-eval.md` file documenting the analysis.
 
 ## Input Documents
 
@@ -20,7 +20,7 @@ Read and analyze these documents:
 
 ## Output
 
-Create the evaluation file at: `docs/3-epics/{epic-slug}/story-eval.md`
+Create the evaluation file at: `docs/3-epics/{epic-slug}/epic-eval.md`
 
 Use [epic-story-check-template.md](./epic-story-check-template.md) as the template structure.
 
@@ -237,7 +237,7 @@ When citing story content, use line numbers or section names:
 
 ## Post-Evaluation
 
-After creating `story-eval.md`:
+After creating `epic-eval.md`:
 
 **If PASS**:
 - Stories are ready for implementation

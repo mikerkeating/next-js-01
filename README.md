@@ -134,6 +134,7 @@ This project uses [@t3-oss/env-nextjs](https://env.t3.gg/docs/nextjs) for type-s
 | Category | Required | Description |
 |----------|----------|-------------|
 | Application | Yes | Base URL for the application |
+| Basic Auth | No | Pre-release access protection |
 | Database | Future | PostgreSQL connection via Neon/Supabase |
 | Authentication | Future | Clerk authentication keys |
 | Analytics | No | PostHog product analytics |
@@ -161,6 +162,62 @@ import { env } from "@/env";
 // Type-safe access to validated variables
 const appUrl = env.NEXT_PUBLIC_APP_URL;
 ```
+
+## Basic Authentication
+
+For pre-release deployments, basic HTTP authentication can be enabled to protect the application from unauthorized access.
+
+### Enabling Basic Auth
+
+Set the following environment variables in your deployment:
+
+```bash
+BASIC_AUTH_USERNAME=your-username
+BASIC_AUTH_PASSWORD=your-secure-password
+```
+
+When both variables are set, all routes (except health check and static assets) will require authentication.
+
+### Behavior
+
+| Scenario | Result |
+|----------|--------|
+| Variables not set | Auth disabled (convenient for local dev) |
+| Both variables set | Auth enabled, browser prompts for credentials |
+| Invalid credentials | 401 Unauthorized, re-prompts |
+| Valid credentials | Access granted |
+
+### Bypassed Routes
+
+The following routes bypass authentication:
+
+- `/api/health` - Health check endpoint (for monitoring services)
+- `/_next/*` - Next.js static assets
+- `/favicon.ico` - Favicon
+- Static files (`.svg`, `.png`, `.jpg`, etc.)
+
+### Testing Basic Auth
+
+```bash
+# Test without credentials (should return 401 when auth enabled)
+curl -s -o /dev/null -w "%{http_code}" http://localhost:3000/
+
+# Test with credentials (should return 200)
+curl -s -o /dev/null -w "%{http_code}" -u "username:password" http://localhost:3000/
+
+# Health endpoint always bypasses auth
+curl -s -o /dev/null -w "%{http_code}" http://localhost:3000/api/health
+```
+
+### Vercel Configuration
+
+To enable basic auth on Vercel deployments:
+
+1. Go to your Vercel project settings
+2. Navigate to "Environment Variables"
+3. Add `BASIC_AUTH_USERNAME` and `BASIC_AUTH_PASSWORD`
+4. Select the environments to protect (Preview, Production, or both)
+5. Redeploy for changes to take effect
 
 ## API Endpoints
 

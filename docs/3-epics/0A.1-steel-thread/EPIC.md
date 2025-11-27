@@ -66,6 +66,7 @@ The Steel Thread establishes working end-to-end deployment infrastructure from D
 | S6 | [Create Playwright Smoke Test Suite](./S6-smoke-tests.md) | M | ⬜ | S4, S5 | S7 |
 | S7 | [Setup GitHub Actions CI Workflow](./S7-github-actions.md) | M | ⬜ | S6 | S8 |
 | S8 | [Document Deployment Process](./S8-documentation.md) | S | ⬜ | S7 | - |
+| S9 | [Add Basic Auth Middleware](./S9-basic-auth-middleware.md) | S | ⬜ | S2, S5 | - |
 
 **Status Legend**: ⬜ Not Started | 🟡 In Progress | ✅ Complete | ❌ Blocked
 
@@ -76,8 +77,8 @@ S1 (GitHub Repository)
  ├──→ S2 (Next.js App)
  │     ↓
  │     ├──→ S4 (Health Endpoint) ←── S5 (Env Variables)
- │     │         ↓
- └──→ S3 (Vercel) ──→ S5
+ │     │         ↓                         ↓
+ └──→ S3 (Vercel) ──→ S5              S9 (Basic Auth)
                        ↓
                       S6 (Smoke Tests)
                        ↓
@@ -91,6 +92,7 @@ S1 (GitHub Repository)
 - S4 (Health Endpoint) requires both S2 and S3 because it needs the app structure and deployment verification
 - S5 (Environment Variables) requires S3 (Vercel configured) but can run parallel to S2
 - S6-S8 are sequential as each builds on the previous
+- S9 (Basic Auth Middleware) can run in parallel with S6-S8 after S2 and S5 are complete
 
 ## Technical Constraints
 
@@ -144,8 +146,8 @@ The following items are explicitly NOT part of this epic:
 
 | Metric | Value |
 |--------|-------|
-| Total Stories | 8 |
-| Total Hours | 20h |
+| Total Stories | 9 |
+| Total Hours | 23h |
 | Calendar Days | 2 days |
 | Parallel Tracks | 2 (after S1) |
 
@@ -153,7 +155,7 @@ The following items are explicitly NOT part of this epic:
 | Size | Count | Hours |
 |------|-------|-------|
 | XS (1-2h) | 0 | 0h |
-| S (2-4h) | 5 | 15h |
+| S (2-4h) | 6 | 18h |
 | M (4-8h) | 3 | 15h |
 | L (8-16h) | 0 | 0h |
 
@@ -183,4 +185,4 @@ The following items are explicitly NOT part of this epic:
 - **State**: Not Started
 - **Started**: -
 - **Completed**: -
-- **Stories Complete**: 0/8
+- **Stories Complete**: 0/9
