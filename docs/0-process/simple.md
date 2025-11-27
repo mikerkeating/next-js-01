@@ -1,8 +1,6 @@
-## generate epics
+## Generate List of Epics - DONE
 
 For the list of epics below, based on docs/1-product/3-roadmap.md, generate a new markdown file with, for each epic, a heading line (at ### level) and a single line underneath as per `usage` and `example` below
-
-### what todo
 
 > **Usage:** `execute @docs/0-process/references/epic-details-prompt-template.md for Epic {EpicID}`
 >
@@ -29,13 +27,82 @@ For the list of epics below, based on docs/1-product/3-roadmap.md, generate a ne
 
 ----
 
-## check the epic files
+## Generate epics' details via script - DONE
 
-we now have the following epic.md files. Sense check these vs @docs/0-process/references/epic-details-template.md and @docs/0-process/references/epic-details-prompt-template.md  in case we need to improve the files
+`./scripts/run-next-story-prompt-auto.sh`
+
+## Check the epic files vs templates - DONE
+
+We now have the `EPIC.md` files for the following epics. Sense check these vs `/docs/0-process/references/epic-details-template.md` and `/docs/0-process/references/epic-details-prompt-template.m`  in case we need to improve the files. 
 
 = some small tweaks
 
-## generate stories
+## Check the epic files vs the Roadmap - DONE
+
+We now have the `EPIC.md` files for the following epics. Sense check these against `/docs/1-product/3-roadmap.md` to verify that these will deliver the `### PLATFORM FOUNDATION (Generic)`. Does the content of the epic.md files align with @docs/1-product/3-roadmap.md? Are there any gaps that need to be resolved?
+
+- 0A.1: Steel Thread Deployment
+- 1A.1: Monorepo Foundation
+- 1A.2: Package Management & Quality Gates
+- 1A.3: Testing Foundation
+- 1A.4: Documentation Foundation
+- 1A.5: Basic CI/CD Pipeline
+- 2A.1: Configuration Package
+- 2A.2: Database Infrastructure (generic schema patterns)
+- 2A.3: Observability Package
+- 2A.4: Analytics Infrastructure (generic event system)
+- 2A.5: UI Component Library (generic components only)
+- 2A.6: Middleware Package (generic patterns)
+- 2A.7: Auth Infrastructure (generic Clerk setup)
+- 2A.8: API Client Package
+- 3A.1: CDN & Asset Management Application
+- 3A.2: Routing Application Shell
+
+## List Stories for an Epic - `0A.1-steel-thread` - DONE
+
+For the list of stories under `## Stories` of `docs/3-epics/0A.1-steel-thread/EPIC.md`, generate a new markdown file `docs/3-epics/0A.1-steel-thread/story-details-prompts.md` with, for each story, a heading line (at ### level) and a single statement underneath as per `usage` and `example` below. Wrap each statement within ````markdown` block
+
+> **Usage:** `execute @docs/0-process/references/story-details-prompt-template.md for Story {StoryID} within Epic {EpicID}`
+>
+> Example: `execute @docs/0-process/references/story-details-prompt-template.md for Story S1 within Epic 0A.1`
+
+## Generate Stories for an Epic - DONE
+
+`./scripts/run-next-story-prompt-auto.sh --prompts-file docs/3-epics/0A.1-steel-thread/story-prompts.md`
+
+## Check the stories vs the template - `0A.1-steel-thread` - DONE
+
+We now have the story md files for the docs/3-epics/0A.1-steel-thread/EPIC.md within `docs/3-epics/0A.1-steel-thread`. Sense check these vs `/docs/0-process/references/story-details-template.md` and `/docs/0-process/references/story-details-prompt-template.md` in case we need to improve the prompt or template. 
+
+## Check the stories vs the epic - `0A.1-steel-thread` - DONE
+
+We now have the story md files for the docs/3-epics/0A.1-steel-thread/EPIC.md within `docs/3-epics/0A.1-steel-thread`. Sense check these vs docs/3-epics/0A.1-steel-thread/EPIC.md to validate the these stories will deliver the acceptance criteria in the epic. 
+
+## Generate list of stories to implement for the epic
+
+For the list of stories under `## Stories` of `docs/3-epics/0A.1-steel-thread/EPIC.md`, generate a new markdown file `docs/3-epics/0A.1-steel-thread/story-implementation-prompts.md` with, for each story, a heading line (at ### level) and a single statement underneath as per `usage` and `example` below. Wrap each statement within ````markdown` block
+
+> **Usage:** `execute @docs/0-process/references/story-dev-prompt.md for [story-path]`
+>
+> Example: `execute @docs/0-process/references/story-dev-prompt.md for docs/3-epics/0A.1-steel-thread/S1-create-nextjs-app.md`
+
+## Impl the stories
+
+`./scripts/run-next-story-prompt-auto.sh --prompts-file docs/3-epics/0A.1-steel-thread/story-implementation-prompts.md`
+
+
+## Generate list of stories to check for the epic
+
+For the list of stories under `## Stories` of `docs/3-epics/0A.1-steel-thread/EPIC.md`, generate a new markdown file `docs/3-epics/0A.1-steel-thread/story-check-prompts.md` with, for each story, a heading line (at ### level) and a single statement underneath as per `usage` and `example` below. Wrap each statement within ````markdown` block
+
+> **Usage:** `execute @docs/0-process/references/epic-story-check-prompt-template.md for Epic {EpicID}`
+>
+> Example: `execute @docs/0-process/references/epic-story-check-prompt-template.md for Epic 1A.2`
+
+## Check the stories
+
+
+
 
 
 ---

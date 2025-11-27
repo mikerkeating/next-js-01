@@ -1,7 +1,8 @@
 #!/bin/bash
 
 # Non-interactive script to execute story prompts until MAX_TURNS is reached
-# Usage: ./scripts/run-next-story-prompt-auto.sh
+# Usage: ./scripts/run-next-story-prompt-auto.sh [PROMPTS_FILE]
+#        ./scripts/run-next-story-prompt-auto.sh --prompts-file <file>
 #
 # This version runs without confirmation prompts - use with caution!
 # Add --dry-run flag to preview without executing
@@ -13,7 +14,7 @@
 # - Turn limits for safety (prevents runaway executions)
 # - JSON output capture for metadata (cost, duration, session ID)
 
-PROMPTS_FILE="docs/0-process/epic-generation-commands.md"
+PROMPTS_FILE=""
 DRY_RUN=false
 MAX_EPICS=20
 CLAUDE_MAX_TURNS=50
@@ -30,10 +31,29 @@ while [[ "$#" -gt 0 ]]; do
         --dry-run) DRY_RUN=true ;;
         --max-epics) MAX_EPICS="$2"; shift ;;
         --claude-max-turns) CLAUDE_MAX_TURNS="$2"; shift ;;
-        *) echo "Unknown parameter: $1"; exit 1 ;;
+        --prompts-file) PROMPTS_FILE="$2"; shift ;;
+        -*)
+            echo "Unknown parameter: $1"
+            echo "Usage: $0 [PROMPTS_FILE] [--prompts-file <file>] [--dry-run] [--max-epics <n>] [--claude-max-turns <n>]"
+            exit 1
+            ;;
+        *)
+            # Positional argument - treat as prompts file
+            if [ -z "$PROMPTS_FILE" ]; then
+                PROMPTS_FILE="$1"
+            else
+                echo "Error: Multiple prompts files specified"
+                exit 1
+            fi
+            ;;
     esac
     shift
 done
+
+# Default prompts file if not specified
+if [ -z "$PROMPTS_FILE" ]; then
+    PROMPTS_FILE="docs/0-process/epic-generation-commands.md"
+fi
 
 # Create logs directory
 mkdir -p "$LOG_DIR"

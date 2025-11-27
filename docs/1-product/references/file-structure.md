@@ -1,7 +1,7 @@
 # File Structure
 
 ```markdown
-    /docs/4-epics/
+    /docs/3-epics/
     ├── 0A.1-steel-thread/
     │   ├── EPIC.md                    # Epic overview, context, story index
     │   ├── S1-create-nextjs-app.md    # Story 1

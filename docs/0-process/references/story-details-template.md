@@ -89,16 +89,16 @@ For complete configuration templates, see: [TAD: {Section}](/docs/2-technical/2-
 
 ### Implementation Sequence (for M+ stories)
 
-Numbered steps with estimated time for systematic implementation:
+Numbered steps for systematic implementation:
 
-1. **{Step Name}** ({time estimate})
+1. **{Step Name}** 
    - {Sub-task or detail}
    - {Sub-task or detail}
 
-2. **{Step Name}** ({time estimate})
+2. **{Step Name}** 
    - {Sub-task or detail}
 
-3. **{Step Name}** ({time estimate})
+3. **{Step Name}** 
    - {Sub-task or detail}
 
 ### Key Concepts
@@ -355,6 +355,62 @@ Explicitly listing what's NOT included prevents scope creep and clarifies bounda
 | Automated Tests | Unit tests in code | `{file}.test.ts`, component tests, utility function tests |
 | Integration Tests | Cross-component/service tests | API integration, external service interaction, end-to-end workflows |
 | Verification Commands | CLI commands to run | `pnpm build`, `curl /api/health`, `git commit` hooks |
+
+### Integration Tests Guidelines
+
+The Integration Tests section is **optional** - include only when the story involves cross-component or external service interactions.
+
+#### When to Include Integration Tests
+
+| Story Type | Include Integration Tests? | Example |
+|------------|---------------------------|---------|
+| Infrastructure setup (repo, CI, config) | No | S1: GitHub Repository setup |
+| Pure frontend/UI component | Rarely | Component library stories |
+| API endpoint implementation | Yes | S4: Health Check Endpoint |
+| External service integration | Yes | Auth, database, payment stories |
+| E2E test infrastructure | Yes | S6: Playwright Smoke Tests |
+| Multi-service workflow | Yes | Stories spanning multiple services |
+
+#### When to Skip Integration Tests
+
+Write "N/A - {reason}" or omit the section entirely for stories that:
+- Set up infrastructure without runtime behavior (GitHub config, CI workflows)
+- Create standalone utilities with no external dependencies
+- Are purely documentation or configuration focused
+- Have integration testing deferred to a later story (state where)
+
+**Example of skipping:**
+```markdown
+### Integration Tests
+N/A - Infrastructure setup story; no runtime integration to test.
+```
+
+**Example of deferring:**
+```markdown
+### Integration Tests
+- [ ] Deferred to S6 (Smoke Tests) - Health endpoint will be validated via E2E tests
+```
+
+#### Writing Effective Integration Tests
+
+Good integration test criteria:
+- Describe the interaction being verified, not implementation details
+- Specify which components/services are involved
+- Include expected outcomes for both success and failure cases
+
+**Good examples:**
+```markdown
+- [ ] Health endpoint returns degraded status when database connection fails
+- [ ] Auth callback correctly creates user session in database
+- [ ] Webhook handler processes Stripe events and updates subscription status
+```
+
+**Avoid:**
+```markdown
+- [ ] Test the API (too vague)
+- [ ] Integration works (not measurable)
+- [ ] Call the function with test data (describes implementation, not outcome)
+```
 
 ### Parallel Execution Guidelines
 

@@ -79,8 +79,8 @@ This roadmap separates **Platform Foundation** (generic, reusable for any Next.j
 
 | Level | Scope | Duration | Owner | Definition Location |
 |-------|-------|----------|-------|---------------------|
-| **Epic** | Feature area or capability | 1-2 weeks | Tech Lead | Roadmap + `/docs/4-epics/{id}/EPIC.md` |
-| **Story** | Single implementable unit | 2-8 hours | Claude Code Agent | `/docs/4-epics/{id}/S{N}-{slug}.md` |
+| **Epic** | Feature area or capability | 1-2 weeks | Tech Lead | Roadmap + `/docs/3-epics/{id}/EPIC.md` |
+| **Story** | Single implementable unit | 2-8 hours | Claude Code Agent | `/docs/3-epics/{id}/S{N}-{slug}.md` |
 | **Task** | Atomic action | 15min-2h | Claude Code Agent | Generated during implementation |
 
 ### File Structure
@@ -448,10 +448,10 @@ These artefacts must exist before any code is written. They inform all subsequen
 
 - [x] EPIC.md template finalised - [epic-details-template.md](/docs/0-process/references/epic-details-template.md)
 - [x] Story file template (S{N}-{slug}.md) finalised - [story-details-template.md](/docs/0-process/references/story-details-sizing.md)
-- [x] All Phase 0A-1A epics have EPIC.md files - see files in docs/4-epics subfolders
+- [x] All Phase 0A-1A epics have EPIC.md files - see files in docs/3-epics subfolders
 - [x] All Phase 0A stories have individual story files - see files within epic folders
-- [x] Phase 1A epics have EPIC.md files (stories can be stubs) - see files in docs/4-epics subfolders
-- [x] Phase 2A epics have EPIC.md files (stories can be stubs) - see files in docs/4-epics subfolders
+- [x] Phase 1A epics have EPIC.md files (stories can be stubs) - see files in docs/3-epics subfolders
+- [x] Phase 2A epics have EPIC.md files (stories can be stubs) - see files in docs/3-epics subfolders
 - [ ] Each EPIC.md includes:
   - [ ] Context and references to PRD/TAD
   - [ ] Acceptance criteria (from roadmap)
@@ -466,7 +466,7 @@ These artefacts must exist before any code is written. They inform all subsequen
   - [ ] Test requirements
   - [ ] Verification checklist
 
-**Output**: `/docs/4-epics/{epic-id}/EPIC.md` + `/docs/4-epics/{epic-id}/S{N}-{slug}.md`
+**Output**: `/docs/3-epics/{epic-id}/EPIC.md` + `/docs/3-epics/{epic-id}/S{N}-{slug}.md`
 
 ---
 
@@ -508,7 +508,7 @@ Verify: Preview URL returns 200 OK, auto-deploy on push works
 
 **Reusability**: 100% — No changes needed for any project
 
-**EPIC.md Location**: `/docs/4-epics/0A.1-steel-thread/EPIC.md`
+**EPIC.md Location**: `/docs/3-epics/0A.1-steel-thread/EPIC.md`
 
 ---
 
@@ -536,7 +536,7 @@ Verify: Preview URL returns 200 OK, auto-deploy on push works
 
 **Reusability**: 100% — Standard monorepo pattern
 
-**EPIC.md Location**: `/docs/4-epics/1A.1-monorepo/EPIC.md`
+**EPIC.md Location**: `/docs/3-epics/1A.1-monorepo/EPIC.md`
 
 ---
 
@@ -592,7 +592,7 @@ Verify: Preview URL returns 200 OK, auto-deploy on push works
 
 **Reusability**: 100% — Universal quality patterns
 
-**EPIC.md Location**: `/docs/4-epics/1A.2-package-management/EPIC.md`
+**EPIC.md Location**: `/docs/3-epics/1A.2-package-management/EPIC.md`
 
 ---
 
@@ -630,7 +630,7 @@ Verify: Preview URL returns 200 OK, auto-deploy on push works
 
 **Reusability**: 100% — Standard testing setup
 
-**EPIC.md Location**: `/docs/4-epics/1A.3-testing-foundation/EPIC.md`
+**EPIC.md Location**: `/docs/3-epics/1A.3-testing-foundation/EPIC.md`
 
 ---
 
@@ -652,7 +652,7 @@ Verify: Preview URL returns 200 OK, auto-deploy on push works
 
 **Reusability**: 100% — Universal documentation patterns
 
-**EPIC.md Location**: `/docs/4-epics/1A.4-documentation-foundation/EPIC.md`
+**EPIC.md Location**: `/docs/3-epics/1A.4-documentation-foundation/EPIC.md`
 
 ---
 
@@ -687,7 +687,7 @@ Verify: Preview URL returns 200 OK, auto-deploy on push works
 
 **Reusability**: 100% — Standard CI/CD pattern
 
-**EPIC.md Location**: `/docs/4-epics/1A.5-basic-cicd/EPIC.md`
+**EPIC.md Location**: `/docs/3-epics/1A.5-basic-cicd/EPIC.md`
 
 ---
 
@@ -713,7 +713,7 @@ Verify: Preview URL returns 200 OK, auto-deploy on push works
 
 **Reusability**: 100% — Configs are project-agnostic
 
-**EPIC.md Location**: `/docs/4-epics/2A.1-config-package/EPIC.md`
+**EPIC.md Location**: `/docs/3-epics/2A.1-config-package/EPIC.md`
 
 ---
 
@@ -745,7 +745,7 @@ Verify: Preview URL returns 200 OK, auto-deploy on push works
 
 **Reusability**: 90% — Infrastructure generic, schema separate
 
-**EPIC.md Location**: `/docs/4-epics/`2A.2-database-infra-infra/EPIC.md`
+**EPIC.md Location**: `/docs/3-epics/2A.2-database-infra/EPIC.md`
 
 ---
 
@@ -771,7 +771,7 @@ Verify: Preview URL returns 200 OK, auto-deploy on push works
 
 **Reusability**: 100% — Universal observability patterns
 
-**EPIC.md Location**: `/docs/4-epics/2A.3-observability/EPIC.md`
+**EPIC.md Location**: `/docs/3-epics/2A.3-observability/EPIC.md`
 
 ---
 
@@ -804,7 +804,7 @@ Verify: Preview URL returns 200 OK, auto-deploy on push works
 
 **Reusability**: 90% — Infrastructure generic, events separate
 
-**EPIC.md Location**: `/docs/4-epics/2A.4-analytics-infra/EPIC.md`
+**EPIC.md Location**: `/docs/3-epics/2A.4-analytics-infra/EPIC.md`
 
 ---
 
@@ -852,7 +852,7 @@ Verify: Preview URL returns 200 OK, auto-deploy on push works
 
 **Reusability**: 100% — Standard component library
 
-**EPIC.md Location**: `/docs/4-epics/2A.5-ui-components/EPIC.md`
+**EPIC.md Location**: `/docs/3-epics/2A.5-ui-components/EPIC.md`
 
 ---
 
@@ -883,7 +883,7 @@ Verify: Preview URL returns 200 OK, auto-deploy on push works
 
 **Reusability**: 100% — Standard middleware patterns
 
-**EPIC.md Location**: `/docs/4-epics/2A.6-middleware/EPIC.md`
+**EPIC.md Location**: `/docs/3-epics/2A.6-middleware/EPIC.md`
 
 ---
 
@@ -917,7 +917,7 @@ Verify: Preview URL returns 200 OK, auto-deploy on push works
 
 **Reusability**: 90% — Auth infra generic, roles separate
 
-**EPIC.md Location**: `/docs/4-epics/2A.7-auth-infra/EPIC.md`
+**EPIC.md Location**: `/docs/3-epics/2A.7-auth-infra/EPIC.md`
 
 ---
 
@@ -944,7 +944,7 @@ Verify: Preview URL returns 200 OK, auto-deploy on push works
 
 **Reusability**: 100% — Standard API client pattern
 
-**EPIC.md Location**: `/docs/4-epics/2A.8-api-client/EPIC.md`
+**EPIC.md Location**: `/docs/3-epics/2A.8-api-client/EPIC.md`
 
 ---
 
@@ -972,7 +972,7 @@ Verify: Preview URL returns 200 OK, auto-deploy on push works
 
 **Reusability**: 100% — Standard CDN pattern
 
-**EPIC.md Location**: `/docs/4-epics/3A.1-cdn/EPIC.md`
+**EPIC.md Location**: `/docs/3-epics/3A.1-cdn/EPIC.md`
 
 ---
 
@@ -1002,7 +1002,7 @@ Verify: Preview URL returns 200 OK, auto-deploy on push works
 
 **Reusability**: 90% — Shell generic, routes separate
 
-**EPIC.md Location**: `/docs/4-epics/3A.2-routing-shell/EPIC.md`
+**EPIC.md Location**: `/docs/3-epics/3A.2-routing-shell/EPIC.md`
 
 ---
 
@@ -1049,7 +1049,7 @@ These epics contain business logic specific to this product.
 - [ ] ER diagram
 - [ ] Schema reference
 
-**EPIC.md Location**: `/docs/4-epics/2B.1-product-schema/EPIC.md`
+**EPIC.md Location**: `/docs/3-epics/2B.1-product-schema/EPIC.md`
 
 ---
 
@@ -1072,7 +1072,7 @@ These epics contain business logic specific to this product.
 - [ ] Org slug validation
 - [ ] 80% test coverage
 
-**EPIC.md Location**: `/docs/4-epics/2B.2-org-model/EPIC.md`
+**EPIC.md Location**: `/docs/3-epics/2B.2-org-model/EPIC.md`
 
 ---
 
@@ -1098,7 +1098,7 @@ These epics contain business logic specific to this product.
 - [ ] Conversion event definitions
 - [ ] Event validation tests
 
-**EPIC.md Location**: `/docs/4-epics/2B.3-product-events/EPIC.md`
+**EPIC.md Location**: `/docs/3-epics/2B.3-product-events/EPIC.md`
 
 ---
 
@@ -1131,7 +1131,7 @@ These epics contain business logic specific to this product.
 - [ ] Org-scoped access control
 - [ ] Role-based visibility
 
-**EPIC.md Location**: `/docs/4-epics/2B.4-product-content/EPIC.md`
+**EPIC.md Location**: `/docs/3-epics/2B.4-product-content/EPIC.md`
 
 ---
 
@@ -1162,7 +1162,7 @@ These epics contain business logic specific to this product.
 - [ ] Accessibility tests
 - [ ] 80% coverage
 
-**EPIC.md Location**: `/docs/4-epics/2B.5-product-ui/EPIC.md`
+**EPIC.md Location**: `/docs/3-epics/2B.5-product-ui/EPIC.md`
 
 ---
 
@@ -1184,7 +1184,7 @@ These epics contain business logic specific to this product.
 - [ ] Org ID injection into requests
 - [ ] 80% test coverage
 
-**EPIC.md Location**: `/docs/4-epics/2B.6-product-middleware/EPIC.md`
+**EPIC.md Location**: `/docs/3-epics/2B.6-product-middleware/EPIC.md`
 
 ---
 
@@ -1216,7 +1216,7 @@ These epics contain business logic specific to this product.
 - [ ] User deleted → cascade handling
 - [ ] Org membership changes
 
-**EPIC.md Location**: `/docs/4-epics/2B.7-product-auth/EPIC.md`
+**EPIC.md Location**: `/docs/3-epics/2B.7-product-auth/EPIC.md`
 
 ---
 
@@ -1256,7 +1256,7 @@ These epics contain business logic specific to this product.
 **Documentation**:
 - [ ] Swagger UI at `/v1/docs`
 
-**EPIC.md Location**: `/docs/4-epics/3B.1-api/EPIC.md`
+**EPIC.md Location**: `/docs/3-epics/3B.1-api/EPIC.md`
 
 ---
 
@@ -1280,7 +1280,7 @@ These epics contain business logic specific to this product.
 - [ ] Dry-run mode
 - [ ] Progress reporting
 
-**EPIC.md Location**: `/docs/4-epics/3B.2-content-migration/EPIC.md`
+**EPIC.md Location**: `/docs/3-epics/3B.2-content-migration/EPIC.md`
 
 ---
 
@@ -1312,7 +1312,7 @@ These epics contain business logic specific to this product.
 - [ ] Marketing pages
 - [ ] SEO configuration per route
 
-**EPIC.md Location**: `/docs/4-epics/3B.3-routing-config/EPIC.md`
+**EPIC.md Location**: `/docs/3-epics/3B.3-routing-config/EPIC.md`
 
 ---
 
@@ -1335,7 +1335,7 @@ These epics contain business logic specific to this product.
 - [ ] Version selector
 - [ ] Dark mode
 
-**EPIC.md Location**: `/docs/4-epics/3B.4-docs-app/EPIC.md`
+**EPIC.md Location**: `/docs/3-epics/3B.4-docs-app/EPIC.md`
 
 ---
 
@@ -1359,7 +1359,7 @@ These epics contain business logic specific to this product.
 - [ ] Lead capture forms
 - [ ] Analytics tracking
 
-**EPIC.md Location**: `/docs/4-epics/3B.5-demo-marketing/EPIC.md`
+**EPIC.md Location**: `/docs/3-epics/3B.5-demo-marketing/EPIC.md`
 
 ---
 
@@ -1387,7 +1387,7 @@ These epics contain business logic specific to this product.
 - [ ] Activity feed per organization
 - [ ] Third-party API integration framework
 
-**EPIC.md Location**: `/docs/4-epics/3B.6-tools/EPIC.md`
+**EPIC.md Location**: `/docs/3-epics/3B.6-tools/EPIC.md`
 
 ---
 
@@ -1411,7 +1411,7 @@ These epics contain business logic specific to this product.
 - [ ] Lead capture workflows
 - [ ] SEO per page
 
-**EPIC.md Location**: `/docs/4-epics/3B.7-landing-builder/EPIC.md`
+**EPIC.md Location**: `/docs/3-epics/3B.7-landing-builder/EPIC.md`
 
 ---
 
@@ -1444,7 +1444,7 @@ These epics contain business logic specific to this product.
 - [ ] Performance: < 30s for complex reports
 - [ ] Email delivery < 5 minutes after generation
 
-**EPIC.md Location**: `/docs/4-epics/3B.8-reporting-automation/EPIC.md`
+**EPIC.md Location**: `/docs/3-epics/3B.8-reporting-automation/EPIC.md`
 
 **Status**: DEFERRED to post-MVP (Could Have feature C.3 from PRD)
 
@@ -1484,7 +1484,7 @@ These epics contain business logic specific to this product.
 - [ ] Delivery SLA: 99.9% within 30 seconds
 - [ ] Rate limiting per organization
 
-**EPIC.md Location**: `/docs/4-epics/3B.9-webhooks-integrations/EPIC.md`
+**EPIC.md Location**: `/docs/3-epics/3B.9-webhooks-integrations/EPIC.md`
 
 **Status**: DEFERRED to post-MVP (Could Have feature C.5 from PRD)
 
@@ -1512,7 +1512,7 @@ These phases apply to both platform and product.
 - [ ] Performance budgets in CI
 - [ ] Lighthouse tracking
 
-**EPIC.md Location**: `/docs/4-epics/4A.1-advanced-testing/EPIC.md`
+**EPIC.md Location**: `/docs/3-epics/4A.1-advanced-testing/EPIC.md`
 
 ---
 
@@ -1527,7 +1527,7 @@ These phases apply to both platform and product.
 - [ ] Design tokens display
 - [ ] Component composition examples
 
-**EPIC.md Location**: `/docs/4-epics/4A.2-storybook/EPIC.md`
+**EPIC.md Location**: `/docs/3-epics/4A.2-storybook/EPIC.md`
 
 ---
 
@@ -1542,7 +1542,7 @@ These phases apply to both platform and product.
 - [ ] Manual audit (NVDA, JAWS, VoiceOver)
 - [ ] WCAG 2.1 AA compliance
 
-**EPIC.md Location**: `/docs/4-epics/4A.3-accessibility/EPIC.md`
+**EPIC.md Location**: `/docs/3-epics/4A.3-accessibility/EPIC.md`
 
 ---
 
@@ -1561,7 +1561,7 @@ These phases apply to both platform and product.
 - [ ] Semantic versioning
 - [ ] Rollback < 5 minutes
 
-**EPIC.md Location**: `/docs/4-epics/5A.1-advanced-cicd/EPIC.md`
+**EPIC.md Location**: `/docs/3-epics/5A.1-advanced-cicd/EPIC.md`
 
 ---
 
@@ -1576,7 +1576,7 @@ These phases apply to both platform and product.
 - [ ] Edge caching
 - [ ] Global load < 2s
 
-**EPIC.md Location**: `/docs/4-epics/5A.2-vercel-production/EPIC.md`
+**EPIC.md Location**: `/docs/3-epics/5A.2-vercel-production/EPIC.md`
 
 ---
 
@@ -1594,7 +1594,7 @@ These phases apply to both platform and product.
 - [ ] OWASP Top 10 audit
 - [ ] Patch management
 
-**EPIC.md Location**: `/docs/4-epics/6A.1-security/EPIC.md`
+**EPIC.md Location**: `/docs/3-epics/6A.1-security/EPIC.md`
 
 ---
 
@@ -1610,7 +1610,7 @@ These phases apply to both platform and product.
 - [ ] Core Web Vitals targets
 - [ ] Lighthouse > 90
 
-**EPIC.md Location**: `/docs/4-epics/6A.2-performance/EPIC.md`
+**EPIC.md Location**: `/docs/3-epics/6A.2-performance/EPIC.md`
 
 ---
 
@@ -1627,7 +1627,7 @@ These phases apply to both platform and product.
 - [ ] Audit trail
 - [ ] User rights portal
 
-**EPIC.md Location**: `/docs/4-epics/6A.3-compliance/EPIC.md`
+**EPIC.md Location**: `/docs/3-epics/6A.3-compliance/EPIC.md`
 
 ---
 
@@ -1644,7 +1644,7 @@ These phases apply to both platform and product.
 - [ ] Component guides
 - [ ] Setup/deployment guides
 
-**EPIC.md Location**: `/docs/4-epics/7A.1-dev-docs/EPIC.md`
+**EPIC.md Location**: `/docs/3-epics/7A.1-dev-docs/EPIC.md`
 
 ---
 
@@ -1659,7 +1659,7 @@ These phases apply to both platform and product.
 - [ ] Monitoring dashboards
 - [ ] DR plan
 
-**EPIC.md Location**: `/docs/4-epics/7A.2-ops-docs/EPIC.md`
+**EPIC.md Location**: `/docs/3-epics/7A.2-ops-docs/EPIC.md`
 
 ---
 
@@ -1677,7 +1677,7 @@ These phases apply to both platform and product.
 - [ ] Accessibility confirmed
 - [ ] Stakeholder sign-off
 
-**EPIC.md Location**: `/docs/4-epics/8A.1-pre-launch/EPIC.md`
+**EPIC.md Location**: `/docs/3-epics/8A.1-pre-launch/EPIC.md`
 
 ---
 
@@ -1693,7 +1693,7 @@ These phases apply to both platform and product.
 - [ ] Go-live checklist
 - [ ] Launch executed
 
-**EPIC.md Location**: `/docs/4-epics/8A.2-launch/EPIC.md`
+**EPIC.md Location**: `/docs/3-epics/8A.2-launch/EPIC.md`
 
 ---
 

@@ -13,12 +13,12 @@ Create the story details file for the specified Story within the specified Epic.
 ## Input Documents
 
 Read and reference these documents:
-1. The EPIC.md file at `docs/4-epics/{epic-path}/EPIC.md`
+1. The EPIC.md file at `docs/3-epics/{epic-path}/EPIC.md`
 2. Product Requirements Document and Technical Architecture Document files referenced in the EPIC.md
 
 ## Output
 
-Create the story file at: `docs/4-epics/{epic-path}/S{N}-{slug}.md`
+Create the story file at: `docs/3-epics/{epic-path}/S{N}-{slug}.md`
 
 Use [story-details-template.md](./story-details-template.md) as the template structure.
 

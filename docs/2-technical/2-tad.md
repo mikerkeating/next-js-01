@@ -230,7 +230,7 @@ next-js-2025-12-1/
 │   └── testing/          # Testing utilities
 ├── docs/
 │   ├── 0-product/        # Product documentation (PRD, TAD, roadmap)
-│   ├── 4-epics/          # Epic & story specifications
+│   ├── 3-epics/          # Epic & story specifications
 │   ├── 3-references/     # Templates & guides
 │   └── adr/              # Architecture Decision Records
 ├── scripts/              # Build & deployment scripts

@@ -2,9 +2,9 @@
 
 # Acceptance Criteria Validation Script
 # Usage: ./scripts/validate-acceptance-criteria.sh [epic|story] <path-to-file>
-#        ./scripts/validate-acceptance-criteria.sh epic docs/4-epics/0A.1-steel-thread/EPIC.md
-#        ./scripts/validate-acceptance-criteria.sh story docs/4-epics/0A.1-steel-thread/S1-create-nextjs-app.md
-#        ./scripts/validate-acceptance-criteria.sh all docs/4-epics/0A.1-steel-thread/
+#        ./scripts/validate-acceptance-criteria.sh epic docs/3-epics/0A.1-steel-thread/EPIC.md
+#        ./scripts/validate-acceptance-criteria.sh story docs/3-epics/0A.1-steel-thread/S1-create-nextjs-app.md
+#        ./scripts/validate-acceptance-criteria.sh all docs/3-epics/0A.1-steel-thread/
 #
 # Parses acceptance criteria from markdown and runs validation checks
 
@@ -643,10 +643,10 @@ show_usage() {
     echo "  PROD_URL=<url>            Set production URL for live checks"
     echo ""
     echo "Examples:"
-    echo "  $0 epic docs/4-epics/0A.1-steel-thread/EPIC.md"
-    echo "  $0 story docs/4-epics/0A.1-steel-thread/S1-create-nextjs-app.md"
-    echo "  $0 all docs/4-epics/0A.1-steel-thread/"
-    echo "  VERBOSE=true $0 all docs/4-epics/0A.1-steel-thread/"
+    echo "  $0 epic docs/3-epics/0A.1-steel-thread/EPIC.md"
+    echo "  $0 story docs/3-epics/0A.1-steel-thread/S1-create-nextjs-app.md"
+    echo "  $0 all docs/3-epics/0A.1-steel-thread/"
+    echo "  VERBOSE=true $0 all docs/3-epics/0A.1-steel-thread/"
 }
 
 # ============================================================================
