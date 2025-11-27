@@ -12,9 +12,9 @@
 # - Turn limits for safety (prevents runaway executions)
 # - JSON output capture for metadata (cost, duration, session ID)
 
-PROMPTS_FILE="docs/1-product/6-story-prompts.md"
+PROMPTS_FILE="docs/0-process/epic-generation-commands.md"
 DRY_RUN=false
-MAX_TURNS=33
+MAX_TURNS=20
 LOG_DIR="logs"
 
 # Logging function with timestamps
