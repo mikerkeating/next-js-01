@@ -1,6 +1,41 @@
+## generate epics
 
+For the list of epics below, based on docs/1-product/3-roadmap.md, generate a new markdown file with, for each epic, a heading line (at ### level) and a single line underneath as per `usage` and `example` below
 
+### what todo
 
+> **Usage:** `execute @docs/0-process/references/epic-details-prompt-template.md for Epic {EpicID}`
+>
+> Example: `execute @docs/0-process/references/epic-details-prompt-template.md for Epic 1A.1`
+
+### list
+
+- 0A.1: Steel Thread Deployment
+- 1A.1: Monorepo Foundation
+- 1A.2: Package Management & Quality Gates
+- 1A.3: Testing Foundation
+- 1A.4: Documentation Foundation
+- 1A.5: Basic CI/CD Pipeline
+- 2A.1: Configuration Package
+- 2A.2: Database Infrastructure (generic schema patterns)
+- 2A.3: Observability Package
+- 2A.4: Analytics Infrastructure (generic event system)
+- 2A.5: UI Component Library (generic components only)
+- 2A.6: Middleware Package (generic patterns)
+- 2A.7: Auth Infrastructure (generic Clerk setup)
+- 2A.8: API Client Package
+- 3A.1: CDN & Asset Management Application
+- 3A.2: Routing Application Shell
+
+----
+
+## check the epic files
+
+we now have the following epic.md files. Sense check these vs @docs/0-process/references/epic-details-template.md and @docs/0-process/references/epic-details-prompt-template.md  in case we need to improve the files
+
+= some small tweaks
+
+## generate stories
 
 
 ---
