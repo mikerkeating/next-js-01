@@ -75,17 +75,17 @@ For the list of stories under `## Stories` of `docs/3-epics/1A.1-monorepo-founda
 
 `./scripts/run-next-story-prompt-auto.sh --prompts-file docs/3-epics/1A.1-monorepo-foundation/story-details-prompts.md`
 
-## Check the stories vs the template - `1A.1-monorepo-foundation` - DONE
+## Check the stories vs the template - `1A.1-monorepo-foundation`
 
 We now have the story md files for the `docs/3-epics/1A.1-monorepo-foundation/EPIC.md` within `docs/3-epics/1A.1-monorepo-foundation`. Sense check these vs `/docs/0-process/references/story-details-template.md` and `/docs/0-process/references/story-details-prompt-template.md` in case we need to improve the prompt or template. 
 
-## Check the stories vs the epic - `1A.1-monorepo-foundation` - DONE
+## Check the stories vs the epic - `1A.1-monorepo-foundation`
 
 We now have the story md files for the `docs/3-epics/1A.1-monorepo-foundation/EPIC.md` within `docs/3-epics/1A.1-monorepo-foundation`. Sense check these vs `docs/3-epics/1A.1-monorepo-foundation/EPIC.md` to validate the these stories will deliver the acceptance criteria in the epic. 
 
 ---
 
-Use the .claude/agents/engineering-manager.md subagent to evalate each story within `docs/3-epics/1A.1-monorepo-foundation`. The engineering manager should identify the engineering roles (e.g. backend, database, devops, frontend, fullstack) for each story. There should be a primary role and may be a secondary role. If a handoff is needed from primary to secondary role, this should be noted. Output a resourcing table into a new markdown file: `docs/3-epics/1A.1-monorepo-foundation/story-resourcing.md`. The output should not include code, sequencing, sizing, critical path analysis, dependencies or other information which exists in existing files.
+Use the .claude/agents/engineering-manager.md subagent to evalate each story within `docs/3-epics/1A.1-monorepo-foundation`. The engineering manager should identify the engineering roles (e.g. backend, database, devops, frontend, fullstack) for each story. There should be a primary role and may be a secondary role. If a handoff is needed from primary to secondary role, this should be noted. Output a `## Resourcing Table` into a new markdown file: `docs/3-epics/1A.1-monorepo-foundation/story-resourcing.md`. The output should not include code, sequencing, sizing, critical path analysis, dependencies or other information which exists in existing files.
 
 ---
 
@@ -112,9 +112,10 @@ For the stories listed in `## Resourcing Table` of `docs/3-epics/1A.1-monorepo-f
 
 ---
 
-`Use docs/2-technical/references/commit-guidelines.md to generate a GitHub commit message, commit and push the changes`
+`Use docs/2-technical/references/commit-guidelines.md to generate a GitHub commit message, commit.
+Do not push. and push the changes`
 
-`Update @docs/3-epics/0A.1-steel-thread/S7-github-actions.md  to reflect this change. Add to the Lessons Learned section at the bottom of the doc`
+`Update @docs/3-epics/0A.1-steel-thread/S7-github-actions.md  to reflect this change. Add to the Lessons Learned section at the bottom of the doc.`
 
 
 
