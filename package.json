@@ -8,13 +8,15 @@
     "pnpm": ">=10.22.0"
   },
   "scripts": {
+    "prepare": "echo 'pnpm prepare hook ready'",
     "dev": "turbo dev",
     "build": "turbo build",
     "lint": "turbo lint",
     "lint:fix": "turbo lint:fix",
     "type-check": "turbo type-check",
     "test": "turbo test",
-    "clean": "turbo clean",
+    "clean": "turbo clean && rm -rf node_modules .turbo",
+    "reinstall": "pnpm clean && pnpm install",
     "format": "prettier --write .",
     "format:check": "prettier --check .",
     "test:e2e:smoke": "pnpm --filter routing test:e2e:smoke"
