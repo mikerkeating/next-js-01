@@ -1,3 +1,6 @@
+Epic - `1A.1-monorepo-foundation`
+Epic - `1A.1-monorepo-foundation`, `1A.2-package-management`, `1A.3-testing-foundation`, `1A.4-documentation-foundation`, `1A.5-basic-cicd`
+
 ## Generate List of Epics - DONE
 
 For the list of epics below, based on docs/1-product/3-roadmap.md, generate a new markdown file with, for each epic, a heading line (at ### level) and a single line underneath as per `usage` and `example` below
@@ -60,9 +63,9 @@ We now have the `EPIC.md` files for the following epics. Sense check these again
 
 ---
 
-## List Stories for an Epic - `0A.1-steel-thread` - DONE
+## List Stories for an Epic - `1A.1-monorepo-foundation` - DONE
 
-For the list of stories under `## Stories` of `docs/3-epics/0A.1-steel-thread/EPIC.md`, generate a new markdown file `docs/3-epics/0A.1-steel-thread/story-details-prompts.md` with, for each story, a heading line (at ### level) and a single statement underneath as per `usage` and `example` below. Wrap each statement within ````markdown` block
+For the list of stories under `## Stories` of `docs/3-epics/1A.1-monorepo-foundation/EPIC.md`, generate a new markdown file `docs/3-epics/1A.1-monorepo-foundation/story-details-prompts.md` with, for each story, a heading line (at ### level) and a single statement underneath as per `usage` and `example` below. Wrap each statement within ````markdown` block
 
 > **Usage:** `execute @docs/0-process/references/story-details-prompt-template.md for Story {StoryID} within Epic {EpicID}`
 >
@@ -70,37 +73,37 @@ For the list of stories under `## Stories` of `docs/3-epics/0A.1-steel-thread/EP
 
 ## Generate Stories for an Epic - DONE
 
-`./scripts/run-next-story-prompt-auto.sh --prompts-file docs/3-epics/0A.1-steel-thread/story-prompts.md`
+`./scripts/run-next-story-prompt-auto.sh --prompts-file docs/3-epics/1A.1-monorepo-foundation/story-details-prompts.md`
 
-## Check the stories vs the template - `0A.1-steel-thread` - DONE
+## Check the stories vs the template - `1A.1-monorepo-foundation` - DONE
 
-We now have the story md files for the docs/3-epics/0A.1-steel-thread/EPIC.md within `docs/3-epics/0A.1-steel-thread`. Sense check these vs `/docs/0-process/references/story-details-template.md` and `/docs/0-process/references/story-details-prompt-template.md` in case we need to improve the prompt or template. 
+We now have the story md files for the `docs/3-epics/1A.1-monorepo-foundation/EPIC.md` within `docs/3-epics/1A.1-monorepo-foundation`. Sense check these vs `/docs/0-process/references/story-details-template.md` and `/docs/0-process/references/story-details-prompt-template.md` in case we need to improve the prompt or template. 
 
-## Check the stories vs the epic - `0A.1-steel-thread` - DONE
+## Check the stories vs the epic - `1A.1-monorepo-foundation` - DONE
 
-We now have the story md files for the docs/3-epics/0A.1-steel-thread/EPIC.md within `docs/3-epics/0A.1-steel-thread`. Sense check these vs `docs/3-epics/0A.1-steel-thread/EPIC.md` to validate the these stories will deliver the acceptance criteria in the epic. 
+We now have the story md files for the `docs/3-epics/1A.1-monorepo-foundation/EPIC.md` within `docs/3-epics/1A.1-monorepo-foundation`. Sense check these vs `docs/3-epics/1A.1-monorepo-foundation/EPIC.md` to validate the these stories will deliver the acceptance criteria in the epic. 
 
 ---
 
-Use the .claude/agents/engineering-manager.md subagent to evalate each story within `docs/3-epics/0A.1-steel-thread`. The engineering manager should identify the engineering roles (e.g. backend, database, devops, frontend, fullstack) for each story. There should be a primary role and may be a secondary role. If a handoff is needed from primary to secondary role, this should be noted. Output a resourcing table into a new markdown file: `docs/3-epics/0A.1-steel-thread/story-resourcing.md`. The output should not include code, sequencing, sizing, critical path analysis, dependencies or other information which exists in existing files.
+Use the .claude/agents/engineering-manager.md subagent to evalate each story within `docs/3-epics/1A.1-monorepo-foundation`. The engineering manager should identify the engineering roles (e.g. backend, database, devops, frontend, fullstack) for each story. There should be a primary role and may be a secondary role. If a handoff is needed from primary to secondary role, this should be noted. Output a resourcing table into a new markdown file: `docs/3-epics/1A.1-monorepo-foundation/story-resourcing.md`. The output should not include code, sequencing, sizing, critical path analysis, dependencies or other information which exists in existing files.
 
 ---
 
 ## Generate list of stories with implementation prompts
 
-For the stories listed in `## Resourcing Table` of `docs/3-epics/0A.1-steel-thread/story-resourcing.md`, generate a new markdown file `docs/3-epics/0A.1-steel-thread/story-implementation-prompts.md` with, for each story, a heading line (at ### level) and a single statement underneath as per `usage` and `example` below. Wrap each statement within ````markdown` block
+For the stories listed in `## Resourcing Table` of `docs/3-epics/1A.1-monorepo-foundation/story-resourcing.md`, generate a new markdown file `docs/3-epics/1A.1-monorepo-foundation/story-implementation-prompts.md` with, for each story, a heading line (at ### level) and a single statement underneath as per `usage` and `example` below. Wrap each statement within ````markdown` block
 
 > **Usage:** `use @.claude/agents/[agent].md to execute @docs/0-process/references/story-dev-prompt.md for [story-path]`
 >
-> Example: `use @.claude/agents/engineer-backend.md to execute @docs/0-process/references/story-dev-prompt.md for docs/3-epics/0A.1-steel-thread/S2-env-config.md`
+> Example: `use @.claude/agents/engineer-backend.md to execute @docs/0-process/references/story-dev-prompt.md for docs/3-epics/1A.1-monorepo-foundation/S2-env-config.md`
 
-## Impl the stories
+## Implement the stories
 
-`./scripts/run-next-story-prompt-auto.sh --prompts-file docs/3-epics/0A.1-steel-thread/story-implementation-prompts.md`
+`./scripts/run-next-story-prompt-auto.sh --prompts-file docs/3-epics/1A.1-monorepo-foundation/story-implementation-prompts.md`
 
 ---
 
-## Check the stories deliver the epic `0A.1-steel-thread`
+## Check the stories deliver the epic `1A.1-monorepo-foundation`
 
 > **Usage:** `execute @docs/0-process/references/epic-story-check-prompt-template.md for Epic 0A.1`
 >
@@ -115,7 +118,7 @@ For the stories listed in `## Resourcing Table` of `docs/3-epics/0A.1-steel-thre
 - [ ] Run story eval
 - [ ] check the story-eval file
 - [ ] Make decisions and record
-- [ ] Run the prompts for `0A.1-steel-thread`
+- [ ] Run the prompts for `1A.1-monorepo-foundation`
 
 
 The complete workflow is now:
