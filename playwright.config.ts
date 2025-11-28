@@ -55,7 +55,7 @@ export default defineConfig({
   /* Output directory for test artifacts */
   outputDir: 'test-results/',
 
-  /* Run local dev server before starting the tests if no BASE_URL provided */
+  /* Alternative: Run local dev server (uncomment if not using Vercel previews)
   webServer: process.env.BASE_URL
     ? undefined
     : {
@@ -64,4 +64,5 @@ export default defineConfig({
         reuseExistingServer: !process.env.CI,
         timeout: 120000,
       },
+  */
 });
