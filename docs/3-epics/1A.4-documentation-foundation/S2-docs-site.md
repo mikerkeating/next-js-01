@@ -17,15 +17,15 @@
 
 ## Acceptance Criteria
 
-- [ ] Documentation site framework (Nextra or Docusaurus) is configured and builds successfully
-- [ ] Site renders all markdown files from `/docs` directory structure
-- [ ] Full-text search functionality works
-- [ ] Navigation hierarchy matches the four-layer documentation pyramid
-- [ ] Documentation site builds as part of Turborepo pipeline
-- [ ] Preview deployments work on Vercel for documentation changes
-- [ ] Site is accessible (WCAG 2.1 Level AA for readability)
-- [ ] Dark mode toggle is available
-- [ ] Mobile-responsive layout works correctly
+- [x] Documentation site framework (Nextra or Docusaurus) is configured and builds successfully
+- [x] Site renders all markdown files from `/docs` directory structure
+- [x] Full-text search functionality works
+- [x] Navigation hierarchy matches the four-layer documentation pyramid
+- [x] Documentation site builds as part of Turborepo pipeline
+- [ ] Preview deployments work on Vercel for documentation changes - requires Vercel configuration
+- [x] Site is accessible (WCAG 2.1 Level AA for readability)
+- [x] Dark mode toggle is available
+- [x] Mobile-responsive layout works correctly
 
 ## Technical Requirements
 
@@ -329,37 +329,82 @@ The following items are explicitly NOT part of this story:
 
 ### Pre-Verification
 
-- [ ] S1 (Documentation Directory Structure) completed
-- [ ] Local environment matches [canonical versions](/docs/2-technical/references/canonical-versions.md)
-- [ ] Node.js and pnpm installed at specified versions
+- [x] S1 (Documentation Directory Structure) completed
+- [x] Local environment matches [canonical versions](/docs/2-technical/references/canonical-versions.md)
+- [x] Node.js and pnpm installed at specified versions
 
 ### Implementation Quality
 
-- [ ] All acceptance criteria met
-- [ ] Documentation site builds without errors
-- [ ] Search functionality works
-- [ ] Navigation matches documentation pyramid
-- [ ] Dark mode toggle works
-- [ ] Mobile responsive layout verified
-- [ ] Accessibility verified (keyboard navigation, ARIA labels)
-- [ ] [Coding standards](/docs/2-technical/references/coding-standards.md) followed
-- [ ] No lint errors in configuration files
-- [ ] TypeScript compiles successfully
+- [x] All acceptance criteria met (except Vercel preview - deferred)
+- [x] Documentation site builds without errors
+- [x] Search functionality works
+- [x] Navigation matches documentation pyramid
+- [x] Dark mode toggle works
+- [x] Mobile responsive layout verified
+- [x] Accessibility verified (keyboard navigation, ARIA labels)
+- [x] [Coding standards](/docs/2-technical/references/coding-standards.md) followed
+- [x] No lint errors in configuration files
+- [x] TypeScript compiles successfully
 
 ### Documentation
 
-- [ ] Architecture decision (framework choice) documented in this story
-- [ ] Configuration files include comments explaining key settings
-- [ ] README for docs app created (if applicable)
+- [x] Architecture decision (framework choice) documented in this story
+- [x] Configuration files include comments explaining key settings
+- [ ] README for docs app created (if applicable) - not required, inline docs sufficient
 
 ### Git Hygiene
 
-- [ ] Conventional commit message used (e.g., `feat(docs): configure Nextra documentation site`)
-- [ ] No unrelated changes included
+- [x] Conventional commit message used (e.g., `feat(docs): configure Nextra documentation site`)
+- [x] No unrelated changes included
 - [ ] PR description references this story
 
 ## Status
 
-- **State**: Not Started
+- **State**: Complete
+- **Completed**: 2025-11-28
 - **PR**: -
-- **Completed**: -
+
+## Completion Notes
+
+### Summary
+
+Configured Nextra 4.6.0 documentation site framework with full-text search, dark mode, and responsive design. The docs app renders all 122 markdown files from the `/docs` directory through a symlinked content directory. Build pipeline integrates with Turborepo for efficient caching.
+
+### Test Results
+
+| Test       | Command           | Result             |
+| ---------- | ----------------- | ------------------ |
+| Lint       | `pnpm lint`       | Pass               |
+| Types      | `pnpm type-check` | Pass               |
+| Build      | `pnpm build`      | Pass (122 pages)   |
+| Turbo      | `turbo build`     | Pass               |
+
+### Files Changed
+
+**Created:**
+
+- `apps/docs/package.json` - Nextra 4.6.0, Next.js 16, React 19 dependencies
+- `apps/docs/next.config.mjs` - Nextra configuration with search and content routing
+- `apps/docs/mdx-components.tsx` - MDX component integration
+- `apps/docs/app/layout.tsx` - Root layout with navbar, footer, and theme config
+- `apps/docs/app/page.mdx` - Landing page with documentation structure overview
+- `apps/docs/app/docs/[[...mdxPath]]/page.tsx` - Catch-all route for MDX content
+- `apps/docs/tsconfig.json` - TypeScript configuration
+- `apps/docs/.gitignore` - Build artifact ignores
+- `apps/docs/content` - Symlink to `../../docs` for Nextra content
+
+**Modified:**
+
+- `turbo.json` - Added `docs#build` task with content directory inputs
+- `package.json` (root) - Added `docs:dev` and `docs:build` scripts
+
+### Known Issues
+
+- **Vercel Preview Deployments**: Deferred - requires Vercel project configuration outside this story scope
+- **Git Timestamp Warning**: Nextra warns about missing Git timestamps for `app/page.mdx` (cosmetic, doesn't affect functionality)
+
+### Lessons Learned
+
+- Nextra 4 requires content in a `content` directory; for monorepo setups, symlinks work well
+- The `useMDXComponents` function needs to be aliased to avoid React hook rules ESLint errors
+- Nextra 4 `Cards.Card` component pattern differs from v3 (use `Cards.Card` not separate `Card` import)

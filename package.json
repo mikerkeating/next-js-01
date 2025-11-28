@@ -22,7 +22,9 @@
     "lint:md": "markdownlint-cli2 \"**/*.md\" \"#**/node_modules/**\"",
     "lint:md:fix": "markdownlint-cli2 --fix \"**/*.md\" \"#**/node_modules/**\"",
     "lint:md:links": "find . -name '*.md' -not -path './node_modules/*' -not -path './.git/*' | xargs -I {} markdown-link-check {} -c .markdown-link-check.json",
-    "test:e2e:smoke": "pnpm --filter routing test:e2e:smoke"
+    "test:e2e:smoke": "pnpm --filter routing test:e2e:smoke",
+    "docs:dev": "pnpm --filter docs dev",
+    "docs:build": "pnpm --filter docs build"
   },
   "pnpm": {
     "onlyBuiltDependencies": [
