@@ -37,6 +37,7 @@ We will implement a **shared database with discriminator column** multi-tenancy 
 ### Data Model Architecture
 
 **Core Entities**:
+
 ```
 users ← user_organisations → organisations
   ↓                              ↓
@@ -45,6 +46,7 @@ users ← user_organisations → organisations
 ```
 
 **Tenancy Strategy**:
+
 - All tenant-scoped tables include `organisation_id` foreign key
 - RLS policies enforce organization context on every query
 - Middleware injects organization context from Clerk session
@@ -55,6 +57,7 @@ users ← user_organisations → organisations
 #### Core Tables
 
 **users**
+
 ```sql
 CREATE TABLE users (
   id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
@@ -73,6 +76,7 @@ CREATE INDEX idx_users_deleted_at ON users(deleted_at) WHERE deleted_at IS NULL;
 ```
 
 **organisations**
+
 ```sql
 CREATE TABLE organisations (
   id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
@@ -91,6 +95,7 @@ CREATE INDEX idx_organisations_deleted_at ON organisations(deleted_at) WHERE del
 ```
 
 **user_organisations** (Junction Table)
+
 ```sql
 CREATE TYPE user_role AS ENUM ('internal', 'product-seller', 'agency-seller', 'client');
 
@@ -111,6 +116,7 @@ CREATE INDEX idx_user_organisations_role ON user_organisations(role);
 ```
 
 **content** (Tenant-Scoped)
+
 ```sql
 CREATE TABLE content (
   id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
@@ -136,6 +142,7 @@ CREATE INDEX idx_content_deleted_at ON content(deleted_at) WHERE deleted_at IS N
 ```
 
 **analytics_events** (Tenant-Scoped)
+
 ```sql
 CREATE TABLE analytics_events (
   id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
@@ -159,123 +166,154 @@ CREATE TABLE analytics_events_y2025m11 PARTITION OF analytics_events
 ### Drizzle Schema Definition
 
 **packages/database/src/schema/users.ts**
+
 ```typescript
-import { pgTable, uuid, text, timestamp, index } from 'drizzle-orm/pg-core'
+import { pgTable, uuid, text, timestamp, index } from "drizzle-orm/pg-core";
 
-export const users = pgTable('users', {
-  id: uuid('id').primaryKey().defaultRandom(),
-  clerkId: text('clerk_id').notNull().unique(),
-  email: text('email').notNull().unique(),
-  name: text('name'),
-  avatarUrl: text('avatar_url'),
-  createdAt: timestamp('created_at').defaultNow().notNull(),
-  updatedAt: timestamp('updated_at').defaultNow().notNull(),
-  deletedAt: timestamp('deleted_at'),
-}, (table) => ({
-  clerkIdIdx: index('idx_users_clerk_id').on(table.clerkId),
-  emailIdx: index('idx_users_email').on(table.email),
-}))
+export const users = pgTable(
+  "users",
+  {
+    id: uuid("id").primaryKey().defaultRandom(),
+    clerkId: text("clerk_id").notNull().unique(),
+    email: text("email").notNull().unique(),
+    name: text("name"),
+    avatarUrl: text("avatar_url"),
+    createdAt: timestamp("created_at").defaultNow().notNull(),
+    updatedAt: timestamp("updated_at").defaultNow().notNull(),
+    deletedAt: timestamp("deleted_at"),
+  },
+  (table) => ({
+    clerkIdIdx: index("idx_users_clerk_id").on(table.clerkId),
+    emailIdx: index("idx_users_email").on(table.email),
+  })
+);
 
-export type User = typeof users.$inferSelect
-export type NewUser = typeof users.$inferInsert
+export type User = typeof users.$inferSelect;
+export type NewUser = typeof users.$inferInsert;
 ```
 
 **packages/database/src/schema/organisations.ts**
+
 ```typescript
-import { pgTable, uuid, text, timestamp, jsonb, index } from 'drizzle-orm/pg-core'
+import { pgTable, uuid, text, timestamp, jsonb, index } from "drizzle-orm/pg-core";
 
-export const organisations = pgTable('organisations', {
-  id: uuid('id').primaryKey().defaultRandom(),
-  clerkOrgId: text('clerk_org_id').unique(),
-  name: text('name').notNull(),
-  slug: text('slug').notNull().unique(),
-  settings: jsonb('settings').$type<{
-    theme?: string
-    features?: string[]
-    billing?: Record<string, unknown>
-  }>().default({}),
-  createdAt: timestamp('created_at').defaultNow().notNull(),
-  updatedAt: timestamp('updated_at').defaultNow().notNull(),
-  deletedAt: timestamp('deleted_at'),
-}, (table) => ({
-  clerkOrgIdIdx: index('idx_organisations_clerk_org_id').on(table.clerkOrgId),
-  slugIdx: index('idx_organisations_slug').on(table.slug),
-}))
+export const organisations = pgTable(
+  "organisations",
+  {
+    id: uuid("id").primaryKey().defaultRandom(),
+    clerkOrgId: text("clerk_org_id").unique(),
+    name: text("name").notNull(),
+    slug: text("slug").notNull().unique(),
+    settings: jsonb("settings")
+      .$type<{
+        theme?: string;
+        features?: string[];
+        billing?: Record<string, unknown>;
+      }>()
+      .default({}),
+    createdAt: timestamp("created_at").defaultNow().notNull(),
+    updatedAt: timestamp("updated_at").defaultNow().notNull(),
+    deletedAt: timestamp("deleted_at"),
+  },
+  (table) => ({
+    clerkOrgIdIdx: index("idx_organisations_clerk_org_id").on(table.clerkOrgId),
+    slugIdx: index("idx_organisations_slug").on(table.slug),
+  })
+);
 
-export type Organisation = typeof organisations.$inferSelect
-export type NewOrganisation = typeof organisations.$inferInsert
+export type Organisation = typeof organisations.$inferSelect;
+export type NewOrganisation = typeof organisations.$inferInsert;
 ```
 
 **packages/database/src/schema/user-organisations.ts**
+
 ```typescript
-import { pgTable, uuid, timestamp, pgEnum, index, unique } from 'drizzle-orm/pg-core'
-import { users } from './users'
-import { organisations } from './organisations'
+import { pgTable, uuid, timestamp, pgEnum, index, unique } from "drizzle-orm/pg-core";
+import { users } from "./users";
+import { organisations } from "./organisations";
 
-export const userRoleEnum = pgEnum('user_role', [
-  'internal',
-  'product-seller',
-  'agency-seller',
-  'client',
-])
+export const userRoleEnum = pgEnum("user_role", [
+  "internal",
+  "product-seller",
+  "agency-seller",
+  "client",
+]);
 
-export const userOrganisations = pgTable('user_organisations', {
-  id: uuid('id').primaryKey().defaultRandom(),
-  userId: uuid('user_id').notNull().references(() => users.id, { onDelete: 'cascade' }),
-  organisationId: uuid('organisation_id').notNull().references(() => organisations.id, { onDelete: 'cascade' }),
-  role: userRoleEnum('role').notNull().default('client'),
-  createdAt: timestamp('created_at').defaultNow().notNull(),
-  updatedAt: timestamp('updated_at').defaultNow().notNull(),
-}, (table) => ({
-  userIdIdx: index('idx_user_organisations_user_id').on(table.userId),
-  organisationIdIdx: index('idx_user_organisations_organisation_id').on(table.organisationId),
-  roleIdx: index('idx_user_organisations_role').on(table.role),
-  userOrgUnique: unique('user_organisations_user_id_organisation_id_unique').on(
-    table.userId,
-    table.organisationId
-  ),
-}))
+export const userOrganisations = pgTable(
+  "user_organisations",
+  {
+    id: uuid("id").primaryKey().defaultRandom(),
+    userId: uuid("user_id")
+      .notNull()
+      .references(() => users.id, { onDelete: "cascade" }),
+    organisationId: uuid("organisation_id")
+      .notNull()
+      .references(() => organisations.id, { onDelete: "cascade" }),
+    role: userRoleEnum("role").notNull().default("client"),
+    createdAt: timestamp("created_at").defaultNow().notNull(),
+    updatedAt: timestamp("updated_at").defaultNow().notNull(),
+  },
+  (table) => ({
+    userIdIdx: index("idx_user_organisations_user_id").on(table.userId),
+    organisationIdIdx: index("idx_user_organisations_organisation_id").on(table.organisationId),
+    roleIdx: index("idx_user_organisations_role").on(table.role),
+    userOrgUnique: unique("user_organisations_user_id_organisation_id_unique").on(
+      table.userId,
+      table.organisationId
+    ),
+  })
+);
 
-export type UserOrganisation = typeof userOrganisations.$inferSelect
-export type NewUserOrganisation = typeof userOrganisations.$inferInsert
+export type UserOrganisation = typeof userOrganisations.$inferSelect;
+export type NewUserOrganisation = typeof userOrganisations.$inferInsert;
 ```
 
 **packages/database/src/schema/content.ts**
+
 ```typescript
-import { pgTable, uuid, text, timestamp, jsonb, index, unique } from 'drizzle-orm/pg-core'
-import { organisations } from './organisations'
-import { users } from './users'
+import { pgTable, uuid, text, timestamp, jsonb, index, unique } from "drizzle-orm/pg-core";
+import { organisations } from "./organisations";
+import { users } from "./users";
 
-export const content = pgTable('content', {
-  id: uuid('id').primaryKey().defaultRandom(),
-  organisationId: uuid('organisation_id').notNull().references(() => organisations.id, { onDelete: 'cascade' }),
-  type: text('type').notNull(),
-  title: text('title').notNull(),
-  slug: text('slug').notNull(),
-  data: jsonb('data').$type<Record<string, unknown>>().default({}),
-  createdBy: uuid('created_by').notNull().references(() => users.id),
-  updatedBy: uuid('updated_by').references(() => users.id),
-  createdAt: timestamp('created_at').defaultNow().notNull(),
-  updatedAt: timestamp('updated_at').defaultNow().notNull(),
-  deletedAt: timestamp('deleted_at'),
-}, (table) => ({
-  organisationIdIdx: index('idx_content_organisation_id').on(table.organisationId),
-  typeIdx: index('idx_content_type').on(table.type),
-  slugIdx: index('idx_content_slug').on(table.organisationId, table.slug),
-  createdByIdx: index('idx_content_created_by').on(table.createdBy),
-  orgSlugUnique: unique('content_organisation_id_slug_unique').on(
-    table.organisationId,
-    table.slug
-  ),
-}))
+export const content = pgTable(
+  "content",
+  {
+    id: uuid("id").primaryKey().defaultRandom(),
+    organisationId: uuid("organisation_id")
+      .notNull()
+      .references(() => organisations.id, { onDelete: "cascade" }),
+    type: text("type").notNull(),
+    title: text("title").notNull(),
+    slug: text("slug").notNull(),
+    data: jsonb("data").$type<Record<string, unknown>>().default({}),
+    createdBy: uuid("created_by")
+      .notNull()
+      .references(() => users.id),
+    updatedBy: uuid("updated_by").references(() => users.id),
+    createdAt: timestamp("created_at").defaultNow().notNull(),
+    updatedAt: timestamp("updated_at").defaultNow().notNull(),
+    deletedAt: timestamp("deleted_at"),
+  },
+  (table) => ({
+    organisationIdIdx: index("idx_content_organisation_id").on(table.organisationId),
+    typeIdx: index("idx_content_type").on(table.type),
+    slugIdx: index("idx_content_slug").on(table.organisationId, table.slug),
+    createdByIdx: index("idx_content_created_by").on(table.createdBy),
+    orgSlugUnique: unique("content_organisation_id_slug_unique").on(
+      table.organisationId,
+      table.slug
+    ),
+  })
+);
 
-export type Content = typeof content.$inferSelect
-export type NewContent = typeof content.$inferInsert
+export type Content = typeof content.$inferSelect;
+export type NewContent = typeof content.$inferInsert;
 ```
 
 ### Row-Level Security (RLS) Policies
 
 **Enable RLS on Tenant-Scoped Tables**
+
 ```sql
 ALTER TABLE content ENABLE ROW LEVEL SECURITY;
 ALTER TABLE analytics_events ENABLE ROW LEVEL SECURITY;
@@ -286,6 +324,7 @@ ALTER TABLE analytics_events FORCE ROW LEVEL SECURITY;
 ```
 
 **RLS Policy for Content**
+
 ```sql
 -- Policy for organization isolation
 CREATE POLICY org_isolation_content ON content
@@ -302,6 +341,7 @@ CREATE POLICY soft_delete_content ON content
 ```
 
 **RLS Policy for Analytics Events**
+
 ```sql
 CREATE POLICY org_isolation_analytics_events ON analytics_events
   USING (
@@ -315,32 +355,31 @@ CREATE POLICY org_isolation_analytics_events ON analytics_events
 ### Organization Context Middleware
 
 **packages/middleware/src/org-context.ts**
-```typescript
-import { auth } from '@clerk/nextjs/server'
-import { db } from '@repo/database'
-import { sql } from 'drizzle-orm'
 
-export async function withOrgContext<T>(
-  callback: () => Promise<T>
-): Promise<T> {
-  const { userId, orgId } = auth()
+```typescript
+import { auth } from "@clerk/nextjs/server";
+import { db } from "@repo/database";
+import { sql } from "drizzle-orm";
+
+export async function withOrgContext<T>(callback: () => Promise<T>): Promise<T> {
+  const { userId, orgId } = auth();
 
   if (!userId) {
-    throw new Error('Unauthorized')
+    throw new Error("Unauthorized");
   }
 
   if (!orgId) {
-    throw new Error('No organization context')
+    throw new Error("No organization context");
   }
 
   // Set PostgreSQL session variable for RLS
-  await db.execute(sql`SET LOCAL app.current_org_id = ${orgId}`)
+  await db.execute(sql`SET LOCAL app.current_org_id = ${orgId}`);
 
   try {
-    return await callback()
+    return await callback();
   } finally {
     // Reset session variable
-    await db.execute(sql`RESET app.current_org_id`)
+    await db.execute(sql`RESET app.current_org_id`);
   }
 }
 ```
@@ -348,11 +387,12 @@ export async function withOrgContext<T>(
 ### Query Patterns
 
 **Basic Queries with Organization Context**
+
 ```typescript
-import { db } from '@repo/database'
-import { content } from '@repo/database/schema'
-import { withOrgContext } from '@repo/middleware'
-import { eq } from 'drizzle-orm'
+import { db } from "@repo/database";
+import { content } from "@repo/database/schema";
+import { withOrgContext } from "@repo/middleware";
+import { eq } from "drizzle-orm";
 
 // All queries automatically filtered by organisation_id via RLS
 export async function getContent(id: string) {
@@ -362,8 +402,8 @@ export async function getContent(id: string) {
       with: {
         createdBy: true,
       },
-    })
-  })
+    });
+  });
 }
 
 export async function listContent() {
@@ -371,28 +411,29 @@ export async function listContent() {
     return db.query.content.findMany({
       where: eq(content.deletedAt, null), // Exclude soft deletes
       orderBy: (content, { desc }) => [desc(content.createdAt)],
-    })
-  })
+    });
+  });
 }
 ```
 
 **Multi-Organization Queries (Internal Users Only)**
+
 ```typescript
-import { db } from '@repo/database'
-import { content, userOrganisations } from '@repo/database/schema'
-import { eq, inArray } from 'drizzle-orm'
-import { auth } from '@clerk/nextjs/server'
+import { db } from "@repo/database";
+import { content, userOrganisations } from "@repo/database/schema";
+import { eq, inArray } from "drizzle-orm";
+import { auth } from "@clerk/nextjs/server";
 
 export async function listContentAcrossOrgs() {
-  const { userId } = auth()
+  const { userId } = auth();
 
   // Get user's role
   const userRole = await db.query.userOrganisations.findFirst({
     where: eq(userOrganisations.userId, userId),
-  })
+  });
 
-  if (userRole?.role !== 'internal') {
-    throw new Error('Unauthorized: Internal access only')
+  if (userRole?.role !== "internal") {
+    throw new Error("Unauthorized: Internal access only");
   }
 
   // Bypass RLS by disabling it for this query (use with caution)
@@ -400,40 +441,38 @@ export async function listContentAcrossOrgs() {
     SET LOCAL row_security = off;
     SELECT * FROM content WHERE deleted_at IS NULL;
     SET LOCAL row_security = on;
-  `)
+  `);
 }
 ```
 
 **Permission Checks**
+
 ```typescript
-import { db } from '@repo/database'
-import { userOrganisations } from '@repo/database/schema'
-import { and, eq } from 'drizzle-orm'
+import { db } from "@repo/database";
+import { userOrganisations } from "@repo/database/schema";
+import { and, eq } from "drizzle-orm";
 
 export async function checkPermission(
   userId: string,
   orgId: string,
-  requiredRole: 'internal' | 'product-seller' | 'agency-seller' | 'client'
+  requiredRole: "internal" | "product-seller" | "agency-seller" | "client"
 ) {
   const membership = await db.query.userOrganisations.findFirst({
-    where: and(
-      eq(userOrganisations.userId, userId),
-      eq(userOrganisations.organisationId, orgId)
-    ),
-  })
+    where: and(eq(userOrganisations.userId, userId), eq(userOrganisations.organisationId, orgId)),
+  });
 
   if (!membership) {
-    return false
+    return false;
   }
 
   const roleHierarchy = {
-    'internal': 4,
-    'product-seller': 3,
-    'agency-seller': 2,
-    'client': 1,
-  }
+    internal: 4,
+    "product-seller": 3,
+    "agency-seller": 2,
+    client: 1,
+  };
 
-  return roleHierarchy[membership.role] >= roleHierarchy[requiredRole]
+  return roleHierarchy[membership.role] >= roleHierarchy[requiredRole];
 }
 ```
 
@@ -506,12 +545,14 @@ export async function checkPermission(
 #### Option 1: Separate Database Per Tenant
 
 **Pros:**
+
 - Maximum isolation between tenants
 - Independent scaling per tenant
 - Easier to migrate specific tenants
 - Custom schema per tenant possible
 
 **Cons:**
+
 - ❌ Massive operational overhead (1000s of databases)
 - ❌ Complex connection pooling
 - ❌ Difficult cross-tenant analytics
@@ -525,11 +566,13 @@ export async function checkPermission(
 #### Option 2: Separate Schema Per Tenant
 
 **Pros:**
+
 - Good isolation within single database
 - Easier than separate databases
 - Standard PostgreSQL feature
 
 **Cons:**
+
 - ❌ Still complex with many tenants
 - ❌ PostgreSQL performance degrades with 1000s of schemas
 - ❌ Migration management complexity
@@ -542,11 +585,13 @@ export async function checkPermission(
 #### Option 3: No Explicit Multi-Tenancy (Application-Level Only)
 
 **Pros:**
+
 - Simple application code
 - No database-level policies
 - Easy to implement initially
 
 **Cons:**
+
 - ❌ No database-level isolation guarantee
 - ❌ Easy to accidentally leak tenant data
 - ❌ Security vulnerability if middleware fails
@@ -559,11 +604,13 @@ export async function checkPermission(
 #### Option 4: MongoDB with Document Embedding
 
 **Pros:**
+
 - Flexible schema per tenant
 - Natural document isolation
 - Good for hierarchical data
 
 **Cons:**
+
 - ❌ Requires abandoning PostgreSQL (rejected in ADR-005)
 - ❌ No strong consistency guarantees
 - ❌ Limited query capabilities vs. SQL
@@ -576,11 +623,13 @@ export async function checkPermission(
 #### Option 5: Hybrid (Shared + Dedicated Databases)
 
 **Pros:**
+
 - Flexibility for special cases
 - Can isolate large tenants
 - Good for tiered pricing
 
 **Cons:**
+
 - ❌ Complex application logic
 - ❌ Two deployment paths to maintain
 - ❌ Inconsistent query patterns
@@ -766,32 +815,35 @@ export async function checkPermission(
 
 ```typescript
 // packages/database/src/schema/projects.ts
-import { pgTable, uuid, text, timestamp, index } from 'drizzle-orm/pg-core'
-import { organisations } from './organisations'
-import { users } from './users'
+import { pgTable, uuid, text, timestamp, index } from "drizzle-orm/pg-core";
+import { organisations } from "./organisations";
+import { users } from "./users";
 
-export const projects = pgTable('projects', {
-  id: uuid('id').primaryKey().defaultRandom(),
-  organisationId: uuid('organisation_id')
-    .notNull()
-    .references(() => organisations.id, { onDelete: 'cascade' }),
-  name: text('name').notNull(),
-  description: text('description'),
-  createdBy: uuid('created_by')
-    .notNull()
-    .references(() => users.id),
-  updatedBy: uuid('updated_by')
-    .references(() => users.id),
-  createdAt: timestamp('created_at').defaultNow().notNull(),
-  updatedAt: timestamp('updated_at').defaultNow().notNull(),
-  deletedAt: timestamp('deleted_at'),
-}, (table) => ({
-  organisationIdIdx: index('idx_projects_organisation_id').on(table.organisationId),
-  nameIdx: index('idx_projects_name').on(table.organisationId, table.name),
-}))
+export const projects = pgTable(
+  "projects",
+  {
+    id: uuid("id").primaryKey().defaultRandom(),
+    organisationId: uuid("organisation_id")
+      .notNull()
+      .references(() => organisations.id, { onDelete: "cascade" }),
+    name: text("name").notNull(),
+    description: text("description"),
+    createdBy: uuid("created_by")
+      .notNull()
+      .references(() => users.id),
+    updatedBy: uuid("updated_by").references(() => users.id),
+    createdAt: timestamp("created_at").defaultNow().notNull(),
+    updatedAt: timestamp("updated_at").defaultNow().notNull(),
+    deletedAt: timestamp("deleted_at"),
+  },
+  (table) => ({
+    organisationIdIdx: index("idx_projects_organisation_id").on(table.organisationId),
+    nameIdx: index("idx_projects_name").on(table.organisationId, table.name),
+  })
+);
 
-export type Project = typeof projects.$inferSelect
-export type NewProject = typeof projects.$inferInsert
+export type Project = typeof projects.$inferSelect;
+export type NewProject = typeof projects.$inferInsert;
 ```
 
 ```sql
@@ -828,29 +880,21 @@ CREATE POLICY soft_delete_projects ON projects
 ### Soft Delete Implementation
 
 ```typescript
-import { db } from '@repo/database'
-import { content } from '@repo/database/schema'
-import { withOrgContext } from '@repo/middleware'
-import { eq } from 'drizzle-orm'
+import { db } from "@repo/database";
+import { content } from "@repo/database/schema";
+import { withOrgContext } from "@repo/middleware";
+import { eq } from "drizzle-orm";
 
 export async function softDeleteContent(id: string) {
   return withOrgContext(async () => {
-    return db
-      .update(content)
-      .set({ deletedAt: new Date() })
-      .where(eq(content.id, id))
-      .returning()
-  })
+    return db.update(content).set({ deletedAt: new Date() }).where(eq(content.id, id)).returning();
+  });
 }
 
 export async function restoreContent(id: string) {
   return withOrgContext(async () => {
-    return db
-      .update(content)
-      .set({ deletedAt: null })
-      .where(eq(content.id, id))
-      .returning()
-  })
+    return db.update(content).set({ deletedAt: null }).where(eq(content.id, id)).returning();
+  });
 }
 
 export async function hardDeleteContent(id: string) {
@@ -863,29 +907,29 @@ export async function hardDeleteContent(id: string) {
           eq(content.id, id),
           lt(content.deletedAt, new Date(Date.now() - 30 * 24 * 60 * 60 * 1000))
         )
-      )
-  })
+      );
+  });
 }
 ```
 
 ### Role-Based Access Control
 
 ```typescript
-import { checkPermission } from '@repo/middleware'
-import { auth } from '@clerk/nextjs/server'
+import { checkPermission } from "@repo/middleware";
+import { auth } from "@clerk/nextjs/server";
 
 export async function updateContent(id: string, data: UpdateContentInput) {
-  const { userId, orgId } = auth()
+  const { userId, orgId } = auth();
 
   if (!userId || !orgId) {
-    throw new Error('Unauthorized')
+    throw new Error("Unauthorized");
   }
 
   // Check if user has product-seller or higher role
-  const hasPermission = await checkPermission(userId, orgId, 'product-seller')
+  const hasPermission = await checkPermission(userId, orgId, "product-seller");
 
   if (!hasPermission) {
-    throw new Error('Insufficient permissions')
+    throw new Error("Insufficient permissions");
   }
 
   return withOrgContext(async () => {
@@ -897,22 +941,22 @@ export async function updateContent(id: string, data: UpdateContentInput) {
         updatedAt: new Date(),
       })
       .where(eq(content.id, id))
-      .returning()
-  })
+      .returning();
+  });
 }
 ```
 
 ### Pagination with Organization Context
 
 ```typescript
-import { db } from '@repo/database'
-import { content } from '@repo/database/schema'
-import { withOrgContext } from '@repo/middleware'
-import { desc, eq } from 'drizzle-orm'
+import { db } from "@repo/database";
+import { content } from "@repo/database/schema";
+import { withOrgContext } from "@repo/middleware";
+import { desc, eq } from "drizzle-orm";
 
 export async function paginateContent(page = 1, pageSize = 20) {
   return withOrgContext(async () => {
-    const offset = (page - 1) * pageSize
+    const offset = (page - 1) * pageSize;
 
     const [items, [{ count }]] = await Promise.all([
       db.query.content.findMany({
@@ -925,7 +969,7 @@ export async function paginateContent(page = 1, pageSize = 20) {
         .select({ count: sql<number>`count(*)` })
         .from(content)
         .where(eq(content.deletedAt, null)),
-    ])
+    ]);
 
     return {
       items,
@@ -935,8 +979,8 @@ export async function paginateContent(page = 1, pageSize = 20) {
         total: count,
         totalPages: Math.ceil(count / pageSize),
       },
-    }
-  })
+    };
+  });
 }
 ```
 

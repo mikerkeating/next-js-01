@@ -23,22 +23,26 @@ Use this checklist to validate story documents before implementation begins.
 ### Content Quality Checks
 
 #### No Hardcoded Versions
+
 - [ ] No version numbers in dependency install commands
 - [ ] No version numbers in configuration examples
 - [ ] All versions reference [canonical-versions.md](/docs/2-technical/references/canonical-versions.md)
 
 **Fail examples:**
+
 ```markdown
 pnpm add next@16 react@19
 node-version: '24'
 ```
 
 **Pass examples:**
+
 ```markdown
 Install per [canonical-versions.md](/docs/2-technical/references/canonical-versions.md)
 ```
 
 #### No Excessive Code Blocks
+
 - [ ] No code blocks exceed 15 lines
 - [ ] Long implementations reference TAD sections instead
 - [ ] Code blocks illustrate concepts, not copy-paste implementation
@@ -48,18 +52,21 @@ Install per [canonical-versions.md](/docs/2-technical/references/canonical-versi
 **Pass example:** "Implement following [TAD: Section](link)" with 5-line key requirements
 
 #### No TAD Duplication
+
 - [ ] TypeScript interfaces link to TAD, not inline definitions
 - [ ] Configuration templates link to TAD, not full file contents
 - [ ] GitHub Actions workflows link to TAD templates
 - [ ] API response formats link to TAD specifications
 
 #### Architecture Decisions Consolidation
+
 - [ ] No cross-cutting decisions documented in story (should be in TAD)
 - [ ] All story decisions include "Scope: Story-specific" field
 - [ ] Cross-cutting decisions link to TAD, not inline documentation
 - [ ] "Consolidated Decisions" section links to relevant TAD/ADR decisions
 
 **Cross-cutting decisions that should NOT be in stories:**
+
 - Directory structure conventions
 - Environment variable patterns
 - Configuration file formats
@@ -68,31 +75,37 @@ Install per [canonical-versions.md](/docs/2-technical/references/canonical-versi
 - API response formats
 
 **Pass example:**
+
 ```markdown
 ### Consolidated Decisions
+
 - [TAD: Directory Structure](link) - Using src/ convention
 ```
 
 **Fail example:**
+
 ```markdown
 ### AD-S1.1: Use src/ Directory
+
 Decision: All apps will use src/ directory...
 ```
+
 (This affects all apps, should be in TAD)
 
 ---
 
 ### Story Length Guidelines
 
-| Size | Target Length | Status |
-|------|---------------|--------|
-| XS | < 100 lines | - [ ] Within limit |
-| S | < 150 lines | - [ ] Within limit |
-| M | < 250 lines | - [ ] Within limit |
-| L | < 350 lines | - [ ] Within limit |
-| XL | N/A | - [ ] Split into multiple stories |
+| Size | Target Length | Status                            |
+| ---- | ------------- | --------------------------------- |
+| XS   | < 100 lines   | - [ ] Within limit                |
+| S    | < 150 lines   | - [ ] Within limit                |
+| M    | < 250 lines   | - [ ] Within limit                |
+| L    | < 350 lines   | - [ ] Within limit                |
+| XL   | N/A           | - [ ] Split into multiple stories |
 
 If exceeding limits, verify:
+
 - [ ] No copy-paste implementation code
 - [ ] No duplicated TAD content
 - [ ] No over-detailed configuration
@@ -112,11 +125,13 @@ If exceeding limits, verify:
 ### Acceptance Criteria Quality
 
 Each acceptance criterion should be:
+
 - [ ] **Specific**: Clearly states what must be true
 - [ ] **Measurable**: Can be objectively verified (pass/fail)
 - [ ] **Outcome-focused**: Describes result, not implementation steps
 
 **Fail examples:**
+
 ```markdown
 - [ ] Code is good quality
 - [ ] Everything works
@@ -124,6 +139,7 @@ Each acceptance criterion should be:
 ```
 
 **Pass examples:**
+
 ```markdown
 - [ ] Health endpoint returns 200 OK with valid JSON
 - [ ] Build completes in < 5 minutes
@@ -135,6 +151,7 @@ Each acceptance criterion should be:
 ### Pre-Implementation Checklist
 
 Before starting implementation, verify:
+
 - [ ] Story document passes all above criteria
 - [ ] TAD sections referenced in story exist and are complete
 - [ ] Dependencies listed are available at specified versions

@@ -26,7 +26,7 @@ This document defines **what** we're building and **why**. It serves as the foun
 MK3 is a consulting business that provides marketing technology and transformation services to a diverse client base including:
 
 - **Enterprises** (e.g., Lilly, LSEG)
-- **SMBs**  (e.g., Precision Hydration, Nest Commerce) 
+- **SMBs** (e.g., Precision Hydration, Nest Commerce)
 - **SaaS businesses** (e.g., Adobe)
 - **Marketing agencies** (e.g., Omnicom)
 
@@ -848,12 +848,12 @@ These metrics measure the effectiveness of transformation frameworks and content
 
 #### Reporting Cadence
 
-| Audience | Frequency | Metrics Focus | Format |
-|----------|-----------|---------------|--------|
-| **Executive Team** | Monthly | Business metrics (B.1-B.5), User growth (U.1-U.2), NPS (U.5) | Executive dashboard + slide deck |
-| **Product Team** | Weekly | User metrics (U.1-U.7), Operational efficiency (O.1-O.4), Content metrics (C.1-C.4) | Product analytics dashboard |
-| **Engineering Team** | Daily | Technical metrics (T.1-T.7) | Engineering dashboard + Slack alerts |
-| **Stakeholders** | Quarterly | All metrics with trends and insights | Comprehensive report + presentation |
+| Audience             | Frequency | Metrics Focus                                                                       | Format                               |
+| -------------------- | --------- | ----------------------------------------------------------------------------------- | ------------------------------------ |
+| **Executive Team**   | Monthly   | Business metrics (B.1-B.5), User growth (U.1-U.2), NPS (U.5)                        | Executive dashboard + slide deck     |
+| **Product Team**     | Weekly    | User metrics (U.1-U.7), Operational efficiency (O.1-O.4), Content metrics (C.1-C.4) | Product analytics dashboard          |
+| **Engineering Team** | Daily     | Technical metrics (T.1-T.7)                                                         | Engineering dashboard + Slack alerts |
+| **Stakeholders**     | Quarterly | All metrics with trends and insights                                                | Comprehensive report + presentation  |
 
 #### Review Process
 
@@ -882,11 +882,11 @@ These metrics measure the effectiveness of transformation frameworks and content
 
 Before moving to the next phase, validate:
 
-| Phase | Success Gate | Required Metrics |
-|-------|--------------|------------------|
-| **MVP Launch** | Platform delivers core value | B.1 < 8 hours, T.1 < 3s, T.4 > 99%, U.6 < 30 min |
-| **Phase 1 Complete** | Users are engaged | U.1 > 20 WAU, U.4 (key features) > 60%, T.7 > 80% |
-| **Phase 2 Complete** | Business impact visible | B.2 > 10 orgs, B.3 > 50%, O.1 < 4 hours |
+| Phase                | Success Gate                        | Required Metrics                                   |
+| -------------------- | ----------------------------------- | -------------------------------------------------- |
+| **MVP Launch**       | Platform delivers core value        | B.1 < 8 hours, T.1 < 3s, T.4 > 99%, U.6 < 30 min   |
+| **Phase 1 Complete** | Users are engaged                   | U.1 > 20 WAU, U.4 (key features) > 60%, T.7 > 80%  |
+| **Phase 2 Complete** | Business impact visible             | B.2 > 10 orgs, B.3 > 50%, O.1 < 4 hours            |
 | **Production Ready** | Platform is reliable and performant | T.3 "Good" on all metrics, T.4 > 99.5%, T.5 < 0.1% |
 
 #### Dashboard Locations
@@ -902,7 +902,7 @@ Before moving to the next phase, validate:
 
 ### 5.1 Performance Requirements
 
-*Aligned with Epic 6A.2: Performance Optimization*
+_Aligned with Epic 6A.2: Performance Optimization_
 
 - **Page Load Time**:
   - Target: < 2.0s (p75) for all pages
@@ -934,7 +934,7 @@ Before moving to the next phase, validate:
 
 ### 5.2 Security Requirements
 
-*Aligned with Epic 6A.1: Security Hardening*
+_Aligned with Epic 6A.1: Security Hardening_
 
 - **Authentication**:
   - Clerk-based authentication with email/password and social OAuth (Google, Microsoft)
@@ -968,7 +968,7 @@ Before moving to the next phase, validate:
 
 ### 5.3 Compliance Requirements
 
-*Aligned with Epic 6A.3: Compliance & Data Governance*
+_Aligned with Epic 6A.3: Compliance & Data Governance_
 
 - **GDPR Compliance**:
   - Data Processing Agreement (DPA) with all users processing EU data
@@ -1004,7 +1004,7 @@ Before moving to the next phase, validate:
 
 ### 5.4 Scalability Requirements
 
-*Aligned with Epic 5A.1: Production Infrastructure*
+_Aligned with Epic 5A.1: Production Infrastructure_
 
 - **Concurrent Users**:
   - Initial capacity: 500 concurrent users
@@ -1032,7 +1032,7 @@ Before moving to the next phase, validate:
 
 ### 5.5 Availability & Reliability
 
-*Aligned with Epic 8A.1: Production Monitoring & 8A.2: Incident Response*
+_Aligned with Epic 8A.1: Production Monitoring & 8A.2: Incident Response_
 
 - **Uptime Target**:
   - SLA: 99.5% uptime (43.8 hours downtime/year allowable)
@@ -1059,7 +1059,7 @@ Before moving to the next phase, validate:
 
 ### 5.6 Accessibility Requirements
 
-*Aligned with Epic 6A.4: Accessibility Standards*
+_Aligned with Epic 6A.4: Accessibility Standards_
 
 - **WCAG Compliance**:
   - Target: WCAG 2.1 Level AA compliance
@@ -1090,7 +1090,7 @@ Before moving to the next phase, validate:
 
 ### 5.7 Browser & Device Support
 
-*Aligned with Epic 2A.5: Responsive Design System*
+_Aligned with Epic 2A.5: Responsive Design System_
 
 - **Desktop Browsers**:
   - **Chrome**: Last 2 major versions (currently 131+)
@@ -1125,7 +1125,7 @@ Before moving to the next phase, validate:
 
 ### 6.1 Technical Constraints
 
-*Aligned with Epic P.2: Technical Architecture Document*
+_Aligned with Epic P.2: Technical Architecture Document_
 
 #### Constraint T.1: Technology Stack Lock-in
 
@@ -1316,7 +1316,7 @@ Before moving to the next phase, validate:
 
 ### 6.4 Third-Party Dependencies
 
-*Critical external services that the platform depends on. Failure of these services impacts platform availability.*
+_Critical external services that the platform depends on. Failure of these services impacts platform availability._
 
 #### Dependency D.1: Clerk (Authentication)
 
@@ -1414,16 +1414,16 @@ Before moving to the next phase, validate:
 
 #### Dependency Summary Table
 
-| Service | Purpose | Criticality | SLA | Mitigation Priority |
-|---------|---------|-------------|-----|-------------------|
-| **Clerk** | Authentication | HIGH | 99.99% | P0 - Implement fallback auth |
-| **Vercel** | Hosting | HIGH | 99.99% | P0 - Multi-region deployment |
-| **Neon/Supabase** | Database | HIGH | 99.95% | P0 - Backup/recovery procedures |
-| **PostHog** | Analytics | MEDIUM | 99.9% | P1 - Redundant analytics |
-| **Vercel Analytics** | Performance | MEDIUM | 99.99% | P1 - Multiple monitoring tools |
-| **Sentry** | Errors | MEDIUM | 99.9% | P2 - Fallback to logs |
-| **Google Analytics** | Marketing | LOW | Best-effort | P3 - Optional service |
-| **Third-Party APIs** | Integrations | LOW-MED | Varies | P2 - Cache & fallback |
+| Service              | Purpose        | Criticality | SLA         | Mitigation Priority             |
+| -------------------- | -------------- | ----------- | ----------- | ------------------------------- |
+| **Clerk**            | Authentication | HIGH        | 99.99%      | P0 - Implement fallback auth    |
+| **Vercel**           | Hosting        | HIGH        | 99.99%      | P0 - Multi-region deployment    |
+| **Neon/Supabase**    | Database       | HIGH        | 99.95%      | P0 - Backup/recovery procedures |
+| **PostHog**          | Analytics      | MEDIUM      | 99.9%       | P1 - Redundant analytics        |
+| **Vercel Analytics** | Performance    | MEDIUM      | 99.99%      | P1 - Multiple monitoring tools  |
+| **Sentry**           | Errors         | MEDIUM      | 99.9%       | P2 - Fallback to logs           |
+| **Google Analytics** | Marketing      | LOW         | Best-effort | P3 - Optional service           |
+| **Third-Party APIs** | Integrations   | LOW-MED     | Varies      | P2 - Cache & fallback           |
 
 ---
 
@@ -1610,54 +1610,57 @@ Before moving to the next phase, validate:
 
 #### Phase 1: Pre-Development Validation (Weeks -2 to 0)
 
-| Assumption | Validation Activity | Success Criteria | Owner | Due Date |
-|------------|---------------------|------------------|-------|----------|
-| **B.1**: Market demand exists | Customer discovery interviews (10 target customers) | 7/10 express strong interest; 3/10 commit to pilot | Product Lead | Week -1 |
-| **B.6**: 12-week timeline achievable | Technical spike on core architecture (auth, database, org model) | All Must Have features estimated within 12 weeks | Tech Lead | Week 0 |
-| **B.7**: Team can execute on stack | Proof-of-concept: Multi-tenant Next.js app with Clerk + Drizzle | PoC complete in 1 week; team comfortable with stack | Tech Lead | Week 0 |
-| **T.5**: Content schema flexible | Schema design workshop with consultants | Schema accommodates 3+ framework types without restructuring | Tech Lead | Week 0 |
+| Assumption                           | Validation Activity                                              | Success Criteria                                             | Owner        | Due Date |
+| ------------------------------------ | ---------------------------------------------------------------- | ------------------------------------------------------------ | ------------ | -------- |
+| **B.1**: Market demand exists        | Customer discovery interviews (10 target customers)              | 7/10 express strong interest; 3/10 commit to pilot           | Product Lead | Week -1  |
+| **B.6**: 12-week timeline achievable | Technical spike on core architecture (auth, database, org model) | All Must Have features estimated within 12 weeks             | Tech Lead    | Week 0   |
+| **B.7**: Team can execute on stack   | Proof-of-concept: Multi-tenant Next.js app with Clerk + Drizzle  | PoC complete in 1 week; team comfortable with stack          | Tech Lead    | Week 0   |
+| **T.5**: Content schema flexible     | Schema design workshop with consultants                          | Schema accommodates 3+ framework types without restructuring | Tech Lead    | Week 0   |
 
 #### Phase 2: Early Development Validation (Weeks 1-4)
 
-| Assumption | Validation Activity | Success Criteria | Owner | Due Date |
-|------------|---------------------|------------------|-------|----------|
-| **U.2**: Users familiar with web apps | Usability testing on early prototypes (5 users) | 4/5 users complete core tasks without assistance | Product/Design | Week 3 |
-| **T.2**: PostgreSQL performance scales | Load testing at 2x capacity (10,000 req/min) | All queries < 200ms (p95); no bottlenecks identified | Tech Lead | Week 4 |
-| **T.3**: Serverless meets performance | Performance testing on Vercel staging | Page loads < 2s (p75); API responses < 200ms (p95) | Tech Lead | Week 4 |
-| **U.3**: Internal users champion adoption | Internal user pilot (3-5 consultants) | All consultants use platform for 1 real client project | Product Lead | Week 4 |
+| Assumption                                | Validation Activity                             | Success Criteria                                       | Owner          | Due Date |
+| ----------------------------------------- | ----------------------------------------------- | ------------------------------------------------------ | -------------- | -------- |
+| **U.2**: Users familiar with web apps     | Usability testing on early prototypes (5 users) | 4/5 users complete core tasks without assistance       | Product/Design | Week 3   |
+| **T.2**: PostgreSQL performance scales    | Load testing at 2x capacity (10,000 req/min)    | All queries < 200ms (p95); no bottlenecks identified   | Tech Lead      | Week 4   |
+| **T.3**: Serverless meets performance     | Performance testing on Vercel staging           | Page loads < 2s (p75); API responses < 200ms (p95)     | Tech Lead      | Week 4   |
+| **U.3**: Internal users champion adoption | Internal user pilot (3-5 consultants)           | All consultants use platform for 1 real client project | Product Lead   | Week 4   |
 
 #### Phase 3: MVP Validation (Weeks 5-12)
 
-| Assumption | Validation Activity | Success Criteria | Owner | Due Date |
-|------------|---------------------|------------------|-------|----------|
-| **B.3**: Clients self-service content | Pilot with 3 SaaS Seller organizations | 2/3 create framework independently; < 2 support tickets/org | Product Lead | Week 8 |
-| **U.4**: Mobile access secondary | Analytics review of device usage | Desktop > 70% of sessions; mobile usage < 30% | Product Lead | Week 10 |
-| **U.5**: Users prefer self-service | Documentation usage tracking | Doc views 5x support requests; self-service resolution > 60% | Product Lead | Week 10 |
-| **B.2**: Consulting-to-product viable | Revenue tracking: consulting vs. platform readiness | 3 clients expressing interest in product vs. consulting-only | Business Lead | Week 12 |
+| Assumption                            | Validation Activity                                 | Success Criteria                                             | Owner         | Due Date |
+| ------------------------------------- | --------------------------------------------------- | ------------------------------------------------------------ | ------------- | -------- |
+| **B.3**: Clients self-service content | Pilot with 3 SaaS Seller organizations              | 2/3 create framework independently; < 2 support tickets/org  | Product Lead  | Week 8   |
+| **U.4**: Mobile access secondary      | Analytics review of device usage                    | Desktop > 70% of sessions; mobile usage < 30%                | Product Lead  | Week 10  |
+| **U.5**: Users prefer self-service    | Documentation usage tracking                        | Doc views 5x support requests; self-service resolution > 60% | Product Lead  | Week 10  |
+| **B.2**: Consulting-to-product viable | Revenue tracking: consulting vs. platform readiness | 3 clients expressing interest in product vs. consulting-only | Business Lead | Week 12  |
 
 #### Phase 4: Post-Launch Validation (Weeks 13-24)
 
-| Assumption | Validation Activity | Success Criteria | Owner | Due Date |
-|------------|---------------------|------------------|-------|----------|
-| **B.1**: Market demand at scale | Pilot expansion to 10+ organizations | 10+ active orgs (B.2 metric); 85%+ retention (B.4 metric) | Product Lead | Week 18 |
-| **B.4**: Pricing supports model | Pricing experiments with pilot users | Willingness-to-pay data; revenue model projection | Business Lead | Week 20 |
-| **U.6**: Users accept cloud storage | Enterprise client feedback | No deal losses due to cloud concerns; GDPR compliance sufficient | Sales Lead | Week 24 |
-| **B.5**: Competition not commoditizing | Competitive analysis quarterly | No major competitor launches similar platform | Product Lead | Ongoing |
+| Assumption                             | Validation Activity                  | Success Criteria                                                 | Owner         | Due Date |
+| -------------------------------------- | ------------------------------------ | ---------------------------------------------------------------- | ------------- | -------- |
+| **B.1**: Market demand at scale        | Pilot expansion to 10+ organizations | 10+ active orgs (B.2 metric); 85%+ retention (B.4 metric)        | Product Lead  | Week 18  |
+| **B.4**: Pricing supports model        | Pricing experiments with pilot users | Willingness-to-pay data; revenue model projection                | Business Lead | Week 20  |
+| **U.6**: Users accept cloud storage    | Enterprise client feedback           | No deal losses due to cloud concerns; GDPR compliance sufficient | Sales Lead    | Week 24  |
+| **B.5**: Competition not commoditizing | Competitive analysis quarterly       | No major competitor launches similar platform                    | Product Lead  | Ongoing  |
 
 #### Continuous Validation
 
 **Weekly Reviews**: Track assumptions against success metrics (Section 4):
+
 - **U.3** (Internal users champion): Monitor U.1 (WAU) for Internal Users specifically
 - **B.3** (Self-service): Monitor O.1 (Content Creation Time) and support ticket volume
 - **T.2, T.3** (Performance): Monitor T.1-T.6 technical metrics continuously
 
 **Monthly Assumption Review**: Product team reviews all assumptions:
+
 1. Assess which assumptions validated, which invalidated
 2. Update risk levels based on new data
 3. Adjust roadmap priorities if critical assumptions fail
 4. Document learnings for stakeholders
 
 **Assumption Failure Response Plan**:
+
 - **CRITICAL assumptions fail** (B.1, B.6, T.1): Emergency product/strategy review; potential pivot
 - **HIGH assumptions fail** (U.3, U.6, T.2, T.3, B.2, B.3, B.4, B.7): Accelerate mitigation plans; roadmap adjustment
 - **MEDIUM assumptions fail** (U.2, U.5, T.5, B.5): Monitor trends; adjust features or messaging
@@ -1668,42 +1671,42 @@ Before moving to the next phase, validate:
 
 ### 8.1 Technical Risks
 
-| Risk ID | Description | Probability | Impact | Mitigation Strategy |
-|---------|-------------|-------------|--------|---------------------|
-| **TR.1** | **Third-Party Service Outage**: Critical dependencies (Clerk, Vercel, Neon) experience extended outages beyond SLA | **Low** | **High** | Monitor status pages; implement graceful degradation; maintain incident response playbook; design stateless architecture for rapid redeployment; document disaster recovery procedures (Section 6.4) |
-| **TR.2** | **Database Performance Bottleneck**: PostgreSQL query performance degrades under load; cannot meet < 200ms API response target | **Medium** | **High** | Load testing at 2x capacity (Assumption T.2 validation); implement query optimization; add database indexes; use connection pooling; implement Redis caching layer if needed; monitor T.6 metric continuously |
-| **TR.3** | **Technology Stack Learning Curve**: Team struggles with Next.js 16/React 19 Server Components; slower velocity than estimated | **Medium** | **High** | Week 0 proof-of-concept validation (Assumption B.7); pair programming; code reviews; invest in training; allocate 20% sprint capacity for learning; consider external contractors for knowledge transfer |
-| **TR.4** | **Multi-Tenancy Data Isolation Bug**: RLS policies fail; data leaks between organizations | **Low** | **Critical** | Rigorous RLS testing in development; automated tests for data isolation; security audit pre-launch; penetration testing; implement defense-in-depth with application-level checks; monitor audit logs for anomalies |
-| **TR.5** | **Serverless Cold Start Latency**: Cold starts cause > 2s page load times; poor user experience | **Medium** | **Medium** | Implement edge functions for critical paths; use Next.js 16 ISR/SSG where possible; keep functions warm with periodic pings; monitor T.1 metric; optimize function bundle sizes; consider container deployment for hot paths if needed |
-| **TR.6** | **Content Schema Inflexibility**: Database schema cannot accommodate new framework types; frequent migrations required | **Medium** | **Medium** | Schema design workshop with consultants (Week 0); use JSONB for flexible fields; validate with 3+ framework types; implement schema versioning; design migration-friendly architecture |
-| **TR.7** | **API Rate Limiting Impact**: Rate limits (100 req/min user, 1000 req/min org) too restrictive; blocks legitimate usage | **Low** | **Medium** | Monitor rate limit hit rates; implement exponential backoff on client; queue non-critical requests; increase limits based on usage patterns; provide rate limit headers to clients |
-| **TR.8** | **Browser Compatibility Issues**: Modern features don't work on target browsers; user complaints about broken functionality | **Low** | **Low** | Test on all browsers in Section 5.7; use feature detection; progressive enhancement; automated cross-browser testing in CI; display browser requirements on login |
+| Risk ID  | Description                                                                                                                    | Probability | Impact       | Mitigation Strategy                                                                                                                                                                                                                    |
+| -------- | ------------------------------------------------------------------------------------------------------------------------------ | ----------- | ------------ | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **TR.1** | **Third-Party Service Outage**: Critical dependencies (Clerk, Vercel, Neon) experience extended outages beyond SLA             | **Low**     | **High**     | Monitor status pages; implement graceful degradation; maintain incident response playbook; design stateless architecture for rapid redeployment; document disaster recovery procedures (Section 6.4)                                   |
+| **TR.2** | **Database Performance Bottleneck**: PostgreSQL query performance degrades under load; cannot meet < 200ms API response target | **Medium**  | **High**     | Load testing at 2x capacity (Assumption T.2 validation); implement query optimization; add database indexes; use connection pooling; implement Redis caching layer if needed; monitor T.6 metric continuously                          |
+| **TR.3** | **Technology Stack Learning Curve**: Team struggles with Next.js 16/React 19 Server Components; slower velocity than estimated | **Medium**  | **High**     | Week 0 proof-of-concept validation (Assumption B.7); pair programming; code reviews; invest in training; allocate 20% sprint capacity for learning; consider external contractors for knowledge transfer                               |
+| **TR.4** | **Multi-Tenancy Data Isolation Bug**: RLS policies fail; data leaks between organizations                                      | **Low**     | **Critical** | Rigorous RLS testing in development; automated tests for data isolation; security audit pre-launch; penetration testing; implement defense-in-depth with application-level checks; monitor audit logs for anomalies                    |
+| **TR.5** | **Serverless Cold Start Latency**: Cold starts cause > 2s page load times; poor user experience                                | **Medium**  | **Medium**   | Implement edge functions for critical paths; use Next.js 16 ISR/SSG where possible; keep functions warm with periodic pings; monitor T.1 metric; optimize function bundle sizes; consider container deployment for hot paths if needed |
+| **TR.6** | **Content Schema Inflexibility**: Database schema cannot accommodate new framework types; frequent migrations required         | **Medium**  | **Medium**   | Schema design workshop with consultants (Week 0); use JSONB for flexible fields; validate with 3+ framework types; implement schema versioning; design migration-friendly architecture                                                 |
+| **TR.7** | **API Rate Limiting Impact**: Rate limits (100 req/min user, 1000 req/min org) too restrictive; blocks legitimate usage        | **Low**     | **Medium**   | Monitor rate limit hit rates; implement exponential backoff on client; queue non-critical requests; increase limits based on usage patterns; provide rate limit headers to clients                                                     |
+| **TR.8** | **Browser Compatibility Issues**: Modern features don't work on target browsers; user complaints about broken functionality    | **Low**     | **Low**      | Test on all browsers in Section 5.7; use feature detection; progressive enhancement; automated cross-browser testing in CI; display browser requirements on login                                                                      |
 
 ### 8.2 Business Risks
 
-| Risk ID | Description | Probability | Impact | Mitigation Strategy |
-|---------|-------------|-------------|--------|---------------------|
-| **BR.1** | **No Product-Market Fit**: Target customers don't see value in transformation framework platform; low adoption | **Medium** | **Critical** | Pre-development customer interviews (10 customers, Week -1); pilot program with 3-5 clients; measure B.1-B.5 business metrics; iterate based on feedback; maintain consulting revenue stream as fallback; validate Assumption B.1 |
-| **BR.2** | **Timeline Slippage**: 12-week MVP timeline not achievable; delayed launch misses market window | **High** | **High** | Weekly milestone tracking; sprint velocity monitoring; ruthless scope prioritization (Must Have only); risk buffer (10% contingency); parallel workstreams where possible; reduce scope before extending timeline; validate Assumption B.6 |
-| **BR.3** | **Consulting Revenue Cannibalization**: Product cannibalizes consulting revenue without replacement; net revenue loss | **Medium** | **High** | Track consulting vs. product revenue separately; price product to maintain revenue parity; position as consulting enabler not replacement; validate Assumption B.2; hybrid model with professional services tier |
-| **BR.4** | **Pricing Model Uncertainty**: Cannot determine viable pricing; revenue insufficient to sustain business | **Medium** | **High** | Pricing experiments in pilot (Week 20); willingness-to-pay surveys; competitive analysis; cost modeling; start with annual contracts for predictability; validate Assumption B.4; multiple pricing tiers |
-| **BR.5** | **Competitive Entry**: Major competitor (Accenture, Deloitte, consultancy with tech) launches similar platform | **Medium** | **Medium** | Quarterly competitive analysis; focus on niche differentiation (marketing transformation); build switching costs (content lock-in, integrations); accelerate feature velocity; validate Assumption B.5; emphasize MK3 domain expertise |
-| **BR.6** | **Insufficient Internal Adoption**: MK3 consultants resist using platform; prefer spreadsheets | **Medium** | **High** | Internal user pilot (Week 4); consultant involvement in design; demonstrate time savings (O.1 metric); provide training and support; tie adoption to performance metrics; validate Assumption U.3; executive sponsorship |
-| **BR.7** | **Customer Support Overwhelm**: Support requests exceed capacity; poor user experience; consultant distraction | **Medium** | **Medium** | Comprehensive documentation (Feature M.6); in-app help; self-service tutorials; monitor support volume vs. documentation views (Assumption U.5); hire support specialist at 50 active orgs; implement ticketing system in Phase 4A |
-| **BR.8** | **Enterprise Sales Cycle Length**: Enterprise deals require 6-12 month sales cycles; slow growth | **High** | **Medium** | Focus on SMB/SaaS market initially (faster sales cycles); land-and-expand strategy; start with consulting clients (warm leads); offer pilot programs; measure B.2 (Active Organizations) metric; adjust growth targets if needed |
+| Risk ID  | Description                                                                                                           | Probability | Impact       | Mitigation Strategy                                                                                                                                                                                                                        |
+| -------- | --------------------------------------------------------------------------------------------------------------------- | ----------- | ------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| **BR.1** | **No Product-Market Fit**: Target customers don't see value in transformation framework platform; low adoption        | **Medium**  | **Critical** | Pre-development customer interviews (10 customers, Week -1); pilot program with 3-5 clients; measure B.1-B.5 business metrics; iterate based on feedback; maintain consulting revenue stream as fallback; validate Assumption B.1          |
+| **BR.2** | **Timeline Slippage**: 12-week MVP timeline not achievable; delayed launch misses market window                       | **High**    | **High**     | Weekly milestone tracking; sprint velocity monitoring; ruthless scope prioritization (Must Have only); risk buffer (10% contingency); parallel workstreams where possible; reduce scope before extending timeline; validate Assumption B.6 |
+| **BR.3** | **Consulting Revenue Cannibalization**: Product cannibalizes consulting revenue without replacement; net revenue loss | **Medium**  | **High**     | Track consulting vs. product revenue separately; price product to maintain revenue parity; position as consulting enabler not replacement; validate Assumption B.2; hybrid model with professional services tier                           |
+| **BR.4** | **Pricing Model Uncertainty**: Cannot determine viable pricing; revenue insufficient to sustain business              | **Medium**  | **High**     | Pricing experiments in pilot (Week 20); willingness-to-pay surveys; competitive analysis; cost modeling; start with annual contracts for predictability; validate Assumption B.4; multiple pricing tiers                                   |
+| **BR.5** | **Competitive Entry**: Major competitor (Accenture, Deloitte, consultancy with tech) launches similar platform        | **Medium**  | **Medium**   | Quarterly competitive analysis; focus on niche differentiation (marketing transformation); build switching costs (content lock-in, integrations); accelerate feature velocity; validate Assumption B.5; emphasize MK3 domain expertise     |
+| **BR.6** | **Insufficient Internal Adoption**: MK3 consultants resist using platform; prefer spreadsheets                        | **Medium**  | **High**     | Internal user pilot (Week 4); consultant involvement in design; demonstrate time savings (O.1 metric); provide training and support; tie adoption to performance metrics; validate Assumption U.3; executive sponsorship                   |
+| **BR.7** | **Customer Support Overwhelm**: Support requests exceed capacity; poor user experience; consultant distraction        | **Medium**  | **Medium**   | Comprehensive documentation (Feature M.6); in-app help; self-service tutorials; monitor support volume vs. documentation views (Assumption U.5); hire support specialist at 50 active orgs; implement ticketing system in Phase 4A         |
+| **BR.8** | **Enterprise Sales Cycle Length**: Enterprise deals require 6-12 month sales cycles; slow growth                      | **High**    | **Medium**   | Focus on SMB/SaaS market initially (faster sales cycles); land-and-expand strategy; start with consulting clients (warm leads); offer pilot programs; measure B.2 (Active Organizations) metric; adjust growth targets if needed           |
 
 ### 8.3 User Experience Risks
 
-| Risk ID | Description | Probability | Impact | Mitigation Strategy |
-|---------|-------------|-------------|--------|---------------------|
-| **UR.1** | **Complex Onboarding**: Users struggle to understand platform; high time-to-first-value (> 15 min target) | **High** | **High** | Usability testing (Week 3, 5 users); guided onboarding flow; interactive tutorials; empty state guidance; measure U.6 metric; simplify MVP scope; validate Assumption U.2; provide templates for quick starts |
-| **UR.2** | **Mobile Experience Insufficient**: Mobile usage higher than expected (> 30%); mobile UX inadequate for content creation | **Medium** | **Medium** | Track U.7 (Mobile Usage Rate) from launch; mobile-first design for key views; responsive testing on devices in Section 5.7; accelerate Feature S.7 if mobile > 40%; validate Assumption U.4; optimize for tablet creation |
-| **UR.3** | **Framework Builder Too Complex**: Creating transformation frameworks is unintuitive; users require consultant help | **High** | **High** | Consultant feedback in design; iterative prototyping; template library to reduce creation from scratch; measure O.1 (Content Creation Time); usability testing; validate Assumption B.3; wizard-based workflows |
-| **UR.4** | **Performance Perception**: Users perceive platform as slow even if meeting technical metrics (< 2s load) | **Medium** | **Medium** | Optimistic UI updates; loading states; skeleton screens; progressive rendering; perceived performance > actual performance; monitor qualitative feedback; implement instant feedback for user actions; cache aggressively on client |
-| **UR.5** | **Search Ineffectiveness**: Users cannot find content; low search success rate (< 70% target) | **Medium** | **Medium** | Implement full-text search (Feature S.5); faceted filtering; auto-suggest; search analytics; measure C.3 (Search Success Rate); improve search relevance algorithms; provide recent items and favorites |
-| **UR.6** | **Export Quality Issues**: PDF/PowerPoint exports don't meet professional standards; users dissatisfied with client-facing output | **Medium** | **High** | Design export templates with branding; preview before export; test with real client examples; collect feedback on export quality; manual review process initially; measure C.2 (Framework View-to-Export Ratio) |
-| **UR.7** | **Collaboration Confusion**: Multi-user editing causes conflicts; users overwrite each other's work | **Low** | **Medium** | Clear "last edited by" indicators; version history; change notifications; conflict resolution UI; limit concurrent editing in MVP (Constraint T.7); implement optimistic locking; measure O.4 (Collaboration Activity) |
-| **UR.8** | **Information Overload**: Dashboard presents too much data; users overwhelmed and don't know where to start | **Medium** | **Low** | Progressive disclosure; role-based views; customizable dashboards; clear visual hierarchy; user testing on information density; default views optimized per persona; hide advanced features initially |
+| Risk ID  | Description                                                                                                                       | Probability | Impact     | Mitigation Strategy                                                                                                                                                                                                                 |
+| -------- | --------------------------------------------------------------------------------------------------------------------------------- | ----------- | ---------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **UR.1** | **Complex Onboarding**: Users struggle to understand platform; high time-to-first-value (> 15 min target)                         | **High**    | **High**   | Usability testing (Week 3, 5 users); guided onboarding flow; interactive tutorials; empty state guidance; measure U.6 metric; simplify MVP scope; validate Assumption U.2; provide templates for quick starts                       |
+| **UR.2** | **Mobile Experience Insufficient**: Mobile usage higher than expected (> 30%); mobile UX inadequate for content creation          | **Medium**  | **Medium** | Track U.7 (Mobile Usage Rate) from launch; mobile-first design for key views; responsive testing on devices in Section 5.7; accelerate Feature S.7 if mobile > 40%; validate Assumption U.4; optimize for tablet creation           |
+| **UR.3** | **Framework Builder Too Complex**: Creating transformation frameworks is unintuitive; users require consultant help               | **High**    | **High**   | Consultant feedback in design; iterative prototyping; template library to reduce creation from scratch; measure O.1 (Content Creation Time); usability testing; validate Assumption B.3; wizard-based workflows                     |
+| **UR.4** | **Performance Perception**: Users perceive platform as slow even if meeting technical metrics (< 2s load)                         | **Medium**  | **Medium** | Optimistic UI updates; loading states; skeleton screens; progressive rendering; perceived performance > actual performance; monitor qualitative feedback; implement instant feedback for user actions; cache aggressively on client |
+| **UR.5** | **Search Ineffectiveness**: Users cannot find content; low search success rate (< 70% target)                                     | **Medium**  | **Medium** | Implement full-text search (Feature S.5); faceted filtering; auto-suggest; search analytics; measure C.3 (Search Success Rate); improve search relevance algorithms; provide recent items and favorites                             |
+| **UR.6** | **Export Quality Issues**: PDF/PowerPoint exports don't meet professional standards; users dissatisfied with client-facing output | **Medium**  | **High**   | Design export templates with branding; preview before export; test with real client examples; collect feedback on export quality; manual review process initially; measure C.2 (Framework View-to-Export Ratio)                     |
+| **UR.7** | **Collaboration Confusion**: Multi-user editing causes conflicts; users overwrite each other's work                               | **Low**     | **Medium** | Clear "last edited by" indicators; version history; change notifications; conflict resolution UI; limit concurrent editing in MVP (Constraint T.7); implement optimistic locking; measure O.4 (Collaboration Activity)              |
+| **UR.8** | **Information Overload**: Dashboard presents too much data; users overwhelmed and don't know where to start                       | **Medium**  | **Low**    | Progressive disclosure; role-based views; customizable dashboards; clear visual hierarchy; user testing on information density; default views optimized per persona; hide advanced features initially                               |
 
 ### 8.4 Risk Management Process
 
@@ -1717,23 +1720,25 @@ Before moving to the next phase, validate:
 #### Risk Escalation Criteria
 
 **Immediate Escalation** (within 24 hours):
+
 - **Critical Impact** risks materialized (TR.4, BR.1)
 - Multiple **High Impact** risks trending negative
 - Any risk blocking MVP launch
 
 **Weekly Escalation** (at sprint review):
+
 - **High Impact** risks with increasing probability
 - Mitigation strategies not working as planned
 - New risks identified with **High/Critical** impact
 
 #### Risk Response Framework
 
-| Risk Level | Probability | Impact | Response | Owner |
-|------------|-------------|--------|----------|-------|
-| **Critical** | Any | Critical | Immediate action; executive involvement; halt feature work if needed | Executive Team |
-| **High** | High | High | Active mitigation; daily monitoring; dedicated sprint capacity | Product/Tech Lead |
-| **Medium** | Med | Med-High | Monitor weekly; implement mitigation; adjust plans | Feature Owner |
-| **Low** | Low | Any | Monitor monthly; document in risk register | Product Manager |
+| Risk Level   | Probability | Impact   | Response                                                             | Owner             |
+| ------------ | ----------- | -------- | -------------------------------------------------------------------- | ----------------- |
+| **Critical** | Any         | Critical | Immediate action; executive involvement; halt feature work if needed | Executive Team    |
+| **High**     | High        | High     | Active mitigation; daily monitoring; dedicated sprint capacity       | Product/Tech Lead |
+| **Medium**   | Med         | Med-High | Monitor weekly; implement mitigation; adjust plans                   | Feature Owner     |
+| **Low**      | Low         | Any      | Monitor monthly; document in risk register                           | Product Manager   |
 
 #### Top 5 Risks Requiring Immediate Attention
 
@@ -1764,7 +1769,7 @@ The following risks are **transferred** to third parties:
 
 ## 9. Out of Scope
 
-*This section explicitly defines features and capabilities that are NOT included in the MVP release to manage expectations and focus the development effort on core value delivery.*
+_This section explicitly defines features and capabilities that are NOT included in the MVP release to manage expectations and focus the development effort on core value delivery._
 
 ### 9.1 Explicitly Excluded Features
 
@@ -1864,11 +1869,11 @@ The following risks are **transferred** to third parties:
   - Prioritize platform stability over integration breadth
 - **Examples of Excluded Integrations**:
   - Project management tools (Asana, Monday.com, Jira)
-  - Communication platforms (Slack, Microsoft Teams) - *Future consideration in Phase 6A*
-  - Cloud storage (Google Drive, Dropbox, OneDrive) - *Future consideration in Phase 6A*
+  - Communication platforms (Slack, Microsoft Teams) - _Future consideration in Phase 6A_
+  - Cloud storage (Google Drive, Dropbox, OneDrive) - _Future consideration in Phase 6A_
   - Email marketing (Mailchimp, SendGrid)
-  - Analytics platforms (Google Analytics, Mixpanel) - *Internal analytics only in MVP*
-  - Payment processors (Stripe, PayPal) - *Only if monetization requires (Phase 7A-8A)*
+  - Analytics platforms (Google Analytics, Mixpanel) - _Internal analytics only in MVP_
+  - Payment processors (Stripe, PayPal) - _Only if monetization requires (Phase 7A-8A)_
 - **Future Consideration**: **YES** - Phase 6A focuses on strategic integrations (Slack, Teams, Google Drive)
 - **Validation Trigger**: User research identifies top 3 integration requests post-MVP
 - **Cross-Reference**: See Epic 6A.3: Third-Party Integrations (Phase 6A, Q3 2026)
@@ -2030,7 +2035,7 @@ The following risks are **transferred** to third parties:
 
 ### 9.2 Future Considerations
 
-*Features that may be considered for future releases after MVP validation and product-market fit confirmation.*
+_Features that may be considered for future releases after MVP validation and product-market fit confirmation._
 
 #### 9.2.1 Phase 6A-7A: Enhancements & Integrations (Q3-Q4 2026)
 
@@ -2040,7 +2045,7 @@ The following risks are **transferred** to third parties:
 - Google Drive/Dropbox integration for file attachments
 - Calendar integration (Google Calendar, Outlook) for project timeline sync
 - CRM integration (Salesforce, HubSpot) for linking projects to deals
-- *Rationale for Future*: Integrations add value after core product is stable and users request specific tools
+- _Rationale for Future_: Integrations add value after core product is stable and users request specific tools
 
 **Advanced Analytics & Insights** (Epic 7A.5)
 
@@ -2049,7 +2054,7 @@ The following risks are **transferred** to third parties:
 - Custom report builder with advanced visualizations
 - Cohort analysis (user segments, usage patterns)
 - Data export to external BI tools (Tableau, PowerBI)
-- *Rationale for Future*: Requires 6+ months of usage data to provide meaningful insights
+- _Rationale for Future_: Requires 6+ months of usage data to provide meaningful insights
 
 **Performance Optimization** (Epic 6A.2)
 
@@ -2057,7 +2062,7 @@ The following risks are **transferred** to third parties:
 - Database query optimization and indexing
 - Image optimization and lazy loading
 - Code splitting and bundle size reduction
-- *Rationale for Future*: Optimize after MVP performance bottlenecks identified through real usage
+- _Rationale for Future_: Optimize after MVP performance bottlenecks identified through real usage
 
 **Advanced Search Infrastructure** (Enhancement to Feature S.5)
 
@@ -2066,7 +2071,7 @@ The following risks are **transferred** to third parties:
 - Search analytics and relevance tuning
 - Autocomplete and typo tolerance
 - Search result ranking customization
-- *Rationale for Future*: PostgreSQL full-text search sufficient for MVP; evaluate dedicated search if performance targets not met or advanced features requested by users
+- _Rationale for Future_: PostgreSQL full-text search sufficient for MVP; evaluate dedicated search if performance targets not met or advanced features requested by users
 
 #### 9.2.2 Phase 7A-8A: Production Readiness (Q4 2026 - Q1 2027)
 
@@ -2076,7 +2081,7 @@ The following risks are **transferred** to third parties:
 - SSO (SAML, OKTA) for enterprise clients
 - Advanced audit logging with tamper-proof archives
 - IP whitelisting and network policies
-- *Rationale for Future*: Enterprise features needed for larger organizations (100+ users)
+- _Rationale for Future_: Enterprise features needed for larger organizations (100+ users)
 
 **Multi-Language Support** (Epic 8A.1)
 
@@ -2084,7 +2089,7 @@ The following risks are **transferred** to third parties:
 - RTL language support (Arabic, Hebrew)
 - Locale-specific formatting (dates, numbers, currency)
 - Translation management system
-- *Rationale for Future*: International expansion after US/UK market validated (see Feature E.13)
+- _Rationale for Future_: International expansion after US/UK market validated (see Feature E.13)
 
 **Mobile Native Apps** (Epic 8A.2)
 
@@ -2092,7 +2097,7 @@ The following risks are **transferred** to third parties:
 - Android native app (Kotlin/Jetpack Compose)
 - Offline sync capabilities
 - Push notifications
-- *Rationale for Future*: Native apps after web MVP validates mobile usage patterns (see Feature E.1)
+- _Rationale for Future_: Native apps after web MVP validates mobile usage patterns (see Feature E.1)
 
 #### 9.2.3 Enterprise Features (Post-Phase 8A)
 
@@ -2102,7 +2107,7 @@ The following risks are **transferred** to third parties:
 - Custom domains per reseller
 - Partner portal for reseller management
 - Tiered pricing and revenue share models
-- *Rationale for Future*: Consider if 5+ agencies request reseller capabilities post-MVP
+- _Rationale for Future_: Consider if 5+ agencies request reseller capabilities post-MVP
 
 **Advanced RBAC & Permissions** (Enhancement to Epic 5A.2)
 
@@ -2110,7 +2115,7 @@ The following risks are **transferred** to third parties:
 - Granular permissions per resource type
 - Permission inheritance and overrides
 - Organization hierarchy (parent/child organizations)
-- *Rationale for Future*: Enterprise clients may require more sophisticated permission models
+- _Rationale for Future_: Enterprise clients may require more sophisticated permission models
 
 **Regional Data Residency** (See Feature E.14)
 
@@ -2118,7 +2123,7 @@ The following risks are **transferred** to third parties:
 - User-selectable data residency during sign-up
 - Data replication and sync across regions
 - Region-aware CDN and edge compute
-- *Rationale for Future*: Enterprise compliance requirements for specific regions
+- _Rationale for Future_: Enterprise compliance requirements for specific regions
 
 #### 9.2.4 Advanced Collaboration Features (Post-MVP)
 
@@ -2128,7 +2133,7 @@ The following risks are **transferred** to third parties:
 - Screen sharing integration for live collaboration sessions
 - Collaborative editing with operational transforms (CRDT)
 - Version control with branching/merging for frameworks
-- *Rationale for Future*: Advanced collaboration after text-based collaboration validated in MVP
+- _Rationale for Future_: Advanced collaboration after text-based collaboration validated in MVP
 
 **Workflow Automation** (New Epic)
 
@@ -2136,7 +2141,7 @@ The following risks are **transferred** to third parties:
 - Scheduled actions (e.g., weekly report generation)
 - Webhooks for external integrations
 - Email notifications with custom triggers
-- *Rationale for Future*: Users request automation for repetitive tasks
+- _Rationale for Future_: Users request automation for repetitive tasks
 
 **AI-Assisted Features** (See Feature E.10)
 
@@ -2144,7 +2149,7 @@ The following risks are **transferred** to third parties:
 - Auto-categorization and tagging suggestions
 - Content summarization for long frameworks
 - Smart recommendations based on similar frameworks
-- *Rationale for Future*: AI features after usage patterns understood and value validated
+- _Rationale for Future_: AI features after usage patterns understood and value validated
 
 #### 9.2.5 Decision Framework for Future Features
 
@@ -2189,7 +2194,7 @@ When evaluating features for future inclusion, assess against these criteria:
 
 ## 10. Stakeholder Sign-Off
 
-*This section tracks formal approval of the PRD by key stakeholders and documents major decisions made during PRD development.*
+_This section tracks formal approval of the PRD by key stakeholders and documents major decisions made during PRD development._
 
 ### 10.1 Approval Status
 
@@ -2199,28 +2204,29 @@ When evaluating features for future inclusion, assess against these criteria:
 
 #### 10.1.1 Required Approvals
 
-| Stakeholder | Role | Approval Status | Date | Comments |
-|-------------|------|-----------------|------|----------|
-| [Name TBD] | **Product Manager** | ⏳ Pending Review | | Responsible for product vision alignment and feature prioritization |
-| [Name TBD] | **Technical Lead / Engineering Architect** | ⏳ Pending Review | | Validates technical feasibility, constraints, and architecture alignment |
-| [Name TBD] | **Engineering Manager** | ⏳ Pending Review | | Confirms resource availability, timeline feasibility, and team capacity |
-| [Name TBD] | **UX/Design Lead** | ⏳ Pending Review | | Ensures user experience requirements and accessibility compliance |
-| [Name TBD] | **Business Owner / Founder** | ⏳ Pending Review | | Final approval on business strategy, assumptions, and success metrics |
+| Stakeholder | Role                                       | Approval Status   | Date | Comments                                                                 |
+| ----------- | ------------------------------------------ | ----------------- | ---- | ------------------------------------------------------------------------ |
+| [Name TBD]  | **Product Manager**                        | ⏳ Pending Review |      | Responsible for product vision alignment and feature prioritization      |
+| [Name TBD]  | **Technical Lead / Engineering Architect** | ⏳ Pending Review |      | Validates technical feasibility, constraints, and architecture alignment |
+| [Name TBD]  | **Engineering Manager**                    | ⏳ Pending Review |      | Confirms resource availability, timeline feasibility, and team capacity  |
+| [Name TBD]  | **UX/Design Lead**                         | ⏳ Pending Review |      | Ensures user experience requirements and accessibility compliance        |
+| [Name TBD]  | **Business Owner / Founder**               | ⏳ Pending Review |      | Final approval on business strategy, assumptions, and success metrics    |
 
 **Approval Legend**:
+
 - ⏳ **Pending Review** - Stakeholder has not yet reviewed the PRD
 - 🔄 **Under Review** - Stakeholder is actively reviewing and may request changes
 - ✅ **Approved** - Stakeholder has approved the PRD without conditions
-- ✅* **Approved with Conditions** - Stakeholder approved with minor adjustments documented in comments
+- ✅\* **Approved with Conditions** - Stakeholder approved with minor adjustments documented in comments
 - ❌ **Rejected** - Stakeholder has rejected the PRD; significant changes required
 
 #### 10.1.2 Optional Reviewers
 
-| Reviewer | Role | Review Status | Date | Feedback |
-|----------|------|---------------|------|----------|
-| [Name TBD] | **Security Lead** | ⏳ Pending | | Review security requirements (Section 5.2) and compliance (Section 5.3) |
-| [Name TBD] | **Customer Success / Support Lead** | ⏳ Pending | | Validate user personas and constraints related to customer support |
-| [Name TBD] | **Sales / Marketing Lead** | ⏳ Pending | | Review go-to-market assumptions and success metrics alignment |
+| Reviewer   | Role                                | Review Status | Date | Feedback                                                                |
+| ---------- | ----------------------------------- | ------------- | ---- | ----------------------------------------------------------------------- |
+| [Name TBD] | **Security Lead**                   | ⏳ Pending    |      | Review security requirements (Section 5.2) and compliance (Section 5.3) |
+| [Name TBD] | **Customer Success / Support Lead** | ⏳ Pending    |      | Validate user personas and constraints related to customer support      |
+| [Name TBD] | **Sales / Marketing Lead**          | ⏳ Pending    |      | Review go-to-market assumptions and success metrics alignment           |
 
 #### 10.1.3 Sign-Off Instructions
 
@@ -2246,26 +2252,26 @@ When evaluating features for future inclusion, assess against these criteria:
 
 ### 10.2 Decision Log
 
-*This log documents key decisions made during PRD development, including trade-offs, scope changes, and strategic pivots. New decisions should be added chronologically.*
+_This log documents key decisions made during PRD development, including trade-offs, scope changes, and strategic pivots. New decisions should be added chronologically._
 
-| Date | Decision | Rationale | Decision Maker | Impact |
-|------|----------|-----------|----------------|--------|
-| 2025-11-24 | **Technology Stack: Next.js 16 (App Router) + React 19 + TypeScript** | Aligns with team expertise and roadmap (Epic P.2); leverages modern React features (Server Components, Actions); strong Vercel ecosystem integration | Technical Lead, Product Manager | Sets foundation for all technical decisions; constrains framework choices (Constraint T.1) |
-| 2025-11-24 | **Database: PostgreSQL (Neon or Supabase)** | Serverless PostgreSQL provides scalability without ops overhead; strong support for RLS (multi-tenancy); JSON support for flexible schema evolution | Technical Lead, Engineering Manager | Enables multi-tenant architecture with RLS; influences data modeling approach (Constraint T.2) |
-| 2025-11-24 | **Authentication: Clerk** | Best-in-class developer experience; pre-built UI components; supports MFA, SSO (future), and RBAC out of the box; reduces auth development time by 3-4 weeks | Technical Lead, Product Manager | Accelerates MVP timeline; outsources security-critical functionality; creates vendor dependency (Constraint T.3, Dependency D.1) |
-| 2025-11-24 | **Deployment: Vercel** | Native Next.js support; automatic scaling; edge network; integrated analytics; minimal DevOps overhead | Technical Lead, Engineering Manager | Simplifies deployment and infrastructure management; locks into Vercel ecosystem (Constraint T.4) |
-| 2025-11-24 | **MVP Scope: No Native Mobile Apps** | Web-first approach maximizes reach with minimal platform-specific development; target users primarily work on desktop; PWA provides adequate mobile experience for validation | Product Manager, Engineering Manager | Reduces MVP timeline by 8-12 weeks; focuses resources on core web experience (Feature E.1) |
-| 2025-11-24 | **MVP Scope: No Video Conferencing Integration** | Users have preferred video tools (Zoom, Teams, Meet); integration complexity distracts from core framework management; not a differentiator | Product Manager, Business Owner | Simplifies MVP scope; allows focus on text-based collaboration (Feature E.3) |
-| 2025-11-24 | **MVP Scope: English-Only Market** | Initial focus on US/UK agencies and consultants; i18n adds 4-6 weeks to timeline and ongoing translation costs; defer until product-market fit validated | Product Manager, Business Owner | Accelerates MVP timeline; reduces localization complexity; limits initial addressable market (Constraint B.3, Feature E.13) |
-| 2025-11-24 | **Real-Time Collaboration: Text-Based (Epic 5A.1)** | MVP includes live cursors, presence indicators, comments, but excludes audio/video chat; balances collaboration needs with technical complexity | Product Manager, Technical Lead | Provides essential collaboration features without WebRTC infrastructure; aligns with desktop-first focus |
-| 2025-11-24 | **Multi-Tenancy: Organization-Based with RLS** | Each organization is isolated at database level using Row-Level Security; supports 4 roles (Internal, SaaS Seller, Agency Seller, Client) | Technical Lead, Product Manager | Ensures data isolation and security; enables RBAC; scales efficiently without application-level filtering (Epic 5A.2) |
-| 2025-11-24 | **Performance Targets: Core Web Vitals "Good" Rating** | LCP < 2.5s, FID < 100ms, CLS < 0.1 (p75); aligns with Google's recommendations and user expectations for modern web apps | Technical Lead, UX/Design Lead | Sets measurable performance baseline; influences caching strategy, code splitting, and optimization priorities (Section 5.1) |
-| 2025-11-24 | **Security Compliance: GDPR/CCPA in MVP** | Despite US/UK initial focus, GDPR compliance required for any EU users; CCPA for California users; build privacy-first from start | Technical Lead, Business Owner, Legal Counsel (if applicable) | Requires data retention policies, deletion workflows, consent management, audit logging; prevents costly retrofitting (Section 5.3, Constraint L.2) |
-| 2025-11-24 | **Accessibility: WCAG 2.1 Level AA Target** | Phased approach: 80% compliance at MVP launch, 100% at 6 months; focus on keyboard navigation, screen reader support, color contrast | UX/Design Lead, Product Manager | Ensures inclusive design; may require additional testing and remediation; positions platform for enterprise sales (Section 5.6) |
-| 2025-11-24 | **Timeline: 12-Week MVP Development** | Aggressive but achievable timeline with 2-3 engineers; assumes no major scope creep or technical blockers; 20% buffer built into roadmap | Engineering Manager, Business Owner | Tight timeline requires disciplined scope management; high risk of slippage if assumptions invalid (Constraint B.1, Risk BR.2) |
-| 2025-11-24 | **Monetization: Simple Pricing in MVP** | Defer complex pricing tiers and paywalls until usage patterns understood; MVP may launch as free beta or simple flat-rate plan | Product Manager, Business Owner | Focuses MVP on product validation over monetization; defers pricing optimization (Assumption B.4, Feature E.15) |
-| 2025-11-24 | **Framework Builder: Block-Based (Epic 3A.1)** | Users compose frameworks from reusable blocks (text, images, files, embeds); balances flexibility with structure | Product Manager, UX/Design Lead | Core differentiator; influences schema design and editor implementation; requires intuitive UX to avoid complexity (Risk UR.3) |
-| 2025-11-24 | **Client Portal: View-Only in MVP (Epic 4A.1)** | Clients can view shared frameworks but cannot edit; agency/consultant retains control; simplifies permissions and collaboration model | Product Manager, UX/Design Lead | Reduces MVP complexity; aligns with current agency workflows (consultant creates, client reviews) |
+| Date       | Decision                                                              | Rationale                                                                                                                                                                     | Decision Maker                                                | Impact                                                                                                                                              |
+| ---------- | --------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------- |
+| 2025-11-24 | **Technology Stack: Next.js 16 (App Router) + React 19 + TypeScript** | Aligns with team expertise and roadmap (Epic P.2); leverages modern React features (Server Components, Actions); strong Vercel ecosystem integration                          | Technical Lead, Product Manager                               | Sets foundation for all technical decisions; constrains framework choices (Constraint T.1)                                                          |
+| 2025-11-24 | **Database: PostgreSQL (Neon or Supabase)**                           | Serverless PostgreSQL provides scalability without ops overhead; strong support for RLS (multi-tenancy); JSON support for flexible schema evolution                           | Technical Lead, Engineering Manager                           | Enables multi-tenant architecture with RLS; influences data modeling approach (Constraint T.2)                                                      |
+| 2025-11-24 | **Authentication: Clerk**                                             | Best-in-class developer experience; pre-built UI components; supports MFA, SSO (future), and RBAC out of the box; reduces auth development time by 3-4 weeks                  | Technical Lead, Product Manager                               | Accelerates MVP timeline; outsources security-critical functionality; creates vendor dependency (Constraint T.3, Dependency D.1)                    |
+| 2025-11-24 | **Deployment: Vercel**                                                | Native Next.js support; automatic scaling; edge network; integrated analytics; minimal DevOps overhead                                                                        | Technical Lead, Engineering Manager                           | Simplifies deployment and infrastructure management; locks into Vercel ecosystem (Constraint T.4)                                                   |
+| 2025-11-24 | **MVP Scope: No Native Mobile Apps**                                  | Web-first approach maximizes reach with minimal platform-specific development; target users primarily work on desktop; PWA provides adequate mobile experience for validation | Product Manager, Engineering Manager                          | Reduces MVP timeline by 8-12 weeks; focuses resources on core web experience (Feature E.1)                                                          |
+| 2025-11-24 | **MVP Scope: No Video Conferencing Integration**                      | Users have preferred video tools (Zoom, Teams, Meet); integration complexity distracts from core framework management; not a differentiator                                   | Product Manager, Business Owner                               | Simplifies MVP scope; allows focus on text-based collaboration (Feature E.3)                                                                        |
+| 2025-11-24 | **MVP Scope: English-Only Market**                                    | Initial focus on US/UK agencies and consultants; i18n adds 4-6 weeks to timeline and ongoing translation costs; defer until product-market fit validated                      | Product Manager, Business Owner                               | Accelerates MVP timeline; reduces localization complexity; limits initial addressable market (Constraint B.3, Feature E.13)                         |
+| 2025-11-24 | **Real-Time Collaboration: Text-Based (Epic 5A.1)**                   | MVP includes live cursors, presence indicators, comments, but excludes audio/video chat; balances collaboration needs with technical complexity                               | Product Manager, Technical Lead                               | Provides essential collaboration features without WebRTC infrastructure; aligns with desktop-first focus                                            |
+| 2025-11-24 | **Multi-Tenancy: Organization-Based with RLS**                        | Each organization is isolated at database level using Row-Level Security; supports 4 roles (Internal, SaaS Seller, Agency Seller, Client)                                     | Technical Lead, Product Manager                               | Ensures data isolation and security; enables RBAC; scales efficiently without application-level filtering (Epic 5A.2)                               |
+| 2025-11-24 | **Performance Targets: Core Web Vitals "Good" Rating**                | LCP < 2.5s, FID < 100ms, CLS < 0.1 (p75); aligns with Google's recommendations and user expectations for modern web apps                                                      | Technical Lead, UX/Design Lead                                | Sets measurable performance baseline; influences caching strategy, code splitting, and optimization priorities (Section 5.1)                        |
+| 2025-11-24 | **Security Compliance: GDPR/CCPA in MVP**                             | Despite US/UK initial focus, GDPR compliance required for any EU users; CCPA for California users; build privacy-first from start                                             | Technical Lead, Business Owner, Legal Counsel (if applicable) | Requires data retention policies, deletion workflows, consent management, audit logging; prevents costly retrofitting (Section 5.3, Constraint L.2) |
+| 2025-11-24 | **Accessibility: WCAG 2.1 Level AA Target**                           | Phased approach: 80% compliance at MVP launch, 100% at 6 months; focus on keyboard navigation, screen reader support, color contrast                                          | UX/Design Lead, Product Manager                               | Ensures inclusive design; may require additional testing and remediation; positions platform for enterprise sales (Section 5.6)                     |
+| 2025-11-24 | **Timeline: 12-Week MVP Development**                                 | Aggressive but achievable timeline with 2-3 engineers; assumes no major scope creep or technical blockers; 20% buffer built into roadmap                                      | Engineering Manager, Business Owner                           | Tight timeline requires disciplined scope management; high risk of slippage if assumptions invalid (Constraint B.1, Risk BR.2)                      |
+| 2025-11-24 | **Monetization: Simple Pricing in MVP**                               | Defer complex pricing tiers and paywalls until usage patterns understood; MVP may launch as free beta or simple flat-rate plan                                                | Product Manager, Business Owner                               | Focuses MVP on product validation over monetization; defers pricing optimization (Assumption B.4, Feature E.15)                                     |
+| 2025-11-24 | **Framework Builder: Block-Based (Epic 3A.1)**                        | Users compose frameworks from reusable blocks (text, images, files, embeds); balances flexibility with structure                                                              | Product Manager, UX/Design Lead                               | Core differentiator; influences schema design and editor implementation; requires intuitive UX to avoid complexity (Risk UR.3)                      |
+| 2025-11-24 | **Client Portal: View-Only in MVP (Epic 4A.1)**                       | Clients can view shared frameworks but cannot edit; agency/consultant retains control; simplifies permissions and collaboration model                                         | Product Manager, UX/Design Lead                               | Reduces MVP complexity; aligns with current agency workflows (consultant creates, client reviews)                                                   |
 
 #### 10.2.1 Decision Categories
 
@@ -2289,6 +2295,7 @@ If stakeholder review or development uncovers the need for significant PRD chang
 6. **Re-approval**: If change is significant (scope, timeline, budget), require fresh sign-off from affected stakeholders
 
 **Example Change Request Entry**:
+
 ```
 | Date | Decision | Rationale | Decision Maker | Impact |
 | 2025-12-XX | **CHANGE REQUEST**: Add Slack Integration to MVP | User interviews reveal 80% of target users want Slack notifications; high-priority feature request | Product Manager (requested), Pending Approval | Would add 2 weeks to timeline; requires OAuth integration; affects Epic 6A.3 roadmap |
@@ -2311,6 +2318,7 @@ Before marking the PRD as "Approved" and beginning development:
 **Final Sign-Off**: Once all checklist items are complete, Business Owner updates their row to "✅ Approved" and adds final approval date. This signals the PRD is locked and development can begin.
 
 **Post-Approval Process**:
+
 - Lock the PRD from further edits (version control tag or document protection)
 - Distribute final approved PRD to all stakeholders via email or Slack
 - Schedule Epic P.2 (Technology Setup) kickoff meeting
@@ -2320,39 +2328,42 @@ Before marking the PRD as "Approved" and beginning development:
 
 ## 11. Acceptance Criteria (Epic P.1)
 
-*This section tracks completion status of Epic P.1 acceptance criteria as defined in the [Epic Delivery Roadmap v2.2](./3-roadmap.md). Each criterion must be fully addressed before the PRD is considered complete and ready for stakeholder sign-off.*
+_This section tracks completion status of Epic P.1 acceptance criteria as defined in the [Epic Delivery Roadmap v2.2](./3-roadmap.md). Each criterion must be fully addressed before the PRD is considered complete and ready for stakeholder sign-off._
 
 ### 11.1 Completion Status
 
 Per the roadmap (Epic P.1), this PRD is complete when all acceptance criteria are met:
 
-| # | Acceptance Criterion | Status | Location | Notes |
-|---|---------------------|--------|----------|-------|
-| 1 | **Problem statement defined** | ✅ **Complete** | Section 1 | Problem statement documented with current state, challenges, and desired future state; references real transformation frameworks (Lilly, Adobe, Omnicom) |
-| 2 | **Target users identified** | ✅ **Complete** | Section 2.1, 2.2 | Four primary user groups documented: Internal Users, SaaS Sellers, Agency Sellers, Clients; secondary users identified for future consideration |
-| 3 | **User personas documented** | ✅ **Complete** | Section 2.3 | Four detailed personas documented: (1) Sarah - MK3 Senior Consultant, (2) David - VP of Sales (SaaS Seller), (3) Michelle - Agency Account Director, (4) Robert - CMO (Client); includes background, goals, pain points, technical proficiency, usage context |
-| 4 | **Core features listed with priorities (MoSCoW)** | ✅ **Complete** | Section 3 | MoSCoW prioritization documented with 10 Must Have (M.1-M.10), 8 Should Have (S.1-S.8), 6 Could Have (C.1-C.6), and 10 Won't Have (W.1-W.10) features; mapped to roadmap epics |
-| 5 | **Success metrics defined (KPIs)** | ✅ **Complete** | Section 4 | KPIs documented across 4 categories: User Adoption (4.1), Business Impact (4.2), Technical Performance (4.3), User Experience (4.4); includes leading indicators, measurement frequency, targets, and evaluation gates |
-| 6 | **Non-functional requirements captured** | ✅ **Complete** | Section 5 | NFRs documented for: Performance (5.1), Security (5.2), Compliance (5.3 - GDPR/CCPA), Scalability (5.4), Availability & Reliability (5.5), Accessibility (5.6 - WCAG 2.1 Level AA), Browser & Device Support (5.7) |
-| 7 | **Constraints and assumptions documented** | ✅ **Complete** | Sections 6, 7 | **Constraints** (Section 6): Technical (T.1-T.7), Business (B.1-B.5), Legal/Regulatory (L.1-L.5), Third-Party Dependencies (D.1-D.8). **Assumptions** (Section 7): User (U.1-U.6), Technical (T.1-T.6), Business (B.1-B.7), with validation plan across 4 phases |
-| 8 | **Out of scope items explicitly listed** | ✅ **Complete** | Section 9 | 16 excluded features documented (E.1-E.16) across 6 categories with rationale, resource impact, future consideration status, and validation triggers; future considerations outlined for Phases 6A-8A+ |
-| 9 | **Stakeholder sign-off obtained** | 🔄 **Pending** | Section 10 | Approval framework established with required approvals (5 roles), optional reviewers (3 roles), decision log (16 decisions documented), and approval completion checklist; **awaiting stakeholder reviews and approvals** |
+| #   | Acceptance Criterion                              | Status          | Location         | Notes                                                                                                                                                                                                                                                            |
+| --- | ------------------------------------------------- | --------------- | ---------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| 1   | **Problem statement defined**                     | ✅ **Complete** | Section 1        | Problem statement documented with current state, challenges, and desired future state; references real transformation frameworks (Lilly, Adobe, Omnicom)                                                                                                         |
+| 2   | **Target users identified**                       | ✅ **Complete** | Section 2.1, 2.2 | Four primary user groups documented: Internal Users, SaaS Sellers, Agency Sellers, Clients; secondary users identified for future consideration                                                                                                                  |
+| 3   | **User personas documented**                      | ✅ **Complete** | Section 2.3      | Four detailed personas documented: (1) Sarah - MK3 Senior Consultant, (2) David - VP of Sales (SaaS Seller), (3) Michelle - Agency Account Director, (4) Robert - CMO (Client); includes background, goals, pain points, technical proficiency, usage context    |
+| 4   | **Core features listed with priorities (MoSCoW)** | ✅ **Complete** | Section 3        | MoSCoW prioritization documented with 10 Must Have (M.1-M.10), 8 Should Have (S.1-S.8), 6 Could Have (C.1-C.6), and 10 Won't Have (W.1-W.10) features; mapped to roadmap epics                                                                                   |
+| 5   | **Success metrics defined (KPIs)**                | ✅ **Complete** | Section 4        | KPIs documented across 4 categories: User Adoption (4.1), Business Impact (4.2), Technical Performance (4.3), User Experience (4.4); includes leading indicators, measurement frequency, targets, and evaluation gates                                           |
+| 6   | **Non-functional requirements captured**          | ✅ **Complete** | Section 5        | NFRs documented for: Performance (5.1), Security (5.2), Compliance (5.3 - GDPR/CCPA), Scalability (5.4), Availability & Reliability (5.5), Accessibility (5.6 - WCAG 2.1 Level AA), Browser & Device Support (5.7)                                               |
+| 7   | **Constraints and assumptions documented**        | ✅ **Complete** | Sections 6, 7    | **Constraints** (Section 6): Technical (T.1-T.7), Business (B.1-B.5), Legal/Regulatory (L.1-L.5), Third-Party Dependencies (D.1-D.8). **Assumptions** (Section 7): User (U.1-U.6), Technical (T.1-T.6), Business (B.1-B.7), with validation plan across 4 phases |
+| 8   | **Out of scope items explicitly listed**          | ✅ **Complete** | Section 9        | 16 excluded features documented (E.1-E.16) across 6 categories with rationale, resource impact, future consideration status, and validation triggers; future considerations outlined for Phases 6A-8A+                                                           |
+| 9   | **Stakeholder sign-off obtained**                 | 🔄 **Pending**  | Section 10       | Approval framework established with required approvals (5 roles), optional reviewers (3 roles), decision log (16 decisions documented), and approval completion checklist; **awaiting stakeholder reviews and approvals**                                        |
 
 ### 11.2 Epic P.1 Readiness Assessment
 
 **Overall Completion**: 8/9 criteria complete (89%)
 
 **Content Status**: ✅ **All content sections complete**
+
 - All required PRD sections have been authored with comprehensive detail
 - Cross-references between sections ensure internal consistency
 - Alignment with roadmap epics verified throughout
 
 **Remaining Work**: 🔄 **Stakeholder sign-off only**
+
 - PRD content is complete and ready for review
 - Requires stakeholder reviews and approvals per Section 10
 - No additional content authoring required
 
 **Next Steps**:
+
 1. Distribute PRD v1.0 to required approvers (Product Manager, Technical Lead, Engineering Manager, UX/Design Lead, Business Owner)
 2. Schedule review period (recommend [X] business days)
 3. Address any feedback or "Approved with Conditions" items
@@ -2366,6 +2377,7 @@ Per the roadmap (Epic P.1), this PRD is complete when all acceptance criteria ar
 Before finalizing stakeholder sign-off, verify the following quality standards:
 
 #### Content Quality
+
 - [x] All sections have substantive content (no placeholder TODOs remaining)
 - [x] Technical details are accurate and aligned with technology stack (Next.js 16, React 19, PostgreSQL, Clerk, Vercel)
 - [x] Business assumptions are realistic and validated against market research
@@ -2374,6 +2386,7 @@ Before finalizing stakeholder sign-off, verify the following quality standards:
 - [x] Risks are comprehensive with mitigation strategies documented
 
 #### Consistency
+
 - [x] Feature priorities (MoSCoW) align with roadmap epic sequencing (Must Have → Phase 0A-3A)
 - [x] Constraints referenced in multiple sections are consistent (e.g., 12-week timeline, 2-3 engineers)
 - [x] Third-party dependencies match across Section 6 (Constraints) and decision log
@@ -2381,12 +2394,14 @@ Before finalizing stakeholder sign-off, verify the following quality standards:
 - [x] Success metrics (Section 4) reference features defined in Section 3
 
 #### Traceability
+
 - [x] All Must Have features mapped to roadmap epics (0A-5A)
 - [x] All NFRs (Section 5) reference specific epics where applicable (e.g., Epic 6A.2: Performance Optimization)
 - [x] All risks (Section 8) reference related features, constraints, or assumptions
 - [x] Decision log (Section 10.2) documents rationale for all major technology and scope decisions
 
 #### Stakeholder Readiness
+
 - [x] Executive summary provides high-level overview (Section 1 Problem Statement serves this purpose)
 - [x] Technical depth appropriate for engineering team (Sections 5-6)
 - [x] Business case clear for non-technical stakeholders (Sections 1, 4, 7-business assumptions)
@@ -2429,22 +2444,22 @@ Once all 9 acceptance criteria are met (including stakeholder sign-off):
 
 ## 12. Revision History
 
-| Version | Date | Author | Changes |
-|---------|------|--------|---------|
-| 1.0 | 2025-11-24 | Claude Code | Initial structure created based on Epic P.1 requirements |
+| Version | Date       | Author      | Changes                                                  |
+| ------- | ---------- | ----------- | -------------------------------------------------------- |
+| 1.0     | 2025-11-24 | Claude Code | Initial structure created based on Epic P.1 requirements |
 
 ---
 
 ## Appendix A: Glossary
 
-| Term | Definition |
-|------|------------|
-| MVP | Minimum Viable Product |
+| Term   | Definition                                                                |
+| ------ | ------------------------------------------------------------------------- |
+| MVP    | Minimum Viable Product                                                    |
 | MoSCoW | Must have, Should have, Could have, Won't have (prioritization framework) |
-| KPI | Key Performance Indicator |
-| RTO | Recovery Time Objective |
-| RPO | Recovery Point Objective |
-| WCAG | Web Content Accessibility Guidelines |
+| KPI    | Key Performance Indicator                                                 |
+| RTO    | Recovery Time Objective                                                   |
+| RPO    | Recovery Point Objective                                                  |
+| WCAG   | Web Content Accessibility Guidelines                                      |
 
 **TODO**: Add project-specific terminology.
 

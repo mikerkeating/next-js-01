@@ -5,6 +5,7 @@
 Our testing strategy ensures code quality, reliability, and maintainability across all applications through a comprehensive testing pyramid. This section covers Epics 1A.3, 4A.1, 4A.2, and 4A.3.
 
 **Testing Philosophy**:
+
 - **Test Pyramid**: More unit tests, fewer integration tests, minimal E2E tests
 - **Test Early**: Run fast tests in development, comprehensive tests in CI
 - **Test Realistically**: Use real database for integration tests, real browser for E2E
@@ -68,17 +69,17 @@ describe('ProductCard', () => {
 
 ```typescript
 // apps/routing/src/app/api/products/route.integration.test.ts
-import { describe, it, expect, beforeEach, afterEach } from 'vitest';
-import { GET, POST } from './route';
-import { db } from '@repo/database';
-import { products } from '@repo/database/schema';
+import { describe, it, expect, beforeEach, afterEach } from "vitest";
+import { GET, POST } from "./route";
+import { db } from "@repo/database";
+import { products } from "@repo/database/schema";
 
-describe('Products API', () => {
+describe("Products API", () => {
   let organisationId: string;
 
   beforeEach(async () => {
     // Setup test data
-    organisationId = 'test-org-123';
+    organisationId = "test-org-123";
   });
 
   afterEach(async () => {
@@ -86,16 +87,16 @@ describe('Products API', () => {
     await db.delete(products).where(eq(products.organisationId, organisationId));
   });
 
-  it('GET /api/products returns products for organisation', async () => {
+  it("GET /api/products returns products for organisation", async () => {
     // Arrange: Insert test products
     await db.insert(products).values([
-      { organisationId, name: 'Product 1', price: 10 },
-      { organisationId, name: 'Product 2', price: 20 },
+      { organisationId, name: "Product 1", price: 10 },
+      { organisationId, name: "Product 2", price: 20 },
     ]);
 
     // Act: Make request
-    const request = new Request('http://localhost:3000/api/products', {
-      headers: { 'x-organisation-id': organisationId },
+    const request = new Request("http://localhost:3000/api/products", {
+      headers: { "x-organisation-id": organisationId },
     });
     const response = await GET(request);
     const data = await response.json();
@@ -104,20 +105,20 @@ describe('Products API', () => {
     expect(response.status).toBe(200);
     expect(data.success).toBe(true);
     expect(data.data).toHaveLength(2);
-    expect(data.data[0].name).toBe('Product 1');
+    expect(data.data[0].name).toBe("Product 1");
   });
 
-  it('POST /api/products creates new product', async () => {
-    const request = new Request('http://localhost:3000/api/products', {
-      method: 'POST',
+  it("POST /api/products creates new product", async () => {
+    const request = new Request("http://localhost:3000/api/products", {
+      method: "POST",
       headers: {
-        'Content-Type': 'application/json',
-        'x-organisation-id': organisationId,
+        "Content-Type": "application/json",
+        "x-organisation-id": organisationId,
       },
       body: JSON.stringify({
-        name: 'New Product',
+        name: "New Product",
         price: 49.99,
-        description: 'Test description',
+        description: "Test description",
       }),
     });
 
@@ -126,7 +127,7 @@ describe('Products API', () => {
 
     expect(response.status).toBe(201);
     expect(data.success).toBe(true);
-    expect(data.data.name).toBe('New Product');
+    expect(data.data.name).toBe("New Product");
     expect(data.data.price).toBe(49.99);
 
     // Verify product was created in database
@@ -142,48 +143,48 @@ describe('Products API', () => {
 
 ```typescript
 // tests/e2e/product-management.spec.ts
-import { test, expect } from '@playwright/test';
+import { test, expect } from "@playwright/test";
 
-test.describe('Product Management', () => {
+test.describe("Product Management", () => {
   test.beforeEach(async ({ page }) => {
     // Login before each test
-    await page.goto('/sign-in');
-    await page.fill('[name="email"]', 'test@example.com');
-    await page.fill('[name="password"]', 'TestPass123!');
+    await page.goto("/sign-in");
+    await page.fill('[name="email"]', "test@example.com");
+    await page.fill('[name="password"]', "TestPass123!");
     await page.click('button[type="submit"]');
-    await page.waitForURL('/dashboard');
+    await page.waitForURL("/dashboard");
   });
 
-  test('should create, edit, and delete a product', async ({ page }) => {
+  test("should create, edit, and delete a product", async ({ page }) => {
     // Navigate to products page
-    await page.goto('/products');
-    await expect(page.locator('h1')).toContainText('Products');
+    await page.goto("/products");
+    await expect(page.locator("h1")).toContainText("Products");
 
     // Create product
     await page.click('button:has-text("New Product")');
-    await page.fill('[name="name"]', 'E2E Test Product');
-    await page.fill('[name="price"]', '29.99');
-    await page.fill('[name="description"]', 'E2E test description');
+    await page.fill('[name="name"]', "E2E Test Product");
+    await page.fill('[name="price"]', "29.99");
+    await page.fill('[name="description"]', "E2E test description");
     await page.click('button:has-text("Create")');
 
     // Verify product appears in list
-    await expect(page.locator('text=E2E Test Product')).toBeVisible();
-    await expect(page.locator('text=$29.99')).toBeVisible();
+    await expect(page.locator("text=E2E Test Product")).toBeVisible();
+    await expect(page.locator("text=$29.99")).toBeVisible();
 
     // Edit product
     await page.click('[aria-label="Edit E2E Test Product"]');
-    await page.fill('[name="price"]', '39.99');
+    await page.fill('[name="price"]', "39.99");
     await page.click('button:has-text("Save")');
 
     // Verify updated price
-    await expect(page.locator('text=$39.99')).toBeVisible();
+    await expect(page.locator("text=$39.99")).toBeVisible();
 
     // Delete product
     await page.click('[aria-label="Delete E2E Test Product"]');
     await page.click('button:has-text("Confirm")');
 
     // Verify product is removed
-    await expect(page.locator('text=E2E Test Product')).not.toBeVisible();
+    await expect(page.locator("text=E2E Test Product")).not.toBeVisible();
   });
 });
 ```
@@ -209,44 +210,44 @@ E2E Tests: 5%           // Critical API workflows
 
 ```typescript
 // apps/api/src/services/pricing.test.ts
-import { describe, it, expect } from 'vitest';
-import { PricingService } from './pricing';
+import { describe, it, expect } from "vitest";
+import { PricingService } from "./pricing";
 
-describe('PricingService', () => {
+describe("PricingService", () => {
   const service = new PricingService();
 
-  describe('calculatePrice', () => {
-    it('applies percentage discount correctly', () => {
+  describe("calculatePrice", () => {
+    it("applies percentage discount correctly", () => {
       const result = service.calculatePrice({
         basePrice: 100,
-        discount: { type: 'percentage', value: 20 },
+        discount: { type: "percentage", value: 20 },
       });
 
       expect(result.finalPrice).toBe(80);
       expect(result.discountAmount).toBe(20);
     });
 
-    it('applies fixed discount correctly', () => {
+    it("applies fixed discount correctly", () => {
       const result = service.calculatePrice({
         basePrice: 100,
-        discount: { type: 'fixed', value: 15 },
+        discount: { type: "fixed", value: 15 },
       });
 
       expect(result.finalPrice).toBe(85);
       expect(result.discountAmount).toBe(15);
     });
 
-    it('never allows negative price', () => {
+    it("never allows negative price", () => {
       const result = service.calculatePrice({
         basePrice: 10,
-        discount: { type: 'fixed', value: 20 },
+        discount: { type: "fixed", value: 20 },
       });
 
       expect(result.finalPrice).toBe(0);
       expect(result.discountAmount).toBe(10);
     });
 
-    it('handles bulk pricing tiers', () => {
+    it("handles bulk pricing tiers", () => {
       const result = service.calculatePrice({
         basePrice: 10,
         quantity: 100,
@@ -267,10 +268,10 @@ describe('PricingService', () => {
 
 ```typescript
 // apps/api/src/app/api/v1/orders/route.integration.test.ts
-import { describe, it, expect, beforeAll, afterAll } from 'vitest';
-import { testDb, createTestUser, createTestOrg } from '@repo/testing/helpers';
+import { describe, it, expect, beforeAll, afterAll } from "vitest";
+import { testDb, createTestUser, createTestOrg } from "@repo/testing/helpers";
 
-describe('Orders API', () => {
+describe("Orders API", () => {
   let userId: string;
   let orgId: string;
   let authToken: string;
@@ -287,24 +288,24 @@ describe('Orders API', () => {
     await testDb.cleanup();
   });
 
-  it('POST /api/v1/orders creates order with items', async () => {
-    const response = await fetch('http://localhost:3000/api/v1/orders', {
-      method: 'POST',
+  it("POST /api/v1/orders creates order with items", async () => {
+    const response = await fetch("http://localhost:3000/api/v1/orders", {
+      method: "POST",
       headers: {
-        'Content-Type': 'application/json',
-        'Authorization': `Bearer ${authToken}`,
-        'x-organisation-id': orgId,
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${authToken}`,
+        "x-organisation-id": orgId,
       },
       body: JSON.stringify({
         items: [
-          { productId: 'prod_123', quantity: 2, price: 29.99 },
-          { productId: 'prod_456', quantity: 1, price: 49.99 },
+          { productId: "prod_123", quantity: 2, price: 29.99 },
+          { productId: "prod_456", quantity: 1, price: 49.99 },
         ],
         shippingAddress: {
-          street: '123 Test St',
-          city: 'Test City',
-          state: 'TS',
-          zip: '12345',
+          street: "123 Test St",
+          city: "Test City",
+          state: "TS",
+          zip: "12345",
         },
       }),
     });
@@ -315,20 +316,20 @@ describe('Orders API', () => {
     expect(data.success).toBe(true);
     expect(data.data.items).toHaveLength(2);
     expect(data.data.total).toBe(109.97); // (29.99 * 2) + 49.99
-    expect(data.data.status).toBe('pending');
+    expect(data.data.status).toBe("pending");
   });
 
-  it('GET /api/v1/orders/:id returns order details', async () => {
+  it("GET /api/v1/orders/:id returns order details", async () => {
     // Create order first
-    const createResponse = await fetch('http://localhost:3000/api/v1/orders', {
-      method: 'POST',
+    const createResponse = await fetch("http://localhost:3000/api/v1/orders", {
+      method: "POST",
       headers: {
-        'Content-Type': 'application/json',
-        'Authorization': `Bearer ${authToken}`,
-        'x-organisation-id': orgId,
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${authToken}`,
+        "x-organisation-id": orgId,
       },
       body: JSON.stringify({
-        items: [{ productId: 'prod_123', quantity: 1, price: 99.99 }],
+        items: [{ productId: "prod_123", quantity: 1, price: 99.99 }],
       }),
     });
     const createData = await createResponse.json();
@@ -337,8 +338,8 @@ describe('Orders API', () => {
     // Fetch order
     const response = await fetch(`http://localhost:3000/api/v1/orders/${orderId}`, {
       headers: {
-        'Authorization': `Bearer ${authToken}`,
-        'x-organisation-id': orgId,
+        Authorization: `Bearer ${authToken}`,
+        "x-organisation-id": orgId,
       },
     });
     const data = await response.json();
@@ -349,14 +350,14 @@ describe('Orders API', () => {
     expect(data.data.items).toHaveLength(1);
   });
 
-  it('prevents accessing orders from different organisation', async () => {
+  it("prevents accessing orders from different organisation", async () => {
     // Create order in org1
     const org2 = await createTestOrg({ ownerId: userId });
 
     const response = await fetch(`http://localhost:3000/api/v1/orders/order_123`, {
       headers: {
-        'Authorization': `Bearer ${authToken}`,
-        'x-organisation-id': org2.id, // Different org
+        Authorization: `Bearer ${authToken}`,
+        "x-organisation-id": org2.id, // Different org
       },
     });
 
@@ -385,68 +386,68 @@ Integration Tests: 10%   // Database interactions, external APIs
 
 ```typescript
 // packages/database/src/queries/users.test.ts
-import { describe, it, expect, beforeEach, afterEach } from 'vitest';
-import { createUser, getUserById, updateUser, deleteUser } from './users';
-import { testDb } from '@repo/testing/helpers';
+import { describe, it, expect, beforeEach, afterEach } from "vitest";
+import { createUser, getUserById, updateUser, deleteUser } from "./users";
+import { testDb } from "@repo/testing/helpers";
 
-describe('User Queries', () => {
+describe("User Queries", () => {
   beforeEach(async () => {
     await testDb.reset();
   });
 
-  describe('createUser', () => {
-    it('creates user with valid data', async () => {
+  describe("createUser", () => {
+    it("creates user with valid data", async () => {
       const user = await createUser({
-        clerkId: 'clerk_123',
-        email: 'test@example.com',
-        name: 'Test User',
+        clerkId: "clerk_123",
+        email: "test@example.com",
+        name: "Test User",
       });
 
       expect(user.id).toBeDefined();
-      expect(user.email).toBe('test@example.com');
+      expect(user.email).toBe("test@example.com");
       expect(user.createdAt).toBeInstanceOf(Date);
     });
 
-    it('throws error for duplicate email', async () => {
+    it("throws error for duplicate email", async () => {
       await createUser({
-        clerkId: 'clerk_123',
-        email: 'test@example.com',
-        name: 'User 1',
+        clerkId: "clerk_123",
+        email: "test@example.com",
+        name: "User 1",
       });
 
       await expect(
         createUser({
-          clerkId: 'clerk_456',
-          email: 'test@example.com',
-          name: 'User 2',
+          clerkId: "clerk_456",
+          email: "test@example.com",
+          name: "User 2",
         })
-      ).rejects.toThrow('Email already exists');
+      ).rejects.toThrow("Email already exists");
     });
   });
 
-  describe('updateUser', () => {
-    it('updates user fields', async () => {
+  describe("updateUser", () => {
+    it("updates user fields", async () => {
       const user = await createUser({
-        clerkId: 'clerk_123',
-        email: 'test@example.com',
-        name: 'Old Name',
+        clerkId: "clerk_123",
+        email: "test@example.com",
+        name: "Old Name",
       });
 
       const updated = await updateUser(user.id, {
-        name: 'New Name',
+        name: "New Name",
       });
 
-      expect(updated.name).toBe('New Name');
-      expect(updated.email).toBe('test@example.com'); // Unchanged
+      expect(updated.name).toBe("New Name");
+      expect(updated.email).toBe("test@example.com"); // Unchanged
     });
   });
 
-  describe('deleteUser', () => {
-    it('soft deletes user', async () => {
+  describe("deleteUser", () => {
+    it("soft deletes user", async () => {
       const user = await createUser({
-        clerkId: 'clerk_123',
-        email: 'test@example.com',
-        name: 'Test User',
+        clerkId: "clerk_123",
+        email: "test@example.com",
+        name: "Test User",
       });
 
       await deleteUser(user.id);
@@ -462,53 +463,53 @@ describe('User Queries', () => {
 
 ```typescript
 // packages/validation/src/schemas/product.test.ts
-import { describe, it, expect } from 'vitest';
-import { ProductSchema } from './product';
+import { describe, it, expect } from "vitest";
+import { ProductSchema } from "./product";
 
-describe('ProductSchema', () => {
-  it('validates valid product data', () => {
+describe("ProductSchema", () => {
+  it("validates valid product data", () => {
     const result = ProductSchema.safeParse({
-      name: 'Test Product',
+      name: "Test Product",
       price: 29.99,
-      description: 'A great product',
-      category: 'electronics',
+      description: "A great product",
+      category: "electronics",
     });
 
     expect(result.success).toBe(true);
     if (result.success) {
-      expect(result.data.name).toBe('Test Product');
+      expect(result.data.name).toBe("Test Product");
     }
   });
 
-  it('rejects negative price', () => {
+  it("rejects negative price", () => {
     const result = ProductSchema.safeParse({
-      name: 'Test Product',
+      name: "Test Product",
       price: -10,
     });
 
     expect(result.success).toBe(false);
     if (!result.success) {
-      expect(result.error.issues[0].message).toContain('positive');
+      expect(result.error.issues[0].message).toContain("positive");
     }
   });
 
-  it('sanitizes description HTML', () => {
+  it("sanitizes description HTML", () => {
     const result = ProductSchema.safeParse({
-      name: 'Test Product',
+      name: "Test Product",
       price: 29.99,
       description: '<script>alert("xss")</script><p>Safe content</p>',
     });
 
     expect(result.success).toBe(true);
     if (result.success) {
-      expect(result.data.description).not.toContain('<script>');
-      expect(result.data.description).toContain('<p>Safe content</p>');
+      expect(result.data.description).not.toContain("<script>");
+      expect(result.data.description).toContain("<p>Safe content</p>");
     }
   });
 
-  it('requires name to be non-empty', () => {
+  it("requires name to be non-empty", () => {
     const result = ProductSchema.safeParse({
-      name: '',
+      name: "",
       price: 29.99,
     });
 
@@ -529,56 +530,56 @@ describe('ProductSchema', () => {
 
 **Test Types**:
 
-| Test Type | Duration | Users | Purpose |
-|-----------|----------|-------|---------|
-| **Smoke Test** | 5 min | 1-10 | Verify system handles minimal load |
-| **Load Test** | 15 min | 10-100 | Test expected production load |
-| **Stress Test** | 30 min | 100-500 | Find breaking point |
-| **Spike Test** | 10 min | 0-500-0 | Test sudden traffic spikes |
-| **Soak Test** | 4 hours | 50 | Test long-term stability |
+| Test Type       | Duration | Users   | Purpose                            |
+| --------------- | -------- | ------- | ---------------------------------- |
+| **Smoke Test**  | 5 min    | 1-10    | Verify system handles minimal load |
+| **Load Test**   | 15 min   | 10-100  | Test expected production load      |
+| **Stress Test** | 30 min   | 100-500 | Find breaking point                |
+| **Spike Test**  | 10 min   | 0-500-0 | Test sudden traffic spikes         |
+| **Soak Test**   | 4 hours  | 50      | Test long-term stability           |
 
 #### k6 Load Test Configuration
 
 ```javascript
 // tests/load/api-endpoints.js
-import http from 'k6/http';
-import { check, sleep } from 'k6';
-import { Rate } from 'k6/metrics';
+import http from "k6/http";
+import { check, sleep } from "k6";
+import { Rate } from "k6/metrics";
 
-const errorRate = new Rate('errors');
+const errorRate = new Rate("errors");
 
 export const options = {
   stages: [
-    { duration: '2m', target: 10 },   // Ramp up to 10 users
-    { duration: '5m', target: 50 },   // Ramp up to 50 users
-    { duration: '5m', target: 50 },   // Stay at 50 users
-    { duration: '2m', target: 100 },  // Ramp up to 100 users
-    { duration: '3m', target: 100 },  // Stay at 100 users
-    { duration: '2m', target: 0 },    // Ramp down to 0 users
+    { duration: "2m", target: 10 }, // Ramp up to 10 users
+    { duration: "5m", target: 50 }, // Ramp up to 50 users
+    { duration: "5m", target: 50 }, // Stay at 50 users
+    { duration: "2m", target: 100 }, // Ramp up to 100 users
+    { duration: "3m", target: 100 }, // Stay at 100 users
+    { duration: "2m", target: 0 }, // Ramp down to 0 users
   ],
   thresholds: {
-    http_req_duration: ['p(95)<500', 'p(99)<1000'], // 95% under 500ms, 99% under 1s
-    http_req_failed: ['rate<0.01'],                  // Error rate < 1%
-    errors: ['rate<0.05'],                           // Custom error rate < 5%
+    http_req_duration: ["p(95)<500", "p(99)<1000"], // 95% under 500ms, 99% under 1s
+    http_req_failed: ["rate<0.01"], // Error rate < 1%
+    errors: ["rate<0.05"], // Custom error rate < 5%
   },
 };
 
-const BASE_URL = __ENV.BASE_URL || 'https://staging.example.com';
+const BASE_URL = __ENV.BASE_URL || "https://staging.example.com";
 const API_TOKEN = __ENV.API_TOKEN;
 
-export default function() {
+export default function () {
   // Test 1: Get products list
   let res = http.get(`${BASE_URL}/api/v1/products`, {
     headers: {
-      'Authorization': `Bearer ${API_TOKEN}`,
-      'x-organisation-id': 'test-org-123',
+      Authorization: `Bearer ${API_TOKEN}`,
+      "x-organisation-id": "test-org-123",
     },
   });
 
   check(res, {
-    'products list status is 200': (r) => r.status === 200,
-    'products list response time < 500ms': (r) => r.timings.duration < 500,
-    'products list returns data': (r) => JSON.parse(r.body).success === true,
+    "products list status is 200": (r) => r.status === 200,
+    "products list response time < 500ms": (r) => r.timings.duration < 500,
+    "products list returns data": (r) => JSON.parse(r.body).success === true,
   }) || errorRate.add(1);
 
   sleep(1);
@@ -586,36 +587,34 @@ export default function() {
   // Test 2: Get single product
   res = http.get(`${BASE_URL}/api/v1/products/prod_123`, {
     headers: {
-      'Authorization': `Bearer ${API_TOKEN}`,
-      'x-organisation-id': 'test-org-123',
+      Authorization: `Bearer ${API_TOKEN}`,
+      "x-organisation-id": "test-org-123",
     },
   });
 
   check(res, {
-    'product detail status is 200': (r) => r.status === 200,
-    'product detail response time < 300ms': (r) => r.timings.duration < 300,
+    "product detail status is 200": (r) => r.status === 200,
+    "product detail response time < 300ms": (r) => r.timings.duration < 300,
   }) || errorRate.add(1);
 
   sleep(1);
 
   // Test 3: Create order (POST)
   const payload = JSON.stringify({
-    items: [
-      { productId: 'prod_123', quantity: 2, price: 29.99 },
-    ],
+    items: [{ productId: "prod_123", quantity: 2, price: 29.99 }],
   });
 
   res = http.post(`${BASE_URL}/api/v1/orders`, payload, {
     headers: {
-      'Content-Type': 'application/json',
-      'Authorization': `Bearer ${API_TOKEN}`,
-      'x-organisation-id': 'test-org-123',
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${API_TOKEN}`,
+      "x-organisation-id": "test-org-123",
     },
   });
 
   check(res, {
-    'create order status is 201': (r) => r.status === 201,
-    'create order response time < 1s': (r) => r.timings.duration < 1000,
+    "create order status is 201": (r) => r.status === 201,
+    "create order response time < 1s": (r) => r.timings.duration < 1000,
   }) || errorRate.add(1);
 
   sleep(2);
@@ -623,12 +622,12 @@ export default function() {
 
 // Lifecycle hooks
 export function setup() {
-  console.log('Load test starting...');
+  console.log("Load test starting...");
   console.log(`Target: ${BASE_URL}`);
 }
 
 export function teardown(data) {
-  console.log('Load test completed');
+  console.log("Load test completed");
 }
 ```
 
@@ -636,31 +635,31 @@ export function teardown(data) {
 
 ```javascript
 // tests/load/stress-test.js
-import http from 'k6/http';
-import { check, sleep } from 'k6';
+import http from "k6/http";
+import { check, sleep } from "k6";
 
 export const options = {
   stages: [
-    { duration: '2m', target: 50 },    // Ramp up to 50 users
-    { duration: '5m', target: 100 },   // Ramp up to 100 users
-    { duration: '5m', target: 200 },   // Ramp up to 200 users (stress)
-    { duration: '5m', target: 300 },   // Ramp up to 300 users (breaking point)
-    { duration: '5m', target: 400 },   // Ramp up to 400 users
-    { duration: '2m', target: 0 },     // Ramp down
+    { duration: "2m", target: 50 }, // Ramp up to 50 users
+    { duration: "5m", target: 100 }, // Ramp up to 100 users
+    { duration: "5m", target: 200 }, // Ramp up to 200 users (stress)
+    { duration: "5m", target: 300 }, // Ramp up to 300 users (breaking point)
+    { duration: "5m", target: 400 }, // Ramp up to 400 users
+    { duration: "2m", target: 0 }, // Ramp down
   ],
   thresholds: {
-    http_req_duration: ['p(99)<3000'],  // 99% under 3s (degraded acceptable)
-    http_req_failed: ['rate<0.1'],      // Error rate < 10% (some failures expected)
+    http_req_duration: ["p(99)<3000"], // 99% under 3s (degraded acceptable)
+    http_req_failed: ["rate<0.1"], // Error rate < 10% (some failures expected)
   },
 };
 
-const BASE_URL = __ENV.BASE_URL || 'https://staging.example.com';
+const BASE_URL = __ENV.BASE_URL || "https://staging.example.com";
 
-export default function() {
+export default function () {
   const res = http.get(`${BASE_URL}/api/health`);
 
   check(res, {
-    'health check responds': (r) => r.status !== 0,
+    "health check responds": (r) => r.status !== 0,
   });
 
   sleep(1);
@@ -671,26 +670,26 @@ export default function() {
 
 ```javascript
 // tests/load/spike-test.js
-import http from 'k6/http';
-import { check } from 'k6';
+import http from "k6/http";
+import { check } from "k6";
 
 export const options = {
   stages: [
-    { duration: '30s', target: 10 },   // Normal load
-    { duration: '10s', target: 500 },  // Sudden spike
-    { duration: '1m', target: 500 },   // Sustained spike
-    { duration: '10s', target: 10 },   // Drop back to normal
-    { duration: '1m', target: 10 },    // Recovery period
+    { duration: "30s", target: 10 }, // Normal load
+    { duration: "10s", target: 500 }, // Sudden spike
+    { duration: "1m", target: 500 }, // Sustained spike
+    { duration: "10s", target: 10 }, // Drop back to normal
+    { duration: "1m", target: 10 }, // Recovery period
   ],
   thresholds: {
-    http_req_duration: ['p(95)<2000'],  // Allow degradation during spike
-    http_req_failed: ['rate<0.05'],     // 5% error rate acceptable during spike
+    http_req_duration: ["p(95)<2000"], // Allow degradation during spike
+    http_req_failed: ["rate<0.05"], // 5% error rate acceptable during spike
   },
 };
 
-const BASE_URL = __ENV.BASE_URL || 'https://staging.example.com';
+const BASE_URL = __ENV.BASE_URL || "https://staging.example.com";
 
-export default function() {
+export default function () {
   http.get(`${BASE_URL}/`);
 }
 ```
@@ -720,13 +719,14 @@ k6 run --duration 4h --vus 50 tests/load/soak-test.js
 #### Performance Targets
 
 | Endpoint Type | p95 Latency | p99 Latency | Max Error Rate |
-|---------------|-------------|-------------|----------------|
-| GET (simple) | < 200ms | < 500ms | < 0.1% |
-| GET (complex) | < 500ms | < 1s | < 0.5% |
-| POST/PUT | < 500ms | < 1s | < 1% |
-| File Upload | < 2s | < 5s | < 2% |
+| ------------- | ----------- | ----------- | -------------- |
+| GET (simple)  | < 200ms     | < 500ms     | < 0.1%         |
+| GET (complex) | < 500ms     | < 1s        | < 0.5%         |
+| POST/PUT      | < 500ms     | < 1s        | < 1%           |
+| File Upload   | < 2s        | < 5s        | < 2%           |
 
 **Load Test Schedule**:
+
 - **Daily**: Smoke tests in CI/CD pipeline
 - **Weekly**: Full load test on staging (50 concurrent users)
 - **Monthly**: Stress test to validate capacity planning
@@ -741,6 +741,7 @@ k6 run --duration 4h --vus 50 tests/load/soak-test.js
 **Tool**: Chromatic (Storybook-based visual testing)
 
 **Coverage**:
+
 - All UI components in Storybook
 - Critical pages (homepage, product pages, checkout)
 - Responsive breakpoints (mobile, tablet, desktop)
@@ -750,21 +751,21 @@ k6 run --duration 4h --vus 50 tests/load/soak-test.js
 
 ```typescript
 // packages/ui/.storybook/main.ts
-import type { StorybookConfig } from '@storybook/nextjs';
+import type { StorybookConfig } from "@storybook/nextjs";
 
 const config: StorybookConfig = {
-  stories: ['../src/**/*.stories.@(js|jsx|ts|tsx|mdx)'],
+  stories: ["../src/**/*.stories.@(js|jsx|ts|tsx|mdx)"],
   addons: [
-    '@storybook/addon-essentials',
-    '@storybook/addon-a11y',
-    '@storybook/addon-interactions',
-    '@chromatic-com/storybook',
+    "@storybook/addon-essentials",
+    "@storybook/addon-a11y",
+    "@storybook/addon-interactions",
+    "@chromatic-com/storybook",
   ],
   framework: {
-    name: '@storybook/nextjs',
+    name: "@storybook/nextjs",
     options: {},
   },
-  staticDirs: ['../public'],
+  staticDirs: ["../public"],
 };
 
 export default config;
@@ -865,11 +866,11 @@ export const Variants: Story = {
 ```javascript
 // .chromatic/config.js
 module.exports = {
-  projectId: 'PROJECT_ID',
-  buildScriptName: 'build-storybook',
+  projectId: "PROJECT_ID",
+  buildScriptName: "build-storybook",
 
   // Auto-accept changes on main branch
-  autoAcceptChanges: 'main',
+  autoAcceptChanges: "main",
 
   // Exit with error code if changes detected
   exitZeroOnChanges: false,
@@ -878,9 +879,7 @@ module.exports = {
   onlyChanged: true,
 
   // Ignore specific files
-  externals: [
-    'public/**',
-  ],
+  externals: ["public/**"],
 };
 ```
 
@@ -910,8 +909,8 @@ jobs:
 
       - uses: actions/setup-node@v4
         with:
-          node-version: '20'
-          cache: 'pnpm'
+          node-version: "20"
+          cache: "pnpm"
 
       - run: pnpm install --frozen-lockfile
 
@@ -923,7 +922,7 @@ jobs:
         uses: chromaui/action@v1
         with:
           projectToken: ${{ secrets.CHROMATIC_PROJECT_TOKEN }}
-          buildScriptName: 'build-storybook'
+          buildScriptName: "build-storybook"
           workingDir: packages/ui
           exitZeroOnChanges: false
           autoAcceptChanges: main
@@ -938,6 +937,7 @@ jobs:
 5. **Merge**: Approved changes become new baseline
 
 **Review Checklist**:
+
 - [ ] Visual changes are intentional
 - [ ] All breakpoints render correctly
 - [ ] No unintended layout shifts
@@ -954,6 +954,7 @@ jobs:
 **Goal**: WCAG 2.1 Level AA compliance
 
 **Tools**:
+
 - **axe-core**: Automated accessibility testing
 - **Storybook a11y addon**: Component-level testing
 - **Playwright axe**: E2E accessibility testing
@@ -963,24 +964,24 @@ jobs:
 
 ```typescript
 // packages/ui/src/components/FormInput.stories.tsx
-import type { Meta, StoryObj } from '@storybook/react';
-import { within, userEvent } from '@storybook/testing-library';
-import { expect } from '@storybook/jest';
-import { FormInput } from './FormInput';
+import type { Meta, StoryObj } from "@storybook/react";
+import { within, userEvent } from "@storybook/testing-library";
+import { expect } from "@storybook/jest";
+import { FormInput } from "./FormInput";
 
 const meta: Meta<typeof FormInput> = {
-  title: 'Forms/FormInput',
+  title: "Forms/FormInput",
   component: FormInput,
   parameters: {
     a11y: {
       config: {
         rules: [
           {
-            id: 'color-contrast',
+            id: "color-contrast",
             enabled: true,
           },
           {
-            id: 'label',
+            id: "label",
             enabled: true,
           },
         ],
@@ -994,60 +995,60 @@ type Story = StoryObj<typeof FormInput>;
 
 export const Default: Story = {
   args: {
-    label: 'Email Address',
-    name: 'email',
-    type: 'email',
-    placeholder: 'Enter your email',
+    label: "Email Address",
+    name: "email",
+    type: "email",
+    placeholder: "Enter your email",
   },
   play: async ({ canvasElement }) => {
     const canvas = within(canvasElement);
 
     // Test keyboard navigation
-    const input = canvas.getByLabelText('Email Address');
+    const input = canvas.getByLabelText("Email Address");
     await userEvent.tab();
     expect(input).toHaveFocus();
 
     // Test input
-    await userEvent.type(input, 'test@example.com');
-    expect(input).toHaveValue('test@example.com');
+    await userEvent.type(input, "test@example.com");
+    expect(input).toHaveValue("test@example.com");
   },
 };
 
 export const WithError: Story = {
   args: {
-    label: 'Email Address',
-    name: 'email',
-    type: 'email',
-    error: 'Please enter a valid email address',
+    label: "Email Address",
+    name: "email",
+    type: "email",
+    error: "Please enter a valid email address",
   },
   play: async ({ canvasElement }) => {
     const canvas = within(canvasElement);
 
     // Verify error is announced to screen readers
-    const errorMessage = canvas.getByRole('alert');
+    const errorMessage = canvas.getByRole("alert");
     expect(errorMessage).toBeInTheDocument();
-    expect(errorMessage).toHaveTextContent('Please enter a valid email address');
+    expect(errorMessage).toHaveTextContent("Please enter a valid email address");
 
     // Verify input has aria-invalid
-    const input = canvas.getByLabelText('Email Address');
-    expect(input).toHaveAttribute('aria-invalid', 'true');
-    expect(input).toHaveAttribute('aria-describedby');
+    const input = canvas.getByLabelText("Email Address");
+    expect(input).toHaveAttribute("aria-invalid", "true");
+    expect(input).toHaveAttribute("aria-describedby");
   },
 };
 
 export const Required: Story = {
   args: {
-    label: 'Email Address',
-    name: 'email',
-    type: 'email',
+    label: "Email Address",
+    name: "email",
+    type: "email",
     required: true,
   },
   play: async ({ canvasElement }) => {
     const canvas = within(canvasElement);
 
     const input = canvas.getByLabelText(/Email Address/);
-    expect(input).toHaveAttribute('required');
-    expect(input).toHaveAttribute('aria-required', 'true');
+    expect(input).toHaveAttribute("required");
+    expect(input).toHaveAttribute("aria-required", "true");
   },
 };
 ```
@@ -1056,37 +1057,39 @@ export const Required: Story = {
 
 ```typescript
 // tests/e2e/accessibility.spec.ts
-import { test, expect } from '@playwright/test';
-import AxeBuilder from '@axe-core/playwright';
+import { test, expect } from "@playwright/test";
+import AxeBuilder from "@axe-core/playwright";
 
-test.describe('Accessibility', () => {
-  test('homepage should not have any automatically detectable accessibility issues', async ({ page }) => {
-    await page.goto('/');
+test.describe("Accessibility", () => {
+  test("homepage should not have any automatically detectable accessibility issues", async ({
+    page,
+  }) => {
+    await page.goto("/");
 
     const accessibilityScanResults = await new AxeBuilder({ page })
-      .withTags(['wcag2a', 'wcag2aa', 'wcag21a', 'wcag21aa'])
+      .withTags(["wcag2a", "wcag2aa", "wcag21a", "wcag21aa"])
       .analyze();
 
     expect(accessibilityScanResults.violations).toEqual([]);
   });
 
-  test('product page should be accessible', async ({ page }) => {
-    await page.goto('/products/test-product');
+  test("product page should be accessible", async ({ page }) => {
+    await page.goto("/products/test-product");
 
     const accessibilityScanResults = await new AxeBuilder({ page })
-      .withTags(['wcag2a', 'wcag2aa'])
+      .withTags(["wcag2a", "wcag2aa"])
       .analyze();
 
     expect(accessibilityScanResults.violations).toEqual([]);
   });
 
-  test('checkout flow should be keyboard navigable', async ({ page }) => {
-    await page.goto('/checkout');
+  test("checkout flow should be keyboard navigable", async ({ page }) => {
+    await page.goto("/checkout");
 
     // Tab through all interactive elements
-    await page.keyboard.press('Tab');
+    await page.keyboard.press("Tab");
     let focusedElement = await page.evaluate(() => document.activeElement?.tagName);
-    expect(['INPUT', 'BUTTON', 'A']).toContain(focusedElement);
+    expect(["INPUT", "BUTTON", "A"]).toContain(focusedElement);
 
     // Verify focus indicators are visible
     const focusedStyles = await page.evaluate(() => {
@@ -1099,13 +1102,11 @@ test.describe('Accessibility', () => {
     });
 
     // Should have visible focus indicator
-    expect(
-      focusedStyles.outline !== 'none' || focusedStyles.boxShadow !== 'none'
-    ).toBe(true);
+    expect(focusedStyles.outline !== "none" || focusedStyles.boxShadow !== "none").toBe(true);
   });
 
-  test('form errors should be announced to screen readers', async ({ page }) => {
-    await page.goto('/contact');
+  test("form errors should be announced to screen readers", async ({ page }) => {
+    await page.goto("/contact");
 
     // Submit empty form
     await page.click('button[type="submit"]');
@@ -1119,11 +1120,11 @@ test.describe('Accessibility', () => {
 
     // Verify form field has aria-invalid
     const emailInput = page.locator('input[name="email"]');
-    await expect(emailInput).toHaveAttribute('aria-invalid', 'true');
+    await expect(emailInput).toHaveAttribute("aria-invalid", "true");
   });
 
-  test('modal dialogs should trap focus', async ({ page }) => {
-    await page.goto('/');
+  test("modal dialogs should trap focus", async ({ page }) => {
+    await page.goto("/");
 
     // Open modal
     await page.click('button:has-text("Open Modal")');
@@ -1136,10 +1137,10 @@ test.describe('Accessibility', () => {
     const modalElements: string[] = [];
 
     for (let i = 0; i < 10; i++) {
-      await page.keyboard.press('Tab');
+      await page.keyboard.press("Tab");
       focusedElement = await page.evaluate(() => {
         const el = document.activeElement;
-        return el?.tagName + (el?.textContent?.slice(0, 20) || '');
+        return el?.tagName + (el?.textContent?.slice(0, 20) || "");
       });
       modalElements.push(focusedElement);
     }
@@ -1148,8 +1149,8 @@ test.describe('Accessibility', () => {
     const dialog = page.locator('[role="dialog"]');
     const allFocusedWithinDialog = await Promise.all(
       modalElements.map(async () => {
-        const focused = page.locator(':focus');
-        return await dialog.locator(':focus').count() > 0;
+        const focused = page.locator(":focus");
+        return (await dialog.locator(":focus").count()) > 0;
       })
     );
 
@@ -1162,6 +1163,7 @@ test.describe('Accessibility', () => {
 #### Accessibility Checklist
 
 **Component Development**:
+
 - [ ] All interactive elements are keyboard accessible
 - [ ] Focus indicators are visible (not removed with `outline: none`)
 - [ ] Proper semantic HTML elements used (`<button>`, `<a>`, `<nav>`, etc.)
@@ -1174,6 +1176,7 @@ test.describe('Accessibility', () => {
 - [ ] Skip links provided for keyboard users
 
 **Page Development**:
+
 - [ ] Page has descriptive `<title>`
 - [ ] Proper heading hierarchy (`<h1>` → `<h2>` → `<h3>`)
 - [ ] Landmark regions defined (`<header>`, `<nav>`, `<main>`, `<footer>`)
@@ -1183,6 +1186,7 @@ test.describe('Accessibility', () => {
 - [ ] Videos have captions/transcripts
 
 **Testing**:
+
 - [ ] Automated tests pass (axe-core)
 - [ ] Manual keyboard navigation tested
 - [ ] Screen reader tested (NVDA on Windows, VoiceOver on Mac)
@@ -1197,12 +1201,12 @@ test.describe('Accessibility', () => {
 
 ```typescript
 // packages/testing/src/db.ts
-import { drizzle } from 'drizzle-orm/postgres-js';
-import postgres from 'postgres';
-import * as schema from '@repo/database/schema';
+import { drizzle } from "drizzle-orm/postgres-js";
+import postgres from "postgres";
+import * as schema from "@repo/database/schema";
 
-const TEST_DATABASE_URL = process.env.TEST_DATABASE_URL ||
-  'postgresql://test:test@localhost:5432/test_db';
+const TEST_DATABASE_URL =
+  process.env.TEST_DATABASE_URL || "postgresql://test:test@localhost:5432/test_db";
 
 // Create test database connection
 const client = postgres(TEST_DATABASE_URL, { max: 1 });
@@ -1228,34 +1232,42 @@ export async function closeDatabase() {
 
 ```typescript
 // packages/testing/src/helpers.ts
-import { testDb } from './db';
-import { users, organisations, user_organisations } from '@repo/database/schema';
-import { randomUUID } from 'crypto';
+import { testDb } from "./db";
+import { users, organisations, user_organisations } from "@repo/database/schema";
+import { randomUUID } from "crypto";
 
 export async function createTestUser(data?: Partial<typeof users.$inferInsert>) {
-  const [user] = await testDb.insert(users).values({
-    clerkId: `clerk_test_${randomUUID()}`,
-    email: data?.email || `test-${randomUUID()}@example.com`,
-    name: data?.name || 'Test User',
-    ...data,
-  }).returning();
+  const [user] = await testDb
+    .insert(users)
+    .values({
+      clerkId: `clerk_test_${randomUUID()}`,
+      email: data?.email || `test-${randomUUID()}@example.com`,
+      name: data?.name || "Test User",
+      ...data,
+    })
+    .returning();
 
   return user;
 }
 
-export async function createTestOrg(data?: Partial<typeof organisations.$inferInsert> & { ownerId?: string }) {
-  const [org] = await testDb.insert(organisations).values({
-    name: data?.name || `Test Org ${randomUUID()}`,
-    slug: data?.slug || `test-org-${randomUUID()}`,
-    ...data,
-  }).returning();
+export async function createTestOrg(
+  data?: Partial<typeof organisations.$inferInsert> & { ownerId?: string }
+) {
+  const [org] = await testDb
+    .insert(organisations)
+    .values({
+      name: data?.name || `Test Org ${randomUUID()}`,
+      slug: data?.slug || `test-org-${randomUUID()}`,
+      ...data,
+    })
+    .returning();
 
   // Add owner to organisation
   if (data?.ownerId) {
     await testDb.insert(user_organisations).values({
       userId: data.ownerId,
       organisationId: org.id,
-      role: 'internal',
+      role: "internal",
     });
   }
 
@@ -1289,8 +1301,8 @@ jobs:
           version: 9
       - uses: actions/setup-node@v4
         with:
-          node-version: '20'
-          cache: 'pnpm'
+          node-version: "20"
+          cache: "pnpm"
 
       - run: pnpm install --frozen-lockfile
 
@@ -1326,8 +1338,8 @@ jobs:
           version: 9
       - uses: actions/setup-node@v4
         with:
-          node-version: '20'
-          cache: 'pnpm'
+          node-version: "20"
+          cache: "pnpm"
 
       - run: pnpm install --frozen-lockfile
 
@@ -1350,8 +1362,8 @@ jobs:
           version: 9
       - uses: actions/setup-node@v4
         with:
-          node-version: '20'
-          cache: 'pnpm'
+          node-version: "20"
+          cache: "pnpm"
 
       - run: pnpm install --frozen-lockfile
 
@@ -1386,8 +1398,8 @@ jobs:
           version: 9
       - uses: actions/setup-node@v4
         with:
-          node-version: '20'
-          cache: 'pnpm'
+          node-version: "20"
+          cache: "pnpm"
 
       - run: pnpm install --frozen-lockfile
 
@@ -1402,15 +1414,14 @@ jobs:
 
 ### Test Coverage Requirements
 
-| Package/App | Unit | Integration | E2E | Overall |
-|-------------|------|-------------|-----|---------|
-| **packages/database** | 95% | 90% | - | 90% |
-| **packages/auth** | 90% | 85% | - | 85% |
-| **packages/validation** | 95% | - | - | 95% |
-| **packages/ui** | 85% | - | - | 85% |
-| **apps/routing** | 80% | 70% | Critical paths | 80% |
-| **apps/api** | 85% | 80% | Critical endpoints | 85% |
-| **Overall Target** | - | - | - | **80%** |
+| Package/App             | Unit | Integration | E2E                | Overall |
+| ----------------------- | ---- | ----------- | ------------------ | ------- |
+| **packages/database**   | 95%  | 90%         | -                  | 90%     |
+| **packages/auth**       | 90%  | 85%         | -                  | 85%     |
+| **packages/validation** | 95%  | -           | -                  | 95%     |
+| **packages/ui**         | 85%  | -           | -                  | 85%     |
+| **apps/routing**        | 80%  | 70%         | Critical paths     | 80%     |
+| **apps/api**            | 85%  | 80%         | Critical endpoints | 85%     |
+| **Overall Target**      | -    | -           | -                  | **80%** |
 
 ---
-

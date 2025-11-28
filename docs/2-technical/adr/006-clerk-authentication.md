@@ -36,6 +36,7 @@ We will use **Clerk** as our authentication and user management provider.
 ### Configuration
 
 **Environment Variables**:
+
 ```bash
 # Public keys (client-side)
 NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY=pk_test_...
@@ -50,40 +51,34 @@ CLERK_WEBHOOK_SECRET=whsec_...
 ```
 
 **Middleware Configuration (middleware.ts)**:
+
 ```typescript
-import { authMiddleware } from '@clerk/nextjs'
+import { authMiddleware } from "@clerk/nextjs";
 
 export default authMiddleware({
   // Public routes that don't require authentication
-  publicRoutes: [
-    '/',
-    '/sign-in(.*)',
-    '/sign-up(.*)',
-    '/api/webhooks/clerk',
-    '/api/health',
-  ],
+  publicRoutes: ["/", "/sign-in(.*)", "/sign-up(.*)", "/api/webhooks/clerk", "/api/health"],
 
   // Routes that can be accessed while signed out
-  ignoredRoutes: [
-    '/api/webhooks/clerk',
-  ],
+  ignoredRoutes: ["/api/webhooks/clerk"],
 
   // After auth middleware
   afterAuth(auth, req) {
     // Handle organization context
     if (auth.userId && auth.orgId) {
       // Inject org context into request
-      req.headers.set('x-organization-id', auth.orgId)
+      req.headers.set("x-organization-id", auth.orgId);
     }
   },
-})
+});
 
 export const config = {
-  matcher: ['/((?!.*\\..*|_next).*)', '/', '/(api|trpc)(.*)'],
-}
+  matcher: ["/((?!.*\\..*|_next).*)", "/", "/(api|trpc)(.*)"],
+};
 ```
 
 **Root Layout (app/layout.tsx)**:
+
 ```typescript
 import { ClerkProvider } from '@clerk/nextjs'
 
@@ -103,97 +98,101 @@ export default function RootLayout({
 ```
 
 **Webhook Handler (app/api/webhooks/clerk/route.ts)**:
+
 ```typescript
-import { Webhook } from 'svix'
-import { headers } from 'next/headers'
-import { WebhookEvent } from '@clerk/nextjs/server'
-import { db } from '@repo/database'
-import { users, organisations, userOrganisations } from '@repo/database/schema'
+import { Webhook } from "svix";
+import { headers } from "next/headers";
+import { WebhookEvent } from "@clerk/nextjs/server";
+import { db } from "@repo/database";
+import { users, organisations, userOrganisations } from "@repo/database/schema";
 
 export async function POST(req: Request) {
   // Get webhook secret
-  const WEBHOOK_SECRET = process.env.CLERK_WEBHOOK_SECRET
+  const WEBHOOK_SECRET = process.env.CLERK_WEBHOOK_SECRET;
   if (!WEBHOOK_SECRET) {
-    throw new Error('Missing CLERK_WEBHOOK_SECRET')
+    throw new Error("Missing CLERK_WEBHOOK_SECRET");
   }
 
   // Get headers
-  const headerPayload = headers()
-  const svix_id = headerPayload.get('svix-id')
-  const svix_timestamp = headerPayload.get('svix-timestamp')
-  const svix_signature = headerPayload.get('svix-signature')
+  const headerPayload = headers();
+  const svix_id = headerPayload.get("svix-id");
+  const svix_timestamp = headerPayload.get("svix-timestamp");
+  const svix_signature = headerPayload.get("svix-signature");
 
   if (!svix_id || !svix_timestamp || !svix_signature) {
-    return new Response('Missing svix headers', { status: 400 })
+    return new Response("Missing svix headers", { status: 400 });
   }
 
   // Get body
-  const payload = await req.json()
-  const body = JSON.stringify(payload)
+  const payload = await req.json();
+  const body = JSON.stringify(payload);
 
   // Verify webhook
-  const wh = new Webhook(WEBHOOK_SECRET)
-  let evt: WebhookEvent
+  const wh = new Webhook(WEBHOOK_SECRET);
+  let evt: WebhookEvent;
 
   try {
     evt = wh.verify(body, {
-      'svix-id': svix_id,
-      'svix-timestamp': svix_timestamp,
-      'svix-signature': svix_signature,
-    }) as WebhookEvent
+      "svix-id": svix_id,
+      "svix-timestamp": svix_timestamp,
+      "svix-signature": svix_signature,
+    }) as WebhookEvent;
   } catch (err) {
-    return new Response('Invalid signature', { status: 400 })
+    return new Response("Invalid signature", { status: 400 });
   }
 
   // Handle events
   switch (evt.type) {
-    case 'user.created':
+    case "user.created":
       await db.insert(users).values({
         clerkId: evt.data.id,
         email: evt.data.email_addresses[0].email_address,
         name: `${evt.data.first_name} ${evt.data.last_name}`.trim(),
         avatarUrl: evt.data.image_url,
-      })
-      break
+      });
+      break;
 
-    case 'user.updated':
-      await db.update(users)
+    case "user.updated":
+      await db
+        .update(users)
         .set({
           email: evt.data.email_addresses[0].email_address,
           name: `${evt.data.first_name} ${evt.data.last_name}`.trim(),
           avatarUrl: evt.data.image_url,
           updatedAt: new Date(),
         })
-        .where(eq(users.clerkId, evt.data.id))
-      break
+        .where(eq(users.clerkId, evt.data.id));
+      break;
 
-    case 'organization.created':
+    case "organization.created":
       await db.insert(organisations).values({
         clerkId: evt.data.id,
         name: evt.data.name,
         slug: evt.data.slug,
-      })
-      break
+      });
+      break;
 
-    case 'organizationMembership.created':
+    case "organizationMembership.created":
       // Add user to organization
-      const [user] = await db.select()
+      const [user] = await db
+        .select()
         .from(users)
-        .where(eq(users.clerkId, evt.data.public_user_data.user_id))
+        .where(eq(users.clerkId, evt.data.public_user_data.user_id));
 
-      const [org] = await db.select()
+      const [org] = await db
+        .select()
         .from(organisations)
-        .where(eq(organisations.clerkId, evt.data.organization.id))
+        .where(eq(organisations.clerkId, evt.data.organization.id));
 
       await db.insert(userOrganisations).values({
         userId: user.id,
         organisationId: org.id,
         role: mapClerkRoleToOurRole(evt.data.role),
-      })
-      break
+      });
+      break;
   }
 
-  return new Response('Webhook processed', { status: 200 })
+  return new Response("Webhook processed", { status: 200 });
 }
 ```
 
@@ -274,6 +273,7 @@ export async function POST(req: Request) {
 #### Option 1: NextAuth.js / Auth.js
 
 **Pros:**
+
 - Open source and free
 - Full control over auth flow
 - Works with any database
@@ -281,6 +281,7 @@ export async function POST(req: Request) {
 - No vendor lock-in
 
 **Cons:**
+
 - ❌ Requires more setup and maintenance
 - ❌ No built-in UI components
 - ❌ Manual security updates required
@@ -293,6 +294,7 @@ export async function POST(req: Request) {
 #### Option 2: Auth0
 
 **Pros:**
+
 - Enterprise-grade
 - Extensive features
 - Good documentation
@@ -300,6 +302,7 @@ export async function POST(req: Request) {
 - Mature product
 
 **Cons:**
+
 - ❌ More expensive than Clerk
 - ❌ Less modern developer experience
 - ❌ UI components less polished
@@ -312,6 +315,7 @@ export async function POST(req: Request) {
 #### Option 3: Supabase Auth
 
 **Pros:**
+
 - Free and open source
 - Integrated with Supabase database
 - Good documentation
@@ -319,6 +323,7 @@ export async function POST(req: Request) {
 - Simple API
 
 **Cons:**
+
 - ❌ Coupled to Supabase ecosystem
 - ❌ Limited UI components
 - ❌ No organization management
@@ -331,6 +336,7 @@ export async function POST(req: Request) {
 #### Option 4: Firebase Authentication
 
 **Pros:**
+
 - Google backing
 - Generous free tier
 - Good mobile support
@@ -338,6 +344,7 @@ export async function POST(req: Request) {
 - Easy to start
 
 **Cons:**
+
 - ❌ Tied to Firebase ecosystem
 - ❌ Limited customization
 - ❌ No organization support
@@ -350,6 +357,7 @@ export async function POST(req: Request) {
 #### Option 5: Amazon Cognito
 
 **Pros:**
+
 - AWS integration
 - Scalable
 - Secure
@@ -357,6 +365,7 @@ export async function POST(req: Request) {
 - HIPAA eligible
 
 **Cons:**
+
 - ❌ Complex setup
 - ❌ Poor developer experience
 - ❌ No UI components
@@ -369,12 +378,14 @@ export async function POST(req: Request) {
 #### Option 6: Custom Built Authentication
 
 **Pros:**
+
 - Complete control
 - No vendor costs
 - Custom features
 - No limitations
 
 **Cons:**
+
 - ❌ Months of development time
 - ❌ Security risks if done wrong
 - ❌ Ongoing maintenance burden
@@ -610,19 +621,19 @@ export default async function OrgDashboard() {
 
 ```typescript
 // app/api/users/route.ts
-import { auth } from '@clerk/nextjs'
-import { NextResponse } from 'next/server'
+import { auth } from "@clerk/nextjs";
+import { NextResponse } from "next/server";
 
 export async function GET() {
-  const { userId } = auth()
+  const { userId } = auth();
 
   if (!userId) {
-    return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
+    return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
 
   // Fetch data
-  const users = await getUsers()
-  return NextResponse.json(users)
+  const users = await getUsers();
+  return NextResponse.json(users);
 }
 ```
 

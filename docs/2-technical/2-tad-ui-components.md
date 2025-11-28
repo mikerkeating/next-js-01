@@ -7,17 +7,19 @@ This section defines the core reusable UI components that power the product inte
 **Purpose**: Display user roles with visual distinction across different organizational contexts.
 
 **Props Interface**:
+
 ```typescript
 interface RoleBadgeProps {
-  role: 'internal' | 'product-seller' | 'agency-seller' | 'client';
-  size?: 'sm' | 'md' | 'lg';
-  variant?: 'solid' | 'outline' | 'subtle';
+  role: "internal" | "product-seller" | "agency-seller" | "client";
+  size?: "sm" | "md" | "lg";
+  variant?: "solid" | "outline" | "subtle";
   showIcon?: boolean;
   className?: string;
 }
 ```
 
 **Behavior**:
+
 - Maps role to semantic color scheme (internal: blue, product-seller: green, agency-seller: purple, client: amber)
 - Supports three size variants with appropriate text scaling
 - Optional icon prefix using Lucide icons
@@ -25,6 +27,7 @@ interface RoleBadgeProps {
 - Responsive text truncation for long role names
 
 **Implementation Notes**:
+
 - Built on shadcn/ui Badge component
 - Uses Tailwind CSS for styling variants
 - Exported from `@repo/ui/role-badge`
@@ -36,6 +39,7 @@ interface RoleBadgeProps {
 **Purpose**: Display content items with organization context, ownership, and interaction capabilities.
 
 **Props Interface**:
+
 ```typescript
 interface ContentCardProps {
   content: {
@@ -56,7 +60,7 @@ interface ContentCardProps {
   onSelect?: (contentId: string) => void;
   isSelected?: boolean;
   showOrganization?: boolean;
-  variant?: 'default' | 'compact' | 'detailed';
+  variant?: "default" | "compact" | "detailed";
   className?: string;
 }
 
@@ -64,12 +68,13 @@ interface ContentAction {
   label: string;
   icon: LucideIcon;
   onClick: (contentId: string) => void;
-  variant?: 'default' | 'destructive' | 'secondary';
+  variant?: "default" | "destructive" | "secondary";
   requiresPermission?: string;
 }
 ```
 
 **Behavior**:
+
 - Displays content metadata with organization badge
 - Shows creator information with avatar
 - Renders relative timestamps (e.g., "2 hours ago")
@@ -79,6 +84,7 @@ interface ContentAction {
 - Three layout variants: default (card), compact (list), detailed (expanded)
 
 **Implementation Notes**:
+
 - Uses shadcn/ui Card component as base
 - Integrates with Permission Gate component for action visibility
 - Lazy loads creator avatars
@@ -91,18 +97,20 @@ interface ContentAction {
 **Purpose**: Conditionally render UI elements based on user permissions within organization context.
 
 **Props Interface**:
+
 ```typescript
 interface PermissionGateProps {
   permission: string | string[];
   organizationId?: string;
   fallback?: React.ReactNode;
   children: React.ReactNode;
-  mode?: 'any' | 'all'; // For multiple permissions
+  mode?: "any" | "all"; // For multiple permissions
   onUnauthorized?: () => void;
 }
 ```
 
 **Behavior**:
+
 - Evaluates user permissions against required permission(s)
 - Supports single permission string or array of permissions
 - `mode='any'`: renders if user has ANY of the specified permissions
@@ -113,12 +121,14 @@ interface PermissionGateProps {
 - Server component compatible for SSR permission checks
 
 **Implementation Notes**:
+
 - Integrates with `@repo/auth` for permission evaluation
 - Uses React Context for organization scope
 - Supports both client and server components
 - Exported from `@repo/ui/permission-gate`
 
 **Usage Example**:
+
 ```typescript
 <PermissionGate permission="content.delete" organizationId={orgId}>
   <DeleteButton />
@@ -132,21 +142,23 @@ interface PermissionGateProps {
 **Purpose**: Allow administrators to assign or modify user roles within an organization.
 
 **Props Interface**:
+
 ```typescript
 interface UserRoleSelectorProps {
   userId: string;
   organizationId: string;
-  currentRole: 'internal' | 'product-seller' | 'agency-seller' | 'client';
-  availableRoles?: ('internal' | 'product-seller' | 'agency-seller' | 'client')[];
+  currentRole: "internal" | "product-seller" | "agency-seller" | "client";
+  availableRoles?: ("internal" | "product-seller" | "agency-seller" | "client")[];
   onChange: (newRole: string) => Promise<void>;
   disabled?: boolean;
   showDescription?: boolean;
-  variant?: 'dropdown' | 'radio' | 'card';
+  variant?: "dropdown" | "radio" | "card";
   className?: string;
 }
 ```
 
 **Behavior**:
+
 - Displays current role with visual indicator
 - Shows available roles based on user's permissions
 - Provides role descriptions on hover/focus
@@ -160,6 +172,7 @@ interface UserRoleSelectorProps {
 - Emits analytics events for role changes
 
 **Implementation Notes**:
+
 - Built on shadcn/ui Select/RadioGroup components
 - Integrates with Permission Gate (requires 'organization.manage-roles')
 - Uses React Hook Form for validation
@@ -172,6 +185,7 @@ interface UserRoleSelectorProps {
 **Purpose**: Visualize multi-dimensional maturity assessments across different capability areas.
 
 **Props Interface**:
+
 ```typescript
 interface RadarChartProps {
   data: RadarDataPoint[];
@@ -206,6 +220,7 @@ interface RadarDimension {
 ```
 
 **Behavior**:
+
 - Renders interactive radar/spider chart
 - Supports 3-8 dimensions for optimal readability
 - Interactive hover states show dimension details
@@ -216,6 +231,7 @@ interface RadarDimension {
 - Export functionality to PNG/SVG
 
 **Implementation Notes**:
+
 - Built with Recharts library
 - Custom SVG rendering for precise control
 - Uses Tailwind colors with CSS variable support
@@ -229,11 +245,12 @@ interface RadarDimension {
 **Purpose**: Display temporal progression, milestones, and status updates in a visual timeline format.
 
 **Props Interface**:
+
 ```typescript
 interface TimelineProps {
   items: TimelineItem[];
-  orientation?: 'vertical' | 'horizontal';
-  variant?: 'default' | 'compact' | 'detailed';
+  orientation?: "vertical" | "horizontal";
+  variant?: "default" | "compact" | "detailed";
   showProgress?: boolean; // Show percentage complete
   currentIndex?: number; // Highlight current item
   onItemClick?: (itemId: string) => void;
@@ -245,7 +262,7 @@ interface TimelineItem {
   title: string;
   description?: string;
   timestamp: Date;
-  status: 'completed' | 'in-progress' | 'pending' | 'cancelled';
+  status: "completed" | "in-progress" | "pending" | "cancelled";
   icon?: LucideIcon;
   metadata?: Record<string, any>;
   actor?: {
@@ -257,6 +274,7 @@ interface TimelineItem {
 ```
 
 **Behavior**:
+
 - Chronological display of events/milestones
 - Color-coded status indicators
 - Vertical orientation for mobile, horizontal for desktop (responsive)
@@ -267,6 +285,7 @@ interface TimelineItem {
 - Smooth scroll to specific timeline items
 
 **Implementation Notes**:
+
 - CSS Grid/Flexbox for responsive layout
 - Framer Motion for animations
 - Virtualization for long timelines (react-window)
@@ -279,6 +298,7 @@ interface TimelineItem {
 **Purpose**: Provide powerful search and filtering capabilities with multiple filter dimensions and real-time results.
 
 **Props Interface**:
+
 ```typescript
 interface AdvancedSearchProps {
   onSearch: (query: string, filters: SearchFilters) => void;
@@ -289,14 +309,14 @@ interface AdvancedSearchProps {
   resultCount?: number;
   isLoading?: boolean;
   debounceMs?: number; // Default: 300ms
-  variant?: 'full' | 'compact' | 'modal';
+  variant?: "full" | "compact" | "modal";
   className?: string;
 }
 
 interface SearchFacet {
   id: string;
   label: string;
-  type: 'select' | 'multiselect' | 'date-range' | 'number-range' | 'toggle';
+  type: "select" | "multiselect" | "date-range" | "number-range" | "toggle";
   options?: FacetOption[];
   defaultValue?: any;
   icon?: LucideIcon;
@@ -316,6 +336,7 @@ interface SearchFilters {
 ```
 
 **Behavior**:
+
 - Real-time search with debouncing
 - Multiple filter types: select, multiselect, date ranges, number ranges, toggles
 - Filter chips show active filters with quick removal
@@ -327,6 +348,7 @@ interface SearchFilters {
 - Mobile-optimized filter drawer
 
 **Implementation Notes**:
+
 - Built on shadcn/ui Input, Select, Popover components
 - Uses React Hook Form for filter state
 - Integrates with URL query params via next/navigation
@@ -338,6 +360,7 @@ interface SearchFilters {
 #### Component Testing & Documentation
 
 **Testing Requirements**:
+
 - All components have Vitest unit tests with >90% coverage
 - React Testing Library for component behavior testing
 - Storybook stories for all variants and states
@@ -345,12 +368,14 @@ interface SearchFilters {
 - Visual regression testing with Chromatic
 
 **Documentation**:
+
 - JSDoc comments for all props and behaviors
 - Storybook documentation for usage examples
 - README.md in each component directory
 - Code examples in docs site (`apps/docs`)
 
 **Accessibility Standards**:
+
 - WCAG 2.1 Level AA compliance
 - Keyboard navigation support
 - Screen reader compatibility (ARIA labels)
@@ -360,4 +385,3 @@ interface SearchFilters {
 **ADR Reference**: [ADR-008: shadcn/ui as component foundation](adr/008-shadcn-ui-components.md)
 
 ---
-

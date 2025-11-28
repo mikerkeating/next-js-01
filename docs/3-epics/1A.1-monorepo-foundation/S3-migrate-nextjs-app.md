@@ -3,17 +3,20 @@
 > **To implement this story:** Read the Technical Requirements, create/modify the specified files following TAD patterns, then verify using the Test Requirements and Verification Checklist.
 
 ## Context
+
 - **Epic**: [Monorepo Foundation](./EPIC.md)
 - **Depends On**: [S1: Install and Configure Turborepo](./S1-install-turborepo.md), [S2: Configure pnpm Workspaces](./S2-pnpm-workspaces.md)
 - **Blocks**: [S4: Turbo Pipeline](./S4-turbo-pipeline.md), [S5: Configure Remote Caching](./S5-remote-caching.md), [S6: Vercel Deployment](./S6-vercel-deployment.md)
 - **Runs in Parallel With**: None
 
 ## User Story
+
 **As a** developer
 **I want** the existing Next.js application migrated to the `apps/routing/` workspace directory
 **So that** the monorepo structure supports multiple applications with shared dependencies while preserving existing functionality
 
 ## Acceptance Criteria
+
 - [ ] Next.js application exists at `apps/routing/` with its own `package.json`
 - [ ] Application runs successfully with `pnpm --filter @repo/routing dev`
 - [ ] Application builds successfully with `pnpm --filter @repo/routing build`
@@ -26,31 +29,34 @@
 ## Technical Requirements
 
 ### Files to Create
-| Path | Purpose |
-|------|---------|
-| `apps/routing/package.json` | Workspace package configuration for the routing app |
-| `apps/routing/tsconfig.json` | TypeScript configuration extending root config |
-| `apps/routing/next.config.ts` | Next.js configuration (moved from root) |
-| `apps/routing/src/` | Application source code (moved from root) |
-| `apps/routing/public/` | Static assets directory (if applicable) |
-| `apps/routing/.eslintrc.json` | ESLint configuration extending root (if needed) |
+
+| Path                          | Purpose                                             |
+| ----------------------------- | --------------------------------------------------- |
+| `apps/routing/package.json`   | Workspace package configuration for the routing app |
+| `apps/routing/tsconfig.json`  | TypeScript configuration extending root config      |
+| `apps/routing/next.config.ts` | Next.js configuration (moved from root)             |
+| `apps/routing/src/`           | Application source code (moved from root)           |
+| `apps/routing/public/`        | Static assets directory (if applicable)             |
+| `apps/routing/.eslintrc.json` | ESLint configuration extending root (if needed)     |
 
 ### Files to Modify
-| Path | Changes |
-|------|---------|
+
+| Path                  | Changes                                                                      |
+| --------------------- | ---------------------------------------------------------------------------- |
 | `package.json` (root) | Remove Next.js-specific dependencies; update scripts for workspace execution |
-| `turbo.json` | Ensure tasks apply to workspace apps |
-| `.gitignore` | Add workspace-specific patterns if needed |
+| `turbo.json`          | Ensure tasks apply to workspace apps                                         |
+| `.gitignore`          | Add workspace-specific patterns if needed                                    |
 
 ### Files to Remove/Move
-| Path | Action |
-|------|--------|
-| `src/` (root) | Move to `apps/routing/src/` |
-| `next.config.ts` (root) | Move to `apps/routing/` |
-| `tailwind.config.ts` (root) | Move to `apps/routing/` |
-| `postcss.config.js` (root) | Move to `apps/routing/` |
-| `tests/` (root) | Move to `apps/routing/tests/` |
-| `playwright.config.ts` (root) | Move to `apps/routing/` |
+
+| Path                          | Action                        |
+| ----------------------------- | ----------------------------- |
+| `src/` (root)                 | Move to `apps/routing/src/`   |
+| `next.config.ts` (root)       | Move to `apps/routing/`       |
+| `tailwind.config.ts` (root)   | Move to `apps/routing/`       |
+| `postcss.config.js` (root)    | Move to `apps/routing/`       |
+| `tests/` (root)               | Move to `apps/routing/tests/` |
+| `playwright.config.ts` (root) | Move to `apps/routing/`       |
 
 ### Dependencies
 
@@ -59,22 +65,25 @@
 The routing app workspace inherits most dependencies. Key dependencies to include in `apps/routing/package.json`:
 
 **Production dependencies** (move from root):
+
 - `next`, `react`, `react-dom` - Core framework
 - `@t3-oss/env-nextjs`, `zod` - Environment validation
 
 **Dev dependencies** (move from root):
+
 - TypeScript types, Tailwind CSS, PostCSS, Autoprefixer
 - Playwright (for workspace-specific E2E tests)
 
 ### Configuration Details
 
-| Setting | Requirement | Reference |
-|---------|-------------|-----------|
-| `apps/routing/package.json` name | Use `@repo/routing` workspace name | [TAD: Package Architecture](/docs/2-technical/2-tad.md#package-architecture) |
-| `apps/routing/tsconfig.json` extends | Extend from root tsconfig if shared configs exist | [TAD: Monorepo Structure](/docs/2-technical/2-tad.md#monorepo-structure) |
-| Root `package.json` scripts | Update to use `turbo run` for workspace execution | [ADR-001](/docs/2-technical/adr/001-monorepo-turborepo.md) |
+| Setting                              | Requirement                                       | Reference                                                                    |
+| ------------------------------------ | ------------------------------------------------- | ---------------------------------------------------------------------------- |
+| `apps/routing/package.json` name     | Use `@repo/routing` workspace name                | [TAD: Package Architecture](/docs/2-technical/2-tad.md#package-architecture) |
+| `apps/routing/tsconfig.json` extends | Extend from root tsconfig if shared configs exist | [TAD: Monorepo Structure](/docs/2-technical/2-tad.md#monorepo-structure)     |
+| Root `package.json` scripts          | Update to use `turbo run` for workspace execution | [ADR-001](/docs/2-technical/adr/001-monorepo-turborepo.md)                   |
 
 **Configuration Rationale**:
+
 - The `@repo/` namespace follows the internal package naming convention from TAD
 - Workspace-specific configs allow per-app customisation while sharing common patterns
 - Root scripts delegate to Turborepo for proper workspace orchestration
@@ -82,6 +91,7 @@ The routing app workspace inherits most dependencies. Key dependencies to includ
 ## Test Requirements
 
 ### Manual Verification
+
 - [ ] **Dev Server**: Run `pnpm --filter @repo/routing dev` and verify app loads at localhost:3000
 - [ ] **Build**: Run `pnpm --filter @repo/routing build` and verify successful completion
 - [ ] **Root Commands**: Run `pnpm turbo dev` from root and verify routing app starts
@@ -89,13 +99,16 @@ The routing app workspace inherits most dependencies. Key dependencies to includ
 - [ ] **Hot Reload**: Modify a component and verify hot reload works
 
 ### Automated Tests
+
 - [ ] Existing E2E smoke tests pass: `pnpm --filter @repo/routing test:e2e:smoke`
 
 ### Integration Tests
+
 - [ ] Turborepo correctly identifies and executes tasks for `@repo/routing` workspace
 - [ ] Dependency resolution works correctly with workspace protocol
 
 ### Verification Commands
+
 ```bash
 # Verify workspace is recognised
 pnpm list -r --depth 0 | grep routing
@@ -158,30 +171,34 @@ pnpm --filter @repo/routing test:e2e:smoke
    - Run E2E smoke tests
 
 ### Key Concepts
+
 - **Workspace Protocol**: Use `workspace:*` for internal package dependencies
 - **Filter Flag**: `--filter` targets specific workspaces for commands
 - **Package Naming**: `@repo/` prefix identifies internal packages
 
 ### Troubleshooting
 
-| Issue | Cause | Solution |
-|-------|-------|----------|
-| Workspace not found | pnpm doesn't recognise workspace | Verify `apps/routing/package.json` exists with correct `name`; run `pnpm install` |
-| Import paths break | TypeScript paths not updated | Update `tsconfig.json` paths; verify `@/` alias |
-| Tailwind styles missing | Content paths incorrect | Update `tailwind.config.ts` content paths |
-| E2E tests fail | Playwright config using old paths | Update `playwright.config.ts` webServer command |
+| Issue                   | Cause                             | Solution                                                                          |
+| ----------------------- | --------------------------------- | --------------------------------------------------------------------------------- |
+| Workspace not found     | pnpm doesn't recognise workspace  | Verify `apps/routing/package.json` exists with correct `name`; run `pnpm install` |
+| Import paths break      | TypeScript paths not updated      | Update `tsconfig.json` paths; verify `@/` alias                                   |
+| Tailwind styles missing | Content paths incorrect           | Update `tailwind.config.ts` content paths                                         |
+| E2E tests fail          | Playwright config using old paths | Update `playwright.config.ts` webServer command                                   |
 
 ## Estimated Effort
+
 **Size**: M (4-8h)
 
 ## Architecture Decisions
 
 ### Consolidated Decisions (reference only)
+
 - [ADR-001: Monorepo with Turborepo](/docs/2-technical/adr/001-monorepo-turborepo.md) - Workspace conventions
 - [TAD: Monorepo Structure](/docs/2-technical/2-tad.md#monorepo-structure) - `apps/` and `packages/` convention
 - [TAD: Package Architecture](/docs/2-technical/2-tad.md#package-architecture) - `@repo/` naming convention
 
 ### Story-Specific Decisions
+
 None - app naming (`@repo/routing`) follows established TAD conventions. "Routing" reflects the app's role as the main entry point per roadmap.
 
 ## Out of Scope
@@ -198,10 +215,12 @@ The following items are explicitly NOT part of this story:
 ## Dependencies on Other Stories
 
 ### Depends On (Must Complete First)
+
 - **S1**: Install and Configure Turborepo - Turbo.json must exist for workspace task execution
 - **S2**: Configure pnpm Workspaces - Workspace structure (`apps/`, `packages/`) must be configured
 
 ### Enables (Unblocks These Stories)
+
 - **S4**: Turbo Pipeline - Can configure task dependencies once app exists in workspace
 - **S5**: Configure Remote Caching - Requires working workspace builds to test caching
 - **S6**: Vercel Deployment - Requires app in workspace for monorepo deployment config
@@ -220,6 +239,7 @@ The following items are explicitly NOT part of this story:
 - [ ] Conventional commit; file moves tracked with `git mv` where possible
 
 ## Status
+
 - **State**: Not Started
 - **PR**: -
 - **Completed**: -

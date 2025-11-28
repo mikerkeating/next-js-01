@@ -110,16 +110,16 @@ mk3-platform/
 
 ### Directory Purposes
 
-| Directory | Purpose |
-|-----------|---------|
-| `apps/` | Next.js applications. Each app is independently deployable |
-| `apps/routing/` | Main routing layer - primary Next.js application |
-| `packages/` | Shared packages consumed by multiple apps (config, UI, database, auth) |
-| `docs/` | Living documentation including PRD, TAD, ADRs, and story specs |
-| `docs/0-process/` | Development workflow, coding standards, and contribution guides |
-| `docs/1-product/` | Product requirements document and delivery roadmap |
-| `docs/2-technical/` | Technical architecture document and architecture decision records |
-| `docs/3-epics/` | Epic breakdowns with individual story specifications |
+| Directory           | Purpose                                                                |
+| ------------------- | ---------------------------------------------------------------------- |
+| `apps/`             | Next.js applications. Each app is independently deployable             |
+| `apps/routing/`     | Main routing layer - primary Next.js application                       |
+| `packages/`         | Shared packages consumed by multiple apps (config, UI, database, auth) |
+| `docs/`             | Living documentation including PRD, TAD, ADRs, and story specs         |
+| `docs/0-process/`   | Development workflow, coding standards, and contribution guides        |
+| `docs/1-product/`   | Product requirements document and delivery roadmap                     |
+| `docs/2-technical/` | Technical architecture document and architecture decision records      |
+| `docs/3-epics/`     | Epic breakdowns with individual story specifications                   |
 
 ## Prerequisites
 
@@ -132,17 +132,17 @@ For exact version constraints, see [canonical-versions.md](/docs/2-technical/ref
 
 All commands run from the repository root using Turborepo for intelligent task orchestration:
 
-| Command | Description |
-|---------|-------------|
-| `pnpm dev` | Start development server for all apps |
-| `pnpm build` | Build all apps and packages for production |
-| `pnpm lint` | Run ESLint across all workspaces |
-| `pnpm lint:fix` | Run ESLint with auto-fix |
-| `pnpm type-check` | Run TypeScript type checking |
-| `pnpm test` | Run tests across all workspaces |
-| `pnpm clean` | Remove build artifacts and node_modules |
-| `pnpm format` | Format code with Prettier |
-| `pnpm format:check` | Check code formatting |
+| Command             | Description                                |
+| ------------------- | ------------------------------------------ |
+| `pnpm dev`          | Start development server for all apps      |
+| `pnpm build`        | Build all apps and packages for production |
+| `pnpm lint`         | Run ESLint across all workspaces           |
+| `pnpm lint:fix`     | Run ESLint with auto-fix                   |
+| `pnpm type-check`   | Run TypeScript type checking               |
+| `pnpm test`         | Run tests across all workspaces            |
+| `pnpm clean`        | Remove build artifacts and node_modules    |
+| `pnpm format`       | Format code with Prettier                  |
+| `pnpm format:check` | Check code formatting                      |
 
 ### Quality Checks
 
@@ -237,14 +237,14 @@ Edit `.env.local` with your values. For local development, the default `NEXT_PUB
 
 ### Variable Categories
 
-| Category | Required | Description |
-|----------|----------|-------------|
-| Application | Yes | Base URL for the application |
-| Basic Auth | No | Pre-release access protection |
-| Database | Future | PostgreSQL connection via Neon/Supabase |
-| Authentication | Future | Clerk authentication keys |
-| Analytics | No | PostHog product analytics |
-| Monitoring | No | Sentry error tracking |
+| Category       | Required | Description                             |
+| -------------- | -------- | --------------------------------------- |
+| Application    | Yes      | Base URL for the application            |
+| Basic Auth     | No       | Pre-release access protection           |
+| Database       | Future   | PostgreSQL connection via Neon/Supabase |
+| Authentication | Future   | Clerk authentication keys               |
+| Analytics      | No       | PostHog product analytics               |
+| Monitoring     | No       | Sentry error tracking                   |
 
 ### Build-Time Validation
 
@@ -278,26 +278,26 @@ Developer → Git Push → GitHub Actions CI → Vercel Deploy → Production
 
 The CI workflow (`.github/workflows/ci.yml`) runs on every PR and push to `development`:
 
-| Job | Description |
-|-----|-------------|
-| `lint` | ESLint code validation |
+| Job          | Description            |
+| ------------ | ---------------------- |
+| `lint`       | ESLint code validation |
 | `type-check` | TypeScript compilation |
-| `test` | Unit/integration tests |
-| `build` | Production build |
-| `e2e-smoke` | Playwright smoke tests |
+| `test`       | Unit/integration tests |
+| `build`      | Production build       |
+| `e2e-smoke`  | Playwright smoke tests |
 
 ## Troubleshooting
 
 ### Common Issues
 
-| Issue | Solution |
-|-------|----------|
-| `pnpm install` fails | Verify Node.js 24.x and pnpm 10.x are installed |
-| `pnpm dev` port in use | Kill process on port 3000 or use `PORT=3001 pnpm dev` |
-| Environment validation fails | Check `.env.local` has all required variables from `.env.example` |
-| Type errors on build | Run `pnpm type-check` locally to see specific errors |
-| Turborepo cache miss | Run `npx turbo login && npx turbo link` to enable remote caching |
-| Workspace not found | Ensure package.json has correct `name` field matching `@repo/<name>` |
+| Issue                        | Solution                                                             |
+| ---------------------------- | -------------------------------------------------------------------- |
+| `pnpm install` fails         | Verify Node.js 24.x and pnpm 10.x are installed                      |
+| `pnpm dev` port in use       | Kill process on port 3000 or use `PORT=3001 pnpm dev`                |
+| Environment validation fails | Check `.env.local` has all required variables from `.env.example`    |
+| Type errors on build         | Run `pnpm type-check` locally to see specific errors                 |
+| Turborepo cache miss         | Run `npx turbo login && npx turbo link` to enable remote caching     |
+| Workspace not found          | Ensure package.json has correct `name` field matching `@repo/<name>` |
 
 ### Turborepo Issues
 
@@ -330,21 +330,21 @@ pnpm list -r --depth 0
 
 ## Documentation
 
-| Document | Purpose |
-|----------|---------|
-| [Process Guide](/docs/0-process/0-process.md) | Development process and workflow |
-| [Technical Architecture (TAD)](/docs/2-technical/2-tad.md) | System architecture overview |
-| [Coding Standards](/docs/2-technical/references/coding-standards.md) | Code quality rules |
-| [Canonical Versions](/docs/2-technical/references/canonical-versions.md) | Dependency versions |
+| Document                                                                 | Purpose                          |
+| ------------------------------------------------------------------------ | -------------------------------- |
+| [Process Guide](/docs/0-process/0-process.md)                            | Development process and workflow |
+| [Technical Architecture (TAD)](/docs/2-technical/2-tad.md)               | System architecture overview     |
+| [Coding Standards](/docs/2-technical/references/coding-standards.md)     | Code quality rules               |
+| [Canonical Versions](/docs/2-technical/references/canonical-versions.md) | Dependency versions              |
 
 ### Architecture Decision Records
 
-| ADR | Decision |
-|-----|----------|
-| [ADR-001](/docs/2-technical/adr/001-monorepo-turborepo.md) | Monorepo with Turborepo |
-| [ADR-002](/docs/2-technical/adr/002-pnpm-package-manager.md) | pnpm as Package Manager |
-| [ADR-003](/docs/2-technical/adr/003-nextjs-framework.md) | Next.js 16 as Framework |
-| [ADR-004](/docs/2-technical/adr/004-vercel-hosting.md) | Vercel as Hosting Platform |
+| ADR                                                          | Decision                   |
+| ------------------------------------------------------------ | -------------------------- |
+| [ADR-001](/docs/2-technical/adr/001-monorepo-turborepo.md)   | Monorepo with Turborepo    |
+| [ADR-002](/docs/2-technical/adr/002-pnpm-package-manager.md) | pnpm as Package Manager    |
+| [ADR-003](/docs/2-technical/adr/003-nextjs-framework.md)     | Next.js 16 as Framework    |
+| [ADR-004](/docs/2-technical/adr/004-vercel-hosting.md)       | Vercel as Hosting Platform |
 
 ## API Endpoints
 
@@ -359,6 +359,7 @@ curl http://localhost:3000/api/health
 ```
 
 **Response**:
+
 ```json
 {
   "status": "healthy",
@@ -369,14 +370,15 @@ curl http://localhost:3000/api/health
 
 ## Branch Strategy
 
-| Branch | Purpose | Protection |
-|--------|---------|------------|
+| Branch        | Purpose           | Protection              |
+| ------------- | ----------------- | ----------------------- |
 | `development` | Production branch | Protected - requires PR |
-| `feature/*` | New features | None |
-| `fix/*` | Bug fixes | None |
-| `epic/*` | Epic-level work | None |
+| `feature/*`   | New features      | None                    |
+| `fix/*`       | Bug fixes         | None                    |
+| `epic/*`      | Epic-level work   | None                    |
 
 All changes must go through pull requests with:
+
 - At least 1 approval required
 - All CI status checks passing
 

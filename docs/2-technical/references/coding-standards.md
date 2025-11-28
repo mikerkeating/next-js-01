@@ -11,14 +11,16 @@ These standards prevent 80% of linting and type-check errors found in Epic 3.1 a
 ### 1.1 Never Use `any` Type Assertions
 
 **❌ PROHIBITED**:
+
 ```typescript
 const user = mockData as any;
 mockFn.mockReturnValue({ data: something as any });
 ```
 
 **✅ REQUIRED**: Use type-safe helpers from `test/types.ts`
+
 ```typescript
-import { createMockClerkUser, mockUseUserReturn } from '@repo/auth/test/types';
+import { createMockClerkUser, mockUseUserReturn } from "@repo/auth/test/types";
 
 mockUseUser.mockReturnValue(
   mockUseUserReturn({
@@ -34,17 +36,20 @@ mockUseUser.mockReturnValue(
 ### 1.2 Discriminated Union Type Narrowing
 
 **❌ WRONG**:
+
 ```typescript
 const result = await createOrganization(data);
-expect(result.error).toContain('text');  // TS error if success: true
+expect(result.error).toContain("text"); // TS error if success: true
 ```
 
 **✅ CORRECT**: Always narrow before accessing union properties
+
 ```typescript
 const result = await createOrganization(data);
-if (!result.success) {  // Type narrowing
-  expect(result.error).toContain('text');
-  expect(result.field).toBe('slug');
+if (!result.success) {
+  // Type narrowing
+  expect(result.error).toContain("text");
+  expect(result.field).toBe("slug");
 }
 ```
 
@@ -55,13 +60,16 @@ if (!result.success) {  // Type narrowing
 ### 1.3 Explicit Function Types
 
 **❌ WRONG**:
+
 ```typescript
-function processData(data) {  // Implicit any
-  return data.map(item => item.id);  // Implicit any
+function processData(data) {
+  // Implicit any
+  return data.map((item) => item.id); // Implicit any
 }
 ```
 
 **✅ CORRECT**:
+
 ```typescript
 function processData(data: User[]): string[] {
   return data.map((item: User) => item.id);
@@ -75,13 +83,15 @@ function processData(data: User[]): string[] {
 ### 1.4 Zod Schema Types
 
 **❌ DEPRECATED**:
+
 ```typescript
-function validate<T extends z.ZodTypeAny>(schema: T): z.infer<T>
+function validate<T extends z.ZodTypeAny>(schema: T): z.infer<T>;
 ```
 
 **✅ CURRENT**:
+
 ```typescript
-function validate<T extends z.ZodType>(schema: T): z.infer<T>
+function validate<T extends z.ZodType>(schema: T): z.infer<T>;
 ```
 
 **Rule**: Always use `z.ZodType`, never `z.ZodTypeAny`
@@ -93,6 +103,7 @@ function validate<T extends z.ZodType>(schema: T): z.infer<T>
 ### 2.1 Test Type Helpers Location
 
 **Check these locations BEFORE writing tests**:
+
 ```
 packages/auth/src/test/types.ts       # Clerk mocks
 packages/*/src/test/types.ts          # Package-specific helpers
@@ -103,6 +114,7 @@ packages/*/src/test/types.ts          # Package-specific helpers
 **When to create**: If you need to mock complex external types (Clerk, Stripe, etc.)
 
 **Pattern**:
+
 ```typescript
 // packages/[package]/src/test/types.ts
 
@@ -129,12 +141,14 @@ export function mockUseXReturn(params: MockUseXReturn): MockUseXReturn {
 ### 3.1 Import Groups
 
 **❌ WRONG**:
+
 ```typescript
 import { describe } from "vitest";
 import { Component } from "./component";
 ```
 
 **✅ CORRECT**: Blank line between external and internal imports
+
 ```typescript
 import { describe } from "vitest";
 
@@ -158,6 +172,7 @@ import { Component } from "./component";
 ### 3.3 React Component Exports
 
 **❌ WRONG**:
+
 ```typescript
 export default function MyComponent() {
   return <div>...</div>;
@@ -165,6 +180,7 @@ export default function MyComponent() {
 ```
 
 **✅ CORRECT**: Use named exports
+
 ```typescript
 export function MyComponent() {
   return <div>...</div>;
@@ -187,11 +203,11 @@ export default [
   ...base,
   {
     ignores: [
-      'dist/**',
-      'node_modules/**',
-      '*.config.js',
-      'src/eslint/**/*.js',     // Exclude ESLint configs
-      'src/prettier/**/*.cjs',  // Exclude CommonJS files
+      "dist/**",
+      "node_modules/**",
+      "*.config.js",
+      "src/eslint/**/*.js", // Exclude ESLint configs
+      "src/prettier/**/*.cjs", // Exclude CommonJS files
     ],
   },
 ];
@@ -252,8 +268,9 @@ turbo run build
 - `mockAuthReturn()`
 
 **Example**:
+
 ```typescript
-import { mockUseUserReturn, createMockClerkUser } from '@repo/auth/test/types';
+import { mockUseUserReturn, createMockClerkUser } from "@repo/auth/test/types";
 
 mockUseUser.mockReturnValue(
   mockUseUserReturn({
@@ -276,6 +293,7 @@ mockUseUser.mockReturnValue(
 - Use `.pick()` and `.omit()` for derived schemas
 
 **Type-Safe Error Handling**:
+
 ```typescript
 try {
   return schema.parse(content);
@@ -289,7 +307,7 @@ try {
       };
 
       return {
-        path: issue.path.join('.'),
+        path: issue.path.join("."),
         message: issue.message,
         expected: issueWithExpected.expected,
         received: issueWithExpected.received,
@@ -300,6 +318,7 @@ try {
 ```
 
 **Schema Composition**:
+
 ```typescript
 // ✅ CORRECT
 const userSchema = z.object({ name: z.string() });
@@ -324,11 +343,12 @@ type ActionResult<T> =
 ```
 
 **Always narrow before accessing properties**:
+
 ```typescript
 if (result.success) {
-  console.log(result.data);  // Safe
+  console.log(result.data); // Safe
 } else {
-  console.error(result.error);  // Safe
+  console.error(result.error); // Safe
 }
 ```
 

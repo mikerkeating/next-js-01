@@ -345,9 +345,11 @@ Brief description (1-2 sentences)
 ## Usage
 
 ### Basic Usage
+
 [Common use case with complete example]
 
 ### Advanced Usage
+
 [Power user features]
 
 ## API Reference
@@ -369,7 +371,7 @@ Brief description (1-2 sentences)
 // Context comment: When to use this pattern
 // ============================================
 
-import { /* explicit imports */ } from 'package';
+import {} from /* explicit imports */ "package";
 
 // Setup or configuration if needed
 const config = {
@@ -381,14 +383,14 @@ async function exampleUsage() {
   try {
     // Step 1: Show the primary API usage
     const result = await api.doSomething(config);
-    
+
     // Step 2: Show how to use the result
-    console.log('Success:', result);
-    
+    console.log("Success:", result);
+
     return result;
   } catch (error) {
     // Step 3: Show error handling
-    console.error('Failed because:', error.message);
+    console.error("Failed because:", error.message);
     throw error;
   }
 }
@@ -407,6 +409,7 @@ exampleUsage();
 **Cause**: [Why this happens]
 
 **Solution**:
+
 1. [First step to fix]
 2. [Second step to fix]
 3. [Verify it's fixed]

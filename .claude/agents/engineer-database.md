@@ -135,6 +135,7 @@ CREATE INDEX idx_content_org_created ON content(organization_id, created_at DESC
 ```
 
 **Why This Pattern**:
+
 - `organization_id` foreign key enforces referential integrity
 - CASCADE delete removes org data when org deleted
 - Composite index (org_id, created_at) optimizes common "recent content for org" queries
@@ -159,6 +160,7 @@ CREATE INDEX idx_user_orgs_org ON user_organizations(organization_id);
 ```
 
 **Why This Pattern**:
+
 - Supports users belonging to multiple organizations
 - Role stored per-organization (user can be admin in one org, client in another)
 - UNIQUE constraint prevents duplicate memberships
@@ -177,11 +179,12 @@ CREATE TABLE campaigns (
     created_at TIMESTAMPTZ DEFAULT NOW()
 );
 
-CREATE INDEX idx_campaigns_org_active ON campaigns(organization_id, created_at DESC) 
+CREATE INDEX idx_campaigns_org_active ON campaigns(organization_id, created_at DESC)
     WHERE deleted_at IS NULL;
 ```
 
 **Why This Pattern**:
+
 - Partial index (WHERE deleted_at IS NULL) keeps index small and fast
 - Enables data recovery and audit trails
 - Queries filter `WHERE deleted_at IS NULL` to exclude soft-deleted records
@@ -208,6 +211,7 @@ CREATE INDEX idx_events_data_gin ON analytics_events USING gin(event_data);
 ```
 
 **Why This Pattern**:
+
 - Composite index optimizes "recent events of type X for org Y" queries
 - GIN index on JSONB enables fast queries on event_data fields
 - `ON DELETE SET NULL` preserves events when users deleted
@@ -238,9 +242,9 @@ CREATE INDEX idx_events_data_gin ON analytics_events USING gin(event_data);
 
 ```sql
 -- Common pattern: recent items for an org
-SELECT * FROM content 
-WHERE organization_id = $1 
-ORDER BY created_at DESC 
+SELECT * FROM content
+WHERE organization_id = $1
+ORDER BY created_at DESC
 LIMIT 20;
 
 -- Optimal index
@@ -251,13 +255,13 @@ CREATE INDEX idx_content_org_created ON content(organization_id, created_at DESC
 
 ```sql
 -- Pattern: filtered items for an org
-SELECT * FROM campaigns 
-WHERE organization_id = $1 
-  AND status = 'active' 
+SELECT * FROM campaigns
+WHERE organization_id = $1
+  AND status = 'active'
   AND deleted_at IS NULL;
 
 -- Optimal index (most selective filters first)
-CREATE INDEX idx_campaigns_org_status ON campaigns(organization_id, status) 
+CREATE INDEX idx_campaigns_org_status ON campaigns(organization_id, status)
 WHERE deleted_at IS NULL;
 ```
 
@@ -265,9 +269,9 @@ WHERE deleted_at IS NULL;
 
 ```sql
 -- Pattern: counts/sums per organization
-SELECT organization_id, COUNT(*), SUM(revenue) 
-FROM orders 
-WHERE created_at >= $1 
+SELECT organization_id, COUNT(*), SUM(revenue)
+FROM orders
+WHERE created_at >= $1
 GROUP BY organization_id;
 
 -- Optimal index
@@ -391,13 +395,14 @@ reserve_pool_timeout = 5
 ```
 
 **Why Transaction Mode**:
+
 - Connections released after each transaction (not held by idle sessions)
 - Higher concurrency with fewer database connections
 - Works with most ORMs (session mode needed for temporary tables, cursors)
 
 **Pool Sizing Guidelines**:
 
-- `default_pool_size`: ~(2 * num_cpu_cores) on database server
+- `default_pool_size`: ~(2 \* num_cpu_cores) on database server
 - `max_client_conn`: Application-side connection limit (can be high)
 - `reserve_pool_size`: Extra connections for burst traffic
 - Monitor: If apps wait for connections, increase pool size
@@ -405,16 +410,19 @@ reserve_pool_timeout = 5
 ### Environment-Specific Configuration
 
 **Development**:
+
 - Direct database connections (no pooling)
 - Verbose query logging
 - Lower connection limits (5-10)
 
 **Staging**:
+
 - Pooling enabled (test pool configuration)
 - Moderate logging
 - Production-like data volumes
 
 **Production**:
+
 - Pooling required (PgBouncer)
 - Selective query logging (slow queries only)
 - Higher connection limits (20-50 per pool)
@@ -443,7 +451,7 @@ model Organization {
   updatedAt DateTime @updatedAt @map("updated_at")
 
   content   Content[]
-  
+
   @@map("organizations")
 }
 
@@ -452,9 +460,9 @@ model Content {
   organizationId String       @map("organization_id")
   title          String
   createdAt      DateTime     @default(now()) @map("created_at")
-  
+
   organization   Organization @relation(fields: [organizationId], references: [id], onDelete: Cascade)
-  
+
   @@index([organizationId, createdAt(sort: Desc)])
   @@map("content")
 }
@@ -490,30 +498,39 @@ export type Content = {
 **Schema Definition** (`schema.ts`):
 
 ```typescript
-import { pgTable, uuid, text, timestamp } from 'drizzle-orm/pg-core';
+import { pgTable, uuid, text, timestamp } from "drizzle-orm/pg-core";
 
-export const organizations = pgTable('organizations', {
-  id: uuid('id').defaultRandom().primaryKey(),
-  name: text('name').notNull(),
-  createdAt: timestamp('created_at').defaultNow(),
-  updatedAt: timestamp('updated_at').defaultNow(),
+export const organizations = pgTable("organizations", {
+  id: uuid("id").defaultRandom().primaryKey(),
+  name: text("name").notNull(),
+  createdAt: timestamp("created_at").defaultNow(),
+  updatedAt: timestamp("updated_at").defaultNow(),
 });
 
-export const content = pgTable('content', {
-  id: uuid('id').defaultRandom().primaryKey(),
-  organizationId: uuid('organization_id').notNull().references(() => organizations.id, { onDelete: 'cascade' }),
-  title: text('title').notNull(),
-  createdAt: timestamp('created_at').defaultNow(),
-}, (table) => ({
-  orgCreatedIdx: index('idx_content_org_created').on(table.organizationId, table.createdAt.desc()),
-}));
+export const content = pgTable(
+  "content",
+  {
+    id: uuid("id").defaultRandom().primaryKey(),
+    organizationId: uuid("organization_id")
+      .notNull()
+      .references(() => organizations.id, { onDelete: "cascade" }),
+    title: text("title").notNull(),
+    createdAt: timestamp("created_at").defaultNow(),
+  },
+  (table) => ({
+    orgCreatedIdx: index("idx_content_org_created").on(
+      table.organizationId,
+      table.createdAt.desc()
+    ),
+  })
+);
 ```
 
 **Type Inference**:
 
 ```typescript
-import { InferModel } from 'drizzle-orm';
-import { organizations, content } from './schema';
+import { InferModel } from "drizzle-orm";
+import { organizations, content } from "./schema";
 
 export type Organization = InferModel<typeof organizations>;
 export type Content = InferModel<typeof content>;
@@ -585,18 +602,21 @@ CREATE TABLE reservations (
 ### Key Metrics to Track
 
 **Query Performance**:
+
 - P50, P95, P99 query latencies by type
 - Slow query log (queries >100ms)
 - Query execution plans for common queries
 - Cache hit rates (PostgreSQL buffer cache)
 
 **Connection Health**:
+
 - Active connections vs pool size
 - Connection wait times
 - Connection errors/timeouts
 - Pool exhaustion events
 
 **Database Health**:
+
 - Table sizes and growth rates
 - Index usage statistics (unused indexes waste space/write performance)
 - Replication lag (if using replicas)
@@ -607,7 +627,7 @@ CREATE TABLE reservations (
 **Find Slow Queries** (requires `pg_stat_statements`):
 
 ```sql
-SELECT 
+SELECT
     query,
     calls,
     mean_exec_time,
@@ -621,7 +641,7 @@ LIMIT 20;
 **Find Missing Indexes**:
 
 ```sql
-SELECT 
+SELECT
     schemaname,
     tablename,
     seq_scan,
@@ -634,7 +654,7 @@ ORDER BY seq_scan DESC;
 **Find Unused Indexes**:
 
 ```sql
-SELECT 
+SELECT
     schemaname,
     tablename,
     indexname,
@@ -647,7 +667,7 @@ ORDER BY pg_relation_size(indexrelid) DESC;
 **Table Sizes**:
 
 ```sql
-SELECT 
+SELECT
     schemaname,
     tablename,
     pg_size_pretty(pg_total_relation_size(schemaname||'.'||tablename)) AS total_size

@@ -16,7 +16,7 @@ use @.claude/agents/engineer-devops.md to execute @docs/0-process/references/sto
 use @.claude/agents/engineer-devops.md to execute @docs/0-process/references/story-dev-prompt.md for docs/3-epics/1A.1-monorepo-foundation/S2-pnpm-workspaces.md
 ```
 
-### S3: Migrate Next.js App to Workspace - DONE - DONE
+### S3: Migrate Next.js App to Workspace - DONE
 
 ```markdown
 use @.claude/agents/engineer-fullstack.md to execute @docs/0-process/references/story-dev-prompt.md for docs/3-epics/1A.1-monorepo-foundation/S3-migrate-nextjs-app.md

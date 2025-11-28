@@ -13,6 +13,7 @@ Evaluate whether the stories for the specified Epic fully deliver the epic's acc
 ## Input Documents
 
 Read and analyze these documents:
+
 1. **EPIC.md**: `docs/3-epics/{epic-slug}/EPIC.md` - Source of truth for acceptance criteria
 2. **All Story Files**: `docs/3-epics/{epic-slug}/S*.md` - Stories to evaluate
 3. **Story Template**: `docs/0-process/references/story-details-template.md` - For template adherence check
@@ -29,6 +30,7 @@ Use [epic-story-check-template.md](./epic-story-check-template.md) as the templa
 ### Step 1: Extract Epic Acceptance Criteria
 
 From EPIC.md, identify:
+
 1. All acceptance criteria (grouped by section if applicable)
 2. Story dependency graph
 3. Estimated effort (total and per-story)
@@ -37,17 +39,20 @@ From EPIC.md, identify:
 ### Step 2: Map Criteria to Stories
 
 For EACH acceptance criterion in the epic:
+
 1. Identify which story (or stories) cover it
 2. Locate the specific section/lines in the story
 3. Assess coverage completeness (full/partial/none)
 
 Document any:
+
 - **Orphan criteria**: Epic requirements not covered by any story
 - **Orphan stories**: Stories that don't map to any epic criterion
 
 ### Step 3: Validate Dependencies
 
 Compare the dependency graph from EPIC.md against each story's "Depends On" and "Blocks" sections:
+
 1. Create a comparison table
 2. Flag any mismatches
 3. Identify parallel execution opportunities
@@ -56,6 +61,7 @@ Compare the dependency graph from EPIC.md against each story's "Depends On" and 
 ### Step 4: Review Effort Estimates
 
 Compare epic-level and story-level estimates:
+
 1. Sum story hours and compare to epic total
 2. Assess each story's size appropriateness
 3. Flag significant discrepancies
@@ -63,6 +69,7 @@ Compare epic-level and story-level estimates:
 ### Step 5: Assess Story Quality
 
 For each story, check template adherence:
+
 - Context section (Epic, Depends On, Blocks, Runs in Parallel With)
 - User Story format (As/I want/So that)
 - Acceptance Criteria (checkboxes, testable)
@@ -78,12 +85,14 @@ For each story, check template adherence:
 ### Step 6: Check Decision Status
 
 If the epic has "Actions or Decisions Required":
+
 1. Verify stories implement the recommended option
 2. Flag any decisions that need resolution before implementation
 
 ### Step 7: Formulate Recommendations
 
 Based on the analysis:
+
 1. **Required Changes**: Blocking issues that must be fixed
 2. **Minor Polish**: Optional improvements
 3. **Optional Enhancements**: Beyond-scope additions for consideration
@@ -91,6 +100,7 @@ Based on the analysis:
 ### Step 8: Render Verdict
 
 Determine overall assessment:
+
 - **PASS**: All criteria covered, dependencies correct, estimates reasonable
 - **FAIL**: Critical gaps exist (specify what must be addressed)
 
@@ -99,22 +109,26 @@ Determine overall assessment:
 ### Coverage Assessment
 
 **Fully Covered** means:
+
 - Story explicitly addresses the criterion
 - Acceptance criteria or implementation notes specify how
 - No ambiguity about what will be delivered
 
 **Partially Covered** means:
+
 - Criterion mentioned but not fully specified
 - Implementation details unclear
 - May require interpretation
 
 **Not Covered** means:
+
 - No story mentions this criterion
 - Critical gap that blocks epic completion
 
 ### Dependency Validation
 
 Check for:
+
 - **Correct ordering**: Prerequisites come before dependents
 - **No circular dependencies**: A→B→C→A is invalid
 - **Parallel opportunities identified**: Independent work flagged
@@ -123,6 +137,7 @@ Check for:
 ### Template Adherence Scoring
 
 Score each section as percentage of stories compliant:
+
 - 100%: All stories have this section correctly formatted
 - 95%+: Minor variations, doesn't impact usability
 - 80-94%: Some issues, note specific problems
@@ -130,16 +145,17 @@ Score each section as percentage of stories compliant:
 
 ## Reference Documents
 
-| Document | Purpose |
-|----------|---------|
-| [epic-story-check-template.md](./epic-story-check-template.md) | Evaluation output template |
-| [story-details-template.md](./story-details-template.md) | Story template for adherence check |
-| [epic-details-template.md](./epic-details-template.md) | Epic template for context |
-| [story-acceptance-criteria.md](./story-acceptance-criteria.md) | Criteria quality standards |
+| Document                                                       | Purpose                            |
+| -------------------------------------------------------------- | ---------------------------------- |
+| [epic-story-check-template.md](./epic-story-check-template.md) | Evaluation output template         |
+| [story-details-template.md](./story-details-template.md)       | Story template for adherence check |
+| [epic-details-template.md](./epic-details-template.md)         | Epic template for context          |
+| [story-acceptance-criteria.md](./story-acceptance-criteria.md) | Criteria quality standards         |
 
 ## Quality Checks
 
 Before finishing, verify the evaluation:
+
 - [ ] Every epic acceptance criterion has been mapped to a story (or flagged as gap)
 - [ ] Dependency graph validated against all stories
 - [ ] Effort totals compared and reconciled
@@ -154,27 +170,29 @@ Before finishing, verify the evaluation:
 ### Coverage Tables
 
 Use consistent status indicators:
+
 ```markdown
-| Criterion | Story | Status |
-|-----------|-------|--------|
-| Criterion text | S1 | :white_check_mark: Covered |
+| Criterion      | Story  | Status                     |
+| -------------- | ------ | -------------------------- |
+| Criterion text | S1     | :white_check_mark: Covered |
 | Criterion text | S2, S3 | :white_check_mark: Covered |
-| Criterion text | - | :x: NOT COVERED |
+| Criterion text | -      | :x: NOT COVERED            |
 ```
 
 ### Dependency Comparison
 
 ```markdown
-| Story | EPIC Dependency | Story Dependency | Match |
-|-------|-----------------|------------------|-------|
-| S1 | None | None | ✅ |
-| S2 | S1 | S1 | ✅ |
-| S3 | S2 | S1 | ❌ Mismatch |
+| Story | EPIC Dependency | Story Dependency | Match       |
+| ----- | --------------- | ---------------- | ----------- |
+| S1    | None            | None             | ✅          |
+| S2    | S1              | S1               | ✅          |
+| S3    | S2              | S1               | ❌ Mismatch |
 ```
 
 ### Line References
 
 When citing story content, use line numbers or section names:
+
 - `S2 Lines 45-67` - Specific implementation notes
 - `S3 Acceptance Criteria` - Section reference
 - `S4.AD-2A.4.S4.1` - Architecture decision reference
@@ -182,16 +200,19 @@ When citing story content, use line numbers or section names:
 ## Evaluation Thoroughness
 
 ### For Small Epics (2-4 stories)
+
 - Full detailed analysis
 - Complete traceability matrix
 - Line-level references
 
 ### For Medium Epics (5-8 stories)
+
 - Section-level references acceptable
 - Traceability matrix recommended
 - Focus on coverage gaps
 
 ### For Large Epics (9+ stories)
+
 - Category-level coverage analysis
 - Summary traceability (not every criterion)
 - Focus on critical gaps and recommendations
@@ -240,10 +261,12 @@ When citing story content, use line numbers or section names:
 After creating `epic-eval.md`:
 
 **If PASS**:
+
 - Stories are ready for implementation
 - Note optional improvements in eval for consideration
 
 **If FAIL**:
+
 - Update stories to address required changes
 - Re-run evaluation
 - Do not begin implementation until PASS

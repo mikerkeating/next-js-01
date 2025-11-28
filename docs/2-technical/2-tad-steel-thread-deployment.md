@@ -54,23 +54,23 @@ The Steel Thread is our Day 1 deployment pipeline that establishes the foundatio
 
 ```typescript
 interface HealthCheckResponse {
-  status: 'healthy' | 'degraded' | 'unhealthy';
-  timestamp: string;  // ISO 8601 format
-  version: string;    // Application version from package.json
-  environment: 'development' | 'preview' | 'staging' | 'production';
+  status: "healthy" | "degraded" | "unhealthy";
+  timestamp: string; // ISO 8601 format
+  version: string; // Application version from package.json
+  environment: "development" | "preview" | "staging" | "production";
   checks: {
     database: HealthCheckDetail;
     auth: HealthCheckDetail;
     cache: HealthCheckDetail;
   };
-  uptime: number;  // Seconds since deployment
+  uptime: number; // Seconds since deployment
 }
 
 interface HealthCheckDetail {
-  status: 'ok' | 'degraded' | 'error';
-  responseTime?: number;  // Milliseconds
+  status: "ok" | "degraded" | "error";
+  responseTime?: number; // Milliseconds
   message?: string;
-  lastChecked: string;    // ISO 8601 format
+  lastChecked: string; // ISO 8601 format
 }
 ```
 
@@ -147,33 +147,41 @@ interface HealthCheckDetail {
 export async function GET() {
   const startTime = Date.now();
 
-  const checks = await Promise.allSettled([
-    checkDatabase(),
-    checkAuth(),
-    checkCache()
-  ]);
+  const checks = await Promise.allSettled([checkDatabase(), checkAuth(), checkCache()]);
 
   const healthStatus = {
-    database: checks[0].status === 'fulfilled' ? checks[0].value : { status: 'error', message: checks[0].reason },
-    auth: checks[1].status === 'fulfilled' ? checks[1].value : { status: 'error', message: checks[1].reason },
-    cache: checks[2].status === 'fulfilled' ? checks[2].value : { status: 'error', message: checks[2].reason }
+    database:
+      checks[0].status === "fulfilled"
+        ? checks[0].value
+        : { status: "error", message: checks[0].reason },
+    auth:
+      checks[1].status === "fulfilled"
+        ? checks[1].value
+        : { status: "error", message: checks[1].reason },
+    cache:
+      checks[2].status === "fulfilled"
+        ? checks[2].value
+        : { status: "error", message: checks[2].reason },
   };
 
   // Determine overall status
-  const hasError = Object.values(healthStatus).some(check => check.status === 'error');
-  const hasDegraded = Object.values(healthStatus).some(check => check.status === 'degraded');
+  const hasError = Object.values(healthStatus).some((check) => check.status === "error");
+  const hasDegraded = Object.values(healthStatus).some((check) => check.status === "degraded");
 
-  const overallStatus = hasError ? 'unhealthy' : hasDegraded ? 'degraded' : 'healthy';
+  const overallStatus = hasError ? "unhealthy" : hasDegraded ? "degraded" : "healthy";
   const httpStatus = hasError ? 503 : 200;
 
-  return Response.json({
-    status: overallStatus,
-    timestamp: new Date().toISOString(),
-    version: process.env.npm_package_version || '0.0.0',
-    environment: process.env.VERCEL_ENV || 'development',
-    checks: healthStatus,
-    uptime: process.uptime()
-  }, { status: httpStatus });
+  return Response.json(
+    {
+      status: overallStatus,
+      timestamp: new Date().toISOString(),
+      version: process.env.npm_package_version || "0.0.0",
+      environment: process.env.VERCEL_ENV || "development",
+      checks: healthStatus,
+      uptime: process.uptime(),
+    },
+    { status: httpStatus }
+  );
 }
 
 async function checkDatabase(): Promise<HealthCheckDetail> {
@@ -181,16 +189,16 @@ async function checkDatabase(): Promise<HealthCheckDetail> {
   try {
     await db.execute(sql`SELECT 1`);
     return {
-      status: 'ok',
+      status: "ok",
       responseTime: Date.now() - start,
-      lastChecked: new Date().toISOString()
+      lastChecked: new Date().toISOString(),
     };
   } catch (error) {
     return {
-      status: 'error',
+      status: "error",
       responseTime: Date.now() - start,
-      message: 'Database connection failed',
-      lastChecked: new Date().toISOString()
+      message: "Database connection failed",
+      lastChecked: new Date().toISOString(),
     };
   }
 }
@@ -199,42 +207,42 @@ async function checkAuth(): Promise<HealthCheckDetail> {
   const start = Date.now();
   try {
     // Verify Clerk API is reachable
-    const response = await fetch('https://api.clerk.com/v1/health', {
-      headers: { 'Authorization': `Bearer ${process.env.CLERK_SECRET_KEY}` }
+    const response = await fetch("https://api.clerk.com/v1/health", {
+      headers: { Authorization: `Bearer ${process.env.CLERK_SECRET_KEY}` },
     });
 
     const responseTime = Date.now() - start;
 
     if (!response.ok) {
       return {
-        status: 'error',
+        status: "error",
         responseTime,
-        message: 'Clerk API returned error',
-        lastChecked: new Date().toISOString()
+        message: "Clerk API returned error",
+        lastChecked: new Date().toISOString(),
       };
     }
 
     // Degraded if response time > 1s
     if (responseTime > 1000) {
       return {
-        status: 'degraded',
+        status: "degraded",
         responseTime,
-        message: 'Clerk API responding slowly',
-        lastChecked: new Date().toISOString()
+        message: "Clerk API responding slowly",
+        lastChecked: new Date().toISOString(),
       };
     }
 
     return {
-      status: 'ok',
+      status: "ok",
       responseTime,
-      lastChecked: new Date().toISOString()
+      lastChecked: new Date().toISOString(),
     };
   } catch (error) {
     return {
-      status: 'error',
+      status: "error",
       responseTime: Date.now() - start,
-      message: 'Clerk API unreachable',
-      lastChecked: new Date().toISOString()
+      message: "Clerk API unreachable",
+      lastChecked: new Date().toISOString(),
     };
   }
 }
@@ -245,16 +253,16 @@ async function checkCache(): Promise<HealthCheckDetail> {
     // Simple in-memory cache check for now
     // Will be replaced with Redis/Vercel KV in production
     return {
-      status: 'ok',
+      status: "ok",
       responseTime: Date.now() - start,
-      lastChecked: new Date().toISOString()
+      lastChecked: new Date().toISOString(),
     };
   } catch (error) {
     return {
-      status: 'error',
+      status: "error",
       responseTime: Date.now() - start,
-      message: 'Cache check failed',
-      lastChecked: new Date().toISOString()
+      message: "Cache check failed",
+      lastChecked: new Date().toISOString(),
     };
   }
 }
@@ -300,14 +308,14 @@ Include administrators: ✓
 
 **Project Settings**:
 
-| Setting | Value |
-|---------|-------|
-| **Framework Preset** | Next.js |
-| **Root Directory** | `apps/routing` |
-| **Build Command** | `cd ../.. && pnpm run build --filter=routing` |
-| **Output Directory** | `.next` |
-| **Install Command** | `pnpm install` |
-| **Node.js Version** | 24.x |
+| Setting              | Value                                         |
+| -------------------- | --------------------------------------------- |
+| **Framework Preset** | Next.js                                       |
+| **Root Directory**   | `apps/routing`                                |
+| **Build Command**    | `cd ../.. && pnpm run build --filter=routing` |
+| **Output Directory** | `.next`                                       |
+| **Install Command**  | `pnpm install`                                |
+| **Node.js Version**  | 24.x                                          |
 
 **Git Integration**:
 
@@ -344,19 +352,20 @@ SLACK_WEBHOOK_URL=<slack-webhook-url>
 Format: `<app>-<git-branch>-<team>.vercel.app`
 
 Examples:
+
 - `routing-feature-auth-setup-mkcubed.vercel.app`
 - `routing-fix-login-error-mkcubed.vercel.app`
 - `routing-pr-123-mkcubed.vercel.app`
 
 **Custom Domains** (Production):
 
-| Domain | Purpose | SSL |
-|--------|---------|-----|
-| `example.com` | Main application | Auto (Vercel) |
-| `www.example.com` | Redirect to example.com | Auto (Vercel) |
-| `api.example.com` | API endpoints | Auto (Vercel) |
-| `cdn.example.com` | Static assets | Auto (Vercel) |
-| `staging.example.com` | Staging environment | Auto (Vercel) |
+| Domain                | Purpose                 | SSL           |
+| --------------------- | ----------------------- | ------------- |
+| `example.com`         | Main application        | Auto (Vercel) |
+| `www.example.com`     | Redirect to example.com | Auto (Vercel) |
+| `api.example.com`     | API endpoints           | Auto (Vercel) |
+| `cdn.example.com`     | Static assets           | Auto (Vercel) |
+| `staging.example.com` | Staging environment     | Auto (Vercel) |
 
 #### SSL Certificate Management
 
@@ -375,16 +384,16 @@ module.exports = {
   async headers() {
     return [
       {
-        source: '/:path*',
+        source: "/:path*",
         headers: [
           {
-            key: 'Strict-Transport-Security',
-            value: 'max-age=31536000; includeSubDomains; preload'
-          }
-        ]
-      }
+            key: "Strict-Transport-Security",
+            value: "max-age=31536000; includeSubDomains; preload",
+          },
+        ],
+      },
     ];
-  }
+  },
 };
 ```
 
@@ -416,8 +425,8 @@ jobs:
           version: 9
       - uses: actions/setup-node@v4
         with:
-          node-version: '20'
-          cache: 'pnpm'
+          node-version: "20"
+          cache: "pnpm"
       - run: pnpm install --frozen-lockfile
       - run: pnpm run lint
 
@@ -431,8 +440,8 @@ jobs:
           version: 9
       - uses: actions/setup-node@v4
         with:
-          node-version: '20'
-          cache: 'pnpm'
+          node-version: "20"
+          cache: "pnpm"
       - run: pnpm install --frozen-lockfile
       - run: pnpm run type-check
 
@@ -446,8 +455,8 @@ jobs:
           version: 9
       - uses: actions/setup-node@v4
         with:
-          node-version: '20'
-          cache: 'pnpm'
+          node-version: "20"
+          cache: "pnpm"
       - run: pnpm install --frozen-lockfile
       - run: pnpm run test
       - name: Upload coverage
@@ -464,8 +473,8 @@ jobs:
           version: 9
       - uses: actions/setup-node@v4
         with:
-          node-version: '20'
-          cache: 'pnpm'
+          node-version: "20"
+          cache: "pnpm"
       - run: pnpm install --frozen-lockfile
       - run: pnpm run build
         env:
@@ -485,8 +494,8 @@ jobs:
           version: 9
       - uses: actions/setup-node@v4
         with:
-          node-version: '20'
-          cache: 'pnpm'
+          node-version: "20"
+          cache: "pnpm"
       - run: pnpm install --frozen-lockfile
       - name: Wait for Vercel Preview
         uses: patrickedqvist/wait-for-vercel-preview@v1.3.1
@@ -513,59 +522,59 @@ jobs:
 ```typescript
 // tests/e2e/smoke.spec.ts
 
-import { test, expect } from '@playwright/test';
+import { test, expect } from "@playwright/test";
 
-test.describe('Deployment Smoke Tests', () => {
-  test('health check returns 200', async ({ request }) => {
-    const response = await request.get('/api/health');
+test.describe("Deployment Smoke Tests", () => {
+  test("health check returns 200", async ({ request }) => {
+    const response = await request.get("/api/health");
     expect(response.status()).toBe(200);
 
     const body = await response.json();
-    expect(body.status).toBe('healthy');
-    expect(body.checks.database.status).toBe('ok');
+    expect(body.status).toBe("healthy");
+    expect(body.checks.database.status).toBe("ok");
   });
 
-  test('homepage loads successfully', async ({ page }) => {
-    await page.goto('/');
+  test("homepage loads successfully", async ({ page }) => {
+    await page.goto("/");
     await expect(page).toHaveTitle(/MK3/);
 
     // Verify critical elements are present
-    const heading = page.locator('h1').first();
+    const heading = page.locator("h1").first();
     await expect(heading).toBeVisible();
   });
 
-  test('API responds correctly', async ({ request }) => {
-    const response = await request.get('/api/v1/metadata/config');
+  test("API responds correctly", async ({ request }) => {
+    const response = await request.get("/api/v1/metadata/config");
     expect(response.status()).toBe(200);
 
     const body = await response.json();
     expect(body.success).toBe(true);
   });
 
-  test('static assets load', async ({ page }) => {
-    await page.goto('/');
+  test("static assets load", async ({ page }) => {
+    await page.goto("/");
 
     // Verify favicon loads
-    const favicon = await page.locator('link[rel="icon"]').getAttribute('href');
+    const favicon = await page.locator('link[rel="icon"]').getAttribute("href");
     expect(favicon).toBeTruthy();
 
     // Verify no console errors
     const errors: string[] = [];
-    page.on('console', msg => {
-      if (msg.type() === 'error') {
+    page.on("console", (msg) => {
+      if (msg.type() === "error") {
         errors.push(msg.text());
       }
     });
 
-    await page.waitForLoadState('networkidle');
+    await page.waitForLoadState("networkidle");
     expect(errors).toHaveLength(0);
   });
 
-  test('authentication flow is accessible', async ({ page }) => {
-    await page.goto('/sign-in');
+  test("authentication flow is accessible", async ({ page }) => {
+    await page.goto("/sign-in");
 
     // Verify Clerk sign-in UI loads
-    await expect(page.locator('[data-clerk-sign-in]')).toBeVisible({ timeout: 10000 });
+    await expect(page.locator("[data-clerk-sign-in]")).toBeVisible({ timeout: 10000 });
   });
 });
 ```
@@ -585,8 +594,8 @@ test.describe('Deployment Smoke Tests', () => {
 ```typescript
 // packages/config/src/env.ts
 
-import { createEnv } from '@t3-oss/env-nextjs';
-import { z } from 'zod';
+import { createEnv } from "@t3-oss/env-nextjs";
+import { z } from "zod";
 
 export const env = createEnv({
   server: {
@@ -609,7 +618,7 @@ export const env = createEnv({
     SLACK_WEBHOOK_URL: z.string().url().optional(),
 
     // Node Environment
-    NODE_ENV: z.enum(['development', 'test', 'production']).default('development'),
+    NODE_ENV: z.enum(["development", "test", "production"]).default("development"),
   },
 
   client: {
@@ -647,11 +656,11 @@ export const env = createEnv({
 
 ```typescript
 // Import validated environment variables
-import { env } from '@repo/config/env';
+import { env } from "@repo/config/env";
 
 // Type-safe access
-const dbUrl = env.DATABASE_URL;  // string (validated)
-const apiUrl = env.NEXT_PUBLIC_API_URL;  // string (validated, public)
+const dbUrl = env.DATABASE_URL; // string (validated)
+const apiUrl = env.NEXT_PUBLIC_API_URL; // string (validated, public)
 ```
 
 #### Local Development Setup
@@ -779,5 +788,3 @@ pnpm run db:rollback --to 20250115000000
 **Maximum Downtime Target**: 5 minutes for critical issues
 
 ---
-
-

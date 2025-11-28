@@ -2,14 +2,14 @@
 
 ### Third-Party Services
 
-| Service | Purpose | Integration Type | Documentation |
-|---------|---------|------------------|---------------|
-| **Clerk** | Authentication | SDK + Webhooks | [Clerk Docs](https://clerk.com/docs) |
-| **Neon / Supabase** | Database | Connection string | [Neon Docs](https://neon.tech/docs) |
-| **PostHog** | Product Analytics | JavaScript SDK | [PostHog Docs](https://posthog.com/docs) |
-| **Google Analytics 4** | Web Analytics | gtag.js | [GA4 Docs](https://developers.google.com/analytics/devguides/collection/ga4) |
-| **Sentry** | Error Tracking | SDK | [Sentry Docs](https://docs.sentry.io) |
-| **Vercel** | Hosting & Edge | Native Next.js | [Vercel Docs](https://vercel.com/docs) |
+| Service                | Purpose           | Integration Type  | Documentation                                                                |
+| ---------------------- | ----------------- | ----------------- | ---------------------------------------------------------------------------- |
+| **Clerk**              | Authentication    | SDK + Webhooks    | [Clerk Docs](https://clerk.com/docs)                                         |
+| **Neon / Supabase**    | Database          | Connection string | [Neon Docs](https://neon.tech/docs)                                          |
+| **PostHog**            | Product Analytics | JavaScript SDK    | [PostHog Docs](https://posthog.com/docs)                                     |
+| **Google Analytics 4** | Web Analytics     | gtag.js           | [GA4 Docs](https://developers.google.com/analytics/devguides/collection/ga4) |
+| **Sentry**             | Error Tracking    | SDK               | [Sentry Docs](https://docs.sentry.io)                                        |
+| **Vercel**             | Hosting & Edge    | Native Next.js    | [Vercel Docs](https://vercel.com/docs)                                       |
 
 ### API Contracts
 
@@ -18,6 +18,7 @@
 Webhook endpoint: `POST /api/webhooks/clerk`
 
 Events handled:
+
 - `user.created`: Sync user to database
 - `user.updated`: Update user data
 - `user.deleted`: Soft delete user
@@ -27,6 +28,7 @@ Events handled:
 #### PostHog Events
 
 Event format:
+
 ```typescript
 {
   event: 'content_created',
@@ -65,8 +67,8 @@ Next.js App Router provides built-in CSRF protection for Server Actions, but API
 ```typescript
 // packages/security/src/csrf.ts
 
-import { randomBytes, createHmac } from 'crypto';
-import { env } from '@repo/config/env';
+import { randomBytes, createHmac } from "crypto";
+import { env } from "@repo/config/env";
 
 export class CSRFProtection {
   private static SECRET = env.CSRF_SECRET; // 32-byte secret key
@@ -76,14 +78,12 @@ export class CSRFProtection {
    */
   static generateToken(sessionId: string): string {
     const timestamp = Date.now().toString();
-    const randomValue = randomBytes(16).toString('hex');
+    const randomValue = randomBytes(16).toString("hex");
     const payload = `${sessionId}:${timestamp}:${randomValue}`;
 
-    const signature = createHmac('sha256', this.SECRET)
-      .update(payload)
-      .digest('hex');
+    const signature = createHmac("sha256", this.SECRET).update(payload).digest("hex");
 
-    return Buffer.from(`${payload}:${signature}`).toString('base64');
+    return Buffer.from(`${payload}:${signature}`).toString("base64");
   }
 
   /**
@@ -91,8 +91,8 @@ export class CSRFProtection {
    */
   static validateToken(token: string, sessionId: string, maxAge: number = 3600000): boolean {
     try {
-      const decoded = Buffer.from(token, 'base64').toString('utf-8');
-      const [sid, timestamp, random, signature] = decoded.split(':');
+      const decoded = Buffer.from(token, "base64").toString("utf-8");
+      const [sid, timestamp, random, signature] = decoded.split(":");
 
       // Verify session matches
       if (sid !== sessionId) {
@@ -107,9 +107,7 @@ export class CSRFProtection {
 
       // Verify signature
       const payload = `${sid}:${timestamp}:${random}`;
-      const expectedSignature = createHmac('sha256', this.SECRET)
-        .update(payload)
-        .digest('hex');
+      const expectedSignature = createHmac("sha256", this.SECRET).update(payload).digest("hex");
 
       return signature === expectedSignature;
     } catch {
@@ -124,20 +122,20 @@ export class CSRFProtection {
 ```typescript
 // apps/api/src/middleware/csrf.ts
 
-import { NextRequest, NextResponse } from 'next/server';
-import { CSRFProtection } from '@repo/security/csrf';
+import { NextRequest, NextResponse } from "next/server";
+import { CSRFProtection } from "@repo/security/csrf";
 
 export async function csrfMiddleware(request: NextRequest) {
   const { method, cookies } = request;
 
   // Only validate state-changing methods
-  if (['POST', 'PUT', 'PATCH', 'DELETE'].includes(method)) {
-    const sessionId = cookies.get('sessionId')?.value;
-    const csrfToken = request.headers.get('X-CSRF-Token');
+  if (["POST", "PUT", "PATCH", "DELETE"].includes(method)) {
+    const sessionId = cookies.get("sessionId")?.value;
+    const csrfToken = request.headers.get("X-CSRF-Token");
 
     if (!sessionId || !csrfToken) {
       return NextResponse.json(
-        { success: false, error: { message: 'Missing CSRF token', code: 'CSRF_MISSING' } },
+        { success: false, error: { message: "Missing CSRF token", code: "CSRF_MISSING" } },
         { status: 403 }
       );
     }
@@ -146,7 +144,7 @@ export async function csrfMiddleware(request: NextRequest) {
 
     if (!isValid) {
       return NextResponse.json(
-        { success: false, error: { message: 'Invalid CSRF token', code: 'CSRF_INVALID' } },
+        { success: false, error: { message: "Invalid CSRF token", code: "CSRF_INVALID" } },
         { status: 403 }
       );
     }
@@ -170,7 +168,7 @@ export class APIClient {
       return this.csrfToken;
     }
 
-    const response = await fetch('/api/csrf-token');
+    const response = await fetch("/api/csrf-token");
     const { token } = await response.json();
     this.csrfToken = token;
     return token;
@@ -180,15 +178,15 @@ export class APIClient {
     const headers = new Headers(options.headers);
 
     // Add CSRF token for state-changing requests
-    if (['POST', 'PUT', 'PATCH', 'DELETE'].includes(options.method || 'GET')) {
+    if (["POST", "PUT", "PATCH", "DELETE"].includes(options.method || "GET")) {
       const token = await this.getCsrfToken();
-      headers.set('X-CSRF-Token', token);
+      headers.set("X-CSRF-Token", token);
     }
 
     const response = await fetch(url, {
       ...options,
       headers,
-      credentials: 'include', // Include cookies
+      credentials: "include", // Include cookies
     });
 
     if (!response.ok) {
@@ -201,7 +199,7 @@ export class APIClient {
 
 // Usage
 const api = new APIClient();
-await api.request('/api/users', { method: 'POST', body: JSON.stringify(data) });
+await api.request("/api/users", { method: "POST", body: JSON.stringify(data) });
 ```
 
 **CSRF Token Endpoint:**
@@ -209,16 +207,16 @@ await api.request('/api/users', { method: 'POST', body: JSON.stringify(data) });
 ```typescript
 // apps/api/src/app/api/csrf-token/route.ts
 
-import { NextRequest, NextResponse } from 'next/server';
-import { CSRFProtection } from '@repo/security/csrf';
-import { getSessionId } from '@repo/auth';
+import { NextRequest, NextResponse } from "next/server";
+import { CSRFProtection } from "@repo/security/csrf";
+import { getSessionId } from "@repo/auth";
 
 export async function GET(request: NextRequest) {
   const sessionId = await getSessionId(request);
 
   if (!sessionId) {
     return NextResponse.json(
-      { success: false, error: { message: 'No session', code: 'NO_SESSION' } },
+      { success: false, error: { message: "No session", code: "NO_SESSION" } },
       { status: 401 }
     );
   }
@@ -227,7 +225,7 @@ export async function GET(request: NextRequest) {
 
   return NextResponse.json({
     success: true,
-    data: { token }
+    data: { token },
   });
 }
 ```
@@ -239,19 +237,19 @@ For stateless CSRF protection:
 ```typescript
 // Middleware sets CSRF cookie
 export function setCSRFCookie(response: NextResponse, token: string) {
-  response.cookies.set('csrf-token', token, {
+  response.cookies.set("csrf-token", token, {
     httpOnly: false, // Needs to be readable by JavaScript
     secure: true,
-    sameSite: 'strict',
+    sameSite: "strict",
     maxAge: 3600, // 1 hour
   });
 }
 
 // Client reads cookie and sends as header
 const csrfToken = document.cookie
-  .split('; ')
-  .find(row => row.startsWith('csrf-token='))
-  ?.split('=')[1];
+  .split("; ")
+  .find((row) => row.startsWith("csrf-token="))
+  ?.split("=")[1];
 ```
 
 ### Input Validation Patterns (Epic 6A.1)
@@ -261,7 +259,7 @@ const csrfToken = document.cookie
 ```typescript
 // packages/validation/src/schemas/user.ts
 
-import { z } from 'zod';
+import { z } from "zod";
 
 /**
  * Reusable validation primitives
@@ -270,15 +268,26 @@ export const ValidationPrimitives = {
   uuid: z.string().uuid(),
   email: z.string().email().max(255),
   url: z.string().url().max(2048),
-  slug: z.string().regex(/^[a-z0-9-]+$/).min(1).max(100),
-  safeString: z.string().max(1000).refine(
-    (val) => !/<script|javascript:|on\w+=/i.test(val),
-    { message: 'Potentially unsafe content detected' }
-  ),
-  htmlContent: z.string().max(1000000).transform((val) => sanitizeHtml(val, {
-    allowedTags: ['p', 'br', 'strong', 'em', 'u', 'a', 'ul', 'ol', 'li', 'h1', 'h2', 'h3'],
-    allowedAttributes: { 'a': ['href', 'target'] },
-  })),
+  slug: z
+    .string()
+    .regex(/^[a-z0-9-]+$/)
+    .min(1)
+    .max(100),
+  safeString: z
+    .string()
+    .max(1000)
+    .refine((val) => !/<script|javascript:|on\w+=/i.test(val), {
+      message: "Potentially unsafe content detected",
+    }),
+  htmlContent: z
+    .string()
+    .max(1000000)
+    .transform((val) =>
+      sanitizeHtml(val, {
+        allowedTags: ["p", "br", "strong", "em", "u", "a", "ul", "ol", "li", "h1", "h2", "h3"],
+        allowedAttributes: { a: ["href", "target"] },
+      })
+    ),
 };
 
 /**
@@ -287,7 +296,7 @@ export const ValidationPrimitives = {
 export const CreateUserSchema = z.object({
   email: ValidationPrimitives.email,
   name: z.string().min(1).max(100),
-  role: z.enum(['internal', 'product-seller', 'agency-seller', 'client']),
+  role: z.enum(["internal", "product-seller", "agency-seller", "client"]),
   organisationId: ValidationPrimitives.uuid.optional(),
 });
 
@@ -299,7 +308,7 @@ export const UpdateUserSchema = CreateUserSchema.partial();
 export const CreateContentSchema = z.object({
   title: z.string().min(1).max(255),
   slug: ValidationPrimitives.slug,
-  type: z.enum(['landing-page', 'blog-post', 'doc-page', 'product-template']),
+  type: z.enum(["landing-page", "blog-post", "doc-page", "product-template"]),
   data: z.record(z.unknown()), // Type-specific validation in nested schemas
 });
 
@@ -309,8 +318,11 @@ export const CreateContentSchema = z.object({
 export const PaginationSchema = z.object({
   page: z.coerce.number().int().min(1).default(1),
   limit: z.coerce.number().int().min(1).max(100).default(20),
-  sortBy: z.string().regex(/^[a-z_]+$/).optional(),
-  sortOrder: z.enum(['asc', 'desc']).default('desc'),
+  sortBy: z
+    .string()
+    .regex(/^[a-z_]+$/)
+    .optional(),
+  sortOrder: z.enum(["asc", "desc"]).default("desc"),
 });
 ```
 
@@ -319,14 +331,17 @@ export const PaginationSchema = z.object({
 ```typescript
 // packages/api/src/middleware/validation.ts
 
-import { NextRequest, NextResponse } from 'next/server';
-import { ZodSchema, ZodError } from 'zod';
-import { Logger } from '@repo/logger';
+import { NextRequest, NextResponse } from "next/server";
+import { ZodSchema, ZodError } from "zod";
+import { Logger } from "@repo/logger";
 
-const logger = new Logger('validation-middleware');
+const logger = new Logger("validation-middleware");
 
 export function validateBody<T>(schema: ZodSchema<T>) {
-  return async (request: NextRequest, handler: (req: NextRequest, body: T) => Promise<NextResponse>) => {
+  return async (
+    request: NextRequest,
+    handler: (req: NextRequest, body: T) => Promise<NextResponse>
+  ) => {
     try {
       const rawBody = await request.json();
       const validatedBody = schema.parse(rawBody);
@@ -334,7 +349,7 @@ export function validateBody<T>(schema: ZodSchema<T>) {
       return handler(request, validatedBody);
     } catch (error) {
       if (error instanceof ZodError) {
-        logger.warn('Validation error', {
+        logger.warn("Validation error", {
           data: {
             path: request.nextUrl.pathname,
             errors: error.errors,
@@ -345,10 +360,10 @@ export function validateBody<T>(schema: ZodSchema<T>) {
           {
             success: false,
             error: {
-              message: 'Validation failed',
-              code: 'VALIDATION_ERROR',
-              details: error.errors.map(err => ({
-                field: err.path.join('.'),
+              message: "Validation failed",
+              code: "VALIDATION_ERROR",
+              details: error.errors.map((err) => ({
+                field: err.path.join("."),
                 message: err.message,
               })),
             },
@@ -363,7 +378,10 @@ export function validateBody<T>(schema: ZodSchema<T>) {
 }
 
 export function validateQuery<T>(schema: ZodSchema<T>) {
-  return async (request: NextRequest, handler: (req: NextRequest, query: T) => Promise<NextResponse>) => {
+  return async (
+    request: NextRequest,
+    handler: (req: NextRequest, query: T) => Promise<NextResponse>
+  ) => {
     try {
       const { searchParams } = new URL(request.url);
       const queryObject = Object.fromEntries(searchParams.entries());
@@ -376,10 +394,10 @@ export function validateQuery<T>(schema: ZodSchema<T>) {
           {
             success: false,
             error: {
-              message: 'Invalid query parameters',
-              code: 'QUERY_VALIDATION_ERROR',
-              details: error.errors.map(err => ({
-                field: err.path.join('.'),
+              message: "Invalid query parameters",
+              code: "QUERY_VALIDATION_ERROR",
+              details: error.errors.map((err) => ({
+                field: err.path.join("."),
                 message: err.message,
               })),
             },
@@ -399,9 +417,9 @@ export function validateQuery<T>(schema: ZodSchema<T>) {
 ```typescript
 // apps/api/src/app/api/users/route.ts
 
-import { NextRequest } from 'next/server';
-import { CreateUserSchema } from '@repo/validation/schemas/user';
-import { validateBody } from '@repo/api/middleware/validation';
+import { NextRequest } from "next/server";
+import { CreateUserSchema } from "@repo/validation/schemas/user";
+import { validateBody } from "@repo/api/middleware/validation";
 
 export async function POST(request: NextRequest) {
   return validateBody(CreateUserSchema)(request, async (req, body) => {
@@ -419,20 +437,14 @@ export async function POST(request: NextRequest) {
 // Always use parameterized queries with Drizzle ORM
 
 // ✅ SAFE - Parameterized query
-const users = await db
-  .select()
-  .from(usersTable)
-  .where(eq(usersTable.email, userEmail));
+const users = await db.select().from(usersTable).where(eq(usersTable.email, userEmail));
 
 // ❌ DANGEROUS - Never do this!
 // const users = await db.execute(sql`SELECT * FROM users WHERE email = '${userEmail}'`);
 
 // ✅ SAFE - Use sql.raw only with validated identifiers
 const sortColumn = validatedQuery.sortBy; // Already validated via Zod
-const users = await db
-  .select()
-  .from(usersTable)
-  .orderBy(sql.raw(sortColumn)); // Only safe if sortColumn is validated
+const users = await db.select().from(usersTable).orderBy(sql.raw(sortColumn)); // Only safe if sortColumn is validated
 ```
 
 **File Upload Validation:**
@@ -441,35 +453,40 @@ const users = await db
 // packages/validation/src/file.ts
 
 export const FileUploadSchema = z.object({
-  file: z.instanceof(File)
+  file: z
+    .instanceof(File)
     .refine((file) => file.size <= 10 * 1024 * 1024, {
-      message: 'File size must be less than 10MB',
+      message: "File size must be less than 10MB",
     })
-    .refine((file) => ['image/jpeg', 'image/png', 'image/webp', 'application/pdf'].includes(file.type), {
-      message: 'Invalid file type. Allowed: JPEG, PNG, WebP, PDF',
-    })
-    .refine(async (file) => {
-      // Verify file signature (magic bytes) matches extension
-      const buffer = await file.arrayBuffer();
-      const bytes = new Uint8Array(buffer).slice(0, 4);
-      return isValidFileSignature(bytes, file.type);
-    }, {
-      message: 'File signature does not match file type',
-    }),
+    .refine(
+      (file) => ["image/jpeg", "image/png", "image/webp", "application/pdf"].includes(file.type),
+      {
+        message: "Invalid file type. Allowed: JPEG, PNG, WebP, PDF",
+      }
+    )
+    .refine(
+      async (file) => {
+        // Verify file signature (magic bytes) matches extension
+        const buffer = await file.arrayBuffer();
+        const bytes = new Uint8Array(buffer).slice(0, 4);
+        return isValidFileSignature(bytes, file.type);
+      },
+      {
+        message: "File signature does not match file type",
+      }
+    ),
 });
 
 function isValidFileSignature(bytes: Uint8Array, mimeType: string): boolean {
   const signatures: Record<string, number[][]> = {
-    'image/jpeg': [[0xFF, 0xD8, 0xFF]],
-    'image/png': [[0x89, 0x50, 0x4E, 0x47]],
-    'image/webp': [[0x52, 0x49, 0x46, 0x46]], // RIFF
-    'application/pdf': [[0x25, 0x50, 0x44, 0x46]], // %PDF
+    "image/jpeg": [[0xff, 0xd8, 0xff]],
+    "image/png": [[0x89, 0x50, 0x4e, 0x47]],
+    "image/webp": [[0x52, 0x49, 0x46, 0x46]], // RIFF
+    "application/pdf": [[0x25, 0x50, 0x44, 0x46]], // %PDF
   };
 
   const validSignatures = signatures[mimeType] || [];
-  return validSignatures.some(sig =>
-    sig.every((byte, i) => bytes[i] === byte)
-  );
+  return validSignatures.some((sig) => sig.every((byte, i) => bytes[i] === byte));
 }
 ```
 
@@ -490,7 +507,7 @@ export class RBACGuard {
     userId: string,
     organisationId: string,
     resource: string,
-    action: 'create' | 'read' | 'update' | 'delete'
+    action: "create" | "read" | "update" | "delete"
   ): Promise<boolean> {
     // Get user's role in organization
     const membership = await db.query.user_organisations.findFirst({
@@ -514,12 +531,12 @@ export class RBACGuard {
    */
   static requirePermission(resource: string, action: string) {
     return async (req: NextRequest, handler: Function) => {
-      const userId = req.headers.get('X-User-Id');
-      const orgId = req.headers.get('X-Organisation-Id');
+      const userId = req.headers.get("X-User-Id");
+      const orgId = req.headers.get("X-Organisation-Id");
 
       if (!userId || !orgId) {
         return NextResponse.json(
-          { success: false, error: { message: 'Unauthorized', code: 'UNAUTHORIZED' } },
+          { success: false, error: { message: "Unauthorized", code: "UNAUTHORIZED" } },
           { status: 401 }
         );
       }
@@ -528,7 +545,7 @@ export class RBACGuard {
 
       if (!hasPermission) {
         return NextResponse.json(
-          { success: false, error: { message: 'Forbidden', code: 'FORBIDDEN' } },
+          { success: false, error: { message: "Forbidden", code: "FORBIDDEN" } },
           { status: 403 }
         );
       }
@@ -540,27 +557,27 @@ export class RBACGuard {
 
 const PERMISSION_MATRIX = {
   internal: {
-    users: ['create', 'read', 'update', 'delete'],
-    content: ['create', 'read', 'update', 'delete'],
-    organisations: ['create', 'read', 'update', 'delete'],
-    analytics: ['read'],
+    users: ["create", "read", "update", "delete"],
+    content: ["create", "read", "update", "delete"],
+    organisations: ["create", "read", "update", "delete"],
+    analytics: ["read"],
   },
-  'product-seller': {
-    users: ['create', 'read', 'update', 'delete'], // Own org only
-    content: ['create', 'read', 'update', 'delete'], // Own org only
-    organisations: ['read', 'update'], // Own org only
-    analytics: ['read'], // Own org only
+  "product-seller": {
+    users: ["create", "read", "update", "delete"], // Own org only
+    content: ["create", "read", "update", "delete"], // Own org only
+    organisations: ["read", "update"], // Own org only
+    analytics: ["read"], // Own org only
   },
-  'agency-seller': {
-    users: ['read'], // Own org only
-    content: ['create', 'read'], // Own org only
-    organisations: ['read'], // Own org only
-    analytics: ['read'], // Own org only
+  "agency-seller": {
+    users: ["read"], // Own org only
+    content: ["create", "read"], // Own org only
+    organisations: ["read"], // Own org only
+    analytics: ["read"], // Own org only
   },
   client: {
-    users: ['read'], // Self only
-    content: ['read'], // Own org only
-    organisations: ['read'], // Own org only
+    users: ["read"], // Self only
+    content: ["read"], // Own org only
+    organisations: ["read"], // Own org only
     analytics: [],
   },
 };
@@ -573,14 +590,14 @@ const PERMISSION_MATRIX = {
 ```typescript
 // packages/security/src/encryption.ts
 
-import { createCipheriv, createDecipheriv, randomBytes, scrypt } from 'crypto';
-import { promisify } from 'util';
-import { env } from '@repo/config/env';
+import { createCipheriv, createDecipheriv, randomBytes, scrypt } from "crypto";
+import { promisify } from "util";
+import { env } from "@repo/config/env";
 
 const scryptAsync = promisify(scrypt);
 
 export class Encryption {
-  private static ALGORITHM = 'aes-256-gcm';
+  private static ALGORITHM = "aes-256-gcm";
   private static KEY_LENGTH = 32; // 256 bits
   private static IV_LENGTH = 16;
   private static SALT_LENGTH = 32;
@@ -595,11 +612,11 @@ export class Encryption {
     const iv = randomBytes(this.IV_LENGTH);
 
     const cipher = createCipheriv(this.ALGORITHM, key, iv);
-    const encrypted = Buffer.concat([cipher.update(plaintext, 'utf8'), cipher.final()]);
+    const encrypted = Buffer.concat([cipher.update(plaintext, "utf8"), cipher.final()]);
     const tag = cipher.getAuthTag();
 
     // Format: salt:iv:tag:ciphertext (all base64)
-    const result = Buffer.concat([salt, iv, tag, encrypted]).toString('base64');
+    const result = Buffer.concat([salt, iv, tag, encrypted]).toString("base64");
     return result;
   }
 
@@ -607,7 +624,7 @@ export class Encryption {
    * Decrypt sensitive data
    */
   static async decrypt(ciphertext: string): Promise<string> {
-    const buffer = Buffer.from(ciphertext, 'base64');
+    const buffer = Buffer.from(ciphertext, "base64");
 
     const salt = buffer.slice(0, this.SALT_LENGTH);
     const iv = buffer.slice(this.SALT_LENGTH, this.SALT_LENGTH + this.IV_LENGTH);
@@ -623,12 +640,12 @@ export class Encryption {
     decipher.setAuthTag(tag);
 
     const decrypted = Buffer.concat([decipher.update(encrypted), decipher.final()]);
-    return decrypted.toString('utf8');
+    return decrypted.toString("utf8");
   }
 }
 
 // Usage
-const encrypted = await Encryption.encrypt('sensitive-data');
+const encrypted = await Encryption.encrypt("sensitive-data");
 await db.insert(secrets).values({ data: encrypted });
 
 const decrypted = await Encryption.decrypt(record.data);
@@ -642,11 +659,11 @@ module.exports = {
   async headers() {
     return [
       {
-        source: '/:path*',
+        source: "/:path*",
         headers: [
           {
-            key: 'Strict-Transport-Security',
-            value: 'max-age=63072000; includeSubDomains; preload',
+            key: "Strict-Transport-Security",
+            value: "max-age=63072000; includeSubDomains; preload",
           },
         ],
       },
@@ -667,12 +684,12 @@ module.exports = {
 
 ```typescript
 // ❌ NEVER DO THIS
-import { exec } from 'child_process';
+import { exec } from "child_process";
 exec(`convert ${userFilename}.jpg ${userFilename}.pdf`); // DANGEROUS!
 
 // ✅ Use safe libraries instead
-import sharp from 'sharp';
-await sharp(buffer).toFormat('pdf').toFile(outputPath);
+import sharp from "sharp";
+await sharp(buffer).toFormat("pdf").toFile(outputPath);
 ```
 
 #### A04:2021 – Insecure Design
@@ -698,18 +715,18 @@ module.exports = {
   async headers() {
     return [
       {
-        source: '/:path*',
+        source: "/:path*",
         headers: [
-          { key: 'X-DNS-Prefetch-Control', value: 'on' },
-          { key: 'X-Frame-Options', value: 'SAMEORIGIN' },
-          { key: 'X-Content-Type-Options', value: 'nosniff' },
-          { key: 'Referrer-Policy', value: 'strict-origin-when-cross-origin' },
+          { key: "X-DNS-Prefetch-Control", value: "on" },
+          { key: "X-Frame-Options", value: "SAMEORIGIN" },
+          { key: "X-Content-Type-Options", value: "nosniff" },
+          { key: "Referrer-Policy", value: "strict-origin-when-cross-origin" },
           {
-            key: 'Permissions-Policy',
-            value: 'camera=(), microphone=(), geolocation=()',
+            key: "Permissions-Policy",
+            value: "camera=(), microphone=(), geolocation=()",
           },
           {
-            key: 'Content-Security-Policy',
+            key: "Content-Security-Policy",
             value: [
               "default-src 'self'",
               "script-src 'self' 'unsafe-eval' 'unsafe-inline' https://clerk.*.clerk.accounts.dev",
@@ -718,7 +735,7 @@ module.exports = {
               "font-src 'self' data:",
               "connect-src 'self' https://clerk.*.clerk.accounts.dev https://*.vercel.app",
               "frame-ancestors 'none'",
-            ].join('; '),
+            ].join("; "),
           },
         ],
       },
@@ -750,7 +767,7 @@ name: Security Scan
 
 on:
   schedule:
-    - cron: '0 0 * * 1' # Weekly on Monday
+    - cron: "0 0 * * 1" # Weekly on Monday
   pull_request:
     branches: [main]
 
@@ -814,7 +831,7 @@ export async function validateSession(sessionToken: string): Promise<boolean> {
 
 ```typescript
 // Verify webhook signatures (Clerk webhooks)
-import { Webhook } from 'svix';
+import { Webhook } from "svix";
 
 export async function verifyWebhook(payload: string, headers: Headers): Promise<boolean> {
   const webhookSecret = env.CLERK_WEBHOOK_SECRET;
@@ -822,9 +839,9 @@ export async function verifyWebhook(payload: string, headers: Headers): Promise<
 
   try {
     wh.verify(payload, {
-      'svix-id': headers.get('svix-id')!,
-      'svix-timestamp': headers.get('svix-timestamp')!,
-      'svix-signature': headers.get('svix-signature')!,
+      "svix-id": headers.get("svix-id")!,
+      "svix-timestamp": headers.get("svix-timestamp")!,
+      "svix-signature": headers.get("svix-signature")!,
     });
     return true;
   } catch {
@@ -865,16 +882,16 @@ export async function verifyWebhook(payload: string, headers: Headers): Promise<
 
 export class SSRFProtection {
   private static BLOCKED_NETWORKS = [
-    '10.0.0.0/8',        // Private network
-    '172.16.0.0/12',     // Private network
-    '192.168.0.0/16',    // Private network
-    '127.0.0.0/8',       // Loopback
-    '169.254.0.0/16',    // Link-local
-    '::1/128',           // IPv6 loopback
-    'fc00::/7',          // IPv6 private
+    "10.0.0.0/8", // Private network
+    "172.16.0.0/12", // Private network
+    "192.168.0.0/16", // Private network
+    "127.0.0.0/8", // Loopback
+    "169.254.0.0/16", // Link-local
+    "::1/128", // IPv6 loopback
+    "fc00::/7", // IPv6 private
   ];
 
-  private static ALLOWED_PROTOCOLS = ['https:', 'http:'];
+  private static ALLOWED_PROTOCOLS = ["https:", "http:"];
 
   /**
    * Validate URL before making external request
@@ -917,7 +934,7 @@ export class SSRFProtection {
     const isValid = await this.validateURL(url);
 
     if (!isValid) {
-      throw new Error('Invalid URL: SSRF protection triggered');
+      throw new Error("Invalid URL: SSRF protection triggered");
     }
 
     // Additional safeguards
@@ -930,14 +947,14 @@ export class SSRFProtection {
         ...options,
         signal: controller.signal,
         // Prevent following redirects to blocked networks
-        redirect: 'manual',
+        redirect: "manual",
       });
 
       // Check redirect location
       if ([301, 302, 307, 308].includes(response.status)) {
-        const location = response.headers.get('location');
+        const location = response.headers.get("location");
         if (location && !(await this.validateURL(location))) {
-          throw new Error('Redirect target failed SSRF check');
+          throw new Error("Redirect target failed SSRF check");
         }
       }
 
@@ -971,8 +988,8 @@ jobs:
         uses: zaproxy/action-full-scan@v0.4.0
         with:
           target: https://staging.example.com
-          rules_file_name: '.zap/rules.tsv'
-          cmd_options: '-a'
+          rules_file_name: ".zap/rules.tsv"
+          cmd_options: "-a"
 
   dependency-check:
     runs-on: ubuntu-latest
@@ -987,6 +1004,7 @@ jobs:
 **Security Checklist:**
 
 **Development:**
+
 - [ ] All user inputs validated with Zod schemas
 - [ ] CSRF protection enabled on all state-changing endpoints
 - [ ] SQL injection prevention via parameterized queries
@@ -994,6 +1012,7 @@ jobs:
 - [ ] SSRF protection on all external requests
 
 **Pre-Production:**
+
 - [ ] Security headers configured (CSP, HSTS, X-Frame-Options)
 - [ ] Dependency audit passing (no high/critical vulnerabilities)
 - [ ] RBAC authorization tested for all resources
@@ -1001,6 +1020,7 @@ jobs:
 - [ ] Rate limiting tested and working
 
 **Production:**
+
 - [ ] Weekly automated security scans (ZAP, Snyk)
 - [ ] Security logging and monitoring active
 - [ ] Incident response plan documented
@@ -1008,4 +1028,3 @@ jobs:
 - [ ] Penetration testing completed (annually)
 
 ---
-

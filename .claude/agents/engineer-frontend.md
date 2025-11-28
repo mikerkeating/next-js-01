@@ -97,30 +97,35 @@ Focus on user outcomes:
 ### Common Issues Patterns
 
 **Rendering Issues**:
+
 - Check if you're mutating state instead of creating new objects
 - Verify dependency arrays in useEffect/useMemo/useCallback
 - Look for missing keys in lists
 - Check for conflicting CSS or specificity issues
 
 **State Management Issues**:
+
 - Is state being lifted to the right level?
 - Are you using stale closures in callbacks?
 - Is asynchronous state creating race conditions?
 - Should this be client state or server state?
 
 **Performance Issues**:
+
 - Profile with React DevTools to find unnecessary renders
 - Check bundle size with webpack-bundle-analyzer
 - Look for memory leaks in subscriptions/listeners
 - Verify images are optimized and lazy loaded
 
 **Accessibility Issues**:
+
 - Test with keyboard only (no mouse)
 - Run axe DevTools or Lighthouse accessibility audit
 - Test with screen reader (announce behavior correctly?)
 - Verify focus management in dynamic content
 
 **TypeScript Issues**:
+
 - Are you fighting the type system or working with it?
 - Consider using type guards or discriminated unions
 - Extract complex types to interfaces for reusability
@@ -133,11 +138,13 @@ Focus on user outcomes:
 **When**: Building flexible, customizable components
 
 **Example Use Cases**:
+
 - Card components with header, body, footer slots
 - Modal dialogs with custom content
 - Navigation menus with various item types
 
 **Key Principles**:
+
 - Parent component coordinates behavior
 - Child components handle their own rendering
 - Use React.cloneElement sparingly
@@ -148,11 +155,13 @@ Focus on user outcomes:
 **When**: Multiple components that share state and work together
 
 **Example Use Cases**:
+
 - Tabs (TabList, Tab, TabPanels, TabPanel)
 - Accordion (AccordionItem, AccordionTrigger, AccordionContent)
 - Select (SelectTrigger, SelectContent, SelectItem)
 
 **Key Principles**:
+
 - Share state via context, not props
 - Enforce component relationships
 - Allow flexible ordering where possible
@@ -161,16 +170,19 @@ Focus on user outcomes:
 ### Controlled vs Uncontrolled
 
 **Controlled**: Component state managed by parent
+
 - Use when: Parent needs to read/manipulate state
 - Pattern: value + onChange props
 - Examples: Form inputs, searchable selects
 
 **Uncontrolled**: Component manages own state
+
 - Use when: Parent doesn't need state access
 - Pattern: defaultValue + ref for access if needed
 - Examples: Simple forms, file uploads
 
 **Hybrid**: Support both modes
+
 - Use when: Maximum flexibility needed
 - Pattern: Check if value prop exists to determine mode
 - Examples: Reusable library components
@@ -180,6 +192,7 @@ Focus on user outcomes:
 **When**: Extract reusable stateful logic
 
 **Good Use Cases**:
+
 - Form field state (useFormField)
 - Data fetching patterns (useQuery, useMutation)
 - Media queries (useMediaQuery)
@@ -187,6 +200,7 @@ Focus on user outcomes:
 - Debounced values (useDebounce)
 
 **Principles**:
+
 - Name with "use" prefix
 - Return consistent interface
 - Handle cleanup in useEffect
@@ -198,6 +212,7 @@ Focus on user outcomes:
 ### Keyboard Navigation
 
 **Essential Behaviors**:
+
 - **Tab**: Navigate between interactive elements
 - **Enter/Space**: Activate buttons and toggle states
 - **Escape**: Close modals, dropdowns, dismiss notifications
@@ -205,6 +220,7 @@ Focus on user outcomes:
 - **Home/End**: Jump to first/last item in lists
 
 **Implementation**:
+
 - Use semantic elements (button, a, input) for natural keyboard support
 - Add tabIndex={0} for custom interactive elements
 - Add tabIndex={-1} for programmatic focus (skip in tab order)
@@ -214,6 +230,7 @@ Focus on user outcomes:
 ### ARIA Attributes
 
 **Use When Semantic HTML Isn't Enough**:
+
 - `role`: Define element purpose when HTML element doesn't convey it
 - `aria-label`: Provide accessible name when visible text isn't suitable
 - `aria-labelledby`: Reference another element as the label
@@ -229,6 +246,7 @@ Focus on user outcomes:
 ### Focus Management
 
 **Critical Scenarios**:
+
 - **Opening Modal**: Focus first interactive element or close button
 - **Closing Modal**: Return focus to trigger element
 - **Deleting Item**: Focus next item or previous if last
@@ -236,6 +254,7 @@ Focus on user outcomes:
 - **Form Errors**: Focus first error field
 
 **Implementation**:
+
 - Use refs to imperatively manage focus
 - Consider `react-focus-lock` for modal focus trapping
 - Use `aria-live` regions for dynamic content announcements
@@ -244,6 +263,7 @@ Focus on user outcomes:
 ### Form Accessibility
 
 **Required Elements**:
+
 - Associate labels with inputs (htmlFor/id or wrap input)
 - Provide error messages with `aria-describedby`
 - Group related inputs with fieldset/legend
@@ -251,6 +271,7 @@ Focus on user outcomes:
 - Provide clear, actionable error messages
 
 **Validation Patterns**:
+
 - Show errors after blur or submit, not on every keystroke
 - Use `aria-invalid` and `aria-describedby` for errors
 - Announce errors to screen readers
@@ -260,6 +281,7 @@ Focus on user outcomes:
 ### Screen Reader Testing
 
 **Test Scenarios**:
+
 - Navigate by headings (are headings structured logically?)
 - Navigate by landmarks (are regions properly defined?)
 - Navigate forms (can you complete forms with eyes closed?)
@@ -267,6 +289,7 @@ Focus on user outcomes:
 - Listen to dynamic updates (are changes announced appropriately?)
 
 **Common Tools**:
+
 - **NVDA** (Windows, free)
 - **JAWS** (Windows, commercial)
 - **VoiceOver** (macOS/iOS, built-in)
@@ -277,21 +300,24 @@ Focus on user outcomes:
 ### Bundle Optimization
 
 **Code Splitting Strategies**:
+
 - Split by route (automatic with Next.js App Router)
 - Split by feature (lazy load heavy features)
 - Split by vendor (separate third-party code)
 - Analyze with webpack-bundle-analyzer
 
 **Dynamic Imports**:
+
 ```typescript
 // Component-level
-const HeavyChart = lazy(() => import('./HeavyChart'))
+const HeavyChart = lazy(() => import("./HeavyChart"));
 
 // Module-level for utilities
-const { processData } = await import('./heavy-utils')
+const { processData } = await import("./heavy-utils");
 ```
 
 **When to Split**:
+
 - Large dependencies (charts, editors, PDF viewers)
 - Feature flags (conditional features)
 - Routes (different pages)
@@ -300,18 +326,21 @@ const { processData } = await import('./heavy-utils')
 ### Rendering Optimization
 
 **React Server Components** (Next.js 13+ App Router):
+
 - Default server components for static content
 - Use client components only when needed (interactivity, hooks, browser APIs)
 - Keep client boundaries small
 - Pass server data to client components as props
 
 **Memoization**:
+
 - `useMemo`: Expensive calculations
 - `useCallback`: Stable function references (prevent child re-renders)
 - `React.memo`: Prevent re-renders when props unchanged
 - **Don't over-memoize**: Measure first, memoization has cost too
 
 **Key Principles**:
+
 - Optimize slow renders before re-render frequency
 - Use React DevTools Profiler to find bottlenecks
 - Check component re-render count and duration
@@ -320,18 +349,21 @@ const { processData } = await import('./heavy-utils')
 ### Asset Optimization
 
 **Images**:
+
 - Use Next.js Image component (automatic optimization)
 - Provide appropriate sizes and formats (WebP, AVIF)
 - Lazy load below-the-fold images
 - Use blur placeholders for better perceived performance
 
 **Fonts**:
+
 - Self-host fonts when possible
 - Use font-display: swap to prevent FOIT
 - Preload critical fonts
 - Subset fonts to include only needed characters
 
 **CSS**:
+
 - Purge unused Tailwind classes in production
 - Use CSS modules or scoped styles to avoid global styles
 - Critical CSS for above-the-fold content
@@ -340,18 +372,21 @@ const { processData } = await import('./heavy-utils')
 ### Core Web Vitals
 
 **Largest Contentful Paint (LCP)** - Target: <2.5s
+
 - Optimize images (largest visible element is often an image)
 - Use CDN for assets
 - Server-side render critical content
 - Preload important resources
 
 **First Input Delay (FID)** - Target: <100ms
+
 - Minimize JavaScript execution time
 - Code split to reduce main thread work
 - Use web workers for heavy computation
 - Defer non-critical JavaScript
 
 **Cumulative Layout Shift (CLS)** - Target: <0.1
+
 - Set width/height on images and videos
 - Avoid inserting content above existing content
 - Use transform animations instead of layout-triggering properties
@@ -362,6 +397,7 @@ const { processData } = await import('./heavy-utils')
 ### Component Testing Philosophy
 
 **What to Test**:
+
 - âœ… User interactions (clicks, typing, navigation)
 - âœ… Visual output (what users see)
 - âœ… Accessibility (keyboard, screen reader announcements)
@@ -369,6 +405,7 @@ const { processData } = await import('./heavy-utils')
 - âœ… Integration (component interactions)
 
 **What Not to Test**:
+
 - âŒ Implementation details (state variables, helper functions)
 - âŒ Third-party libraries (assume they work)
 - âŒ Styles (use visual regression testing instead)
@@ -377,66 +414,75 @@ const { processData } = await import('./heavy-utils')
 ### Testing Patterns
 
 **Rendering Tests**:
+
 ```typescript
 // Test what users see
-expect(screen.getByRole('heading', { name: 'Dashboard' })).toBeInTheDocument()
-expect(screen.getByText(/welcome back/i)).toBeInTheDocument()
+expect(screen.getByRole("heading", { name: "Dashboard" })).toBeInTheDocument();
+expect(screen.getByText(/welcome back/i)).toBeInTheDocument();
 ```
 
 **Interaction Tests**:
+
 ```typescript
 // Test user behavior
-const button = screen.getByRole('button', { name: 'Submit' })
-await userEvent.click(button)
-expect(screen.getByText('Submission successful')).toBeInTheDocument()
+const button = screen.getByRole("button", { name: "Submit" });
+await userEvent.click(button);
+expect(screen.getByText("Submission successful")).toBeInTheDocument();
 ```
 
 **Accessibility Tests**:
+
 ```typescript
 // Test keyboard navigation
-const menu = screen.getByRole('menu')
-await userEvent.tab() // Focus first item
-await userEvent.keyboard('{ArrowDown}') // Move to next
-expect(screen.getByRole('menuitem', { name: 'Profile' })).toHaveFocus()
+const menu = screen.getByRole("menu");
+await userEvent.tab(); // Focus first item
+await userEvent.keyboard("{ArrowDown}"); // Move to next
+expect(screen.getByRole("menuitem", { name: "Profile" })).toHaveFocus();
 ```
 
 **Form Tests**:
+
 ```typescript
 // Test form validation
-const input = screen.getByLabelText('Email')
-await userEvent.type(input, 'invalid-email')
-await userEvent.tab() // Trigger blur validation
-expect(screen.getByText('Please enter a valid email')).toBeInTheDocument()
+const input = screen.getByLabelText("Email");
+await userEvent.type(input, "invalid-email");
+await userEvent.tab(); // Trigger blur validation
+expect(screen.getByText("Please enter a valid email")).toBeInTheDocument();
 ```
 
 **Async Tests**:
+
 ```typescript
 // Test loading states
-expect(screen.getByText('Loading...')).toBeInTheDocument()
+expect(screen.getByText("Loading...")).toBeInTheDocument();
 await waitFor(() => {
-  expect(screen.getByText('Data loaded')).toBeInTheDocument()
-})
+  expect(screen.getByText("Data loaded")).toBeInTheDocument();
+});
 ```
 
 ### Testing Tools Selection
 
 **React Testing Library**: For component behavior and integration tests
+
 - Use query priorities: getByRole > getByLabelText > getByPlaceholderText > getByText
 - Avoid getByTestId except for truly dynamic content
 - Use user-event over fireEvent for realistic interactions
 
 **Vitest/Jest**: For test runner and utilities
+
 - Fast, good TypeScript support
 - Built-in coverage reporting
 - Snapshot testing for complex objects (use sparingly)
 
 **Playwright**: For E2E testing
+
 - Test critical user journeys
 - Test across browsers
 - Test authentication flows
 - Use page object model for maintainability
 
 **Storybook**: For visual testing and documentation
+
 - Document all component variants
 - Test in isolation
 - Enable accessibility addon
@@ -447,11 +493,13 @@ await waitFor(() => {
 ### Token Architecture
 
 **Design Token Hierarchy**:
+
 1. **Core Tokens**: Primitive values (colors, spacing units, font sizes)
 2. **Semantic Tokens**: Purpose-based tokens (background-primary, text-error)
 3. **Component Tokens**: Component-specific tokens (button-padding, card-radius)
 
 **Token Organization**:
+
 - Store tokens in config package
 - Export as CSS variables for Tailwind
 - Provide TypeScript types for autocomplete
@@ -460,6 +508,7 @@ await waitFor(() => {
 ### Component API Design
 
 **Good API Characteristics**:
+
 - **Consistent**: Similar props for similar components
 - **Predictable**: Follows conventions (value/onChange for controlled inputs)
 - **Flexible**: Composable for different use cases
@@ -467,21 +516,23 @@ await waitFor(() => {
 - **Discoverable**: IntelliSense shows available options
 
 **Naming Conventions**:
+
 - Event handlers: `on[Event]` (onClick, onChange, onSubmit)
 - Boolean props: `is[State]` or `has[Feature]` (isOpen, hasError)
 - Render props: `render[Element]` (renderHeader, renderFooter)
 - Refs: `[element]Ref` (inputRef, buttonRef)
 
 **Variant Patterns**:
+
 ```typescript
 // Use union types for explicit variants
-type ButtonVariant = 'primary' | 'secondary' | 'ghost' | 'destructive'
-type ButtonSize = 'sm' | 'md' | 'lg'
+type ButtonVariant = "primary" | "secondary" | "ghost" | "destructive";
+type ButtonSize = "sm" | "md" | "lg";
 
 // Not boolean soup
 interface ButtonProps {
-  variant?: ButtonVariant
-  size?: ButtonSize
+  variant?: ButtonVariant;
+  size?: ButtonSize;
   // Not: isPrimary, isSecondary, isGhost, isDestructive, isSmall, isMedium...
 }
 ```
@@ -489,6 +540,7 @@ interface ButtonProps {
 ### Documentation Best Practices
 
 **Component Documentation Should Include**:
+
 - Purpose and use cases
 - Interactive examples (Storybook)
 - Props table with types and descriptions
@@ -497,6 +549,7 @@ interface ButtonProps {
 - Related components
 
 **Storybook Organization**:
+
 - Group by category (Forms, Layout, Feedback, Navigation)
 - Show all variants in single story (controls)
 - Provide example compositions
@@ -508,18 +561,21 @@ interface ButtonProps {
 ### Tailwind CSS Patterns
 
 **Component Styling**:
+
 - Use `cn()` utility for conditional classes
 - Extract repeated patterns to CSS or component variants
 - Use CSS variables for dynamic values
 - Leverage Tailwind CSS v4 CSS-first approach
 
 **Responsive Design**:
+
 - Mobile-first approach (unprefixed classes are mobile)
 - Use Tailwind breakpoints: sm, md, lg, xl, 2xl
 - Test on real devices, not just browser resize
 - Consider touch targets (minimum 44x44px)
 
 **Dark Mode**:
+
 - Use Tailwind's `dark:` variant
 - Test both modes during development
 - Use semantic color tokens, not hardcoded colors
@@ -528,17 +584,20 @@ interface ButtonProps {
 ### CSS Best Practices
 
 **Naming**:
+
 - Use BEM for custom CSS if not using CSS-in-JS
 - Prefer Tailwind utilities over custom CSS when possible
 - Keep specificity low (avoid deep nesting)
 
 **Organization**:
+
 - Co-locate styles with components
 - Use CSS Modules for component-specific styles
 - Global styles only for resets and body/html rules
 - Tailwind for utilities, CSS for complex animations/layouts
 
 **Performance**:
+
 - Minimize custom CSS (larger bundles, runtime cost)
 - Use Tailwind's JIT mode (only builds used classes)
 - Avoid @apply overuse (defeats Tailwind's benefits)
@@ -549,17 +608,20 @@ interface ButtonProps {
 ### When to Use Each Approach
 
 **Local Component State** (useState):
+
 - UI state (open/closed, hover, focus)
 - Form inputs (controlled components)
 - Simple toggles and counters
 - State used by single component
 
 **Lifted State** (props):
+
 - State shared by siblings
 - Parent needs to coordinate children
 - Simple parent-child communication
 
 **Context API**:
+
 - Theme preferences
 - User authentication state
 - i18n locale
@@ -567,6 +629,7 @@ interface ButtonProps {
 - Shared UI state (sidebar open/closed)
 
 **Server State Libraries** (TanStack Query, SWR):
+
 - Data fetching from APIs
 - Caching server responses
 - Synchronizing server state
@@ -574,6 +637,7 @@ interface ButtonProps {
 - Optimistic updates
 
 **URL State**:
+
 - Filters and search terms
 - Pagination parameters
 - Active tabs or views
@@ -583,11 +647,13 @@ interface ButtonProps {
 ### Form State Management
 
 **Simple Forms**: useState for each field
+
 - Few fields
 - Simple validation
 - No complex interactions
 
 **Complex Forms**: React Hook Form or Formik
+
 - Many fields
 - Complex validation (async, cross-field)
 - Multi-step forms
@@ -595,6 +661,7 @@ interface ButtonProps {
 - Need validation library integration (Zod, Yup)
 
 **Form Patterns**:
+
 - Validate on blur for individual fields
 - Validate on submit for overall form
 - Show errors after user interaction, not immediately
@@ -607,13 +674,15 @@ interface ButtonProps {
 ### Code Reviews
 
 **Provide Constructive Feedback**:
+
 - Point out issues with suggestions for fixes
-- Explain *why* something is problematic
+- Explain _why_ something is problematic
 - Distinguish between "must fix" and "nice to have"
 - Acknowledge good solutions and patterns
 - Ask questions when you're unsure
 
 **Request Reviews Effectively**:
+
 - Provide context (what and why)
 - Highlight areas you want specific feedback on
 - Keep PRs focused and reasonably sized
@@ -623,6 +692,7 @@ interface ButtonProps {
 ### Technical Communication
 
 **When Explaining Implementation**:
+
 - Start with the "why" (user need, business requirement)
 - Describe the approach at a high level
 - Dive into technical details as needed
@@ -630,6 +700,7 @@ interface ButtonProps {
 - Provide code examples for patterns
 
 **When Reporting Issues**:
+
 - Describe the expected behavior
 - Explain what actually happens
 - Provide reproduction steps
@@ -637,6 +708,7 @@ interface ButtonProps {
 - Attach screenshots or recordings when visual
 
 **When Requesting Clarification**:
+
 - State what you understand so far
 - Ask specific questions
 - Suggest potential solutions

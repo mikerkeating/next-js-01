@@ -13,8 +13,6 @@ How maturity models are stored and visualized
 Template system architecture
 Versioning strategy
 
-
-
 Priority 3: Future Documentation (Complete Before Launch)
 
 Add Landing Page Builder Architecture (Epic 3B.7)
@@ -56,28 +54,28 @@ Content-hash URL generation
 File upload flow
 Cache invalidation strategy
 
-2. Epic 2B.1: Product Database Schema
-✅ Schema overview in main TAD (lines 333-356)
-✅ Partial coverage in package architecture
-⚠️ No dedicated detailed schema file
-Recommendation: Could add 2-tad-database-schema.md with full table definitions
-3. Epic 2B.2: Multi-Tenant Organisation Model
-✅ Covered in middleware (org context extraction)
-✅ Covered in package architecture (@repo/org)
-⚠️ No dedicated org model architecture file
-Recommendation: Could add 2-tad-org-model.md
-4. Epic 3A.1: CDN & Asset Management
-✅ Mentioned in monorepo structure
-⚠️ No dedicated implementation details
-Recommendation: Could add 2-tad-cdn-assets.md
-5. Epic 4A.1-4A.3: Quality Enhancement
-✅ Testing covered comprehensively
-⚠️ Storybook and accessibility details could be expanded
-Status: Acceptable coverage in testing doc
-6. Epic 5A: DevOps Enhancement
-✅ CI/CD covered in steel thread deployment
-⚠️ Advanced pipeline features not detailed
-Status: Basic coverage sufficient for now
+1. Epic 2B.1: Product Database Schema
+   ✅ Schema overview in main TAD (lines 333-356)
+   ✅ Partial coverage in package architecture
+   ⚠️ No dedicated detailed schema file
+   Recommendation: Could add 2-tad-database-schema.md with full table definitions
+2. Epic 2B.2: Multi-Tenant Organisation Model
+   ✅ Covered in middleware (org context extraction)
+   ✅ Covered in package architecture (@repo/org)
+   ⚠️ No dedicated org model architecture file
+   Recommendation: Could add 2-tad-org-model.md
+3. Epic 3A.1: CDN & Asset Management
+   ✅ Mentioned in monorepo structure
+   ⚠️ No dedicated implementation details
+   Recommendation: Could add 2-tad-cdn-assets.md
+4. Epic 4A.1-4A.3: Quality Enhancement
+   ✅ Testing covered comprehensively
+   ⚠️ Storybook and accessibility details could be expanded
+   Status: Acceptable coverage in testing doc
+5. Epic 5A: DevOps Enhancement
+   ✅ CI/CD covered in steel thread deployment
+   ⚠️ Advanced pipeline features not detailed
+   Status: Basic coverage sufficient for now
 
 Add 2-tad-org-model.md for multi-tenancy patterns
 Expand Storybook/visual testing section in testing doc

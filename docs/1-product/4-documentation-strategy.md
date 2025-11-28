@@ -45,19 +45,22 @@ Every package serves two distinct audiences with different needs:
 ### Audience 1: Package Maintainer (Internal Developer)
 
 **Needs:**
+
 - Understanding the package's internals
 - How to add features or fix bugs
 - Testing strategy
 - Build and release process
 
 **Documentation:**
+
 - `/packages/{name}/README.md` — Maintainer section
 - `/packages/{name}/docs/ARCHITECTURE.md` — Internal structure
 - `/packages/{name}/docs/CONTRIBUTING.md` — How to contribute
-- Inline code comments explaining *why* (not what)
+- Inline code comments explaining _why_ (not what)
 - Test documentation
 
 **Example (for @repo/auth):**
+
 ```
 packages/auth/
 ├── README.md                  # Overview, installation, usage, THEN maintenance
@@ -72,6 +75,7 @@ packages/auth/
 ### Audience 2: Package Consumer (Other Developers)
 
 **Needs:**
+
 - How to install and configure
 - API reference (what functions/components exist)
 - Usage examples
@@ -79,26 +83,31 @@ packages/auth/
 - Troubleshooting
 
 **Documentation:**
+
 - `/packages/{name}/README.md` — Consumer section (top of file)
 - Generated API docs (TypeDoc)
 - Storybook (for UI components)
 - `/docs/guides/{package-name}.md` — Usage guide in main docs site
 
 **Example (for @repo/auth consumer):**
+
 ```markdown
 # @repo/auth
 
 Quick start, installation, basic usage examples here.
 
 ## API Reference
+
 [Link to generated TypeDoc]
 
 ## Usage Examples
+
 - Setting up protected routes
 - Role-based access control
 - Custom permissions
 
 ## Troubleshooting
+
 Common issues and solutions
 ```
 
@@ -182,29 +191,29 @@ Common issues and solutions
 
 ## Documentation Ownership by Epic Phase
 
-| Phase | Documentation Created | Owner |
-|-------|----------------------|-------|
-| **P** | PRD, TAD, ADRs, Epic/Story specs | Tech Lead + PM |
-| **0A-1A** | README, CONTRIBUTING, architecture diagrams | Platform team |
-| **2A** | Package READMEs (both audiences), API reference | Package maintainers |
-| **2B** | Product domain docs, data model docs | Product team |
-| **3A-3B** | App READMEs, API docs (OpenAPI), user guides | App teams |
-| **4A-8A** | Operational runbooks, incident procedures | DevOps + all teams |
+| Phase     | Documentation Created                           | Owner               |
+| --------- | ----------------------------------------------- | ------------------- |
+| **P**     | PRD, TAD, ADRs, Epic/Story specs                | Tech Lead + PM      |
+| **0A-1A** | README, CONTRIBUTING, architecture diagrams     | Platform team       |
+| **2A**    | Package READMEs (both audiences), API reference | Package maintainers |
+| **2B**    | Product domain docs, data model docs            | Product team        |
+| **3A-3B** | App READMEs, API docs (OpenAPI), user guides    | App teams           |
+| **4A-8A** | Operational runbooks, incident procedures       | DevOps + all teams  |
 
 ---
 
 ## Documentation Generation vs Hand-Written
 
-| Type | Method | Tool |
-|------|--------|------|
-| **API Reference** | Generated from TypeScript | TypeDoc |
-| **Component Library** | Generated from Storybook | Storybook |
-| **API Endpoints** | Generated from code | OpenAPI/Swagger |
-| **Database Schema** | Generated from Drizzle | Drizzle Kit + custom |
-| **Architecture Diagrams** | Hand-drawn (maintained) | Mermaid, Excalidraw |
-| **Guides & How-Tos** | Hand-written | Markdown |
-| **ADRs** | Hand-written | Markdown |
-| **Runbooks** | Hand-written | Markdown |
+| Type                      | Method                    | Tool                 |
+| ------------------------- | ------------------------- | -------------------- |
+| **API Reference**         | Generated from TypeScript | TypeDoc              |
+| **Component Library**     | Generated from Storybook  | Storybook            |
+| **API Endpoints**         | Generated from code       | OpenAPI/Swagger      |
+| **Database Schema**       | Generated from Drizzle    | Drizzle Kit + custom |
+| **Architecture Diagrams** | Hand-drawn (maintained)   | Mermaid, Excalidraw  |
+| **Guides & How-Tos**      | Hand-written              | Markdown             |
+| **ADRs**                  | Hand-written              | Markdown             |
+| **Runbooks**              | Hand-written              | Markdown             |
 
 ---
 
@@ -226,19 +235,19 @@ GitHub Actions Check: "docs"
 
 ## Documentation Delivery Formats
 
-| Audience | Format | Tool |
-|----------|--------|------|
-| **Developers (internal)** | Static site | Nextra / Docusaurus |
-| **API Consumers** | Interactive docs | Swagger UI |
-| **Component Users** | Interactive showcase | Storybook (deployed) |
-| **End Users** | Marketing site + docs | Next.js app (3B.4) |
-| **Operations** | Wiki / Notion | Runbooks in repo + Notion |
+| Audience                  | Format                | Tool                      |
+| ------------------------- | --------------------- | ------------------------- |
+| **Developers (internal)** | Static site           | Nextra / Docusaurus       |
+| **API Consumers**         | Interactive docs      | Swagger UI                |
+| **Component Users**       | Interactive showcase  | Storybook (deployed)      |
+| **End Users**             | Marketing site + docs | Next.js app (3B.4)        |
+| **Operations**            | Wiki / Notion         | Runbooks in repo + Notion |
 
 ---
 
 ## Example: @repo/auth Package Documentation
 
-### For Package Consumer (top of README.md):
+### For Package Consumer (top of README.md)
 
 ```markdown
 # @repo/auth
@@ -246,40 +255,49 @@ GitHub Actions Check: "docs"
 Authentication and authorization package using Clerk.
 
 ## Installation
+
 `pnpm add @repo/auth`
 
 ## Quick Start
+
 [3 code examples showing common patterns]
 
 ## API Reference
+
 [Link to generated TypeDoc]
 
 ## Guides
+
 - Setting up protected routes
 - Role-based access control
 - Organization context
 
 ## Troubleshooting
+
 [Common issues]
 ```
 
-### For Package Maintainer (further down README.md + separate docs):
+### For Package Maintainer (further down README.md + separate docs)
 
 ```markdown
 ## For Maintainers
 
 ### Architecture
+
 See [docs/ARCHITECTURE.md](./docs/ARCHITECTURE.md)
 
 ### Development
+
 1. Clone monorepo
 2. Install dependencies: `pnpm install`
 3. Run tests: `pnpm test`
 
 ### Testing
+
 See [docs/TESTING.md](./docs/TESTING.md)
 
 ### Releasing
+
 See [docs/RELEASING.md](./docs/RELEASING.md)
 ```
 
@@ -291,14 +309,14 @@ See [docs/RELEASING.md](./docs/RELEASING.md)
 
 ### Triggers for Documentation Updates
 
-| Trigger | Required Update |
-|---------|----------------|
-| Code change | Update inline comments, JSDoc |
-| API change | Update OpenAPI spec, package README |
-| Architecture change | Update TAD, create new ADR |
-| New feature | Update user guides, add examples |
-| Incident | Update runbooks, add troubleshooting |
-| Onboarding feedback | Improve getting started guide |
+| Trigger             | Required Update                      |
+| ------------------- | ------------------------------------ |
+| Code change         | Update inline comments, JSDoc        |
+| API change          | Update OpenAPI spec, package README  |
+| Architecture change | Update TAD, create new ADR           |
+| New feature         | Update user guides, add examples     |
+| Incident            | Update runbooks, add troubleshooting |
+| Onboarding feedback | Improve getting started guide        |
 
 ### Review Process
 
@@ -315,7 +333,7 @@ Documentation effectiveness measured by:
 1. **Onboarding time** — New developer productive in < 2 days
 2. **Support tickets** — Decrease in "how do I..." questions
 3. **Self-service** — Developers find answers without asking
-4. **Confidence** — Developers know *why* things work, not just *how*
+4. **Confidence** — Developers know _why_ things work, not just _how_
 
 ---
 

@@ -36,6 +36,7 @@ We will use **Drizzle ORM** (latest version) as our database ORM, with **Drizzle
 ### Configuration
 
 **Database Package Structure**:
+
 ```
 packages/database/
 ├── src/
@@ -53,51 +54,54 @@ packages/database/
 ```
 
 **drizzle.config.ts**:
+
 ```typescript
-import { defineConfig } from 'drizzle-kit'
+import { defineConfig } from "drizzle-kit";
 
 export default defineConfig({
-  schema: './src/schema/index.ts',
-  out: './src/migrations',
-  dialect: 'postgresql',
+  schema: "./src/schema/index.ts",
+  out: "./src/migrations",
+  dialect: "postgresql",
   dbCredentials: {
     url: process.env.DATABASE_URL!,
   },
   verbose: true,
   strict: true,
-})
+});
 ```
 
 **Example Schema (packages/database/src/schema/users.ts)**:
+
 ```typescript
-import { pgTable, uuid, text, timestamp } from 'drizzle-orm/pg-core'
+import { pgTable, uuid, text, timestamp } from "drizzle-orm/pg-core";
 
-export const users = pgTable('users', {
-  id: uuid('id').primaryKey().defaultRandom(),
-  clerkId: text('clerk_id').notNull().unique(),
-  email: text('email').notNull().unique(),
-  name: text('name'),
-  avatarUrl: text('avatar_url'),
-  createdAt: timestamp('created_at').defaultNow().notNull(),
-  updatedAt: timestamp('updated_at').defaultNow().notNull(),
-})
+export const users = pgTable("users", {
+  id: uuid("id").primaryKey().defaultRandom(),
+  clerkId: text("clerk_id").notNull().unique(),
+  email: text("email").notNull().unique(),
+  name: text("name"),
+  avatarUrl: text("avatar_url"),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+  updatedAt: timestamp("updated_at").defaultNow().notNull(),
+});
 
-export type User = typeof users.$inferSelect
-export type NewUser = typeof users.$inferInsert
+export type User = typeof users.$inferSelect;
+export type NewUser = typeof users.$inferInsert;
 ```
 
 **Database Client (packages/database/src/client.ts)**:
+
 ```typescript
-import { drizzle } from 'drizzle-orm/neon-http'
-import { neonConfig } from '@neondatabase/serverless'
-import * as schema from './schema'
+import { drizzle } from "drizzle-orm/neon-http";
+import { neonConfig } from "@neondatabase/serverless";
+import * as schema from "./schema";
 
 // Configure for edge runtime if needed
-if (process.env.VERCEL_ENV === 'production') {
-  neonConfig.fetchConnectionCache = true
+if (process.env.VERCEL_ENV === "production") {
+  neonConfig.fetchConnectionCache = true;
 }
 
-export const db = drizzle(process.env.DATABASE_URL!, { schema })
+export const db = drizzle(process.env.DATABASE_URL!, { schema });
 ```
 
 ## Rationale
@@ -178,6 +182,7 @@ export const db = drizzle(process.env.DATABASE_URL!, { schema })
 #### Option 1: Prisma
 
 **Pros:**
+
 - Mature ecosystem
 - Great documentation
 - Visual database browser (Prisma Studio)
@@ -185,6 +190,7 @@ export const db = drizzle(process.env.DATABASE_URL!, { schema })
 - Good migration system
 
 **Cons:**
+
 - ❌ Slower query performance
 - ❌ Larger bundle size
 - ❌ Code generation required
@@ -198,6 +204,7 @@ export const db = drizzle(process.env.DATABASE_URL!, { schema })
 #### Option 2: TypeORM
 
 **Pros:**
+
 - Mature and stable
 - Decorator-based models
 - Active Record and Data Mapper patterns
@@ -205,6 +212,7 @@ export const db = drizzle(process.env.DATABASE_URL!, { schema })
 - Large community
 
 **Cons:**
+
 - ❌ Decorator syntax feels outdated
 - ❌ Less type-safe than modern alternatives
 - ❌ Runtime reflection overhead
@@ -217,6 +225,7 @@ export const db = drizzle(process.env.DATABASE_URL!, { schema })
 #### Option 3: Kysely
 
 **Pros:**
+
 - Excellent TypeScript support
 - Very lightweight
 - SQL-first approach
@@ -224,6 +233,7 @@ export const db = drizzle(process.env.DATABASE_URL!, { schema })
 - Type-safe queries
 
 **Cons:**
+
 - ❌ More manual type definitions
 - ❌ Less feature-rich than Drizzle
 - ❌ No built-in migration tool
@@ -236,12 +246,14 @@ export const db = drizzle(process.env.DATABASE_URL!, { schema })
 #### Option 4: Sequelize
 
 **Pros:**
+
 - Very mature
 - Large community
 - Extensive documentation
 - Supports many databases
 
 **Cons:**
+
 - ❌ Poor TypeScript support
 - ❌ Old API design
 - ❌ Performance issues
@@ -254,12 +266,14 @@ export const db = drizzle(process.env.DATABASE_URL!, { schema })
 #### Option 5: MikroORM
 
 **Pros:**
+
 - Good TypeScript support
 - Unit of Work pattern
 - Identity Map
 - Active development
 
 **Cons:**
+
 - ❌ Steeper learning curve
 - ❌ More complex than needed
 - ❌ Larger bundle size
@@ -271,12 +285,14 @@ export const db = drizzle(process.env.DATABASE_URL!, { schema })
 #### Option 6: Raw SQL (node-postgres)
 
 **Pros:**
+
 - Maximum performance
 - Complete control
 - No abstraction
 - Minimal dependencies
 
 **Cons:**
+
 - ❌ No type safety
 - ❌ Error-prone
 - ❌ Manual query building
@@ -427,37 +443,37 @@ export const db = drizzle(process.env.DATABASE_URL!, { schema })
 ### Basic CRUD Operations
 
 ```typescript
-import { db } from '@repo/database'
-import { users } from '@repo/database/schema'
-import { eq } from 'drizzle-orm'
+import { db } from "@repo/database";
+import { users } from "@repo/database/schema";
+import { eq } from "drizzle-orm";
 
 // Insert
-const newUser = await db.insert(users).values({
-  clerkId: 'clerk_123',
-  email: 'user@example.com',
-  name: 'John Doe',
-}).returning()
+const newUser = await db
+  .insert(users)
+  .values({
+    clerkId: "clerk_123",
+    email: "user@example.com",
+    name: "John Doe",
+  })
+  .returning();
 
 // Select
 const user = await db.query.users.findFirst({
-  where: eq(users.email, 'user@example.com'),
-})
+  where: eq(users.email, "user@example.com"),
+});
 
 // Update
-await db.update(users)
-  .set({ name: 'Jane Doe' })
-  .where(eq(users.id, userId))
+await db.update(users).set({ name: "Jane Doe" }).where(eq(users.id, userId));
 
 // Delete
-await db.delete(users)
-  .where(eq(users.id, userId))
+await db.delete(users).where(eq(users.id, userId));
 ```
 
 ### Relations & Joins
 
 ```typescript
-import { db } from '@repo/database'
-import { users, organisations, userOrganisations } from '@repo/database/schema'
+import { db } from "@repo/database";
+import { users, organisations, userOrganisations } from "@repo/database/schema";
 
 // Query with relations
 const usersWithOrgs = await db.query.users.findMany({
@@ -468,7 +484,7 @@ const usersWithOrgs = await db.query.users.findMany({
       },
     },
   },
-})
+});
 
 // Manual join
 const result = await db
@@ -480,60 +496,63 @@ const result = await db
   .from(users)
   .innerJoin(userOrganisations, eq(users.id, userOrganisations.userId))
   .innerJoin(organisations, eq(userOrganisations.organisationId, organisations.id))
-  .where(eq(users.id, userId))
+  .where(eq(users.id, userId));
 ```
 
 ### Organization-Scoped Queries
 
 ```typescript
-import { db } from '@repo/database'
-import { content } from '@repo/database/schema'
-import { eq, and } from 'drizzle-orm'
+import { db } from "@repo/database";
+import { content } from "@repo/database/schema";
+import { eq, and } from "drizzle-orm";
 
 // Helper function for org-scoped queries
-export function withOrgContext<T>(
-  orgId: string,
-  query: (db: typeof db) => Promise<T>
-): Promise<T> {
+export function withOrgContext<T>(orgId: string, query: (db: typeof db) => Promise<T>): Promise<T> {
   // In practice, you might use RLS or query filters
-  return query(db)
+  return query(db);
 }
 
 // Usage
 export async function getOrgContent(orgId: string) {
   return db.query.content.findMany({
     where: eq(content.organisationId, orgId),
-  })
+  });
 }
 ```
 
 ### Transactions
 
 ```typescript
-import { db } from '@repo/database'
-import { users, organisations, userOrganisations } from '@repo/database/schema'
+import { db } from "@repo/database";
+import { users, organisations, userOrganisations } from "@repo/database/schema";
 
 // Transaction example
 await db.transaction(async (tx) => {
   // Create user
-  const [user] = await tx.insert(users).values({
-    clerkId: 'clerk_123',
-    email: 'user@example.com',
-  }).returning()
+  const [user] = await tx
+    .insert(users)
+    .values({
+      clerkId: "clerk_123",
+      email: "user@example.com",
+    })
+    .returning();
 
   // Create organization
-  const [org] = await tx.insert(organisations).values({
-    name: 'Acme Corp',
-    slug: 'acme',
-  }).returning()
+  const [org] = await tx
+    .insert(organisations)
+    .values({
+      name: "Acme Corp",
+      slug: "acme",
+    })
+    .returning();
 
   // Link user to org
   await tx.insert(userOrganisations).values({
     userId: user.id,
     organisationId: org.id,
-    role: 'product-seller',
-  })
-})
+    role: "product-seller",
+  });
+});
 ```
 
 ## Migration Workflow
@@ -615,16 +634,12 @@ CREATE INDEX IF NOT EXISTS "idx_users_email" ON "users" ("email");
 ### Pagination
 
 ```typescript
-import { db } from '@repo/database'
-import { content } from '@repo/database/schema'
-import { eq, desc } from 'drizzle-orm'
+import { db } from "@repo/database";
+import { content } from "@repo/database/schema";
+import { eq, desc } from "drizzle-orm";
 
-export async function getPaginatedContent(
-  orgId: string,
-  page: number = 1,
-  perPage: number = 20
-) {
-  const offset = (page - 1) * perPage
+export async function getPaginatedContent(orgId: string, page: number = 1, perPage: number = 20) {
+  const offset = (page - 1) * perPage;
 
   const [items, [{ count }]] = await Promise.all([
     db.query.content.findMany({
@@ -633,10 +648,11 @@ export async function getPaginatedContent(
       offset,
       orderBy: desc(content.createdAt),
     }),
-    db.select({ count: sql<number>`count(*)` })
+    db
+      .select({ count: sql<number>`count(*)` })
       .from(content)
       .where(eq(content.organisationId, orgId)),
-  ])
+  ]);
 
   return {
     items,
@@ -646,25 +662,25 @@ export async function getPaginatedContent(
       total: count,
       pages: Math.ceil(count / perPage),
     },
-  }
+  };
 }
 ```
 
 ### Soft Deletes
 
 ```typescript
-import { pgTable, uuid, timestamp, boolean } from 'drizzle-orm/pg-core'
+import { pgTable, uuid, timestamp, boolean } from "drizzle-orm/pg-core";
 
-export const content = pgTable('content', {
-  id: uuid('id').primaryKey().defaultRandom(),
+export const content = pgTable("content", {
+  id: uuid("id").primaryKey().defaultRandom(),
   // ... other fields
-  deletedAt: timestamp('deleted_at'),
-  isDeleted: boolean('is_deleted').default(false),
-})
+  deletedAt: timestamp("deleted_at"),
+  isDeleted: boolean("is_deleted").default(false),
+});
 
 // Query helper to exclude deleted
 export function withoutDeleted<T>(query: T) {
-  return query.where(eq(content.isDeleted, false))
+  return query.where(eq(content.isDeleted, false));
 }
 ```
 

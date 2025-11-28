@@ -7,6 +7,7 @@
 Our developer experience (DX) strategy ensures developers can work efficiently with fast feedback loops, clear workflows, and automated quality gates. This section covers Epic 1A.2 requirements.
 
 **Key Principles**:
+
 - **Fast Feedback**: Catch issues early in development, not in CI
 - **Automated Quality**: Pre-commit hooks enforce standards automatically
 - **Clear Workflows**: Well-documented processes for common tasks
@@ -31,24 +32,21 @@ pnpm lint-staged
 // package.json
 {
   "lint-staged": {
-    "*.{ts,tsx}": [
-      "eslint --fix",
-      "prettier --write"
-    ],
-    "*.{json,md,yml,yaml}": [
-      "prettier --write"
-    ]
+    "*.{ts,tsx}": ["eslint --fix", "prettier --write"],
+    "*.{json,md,yml,yaml}": ["prettier --write"]
   }
 }
 ```
 
 **What Gets Checked**:
+
 - **Linting**: ESLint with project rules
 - **Formatting**: Prettier with consistent config
 - **Type Checking**: TypeScript compilation (via editor)
 - **File Size**: Warn if files exceed 500 lines
 
 **Bypass Policy**:
+
 ```bash
 # Only use in emergencies (e.g., hotfix)
 git commit --no-verify -m "emergency: fix critical bug"
@@ -62,17 +60,17 @@ git commit --no-verify -m "emergency: fix critical bug"
 
 Quality gates that run in GitHub Actions for every PR:
 
-| Gate | Tool | Threshold | Blocks Merge? |
-|------|------|-----------|---------------|
-| **Linting** | ESLint | 0 errors | ✅ Yes |
-| **Type Checking** | TypeScript | 0 errors | ✅ Yes |
-| **Unit Tests** | Vitest | 100% pass, ≥80% coverage | ✅ Yes |
-| **Integration Tests** | Vitest | 100% pass | ✅ Yes |
-| **Build** | Turborepo | Successful build | ✅ Yes |
-| **E2E Smoke Tests** | Playwright | 100% pass | ✅ Yes |
-| **Bundle Size** | Next.js Bundle Analyzer | ≤200KB JS | ⚠️ Warning only |
-| **Security Audit** | pnpm audit | 0 high/critical | ✅ Yes |
-| **Accessibility** | axe-core | 0 violations | ⚠️ Warning only |
+| Gate                  | Tool                    | Threshold                | Blocks Merge?   |
+| --------------------- | ----------------------- | ------------------------ | --------------- |
+| **Linting**           | ESLint                  | 0 errors                 | ✅ Yes          |
+| **Type Checking**     | TypeScript              | 0 errors                 | ✅ Yes          |
+| **Unit Tests**        | Vitest                  | 100% pass, ≥80% coverage | ✅ Yes          |
+| **Integration Tests** | Vitest                  | 100% pass                | ✅ Yes          |
+| **Build**             | Turborepo               | Successful build         | ✅ Yes          |
+| **E2E Smoke Tests**   | Playwright              | 100% pass                | ✅ Yes          |
+| **Bundle Size**       | Next.js Bundle Analyzer | ≤200KB JS                | ⚠️ Warning only |
+| **Security Audit**    | pnpm audit              | 0 high/critical          | ✅ Yes          |
+| **Accessibility**     | axe-core                | 0 violations             | ⚠️ Warning only |
 
 **Quality Gate Configuration**:
 
@@ -96,8 +94,8 @@ jobs:
 
       - uses: actions/setup-node@v4
         with:
-          node-version: '24'
-          cache: 'pnpm'
+          node-version: "24"
+          cache: "pnpm"
 
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
@@ -147,21 +145,15 @@ jobs:
 export default defineConfig({
   test: {
     coverage: {
-      provider: 'v8',
-      reporter: ['text', 'json', 'html'],
+      provider: "v8",
+      reporter: ["text", "json", "html"],
       thresholds: {
         lines: 80,
         functions: 80,
         branches: 75,
         statements: 80,
       },
-      exclude: [
-        '**/*.test.ts',
-        '**/*.spec.ts',
-        '**/*.config.ts',
-        '**/dist/**',
-        '**/.next/**',
-      ],
+      exclude: ["**/*.test.ts", "**/*.spec.ts", "**/*.config.ts", "**/dist/**", "**/.next/**"],
     },
   },
 });
@@ -175,13 +167,13 @@ export default defineConfig({
 
 Before starting development, ensure you have:
 
-| Tool | Version | Purpose |
-|------|---------|---------|
-| **Node.js** | 24.x LTS | Runtime environment |
-| **pnpm** | 10.x | Package manager |
-| **Git** | 2.x+ | Version control |
-| **VS Code** | Latest | Recommended IDE |
-| **Docker** | Latest (optional) | For local PostgreSQL |
+| Tool        | Version           | Purpose              |
+| ----------- | ----------------- | -------------------- |
+| **Node.js** | 24.x LTS          | Runtime environment  |
+| **pnpm**    | 10.x              | Package manager      |
+| **Git**     | 2.x+              | Version control      |
+| **VS Code** | Latest            | Recommended IDE      |
+| **Docker**  | Latest (optional) | For local PostgreSQL |
 
 #### First-Time Setup
 
@@ -207,6 +199,7 @@ pnpm install
 ```
 
 This installs:
+
 - All workspace dependencies
 - Husky git hooks
 - TypeScript definitions
@@ -276,9 +269,10 @@ pnpm run dev --parallel
 ```
 
 This starts:
-- `apps/routing` at http://localhost:3000
-- `apps/api` at http://localhost:3001 (if configured)
-- `apps/docs` at http://localhost:3002 (if configured)
+
+- `apps/routing` at <http://localhost:3000>
+- `apps/api` at <http://localhost:3001> (if configured)
+- `apps/docs` at <http://localhost:3002> (if configured)
 
 **Step 6: Verify Setup**
 
@@ -484,14 +478,14 @@ main (production)
 
 **Branch Types**:
 
-| Type | Pattern | Purpose | Merges To |
-|------|---------|---------|-----------|
-| **main** | `main` | Production code | - |
-| **development** | `development` | Staging/integration branch | `main` |
-| **Feature** | `feature/*` | New features | `development` |
-| **Fix** | `fix/*` | Bug fixes | `development` |
-| **Epic** | `epic/*` | Large feature sets | `development` |
-| **Hotfix** | `hotfix/*` | Emergency production fixes | `main` + `development` |
+| Type            | Pattern       | Purpose                    | Merges To              |
+| --------------- | ------------- | -------------------------- | ---------------------- |
+| **main**        | `main`        | Production code            | -                      |
+| **development** | `development` | Staging/integration branch | `main`                 |
+| **Feature**     | `feature/*`   | New features               | `development`          |
+| **Fix**         | `fix/*`       | Bug fixes                  | `development`          |
+| **Epic**        | `epic/*`      | Large feature sets         | `development`          |
+| **Hotfix**      | `hotfix/*`    | Emergency production fixes | `main` + `development` |
 
 ---
 
@@ -590,6 +584,7 @@ Closes #123"
 ```
 
 **Types**:
+
 - `feat`: New feature
 - `fix`: Bug fix
 - `docs`: Documentation changes
@@ -638,24 +633,29 @@ git push -u origin feature/add-user-dashboard
 
 ```markdown
 ## Description
+
 Brief description of what this PR does.
 
 ## Type of Change
+
 - [ ] Bug fix (non-breaking change fixing an issue)
 - [ ] New feature (non-breaking change adding functionality)
 - [ ] Breaking change (fix or feature causing existing functionality to change)
 - [ ] Documentation update
 
 ## Testing
+
 - [ ] Unit tests added/updated
 - [ ] Integration tests added/updated
 - [ ] E2E tests added/updated
 - [ ] Manual testing completed
 
 ## Screenshots (if applicable)
+
 Add screenshots for UI changes.
 
 ## Checklist
+
 - [ ] Code follows project style guidelines
 - [ ] Self-review completed
 - [ ] Comments added for complex logic
@@ -665,6 +665,7 @@ Add screenshots for UI changes.
 - [ ] Dependent changes merged
 
 ## Related Issues
+
 Closes #123
 Relates to #456
 ```
@@ -711,18 +712,23 @@ pnpm run test:e2e
 
 ```markdown
 # Requesting changes
+
 Please update the error handling to catch the specific exception type.
 
 # Suggesting improvements
+
 Consider using `useMemo` here to avoid unnecessary recalculations.
 
 # Nitpicks (optional)
+
 nit: Consider renaming `data` to `userData` for clarity.
 
 # Blocking issues
+
 🚫 This introduces a security vulnerability. Please sanitize user input.
 
 # Approving
+
 ✅ LGTM! Great work on the test coverage.
 ```
 
@@ -731,6 +737,7 @@ nit: Consider renaming `data` to `userData` for clarity.
 #### Merging a Pull Request
 
 **Prerequisites**:
+
 - ✅ All CI checks pass
 - ✅ At least 1 approval
 - ✅ No unresolved conversations
@@ -738,11 +745,11 @@ nit: Consider renaming `data` to `userData` for clarity.
 
 **Merge Strategies**:
 
-| Strategy | When to Use | Command |
-|----------|-------------|---------|
-| **Squash and Merge** | Default for feature branches | Combines all commits into one |
-| **Rebase and Merge** | For clean linear history | Replays commits on base branch |
-| **Merge Commit** | For epic branches | Preserves commit history |
+| Strategy             | When to Use                  | Command                        |
+| -------------------- | ---------------------------- | ------------------------------ |
+| **Squash and Merge** | Default for feature branches | Combines all commits into one  |
+| **Rebase and Merge** | For clean linear history     | Replays commits on base branch |
+| **Merge Commit**     | For epic branches            | Preserves commit history       |
 
 **Recommended**: Use **Squash and Merge** for most PRs to keep history clean.
 
@@ -846,6 +853,7 @@ git push origin --delete feature/add-user-dashboard
 #### Issue: Pre-commit hooks not running
 
 **Solution**:
+
 ```bash
 # Reinstall Husky hooks
 pnpm run prepare
@@ -862,6 +870,7 @@ chmod +x .husky/pre-commit
 #### Issue: TypeScript errors in IDE but not in terminal
 
 **Solution**:
+
 ```bash
 # Restart TypeScript server in VS Code
 # CMD/CTRL + Shift + P → "TypeScript: Restart TS Server"
@@ -879,6 +888,7 @@ chmod +x .husky/pre-commit
 #### Issue: Database connection fails locally
 
 **Solution**:
+
 ```bash
 # Check DATABASE_URL in .env.local
 cat .env.local | grep DATABASE_URL
@@ -900,6 +910,7 @@ docker start postgres-dev  # Start if stopped
 #### Issue: Port already in use
 
 **Solution**:
+
 ```bash
 # Find process using port 3000
 lsof -i :3000
@@ -916,6 +927,7 @@ kill -9 <PID>
 #### Issue: pnpm install fails
 
 **Solution**:
+
 ```bash
 # Clear pnpm cache
 pnpm store prune
@@ -939,18 +951,19 @@ npm install -g pnpm@latest
 
 We track these metrics to ensure good DX:
 
-| Metric | Target | Current | Status |
-|--------|--------|---------|--------|
-| **Time to First Run** | < 10 min | TBD | 🟡 |
-| **Dev Server Start** | < 10s | TBD | 🟡 |
-| **Hot Reload Time** | < 2s | TBD | 🟡 |
-| **Test Execution** | < 30s (unit) | TBD | 🟡 |
-| **Build Time** | < 2 min | TBD | 🟡 |
-| **CI Pipeline** | < 5 min | TBD | 🟡 |
-| **PR Review Time** | < 24 hours | TBD | 🟡 |
-| **Merge to Production** | < 15 min | TBD | 🟡 |
+| Metric                  | Target       | Current | Status |
+| ----------------------- | ------------ | ------- | ------ |
+| **Time to First Run**   | < 10 min     | TBD     | 🟡     |
+| **Dev Server Start**    | < 10s        | TBD     | 🟡     |
+| **Hot Reload Time**     | < 2s         | TBD     | 🟡     |
+| **Test Execution**      | < 30s (unit) | TBD     | 🟡     |
+| **Build Time**          | < 2 min      | TBD     | 🟡     |
+| **CI Pipeline**         | < 5 min      | TBD     | 🟡     |
+| **PR Review Time**      | < 24 hours   | TBD     | 🟡     |
+| **Merge to Production** | < 15 min     | TBD     | 🟡     |
 
 **Improvement Actions**:
+
 - Monitor metrics weekly
 - Optimize slow build steps
 - Parallelize CI jobs where possible

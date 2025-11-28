@@ -71,17 +71,20 @@
 
 Use the .claude/agents/tech-lead.md subagent to create the epic.md file for Epic 3A.2.
 
-Refer to  
-- docs/1-product/3-roadmap.md for details of the epic - find the heading starting `### Epic 3A.2: `
+Refer to
+
+- docs/1-product/3-roadmap.md for details of the epic - find the heading starting `### Epic 3A.2:`
 - docs/1-product/5-reconciliation.md to map the epic to the TAD and its sections - find the row starting `3A.2`
-- docs/2-technical/2-tad.md for the TAD 
+- docs/2-technical/2-tad.md for the TAD
 - section-specific child files of the TAD linked from within the TAD
 
 Constraints
-- If architecture decisions are required, define these in the epic.md but do not make them in this process. 
+
+- If architecture decisions are required, define these in the epic.md but do not make them in this process.
 - Do not generate code in the process
 
 Use the
+
 - docs/3-references/story-details-sizing.md as a guide for story sizing
 - docs/3-references/epic-template.md as a template for epic.md
 - /docs/1-product/references/file-structure.md to specify file locations
@@ -92,26 +95,28 @@ When complete, validate the epic.md file created against docs/3-references/epic-
 
 Use the .claude/agents/tech-lead.md subagent to create the story details file for Story `1A.1.S1` within Epic `3A.2`.
 
-Refer to  
+Refer to
+
 - docs/3-epics/1A.1-monorepo/EPIC.md for details of the epic
 - Product Requirements Document and Techinal Architecture Document files referenced in the EPIC.md file
 
 Constraints
-- If architecture decisions are required, define these in the story.md but do not make them in this process. 
+
+- If architecture decisions are required, define these in the story.md but do not make them in this process.
 - Do not generate code in the process
 
 Use the
+
 - docs/3-references/story-details-template.md as a template for story.md
 - /docs/1-product/references/file-structure.md to specify file locations
 - docs/3-references/coding-standards.md for coding standards
 
 When complete, validate the epic.md file created against docs/3-references/stort-acceptance-criteria.md
 
-
-#### Epic Story Eval 
+#### Epic Story Eval
 
 ```
-We now have a set of stories within docs/3-epics/1A.2-package-management. Evaluate these. Do these deliver docs/3-epics/1A.2-package-management/EPIC.md? Do we need any story changes? 
+We now have a set of stories within docs/3-epics/1A.2-package-management. Evaluate these. Do these deliver docs/3-epics/1A.2-package-management/EPIC.md? Do we need any story changes?
 
 Output your evaluation into a new file docs/3-epics/1A.2-package-management/story-eval.md
 ```
@@ -119,13 +124,13 @@ Output your evaluation into a new file docs/3-epics/1A.2-package-management/stor
 ### Resourcing - `0A.1-steel-thread`
 
 ```markdown
-Use the .claude/agents/engineering-manager.md subagent to evalate each story within docs/3-epics/0A.1-steel-thread. 
+Use the .claude/agents/engineering-manager.md subagent to evalate each story within docs/3-epics/0A.1-steel-thread.
 
 The engineering manager should identify the engineering roles (e.g. backend, database, devops, frontend, fullstack) for each story. There should be a primary role and may be a secondary role. If a handoff is needed from primary to secondary role, this should be noted.
 
-Output a resourcing table into a markdown file. 
+Output a resourcing table into a markdown file.
 
-The output should not include code, sequencing, sizing, critical path analysis, dependencies or other information which exists in existing files. 
+The output should not include code, sequencing, sizing, critical path analysis, dependencies or other information which exists in existing files.
 ```
 
 #### todo
@@ -150,20 +155,22 @@ The output should not include code, sequencing, sizing, critical path analysis, 
     - [x] For each story, run the Story Implementation Prompt
         - See below
     - [x] Run all stories in an epic
-    - [ ] Evaluate the `-errors.md` files in the `testing` folder to determine if these are still errors. Consolidate valid errors into a new file `testing/errors.md`    
+    - [ ] Evaluate the `-errors.md` files in the `testing` folder to determine if these are still errors. Consolidate valid errors into a new file `testing/errors.md`
     - [ ] After all stories complete, run epic-level quality checks:
         - [x] Run `npx pnpm@10.22.0 run lint:md:fix` across entire monorepo and fix all markdown errors
         - [ ] Run the `type-check-reporter` skill across entire monorepo and fix all type errors
-        - [ ] Run the `lint-reporter` skill across entire monorepo and fix all errors        
+        - [ ] Run the `lint-reporter` skill across entire monorepo and fix all errors
         - [ ] Run the `test-failure-reporter` skill and fix all failing tests
         - [ ] Run `turbo run build` to ensure all apps build successfully
         - [ ] Commit all quality check fixes with appropriate commit message
+
 4. Code Review and Fix for the Epic
-   - [x] Create a draft pull request from the epic branch into `development`
-   - [ ] Use the Claude Code PR review and generate a markdown file report
-   - [ ] Extract Claude Code PR review recommendations/ enhancements/ observations into a markdown file report
-   - [ ] Run the promot below to validate and fix
-   -
+
+- [x] Create a draft pull request from the epic branch into `development`
+- [ ] Use the Claude Code PR review and generate a markdown file report
+- [ ] Extract Claude Code PR review recommendations/ enhancements/ observations into a markdown file report
+- [ ] Run the promot below to validate and fix
+-
 
 ## Epic Implementation Prompts
 
@@ -217,12 +224,12 @@ When completed, use docs/development/commit-guidelines.md to generate a GitHub c
 
 ## Tools
 
-| Tool | Usage | Config |
-| :-- | :-- | :-- |
+| Tool              | Usage                 | Config                                          |
+| :---------------- | :-------------------- | :---------------------------------------------- |
 | GitHub Dependabot | Package Version Scans | [dependabot.yaml](../../.github/dependabot.yml) |
-| Synk | Security Scans |  |
-| CodeRabbit | Pull Request Review | [.coderabbit.yaml](../../.coderabbit.yaml) |
-| Codacy | Code Review | [codacy.yaml](../../.codacy/codacy.yaml) |
+| Synk              | Security Scans        |                                                 |
+| CodeRabbit        | Pull Request Review   | [.coderabbit.yaml](../../.coderabbit.yaml)      |
+| Codacy            | Code Review           | [codacy.yaml](../../.codacy/codacy.yaml)        |
 
 ## Prompts
 
