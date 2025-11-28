@@ -16,7 +16,8 @@
     "test": "turbo test",
     "clean": "turbo clean",
     "format": "prettier --write .",
-    "format:check": "prettier --check ."
+    "format:check": "prettier --check .",
+    "test:e2e:smoke": "pnpm --filter routing test:e2e:smoke"
   },
   "pnpm": {
     "onlyBuiltDependencies": [
