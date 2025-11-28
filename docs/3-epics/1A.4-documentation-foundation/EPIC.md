@@ -23,7 +23,7 @@
 | ---- | --------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------- |
 | 1A.5 | [Basic CI/CD Pipeline](../1A.5-basic-cicd/EPIC.md)              | Documentation quality checks for CI pipeline, ADR template for pipeline decisions                         |
 | 2A.x | All Phase 2A Package Epics                                      | README template structure, ARCHITECTURE.md and CONTRIBUTING.md patterns for packages                      |
-| 3B.4 | [Documentation Application](../3B.4-docs-app/EPIC.md)           | Documentation site framework selection (Nextra/Docusaurus), directory structure, and content organisation |
+| 3B.4 | [Documentation Application](../3B.4-docs-app/EPIC.md)           | Documentation site framework selection (Nextra/Docusaurus), directory structure, and content Organization |
 | 7A.1 | [Developer Documentation Enhancement](../7A.1-dev-docs/EPIC.md) | Foundation documentation structure to expand upon, ADR catalog to complete                                |
 
 ### Can Run in Parallel With
@@ -146,7 +146,7 @@ The following items are explicitly NOT part of this epic:
 | Decision                      | Options                                        | Impact                                                | Status                       |
 | ----------------------------- | ---------------------------------------------- | ----------------------------------------------------- | ---------------------------- |
 | Documentation site framework  | Nextra vs Docusaurus                           | Affects build configuration, theming, and feature set | ⬜ Open                      |
-| ADR numbering scheme          | Sequential (001, 002) vs date-based (2025-001) | Affects ADR file naming and organisation              | ✅ Resolved: Sequential      |
+| ADR numbering scheme          | Sequential (001, 002) vs date-based (2025-001) | Affects ADR file naming and Organization              | ✅ Resolved: Sequential      |
 | Root README length            | Comprehensive vs minimal (link to docs)        | Affects first impression and maintenance burden       | ⬜ Open                      |
 | Diagram tooling               | Mermaid only vs Mermaid + Excalidraw           | Affects diagram creation workflow                     | ✅ Resolved: Mermaid in docs |
 | Documentation site deployment | Subdomain (docs.example.com) vs path (/docs)   | Affects routing configuration and SEO                 | ⬜ Open                      |
@@ -206,7 +206,7 @@ The following items are explicitly NOT part of this epic:
 
 - [Nextra Documentation](https://nextra.site/)
 - [Docusaurus Documentation](https://docusaurus.io/)
-- [ADR GitHub Organisation](https://adr.github.io/)
+- [ADR GitHub Organization](https://adr.github.io/)
 - [Mermaid Documentation](https://mermaid.js.org/)
 - [markdownlint Rules](https://github.com/DavidAnson/markdownlint/blob/main/doc/Rules.md)
 - [Conventional Commits](https://www.conventionalcommits.org/)

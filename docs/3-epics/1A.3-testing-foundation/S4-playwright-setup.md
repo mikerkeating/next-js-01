@@ -198,7 +198,7 @@ Key pattern notes:
 
 ### Consolidated Decisions (reference only)
 
-- [TAD: Testing Architecture](/docs/2-technical/2-tad-testing.md) - E2E testing patterns and file Organisation
+- [TAD: Testing Architecture](/docs/2-technical/2-tad-testing.md) - E2E testing patterns and file Organization
 - [EPIC: Technology Decisions](/docs/3-epics/1A.3-testing-foundation/EPIC.md#technology-decisions) - Playwright as E2E framework choice
 
 ### Story-Specific Decisions

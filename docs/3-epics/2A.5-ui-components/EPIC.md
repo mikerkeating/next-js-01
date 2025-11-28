@@ -4,7 +4,7 @@
 
 ## Context
 
-- **PRD Reference**: [PRD: Feature M.3 - Organisation-Specific Content Views](/docs/1-product/1-prd.md#feature-m3-Organisation-specific-content-views)
+- **PRD Reference**: [PRD: Feature M.3 - Organization-Specific Content Views](/docs/1-product/1-prd.md#feature-m3-Organization-specific-content-views)
 - **TAD Reference**: [TAD: UI Components Architecture](/docs/2-technical/2-tad.md#ui-components-architecture)
 - **Phase**: 2A - Core Platform Packages (Week 2)
 - **Type**: Foundation
@@ -38,7 +38,7 @@
 
 ## Overview
 
-This epic establishes the generic UI component library for the platform, built on shadcn/ui and Tailwind CSS. The `@repo/ui` package provides accessible, customizable, and well-documented components that form the foundation for all application interfaces. This epic focuses exclusively on generic components — product-specific components like Organisation Switcher and Role Badge are deferred to Epic 2B.5.
+This epic establishes the generic UI component library for the platform, built on shadcn/ui and Tailwind CSS. The `@repo/ui` package provides accessible, customizable, and well-documented components that form the foundation for all application interfaces. This epic focuses exclusively on generic components — product-specific components like Organization Switcher and Role Badge are deferred to Epic 2B.5.
 
 **Key Deliverables:**
 
@@ -129,7 +129,7 @@ S1 (Package structure)
 
 ### Constraints
 
-- **Generic Components Only**: This epic covers infrastructure only; product-specific components (Organisation Switcher, Role Badge, etc.) are in Epic 2B.5
+- **Generic Components Only**: This epic covers infrastructure only; product-specific components (Organization Switcher, Role Badge, etc.) are in Epic 2B.5
 - **No Product Logic**: Components must be stateless regarding business logic; state management handled by consuming applications
 - **Tree-Shakeable Exports**: Each component must be individually importable to minimize bundle size
 - **Server Component Compatible**: Components must work with React Server Components where applicable
@@ -139,7 +139,7 @@ S1 (Package structure)
 
 The following items are explicitly NOT part of this epic:
 
-- **Organisation Switcher** - Deferred to Epic 2B.5 (Product UI Components)
+- **Organization Switcher** - Deferred to Epic 2B.5 (Product UI Components)
 - **Role Badge** - Deferred to Epic 2B.5 (Product UI Components)
 - **Role-based components** - Deferred to Epic 2B.5 (Product UI Components)
 - **Permission Gate component** - Deferred to Epic 2B.5 (Product UI Components)
@@ -194,7 +194,7 @@ The following items are explicitly NOT part of this epic:
 
 ### Internal Documentation
 
-- [PRD: Feature M.3 - Organisation-Specific Content Views](/docs/1-product/1-prd.md#feature-m3-Organisation-specific-content-views)
+- [PRD: Feature M.3 - Organization-Specific Content Views](/docs/1-product/1-prd.md#feature-m3-Organization-specific-content-views)
 - [TAD: UI & Styling](/docs/2-technical/2-tad.md#ui--styling)
 - [TAD: UI Components Architecture](/docs/2-technical/2-tad.md#ui-components-architecture)
 - [TAD: Testing Architecture](/docs/2-technical/2-tad.md#testing-architecture)

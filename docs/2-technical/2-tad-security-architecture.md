@@ -16,7 +16,7 @@
 | Role               | Description        | Access Level                        |
 | ------------------ | ------------------ | ----------------------------------- |
 | **Internal**       | Company employees  | Full access to all features         |
-| **Product-Seller** | Organisation admin | Full access within their org        |
+| **Product-Seller** | Organization admin | Full access within their org        |
 | **Agency-Seller**  | Limited admin      | Read + limited write in their org   |
 | **Client**         | End user           | Read + limited actions in their org |
 
@@ -25,7 +25,7 @@
 | Resource      | Internal | Product-Seller | Agency-Seller          | Client         |
 | ------------- | -------- | -------------- | ---------------------- | -------------- |
 | Users         | CRUD     | CRUD (own org) | Read (own org)         | Read (self)    |
-| Organisations | CRUD     | Update (own)   | Read (own)             | Read (own)     |
+| Organizations | CRUD     | Update (own)   | Read (own)             | Read (own)     |
 | Content       | CRUD     | CRUD (own org) | Create, Read (own org) | Read (own org) |
 | Analytics     | Read All | Read (own org) | Read (own org)         | None           |
 
@@ -42,10 +42,10 @@
 ```sql
 -- Example RLS policy
 CREATE POLICY org_isolation ON content
-  USING (organisation_id = current_setting('app.current_org_id')::uuid);
+  USING (Organization_id = current_setting('app.current_org_id')::uuid);
 ```
 
-All queries automatically filtered by organisation context.
+All queries automatically filtered by Organization context.
 
 ### Compliance Requirements
 
@@ -76,7 +76,7 @@ users
   - deletion_scheduled_at (timestamp, nullable)
   - deletion_reason (text, nullable)
 
-organisations
+Organizations
   - deleted_at (timestamp, nullable)
   - deletion_scheduled_at (timestamp, nullable)
   - deletion_initiated_by (uuid, fk → users)
@@ -84,7 +84,7 @@ organisations
 -- Deletion audit log
 deletion_requests
   - id (uuid, pk)
-  - entity_type (enum: user, organisation)
+  - entity_type (enum: user, Organization)
   - entity_id (uuid)
   - requested_by (uuid, fk → users)
   - requested_at (timestamp)
@@ -118,7 +118,7 @@ User/Admin Initiates Deletion
 8. If grace period expired AND not cancelled:
     ↓
 9. Execute cascade hard delete:
-   - DELETE FROM user_organisations WHERE user_id = ?
+   - DELETE FROM user_Organizations WHERE user_id = ?
    - DELETE FROM content WHERE created_by = ?
    - DELETE FROM analytics_events WHERE user_id = ?
    - DELETE FROM deletion_requests WHERE entity_id = ?
@@ -131,19 +131,19 @@ User/Admin Initiates Deletion
 
 **Cascade Deletion Strategy:**
 
-Organisation deletion cascades in this order:
+Organization deletion cascades in this order:
 
-1. Mark organisation as deleted (soft delete)
-2. Cascade delete all user_organisations memberships
-3. Cascade delete all content owned by organisation
-4. Cascade delete all analytics_events for organisation
+1. Mark Organization as deleted (soft delete)
+2. Cascade delete all user_Organizations memberships
+3. Cascade delete all content owned by Organization
+4. Cascade delete all analytics_events for Organization
 5. After 30 days: hard delete in reverse dependency order
 
 User deletion cascades:
 
 1. Mark user as deleted (soft delete)
 2. Nullify created_by references (set to NULL or system user)
-3. Remove user from user_organisations
+3. Remove user from user_Organizations
 4. Anonymize analytics_events (keep for aggregates, remove PII)
 5. After 30 days: hard delete user record
 
@@ -209,7 +209,7 @@ export async function processDeletions() {
 
 interface ExportOptions {
   userId: string;
-  organisationId?: string;
+  OrganizationId?: string;
   format: "json" | "csv" | "pdf";
   includeAnalytics: boolean;
 }
@@ -238,7 +238,7 @@ interface ExportResult {
     "name": "John Doe",
     "created_at": "2025-01-01T00:00:00Z"
   },
-  "organisations": [
+  "Organizations": [
     {
       "id": "uuid",
       "name": "Org Name",
@@ -275,7 +275,7 @@ interface ExportResult {
 // API endpoint: POST /api/users/:id/export
 async function generateExport(userId: string, options: ExportOptions) {
   // 1. Fetch all user data
-  const userData = await fetchUserData(userId, options.organisationId);
+  const userData = await fetchUserData(userId, options.OrganizationId);
 
   // 2. Generate export based on format
   let fileBuffer: Buffer;
@@ -335,7 +335,7 @@ async function generateExport(userId: string, options: ExportOptions) {
 export_requests
   - id (uuid, pk)
   - user_id (uuid, fk → users)
-  - organisation_id (uuid, fk → organisations, nullable)
+  - Organization_id (uuid, fk → Organizations, nullable)
   - format (enum: json, csv, pdf)
   - file_url (text)
   - file_size (bigint)
@@ -482,7 +482,7 @@ This DPA is incorporated into the Terms of Service between MK3 and Client.
 
 ## Data Processing Details
 
-**Data Controller:** Client Organisation
+**Data Controller:** Client Organization
 **Data Processor:** MK3
 
 **Personal Data Categories:**
@@ -612,9 +612,9 @@ audit_logs
   - id (uuid, pk)
   - timestamp (timestamp, default: now())
   - user_id (uuid, fk → users, nullable)
-  - organisation_id (uuid, fk → organisations, nullable)
+  - Organization_id (uuid, fk → Organizations, nullable)
   - action (text)  -- e.g., "user.created", "content.updated", "org.deleted"
-  - resource_type (text)  -- e.g., "user", "content", "organisation"
+  - resource_type (text)  -- e.g., "user", "content", "Organization"
   - resource_id (uuid)
   - old_values (jsonb, nullable)  -- State before change
   - new_values (jsonb, nullable)  -- State after change
@@ -627,7 +627,7 @@ audit_logs
 -- Indexes for performance
 CREATE INDEX idx_audit_logs_timestamp ON audit_logs(timestamp DESC);
 CREATE INDEX idx_audit_logs_user_id ON audit_logs(user_id) WHERE user_id IS NOT NULL;
-CREATE INDEX idx_audit_logs_org_id ON audit_logs(organisation_id) WHERE organisation_id IS NOT NULL;
+CREATE INDEX idx_audit_logs_org_id ON audit_logs(Organization_id) WHERE Organization_id IS NOT NULL;
 CREATE INDEX idx_audit_logs_action ON audit_logs(action);
 CREATE INDEX idx_audit_logs_resource ON audit_logs(resource_type, resource_id);
 
@@ -643,7 +643,7 @@ CREATE INDEX idx_audit_logs_resource ON audit_logs(resource_type, resource_id);
 | ------------------- | ---------------------------------------------------------------------------------------------------------------- | -------- |
 | **Authentication**  | `auth.login`, `auth.logout`, `auth.failed_login`, `auth.password_reset`, `auth.mfa_enabled`, `auth.mfa_disabled` | Critical |
 | **User Management** | `user.created`, `user.updated`, `user.deleted`, `user.role_changed`, `user.invited`, `user.suspended`            | Critical |
-| **Organisation**    | `org.created`, `org.updated`, `org.deleted`, `org.member_added`, `org.member_removed`, `org.settings_changed`    | Critical |
+| **Organization**    | `org.created`, `org.updated`, `org.deleted`, `org.member_added`, `org.member_removed`, `org.settings_changed`    | Critical |
 | **Permissions**     | `permission.granted`, `permission.revoked`, `role.assigned`, `role.removed`                                      | Critical |
 | **Data Deletion**   | `deletion.requested`, `deletion.cancelled`, `deletion.completed`, `deletion.grace_period_expired`                | Critical |
 | **Data Export**     | `export.requested`, `export.generated`, `export.downloaded`                                                      | Warning  |
@@ -673,7 +673,7 @@ export class AuditLogger {
     const logEntry = {
       timestamp: new Date(),
       user_id: context.userId,
-      organisation_id: context.organisationId,
+      Organization_id: context.OrganizationId,
       action: entry.action,
       resource_type: entry.resourceType,
       resource_id: entry.resourceId,
@@ -924,14 +924,14 @@ export const auditQueries = {
       .limit(limit);
   },
 
-  // Get Organisation audit trail
+  // Get Organization audit trail
   async getOrgAuditTrail(orgId: string, startDate: Date, endDate: Date) {
     return await db
       .select()
       .from(audit_logs)
       .where(
         and(
-          eq(audit_logs.organisation_id, orgId),
+          eq(audit_logs.Organization_id, orgId),
           gte(audit_logs.timestamp, startDate),
           lte(audit_logs.timestamp, endDate)
         )
@@ -996,7 +996,7 @@ router.get("/api/v1/audit/logs", requireRole("internal"), async (req, res) => {
 
   const filters = [];
   if (userId) filters.push(eq(audit_logs.user_id, userId));
-  if (orgId) filters.push(eq(audit_logs.organisation_id, orgId));
+  if (orgId) filters.push(eq(audit_logs.Organization_id, orgId));
   if (action) filters.push(eq(audit_logs.action, action));
   if (startDate) filters.push(gte(audit_logs.timestamp, new Date(startDate)));
   if (endDate) filters.push(lte(audit_logs.timestamp, new Date(endDate)));
@@ -1142,7 +1142,7 @@ export async function generateComplianceReport(orgId: string, startDate: Date, e
   const logs = await auditQueries.getOrgAuditTrail(orgId, startDate, endDate);
 
   const report = {
-    Organisation: orgId,
+    Organization: orgId,
     period: {
       start: startDate.toISOString(),
       end: endDate.toISOString(),
@@ -1174,7 +1174,7 @@ export async function generateComplianceReport(orgId: string, startDate: Date, e
 Per PRD Section 5.2 requirements:
 
 - 100 requests/minute per user
-- 1,000 requests/minute per Organisation
+- 1,000 requests/minute per Organization
 - API-level enforcement via middleware
 
 #### Rate Limiting Implementation
@@ -1212,7 +1212,7 @@ const RATE_LIMIT_CONFIG: RateLimitConfig = {
 
 export async function rateLimitMiddleware(req: Request, res: Response, next: NextFunction) {
   const userId = req.user?.id;
-  const orgId = req.Organisation?.id;
+  const orgId = req.Organization?.id;
 
   if (!userId) {
     // Anonymous requests - apply IP-based rate limiting
@@ -1238,7 +1238,7 @@ export async function rateLimitMiddleware(req: Request, res: Response, next: Nex
     });
   }
 
-  // Check Organisation rate limit if applicable
+  // Check Organization rate limit if applicable
   if (orgId) {
     const orgLimitKey = `org:${orgId}`;
     const orgAllowed = await checkRateLimit(
@@ -1252,7 +1252,7 @@ export async function rateLimitMiddleware(req: Request, res: Response, next: Nex
         success: false,
         error: {
           code: "ORG_RATE_LIMIT_EXCEEDED",
-          message: "Organisation rate limit exceeded (1000 requests/minute)",
+          message: "Organization rate limit exceeded (1000 requests/minute)",
           retryAfter: await getRetryAfter(orgLimitKey),
         },
       });
@@ -1558,9 +1558,9 @@ async function updateUserSettings(userId: string, settings: UserSettings) {
   }
 
   await db
-    .update(organisations)
+    .update(Organizations)
     .set({ settings: encryptedSettings })
-    .where(eq(organisations.id, userId));
+    .where(eq(Organizations.id, userId));
 }
 ```
 

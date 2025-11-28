@@ -14,23 +14,23 @@
 
 ### Requires (Must Complete First)
 
-| Epic | Title | Reason |
-|------|-------|--------|
+| Epic | Title                                                  | Reason                                                               |
+| ---- | ------------------------------------------------------ | -------------------------------------------------------------------- |
 | 2A.3 | [Observability Package](../2A.3-observability/EPIC.md) | Middleware requires structured logging utilities for request logging |
 
 ### Blocks (Enables These Epics)
 
-| Epic | Title | What This Provides |
-|------|-------|-------------------|
+| Epic | Title                                             | What This Provides                                                                |
+| ---- | ------------------------------------------------- | --------------------------------------------------------------------------------- |
 | 2A.7 | [Auth Infrastructure](../2A.7-auth-infra/EPIC.md) | Provides middleware composition and route protection patterns for auth middleware |
-| 2B.6 | Product Middleware | Generic middleware utilities that product-specific middleware extends |
+| 2B.6 | Product Middleware                                | Generic middleware utilities that product-specific middleware extends             |
 
 ### Can Run in Parallel With
 
-| Epic | Title | Notes |
-|------|-------|-------|
+| Epic | Title                                                       | Notes                                           |
+| ---- | ----------------------------------------------------------- | ----------------------------------------------- |
 | 2A.4 | [Analytics Infrastructure](../2A.4-analytics-infra/EPIC.md) | Independent package with no shared dependencies |
-| 2A.5 | [UI Component Library](../2A.5-ui-components/EPIC.md) | Independent package with no shared dependencies |
+| 2A.5 | [UI Component Library](../2A.5-ui-components/EPIC.md)       | Independent package with no shared dependencies |
 
 ## Overview
 
@@ -63,15 +63,15 @@ Create the `@repo/middleware` package providing reusable Next.js edge middleware
 
 ## Stories
 
-| ID | Title | Size | Status | Depends On | Blocks |
-|----|-------|------|--------|------------|--------|
-| S1 | [Package Setup and Middleware Composer](./S1-package-setup.md) | M | ⬜ | - | S2, S3, S4, S5, S6 |
-| S2 | [Logging Middleware](./S2-logging-middleware.md) | S | ⬜ | S1 | S7 |
-| S3 | [Security Headers Middleware](./S3-security-headers.md) | S | ⬜ | S1 | S7 |
-| S4 | [Rate Limiting Middleware](./S4-rate-limiting.md) | M | ⬜ | S1 | S7 |
-| S5 | [CORS Middleware](./S5-cors-middleware.md) | S | ⬜ | S1 | S7 |
-| S6 | [Route Matcher Utilities](./S6-route-matchers.md) | S | ⬜ | S1 | S7 |
-| S7 | [Integration Tests and Documentation](./S7-integration-tests.md) | M | ⬜ | S2, S3, S4, S5, S6 | - |
+| ID  | Title                                                            | Size | Status | Depends On         | Blocks             |
+| --- | ---------------------------------------------------------------- | ---- | ------ | ------------------ | ------------------ |
+| S1  | [Package Setup and Middleware Composer](./S1-package-setup.md)   | M    | ⬜     | -                  | S2, S3, S4, S5, S6 |
+| S2  | [Logging Middleware](./S2-logging-middleware.md)                 | S    | ⬜     | S1                 | S7                 |
+| S3  | [Security Headers Middleware](./S3-security-headers.md)          | S    | ⬜     | S1                 | S7                 |
+| S4  | [Rate Limiting Middleware](./S4-rate-limiting.md)                | M    | ⬜     | S1                 | S7                 |
+| S5  | [CORS Middleware](./S5-cors-middleware.md)                       | S    | ⬜     | S1                 | S7                 |
+| S6  | [Route Matcher Utilities](./S6-route-matchers.md)                | S    | ⬜     | S1                 | S7                 |
+| S7  | [Integration Tests and Documentation](./S7-integration-tests.md) | M    | ⬜     | S2, S3, S4, S5, S6 | -                  |
 
 **Status Legend**: ⬜ Not Started | 🟡 In Progress | ✅ Complete | ❌ Blocked
 
@@ -103,11 +103,11 @@ S1 (Package setup & middleware composer)
 
 ### Technology Decisions
 
-| Decision | Choice | Reference |
-|----------|--------|-----------|
-| Edge Runtime | Vercel Edge Functions | [TAD: Edge Middleware Architecture](/docs/2-technical/2-tad-edge-middleware.md) |
+| Decision           | Choice                  | Reference                                                                                 |
+| ------------------ | ----------------------- | ----------------------------------------------------------------------------------------- |
+| Edge Runtime       | Vercel Edge Functions   | [TAD: Edge Middleware Architecture](/docs/2-technical/2-tad-edge-middleware.md)           |
 | Rate Limit Storage | Vercel KV (distributed) | [TAD: Rate Limiting](/docs/2-technical/2-tad-edge-middleware.md#rate-limiting-middleware) |
-| Hosting Platform | Vercel | [ADR-004: Vercel as hosting platform](/docs/2-technical/adr/004-vercel-hosting.md) |
+| Hosting Platform   | Vercel                  | [ADR-004: Vercel as hosting platform](/docs/2-technical/adr/004-vercel-hosting.md)        |
 
 ### Constraints
 
@@ -123,7 +123,7 @@ S1 (Package setup & middleware composer)
 The following items are explicitly NOT part of this epic:
 
 - **Authentication Middleware** - Handled in Epic 2A.7 (Auth Infrastructure) which uses this package's composition utilities
-- **Organisation Context Middleware** - Product-specific, deferred to Epic 2B.6 (Product Middleware)
+- **Organization Context Middleware** - Product-specific, deferred to Epic 2B.6 (Product Middleware)
 - **Role-Based Access Middleware** - Product-specific, deferred to Epic 2B.6 (Product Middleware)
 - **CSRF Protection Middleware** - Deferred to Epic 2A.7 (Auth Infrastructure) as it requires session handling
 - **Product-Specific Route Protection** - Deferred to Epic 2B.6 (Product Middleware)
@@ -133,38 +133,38 @@ The following items are explicitly NOT part of this epic:
 
 > **Note**: Flag decisions that need resolution before or during implementation.
 
-| Decision | Options | Impact | Status |
-|----------|---------|--------|--------|
-| Rate limit storage backend | Vercel KV vs in-memory with Edge Config | Determines persistence and distribution of rate limits | ✅ Resolved: Vercel KV per TAD |
-| Default rate limits | Conservative (20/min anon) vs permissive (100/min anon) | Affects public API accessibility | ✅ Resolved: 20/min anon, 100/min user, 1000/min org per TAD |
-| CSP policy strictness | Strict (no unsafe-inline) vs practical (allow unsafe-inline for dev) | Affects development experience and security | ⬜ Open |
+| Decision                   | Options                                                              | Impact                                                 | Status                                                       |
+| -------------------------- | -------------------------------------------------------------------- | ------------------------------------------------------ | ------------------------------------------------------------ |
+| Rate limit storage backend | Vercel KV vs in-memory with Edge Config                              | Determines persistence and distribution of rate limits | ✅ Resolved: Vercel KV per TAD                               |
+| Default rate limits        | Conservative (20/min anon) vs permissive (100/min anon)              | Affects public API accessibility                       | ✅ Resolved: 20/min anon, 100/min user, 1000/min org per TAD |
+| CSP policy strictness      | Strict (no unsafe-inline) vs practical (allow unsafe-inline for dev) | Affects development experience and security            | ⬜ Open                                                      |
 
 ## Risks and Mitigations
 
-| Risk | Likelihood | Impact | Mitigation |
-|------|------------|--------|------------|
-| Cold start times exceed target | Low | Medium | Use lazy loading for non-critical middleware, minimize dependencies |
-| Rate limit storage unavailable | Low | Medium | Fail open strategy - allow requests when storage is unavailable |
-| CSP blocks legitimate resources | Medium | Medium | Start with report-only mode, iterate based on violations |
-| Edge runtime API limitations | Low | High | Thoroughly test all utilities in edge environment during development |
+| Risk                            | Likelihood | Impact | Mitigation                                                           |
+| ------------------------------- | ---------- | ------ | -------------------------------------------------------------------- |
+| Cold start times exceed target  | Low        | Medium | Use lazy loading for non-critical middleware, minimize dependencies  |
+| Rate limit storage unavailable  | Low        | Medium | Fail open strategy - allow requests when storage is unavailable      |
+| CSP blocks legitimate resources | Medium     | Medium | Start with report-only mode, iterate based on violations             |
+| Edge runtime API limitations    | Low        | High   | Thoroughly test all utilities in edge environment during development |
 
 ## Estimated Effort
 
-| Metric | Value |
-|--------|-------|
-| Total Stories | 7 |
-| Total Hours | 32h |
-| Calendar Days | 3-4 days |
+| Metric          | Value                         |
+| --------------- | ----------------------------- |
+| Total Stories   | 7                             |
+| Total Hours     | 32h                           |
+| Calendar Days   | 3-4 days                      |
 | Parallel Tracks | 5 (S2-S6 can run in parallel) |
 
 ### Story Breakdown
 
-| Size | Count | Hours |
-|------|-------|-------|
-| XS (1-2h) | 0 | 0h |
-| S (2-4h) | 4 | 14h |
-| M (4-8h) | 3 | 18h |
-| L (8-16h) | 0 | 0h |
+| Size      | Count | Hours |
+| --------- | ----- | ----- |
+| XS (1-2h) | 0     | 0h    |
+| S (2-4h)  | 4     | 14h   |
+| M (4-8h)  | 3     | 18h   |
+| L (8-16h) | 0     | 0h    |
 
 ## References
 

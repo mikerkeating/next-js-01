@@ -22,8 +22,8 @@ Events handled:
 - `user.created`: Sync user to database
 - `user.updated`: Update user data
 - `user.deleted`: Soft delete user
-- `Organisation.created`: Create org record
-- `OrganisationMembership.created`: Add user to org
+- `Organization.created`: Create org record
+- `OrganizationMembership.created`: Add user to org
 
 #### PostHog Events
 
@@ -297,7 +297,7 @@ export const CreateUserSchema = z.object({
   email: ValidationPrimitives.email,
   name: z.string().min(1).max(100),
   role: z.enum(["internal", "product-seller", "agency-seller", "client"]),
-  organisationId: ValidationPrimitives.uuid.optional(),
+  OrganizationId: ValidationPrimitives.uuid.optional(),
 });
 
 export const UpdateUserSchema = CreateUserSchema.partial();
@@ -505,15 +505,15 @@ export class RBACGuard {
    */
   static async authorize(
     userId: string,
-    organisationId: string,
+    OrganizationId: string,
     resource: string,
     action: "create" | "read" | "update" | "delete"
   ): Promise<boolean> {
-    // Get user's role in Organisation
-    const membership = await db.query.user_organisations.findFirst({
+    // Get user's role in Organization
+    const membership = await db.query.user_Organizations.findFirst({
       where: and(
-        eq(user_organisations.user_id, userId),
-        eq(user_organisations.organisation_id, organisationId)
+        eq(user_Organizations.user_id, userId),
+        eq(user_Organizations.Organization_id, OrganizationId)
       ),
     });
 
@@ -532,7 +532,7 @@ export class RBACGuard {
   static requirePermission(resource: string, action: string) {
     return async (req: NextRequest, handler: Function) => {
       const userId = req.headers.get("X-User-Id");
-      const orgId = req.headers.get("X-Organisation-Id");
+      const orgId = req.headers.get("X-Organization-Id");
 
       if (!userId || !orgId) {
         return NextResponse.json(
@@ -559,25 +559,25 @@ const PERMISSION_MATRIX = {
   internal: {
     users: ["create", "read", "update", "delete"],
     content: ["create", "read", "update", "delete"],
-    organisations: ["create", "read", "update", "delete"],
+    Organizations: ["create", "read", "update", "delete"],
     analytics: ["read"],
   },
   "product-seller": {
     users: ["create", "read", "update", "delete"], // Own org only
     content: ["create", "read", "update", "delete"], // Own org only
-    organisations: ["read", "update"], // Own org only
+    Organizations: ["read", "update"], // Own org only
     analytics: ["read"], // Own org only
   },
   "agency-seller": {
     users: ["read"], // Own org only
     content: ["create", "read"], // Own org only
-    organisations: ["read"], // Own org only
+    Organizations: ["read"], // Own org only
     analytics: ["read"], // Own org only
   },
   client: {
     users: ["read"], // Self only
     content: ["read"], // Own org only
-    organisations: ["read"], // Own org only
+    Organizations: ["read"], // Own org only
     analytics: [],
   },
 };

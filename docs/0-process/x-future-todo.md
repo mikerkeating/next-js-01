@@ -59,7 +59,7 @@ Cache invalidation strategy
    ✅ Partial coverage in package architecture
    ⚠️ No dedicated detailed schema file
    Recommendation: Could add 2-tad-database-schema.md with full table definitions
-2. Epic 2B.2: Multi-Tenant Organisation Model
+2. Epic 2B.2: Multi-Tenant Organization Model
    ✅ Covered in middleware (org context extraction)
    ✅ Covered in package architecture (@repo/org)
    ⚠️ No dedicated org model architecture file

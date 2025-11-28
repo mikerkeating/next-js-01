@@ -6,40 +6,40 @@
 
 ## Context
 
-We need to design a multi-tenant data model that supports our SaaS platform with multiple Organisations, each with their own users, content, and analytics. The data model must ensure complete data isolation between tenants, support flexible role-based access control, scale efficiently, and integrate seamlessly with our authentication provider (Clerk) and ORM (Drizzle).
+We need to design a multi-tenant data model that supports our SaaS platform with multiple Organizations, each with their own users, content, and analytics. The data model must ensure complete data isolation between tenants, support flexible role-based access control, scale efficiently, and integrate seamlessly with our authentication provider (Clerk) and ORM (Drizzle).
 
 ### Key Requirements
 
 1. **Data Isolation**: Complete separation of tenant data at the database level
 2. **Flexible Roles**: Support for 4 distinct user roles (Internal, Product-Seller, Agency-Seller, Client)
-3. **Organisation Hierarchy**: Users can belong to multiple Organisations with different roles
+3. **Organization Hierarchy**: Users can belong to multiple Organizations with different roles
 4. **Performance**: Efficient queries with proper indexing and partitioning strategies
 5. **Security**: Row-Level Security (RLS) policies to enforce tenant isolation
-6. **Clerk Integration**: Sync user and Organisation data from Clerk webhooks
+6. **Clerk Integration**: Sync user and Organization data from Clerk webhooks
 7. **Audit Trail**: Track who created/updated resources and when
 8. **Soft Deletes**: Support data recovery and GDPR compliance
-9. **Scalability**: Handle growth from 10 to 10,000+ Organisations
+9. **Scalability**: Handle growth from 10 to 10,000+ Organizations
 10. **Type Safety**: Full TypeScript type inference with Drizzle ORM
 
 ### Constraints
 
 - Must work with PostgreSQL 16+
-- Must integrate with Clerk's Organisation model
+- Must integrate with Clerk's Organization model
 - Must support Drizzle ORM type inference
-- Database queries must filter by Organisation_id by default
+- Database queries must filter by Organization_id by default
 - RLS policies must be enforced at the database level
 - Must support GDPR right to deletion with 30-day grace period
 
 ## Decision
 
-We will implement a **shared database with discriminator column** multi-tenancy pattern using `organisation_id` as the tenant discriminator, enforced through Row-Level Security (RLS) policies and application-level middleware.
+We will implement a **shared database with discriminator column** multi-tenancy pattern using `Organization_id` as the tenant discriminator, enforced through Row-Level Security (RLS) policies and application-level middleware.
 
 ### Data Model Architecture
 
 **Core Entities**:
 
 ```
-users ← user_organisations → organisations
+users ← user_Organizations → Organizations
   ↓                              ↓
   └─────────── content ──────────┘
   └───────── analytics_events ───┘
@@ -47,9 +47,9 @@ users ← user_organisations → organisations
 
 **Tenancy Strategy**:
 
-- All tenant-scoped tables include `organisation_id` foreign key
-- RLS policies enforce Organisation context on every query
-- Middleware injects Organisation context from Clerk session
+- All tenant-scoped tables include `Organization_id` foreign key
+- RLS policies enforce Organization context on every query
+- Middleware injects Organization context from Clerk session
 - Soft deletes with `deleted_at` timestamp for data recovery
 
 ### Database Schema
@@ -75,10 +75,10 @@ CREATE INDEX idx_users_email ON users(email);
 CREATE INDEX idx_users_deleted_at ON users(deleted_at) WHERE deleted_at IS NULL;
 ```
 
-**organisations**
+**Organizations**
 
 ```sql
-CREATE TABLE organisations (
+CREATE TABLE Organizations (
   id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
   clerk_org_id TEXT UNIQUE,
   name TEXT NOT NULL,
@@ -89,30 +89,30 @@ CREATE TABLE organisations (
   deleted_at TIMESTAMP
 );
 
-CREATE INDEX idx_organisations_clerk_org_id ON organisations(clerk_org_id);
-CREATE INDEX idx_organisations_slug ON organisations(slug);
-CREATE INDEX idx_organisations_deleted_at ON organisations(deleted_at) WHERE deleted_at IS NULL;
+CREATE INDEX idx_Organizations_clerk_org_id ON Organizations(clerk_org_id);
+CREATE INDEX idx_Organizations_slug ON Organizations(slug);
+CREATE INDEX idx_Organizations_deleted_at ON Organizations(deleted_at) WHERE deleted_at IS NULL;
 ```
 
-**user_organisations** (Junction Table)
+**user_Organizations** (Junction Table)
 
 ```sql
 CREATE TYPE user_role AS ENUM ('internal', 'product-seller', 'agency-seller', 'client');
 
-CREATE TABLE user_organisations (
+CREATE TABLE user_Organizations (
   id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
   user_id UUID NOT NULL REFERENCES users(id) ON DELETE CASCADE,
-  organisation_id UUID NOT NULL REFERENCES organisations(id) ON DELETE CASCADE,
+  Organization_id UUID NOT NULL REFERENCES Organizations(id) ON DELETE CASCADE,
   role user_role NOT NULL DEFAULT 'client',
   created_at TIMESTAMP NOT NULL DEFAULT now(),
   updated_at TIMESTAMP NOT NULL DEFAULT now(),
 
-  UNIQUE(user_id, organisation_id)
+  UNIQUE(user_id, Organization_id)
 );
 
-CREATE INDEX idx_user_organisations_user_id ON user_organisations(user_id);
-CREATE INDEX idx_user_organisations_organisation_id ON user_organisations(organisation_id);
-CREATE INDEX idx_user_organisations_role ON user_organisations(role);
+CREATE INDEX idx_user_Organizations_user_id ON user_Organizations(user_id);
+CREATE INDEX idx_user_Organizations_Organization_id ON user_Organizations(Organization_id);
+CREATE INDEX idx_user_Organizations_role ON user_Organizations(role);
 ```
 
 **content** (Tenant-Scoped)
@@ -120,7 +120,7 @@ CREATE INDEX idx_user_organisations_role ON user_organisations(role);
 ```sql
 CREATE TABLE content (
   id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-  organisation_id UUID NOT NULL REFERENCES organisations(id) ON DELETE CASCADE,
+  Organization_id UUID NOT NULL REFERENCES Organizations(id) ON DELETE CASCADE,
   type TEXT NOT NULL,
   title TEXT NOT NULL,
   slug TEXT NOT NULL,
@@ -131,12 +131,12 @@ CREATE TABLE content (
   updated_at TIMESTAMP NOT NULL DEFAULT now(),
   deleted_at TIMESTAMP,
 
-  UNIQUE(organisation_id, slug)
+  UNIQUE(Organization_id, slug)
 );
 
-CREATE INDEX idx_content_organisation_id ON content(organisation_id);
+CREATE INDEX idx_content_Organization_id ON content(Organization_id);
 CREATE INDEX idx_content_type ON content(type);
-CREATE INDEX idx_content_slug ON content(organisation_id, slug);
+CREATE INDEX idx_content_slug ON content(Organization_id, slug);
 CREATE INDEX idx_content_created_by ON content(created_by);
 CREATE INDEX idx_content_deleted_at ON content(deleted_at) WHERE deleted_at IS NULL;
 ```
@@ -146,14 +146,14 @@ CREATE INDEX idx_content_deleted_at ON content(deleted_at) WHERE deleted_at IS N
 ```sql
 CREATE TABLE analytics_events (
   id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-  organisation_id UUID NOT NULL REFERENCES organisations(id) ON DELETE CASCADE,
+  Organization_id UUID NOT NULL REFERENCES Organizations(id) ON DELETE CASCADE,
   user_id UUID REFERENCES users(id),
   event_name TEXT NOT NULL,
   properties JSONB DEFAULT '{}'::jsonb,
   timestamp TIMESTAMP NOT NULL DEFAULT now()
 );
 
-CREATE INDEX idx_analytics_events_organisation_id ON analytics_events(organisation_id);
+CREATE INDEX idx_analytics_events_Organization_id ON analytics_events(Organization_id);
 CREATE INDEX idx_analytics_events_user_id ON analytics_events(user_id);
 CREATE INDEX idx_analytics_events_event_name ON analytics_events(event_name);
 CREATE INDEX idx_analytics_events_timestamp ON analytics_events(timestamp DESC);
@@ -192,13 +192,13 @@ export type User = typeof users.$inferSelect;
 export type NewUser = typeof users.$inferInsert;
 ```
 
-**packages/database/src/schema/organisations.ts**
+**packages/database/src/schema/Organizations.ts**
 
 ```typescript
 import { pgTable, uuid, text, timestamp, jsonb, index } from "drizzle-orm/pg-core";
 
-export const organisations = pgTable(
-  "organisations",
+export const Organizations = pgTable(
+  "Organizations",
   {
     id: uuid("id").primaryKey().defaultRandom(),
     clerkOrgId: text("clerk_org_id").unique(),
@@ -216,21 +216,21 @@ export const organisations = pgTable(
     deletedAt: timestamp("deleted_at"),
   },
   (table) => ({
-    clerkOrgIdIdx: index("idx_organisations_clerk_org_id").on(table.clerkOrgId),
-    slugIdx: index("idx_organisations_slug").on(table.slug),
+    clerkOrgIdIdx: index("idx_Organizations_clerk_org_id").on(table.clerkOrgId),
+    slugIdx: index("idx_Organizations_slug").on(table.slug),
   })
 );
 
-export type Organisation = typeof organisations.$inferSelect;
-export type NewOrganisation = typeof organisations.$inferInsert;
+export type Organization = typeof Organizations.$inferSelect;
+export type NewOrganization = typeof Organizations.$inferInsert;
 ```
 
-**packages/database/src/schema/user-organisations.ts**
+**packages/database/src/schema/user-Organizations.ts**
 
 ```typescript
 import { pgTable, uuid, timestamp, pgEnum, index, unique } from "drizzle-orm/pg-core";
 import { users } from "./users";
-import { organisations } from "./organisations";
+import { Organizations } from "./Organizations";
 
 export const userRoleEnum = pgEnum("user_role", [
   "internal",
@@ -239,49 +239,49 @@ export const userRoleEnum = pgEnum("user_role", [
   "client",
 ]);
 
-export const userOrganisations = pgTable(
-  "user_organisations",
+export const userOrganizations = pgTable(
+  "user_Organizations",
   {
     id: uuid("id").primaryKey().defaultRandom(),
     userId: uuid("user_id")
       .notNull()
       .references(() => users.id, { onDelete: "cascade" }),
-    organisationId: uuid("organisation_id")
+    OrganizationId: uuid("Organization_id")
       .notNull()
-      .references(() => organisations.id, { onDelete: "cascade" }),
+      .references(() => Organizations.id, { onDelete: "cascade" }),
     role: userRoleEnum("role").notNull().default("client"),
     createdAt: timestamp("created_at").defaultNow().notNull(),
     updatedAt: timestamp("updated_at").defaultNow().notNull(),
   },
   (table) => ({
-    userIdIdx: index("idx_user_organisations_user_id").on(table.userId),
-    organisationIdIdx: index("idx_user_organisations_organisation_id").on(table.organisationId),
-    roleIdx: index("idx_user_organisations_role").on(table.role),
-    userOrgUnique: unique("user_organisations_user_id_organisation_id_unique").on(
+    userIdIdx: index("idx_user_Organizations_user_id").on(table.userId),
+    OrganizationIdIdx: index("idx_user_Organizations_Organization_id").on(table.OrganizationId),
+    roleIdx: index("idx_user_Organizations_role").on(table.role),
+    userOrgUnique: unique("user_Organizations_user_id_Organization_id_unique").on(
       table.userId,
-      table.organisationId
+      table.OrganizationId
     ),
   })
 );
 
-export type UserOrganisation = typeof userOrganisations.$inferSelect;
-export type NewUserOrganisation = typeof userOrganisations.$inferInsert;
+export type UserOrganization = typeof userOrganizations.$inferSelect;
+export type NewUserOrganization = typeof userOrganizations.$inferInsert;
 ```
 
 **packages/database/src/schema/content.ts**
 
 ```typescript
 import { pgTable, uuid, text, timestamp, jsonb, index, unique } from "drizzle-orm/pg-core";
-import { organisations } from "./organisations";
+import { Organizations } from "./Organizations";
 import { users } from "./users";
 
 export const content = pgTable(
   "content",
   {
     id: uuid("id").primaryKey().defaultRandom(),
-    organisationId: uuid("organisation_id")
+    OrganizationId: uuid("Organization_id")
       .notNull()
-      .references(() => organisations.id, { onDelete: "cascade" }),
+      .references(() => Organizations.id, { onDelete: "cascade" }),
     type: text("type").notNull(),
     title: text("title").notNull(),
     slug: text("slug").notNull(),
@@ -295,12 +295,12 @@ export const content = pgTable(
     deletedAt: timestamp("deleted_at"),
   },
   (table) => ({
-    organisationIdIdx: index("idx_content_organisation_id").on(table.organisationId),
+    OrganizationIdIdx: index("idx_content_Organization_id").on(table.OrganizationId),
     typeIdx: index("idx_content_type").on(table.type),
-    slugIdx: index("idx_content_slug").on(table.organisationId, table.slug),
+    slugIdx: index("idx_content_slug").on(table.OrganizationId, table.slug),
     createdByIdx: index("idx_content_created_by").on(table.createdBy),
-    orgSlugUnique: unique("content_organisation_id_slug_unique").on(
-      table.organisationId,
+    orgSlugUnique: unique("content_Organization_id_slug_unique").on(
+      table.OrganizationId,
       table.slug
     ),
   })
@@ -326,13 +326,13 @@ ALTER TABLE analytics_events FORCE ROW LEVEL SECURITY;
 **RLS Policy for Content**
 
 ```sql
--- Policy for Organisation isolation
+-- Policy for Organization isolation
 CREATE POLICY org_isolation_content ON content
   USING (
-    organisation_id = current_setting('app.current_org_id', true)::uuid
+    Organization_id = current_setting('app.current_org_id', true)::uuid
   )
   WITH CHECK (
-    organisation_id = current_setting('app.current_org_id', true)::uuid
+    Organization_id = current_setting('app.current_org_id', true)::uuid
   );
 
 -- Policy for soft deletes (exclude deleted content)
@@ -345,14 +345,14 @@ CREATE POLICY soft_delete_content ON content
 ```sql
 CREATE POLICY org_isolation_analytics_events ON analytics_events
   USING (
-    organisation_id = current_setting('app.current_org_id', true)::uuid
+    Organization_id = current_setting('app.current_org_id', true)::uuid
   )
   WITH CHECK (
-    organisation_id = current_setting('app.current_org_id', true)::uuid
+    Organization_id = current_setting('app.current_org_id', true)::uuid
   );
 ```
 
-### Organisation Context Middleware
+### Organization Context Middleware
 
 **packages/middleware/src/org-context.ts**
 
@@ -369,7 +369,7 @@ export async function withOrgContext<T>(callback: () => Promise<T>): Promise<T> 
   }
 
   if (!orgId) {
-    throw new Error("No Organisation context");
+    throw new Error("No Organization context");
   }
 
   // Set PostgreSQL session variable for RLS
@@ -386,7 +386,7 @@ export async function withOrgContext<T>(callback: () => Promise<T>): Promise<T> 
 
 ### Query Patterns
 
-**Basic Queries with Organisation Context**
+**Basic Queries with Organization Context**
 
 ```typescript
 import { db } from "@repo/database";
@@ -394,7 +394,7 @@ import { content } from "@repo/database/schema";
 import { withOrgContext } from "@repo/middleware";
 import { eq } from "drizzle-orm";
 
-// All queries automatically filtered by organisation_id via RLS
+// All queries automatically filtered by Organization_id via RLS
 export async function getContent(id: string) {
   return withOrgContext(async () => {
     return db.query.content.findFirst({
@@ -416,11 +416,11 @@ export async function listContent() {
 }
 ```
 
-**Multi-Organisation Queries (Internal Users Only)**
+**Multi-Organization Queries (Internal Users Only)**
 
 ```typescript
 import { db } from "@repo/database";
-import { content, userOrganisations } from "@repo/database/schema";
+import { content, userOrganizations } from "@repo/database/schema";
 import { eq, inArray } from "drizzle-orm";
 import { auth } from "@clerk/nextjs/server";
 
@@ -428,8 +428,8 @@ export async function listContentAcrossOrgs() {
   const { userId } = auth();
 
   // Get user's role
-  const userRole = await db.query.userOrganisations.findFirst({
-    where: eq(userOrganisations.userId, userId),
+  const userRole = await db.query.userOrganizations.findFirst({
+    where: eq(userOrganizations.userId, userId),
   });
 
   if (userRole?.role !== "internal") {
@@ -449,7 +449,7 @@ export async function listContentAcrossOrgs() {
 
 ```typescript
 import { db } from "@repo/database";
-import { userOrganisations } from "@repo/database/schema";
+import { userOrganizations } from "@repo/database/schema";
 import { and, eq } from "drizzle-orm";
 
 export async function checkPermission(
@@ -457,8 +457,8 @@ export async function checkPermission(
   orgId: string,
   requiredRole: "internal" | "product-seller" | "agency-seller" | "client"
 ) {
-  const membership = await db.query.userOrganisations.findFirst({
-    where: and(eq(userOrganisations.userId, userId), eq(userOrganisations.organisationId, orgId)),
+  const membership = await db.query.userOrganizations.findFirst({
+    where: and(eq(userOrganizations.userId, userId), eq(userOrganizations.OrganizationId, orgId)),
   });
 
   if (!membership) {
@@ -502,7 +502,7 @@ export async function checkPermission(
    - Single database instance serves all tenants
    - No per-tenant database provisioning overhead
    - Shared resources (connections, memory, CPU)
-   - PostgreSQL handles thousands of Organisations efficiently
+   - PostgreSQL handles thousands of Organizations efficiently
 
 5. **Row-Level Security Benefits**
    - Database-enforced tenant isolation
@@ -517,10 +517,10 @@ export async function checkPermission(
    - Audit trails across all tenants
 
 7. **Clerk Integration**
-   - Natural mapping: Clerk Organisations → database Organisations
+   - Natural mapping: Clerk Organizations → database Organizations
    - Webhook sync keeps data in sync
-   - User can belong to multiple Organisations
-   - Organisation context from JWT token
+   - User can belong to multiple Organizations
+   - Organization context from JWT token
 
 8. **Compliance & Security**
    - GDPR right to deletion: soft delete with grace period
@@ -532,11 +532,11 @@ export async function checkPermission(
    - Start with single database
    - Add read replicas as traffic grows
    - Partition large tables (analytics_events) by month
-   - Future option: shard by organisation_id if needed
+   - Future option: shard by Organization_id if needed
 
 10. **Developer Experience**
     - Type-safe queries with full IntelliSense
-    - Automatic Organisation filtering via RLS
+    - Automatic Organization filtering via RLS
     - Clear mental model: one database, filtered queries
     - Easy to reason about and debug
 
@@ -648,11 +648,11 @@ export async function checkPermission(
 3. **Type Safety**: Full TypeScript inference with Drizzle schema
 4. **Development Speed**: Unified schema accelerates feature development
 5. **Cost Efficiency**: Shared resources reduce infrastructure costs
-6. **Clerk Integration**: Natural mapping to Clerk's Organisation model
+6. **Clerk Integration**: Natural mapping to Clerk's Organization model
 7. **Compliance Ready**: Soft deletes and audit trails support GDPR
 8. **Performance**: Proper indexing ensures fast queries even at scale
 9. **Flexibility**: JSONB fields allow tenant-specific customization
-10. **Scalability**: Can handle 10,000+ Organisations on single database
+10. **Scalability**: Can handle 10,000+ Organizations on single database
 
 ### Negative
 
@@ -661,15 +661,15 @@ export async function checkPermission(
 3. **Limited Customization**: Cannot easily customize schema per tenant
 4. **RLS Overhead**: Small query performance overhead from RLS policies
 5. **Backup Granularity**: Cannot restore individual tenant without full restore
-6. **Testing Complexity**: Must carefully test Organisation context in all queries
+6. **Testing Complexity**: Must carefully test Organization context in all queries
 
 ### Mitigation Strategies
 
 1. **Noisy Neighbor Mitigation**:
-   - Monitor query performance per Organisation
+   - Monitor query performance per Organization
    - Set statement timeout limits (5s for web, 30s for background)
-   - Implement rate limiting per Organisation
-   - Add read replicas for high-traffic Organisations
+   - Implement rate limiting per Organization
+   - Add read replicas for high-traffic Organizations
    - Use connection pooling (PgBouncer) to manage connections
 
 2. **Migration Safety**:
@@ -680,9 +680,9 @@ export async function checkPermission(
    - Schedule migrations during low-traffic windows
 
 3. **RLS Performance**:
-   - Create compound indexes including `organisation_id`
+   - Create compound indexes including `Organization_id`
    - Monitor query plans with EXPLAIN ANALYZE
-   - Cache Organisation context in request lifecycle
+   - Cache Organization context in request lifecycle
    - Use materialized views for complex cross-tenant analytics
    - Consider disabling RLS for internal admin queries
 
@@ -695,7 +695,7 @@ export async function checkPermission(
 
 5. **Testing Best Practices**:
    - Use separate test database per developer
-   - Factory functions that auto-create Organisation context
+   - Factory functions that auto-create Organization context
    - Integration tests with multiple tenants
    - RLS policy tests to verify isolation
    - Load testing with realistic multi-tenant scenarios
@@ -704,30 +704,30 @@ export async function checkPermission(
 
 ### Phase 1: Foundation (Week 1)
 
-- [x] Define Drizzle schema for core tables (users, organisations, user_organisations)
+- [x] Define Drizzle schema for core tables (users, Organizations, user_Organizations)
 - [ ] Create initial migration files with Drizzle Kit
 - [ ] Set up RLS policies on tenant-scoped tables
-- [ ] Implement Organisation context middleware
+- [ ] Implement Organization context middleware
 - [ ] Create base query utilities with org context
 - [ ] Write unit tests for RLS policies
 
 ### Phase 2: Clerk Integration (Week 1-2)
 
-- [ ] Implement Clerk webhook handlers (user.created, Organisation.created)
-- [ ] Sync user and Organisation data to database
-- [ ] Handle Organisation membership events
+- [ ] Implement Clerk webhook handlers (user.created, Organization.created)
+- [ ] Sync user and Organization data to database
+- [ ] Handle Organization membership events
 - [ ] Add role assignment logic
 - [ ] Test webhook retry and failure handling
 - [ ] Document webhook setup process
 
 ### Phase 3: Application Integration (Week 2)
 
-- [ ] Create content table with Organisation context
+- [ ] Create content table with Organization context
 - [ ] Implement CRUD operations with RLS
 - [ ] Add soft delete functionality
 - [ ] Create permission checking utilities
-- [ ] Build Organisation switcher UI component
-- [ ] Test multi-Organisation user flows
+- [ ] Build Organization switcher UI component
+- [ ] Test multi-Organization user flows
 
 ### Phase 4: Analytics & Monitoring (Week 3)
 
@@ -741,7 +741,7 @@ export async function checkPermission(
 ### Phase 5: Testing & Optimization (Week 3-4)
 
 - [ ] Write integration tests for all tenant-scoped queries
-- [ ] Load test with 1000+ Organisations
+- [ ] Load test with 1000+ Organizations
 - [ ] Optimize indexes based on query patterns
 - [ ] Test soft delete and recovery flows
 - [ ] Verify GDPR compliance (export, delete)
@@ -763,7 +763,7 @@ export async function checkPermission(
 - [ ] 100% of tenant-scoped tables have RLS policies enabled
 - [ ] Zero cross-tenant data leakage in security audit
 - [ ] Query performance < 100ms for single-org queries
-- [ ] Support 1000+ Organisations on single database
+- [ ] Support 1000+ Organizations on single database
 - [ ] Clerk webhook sync completes in < 1 second
 - [ ] All integration tests pass with multi-tenant scenarios
 - [ ] GDPR data export completes in < 5 minutes
@@ -771,22 +771,22 @@ export async function checkPermission(
 ### Testing Checklist
 
 1. **Isolation Testing**:
-   - [ ] User A cannot query User B's Organisation data
+   - [ ] User A cannot query User B's Organization data
    - [ ] RLS policies block unauthorized access attempts
-   - [ ] Organisation context correctly set in middleware
+   - [ ] Organization context correctly set in middleware
    - [ ] Soft deletes are excluded from queries
 
 2. **Clerk Integration**:
    - [ ] User creation webhook syncs to database
-   - [ ] Organisation creation webhook syncs to database
-   - [ ] Membership changes update user_organisations table
+   - [ ] Organization creation webhook syncs to database
+   - [ ] Membership changes update user_Organizations table
    - [ ] Role assignments work correctly
 
 3. **Query Patterns**:
-   - [ ] Basic CRUD operations respect Organisation context
-   - [ ] List queries filter by Organisation
-   - [ ] Related data (joins) respects Organisation boundaries
-   - [ ] Cross-Organisation queries work for internal users only
+   - [ ] Basic CRUD operations respect Organization context
+   - [ ] List queries filter by Organization
+   - [ ] Related data (joins) respects Organization boundaries
+   - [ ] Cross-Organization queries work for internal users only
 
 4. **Performance**:
    - [ ] Queries use proper indexes (check EXPLAIN ANALYZE)
@@ -805,9 +805,9 @@ export async function checkPermission(
 ### When Adding New Tables
 
 1. **Determine Scope**: Is this table global or tenant-scoped?
-2. **Add Discriminator**: If tenant-scoped, add `organisation_id` column
-3. **Enable RLS**: Create RLS policy for Organisation isolation
-4. **Add Indexes**: Compound index on `(organisation_id, <lookup_field>)`
+2. **Add Discriminator**: If tenant-scoped, add `Organization_id` column
+3. **Enable RLS**: Create RLS policy for Organization isolation
+4. **Add Indexes**: Compound index on `(Organization_id, <lookup_field>)`
 5. **Soft Deletes**: Add `deleted_at` timestamp if data needs recovery
 6. **Audit Trail**: Add `created_by`, `updated_by`, `created_at`, `updated_at`
 
@@ -816,16 +816,16 @@ export async function checkPermission(
 ```typescript
 // packages/database/src/schema/projects.ts
 import { pgTable, uuid, text, timestamp, index } from "drizzle-orm/pg-core";
-import { organisations } from "./organisations";
+import { Organizations } from "./Organizations";
 import { users } from "./users";
 
 export const projects = pgTable(
   "projects",
   {
     id: uuid("id").primaryKey().defaultRandom(),
-    organisationId: uuid("organisation_id")
+    OrganizationId: uuid("Organization_id")
       .notNull()
-      .references(() => organisations.id, { onDelete: "cascade" }),
+      .references(() => Organizations.id, { onDelete: "cascade" }),
     name: text("name").notNull(),
     description: text("description"),
     createdBy: uuid("created_by")
@@ -837,8 +837,8 @@ export const projects = pgTable(
     deletedAt: timestamp("deleted_at"),
   },
   (table) => ({
-    organisationIdIdx: index("idx_projects_organisation_id").on(table.organisationId),
-    nameIdx: index("idx_projects_name").on(table.organisationId, table.name),
+    OrganizationIdIdx: index("idx_projects_Organization_id").on(table.OrganizationId),
+    nameIdx: index("idx_projects_name").on(table.OrganizationId, table.name),
   })
 );
 
@@ -852,8 +852,8 @@ ALTER TABLE projects ENABLE ROW LEVEL SECURITY;
 ALTER TABLE projects FORCE ROW LEVEL SECURITY;
 
 CREATE POLICY org_isolation_projects ON projects
-  USING (organisation_id = current_setting('app.current_org_id', true)::uuid)
-  WITH CHECK (organisation_id = current_setting('app.current_org_id', true)::uuid);
+  USING (Organization_id = current_setting('app.current_org_id', true)::uuid)
+  WITH CHECK (Organization_id = current_setting('app.current_org_id', true)::uuid);
 
 CREATE POLICY soft_delete_projects ON projects
   USING (deleted_at IS NULL);
@@ -861,7 +861,7 @@ CREATE POLICY soft_delete_projects ON projects
 
 ### Query Guidelines
 
-1. **Always Use Organisation Context**: Wrap queries in `withOrgContext()`
+1. **Always Use Organization Context**: Wrap queries in `withOrgContext()`
 2. **Exclude Soft Deletes**: Filter `deleted_at IS NULL` in queries
 3. **Check Permissions**: Verify user role before sensitive operations
 4. **Use Type-Safe Queries**: Leverage Drizzle's type inference
@@ -870,7 +870,7 @@ CREATE POLICY soft_delete_projects ON projects
 ### Security Guidelines
 
 1. **Never Bypass RLS**: Except for internal admin operations with explicit checks
-2. **Validate Org Context**: Always verify Organisation ID from Clerk session
+2. **Validate Org Context**: Always verify Organization ID from Clerk session
 3. **Audit Critical Operations**: Log all data modifications with user context
 4. **Test Isolation**: Write tests that attempt cross-tenant access
 5. **Monitor Violations**: Alert on RLS policy denial logs
@@ -946,7 +946,7 @@ export async function updateContent(id: string, data: UpdateContentInput) {
 }
 ```
 
-### Pagination with Organisation Context
+### Pagination with Organization Context
 
 ```typescript
 import { db } from "@repo/database";
@@ -988,7 +988,7 @@ export async function paginateContent(page = 1, pageSize = 20) {
 
 - [PostgreSQL Row-Level Security](https://www.postgresql.org/docs/current/ddl-rowsecurity.html)
 - [Drizzle ORM Documentation](https://orm.drizzle.team/)
-- [Clerk Organisations](https://clerk.com/docs/Organisations/overview)
+- [Clerk Organizations](https://clerk.com/docs/Organizations/overview)
 - [Multi-Tenancy Patterns](https://docs.microsoft.com/en-us/azure/architecture/guide/multitenant/overview)
 - [GDPR Compliance](https://gdpr.eu/)
 - [PostgreSQL Partitioning](https://www.postgresql.org/docs/current/ddl-partitioning.html)
@@ -996,16 +996,16 @@ export async function paginateContent(page = 1, pageSize = 20) {
 ## Related ADRs
 
 - [ADR-005: Drizzle as ORM](005-drizzle-orm.md) - ORM used for type-safe queries
-- [ADR-006: Clerk for Authentication](006-clerk-authentication.md) - Authentication and Organisation management
+- [ADR-006: Clerk for Authentication](006-clerk-authentication.md) - Authentication and Organization management
 - [ADR-004: Vercel as Hosting Platform](004-vercel-hosting.md) - Hosting infrastructure
 
 ## Notes
 
 The shared database with RLS approach provides the best balance of operational simplicity, security, and developer experience for our multi-tenant SaaS platform. By enforcing tenant isolation at the database level through Row-Level Security policies, we create a defense-in-depth security model that prevents accidental data leakage even if application code has bugs.
 
-The integration with Clerk's Organisation model is natural and seamless, with webhook handlers keeping our database synchronized. The use of Drizzle ORM provides full type safety while the RLS policies work transparently in the background.
+The integration with Clerk's Organization model is natural and seamless, with webhook handlers keeping our database synchronized. The use of Drizzle ORM provides full type safety while the RLS policies work transparently in the background.
 
-This architecture supports our growth from MVP to thousands of Organisations while maintaining simplicity and security. If we eventually need to scale beyond a single database, we have clear paths forward: read replicas, table partitioning, or tenant sharding.
+This architecture supports our growth from MVP to thousands of Organizations while maintaining simplicity and security. If we eventually need to scale beyond a single database, we have clear paths forward: read replicas, table partitioning, or tenant sharding.
 
 ---
 

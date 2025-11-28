@@ -25,7 +25,7 @@
 | 2A.3 | [Observability Package](../2A.3-observability/EPIC.md)       | Database health check utilities                         |
 | 2A.7 | [Auth Infrastructure](../2A.7-auth-infra/EPIC.md)            | User table and sync capabilities                        |
 | 2B.1 | [Product Database Schema](../2B.1-product-schema/EPIC.md)    | Generic database infrastructure and migration framework |
-| 2B.2 | [Multi-Tenant Organisation Model](../2B.2-org-model/EPIC.md) | Organisation-scoped query utilities                     |
+| 2B.2 | [Multi-Tenant Organization Model](../2B.2-org-model/EPIC.md) | Organization-scoped query utilities                     |
 
 ### Can Run in Parallel With
 
@@ -107,7 +107,7 @@ S1 (Package structure)
 
 - **Type-Safe Schema**: All schemas must use Drizzle's TypeScript-first approach with inferred types per [ADR-005](/docs/2-technical/adr/005-drizzle-orm.md)
 - **Serverless Connection**: Must use Neon HTTP driver for edge compatibility per [TAD: Database & ORM](/docs/2-technical/2-tad.md#database--orm)
-- **Organisation Scoping**: All query helpers must support organisation-scoped filtering for multi-tenancy per [ADR-007](/docs/2-technical/adr/007-multi-tenant-model.md)
+- **Organization Scoping**: All query helpers must support Organization-scoped filtering for multi-tenancy per [ADR-007](/docs/2-technical/adr/007-multi-tenant-model.md)
 - **Monorepo Package**: Package must follow `@repo/*` naming convention per [ADR-001](/docs/2-technical/adr/001-monorepo-turborepo.md)
 
 ### Technology Decisions
@@ -121,7 +121,7 @@ S1 (Package structure)
 
 ### Constraints
 
-- **No Product Schemas**: This epic covers infrastructure only; product-specific tables (users, organisations, content) are defined in Epic 2B.1
+- **No Product Schemas**: This epic covers infrastructure only; product-specific tables (users, Organizations, content) are defined in Epic 2B.1
 - **No Product RLS Policies**: Generic RLS helper patterns only; product-specific policies deferred to Epic 2B.1
 - **Edge Compatibility**: All utilities must work in Vercel Edge Functions
 - **Version Consistency**: Drizzle version must match canonical-versions.md (^0.29.0)
@@ -130,7 +130,7 @@ S1 (Package structure)
 
 The following items are explicitly NOT part of this epic:
 
-- **Product-specific tables** (users, organisations, content, analytics_events) - Deferred to Epic 2B.1
+- **Product-specific tables** (users, Organizations, content, analytics_events) - Deferred to Epic 2B.1
 - **Product-specific RLS policies** - Deferred to Epic 2B.1
 - **Product-specific seed data** - Deferred to Epic 2B.1
 - **Real-time subscriptions/WebSocket connections** - Not required for MVP

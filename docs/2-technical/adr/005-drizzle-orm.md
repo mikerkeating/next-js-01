@@ -19,7 +19,7 @@ We need to select an Object-Relational Mapping (ORM) tool for our PostgreSQL dat
 7. **Relations**: Support for complex relationships
 8. **PostgreSQL Features**: Full PostgreSQL support (JSON, arrays, CTEs, etc.)
 9. **Edge Compatibility**: Works with edge runtimes
-10. **Multi-tenancy**: Supports Organisation-scoped queries
+10. **Multi-tenancy**: Supports Organization-scoped queries
 
 ### Constraints
 
@@ -42,7 +42,7 @@ packages/database/
 ├── src/
 │   ├── schema/
 │   │   ├── users.ts
-│   │   ├── organisations.ts
+│   │   ├── Organizations.ts
 │   │   ├── content.ts
 │   │   └── index.ts
 │   ├── client.ts
@@ -364,8 +364,8 @@ export const db = drizzle(process.env.DATABASE_URL!, { schema });
 ### Phase 2: Schema Definition (Day 2-3)
 
 - [ ] Define users schema
-- [ ] Define organisations schema
-- [ ] Define user_organisations schema
+- [ ] Define Organizations schema
+- [ ] Define user_Organizations schema
 - [ ] Define content schema
 - [ ] Define analytics_events schema
 - [ ] Set up relations between tables
@@ -381,7 +381,7 @@ export const db = drizzle(process.env.DATABASE_URL!, { schema });
 ### Phase 4: Query Patterns (Week 1)
 
 - [ ] Create common query utilities
-- [ ] Implement Organisation scoping helpers
+- [ ] Implement Organization scoping helpers
 - [ ] Add transaction helpers
 - [ ] Create seed scripts
 - [ ] Write query examples
@@ -473,14 +473,14 @@ await db.delete(users).where(eq(users.id, userId));
 
 ```typescript
 import { db } from "@repo/database";
-import { users, organisations, userOrganisations } from "@repo/database/schema";
+import { users, Organizations, userOrganizations } from "@repo/database/schema";
 
 // Query with relations
 const usersWithOrgs = await db.query.users.findMany({
   with: {
-    userOrganisations: {
+    userOrganizations: {
       with: {
-        organisation: true,
+        Organization: true,
       },
     },
   },
@@ -490,16 +490,16 @@ const usersWithOrgs = await db.query.users.findMany({
 const result = await db
   .select({
     user: users,
-    org: organisations,
-    role: userOrganisations.role,
+    org: Organizations,
+    role: userOrganizations.role,
   })
   .from(users)
-  .innerJoin(userOrganisations, eq(users.id, userOrganisations.userId))
-  .innerJoin(organisations, eq(userOrganisations.organisationId, organisations.id))
+  .innerJoin(userOrganizations, eq(users.id, userOrganizations.userId))
+  .innerJoin(Organizations, eq(userOrganizations.OrganizationId, Organizations.id))
   .where(eq(users.id, userId));
 ```
 
-### Organisation-Scoped Queries
+### Organization-Scoped Queries
 
 ```typescript
 import { db } from "@repo/database";
@@ -515,7 +515,7 @@ export function withOrgContext<T>(orgId: string, query: (db: typeof db) => Promi
 // Usage
 export async function getOrgContent(orgId: string) {
   return db.query.content.findMany({
-    where: eq(content.organisationId, orgId),
+    where: eq(content.OrganizationId, orgId),
   });
 }
 ```
@@ -524,7 +524,7 @@ export async function getOrgContent(orgId: string) {
 
 ```typescript
 import { db } from "@repo/database";
-import { users, organisations, userOrganisations } from "@repo/database/schema";
+import { users, Organizations, userOrganizations } from "@repo/database/schema";
 
 // Transaction example
 await db.transaction(async (tx) => {
@@ -537,9 +537,9 @@ await db.transaction(async (tx) => {
     })
     .returning();
 
-  // Create Organisation
+  // Create Organization
   const [org] = await tx
-    .insert(organisations)
+    .insert(Organizations)
     .values({
       name: "Acme Corp",
       slug: "acme",
@@ -547,9 +547,9 @@ await db.transaction(async (tx) => {
     .returning();
 
   // Link user to org
-  await tx.insert(userOrganisations).values({
+  await tx.insert(userOrganizations).values({
     userId: user.id,
-    organisationId: org.id,
+    OrganizationId: org.id,
     role: "product-seller",
   });
 });
@@ -599,7 +599,7 @@ CREATE INDEX IF NOT EXISTS "idx_users_email" ON "users" ("email");
 
 ## Best Practices
 
-1. **Schema Organisation**
+1. **Schema Organization**
    - One file per table
    - Export types from schema files
    - Use consistent naming conventions
@@ -608,7 +608,7 @@ CREATE INDEX IF NOT EXISTS "idx_users_email" ON "users" ("email");
 2. **Query Patterns**
    - Use `db.query` for simple queries
    - Use builder for complex queries
-   - Always filter by Organisation
+   - Always filter by Organization
    - Use transactions for multi-step operations
 
 3. **Type Safety**
@@ -643,7 +643,7 @@ export async function getPaginatedContent(orgId: string, page: number = 1, perPa
 
   const [items, [{ count }]] = await Promise.all([
     db.query.content.findMany({
-      where: eq(content.organisationId, orgId),
+      where: eq(content.OrganizationId, orgId),
       limit: perPage,
       offset,
       orderBy: desc(content.createdAt),
@@ -651,7 +651,7 @@ export async function getPaginatedContent(orgId: string, page: number = 1, perPa
     db
       .select({ count: sql<number>`count(*)` })
       .from(content)
-      .where(eq(content.organisationId, orgId)),
+      .where(eq(content.OrganizationId, orgId)),
   ]);
 
   return {
@@ -696,7 +696,7 @@ export function withoutDeleted<T>(query: T) {
 
 - [ADR-001: Monorepo with Turborepo](001-monorepo-turborepo.md) - Database package in monorepo
 - [ADR-003: Next.js 16 as Framework](003-nextjs-framework.md) - Drizzle in Server Components
-- [ADR-007: Multi-tenant Data Model](007-multi-tenant-model.md) - Organisation-scoped queries
+- [ADR-007: Multi-tenant Data Model](007-multi-tenant-model.md) - Organization-scoped queries
 
 ## Notes
 

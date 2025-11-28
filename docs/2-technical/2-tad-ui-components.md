@@ -4,7 +4,7 @@ This section defines the core reusable UI components that power the product inte
 
 #### Role Badge Component
 
-**Purpose**: Display user roles with visual distinction across different Organisational contexts.
+**Purpose**: Display user roles with visual distinction across different Organizational contexts.
 
 **Props Interface**:
 
@@ -36,7 +36,7 @@ interface RoleBadgeProps {
 
 #### Content Card Component
 
-**Purpose**: Display content items with Organisation context, ownership, and interaction capabilities.
+**Purpose**: Display content items with Organization context, ownership, and interaction capabilities.
 
 **Props Interface**:
 
@@ -46,8 +46,8 @@ interface ContentCardProps {
     id: string;
     title: string;
     type: string;
-    OrganisationId: string;
-    OrganisationName: string;
+    OrganizationId: string;
+    OrganizationName: string;
     createdBy: {
       id: string;
       name: string;
@@ -59,7 +59,7 @@ interface ContentCardProps {
   actions?: ContentAction[];
   onSelect?: (contentId: string) => void;
   isSelected?: boolean;
-  showOrganisation?: boolean;
+  showOrganization?: boolean;
   variant?: "default" | "compact" | "detailed";
   className?: string;
 }
@@ -75,7 +75,7 @@ interface ContentAction {
 
 **Behavior**:
 
-- Displays content metadata with Organisation badge
+- Displays content metadata with Organization badge
 - Shows creator information with avatar
 - Renders relative timestamps (e.g., "2 hours ago")
 - Supports contextual actions with permission gating
@@ -94,14 +94,14 @@ interface ContentAction {
 
 #### Permission Gate Component
 
-**Purpose**: Conditionally render UI elements based on user permissions within Organisation context.
+**Purpose**: Conditionally render UI elements based on user permissions within Organization context.
 
 **Props Interface**:
 
 ```typescript
 interface PermissionGateProps {
   permission: string | string[];
-  OrganisationId?: string;
+  OrganizationId?: string;
   fallback?: React.ReactNode;
   children: React.ReactNode;
   mode?: "any" | "all"; // For multiple permissions
@@ -115,7 +115,7 @@ interface PermissionGateProps {
 - Supports single permission string or array of permissions
 - `mode='any'`: renders if user has ANY of the specified permissions
 - `mode='all'`: renders if user has ALL of the specified permissions
-- Uses Organisation context from middleware if OrganisationId not provided
+- Uses Organization context from middleware if OrganizationId not provided
 - Renders children if authorized, fallback component if not
 - Optional callback for unauthorized access attempts
 - Server component compatible for SSR permission checks
@@ -123,14 +123,14 @@ interface PermissionGateProps {
 **Implementation Notes**:
 
 - Integrates with `@repo/auth` for permission evaluation
-- Uses React Context for Organisation scope
+- Uses React Context for Organization scope
 - Supports both client and server components
 - Exported from `@repo/ui/permission-gate`
 
 **Usage Example**:
 
 ```typescript
-<PermissionGate permission="content.delete" OrganisationId={orgId}>
+<PermissionGate permission="content.delete" OrganizationId={orgId}>
   <DeleteButton />
 </PermissionGate>
 ```
@@ -139,14 +139,14 @@ interface PermissionGateProps {
 
 #### User Role Selector
 
-**Purpose**: Allow administrators to assign or modify user roles within an Organisation.
+**Purpose**: Allow administrators to assign or modify user roles within an Organization.
 
 **Props Interface**:
 
 ```typescript
 interface UserRoleSelectorProps {
   userId: string;
-  OrganisationId: string;
+  OrganizationId: string;
   currentRole: "internal" | "product-seller" | "agency-seller" | "client";
   availableRoles?: ("internal" | "product-seller" | "agency-seller" | "client")[];
   onChange: (newRole: string) => Promise<void>;
@@ -174,7 +174,7 @@ interface UserRoleSelectorProps {
 **Implementation Notes**:
 
 - Built on shadcn/ui Select/RadioGroup components
-- Integrates with Permission Gate (requires 'Organisation.manage-roles')
+- Integrates with Permission Gate (requires 'Organization.manage-roles')
 - Uses React Hook Form for validation
 - Exported from `@repo/ui/user-role-selector`
 

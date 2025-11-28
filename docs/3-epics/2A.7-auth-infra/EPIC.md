@@ -130,7 +130,7 @@ S1 (Package setup & Clerk SDK)
 ### Constraints
 
 - **No Product-Specific Roles**: This epic covers generic auth only; roles (internal, product-seller, agency-seller, client) are defined in Epic 2B.7
-- **No Organisation Context**: Organisation-aware authentication deferred to Epic 2B.7
+- **No Organization Context**: Organization-aware authentication deferred to Epic 2B.7
 - **Edge Runtime Compatibility**: Auth middleware must work within Vercel Edge runtime constraints
 - **Generic User Table Only**: Webhook sync uses generic user fields; product-specific user fields deferred to Epic 2B.1
 - **Session Cookie Only**: Use Clerk's httpOnly secure cookies; no custom token storage
@@ -140,9 +140,9 @@ S1 (Package setup & Clerk SDK)
 The following items are explicitly NOT part of this epic:
 
 - **Product-specific roles** (Internal, Product-Seller, Agency-Seller, Client) - Deferred to Epic 2B.7
-- **Organisation context in auth** - Deferred to Epic 2B.7 (Product Auth Roles & Permissions)
+- **Organization context in auth** - Deferred to Epic 2B.7 (Product Auth Roles & Permissions)
 - **Role-based permission utilities** (`canAccess()`, `usePermissions()`) - Deferred to Epic 2B.7
-- **Product-specific webhook handlers** (organisation membership changes) - Deferred to Epic 2B.7
+- **Product-specific webhook handlers** (Organization membership changes) - Deferred to Epic 2B.7
 - **Sign-in/Sign-up UI pages** - Handled in application layer, not package
 - **Custom OAuth provider configuration** - Use Clerk dashboard configuration
 - **CSRF protection middleware** - Handled by `@repo/middleware` package (Epic 2A.6)
@@ -206,7 +206,7 @@ The following items are explicitly NOT part of this epic:
 - [Clerk Documentation](https://clerk.com/docs)
 - [Clerk Next.js Quickstart](https://clerk.com/docs/quickstarts/nextjs)
 - [Clerk Webhooks](https://clerk.com/docs/integrations/webhooks)
-- [Clerk Organisations](https://clerk.com/docs/Organisations/overview)
+- [Clerk Organizations](https://clerk.com/docs/Organizations/overview)
 - [Svix Webhook Verification](https://docs.svix.com/receiving/verifying-payloads/how)
 
 ## Status

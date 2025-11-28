@@ -6,13 +6,13 @@
 
 ## Context
 
-We need to select an authentication and user management solution for our multi-tenant SaaS platform that provides secure, scalable authentication while delivering an excellent user experience. The solution must support multiple authentication methods, integrate seamlessly with Next.js, provide Organisation management features, and scale with our growth.
+We need to select an authentication and user management solution for our multi-tenant SaaS platform that provides secure, scalable authentication while delivering an excellent user experience. The solution must support multiple authentication methods, integrate seamlessly with Next.js, provide Organization management features, and scale with our growth.
 
 ### Key Requirements
 
 1. **Authentication Methods**: Email/password, OAuth (Google, GitHub, etc.), magic links
 2. **User Management**: User profiles, session management, account settings
-3. **Organisation Support**: Multi-tenant Organisation management
+3. **Organization Support**: Multi-tenant Organization management
 4. **Security**: Industry-standard security practices, JWT tokens, secure sessions
 5. **Developer Experience**: Easy integration, good documentation, TypeScript support
 6. **User Experience**: Beautiful, customizable UI components
@@ -64,10 +64,10 @@ export default authMiddleware({
 
   // After auth middleware
   afterAuth(auth, req) {
-    // Handle Organisation context
+    // Handle Organization context
     if (auth.userId && auth.orgId) {
       // Inject org context into request
-      req.headers.set("x-Organisation-id", auth.orgId);
+      req.headers.set("x-Organization-id", auth.orgId);
     }
   },
 });
@@ -104,7 +104,7 @@ import { Webhook } from "svix";
 import { headers } from "next/headers";
 import { WebhookEvent } from "@clerk/nextjs/server";
 import { db } from "@repo/database";
-import { users, organisations, userOrganisations } from "@repo/database/schema";
+import { users, Organizations, userOrganizations } from "@repo/database/schema";
 
 export async function POST(req: Request) {
   // Get webhook secret
@@ -164,16 +164,16 @@ export async function POST(req: Request) {
         .where(eq(users.clerkId, evt.data.id));
       break;
 
-    case "Organisation.created":
-      await db.insert(organisations).values({
+    case "organization.created":
+      await db.insert(Organizations).values({
         clerkId: evt.data.id,
         name: evt.data.name,
         slug: evt.data.slug,
       });
       break;
 
-    case "OrganisationMembership.created":
-      // Add user to Organisation
+    case "organizationMembership.created":
+      // Add user to Organization
       const [user] = await db
         .select()
         .from(users)
@@ -181,12 +181,12 @@ export async function POST(req: Request) {
 
       const [org] = await db
         .select()
-        .from(organisations)
-        .where(eq(organisations.clerkId, evt.data.Organisation.id));
+        .from(Organizations)
+        .where(eq(Organizations.clerkId, evt.data.Organization.id));
 
-      await db.insert(userOrganisations).values({
+      await db.insert(userOrganizations).values({
         userId: user.id,
-        organisationId: org.id,
+        OrganizationId: org.id,
         role: mapClerkRoleToOurRole(evt.data.role),
       });
       break;
@@ -221,11 +221,11 @@ export async function POST(req: Request) {
    - Branded sign-in experience
    - Smooth user flows
 
-4. **Organisation Management**
-   - Built-in Organisation support
+4. **Organization Management**
+   - Built-in Organization support
    - Role-based access control
    - Invitation system
-   - Organisation switching
+   - Organization switching
    - Member management
 
 5. **Security First**
@@ -285,7 +285,7 @@ export async function POST(req: Request) {
 - ❌ Requires more setup and maintenance
 - ❌ No built-in UI components
 - ❌ Manual security updates required
-- ❌ No Organisation management
+- ❌ No Organization management
 - ❌ More code to maintain
 - ❌ Need to handle edge cases yourself
 
@@ -326,12 +326,12 @@ export async function POST(req: Request) {
 
 - ❌ Coupled to Supabase ecosystem
 - ❌ Limited UI components
-- ❌ No Organisation management
+- ❌ No Organization management
 - ❌ Less polished than Clerk
 - ❌ Fewer OAuth providers
 - ❌ Requires more custom code
 
-**Decision**: Rejected - While good, lacks Organisation features and polished UX.
+**Decision**: Rejected - While good, lacks Organization features and polished UX.
 
 #### Option 4: Firebase Authentication
 
@@ -347,7 +347,7 @@ export async function POST(req: Request) {
 
 - ❌ Tied to Firebase ecosystem
 - ❌ Limited customization
-- ❌ No Organisation support
+- ❌ No Organization support
 - ❌ Not optimized for Next.js
 - ❌ Older SDK design
 - ❌ Less suitable for SaaS
@@ -402,7 +402,7 @@ export async function POST(req: Request) {
 1. **Fast Implementation**: Authentication ready in hours, not weeks
 2. **Beautiful UX**: Professional authentication flows out of the box
 3. **Secure by Default**: Industry-standard security without effort
-4. **Organisation Support**: Multi-tenancy features built-in
+4. **Organization Support**: Multi-tenancy features built-in
 5. **Less Maintenance**: No auth code to maintain
 6. **Scalable**: Grows with our user base automatically
 7. **Compliance Ready**: GDPR, SOC 2 handled by Clerk
@@ -476,13 +476,13 @@ export async function POST(req: Request) {
 - [ ] Implement user sync on update
 - [ ] Test webhook delivery
 
-### Phase 4: Organisation Setup (Day 3-4)
+### Phase 4: Organization Setup (Day 3-4)
 
-- [ ] Enable Organisations in Clerk
-- [ ] Create Organisation sync webhook handlers
-- [ ] Implement Organisation switching UI
+- [ ] Enable Organizations in Clerk
+- [ ] Create Organization sync webhook handlers
+- [ ] Implement Organization switching UI
 - [ ] Map Clerk roles to our roles
-- [ ] Test Organisation flows
+- [ ] Test Organization flows
 
 ### Phase 5: Customization (Week 1-2)
 
@@ -490,7 +490,7 @@ export async function POST(req: Request) {
 - [ ] Configure email templates
 - [ ] Set up custom session claims
 - [ ] Add user profile management
-- [ ] Implement Organisation invitations
+- [ ] Implement Organization invitations
 
 ### Phase 6: Production Ready (Week 2)
 
@@ -509,7 +509,7 @@ export async function POST(req: Request) {
 - [ ] Zero security incidents
 - [ ] Webhook delivery success > 99%
 - [ ] Session management working reliably
-- [ ] Organisation switching works smoothly
+- [ ] Organization switching works smoothly
 - [ ] Team comfortable with Clerk within 1 week
 
 ### Testing Checklist
@@ -529,24 +529,24 @@ export async function POST(req: Request) {
    - [ ] Account deletion works
    - [ ] Avatar upload works
 
-3. **Organisations**:
-   - [ ] Organisation creation works
+3. **Organizations**:
+   - [ ] Organization creation works
    - [ ] Member invitations work
    - [ ] Role assignment works
-   - [ ] Organisation switching works
+   - [ ] Organization switching works
    - [ ] Member removal works
 
 4. **Webhooks**:
    - [ ] User creation syncs to database
    - [ ] User updates sync to database
-   - [ ] Organisation creation syncs
+   - [ ] Organization creation syncs
    - [ ] Membership changes sync
    - [ ] Webhook signatures verified
 
 5. **Security**:
    - [ ] Sessions expire correctly
    - [ ] Protected routes work
-   - [ ] Organisation isolation enforced
+   - [ ] Organization isolation enforced
    - [ ] CSRF protection works
    - [ ] Rate limiting active
 
@@ -598,7 +598,7 @@ export function UserProfile() {
 }
 ```
 
-### Organisation Context
+### Organization Context
 
 ```typescript
 import { auth } from '@clerk/nextjs'
@@ -607,13 +607,13 @@ export default async function OrgDashboard() {
   const { userId, orgId, orgRole } = auth()
 
   if (!orgId) {
-    redirect('/select-Organisation')
+    redirect('/select-Organization')
   }
 
   // Fetch org-specific data
   const data = await getOrgData(orgId)
 
-  return <div>Organisation: {orgId}</div>
+  return <div>Organization: {orgId}</div>
 }
 ```
 
@@ -663,11 +663,11 @@ export default async function AdminPage() {
    - Validate sessions on the server
    - Use short-lived tokens
 
-2. **Organisation Isolation**
+2. **Organization Isolation**
    - Always check orgId in protected routes
-   - Filter database queries by Organisation
+   - Filter database queries by Organization
    - Use middleware to inject org context
-   - Validate Organisation membership
+   - Validate Organization membership
 
 3. **Webhook Handling**
    - Always verify webhook signatures
@@ -691,7 +691,7 @@ export default async function AdminPage() {
 
 - [Clerk Documentation](https://clerk.com/docs)
 - [Clerk Next.js Quickstart](https://clerk.com/docs/quickstarts/nextjs)
-- [Clerk Organisations](https://clerk.com/docs/Organisations/overview)
+- [Clerk Organizations](https://clerk.com/docs/Organizations/overview)
 - [Clerk Webhooks](https://clerk.com/docs/integrations/webhooks)
 - [Clerk Security](https://clerk.com/docs/security/overview)
 
@@ -699,13 +699,13 @@ export default async function AdminPage() {
 
 - [ADR-003: Next.js 16 as Framework](003-nextjs-framework.md) - Clerk integrates with Next.js
 - [ADR-005: Drizzle as ORM](005-drizzle-orm.md) - User data synced via webhooks
-- [ADR-007: Multi-tenant Data Model](007-multi-tenant-model.md) - Organisation management
+- [ADR-007: Multi-tenant Data Model](007-multi-tenant-model.md) - Organization management
 
 ## Notes
 
 Clerk's combination of excellent developer experience, beautiful user interface, and comprehensive features makes it the ideal choice for our authentication needs. While there's some vendor lock-in risk, the time saved and features provided far outweigh the concerns for a startup.
 
-The built-in Organisation management perfectly aligns with our multi-tenant architecture, and the webhook system ensures our database stays in sync with authentication state. This allows us to leverage Clerk's expertise in authentication while maintaining control over our data model.
+The built-in Organization management perfectly aligns with our multi-tenant architecture, and the webhook system ensures our database stays in sync with authentication state. This allows us to leverage Clerk's expertise in authentication while maintaining control over our data model.
 
 ---
 

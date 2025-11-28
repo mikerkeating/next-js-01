@@ -498,7 +498,7 @@ await waitFor(() => {
 2. **Semantic Tokens**: Purpose-based tokens (background-primary, text-error)
 3. **Component Tokens**: Component-specific tokens (button-padding, card-radius)
 
-**Token Organisation**:
+**Token Organization**:
 
 - Store tokens in config package
 - Export as CSS variables for Tailwind
@@ -548,7 +548,7 @@ interface ButtonProps {
 - Code examples for common patterns
 - Related components
 
-**Storybook Organisation**:
+**Storybook Organization**:
 
 - Group by category (Forms, Layout, Feedback, Navigation)
 - Show all variants in single story (controls)
@@ -589,7 +589,7 @@ interface ButtonProps {
 - Prefer Tailwind utilities over custom CSS when possible
 - Keep specificity low (avoid deep nesting)
 
-**Organisation**:
+**Organization**:
 
 - Co-locate styles with components
 - Use CSS Modules for component-specific styles

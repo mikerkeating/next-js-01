@@ -2,14 +2,14 @@
 
 ### Overview
 
-Edge middleware runs at the network edge (Vercel Edge Functions) before requests reach Next.js application code. This section covers Epics 2A.6 and 2B.6, detailing middleware chain composition, organisation context extraction, and route protection patterns.
+Edge middleware runs at the network edge (Vercel Edge Functions) before requests reach Next.js application code. This section covers Epics 2A.6 and 2B.6, detailing middleware chain composition, Organization context extraction, and route protection patterns.
 
 **Key Principles**:
 
 - **Lightweight Execution**: Minimal processing at the edge (cold start < 50ms)
 - **Composable Middleware**: Build complex logic from simple, reusable functions
 - **Early Validation**: Reject invalid requests before hitting application servers
-- **Context Enrichment**: Add organisation and user context to requests
+- **Context Enrichment**: Add Organization and user context to requests
 - **Route Protection**: Enforce authentication and authorization at the edge
 
 **Edge Runtime Constraints**:
@@ -38,7 +38,7 @@ export type MiddlewareFunction = (
 
 export interface MiddlewareContext {
   userId?: string;
-  organisationId?: string;
+  OrganizationId?: string;
   role?: string;
   metadata: Record<string, unknown>;
 }
@@ -70,7 +70,7 @@ export function composeMiddleware(
         headers: new Headers({
           ...Object.fromEntries(request.headers),
           "x-user-id": context.userId || "",
-          "x-organisation-id": context.organisationId || "",
+          "x-Organization-id": context.OrganizationId || "",
           "x-user-role": context.role || "",
         }),
       },
@@ -141,7 +141,7 @@ export default composeMiddleware([
   // 3. Authentication - Verify user identity
   authMiddleware,
 
-  // 4. Organisation Context - Extract and validate organisation
+  // 4. Organization Context - Extract and validate Organization
   orgContextMiddleware,
 
   // 5. CSRF Protection - Validate CSRF tokens on mutations
@@ -259,9 +259,9 @@ export const securityHeadersMiddleware: MiddlewareFunction = async (
 
 ---
 
-### Organisation Context Extraction
+### Organization Context Extraction
 
-#### Organisation Context Middleware
+#### Organization Context Middleware
 
 ```typescript
 // packages/middleware/src/org-context.ts
@@ -270,69 +270,69 @@ import { NextRequest, NextResponse } from "next/server";
 import { MiddlewareFunction, MiddlewareContext } from "./composer";
 
 /**
- * Extract organisation context from request
+ * Extract Organization context from request
  *
- * Organisation can be identified via:
- * 1. Header: X-Organisation-ID (for API requests)
+ * Organization can be identified via:
+ * 1. Header: X-Organization-ID (for API requests)
  * 2. Subdomain: {org-slug}.example.com
  * 3. Path parameter: /org/{org-slug}/...
  * 4. Query parameter: ?org={org-slug}
- * 5. Cookie: org_id (last selected organisation)
+ * 5. Cookie: org_id (last selected Organization)
  */
 export const orgContextMiddleware: MiddlewareFunction = async (
   request: NextRequest,
   context: MiddlewareContext
 ) => {
-  let organisationId: string | null = null;
-  let organisationSlug: string | null = null;
+  let OrganizationId: string | null = null;
+  let OrganizationSlug: string | null = null;
 
   // 1. Check header (highest priority - for API)
-  const headerOrgId = request.headers.get("x-organisation-id");
+  const headerOrgId = request.headers.get("x-Organization-id");
   if (headerOrgId) {
-    organisationId = headerOrgId;
+    OrganizationId = headerOrgId;
   }
 
   // 2. Check subdomain
-  if (!organisationId) {
+  if (!OrganizationId) {
     const hostname = request.headers.get("host") || "";
     const subdomainMatch = hostname.match(/^([^.]+)\.example\.com$/);
 
     if (subdomainMatch && subdomainMatch[1] !== "www" && subdomainMatch[1] !== "api") {
-      organisationSlug = subdomainMatch[1];
+      OrganizationSlug = subdomainMatch[1];
       // Would need to fetch org ID from database or cache
       // For edge middleware, we use slug directly
     }
   }
 
   // 3. Check path parameter
-  if (!organisationId && !organisationSlug) {
+  if (!OrganizationId && !OrganizationSlug) {
     const pathMatch = request.nextUrl.pathname.match(/^\/org\/([^/]+)/);
     if (pathMatch) {
-      organisationSlug = pathMatch[1];
+      OrganizationSlug = pathMatch[1];
     }
   }
 
   // 4. Check query parameter
-  if (!organisationId && !organisationSlug) {
+  if (!OrganizationId && !OrganizationSlug) {
     const queryOrg = request.nextUrl.searchParams.get("org");
     if (queryOrg) {
-      organisationSlug = queryOrg;
+      OrganizationSlug = queryOrg;
     }
   }
 
   // 5. Check cookie (lowest priority - fallback)
-  if (!organisationId && !organisationSlug) {
+  if (!OrganizationId && !OrganizationSlug) {
     const cookieOrgId = request.cookies.get("org_id")?.value;
     if (cookieOrgId) {
-      organisationId = cookieOrgId;
+      OrganizationId = cookieOrgId;
     }
   }
 
-  // Validate organisation access (if user is authenticated)
-  if (context.userId && (organisationId || organisationSlug)) {
-    const hasAccess = await validateOrganisationAccess(
+  // Validate Organization access (if user is authenticated)
+  if (context.userId && (OrganizationId || OrganizationSlug)) {
+    const hasAccess = await validateOrganizationAccess(
       context.userId,
-      organisationId || organisationSlug
+      OrganizationId || OrganizationSlug
     );
 
     if (!hasAccess) {
@@ -340,7 +340,7 @@ export const orgContextMiddleware: MiddlewareFunction = async (
         {
           success: false,
           error: {
-            message: "Access denied to organisation",
+            message: "Access denied to Organization",
             code: "ORG_ACCESS_DENIED",
           },
         },
@@ -350,11 +350,11 @@ export const orgContextMiddleware: MiddlewareFunction = async (
   }
 
   // Add to context
-  if (organisationId) {
-    context.organisationId = organisationId;
+  if (OrganizationId) {
+    context.OrganizationId = OrganizationId;
   }
-  if (organisationSlug) {
-    context.metadata.organisationSlug = organisationSlug;
+  if (OrganizationSlug) {
+    context.metadata.OrganizationSlug = OrganizationSlug;
   }
 
   // No response = continue to next middleware
@@ -362,15 +362,15 @@ export const orgContextMiddleware: MiddlewareFunction = async (
 };
 
 /**
- * Validate user has access to organisation
+ * Validate user has access to Organization
  * Uses Vercel Edge Config for fast lookups
  */
-async function validateOrganisationAccess(userId: string, orgIdentifier: string): Promise<boolean> {
+async function validateOrganizationAccess(userId: string, orgIdentifier: string): Promise<boolean> {
   // In production, check against Edge Config or KV store
   // For now, we'll use a simple check
 
   try {
-    // Check if user is member of organisation
+    // Check if user is member of Organization
     // This would typically hit a fast cache like Vercel Edge Config
     const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/internal/org-access`, {
       method: "POST",
@@ -386,33 +386,33 @@ async function validateOrganisationAccess(userId: string, orgIdentifier: string)
 
     return response.ok;
   } catch (error) {
-    console.error("Organisation access check failed:", error);
+    console.error("Organization access check failed:", error);
     return false;
   }
 }
 ```
 
-#### Organisation Switcher Implementation
+#### Organization Switcher Implementation
 
 ```typescript
 // packages/org/src/switcher.ts
 
 /**
- * Switch user's active organisation
+ * Switch user's active Organization
  * Updates cookie and redirects to org-specific URL
  */
-export async function switchOrganisation(
-  organisationId: string,
+export async function switchOrganization(
+  OrganizationId: string,
   redirectPath?: string
 ): Promise<void> {
   // Update cookie
-  document.cookie = `org_id=${organisationId}; path=/; max-age=31536000; secure; samesite=lax`;
+  document.cookie = `org_id=${OrganizationId}; path=/; max-age=31536000; secure; samesite=lax`;
 
-  // Fetch organisation details
-  const response = await fetch(`/api/v1/organisations/${organisationId}`);
+  // Fetch Organization details
+  const response = await fetch(`/api/v1/Organizations/${OrganizationId}`);
   const { data: org } = await response.json();
 
-  // Redirect to organisation-specific URL
+  // Redirect to Organization-specific URL
   const targetUrl = redirectPath || "/dashboard";
 
   // Option 1: Subdomain approach
@@ -428,20 +428,20 @@ export async function switchOrganisation(
 }
 
 /**
- * Get current organisation from context
+ * Get current Organization from context
  */
-export async function getCurrentOrganisation(): Promise<Organisation | null> {
+export async function getCurrentOrganization(): Promise<Organization | null> {
   // Server-side: Read from request headers
   if (typeof window === "undefined") {
     const { headers } = await import("next/headers");
     const headersList = headers();
-    const orgId = headersList.get("x-organisation-id");
+    const orgId = headersList.get("x-Organization-id");
 
     if (!orgId) return null;
 
     // Fetch from database
-    const { getOrganisationById } = await import("@repo/database");
-    return getOrganisationById(orgId);
+    const { getOrganizationById } = await import("@repo/database");
+    return getOrganizationById(orgId);
   }
 
   // Client-side: Read from cookie
@@ -453,7 +453,7 @@ export async function getCurrentOrganisation(): Promise<Organisation | null> {
   if (!cookieOrgId) return null;
 
   // Fetch from API
-  const response = await fetch(`/api/v1/organisations/${cookieOrgId}`);
+  const response = await fetch(`/api/v1/Organizations/${cookieOrgId}`);
   const { data: org } = await response.json();
   return org;
 }
@@ -623,7 +623,7 @@ export function requirePermission(permission: string): MiddlewareFunction {
 
     const hasPermission = await checkPermission(
       context.userId,
-      context.organisationId || "",
+      context.OrganizationId || "",
       permission
     );
 
@@ -646,7 +646,7 @@ export function requirePermission(permission: string): MiddlewareFunction {
 
 async function checkPermission(
   userId: string,
-  organisationId: string,
+  OrganizationId: string,
   permission: string
 ): Promise<boolean> {
   // Check permission via API or cache
@@ -659,7 +659,7 @@ async function checkPermission(
       },
       body: JSON.stringify({
         userId,
-        organisationId,
+        OrganizationId,
         permission,
       }),
     });
@@ -680,7 +680,7 @@ export const adminRouteProtection = createConditionalMiddleware(
 );
 
 /**
- * Example usage: Protect organisation management routes
+ * Example usage: Protect Organization management routes
  */
 export const orgManagementProtection = createConditionalMiddleware(
   (pathname) => pathname.startsWith("/org/") && pathname.includes("/settings"),
@@ -711,8 +711,8 @@ export default composeMiddleware([
   ),
 
   createConditionalMiddleware(
-    (pathname) => pathname.startsWith("/api/v1/organisations"),
-    requirePermission("organisations:write")
+    (pathname) => pathname.startsWith("/api/v1/Organizations"),
+    requirePermission("Organizations:write")
   ),
 
   createConditionalMiddleware(
@@ -857,8 +857,8 @@ const DEFAULT_LIMITS: Record<string, RateLimitConfig> = {
     maxRequests: 100, // 100 requests per minute
   },
 
-  // Per organisation limits
-  organisation: {
+  // Per Organization limits
+  Organization: {
     windowMs: 60 * 1000, // 1 minute
     maxRequests: 1000, // 1000 requests per minute
   },
@@ -879,12 +879,12 @@ export const rateLimitMiddleware: MiddlewareFunction = async (
   context: MiddlewareContext
 ) => {
   // Determine rate limit key
-  const identifier = context.userId || context.organisationId || request.ip || "anonymous";
+  const identifier = context.userId || context.OrganizationId || request.ip || "anonymous";
 
   const config = context.userId
     ? DEFAULT_LIMITS.user
-    : context.organisationId
-      ? DEFAULT_LIMITS.organisation
+    : context.OrganizationId
+      ? DEFAULT_LIMITS.Organization
       : DEFAULT_LIMITS.anonymous;
 
   // Check rate limit
@@ -1056,7 +1056,7 @@ describe("Middleware Chain", () => {
   });
 });
 
-describe("Organisation Context Middleware", () => {
+describe("Organization Context Middleware", () => {
   it("extracts org from subdomain", async () => {
     const context = { metadata: {} };
 
@@ -1068,7 +1068,7 @@ describe("Organisation Context Middleware", () => {
 
     await orgContextMiddleware(request, context);
 
-    expect(context.metadata.organisationSlug).toBe("acme");
+    expect(context.metadata.OrganizationSlug).toBe("acme");
   });
 
   it("extracts org from path parameter", async () => {
@@ -1078,10 +1078,10 @@ describe("Organisation Context Middleware", () => {
 
     await orgContextMiddleware(request, context);
 
-    expect(context.metadata.organisationSlug).toBe("acme");
+    expect(context.metadata.OrganizationSlug).toBe("acme");
   });
 
-  it("denies access to unauthorised organisation", async () => {
+  it("denies access to unauthorised Organization", async () => {
     const context = {
       userId: "user_123",
       metadata: {},

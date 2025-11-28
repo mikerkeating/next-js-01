@@ -143,7 +143,7 @@ Key documentation principles:
 ### Consolidated Decisions (reference only)
 
 - [TAD: Documentation Architecture](/docs/2-technical/2-tad.md#documentation-architecture) - Two-audience approach (maintainer/consumer)
-- [TAD: Environment Variables Strategy](/docs/2-technical/2-tad-steel-thread-deployment.md#environment-variables-strategy) - Variable naming and Organisation
+- [TAD: Environment Variables Strategy](/docs/2-technical/2-tad-steel-thread-deployment.md#environment-variables-strategy) - Variable naming and Organization
 
 ### Story-Specific Decisions
 

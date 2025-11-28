@@ -19,7 +19,7 @@
 
 - [ ] Package `@repo/testing` exists at `packages/testing` and is importable from any app
 - [ ] `renderWithProviders` utility renders components with all required providers (React Query, etc.)
-- [ ] Mock factories (`createUser`, `createOrganisation`) are exported and usable
+- [ ] Mock factories (`createUser`, `createOrganization`) are exported and usable
 - [ ] MSW server and handlers are exported for reuse across test files
 - [ ] Package exports all utilities from a single entry point (`@repo/testing`)
 - [ ] TypeScript types are correctly exported for all utilities

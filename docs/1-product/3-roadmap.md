@@ -189,7 +189,7 @@ Recommended default: **1 PR per Story** for traceability and easier rollback.
 #### Phase 2B: Product Domain Packages (Weeks 2-4)
 
 - 2B.1: Product Database Schema
-- 2B.2: Multi-Tenant Organisation Model
+- 2B.2: Multi-Tenant Organization Model
 - 2B.3: Product Analytics Events & Taxonomy
 - 2B.4: Product Content Schema & Reader
 - 2B.5: Product UI Components (Org Switcher, etc.)
@@ -885,7 +885,7 @@ Verify: Preview URL returns 200 OK, auto-deploy on push works
 
 **What's NOT included** (see 2B.5):
 
-- Organisation Switcher
+- Organization Switcher
 - Role-based components
 - Product-specific composite components
 
@@ -917,7 +917,7 @@ Verify: Preview URL returns 200 OK, auto-deploy on push works
 
 **What's NOT included** (see 2B.6):
 
-- Organisation context middleware
+- Organization context middleware
 - Role-based access middleware
 - Product-specific route protection
 
@@ -952,7 +952,7 @@ Verify: Preview URL returns 200 OK, auto-deploy on push works
 **What's NOT included** (see 2B.7):
 
 - Product-specific roles (Internal, Product-Seller, etc.)
-- Organisation context in auth
+- Organization context in auth
 - Role-based permission utilities
 - Product-specific webhook handlers
 
@@ -1071,22 +1071,22 @@ These epics contain business logic specific to this product.
 **Core Tables**:
 
 - [ ] `users` table (extends generic with product fields)
-- [ ] `organisations` table with settings JSONB
-- [ ] `user_organisations` join table
-- [ ] `user_organisations.role` enum: internal, product-seller, agency-seller, client
-- [ ] `content` table with organisation scoping
+- [ ] `Organizations` table with settings JSONB
+- [ ] `user_Organizations` join table
+- [ ] `user_Organizations.role` enum: internal, product-seller, agency-seller, client
+- [ ] `content` table with Organization scoping
 - [ ] `analytics_events` table
 - [ ] All foreign key indexes
 - [ ] `created_at`, `updated_at` timestamps
 
 **Multi-Tenancy**:
 
-- [ ] RLS policies for organisation isolation
+- [ ] RLS policies for Organization isolation
 - [ ] RLS tests validate cross-org blocked
 
 **Seed Data**:
 
-- [ ] Test organisations
+- [ ] Test Organizations
 - [ ] Test users with various roles
 - [ ] Sample content per org
 
@@ -1099,20 +1099,20 @@ These epics contain business logic specific to this product.
 
 ---
 
-### Epic 2B.2: Multi-Tenant Organisation Model
+### Epic 2B.2: Multi-Tenant Organization Model
 
 **Type**: Product-Specific
 
-**Goal**: Organisation context, switching, and data isolation
+**Goal**: Organization context, switching, and data isolation
 
 **Dependencies**: Epic 2B.1
 
 **Acceptance Criteria**:
 
 - [ ] `@repo/org` package
-- [ ] Organisation context provider
-- [ ] `useOrganisation()` hook: currentOrg, switchOrganisation(), userOrganisations[]
-- [ ] Organisation data fetching
+- [ ] Organization context provider
+- [ ] `useOrganization()` hook: currentOrg, switchOrganization(), userOrganizations[]
+- [ ] Organization data fetching
 - [ ] Org-scoped query utilities
 - [ ] Default org selection logic
 - [ ] Org slug validation
@@ -1196,7 +1196,7 @@ These epics contain business logic specific to this product.
 
 **Components**:
 
-- [ ] Organisation Switcher
+- [ ] Organization Switcher
 - [ ] Role Badge
 - [ ] Content Card (with org context)
 - [ ] Permission Gate component
@@ -1221,13 +1221,13 @@ These epics contain business logic specific to this product.
 
 **Type**: Product-Specific
 
-**Goal**: Organisation and role-based middleware
+**Goal**: Organization and role-based middleware
 
 **Dependencies**: Epic 2A.6 (Generic Middleware), Epic 2B.2 (Org Model)
 
 **Acceptance Criteria**:
 
-- [ ] Organisation context middleware
+- [ ] Organization context middleware
 - [ ] Org validation middleware (user belongs to org)
 - [ ] Role-based access middleware
 - [ ] Minimum role requirement checks
@@ -1296,8 +1296,8 @@ These epics contain business logic specific to this product.
 **Endpoints**:
 
 - [ ] Users: CRUD `/v1/users`
-- [ ] Organisations: CRUD `/v1/organisations`
-- [ ] Organisation Members: `/v1/organisations/:id/members`
+- [ ] Organizations: CRUD `/v1/Organizations`
+- [ ] Organization Members: `/v1/Organizations/:id/members`
 - [ ] Content: CRUD `/v1/content`
 - [ ] Analytics: POST `/v1/events`
 - [ ] Metadata: GET `/v1/metadata/config`, `/v1/metadata/features`
@@ -1445,7 +1445,7 @@ These epics contain business logic specific to this product.
 - [ ] Content versioning
 - [ ] Comments and annotations system
 - [ ] Approval workflows (draft → review → published)
-- [ ] Activity feed per Organisation
+- [ ] Activity feed per Organization
 - [ ] Third-party API integration framework
 
 **EPIC.md Location**: `/docs/3-epics/3B.6-tools/EPIC.md`
@@ -1491,7 +1491,7 @@ These epics contain business logic specific to this product.
 - [ ] Configurable report templates
 - [ ] Scheduled delivery (daily, weekly, monthly)
 - [ ] Multiple export formats (PDF, Excel, PowerPoint)
-- [ ] Custom branding per Organisation
+- [ ] Custom branding per Organization
 - [ ] Distribution lists and notifications
 
 **Automation**:
@@ -1526,7 +1526,7 @@ These epics contain business logic specific to this product.
 
 **Webhook Infrastructure**:
 
-- [ ] Configurable webhook endpoints per Organisation
+- [ ] Configurable webhook endpoints per Organization
 - [ ] Event filtering and routing
 - [ ] Retry logic with exponential backoff
 - [ ] Webhook signature verification (HMAC)
@@ -1550,7 +1550,7 @@ These epics contain business logic specific to this product.
 
 - [ ] 80% test coverage
 - [ ] Delivery SLA: 99.9% within 30 seconds
-- [ ] Rate limiting per Organisation
+- [ ] Rate limiting per Organization
 
 **EPIC.md Location**: `/docs/3-epics/3B.9-webhooks-integrations/EPIC.md`
 

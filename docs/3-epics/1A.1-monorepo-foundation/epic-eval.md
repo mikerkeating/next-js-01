@@ -89,7 +89,7 @@ The seven stories comprehensively deliver the Monorepo Foundation epic requireme
 - S5 Acceptance Criteria #1: Remote caching is enabled via Vercel Remote Cache integration
 - S5 Acceptance Criteria #2: Running `pnpm turbo build` on a fresh clone retrieves cached artefacts
 - S5 Acceptance Criteria #5: Team members can authenticate with Vercel to use remote cache locally
-- S5 Acceptance Criteria #6: Cache artifacts are correctly scoped to the team/organisation
+- S5 Acceptance Criteria #6: Cache artifacts are correctly scoped to the team/Organization
 - S5 Implementation Notes (Completed): Remote caching verified with 98% time reduction
 
 **Status**: :white_check_mark: **Fully Covered**

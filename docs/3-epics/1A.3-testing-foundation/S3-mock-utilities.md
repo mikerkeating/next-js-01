@@ -21,7 +21,7 @@
 - [ ] MSW handlers can be defined and used in Vitest tests
 - [ ] Mock factories generate realistic test data using @faker-js/faker
 - [ ] User factory creates valid user objects with optional overrides
-- [ ] Organisation factory creates valid organisation objects with optional overrides
+- [ ] Organization factory creates valid Organization objects with optional overrides
 - [ ] MSW server starts before tests and resets handlers between tests
 - [ ] Sample test demonstrates API mocking with MSW handler
 
@@ -34,7 +34,7 @@
 | `packages/testing/src/mocks/server.ts`           | MSW server setup for Vitest         |
 | `packages/testing/src/mocks/handlers.ts`         | Default MSW request handlers        |
 | `packages/testing/src/factories/user.ts`         | User data factory                   |
-| `packages/testing/src/factories/organisation.ts` | Organisation data factory           |
+| `packages/testing/src/factories/Organization.ts` | Organization data factory           |
 | `packages/testing/src/factories/index.ts`        | Factory exports barrel file         |
 | `packages/testing/src/mocks/index.ts`            | Mock exports barrel file            |
 | `apps/web/src/lib/api.test.ts`                   | Sample test demonstrating MSW usage |
@@ -109,7 +109,7 @@ pnpm test --filter @repo/testing
 
 3. **Create Data Factories**
    - Create user factory with faker-generated defaults
-   - Create organisation factory with faker-generated defaults
+   - Create Organization factory with faker-generated defaults
    - Export factories from barrel file
 
 4. **Configure Vitest Integration**

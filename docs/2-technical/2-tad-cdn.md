@@ -419,17 +419,17 @@ URL + Query String + Headers (Accept, Accept-Encoding)
 **Custom Cache Keys**:
 
 ```typescript
-// Vary by Organisation
+// Vary by Organization
 export function middleware(request: NextRequest) {
   const response = NextResponse.next();
-  response.headers.set("Vary", "X-Organisation-ID");
+  response.headers.set("Vary", "X-Organization-ID");
   return response;
 }
 ```
 
 **Cache Segmentation**:
 
-- By Organisation: Separate cache per org_id
+- By Organization: Separate cache per org_id
 - By user role: Different cache for admin vs. user
 - By device: Mobile vs. desktop cache
 - By location: Country/region-specific cache
@@ -752,7 +752,7 @@ export async function POST() {
 - `product:123` - Specific product
 - `category:electronics` - Category
 - `user:abc` - User-specific (rare)
-- `org:xyz` - Organisation-specific
+- `org:xyz` - Organization-specific
 
 #### 3. Path-Based Invalidation
 
@@ -1358,7 +1358,7 @@ export async function GET(request: Request) {
   });
 }
 
-// Organisation-scoped data
+// Organization-scoped data
 export async function GET(request: Request) {
   const orgId = getOrgId(request);
   const data = await getOrgData(orgId);
@@ -1366,7 +1366,7 @@ export async function GET(request: Request) {
   return Response.json(data, {
     headers: {
       "Cache-Control": "public, s-maxage=300",
-      Vary: "X-Organisation-ID", // Separate cache per org
+      Vary: "X-Organization-ID", // Separate cache per org
     },
   });
 }

@@ -8,7 +8,7 @@ The Content Management Architecture provides a flexible, type-safe system for ma
 
 - **Type-Safe Content**: Zod schemas for runtime validation
 - **Version Control**: Track content changes with full history
-- **Multi-tenant**: Organisation-scoped content isolation
+- **Multi-tenant**: Organization-scoped content isolation
 - **Draft/Published Workflow**: Separate draft and published states
 - **Migration-Ready**: Structured approach for legacy content import
 
@@ -26,7 +26,7 @@ import { z } from "zod";
  */
 export const BaseContentSchema = z.object({
   id: z.string().uuid(),
-  organisationId: z.string().uuid(),
+  OrganizationId: z.string().uuid(),
   type: z.string(),
   title: z.string().min(1).max(255),
   slug: z.string().regex(/^[a-z0-9-]+$/),
@@ -213,7 +213,7 @@ import {
   index,
   pgEnum,
 } from "drizzle-orm/pg-core";
-import { users, organisations } from "./core";
+import { users, Organizations } from "./core";
 
 export const contentStatusEnum = pgEnum("content_status", ["draft", "published", "archived"]);
 
@@ -221,8 +221,8 @@ export const content = pgTable(
   "content",
   {
     id: uuid("id").primaryKey().defaultRandom(),
-    organisationId: uuid("organisation_id")
-      .references(() => organisations.id)
+    OrganizationId: uuid("Organization_id")
+      .references(() => Organizations.id)
       .notNull(),
     type: text("type").notNull(), // 'landing-page', 'blog-post', 'doc-page', 'product-template'
     title: text("title").notNull(),
@@ -238,9 +238,9 @@ export const content = pgTable(
     metadata: jsonb("metadata"), // Custom metadata for extensions
   },
   (table) => ({
-    orgIdIdx: index("content_org_id_idx").on(table.organisationId),
+    orgIdIdx: index("content_org_id_idx").on(table.OrganizationId),
     typeIdx: index("content_type_idx").on(table.type),
-    slugIdx: index("content_slug_idx").on(table.organisationId, table.slug),
+    slugIdx: index("content_slug_idx").on(table.OrganizationId, table.slug),
     statusIdx: index("content_status_idx").on(table.status),
   })
 );
@@ -309,7 +309,7 @@ export class ContentService {
    * Create new content
    */
   async create(input: {
-    organisationId: string;
+    OrganizationId: string;
     type: Content["type"];
     title: string;
     slug: string;
@@ -329,7 +329,7 @@ export class ContentService {
     const existing = await db
       .select()
       .from(content)
-      .where(and(eq(content.organisationId, input.organisationId), eq(content.slug, input.slug)))
+      .where(and(eq(content.OrganizationId, input.OrganizationId), eq(content.slug, input.slug)))
       .limit(1);
 
     if (existing.length > 0) {
@@ -340,7 +340,7 @@ export class ContentService {
     const [created] = await db
       .insert(content)
       .values({
-        organisationId: input.organisationId,
+        OrganizationId: input.OrganizationId,
         type: input.type,
         title: input.title,
         slug: input.slug,
@@ -359,7 +359,7 @@ export class ContentService {
     });
 
     logger.info("Content created", {
-      data: { contentId: created.id, type: input.type, orgId: input.organisationId },
+      data: { contentId: created.id, type: input.type, orgId: input.OrganizationId },
     });
 
     return ContentSchema.parse(created);
@@ -370,7 +370,7 @@ export class ContentService {
    */
   async update(input: {
     id: string;
-    organisationId: string;
+    OrganizationId: string;
     title?: string;
     slug?: string;
     data?: unknown;
@@ -382,7 +382,7 @@ export class ContentService {
     const [existing] = await db
       .select()
       .from(content)
-      .where(and(eq(content.id, input.id), eq(content.organisationId, input.organisationId)))
+      .where(and(eq(content.id, input.id), eq(content.OrganizationId, input.OrganizationId)))
       .limit(1);
 
     if (!existing) {
@@ -431,11 +431,11 @@ export class ContentService {
   /**
    * Get content by ID
    */
-  async getById(id: string, organisationId: string): Promise<Content | null> {
+  async getById(id: string, OrganizationId: string): Promise<Content | null> {
     const [result] = await db
       .select()
       .from(content)
-      .where(and(eq(content.id, id), eq(content.organisationId, organisationId)))
+      .where(and(eq(content.id, id), eq(content.OrganizationId, OrganizationId)))
       .limit(1);
 
     return result ? ContentSchema.parse(result) : null;
@@ -444,11 +444,11 @@ export class ContentService {
   /**
    * Get content by slug
    */
-  async getBySlug(slug: string, organisationId: string): Promise<Content | null> {
+  async getBySlug(slug: string, OrganizationId: string): Promise<Content | null> {
     const [result] = await db
       .select()
       .from(content)
-      .where(and(eq(content.slug, slug), eq(content.organisationId, organisationId)))
+      .where(and(eq(content.slug, slug), eq(content.OrganizationId, OrganizationId)))
       .limit(1);
 
     return result ? ContentSchema.parse(result) : null;
@@ -458,13 +458,13 @@ export class ContentService {
    * List content by type
    */
   async list(input: {
-    organisationId: string;
+    OrganizationId: string;
     type?: Content["type"];
     status?: "draft" | "published" | "archived";
     limit?: number;
     offset?: number;
   }): Promise<{ items: Content[]; total: number }> {
-    const conditions = [eq(content.organisationId, input.organisationId)];
+    const conditions = [eq(content.OrganizationId, input.OrganizationId)];
 
     if (input.type) {
       conditions.push(eq(content.type, input.type));
@@ -496,10 +496,10 @@ export class ContentService {
   /**
    * Publish content
    */
-  async publish(id: string, organisationId: string, publishedBy: string): Promise<Content> {
+  async publish(id: string, OrganizationId: string, publishedBy: string): Promise<Content> {
     return this.update({
       id,
-      organisationId,
+      OrganizationId,
       status: "published",
       updatedBy: publishedBy,
       changeDescription: "Published",
@@ -509,10 +509,10 @@ export class ContentService {
   /**
    * Archive content
    */
-  async archive(id: string, organisationId: string, archivedBy: string): Promise<Content> {
+  async archive(id: string, OrganizationId: string, archivedBy: string): Promise<Content> {
     return this.update({
       id,
-      organisationId,
+      OrganizationId,
       status: "archived",
       updatedBy: archivedBy,
       changeDescription: "Archived",
@@ -522,13 +522,13 @@ export class ContentService {
   /**
    * Delete content (hard delete)
    */
-  async delete(id: string, organisationId: string): Promise<void> {
+  async delete(id: string, OrganizationId: string): Promise<void> {
     await db
       .delete(content)
-      .where(and(eq(content.id, id), eq(content.organisationId, organisationId)));
+      .where(and(eq(content.id, id), eq(content.OrganizationId, OrganizationId)));
 
     logger.info("Content deleted", {
-      data: { contentId: id, orgId: organisationId },
+      data: { contentId: id, orgId: OrganizationId },
     });
   }
 
@@ -563,12 +563,12 @@ export class ContentService {
   /**
    * Get content version history
    */
-  async getVersionHistory(contentId: string, organisationId: string): Promise<ContentVersion[]> {
+  async getVersionHistory(contentId: string, OrganizationId: string): Promise<ContentVersion[]> {
     // Verify content belongs to org
     const [contentRecord] = await db
       .select()
       .from(content)
-      .where(and(eq(content.id, contentId), eq(content.organisationId, organisationId)))
+      .where(and(eq(content.id, contentId), eq(content.OrganizationId, OrganizationId)))
       .limit(1);
 
     if (!contentRecord) {
@@ -589,7 +589,7 @@ export class ContentService {
    */
   async restoreVersion(input: {
     contentId: string;
-    organisationId: string;
+    OrganizationId: string;
     versionId: string;
     restoredBy: string;
   }): Promise<Content> {
@@ -609,7 +609,7 @@ export class ContentService {
     // Update content with version data
     const updated = await this.update({
       id: input.contentId,
-      organisationId: input.organisationId,
+      OrganizationId: input.OrganizationId,
       data: version.data,
       updatedBy: input.restoredBy,
       changeDescription: `Restored from version ${version.version}`,
@@ -643,10 +643,10 @@ const contentService = new ContentService();
 export async function POST(request: NextRequest) {
   return errorHandler(request, async (req) => {
     const user = await requireAuth(req);
-    const { organisationId, type, title, slug, data } = await req.json();
+    const { OrganizationId, type, title, slug, data } = await req.json();
 
     const content = await contentService.create({
-      organisationId,
+      OrganizationId,
       type,
       title,
       slug,
@@ -667,14 +667,14 @@ export async function GET(request: NextRequest) {
     const user = await requireAuth(req);
     const { searchParams } = new URL(req.url);
 
-    const organisationId = searchParams.get("organisationId")!;
+    const OrganizationId = searchParams.get("OrganizationId")!;
     const type = searchParams.get("type") as any;
     const status = searchParams.get("status") as any;
     const limit = parseInt(searchParams.get("limit") || "50");
     const offset = parseInt(searchParams.get("offset") || "0");
 
     const result = await contentService.list({
-      organisationId,
+      OrganizationId,
       type,
       status,
       limit,
@@ -693,9 +693,9 @@ export async function getContentById(request: NextRequest, { params }: { params:
   return errorHandler(request, async (req) => {
     const user = await requireAuth(req);
     const { searchParams } = new URL(req.url);
-    const organisationId = searchParams.get("organisationId")!;
+    const OrganizationId = searchParams.get("OrganizationId")!;
 
-    const content = await contentService.getById(params.id, organisationId);
+    const content = await contentService.getById(params.id, OrganizationId);
 
     if (!content) {
       return NextResponse.json(
@@ -719,7 +719,7 @@ export async function PATCH(request: NextRequest, { params }: { params: { id: st
 
     const content = await contentService.update({
       id: params.id,
-      organisationId: body.organisationId,
+      OrganizationId: body.OrganizationId,
       title: body.title,
       slug: body.slug,
       data: body.data,
@@ -739,9 +739,9 @@ export async function PATCH(request: NextRequest, { params }: { params: { id: st
 export async function publishContent(request: NextRequest, { params }: { params: { id: string } }) {
   return errorHandler(request, async (req) => {
     const user = await requireAuth(req);
-    const { organisationId } = await req.json();
+    const { OrganizationId } = await req.json();
 
-    const content = await contentService.publish(params.id, organisationId, user.id);
+    const content = await contentService.publish(params.id, OrganizationId, user.id);
 
     return NextResponse.json({ success: true, data: content });
   });
@@ -758,9 +758,9 @@ export async function getVersionHistory(
   return errorHandler(request, async (req) => {
     const user = await requireAuth(req);
     const { searchParams } = new URL(req.url);
-    const organisationId = searchParams.get("organisationId")!;
+    const OrganizationId = searchParams.get("OrganizationId")!;
 
-    const versions = await contentService.getVersionHistory(params.id, organisationId);
+    const versions = await contentService.getVersionHistory(params.id, OrganizationId);
 
     return NextResponse.json({ success: true, data: versions });
   });
@@ -776,11 +776,11 @@ export async function restoreVersion(
 ) {
   return errorHandler(request, async (req) => {
     const user = await requireAuth(req);
-    const { organisationId } = await req.json();
+    const { OrganizationId } = await req.json();
 
     const content = await contentService.restoreVersion({
       contentId: params.id,
-      organisationId,
+      OrganizationId,
       versionId: params.versionId,
       restoredBy: user.id,
     });
@@ -827,7 +827,7 @@ export class ContentImporter {
    * Import legacy landing pages
    */
   async importLandingPages(input: {
-    organisationId: string;
+    OrganizationId: string;
     legacyData: unknown[];
     createdBy: string;
   }): Promise<{ imported: number; failed: number; errors: string[] }> {
@@ -843,7 +843,7 @@ export class ContentImporter {
         const transformed = this.transformLegacyLandingPage(legacy);
 
         await this.contentService.create({
-          organisationId: input.organisationId,
+          OrganizationId: input.OrganizationId,
           type: "landing-page",
           title: transformed.title,
           slug: transformed.slug,
@@ -936,7 +936,7 @@ export class ContentImporter {
    * Import blog posts
    */
   async importBlogPosts(input: {
-    organisationId: string;
+    OrganizationId: string;
     legacyData: unknown[];
     createdBy: string;
   }): Promise<{ imported: number; failed: number; errors: string[] }> {
@@ -949,7 +949,7 @@ export class ContentImporter {
         const legacy = LegacyContentSchema.parse(item);
 
         await this.contentService.create({
-          organisationId: input.organisationId,
+          OrganizationId: input.OrganizationId,
           type: "blog-post",
           title: legacy.title,
           slug: legacy.slug,
@@ -1009,7 +1009,7 @@ async function main() {
   const command = args[0];
 
   if (command === 'import-landing-pages') {
-    const organisationId = args[1];
+    const OrganizationId = args[1];
     const filePath = args[2];
     const userId = args[3];
 
@@ -1017,7 +1017,7 @@ async function main() {
     const importer = new ContentImporter(new ContentService());
 
     const result = await importer.importLandingPages({
-      organisationId,
+      OrganizationId,
       legacyData: data,
       createdBy: userId,
     });
@@ -1048,7 +1048,7 @@ main();
 
 - [ ] Content validation working correctly
 - [ ] Version history tracking verified
-- [ ] Slug uniqueness enforced per organisation
+- [ ] Slug uniqueness enforced per Organization
 - [ ] Draft/published workflow tested
 - [ ] Migration strategy validated with real data
 

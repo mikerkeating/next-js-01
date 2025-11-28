@@ -75,28 +75,28 @@ import { db } from "@repo/database";
 import { products } from "@repo/database/schema";
 
 describe("Products API", () => {
-  let organisationId: string;
+  let OrganizationId: string;
 
   beforeEach(async () => {
     // Setup test data
-    organisationId = "test-org-123";
+    OrganizationId = "test-org-123";
   });
 
   afterEach(async () => {
     // Cleanup test data
-    await db.delete(products).where(eq(products.organisationId, organisationId));
+    await db.delete(products).where(eq(products.OrganizationId, OrganizationId));
   });
 
-  it("GET /api/products returns products for organisation", async () => {
+  it("GET /api/products returns products for Organization", async () => {
     // Arrange: Insert test products
     await db.insert(products).values([
-      { organisationId, name: "Product 1", price: 10 },
-      { organisationId, name: "Product 2", price: 20 },
+      { OrganizationId, name: "Product 1", price: 10 },
+      { OrganizationId, name: "Product 2", price: 20 },
     ]);
 
     // Act: Make request
     const request = new Request("http://localhost:3000/api/products", {
-      headers: { "x-organisation-id": organisationId },
+      headers: { "x-Organization-id": OrganizationId },
     });
     const response = await GET(request);
     const data = await response.json();
@@ -113,7 +113,7 @@ describe("Products API", () => {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
-        "x-organisation-id": organisationId,
+        "x-Organization-id": OrganizationId,
       },
       body: JSON.stringify({
         name: "New Product",
@@ -132,7 +132,7 @@ describe("Products API", () => {
 
     // Verify product was created in database
     const created = await db.query.products.findFirst({
-      where: eq(products.organisationId, organisationId),
+      where: eq(products.OrganizationId, OrganizationId),
     });
     expect(created).toBeDefined();
   });
@@ -294,7 +294,7 @@ describe("Orders API", () => {
       headers: {
         "Content-Type": "application/json",
         Authorization: `Bearer ${authToken}`,
-        "x-organisation-id": orgId,
+        "x-Organization-id": orgId,
       },
       body: JSON.stringify({
         items: [
@@ -326,7 +326,7 @@ describe("Orders API", () => {
       headers: {
         "Content-Type": "application/json",
         Authorization: `Bearer ${authToken}`,
-        "x-organisation-id": orgId,
+        "x-Organization-id": orgId,
       },
       body: JSON.stringify({
         items: [{ productId: "prod_123", quantity: 1, price: 99.99 }],
@@ -339,7 +339,7 @@ describe("Orders API", () => {
     const response = await fetch(`http://localhost:3000/api/v1/orders/${orderId}`, {
       headers: {
         Authorization: `Bearer ${authToken}`,
-        "x-organisation-id": orgId,
+        "x-Organization-id": orgId,
       },
     });
     const data = await response.json();
@@ -350,14 +350,14 @@ describe("Orders API", () => {
     expect(data.data.items).toHaveLength(1);
   });
 
-  it("prevents accessing orders from different organisation", async () => {
+  it("prevents accessing orders from different Organization", async () => {
     // Create order in org1
     const org2 = await createTestOrg({ ownerId: userId });
 
     const response = await fetch(`http://localhost:3000/api/v1/orders/order_123`, {
       headers: {
         Authorization: `Bearer ${authToken}`,
-        "x-organisation-id": org2.id, // Different org
+        "x-Organization-id": org2.id, // Different org
       },
     });
 
@@ -572,7 +572,7 @@ export default function () {
   let res = http.get(`${BASE_URL}/api/v1/products`, {
     headers: {
       Authorization: `Bearer ${API_TOKEN}`,
-      "x-organisation-id": "test-org-123",
+      "x-Organization-id": "test-org-123",
     },
   });
 
@@ -588,7 +588,7 @@ export default function () {
   res = http.get(`${BASE_URL}/api/v1/products/prod_123`, {
     headers: {
       Authorization: `Bearer ${API_TOKEN}`,
-      "x-organisation-id": "test-org-123",
+      "x-Organization-id": "test-org-123",
     },
   });
 
@@ -608,7 +608,7 @@ export default function () {
     headers: {
       "Content-Type": "application/json",
       Authorization: `Bearer ${API_TOKEN}`,
-      "x-organisation-id": "test-org-123",
+      "x-Organization-id": "test-org-123",
     },
   });
 
@@ -1217,8 +1217,8 @@ export async function resetDatabase() {
   // Delete all data from tables (in correct order to respect foreign keys)
   await testDb.delete(schema.analytics_events);
   await testDb.delete(schema.content);
-  await testDb.delete(schema.user_organisations);
-  await testDb.delete(schema.organisations);
+  await testDb.delete(schema.user_Organizations);
+  await testDb.delete(schema.Organizations);
   await testDb.delete(schema.users);
 }
 
@@ -1233,7 +1233,7 @@ export async function closeDatabase() {
 ```typescript
 // packages/testing/src/helpers.ts
 import { testDb } from "./db";
-import { users, organisations, user_organisations } from "@repo/database/schema";
+import { users, Organizations, user_Organizations } from "@repo/database/schema";
 import { randomUUID } from "crypto";
 
 export async function createTestUser(data?: Partial<typeof users.$inferInsert>) {
@@ -1251,10 +1251,10 @@ export async function createTestUser(data?: Partial<typeof users.$inferInsert>) 
 }
 
 export async function createTestOrg(
-  data?: Partial<typeof organisations.$inferInsert> & { ownerId?: string }
+  data?: Partial<typeof Organizations.$inferInsert> & { ownerId?: string }
 ) {
   const [org] = await testDb
-    .insert(organisations)
+    .insert(Organizations)
     .values({
       name: data?.name || `Test Org ${randomUUID()}`,
       slug: data?.slug || `test-org-${randomUUID()}`,
@@ -1262,11 +1262,11 @@ export async function createTestOrg(
     })
     .returning();
 
-  // Add owner to organisation
+  // Add owner to Organization
   if (data?.ownerId) {
-    await testDb.insert(user_organisations).values({
+    await testDb.insert(user_Organizations).values({
       userId: data.ownerId,
-      organisationId: org.id,
+      OrganizationId: org.id,
       role: "internal",
     });
   }

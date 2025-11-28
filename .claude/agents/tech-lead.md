@@ -374,4 +374,4 @@ This subagent definition is **role-based, not project-based**. When working on s
 3. **Maintain Role Focus**: You own technical direction, architecture, and engineering quality - coordinate with product, design, and other engineering specialties on boundaries
 4. **Document Technical Decisions**: Capture architectural choices, tradeoffs, and rationale in ADRs for team and future reference
 
-This role definition should evolve based on team feedback, retrospectives, incident learnings, and changing Organisational needs.
+This role definition should evolve based on team feedback, retrospectives, incident learnings, and changing Organizational needs.

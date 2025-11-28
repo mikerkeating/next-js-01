@@ -37,7 +37,7 @@ MK3 faces two critical challenges:
    - Roadmap to maturity
    - Process models
    - Operating models
-   - Organisational structures and roles
+   - Organizational structures and roles
 
 2. **BAU Operations**: Management of day-to-day project work and related technology, requiring:
    - Web-based tools for project management
@@ -51,25 +51,25 @@ MK3 faces two critical challenges:
 **Key Limitations**:
 
 - **Difficult to Update**: Changes to transformation models or project data require manual spreadsheet updates across multiple files
-- **Hard to Replicate**: Creating customized views for different Organisations is time-consuming and error-prone
+- **Hard to Replicate**: Creating customized views for different Organizations is time-consuming and error-prone
 - **Lack of Integration**: No connection to third-party APIs for real-time data
 - **Poor Collaboration**: Spreadsheet-based approach limits team collaboration and version control
-- **Inconsistent Presentation**: No standardized way to present information to clients across different Organisations
+- **Inconsistent Presentation**: No standardized way to present information to clients across different Organizations
 - **Scalability Issues**: Manual processes don't scale as the business grows
 
 ### 1.3 Desired State
 
-**Vision**: A unified platform that enables MK3 to efficiently manage both transformation models and BAU operations with Organisation-specific customization.
+**Vision**: A unified platform that enables MK3 to efficiently manage both transformation models and BAU operations with Organization-specific customization.
 
 **Key Outcomes**:
 
 1. **Easy Content Management**:
    - Simple, intuitive interface for updating transformation models
    - Version-controlled content that tracks changes over time
-   - Reusable templates and components across Organisations
+   - Reusable templates and components across Organizations
 
 2. **Dynamic Presentation**:
-   - Organisation-specific views with custom content
+   - Organization-specific views with custom content
    - Professional, branded presentation of transformation frameworks
    - Interactive visualizations of maturity models and roadmaps
 
@@ -79,11 +79,11 @@ MK3 faces two critical challenges:
    - Automated data aggregation and reporting
 
 4. **Scalable Operations**:
-   - Multi-tenant architecture supporting multiple Organisations
+   - Multi-tenant architecture supporting multiple Organizations
    - Role-based access control for different user types
    - Efficient replication of content across client engagements
 
-**Success Criteria**: MK3 can onboard a new client Organisation and have a fully customized transformation framework and project dashboard deployed in hours instead of days or weeks.
+**Success Criteria**: MK3 can onboard a new client Organization and have a fully customized transformation framework and project dashboard deployed in hours instead of days or weeks.
 
 ---
 
@@ -96,28 +96,28 @@ The platform serves four distinct primary user groups, each with different acces
 #### 1. Internal Users (MK3 Team)
 
 - **Role**: MK3 consultants, project managers, and administrators
-- **Access Level**: Full administrative access across all Organisations
+- **Access Level**: Full administrative access across all Organizations
 - **Primary Activities**:
   - Creating and managing transformation models
-  - Configuring Organisation-specific content
+  - Configuring Organization-specific content
   - Managing projects and client engagements
   - Accessing and presenting client data
   - System administration and configuration
 
-#### 2. SaaS Sellers (Product-Focused Organisations)
+#### 2. SaaS Sellers (Product-Focused Organizations)
 
-- **Role**: Organisations selling SaaS products that need transformation frameworks
-- **Access Level**: Organisation admin with full access to their own Organisation's data
+- **Role**: Organizations selling SaaS products that need transformation frameworks
+- **Access Level**: Organization admin with full access to their own Organization's data
 - **Primary Activities**:
   - Viewing and customizing transformation frameworks for their products
-  - Managing their Organisation's content and settings
+  - Managing their Organization's content and settings
   - Accessing project dashboards and metrics
   - Inviting and managing team members
 
 #### 3. Agency Sellers (Marketing Agencies)
 
 - **Role**: Marketing agencies working with MK3 to deliver transformation services
-- **Access Level**: Limited admin access to their Organisation's data
+- **Access Level**: Limited admin access to their Organization's data
 - **Primary Activities**:
   - Viewing transformation frameworks
   - Managing client-facing content
@@ -126,10 +126,10 @@ The platform serves four distinct primary user groups, each with different acces
 
 #### 4. Clients (End Users)
 
-- **Role**: Client Organisations receiving transformation services
+- **Role**: Client Organizations receiving transformation services
 - **Access Level**: Read access with limited write permissions
 - **Primary Activities**:
-  - Viewing their Organisation's transformation roadmap and maturity models
+  - Viewing their Organization's transformation roadmap and maturity models
   - Accessing documentation and resources
   - Reviewing project status and metrics
   - Providing feedback through forms or comments
@@ -248,15 +248,15 @@ As the platform evolves, potential secondary users may include:
 
 These features are essential for the platform to deliver basic value and align with Phase 0A-2B of the roadmap.
 
-#### Feature M.1: Multi-Tenant Organisation Management
+#### Feature M.1: Multi-Tenant Organization Management
 
-- **Description**: Support for multiple Organisations with data isolation, role-based access control, and Organisation switching
-- **User Story**: As an Internal User, I want to manage multiple client Organisations in a single platform so that I can efficiently serve all clients without maintaining separate systems
+- **Description**: Support for multiple Organizations with data isolation, role-based access control, and Organization switching
+- **User Story**: As an Internal User, I want to manage multiple client Organizations in a single platform so that I can efficiently serve all clients without maintaining separate systems
 - **Acceptance Criteria**:
-  - [ ] Organisations can be created and configured with custom settings
-  - [ ] Users can belong to multiple Organisations with different roles
-  - [ ] Data is completely isolated between Organisations (RLS policies enforced)
-  - [ ] Organisation switcher allows users to switch between their Organisations
+  - [ ] Organizations can be created and configured with custom settings
+  - [ ] Users can belong to multiple Organizations with different roles
+  - [ ] Data is completely isolated between Organizations (RLS policies enforced)
+  - [ ] Organization switcher allows users to switch between their Organizations
   - [ ] Four role types supported: Internal, SaaS Seller, Agency Seller, Client
 - **Priority**: P0
 - **Dependencies**: None (foundational)
@@ -264,13 +264,13 @@ These features are essential for the platform to deliver basic value and align w
 
 #### Feature M.2: Transformation Framework Content Management
 
-- **Description**: Create, edit, and manage transformation frameworks including maturity models, roadmaps, process models, and Organisational structures
+- **Description**: Create, edit, and manage transformation frameworks including maturity models, roadmaps, process models, and Organizational structures
 - **User Story**: As a Consultant, I want to create and customize transformation frameworks for each client so that I can quickly deliver tailored assessments and roadmaps
 - **Acceptance Criteria**:
   - [ ] Content can be created and edited through intuitive interface
   - [ ] Support for maturity models with multiple dimensions and levels
   - [ ] Roadmap builder with milestones and timelines
-  - [ ] Process model templates that can be customized per Organisation
+  - [ ] Process model templates that can be customized per Organization
   - [ ] Operating model and org structure builders
   - [ ] Version control tracks all changes to transformation content
   - [ ] Template library for reusing proven frameworks
@@ -278,20 +278,20 @@ These features are essential for the platform to deliver basic value and align w
 - **Dependencies**: M.1
 - **Related Epics**: 2B.4, 3B.6
 
-#### Feature M.3: Organisation-Specific Content Views
+#### Feature M.3: Organization-Specific Content Views
 
-- **Description**: Present transformation frameworks and project data with Organisation-specific branding and customization
-- **User Story**: As a Client, I want to view my Organisation's transformation roadmap and maturity assessment in a professional, branded interface so that I can easily understand our progress and share with stakeholders
+- **Description**: Present transformation frameworks and project data with Organization-specific branding and customization
+- **User Story**: As a Client, I want to view my Organization's transformation roadmap and maturity assessment in a professional, branded interface so that I can easily understand our progress and share with stakeholders
 - **Acceptance Criteria**:
-  - [ ] Each Organisation has customizable branding (logo, colors, themes) - single-level branding
-  - [ ] Content is filtered and scoped to the current Organisation
+  - [ ] Each Organization has customizable branding (logo, colors, themes) - single-level branding
+  - [ ] Content is filtered and scoped to the current Organization
   - [ ] Public and private content visibility controls
   - [ ] Shareable links for client presentations
   - [ ] Export capabilities (PDF, PowerPoint) with org branding
 - **Priority**: P0
 - **Dependencies**: M.1, M.2
 - **Related Epics**: 2B.5, 3B.3, 3B.4
-- **Branding Scope**: MVP supports single-level Organisation branding. Multi-level branding (platform → reseller → end-client) is excluded from MVP and deferred to future consideration (see Feature E.8 and Section 9.2.3)
+- **Branding Scope**: MVP supports single-level Organization branding. Multi-level branding (platform → reseller → end-client) is excluded from MVP and deferred to future consideration (see Feature E.8 and Section 9.2.3)
 
 #### Feature M.4: Authentication & Authorization
 
@@ -301,7 +301,7 @@ These features are essential for the platform to deliver basic value and align w
   - [ ] Single Sign-On (SSO) via Clerk
   - [ ] User registration and profile management
   - [ ] Role-based permission system (Internal, SaaS Seller, Agency Seller, Client)
-  - [ ] Organisation membership management
+  - [ ] Organization membership management
   - [ ] Protected routes based on authentication and role
   - [ ] Session management and token refresh
 - **Priority**: P0
@@ -310,12 +310,12 @@ These features are essential for the platform to deliver basic value and align w
 
 #### Feature M.5: Content API & Data Layer
 
-- **Description**: RESTful API for managing Organisations, users, content, and transformations
+- **Description**: RESTful API for managing Organizations, users, content, and transformations
 - **User Story**: As a Developer, I want a well-documented API so that applications can programmatically access and manage transformation data
 - **Acceptance Criteria**:
   - [ ] OpenAPI 3.1 specification
-  - [ ] CRUD endpoints for Organisations, users, content
-  - [ ] Organisation-scoped queries
+  - [ ] CRUD endpoints for Organizations, users, content
+  - [ ] Organization-scoped queries
   - [ ] Role-based authorization on all endpoints
   - [ ] API versioning (/v1)
   - [ ] Rate limiting and security controls
@@ -346,7 +346,7 @@ These features are essential for the platform to deliver basic value and align w
   - [ ] Page view tracking
   - [ ] Content interaction events (created, updated, viewed)
   - [ ] User session tracking
-  - [ ] Organisation-level analytics dashboard
+  - [ ] Organization-level analytics dashboard
   - [ ] Privacy controls and consent management
 - **Priority**: P0
 - **Dependencies**: M.5
@@ -393,7 +393,7 @@ These features significantly enhance the platform but are not required for initi
   - [ ] Comments and annotations on content
   - [ ] Change tracking and approval workflows
   - [ ] Notifications for content updates
-  - [ ] Activity feed per Organisation
+  - [ ] Activity feed per Organization
 - **Priority**: P1
 - **Dependencies**: M.2, M.4
 - **Related Epics**: 3B.6
@@ -408,7 +408,7 @@ These features significantly enhance the platform but are not required for initi
   - [ ] Guided tours of transformation frameworks
   - [ ] Sample maturity assessments
   - [ ] Lead capture forms integrated with CRM
-  - [ ] Customizable demo content per Organisation
+  - [ ] Customizable demo content per Organization
 - **Priority**: P1
 - **Dependencies**: M.3
 - **Related Epics**: 3B.5
@@ -419,10 +419,10 @@ These features significantly enhance the platform but are not required for initi
 - **User Story**: As a Consultant, I want to quickly find specific transformation components across all clients so that I can reuse best practices and proven approaches
 - **Acceptance Criteria**:
   - [ ] Full-text search across all content using PostgreSQL full-text search
-  - [ ] Faceted filtering (Organisation, type, date, author)
+  - [ ] Faceted filtering (Organization, type, date, author)
   - [ ] Saved searches and smart collections
   - [ ] Search within specific content types
-  - [ ] Organisation-scoped search results
+  - [ ] Organization-scoped search results
 - **Priority**: P1
 - **Dependencies**: M.2, M.5
 - **Related Epics**: 2B.5
@@ -496,7 +496,7 @@ These features provide additional value but are not critical for success (Phase 
   - [ ] Configurable report templates
   - [ ] Scheduled delivery (daily, weekly, monthly)
   - [ ] Multiple export formats (PDF, Excel, PowerPoint)
-  - [ ] Custom branding per Organisation
+  - [ ] Custom branding per Organization
   - [ ] Distribution lists and notifications
 - **Priority**: P2
 - **Dependencies**: M.3, S.2
@@ -573,17 +573,17 @@ These metrics measure the platform's impact on MK3's business operations and cli
 - **Definition**: Time from client signup to first fully customized transformation framework deployed
 - **Current Baseline**: 3-5 days (manual spreadsheet setup)
 - **Target**: < 4 hours (Success Criteria from Problem Statement)
-- **Measurement**: Timestamp from Organisation creation to first published transformation framework
-- **Collection**: Automated via analytics events (`organisation_created`, `framework_published`)
+- **Measurement**: Timestamp from Organization creation to first published transformation framework
+- **Collection**: Automated via analytics events (`Organization_created`, `framework_published`)
 - **Business Impact**: Faster client onboarding = increased capacity to serve more clients
 
-#### B.2: Active Organisations
+#### B.2: Active Organizations
 
-- **Definition**: Number of Organisations with at least one active user in the past 30 days
-- **Target (Month 3)**: 10 Organisations
-- **Target (Month 6)**: 25 Organisations
-- **Target (Month 12)**: 50 Organisations
-- **Measurement**: Count of unique Organisations with user activity in trailing 30 days
+- **Definition**: Number of Organizations with at least one active user in the past 30 days
+- **Target (Month 3)**: 10 Organizations
+- **Target (Month 6)**: 25 Organizations
+- **Target (Month 12)**: 50 Organizations
+- **Measurement**: Count of unique Organizations with user activity in trailing 30 days
 - **Collection**: SQL query on user activity logs
 - **Business Impact**: Primary growth indicator for platform adoption
 
@@ -597,19 +597,19 @@ These metrics measure the platform's impact on MK3's business operations and cli
 
 #### B.4: Client Retention Rate
 
-- **Definition**: Percentage of client Organisations that remain active after initial 90 days
+- **Definition**: Percentage of client Organizations that remain active after initial 90 days
 - **Target**: > 85% retention at 90 days
 - **Measurement**: (Active orgs at Day 90) / (Total orgs created 90 days ago)
-- **Collection**: Cohort analysis on Organisation activity
+- **Collection**: Cohort analysis on Organization activity
 - **Business Impact**: Platform stickiness and long-term value delivery
 
-#### B.5: Revenue per Organisation (Proxy)
+#### B.5: Revenue per Organization (Proxy)
 
-- **Definition**: Average number of active users per Organisation (proxy for Organisation value)
-- **Target**: 5+ active users per Organisation
-- **Measurement**: Sum of active users / count of active Organisations
-- **Collection**: User activity aggregation by Organisation
-- **Business Impact**: Larger teams indicate deeper Organisational penetration
+- **Definition**: Average number of active users per Organization (proxy for Organization value)
+- **Target**: 5+ active users per Organization
+- **Measurement**: Sum of active users / count of active Organizations
+- **Collection**: User activity aggregation by Organization
+- **Business Impact**: Larger teams indicate deeper Organizational penetration
 
 ### 4.2 User Metrics
 
@@ -650,7 +650,7 @@ These metrics measure user engagement, satisfaction, and platform adoption acros
 
 - **Definition**: Percentage of users who have used key features at least once
 - **Targets by Feature**:
-  - Organisation Switcher: > 90% (multi-org users)
+  - Organization Switcher: > 90% (multi-org users)
   - Transformation Framework Builder: > 80% (Internal users)
   - Content Export: > 60% (all users)
   - Search: > 70% (all users)
@@ -705,7 +705,7 @@ These metrics measure how the platform improves MK3's operational efficiency.
 
 #### O.3: Content Replication Time
 
-- **Definition**: Time to replicate a framework from one Organisation to another
+- **Definition**: Time to replicate a framework from one Organization to another
 - **Current Baseline**: 4-6 hours (manual copy/paste)
 - **Target**: < 30 minutes using templates
 - **Measurement**: Time from template selection to framework published
@@ -836,7 +836,7 @@ These metrics measure the effectiveness of transformation frameworks and content
 
 - **Phase 2 (Weeks 5-7)**: Enhanced analytics (Epic 2B.3)
   - Product-specific event taxonomy
-  - Organisation-level dashboards
+  - Organization-level dashboards
   - Role-based segmentation
   - Custom event properties
 
@@ -946,7 +946,7 @@ _Aligned with Epic 6A.1: Security Hardening_
   - Role-Based Access Control (RBAC) with 4 roles: Internal, SaaS Seller, Agency Seller, Client
   - Row-Level Security (RLS) policies enforced at database level via Drizzle
   - API-level authorization checks on all protected endpoints
-  - Organisation-level isolation enforced across all data access
+  - Organization-level isolation enforced across all data access
 
 - **Data Encryption**:
   - Encryption at rest: AES-256 via PostgreSQL/Neon native encryption
@@ -954,14 +954,14 @@ _Aligned with Epic 6A.1: Security Hardening_
   - Sensitive fields (API keys, secrets): encrypted at application level using Vercel KV or secrets manager
 
 - **API Security**:
-  - Rate limiting: 100 requests/minute per user, 1000 requests/minute per Organisation
+  - Rate limiting: 100 requests/minute per user, 1000 requests/minute per Organization
   - API authentication via Clerk session tokens (JWT)
   - CORS policies restricting origins to approved domains
   - Input validation and sanitization on all endpoints (Zod schemas)
   - SQL injection prevention via parameterized queries (Drizzle ORM)
 
 - **Audit Logging**:
-  - All data mutations logged: user ID, Organisation ID, timestamp, action, resource ID
+  - All data mutations logged: user ID, Organization ID, timestamp, action, resource ID
   - Sensitive operations logged: authentication events, permission changes, data exports
   - Logs retained for 90 days minimum
   - Log aggregation via PostHog events and Vercel logs
@@ -974,7 +974,7 @@ _Aligned with Epic 6A.3: Compliance & Data Governance_
   - Data Processing Agreement (DPA) with all users processing EU data
   - Privacy by Design: minimal data collection, purpose limitation
   - Consent management for analytics and non-essential cookies
-  - Data portability: export functionality for all user and Organisation data
+  - Data portability: export functionality for all user and Organization data
   - Data breach notification process: < 72 hours as required by GDPR
 
 - **CCPA Compliance**:
@@ -984,14 +984,14 @@ _Aligned with Epic 6A.3: Compliance & Data Governance_
   - Non-discrimination: equal service for users who opt out
 
 - **Data Retention**:
-  - Active Organisation data: retained indefinitely while subscription active
-  - Deleted Organisation data: soft delete with 30-day recovery period, then hard delete
+  - Active Organization data: retained indefinitely while subscription active
+  - Deleted Organization data: soft delete with 30-day recovery period, then hard delete
   - Audit logs: 90-day retention minimum, 2-year retention for compliance events
   - Analytics data: aggregated data retained indefinitely, PII-linked data 12 months
 
 - **Right to Deletion**:
   - Self-service deletion flow in user settings
-  - Organisation admins can delete entire Organisation and all associated data
+  - Organization admins can delete entire Organization and all associated data
   - 30-day grace period with account recovery option
   - Permanent deletion cascades across all tables (transformation frameworks, user assignments, analytics events)
   - Deletion confirmation sent via email
@@ -1268,7 +1268,7 @@ _Aligned with Epic P.2: Technical Architecture Document_
   - Backup and disaster recovery must respect data boundaries
   - Increased complexity in multi-region deployments
 - **Rationale**: GDPR Article 44-50 on international data transfers
-- **Mitigation**: Use Vercel Edge regions; Neon supports regional databases; implement data residency controls in Organisation settings
+- **Mitigation**: Use Vercel Edge regions; Neon supports regional databases; implement data residency controls in Organization settings
 
 #### Constraint L.2: Data Protection and Privacy
 
@@ -1285,7 +1285,7 @@ _Aligned with Epic P.2: Technical Architecture Document_
 
 - **Description**: All transformation framework content created by MK3 remains MK3 intellectual property
 - **Impact**:
-  - Client Organisations have license to use, not own, transformation frameworks
+  - Client Organizations have license to use, not own, transformation frameworks
   - Cannot allow clients to resell or redistribute MK3 frameworks
   - Terms of service must clearly define content ownership
   - Client-created customizations ownership needs clear policy
@@ -1630,7 +1630,7 @@ _Critical external services that the platform depends on. Failure of these servi
 
 | Assumption                            | Validation Activity                                 | Success Criteria                                             | Owner         | Due Date |
 | ------------------------------------- | --------------------------------------------------- | ------------------------------------------------------------ | ------------- | -------- |
-| **B.3**: Clients self-service content | Pilot with 3 SaaS Seller Organisations              | 2/3 create framework independently; < 2 support tickets/org  | Product Lead  | Week 8   |
+| **B.3**: Clients self-service content | Pilot with 3 SaaS Seller Organizations              | 2/3 create framework independently; < 2 support tickets/org  | Product Lead  | Week 8   |
 | **U.4**: Mobile access secondary      | Analytics review of device usage                    | Desktop > 70% of sessions; mobile usage < 30%                | Product Lead  | Week 10  |
 | **U.5**: Users prefer self-service    | Documentation usage tracking                        | Doc views 5x support requests; self-service resolution > 60% | Product Lead  | Week 10  |
 | **B.2**: Consulting-to-product viable | Revenue tracking: consulting vs. platform readiness | 3 clients expressing interest in product vs. consulting-only | Business Lead | Week 12  |
@@ -1639,7 +1639,7 @@ _Critical external services that the platform depends on. Failure of these servi
 
 | Assumption                             | Validation Activity                  | Success Criteria                                                 | Owner         | Due Date |
 | -------------------------------------- | ------------------------------------ | ---------------------------------------------------------------- | ------------- | -------- |
-| **B.1**: Market demand at scale        | Pilot expansion to 10+ Organisations | 10+ active orgs (B.2 metric); 85%+ retention (B.4 metric)        | Product Lead  | Week 18  |
+| **B.1**: Market demand at scale        | Pilot expansion to 10+ Organizations | 10+ active orgs (B.2 metric); 85%+ retention (B.4 metric)        | Product Lead  | Week 18  |
 | **B.4**: Pricing supports model        | Pricing experiments with pilot users | Willingness-to-pay data; revenue model projection                | Business Lead | Week 20  |
 | **U.6**: Users accept cloud storage    | Enterprise client feedback           | No deal losses due to cloud concerns; GDPR compliance sufficient | Sales Lead    | Week 24  |
 | **B.5**: Competition not commoditizing | Competitive analysis quarterly       | No major competitor launches similar platform                    | Product Lead  | Ongoing  |
@@ -1676,7 +1676,7 @@ _Critical external services that the platform depends on. Failure of these servi
 | **TR.1** | **Third-Party Service Outage**: Critical dependencies (Clerk, Vercel, Neon) experience extended outages beyond SLA             | **Low**     | **High**     | Monitor status pages; implement graceful degradation; maintain incident response playbook; design stateless architecture for rapid redeployment; document disaster recovery procedures (Section 6.4)                                   |
 | **TR.2** | **Database Performance Bottleneck**: PostgreSQL query performance degrades under load; cannot meet < 200ms API response target | **Medium**  | **High**     | Load testing at 2x capacity (Assumption T.2 validation); implement query optimization; add database indexes; use connection pooling; implement Redis caching layer if needed; monitor T.6 metric continuously                          |
 | **TR.3** | **Technology Stack Learning Curve**: Team struggles with Next.js 16/React 19 Server Components; slower velocity than estimated | **Medium**  | **High**     | Week 0 proof-of-concept validation (Assumption B.7); pair programming; code reviews; invest in training; allocate 20% sprint capacity for learning; consider external contractors for knowledge transfer                               |
-| **TR.4** | **Multi-Tenancy Data Isolation Bug**: RLS policies fail; data leaks between Organisations                                      | **Low**     | **Critical** | Rigorous RLS testing in development; automated tests for data isolation; security audit pre-launch; penetration testing; implement defense-in-depth with application-level checks; monitor audit logs for anomalies                    |
+| **TR.4** | **Multi-Tenancy Data Isolation Bug**: RLS policies fail; data leaks between Organizations                                      | **Low**     | **Critical** | Rigorous RLS testing in development; automated tests for data isolation; security audit pre-launch; penetration testing; implement defense-in-depth with application-level checks; monitor audit logs for anomalies                    |
 | **TR.5** | **Serverless Cold Start Latency**: Cold starts cause > 2s page load times; poor user experience                                | **Medium**  | **Medium**   | Implement edge functions for critical paths; use Next.js 16 ISR/SSG where possible; keep functions warm with periodic pings; monitor T.1 metric; optimize function bundle sizes; consider container deployment for hot paths if needed |
 | **TR.6** | **Content Schema Inflexibility**: Database schema cannot accommodate new framework types; frequent migrations required         | **Medium**  | **Medium**   | Schema design workshop with consultants (Week 0); use JSONB for flexible fields; validate with 3+ framework types; implement schema versioning; design migration-friendly architecture                                                 |
 | **TR.7** | **API Rate Limiting Impact**: Rate limits (100 req/min user, 1000 req/min org) too restrictive; blocks legitimate usage        | **Low**     | **Medium**   | Monitor rate limit hit rates; implement exponential backoff on client; queue non-critical requests; increase limits based on usage patterns; provide rate limit headers to clients                                                     |
@@ -1693,7 +1693,7 @@ _Critical external services that the platform depends on. Failure of these servi
 | **BR.5** | **Competitive Entry**: Major competitor (Accenture, Deloitte, consultancy with tech) launches similar platform        | **Medium**  | **Medium**   | Quarterly competitive analysis; focus on niche differentiation (marketing transformation); build switching costs (content lock-in, integrations); accelerate feature velocity; validate Assumption B.5; emphasize MK3 domain expertise     |
 | **BR.6** | **Insufficient Internal Adoption**: MK3 consultants resist using platform; prefer spreadsheets                        | **Medium**  | **High**     | Internal user pilot (Week 4); consultant involvement in design; demonstrate time savings (O.1 metric); provide training and support; tie adoption to performance metrics; validate Assumption U.3; executive sponsorship                   |
 | **BR.7** | **Customer Support Overwhelm**: Support requests exceed capacity; poor user experience; consultant distraction        | **Medium**  | **Medium**   | Comprehensive documentation (Feature M.6); in-app help; self-service tutorials; monitor support volume vs. documentation views (Assumption U.5); hire support specialist at 50 active orgs; implement ticketing system in Phase 4A         |
-| **BR.8** | **Enterprise Sales Cycle Length**: Enterprise deals require 6-12 month sales cycles; slow growth                      | **High**    | **Medium**   | Focus on SMB/SaaS market initially (faster sales cycles); land-and-expand strategy; start with consulting clients (warm leads); offer pilot programs; measure B.2 (Active Organisations) metric; adjust growth targets if needed           |
+| **BR.8** | **Enterprise Sales Cycle Length**: Enterprise deals require 6-12 month sales cycles; slow growth                      | **High**    | **Medium**   | Focus on SMB/SaaS market initially (faster sales cycles); land-and-expand strategy; start with consulting clients (warm leads); offer pilot programs; measure B.2 (Active Organizations) metric; adjust growth targets if needed           |
 
 ### 8.3 User Experience Risks
 
@@ -1842,7 +1842,7 @@ _This section explicitly defines features and capabilities that are NOT included
   - User-generated content feeds (posts, articles, discussions)
   - Reputation systems (badges, karma, rankings)
 - **Future Consideration**: **NO** - Not aligned with product vision
-- **Alternative**: Focus on team collaboration within Organisations (Epic 5A.1)
+- **Alternative**: Focus on team collaboration within Organizations (Epic 5A.1)
 
 #### 9.1.3 Third-Party Integrations
 
@@ -2081,7 +2081,7 @@ _Features that may be considered for future releases after MVP validation and pr
 - SSO (SAML, OKTA) for enterprise clients
 - Advanced audit logging with tamper-proof archives
 - IP whitelisting and network policies
-- _Rationale for Future_: Enterprise features needed for larger Organisations (100+ users)
+- _Rationale for Future_: Enterprise features needed for larger Organizations (100+ users)
 
 **Multi-Language Support** (Epic 8A.1)
 
@@ -2114,7 +2114,7 @@ _Features that may be considered for future releases after MVP validation and pr
 - Custom role creation (beyond 4 default roles)
 - Granular permissions per resource type
 - Permission inheritance and overrides
-- Organisation hierarchy (parent/child Organisations)
+- Organization hierarchy (parent/child Organizations)
 - _Rationale for Future_: Enterprise clients may require more sophisticated permission models
 
 **Regional Data Residency** (See Feature E.14)
@@ -2264,7 +2264,7 @@ _This log documents key decisions made during PRD development, including trade-o
 | 2025-11-24 | **MVP Scope: No Video Conferencing Integration**                      | Users have preferred video tools (Zoom, Teams, Meet); integration complexity distracts from core framework management; not a differentiator                                   | Product Manager, Business Owner                               | Simplifies MVP scope; allows focus on text-based collaboration (Feature E.3)                                                                        |
 | 2025-11-24 | **MVP Scope: English-Only Market**                                    | Initial focus on US/UK agencies and consultants; i18n adds 4-6 weeks to timeline and ongoing translation costs; defer until product-market fit validated                      | Product Manager, Business Owner                               | Accelerates MVP timeline; reduces localization complexity; limits initial addressable market (Constraint B.3, Feature E.13)                         |
 | 2025-11-24 | **Real-Time Collaboration: Text-Based (Epic 5A.1)**                   | MVP includes live cursors, presence indicators, comments, but excludes audio/video chat; balances collaboration needs with technical complexity                               | Product Manager, Technical Lead                               | Provides essential collaboration features without WebRTC infrastructure; aligns with desktop-first focus                                            |
-| 2025-11-24 | **Multi-Tenancy: Organisation-Based with RLS**                        | Each Organisation is isolated at database level using Row-Level Security; supports 4 roles (Internal, SaaS Seller, Agency Seller, Client)                                     | Technical Lead, Product Manager                               | Ensures data isolation and security; enables RBAC; scales efficiently without application-level filtering (Epic 5A.2)                               |
+| 2025-11-24 | **Multi-Tenancy: Organization-Based with RLS**                        | Each Organization is isolated at database level using Row-Level Security; supports 4 roles (Internal, SaaS Seller, Agency Seller, Client)                                     | Technical Lead, Product Manager                               | Ensures data isolation and security; enables RBAC; scales efficiently without application-level filtering (Epic 5A.2)                               |
 | 2025-11-24 | **Performance Targets: Core Web Vitals "Good" Rating**                | LCP < 2.5s, FID < 100ms, CLS < 0.1 (p75); aligns with Google's recommendations and user expectations for modern web apps                                                      | Technical Lead, UX/Design Lead                                | Sets measurable performance baseline; influences caching strategy, code splitting, and optimization priorities (Section 5.1)                        |
 | 2025-11-24 | **Security Compliance: GDPR/CCPA in MVP**                             | Despite US/UK initial focus, GDPR compliance required for any EU users; CCPA for California users; build privacy-first from start                                             | Technical Lead, Business Owner, Legal Counsel (if applicable) | Requires data retention policies, deletion workflows, consent management, audit logging; prevents costly retrofitting (Section 5.3, Constraint L.2) |
 | 2025-11-24 | **Accessibility: WCAG 2.1 Level AA Target**                           | Phased approach: 80% compliance at MVP launch, 100% at 6 months; focus on keyboard navigation, screen reader support, color contrast                                          | UX/Design Lead, Product Manager                               | Ensures inclusive design; may require additional testing and remediation; positions platform for enterprise sales (Section 5.6)                     |

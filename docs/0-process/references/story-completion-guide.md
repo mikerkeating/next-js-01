@@ -238,7 +238,7 @@ For a complex story with issues and learnings:
 
 ### Summary
 
-Implemented multi-tenant database schema with Drizzle ORM. Added Organisation scoping to all queries. Deviated from plan by using composite indexes instead of separate indexes for better query performance.
+Implemented multi-tenant database schema with Drizzle ORM. Added Organization scoping to all queries. Deviated from plan by using composite indexes instead of separate indexes for better query performance.
 
 ### Test Results
 

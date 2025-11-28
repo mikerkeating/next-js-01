@@ -25,7 +25,7 @@ This section defines the internal structure, public API surface, and inter-packa
 | **@repo/logger**        | Structured logging implementation                   | None                                  | All apps & packages                     |
 | **@repo/middleware**    | Shared Next.js middleware                           | `@repo/auth`, `@repo/logger`          | `routing`, `api`, `tools`               |
 | **@repo/api-client**    | Type-safe API client                                | `@repo/auth`, `zod`                   | `routing`, `marketing`, `tools`         |
-| **@repo/org**           | Organisation context and utilities                  | `@repo/database`, `@repo/auth`        | `routing`, `api`, `tools`               |
+| **@repo/org**           | Organization context and utilities                  | `@repo/database`, `@repo/auth`        | `routing`, `api`, `tools`               |
 | **@repo/validation**    | Input validation schemas                            | `zod`                                 | All apps & packages                     |
 | **@repo/testing**       | Testing utilities and helpers                       | `vitest`, `@testing-library/react`    | All apps & packages                     |
 
@@ -151,14 +151,14 @@ packages/database/
 │   ├── schema/
 │   │   ├── index.ts           # Re-exports all schemas
 │   │   ├── users.ts           # User table schema
-│   │   ├── organisations.ts   # Organisation table schema
+│   │   ├── Organizations.ts   # Organization table schema
 │   │   ├── content.ts         # Content table schema
 │   │   ├── analytics.ts       # Analytics events schema
 │   │   ├── audit-logs.ts      # Audit log schema
 │   │   └── privacy.ts         # Privacy-related tables
 │   ├── queries/
 │   │   ├── users.ts           # User queries
-│   │   ├── organisations.ts   # Organisation queries
+│   │   ├── Organizations.ts   # Organization queries
 │   │   ├── content.ts         # Content queries
 │   │   └── analytics.ts       # Analytics queries
 │   ├── migrations/
@@ -183,8 +183,8 @@ export { db } from "./client";
 export * from "./schema";
 export type {
   User,
-  Organisation,
-  UserOrganisation,
+  Organization,
+  UserOrganization,
   Content,
   AnalyticsEvent,
   AuditLog,
@@ -204,25 +204,25 @@ export {
   updateUser,
   deleteUser,
 
-  // Organisation queries
-  getOrganisationById,
-  getOrganisationBySlug,
-  createOrganisation,
-  updateOrganisation,
-  getUserOrganisations,
-  addUserToOrganisation,
-  removeUserFromOrganisation,
+  // Organization queries
+  getOrganizationById,
+  getOrganizationBySlug,
+  createOrganization,
+  updateOrganization,
+  getUserOrganizations,
+  addUserToOrganization,
+  removeUserFromOrganization,
 
   // Content queries
   getContentById,
-  getContentByOrganisation,
+  getContentByOrganization,
   createContent,
   updateContent,
   deleteContent,
 
   // Analytics queries
   trackEvent,
-  getEventsByOrganisation,
+  getEventsByOrganization,
   getEventsByUser,
 } from "./queries";
 
@@ -616,7 +616,7 @@ export interface EventProperties {
 
   [Events.CONTENT_CREATED]: {
     contentType: string;
-    organisationId: string;
+    OrganizationId: string;
   };
 
   // ... all event properties
@@ -651,7 +651,7 @@ export function CreateContentButton() {
     // Track event
     track(Events.CONTENT_CREATED, {
       contentType: content.type,
-      organisationId: content.organisationId,
+      OrganizationId: content.OrganizationId,
     });
   };
 
@@ -850,7 +850,7 @@ packages/middleware/
 │   ├── auth.ts                # Authentication middleware
 │   ├── rate-limit.ts          # Rate limiting middleware
 │   ├── logging.ts             # Request logging middleware
-│   ├── org-context.ts         # Organisation context middleware
+│   ├── org-context.ts         # Organization context middleware
 │   ├── security-headers.ts    # Security headers middleware
 │   ├── composer.ts            # Middleware composition utility
 │   └── index.ts               # Public API exports
@@ -922,7 +922,7 @@ packages/api-client/
 │   ├── client.ts              # Base API client
 │   ├── endpoints/
 │   │   ├── users.ts           # User endpoints
-│   │   ├── organisations.ts   # Organisation endpoints
+│   │   ├── Organizations.ts   # Organization endpoints
 │   │   ├── content.ts         # Content endpoints
 │   │   └── analytics.ts       # Analytics endpoints
 │   ├── types.ts               # Request/response types
@@ -939,7 +939,7 @@ packages/api-client/
 
 export { APIClient, createAPIClient } from "./client";
 
-export { UserAPI, OrganisationAPI, ContentAPI, AnalyticsAPI } from "./endpoints";
+export { UserAPI, OrganizationAPI, ContentAPI, AnalyticsAPI } from "./endpoints";
 
 export { APIError, ValidationError, AuthenticationError, NotFoundError } from "./errors";
 
@@ -981,7 +981,7 @@ export async function UserProfile({ userId }: { userId: string }) {
 
 #### @repo/org
 
-**Purpose**: Organisation context management and multi-tenant utilities.
+**Purpose**: Organization context management and multi-tenant utilities.
 
 **Internal Structure**:
 
@@ -993,7 +993,7 @@ packages/org/
 │   │   ├── hooks.ts           # React hooks
 │   │   └── types.ts           # Context types
 │   ├── utils/
-│   │   ├── switcher.ts        # Organisation switching logic
+│   │   ├── switcher.ts        # Organization switching logic
 │   │   └── permissions.ts     # Org-level permissions
 │   └── index.ts               # Public API exports
 ├── package.json
@@ -1005,43 +1005,43 @@ packages/org/
 ```typescript
 // packages/org/src/index.ts
 
-export { OrganisationProvider, useOrganisation, useOrganisationList } from "./context/provider";
+export { OrganizationProvider, useOrganization, useOrganizationList } from "./context/provider";
 
-export { switchOrganisation, getCurrentOrganisation } from "./utils/switcher";
+export { switchOrganization, getCurrentOrganization } from "./utils/switcher";
 
-export type { OrganisationContext, OrganisationMembership } from "./context/types";
+export type { OrganizationContext, OrganizationMembership } from "./context/types";
 ```
 
 **Usage Example**:
 
 ```typescript
 // In apps/routing/src/app/layout.tsx
-import { OrganisationProvider } from '@repo/org';
+import { OrganizationProvider } from '@repo/org';
 
 export default function RootLayout({ children }: { children: ReactNode }) {
   return (
     <html lang="en">
       <body>
-        <OrganisationProvider>
+        <OrganizationProvider>
           {children}
-        </OrganisationProvider>
+        </OrganizationProvider>
       </body>
     </html>
   );
 }
 
 // In a component
-import { useOrganisation } from '@repo/org';
+import { useOrganization } from '@repo/org';
 
-export function OrganisationSwitcher() {
-  const { organisation, organisations, switchTo } = useOrganisation();
+export function OrganizationSwitcher() {
+  const { Organization, Organizations, switchTo } = useOrganization();
 
   return (
     <select
-      value={organisation.id}
+      value={Organization.id}
       onChange={(e) => switchTo(e.target.value)}
     >
-      {organisations.map(org => (
+      {Organizations.map(org => (
         <option key={org.id} value={org.id}>
           {org.name}
         </option>
@@ -1053,7 +1053,7 @@ export function OrganisationSwitcher() {
 
 **Dependencies**:
 
-- `@repo/database`: Organisation data access
+- `@repo/database`: Organization data access
 - `@repo/auth`: User authentication
 - `react`: React library
 
@@ -1072,7 +1072,7 @@ packages/validation/
 ├── src/
 │   ├── schemas/
 │   │   ├── user.ts            # User validation schemas
-│   │   ├── organisation.ts    # Organisation schemas
+│   │   ├── Organization.ts    # Organization schemas
 │   │   ├── content.ts         # Content schemas
 │   │   ├── auth.ts            # Auth schemas
 │   │   └── common.ts          # Common schemas (email, uuid, etc.)
@@ -1094,9 +1094,9 @@ export {
   userUpdateSchema,
   userQuerySchema,
 
-  // Organisation schemas
-  organisationCreateSchema,
-  organisationUpdateSchema,
+  // Organization schemas
+  OrganizationCreateSchema,
+  OrganizationUpdateSchema,
 
   // Content schemas
   contentCreateSchema,
@@ -1161,7 +1161,7 @@ packages/testing/
 ├── src/
 │   ├── fixtures/
 │   │   ├── users.ts           # User test fixtures
-│   │   ├── organisations.ts   # Organisation fixtures
+│   │   ├── Organizations.ts   # Organization fixtures
 │   │   └── content.ts         # Content fixtures
 │   ├── helpers/
 │   │   ├── database.ts        # Test database helpers
@@ -1187,7 +1187,7 @@ packages/testing/
 export {
   // Fixtures
   createUserFixture,
-  createOrganisationFixture,
+  createOrganizationFixture,
   createContentFixture,
 } from "./fixtures";
 

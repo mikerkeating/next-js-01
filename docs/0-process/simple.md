@@ -86,7 +86,7 @@ We now have the story md files for the `docs/3-epics/1A.3-testing-foundation/EPI
 
 ---
 
-Use the .claude/agents/engineering-manager.md subagent to evaluate each story within `docs/3-epics/1A.2-package-management`. The engineering manager should identify the engineering roles (e.g. backend, database, devops, frontend, fullstack) for each story. There should be a primary role and may be a secondary role. If a handoff is needed from primary to secondary role, this should be noted. Output a `## Resourcing Table` into a new markdown file: `docs/3-epics/1A.2-package-management/story-resourcing.md`. The output should not include code, sequencing, sizing, critical path analysis, dependencies or other information which exists in existing files.
+Use the .claude/agents/engineering-manager.md subagent to evaluate each story within `docs/3-epics/1A.3-testing-foundation`. The engineering manager should identify the engineering roles (e.g. backend, database, devops, frontend, fullstack) for each story. There should be a primary role and may be a secondary role. If a handoff is needed from primary to secondary role, this should be noted. Output a `## Resourcing Table` into a new markdown file: `docs/3-epics/1A.3-testing-foundation/story-resourcing.md`. The output should not include code, sequencing, sizing, critical path analysis, dependencies or other information which exists in existing files.
 
 ---
 

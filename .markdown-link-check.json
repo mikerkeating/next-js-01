@@ -22,7 +22,7 @@
     },
     {
       "pattern": "^https://your-org",
-      "comment": "Placeholder Organisation URLs"
+      "comment": "Placeholder Organization URLs"
     },
     {
       "pattern": "^https://example\\.com",

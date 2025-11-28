@@ -4,7 +4,7 @@
 
 ## Context
 
-- **PRD Reference**: [PRD: Feature M.3 Organisation-Specific Content Views](/docs/1-product/1-prd.md#feature-m3-Organisation-specific-content-views)
+- **PRD Reference**: [PRD: Feature M.3 Organization-Specific Content Views](/docs/1-product/1-prd.md#feature-m3-Organization-specific-content-views)
 - **TAD Reference**: [TAD: System Architecture](/docs/2-technical/2-tad.md#system-architecture), [TAD: CDN Architecture](/docs/2-technical/2-tad-cdn.md)
 - **Phase**: 3A - Platform Applications
 - **Type**: Foundation
@@ -31,7 +31,7 @@
 | Epic | Title                                                        | Notes                                                 |
 | ---- | ------------------------------------------------------------ | ----------------------------------------------------- |
 | 2B.1 | [Product Database Schema](../2B.1-product-schema/EPIC.md)    | Product schema is independent of routing shell        |
-| 2B.2 | [Multi-Tenant Organisation Model](../2B.2-org-model/EPIC.md) | Organisation model can be developed alongside routing |
+| 2B.2 | [Multi-Tenant Organization Model](../2B.2-org-model/EPIC.md) | Organization model can be developed alongside routing |
 
 ## Overview
 
@@ -125,7 +125,7 @@ The following items are explicitly NOT part of this epic:
 - **Product-Specific Routes** - Handled in Epic 3B.3 (Routing Configuration)
 - **Product-Specific Pages** - Each product app (docs, demo, tools) creates its own pages
 - **Authentication Middleware** - Handled in Epic 2A.7 (Auth Infrastructure)
-- **Organisation Context Middleware** - Handled in Epic 2B.6 (Product Middleware)
+- **Organization Context Middleware** - Handled in Epic 2B.6 (Product Middleware)
 - **Custom Error Pages (Product)** - Generic 404/500 only; product-specific errors in respective apps
 
 ## Actions or Decisions Required
@@ -168,7 +168,7 @@ The following items are explicitly NOT part of this epic:
 
 ### Internal Documentation
 
-- [PRD: Feature M.3 Organisation-Specific Content Views](/docs/1-product/1-prd.md#feature-m3-Organisation-specific-content-views)
+- [PRD: Feature M.3 Organization-Specific Content Views](/docs/1-product/1-prd.md#feature-m3-Organization-specific-content-views)
 - [TAD: System Architecture](/docs/2-technical/2-tad.md#system-architecture)
 - [TAD: CDN Architecture](/docs/2-technical/2-tad-cdn.md)
 - [Roadmap: Phase 3A](/docs/1-product/3-roadmap.md#phase-3a-platform-applications-week-4)

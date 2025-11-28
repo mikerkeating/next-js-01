@@ -13,7 +13,7 @@
 
 **As a** developer joining the project
 **I want** comprehensive documentation of the monorepo architecture, directory structure, and common commands
-**So that** I can quickly understand the project organisation and begin contributing effectively
+**So that** I can quickly understand the project Organization and begin contributing effectively
 
 ## Acceptance Criteria
 

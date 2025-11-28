@@ -52,7 +52,7 @@ next-js-2025-12-1/
 │   ├── observability/    # Logging & error tracking
 │   ├── middleware/       # Shared middleware
 │   ├── api-client/       # Type-safe API client
-│   ├── org/              # Organisation context
+│   ├── org/              # Organization context
 │   └── testing/          # Testing utilities
 ├── docs/                 # Product documentation
 ├── scripts/              # Build & deployment scripts

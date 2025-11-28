@@ -22,7 +22,7 @@
 - [x] CI/CD builds benefit from remote cache (>50% build time reduction on cache hit)
 - [x] Remote cache token is securely stored (not committed to repository)
 - [x] Team members can authenticate with Vercel to use remote cache locally
-- [x] Cache artifacts are correctly scoped to the team/organisation
+- [x] Cache artifacts are correctly scoped to the team/Organization
 
 ## Technical Requirements
 

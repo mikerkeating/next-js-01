@@ -156,7 +156,7 @@ Build security into architecture from the start:
 
 ### Authorization Implementation
 
-- ✅ Organisation isolation prevents cross-tenant data access
+- ✅ Organization isolation prevents cross-tenant data access
 - ✅ Role hierarchy enforced consistently across all endpoints
 - ✅ Privilege escalation paths identified and prevented
 - ✅ Authorization checks fail closed on errors
