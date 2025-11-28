@@ -159,8 +159,8 @@ The **Documentation Pyramid** organizes documentation into four layers from stra
 **Purpose**: Provide context for development workflow and onboarding
 
 **Documents**:
-- `docs/4-epics/*/EPIC.md` — Epic specifications
-- `docs/4-epics/*/S*.md` — Story specifications
+- `docs/3-epics/*/EPIC.md` — Epic specifications
+- `docs/3-epics/*/S*.md` — Story specifications
 - `CONTRIBUTING.md` — Development workflow
 - Root `README.md` — Project overview
 
@@ -300,7 +300,7 @@ next-js-2025-12-1/
 │   │       ├── 002-pnpm-package-manager.md
 │   │       └── ...
 │   │
-│   ├── 4-epics/                       # Epic & story specifications
+│   ├── 3-epics/                       # Epic & story specifications
 │   │   ├── 0A.1-steel-thread/
 │   │   │   ├── EPIC.md                # Epic overview
 │   │   │   ├── S1-create-app.md       # Story specification
@@ -458,7 +458,7 @@ While specific documentation is created during epic phases, **all teams own docu
 | **ADRs** | Markdown (template) | `docs/2-technical/adr/` | Document architectural decisions |
 | **User Guides** | Markdown | `docs/guides/` | Step-by-step tutorials |
 | **Runbooks** | Markdown | `docs/operations/runbooks/` | Operational procedures |
-| **Epic/Story Specs** | Markdown (template) | `docs/4-epics/` | Implementation guidance |
+| **Epic/Story Specs** | Markdown (template) | `docs/3-epics/` | Implementation guidance |
 | **ARCHITECTURE.md** | Markdown | `packages/*/docs/` | Package internal structure |
 | **Troubleshooting** | Markdown | Package READMEs | Common issues and solutions |
 
@@ -1111,7 +1111,7 @@ Clerk provides the best balance of:
 
 - [Clerk Documentation](https://clerk.com/docs)
 - [Clerk Pricing](https://clerk.com/pricing)
-- [Authentication Epic: 2A.2](../../4-epics/2A.2-auth-package/EPIC.md)
+- [Authentication Epic: 2A.2](../../3-epics/2A.2-auth-package/EPIC.md)
 \`\`\`
 
 ---

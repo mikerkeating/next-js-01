@@ -1,14 +1,29 @@
 # Story Implementation Prompt
 
-> **Usage:** `execute @docs/0-process/references/story-dev-prompt.md for [story-path]`
+> **Usage:** `use @.claude/agents/[agent].md to execute @docs/0-process/references/story-dev-prompt.md for [story-path]`
 >
-> Example: `execute @docs/0-process/references/story-dev-prompt.md for docs/3-epics/0A.1-steel-thread/S1-create-nextjs-app.md`
+> Example: `use @.claude/agents/engineer-backend.md to execute @docs/0-process/references/story-dev-prompt.md for docs/3-epics/0A.1-steel-thread/S2-env-config.md`
+
+## Available Subagents
+
+| Agent | Specialization |
+|-------|----------------|
+| `engineer-backend.md` | TypeScript/Node.js, API design, environment config, validation |
+| `engineer-frontend.md` | React, UI components, client-side logic |
+| `engineer-fullstack.md` | End-to-end features spanning frontend and backend |
+| `engineer-database.md` | Data modeling, migrations, query optimization |
+| `engineer-devops.md` | CI/CD, deployment, infrastructure |
+| `engineer-security.md` | Security audits, vulnerability prevention |
+| `engineer-qa.md` | Testing strategies, quality assurance |
+| `engineer-documentation.md` | Technical writing, API docs |
+| `tech-lead.md` | Architecture decisions, technical direction |
+| `engineering-manager.md` | Process, coordination, planning |
 
 ---
 
 ## Task
 
-Implement the specified story file, then document completion inline in the same file.
+Implement the specified story file, then document completion inline in the same file. 
 
 ## Pre-Implementation (MANDATORY)
 
@@ -20,33 +35,55 @@ Before writing any code, review:
    - Section 5: Incremental Quality Checks
 3. **TAD sections** - Follow any TAD links in the story for implementation patterns
 
-## Implementation Workflow
+## Implementation Workflow (TDD)
+
+This workflow follows **Test-Driven Development (TDD)**: write failing tests first, then implement code to make them pass.
 
 ### Step 1: Understand the Story
 - Read the **User Story** and **Acceptance Criteria**
 - Review **Technical Requirements** (files to create/modify, dependencies)
 - Check **Dependencies on Other Stories** (ensure prerequisites are complete)
 
-### Step 2: Create/Modify Files
+### Step 2: Write Failing Tests (RED)
+Before writing any implementation code:
+1. Create test files for each component/module to be implemented
+2. Write tests that capture the **Acceptance Criteria** as executable specifications
+3. Use patterns from TAD links and [coding-standards.md](/docs/2-technical/references/coding-standards.md) Section 2 (Test Standards)
+4. Run tests to confirm they fail:
+```bash
+pnpm test
+```
+All new tests should fail at this point (RED state).
+
+### Step 3: Implement to Pass Tests (GREEN)
 - Follow the **Files to Create** and **Files to Modify** tables
+- Write the minimum code necessary to make tests pass
 - Use patterns from TAD links in **Configuration Details** and **Common Patterns**
 - Reference [canonical-versions.md](/docs/2-technical/references/canonical-versions.md) for all dependency versions
+- Run tests after each implementation change:
+```bash
+pnpm test
+```
+Continue until all tests pass (GREEN state).
 
-### Step 3: Incremental Quality Checks
-After completing each major component, run:
+### Step 4: Refactor (REFACTOR)
+With passing tests as a safety net:
+1. Improve code quality, readability, and performance
+2. Remove duplication and apply design patterns
+3. Run full quality checks after refactoring:
 ```bash
 pnpm lint
 pnpm type-check
-pnpm test  # if tests exist
+pnpm test
 ```
-Fix issues immediately while context is fresh.
+Fix issues immediately while context is fresh. All tests must remain passing after refactoring.
 
-### Step 4: Verify Implementation
+### Step 5: Verify Implementation
 - Complete all items in **Manual Verification**
 - Run **Verification Commands** from the story
 - Ensure all **Acceptance Criteria** are met
 
-### Step 5: Final Verification Checklist
+### Step 6: Final Verification Checklist
 Complete the story's **Verification Checklist** section:
 - [ ] All acceptance criteria met
 - [ ] Coding standards followed

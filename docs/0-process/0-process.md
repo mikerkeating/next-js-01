@@ -88,12 +88,12 @@ Use the
 
 When complete, validate the epic.md file created against docs/3-references/epic-acceptance-criteria.md
 
-### Prompts for Story Details - `1A.1.S1` and `docs/4-epics/1A.1-monorepo/EPIC.md`
+### Prompts for Story Details - `1A.1.S1` and `docs/3-epics/1A.1-monorepo/EPIC.md`
 
 Use the .claude/agents/tech-lead.md subagent to create the story details file for Story `1A.1.S1` within Epic `3A.2`.
 
 Refer to  
-- docs/4-epics/1A.1-monorepo/EPIC.md for details of the epic
+- docs/3-epics/1A.1-monorepo/EPIC.md for details of the epic
 - Product Requirements Document and Techinal Architecture Document files referenced in the EPIC.md file
 
 Constraints
@@ -111,15 +111,15 @@ When complete, validate the epic.md file created against docs/3-references/stort
 #### Epic Story Eval 
 
 ```
-We now have a set of stories within docs/4-epics/1A.2-package-management. Evaluate these. Do these deliver docs/4-epics/1A.2-package-management/EPIC.md? Do we need any story changes? 
+We now have a set of stories within docs/3-epics/1A.2-package-management. Evaluate these. Do these deliver docs/3-epics/1A.2-package-management/EPIC.md? Do we need any story changes? 
 
-Output your evaluation into a new file docs/4-epics/1A.2-package-management/story-eval.md
+Output your evaluation into a new file docs/3-epics/1A.2-package-management/story-eval.md
 ```
 
 ### Resourcing - `0A.1-steel-thread`
 
 ```markdown
-Use the .claude/agents/engineering-manager.md subagent to evalate each story within docs/4-epics/0A.1-steel-thread. 
+Use the .claude/agents/engineering-manager.md subagent to evalate each story within docs/3-epics/0A.1-steel-thread. 
 
 The engineering manager should identify the engineering roles (e.g. backend, database, devops, frontend, fullstack) for each story. There should be a primary role and may be a secondary role. If a handoff is needed from primary to secondary role, this should be noted.
 
