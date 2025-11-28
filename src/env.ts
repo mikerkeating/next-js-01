@@ -44,8 +44,8 @@ export const env = createEnv({
    * These are exposed to the client and must be prefixed with NEXT_PUBLIC_.
    */
   client: {
-    // Application URL (required)
-    NEXT_PUBLIC_APP_URL: z.string().url(),
+    // Application URL (optional - Vercel provides VERCEL_URL automatically)
+    NEXT_PUBLIC_APP_URL: z.string().url().optional(),
 
     // Authentication (optional for steel thread, required in future)
     NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY: z.string().min(1).optional(),
