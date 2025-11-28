@@ -110,12 +110,38 @@ jobs:
       - name: Install Playwright browsers
         run: npx playwright install chromium --with-deps
 
-      - name: Wait for Vercel Preview
-        uses: patrickedqvist/wait-for-vercel-preview@v1.3.1
+      - name: Get Vercel Preview URL
         id: vercel-preview
-        with:
-          token: ${{ secrets.GITHUB_TOKEN }}
-          max_timeout: 300
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          echo "Waiting for Vercel deployment..."
+          for i in {1..60}; do
+            # Get deployments for this SHA, filter for Vercel
+            DEPLOYMENT=$(gh api repos/${{ github.repository }}/deployments \
+              -q ".[] | select(.creator.login == \"vercel[bot]\" and .sha == \"${{ github.event.pull_request.head.sha }}\") | {id, environment}" \
+              2>/dev/null | head -1) || true
+
+            if [ -n "$DEPLOYMENT" ]; then
+              DEPLOY_ID=$(echo "$DEPLOYMENT" | jq -r '.id')
+              echo "Found deployment: $DEPLOY_ID"
+
+              # Get the deployment status with target_url
+              URL=$(gh api repos/${{ github.repository }}/deployments/$DEPLOY_ID/statuses \
+                -q '.[0].target_url // empty' 2>/dev/null) || true
+
+              if [ -n "$URL" ]; then
+                echo "url=$URL" >> $GITHUB_OUTPUT
+                echo "Preview URL: $URL"
+                exit 0
+              fi
+            fi
+
+            echo "Waiting for deployment... (attempt $i/60)"
+            sleep 5
+          done
+          echo "::error::Vercel deployment not found after 5 minutes"
+          exit 1
 
       # Alternative: Run against local build (uncomment if Vercel not configured)
       # - name: Build application
