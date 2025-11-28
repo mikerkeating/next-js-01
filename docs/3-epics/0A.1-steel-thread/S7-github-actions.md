@@ -21,10 +21,10 @@
 - [x] Type-check job validates TypeScript compilation
 - [x] Test job runs Vitest test suite (or placeholder if no tests yet)
 - [x] Build job verifies the Next.js application builds successfully
-- [x] E2E smoke test job runs Playwright tests against local production build
+- [x] E2E smoke test job runs Playwright tests against Vercel preview deployment
 - [x] All jobs use pnpm and Node.js versions per canonical-versions.md
 - [x] Workflow uses concurrency to cancel in-progress runs on new pushes
-- [x] E2E smoke tests build locally and Playwright auto-starts the server
+- [x] E2E smoke tests wait for Vercel preview deployment before running
 - [ ] PR cannot merge unless all required status checks pass - requires GitHub repository settings configuration
 
 ## Technical Requirements
@@ -225,7 +225,7 @@ Key pattern notes:
 ## Completion Notes
 
 ### Summary
-Created GitHub Actions CI workflow at `.github/workflows/ci.yml` with five jobs (lint, type-check, test, build, e2e-smoke) that run on PRs and pushes to the `development` branch. The workflow uses Node.js 24.x and pnpm 10.x per canonical versions, with concurrency settings to cancel in-progress runs. E2E smoke tests are configured to run only on PRs, building the app locally and using Playwright's `webServer` config to auto-start `pnpm start`.
+Created GitHub Actions CI workflow at `.github/workflows/ci.yml` with five jobs (lint, type-check, test, build, e2e-smoke) that run on PRs and pushes to the `development` branch. The workflow uses Node.js 24.x and pnpm 10.x per canonical versions, with concurrency settings to cancel in-progress runs. E2E smoke tests are configured to run only on PRs, waiting for Vercel preview deployments before executing. A commented-out alternative for local builds is preserved in both the workflow and Playwright config.
 
 ### Test Results
 | Test | Command | Result |
@@ -238,7 +238,7 @@ Created GitHub Actions CI workflow at `.github/workflows/ci.yml` with five jobs 
 ### Files Changed
 Beyond planned files:
 - `package.json` - Added `test` script placeholder for unit tests
-- `playwright.config.ts` - Added `webServer` config to auto-start local server when `BASE_URL` is not set
+- `playwright.config.ts` - Contains commented-out `webServer` config for local testing alternative
 
 ### Known Issues
 - **Issue**: Branch protection rules for required status checks - **Status**: Deferred - **Tracking**: Requires manual GitHub repository settings configuration after first workflow run

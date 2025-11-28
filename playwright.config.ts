@@ -36,6 +36,11 @@ export default defineConfig({
 
     /* Screenshot on failure */
     screenshot: 'only-on-failure',
+
+    /* Vercel deployment protection bypass header */
+    extraHTTPHeaders: process.env.VERCEL_AUTOMATION_BYPASS_SECRET
+      ? { 'x-vercel-protection-bypass': process.env.VERCEL_AUTOMATION_BYPASS_SECRET }
+      : undefined,
   },
 
   /* Global timeout for the entire test suite (60 seconds) */
@@ -55,7 +60,7 @@ export default defineConfig({
   /* Output directory for test artifacts */
   outputDir: 'test-results/',
 
-  /* Run local dev server before starting the tests if no BASE_URL provided */
+  /* Alternative: Run local dev server (uncomment if not using Vercel previews)
   webServer: process.env.BASE_URL
     ? undefined
     : {
@@ -64,4 +69,5 @@ export default defineConfig({
         reuseExistingServer: !process.env.CI,
         timeout: 120000,
       },
+  */
 });

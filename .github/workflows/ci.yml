@@ -110,13 +110,24 @@ jobs:
       - name: Install Playwright browsers
         run: npx playwright install chromium --with-deps
 
-      - name: Build application
-        run: pnpm build
-        env:
-          NEXT_PUBLIC_APP_URL: http://localhost:3000
+      - name: Wait for Vercel Preview
+        uses: patrickedqvist/wait-for-vercel-preview@v1.3.1
+        id: vercel-preview
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          max_timeout: 300
+
+      # Alternative: Run against local build (uncomment if Vercel not configured)
+      # - name: Build application
+      #   run: pnpm build
+      #   env:
+      #     NEXT_PUBLIC_APP_URL: http://localhost:3000
 
       - name: Run Playwright smoke tests
         run: pnpm test:e2e:smoke
+        env:
+          BASE_URL: ${{ steps.vercel-preview.outputs.url }}
+          VERCEL_AUTOMATION_BYPASS_SECRET: ${{ secrets.VERCEL_AUTOMATION_BYPASS_SECRET }}
 
       - name: Upload test results
         uses: actions/upload-artifact@v4
