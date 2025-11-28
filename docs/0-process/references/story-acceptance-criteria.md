@@ -30,7 +30,7 @@ Use this checklist to validate story documents before implementation begins.
 **Fail examples:**
 ```markdown
 pnpm add next@16 react@19
-node-version: '22'
+node-version: '24'
 ```
 
 **Pass examples:**

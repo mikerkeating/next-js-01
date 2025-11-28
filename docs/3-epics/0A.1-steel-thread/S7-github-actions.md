@@ -55,7 +55,7 @@ No additional npm dependencies required. GitHub Actions uses:
 | Setting | Requirement | TAD Reference |
 |---------|-------------|---------------|
 | Trigger branches | `development` for PR and push events | [TAD: GitHub Actions Workflow](/docs/2-technical/2-tad-steel-thread-deployment.md#github-actions-workflow) |
-| Node.js version | Per canonical-versions.md (22.x) | [canonical-versions.md](/docs/2-technical/references/canonical-versions.md) |
+| Node.js version | Per canonical-versions.md (24.x) | [canonical-versions.md](/docs/2-technical/references/canonical-versions.md) |
 | pnpm version | Per canonical-versions.md (10.x) | [canonical-versions.md](/docs/2-technical/references/canonical-versions.md) |
 | Concurrency | Cancel in-progress runs for same branch | [TAD: GitHub Actions Workflow](/docs/2-technical/2-tad-steel-thread-deployment.md#github-actions-workflow) |
 | E2E timeout | 300s for Vercel preview wait | [TAD: Deployment Smoke Tests](/docs/2-technical/2-tad-steel-thread-deployment.md#deployment-smoke-tests) |
@@ -225,7 +225,7 @@ Key pattern notes:
 ## Completion Notes
 
 ### Summary
-Created GitHub Actions CI workflow at `.github/workflows/ci.yml` with five jobs (lint, type-check, test, build, e2e-smoke) that run on PRs and pushes to the `development` branch. The workflow uses Node.js 22.x and pnpm 10.x per canonical versions, with concurrency settings to cancel in-progress runs. E2E smoke tests are configured to run only on PRs, building the app locally and using Playwright's `webServer` config to auto-start `pnpm start`.
+Created GitHub Actions CI workflow at `.github/workflows/ci.yml` with five jobs (lint, type-check, test, build, e2e-smoke) that run on PRs and pushes to the `development` branch. The workflow uses Node.js 24.x and pnpm 10.x per canonical versions, with concurrency settings to cancel in-progress runs. E2E smoke tests are configured to run only on PRs, building the app locally and using Playwright's `webServer` config to auto-start `pnpm start`.
 
 ### Test Results
 | Test | Command | Result |

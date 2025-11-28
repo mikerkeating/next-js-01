@@ -96,7 +96,7 @@ jobs:
 
       - uses: actions/setup-node@v4
         with:
-          node-version: '22'
+          node-version: '24'
           cache: 'pnpm'
 
       - name: Install dependencies
@@ -177,7 +177,7 @@ Before starting development, ensure you have:
 
 | Tool | Version | Purpose |
 |------|---------|---------|
-| **Node.js** | 22.x LTS | Runtime environment |
+| **Node.js** | 24.x LTS | Runtime environment |
 | **pnpm** | 10.x | Package manager |
 | **Git** | 2.x+ | Version control |
 | **VS Code** | Latest | Recommended IDE |

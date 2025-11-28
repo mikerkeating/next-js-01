@@ -307,7 +307,7 @@ Include administrators: ✓
 | **Build Command** | `cd ../.. && pnpm run build --filter=routing` |
 | **Output Directory** | `.next` |
 | **Install Command** | `pnpm install` |
-| **Node.js Version** | 22.x |
+| **Node.js Version** | 24.x |
 
 **Git Integration**:
 
