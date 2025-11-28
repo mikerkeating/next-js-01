@@ -97,7 +97,7 @@ For the stories listed in `## Resourcing Table` of `docs/3-epics/1A.1-monorepo-f
 >
 > Example: `use @.claude/agents/engineer-backend.md to execute @docs/0-process/references/story-dev-prompt.md for docs/3-epics/1A.1-monorepo-foundation/S2-env-config.md`
 
-## Implement the stories
+## Implement the stories 
 
 `./scripts/run-next-story-prompt-auto.sh --prompts-file docs/3-epics/1A.1-monorepo-foundation/story-implementation-prompts.md`
 
@@ -105,15 +105,15 @@ For the stories listed in `## Resourcing Table` of `docs/3-epics/1A.1-monorepo-f
 
 ## Check the stories deliver the epic `1A.1-monorepo-foundation`
 
-> **Usage:** `execute @docs/0-process/references/epic-story-check-prompt-template.md for Epic 0A.1`
+> **Usage:** `execute @docs/0-process/references/epic-story-check-prompt-template.md for Epic 1A.1`
 >
-> Example: `execute @docs/0-process/references/epic-story-check-prompt-template.md for Epic 1A.2`
+> Example: `execute @docs/0-process/references/epic-story-check-prompt-template.md for Epic 0A.1`
 
 
 ---
 
-`Use docs/2-technical/references/commit-guidelines.md to generate a GitHub commit message, commit.
-Do not push. and push the changes`
+`Use docs/2-technical/references/commit-guidelines.md to generate a GitHub commit message and commit. Do not push.`
+ and push the changes`
 
 `Update @docs/3-epics/0A.1-steel-thread/S7-github-actions.md  to reflect this change. Add to the Lessons Learned section at the bottom of the doc.`
 

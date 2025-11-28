@@ -171,10 +171,11 @@ Beyond planned files, list any additional files created/modified:
 - [Technical insight or process improvement for future stories]
 ```
 
-### Step 5: Commit and PR
+### Step 5: Commit Changes
 
-1. **Commit Changes** - Use [commit-guidelines.md](/docs/2-technical/references/commit-guidelines.md) for commit message format
-2. **Create PR** - If required, create a pull request referencing the story
+1. **Commit Changes** - Use [commit-guidelines.md](/docs/2-technical/references/commit-guidelines.md) for commit message format and commit the changes
+2. **Do NOT push** - Leave pushing to the user
+3. **Do NOT create PR** - Leave PR creation to the user
 
 ## Reference Documents
 
