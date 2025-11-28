@@ -161,3 +161,30 @@ Branch protection rules configured on `development` branch via GitHub web interf
 - `build` → `Build`
 
 **Prevention**: When configuring branch protection rules, always verify the exact check names from a completed workflow run before setting them as required. Use `gh api repos/{owner}/{repo}/branches/{branch}/protection/required_status_checks` to verify configuration.
+
+### Required Reviews Block Solo Developer Merges
+
+**Issue**: PR could not be merged because "At least 1 approving review is required by reviewers with write access."
+
+**Root Cause**: Branch protection was configured to require 1 approving review, but as a solo developer there was no one else to approve the PR.
+
+**Resolution**: Temporarily removed the required reviews protection to allow self-merge:
+```bash
+gh api repos/{owner}/{repo}/branches/development/protection/required_pull_request_reviews -X DELETE
+```
+
+**Re-enable after merge**:
+```bash
+gh api repos/{owner}/{repo}/branches/development/protection/required_pull_request_reviews \
+  -X PATCH --input - <<EOF
+{
+  "dismiss_stale_reviews": true,
+  "required_approving_review_count": 1
+}
+EOF
+```
+
+**Prevention**: For solo projects or initial setup phases, consider either:
+1. Not enabling required reviews until there are multiple contributors
+2. Creating a documented process for temporarily disabling reviews for self-merges
+3. Using "Include administrators" = false to allow admin bypass
