@@ -141,7 +141,23 @@ Branch protection rules configured on `development` branch via GitHub web interf
 - Require pull request before merging: ✓
 - Required approving reviews: 1
 - Dismiss stale pull request approvals: ✓
-- Require status checks to pass: ✓ (lint, type-check, test, build)
+- Require status checks to pass: ✓ (Lint, Type Check, Test, Build)
 - Require branches to be up to date: ✓
 - Require conversation resolution: ✓
 - Include administrators: ✓
+
+## Lessons Learned
+
+### GitHub Status Check Names Are Case-Sensitive
+
+**Issue**: PR could not be merged despite all CI checks passing.
+
+**Root Cause**: Branch protection was configured with lowercase check names (`lint`, `type-check`, `test`, `build`) but the GitHub Actions workflow jobs used different casing (`Lint`, `Type Check`, `Test`, `Build`). GitHub treats these as different checks.
+
+**Resolution**: Updated branch protection required status checks to match the exact names from the CI workflow:
+- `lint` → `Lint`
+- `type-check` → `Type Check`
+- `test` → `Test`
+- `build` → `Build`
+
+**Prevention**: When configuring branch protection rules, always verify the exact check names from a completed workflow run before setting them as required. Use `gh api repos/{owner}/{repo}/branches/{branch}/protection/required_status_checks` to verify configuration.
