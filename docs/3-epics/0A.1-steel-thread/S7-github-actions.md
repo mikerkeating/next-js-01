@@ -21,10 +21,10 @@
 - [x] Type-check job validates TypeScript compilation
 - [x] Test job runs Vitest test suite (or placeholder if no tests yet)
 - [x] Build job verifies the Next.js application builds successfully
-- [x] E2E smoke test job runs Playwright tests against Vercel preview deployment
+- [x] E2E smoke test job runs Playwright tests against local production build
 - [x] All jobs use pnpm and Node.js versions per canonical-versions.md
 - [x] Workflow uses concurrency to cancel in-progress runs on new pushes
-- [x] E2E smoke tests wait for Vercel preview deployment before running
+- [x] E2E smoke tests build locally and Playwright auto-starts the server
 - [ ] PR cannot merge unless all required status checks pass - requires GitHub repository settings configuration
 
 ## Technical Requirements
@@ -225,7 +225,7 @@ Key pattern notes:
 ## Completion Notes
 
 ### Summary
-Created GitHub Actions CI workflow at `.github/workflows/ci.yml` with five jobs (lint, type-check, test, build, e2e-smoke) that run on PRs and pushes to the `development` branch. The workflow uses Node.js 22.x and pnpm 10.x per canonical versions, with concurrency settings to cancel in-progress runs. E2E smoke tests are configured to run only on PRs, waiting for Vercel preview deployments before executing.
+Created GitHub Actions CI workflow at `.github/workflows/ci.yml` with five jobs (lint, type-check, test, build, e2e-smoke) that run on PRs and pushes to the `development` branch. The workflow uses Node.js 22.x and pnpm 10.x per canonical versions, with concurrency settings to cancel in-progress runs. E2E smoke tests are configured to run only on PRs, building the app locally and using Playwright's `webServer` config to auto-start `pnpm start`.
 
 ### Test Results
 | Test | Command | Result |
@@ -238,13 +238,14 @@ Created GitHub Actions CI workflow at `.github/workflows/ci.yml` with five jobs 
 ### Files Changed
 Beyond planned files:
 - `package.json` - Added `test` script placeholder for unit tests
+- `playwright.config.ts` - Added `webServer` config to auto-start local server when `BASE_URL` is not set
 
 ### Known Issues
 - **Issue**: Branch protection rules for required status checks - **Status**: Deferred - **Tracking**: Requires manual GitHub repository settings configuration after first workflow run
-- **Issue**: Vercel GitHub integration - **Status**: Prerequisite - **Tracking**: Must be configured in Vercel dashboard before E2E tests work
 
 ### Lessons Learned
 - The wait-for-vercel-preview action requires the Vercel GitHub integration to be connected to the repository
 - E2E smoke job only runs on `pull_request` events per AD-0A.1.S7.2 decision (not on push to development)
 - The pnpm/action-setup@v4 action reads the pnpm version from the `packageManager` field in package.json automatically—do not specify an explicit `version:` parameter in the workflow, as this causes `ERR_PNPM_BAD_PM_VERSION` errors when the versions diverge
 - The build job requires `NEXT_PUBLIC_APP_URL` environment variable to be set (validated by `src/env.ts`). Use a placeholder URL like `https://example.com` for CI builds since the actual URL is set by the deployment environment
+- **E2E tests can run against a local build instead of Vercel previews**: If Vercel GitHub integration isn't configured, the `wait-for-vercel-preview` action will block indefinitely. As an alternative, the workflow can build the app locally and Playwright can start the production server via its `webServer` config (`pnpm start`). This avoids external dependencies and speeds up CI. The Playwright config conditionally enables `webServer` only when `BASE_URL` is not set, allowing flexibility to test against either local or remote deployments

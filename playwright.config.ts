@@ -54,4 +54,14 @@ export default defineConfig({
 
   /* Output directory for test artifacts */
   outputDir: 'test-results/',
+
+  /* Run local dev server before starting the tests if no BASE_URL provided */
+  webServer: process.env.BASE_URL
+    ? undefined
+    : {
+        command: 'pnpm start',
+        url: 'http://localhost:3000',
+        reuseExistingServer: !process.env.CI,
+        timeout: 120000,
+      },
 });
