@@ -20,7 +20,7 @@ We need to select a package manager for our monorepo that can efficiently handle
 
 ### Constraints
 
-- Must work with Node.js 22.x LTS
+- Must work with Node.js 24.x LTS
 - Must support TypeScript projects with complex dependency graphs
 - Team needs to adopt the tool quickly with minimal learning curve
 - CI/CD pipelines should run efficiently with proper caching
@@ -45,7 +45,7 @@ packages:
   "private": true,
   "packageManager": "pnpm@10.x",
   "engines": {
-    "node": ">=22.17.1 <23.0.0",
+    "node": ">=24.0.0 <25.0.0",
     "pnpm": ">=10.22.0"
   }
 }

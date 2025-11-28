@@ -164,7 +164,7 @@ During import or in Project Settings:
 | **Root Directory** | `.` (project root) |
 | **Build Command** | `pnpm build` (from vercel.json) |
 | **Install Command** | `pnpm install` (from vercel.json) |
-| **Node.js Version** | 22.x |
+| **Node.js Version** | 24.x |
 
 ### Step 3: Configure Git Integration
 
@@ -193,7 +193,7 @@ Ensure the Vercel GitHub App has:
 Once Vercel dashboard setup is complete, mark the following as checked:
 
 - [ ] Vercel project imported from GitHub
-- [ ] Node.js version set to 22.x
+- [ ] Node.js version set to 24.x
 - [ ] Production branch set to `development`
 - [ ] Preview deployments enabled
 - [ ] Test deployment to `development` succeeds

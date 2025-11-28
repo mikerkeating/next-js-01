@@ -72,7 +72,7 @@ This document covers:
 |-----------|-----------|---------|-----------|
 | **Framework** | Next.js | 16 | Modern React framework with App Router, server components, and excellent Vercel integration |
 | **Language** | TypeScript | 5.x | Type safety, better DX, industry standard |
-| **Runtime** | Node.js | 22.x LTS | Stable LTS version with good performance |
+| **Runtime** | Node.js | 24.x LTS | Stable LTS version with good performance |
 | **Package Manager** | pnpm | 9.x | Fast, efficient, workspace support |
 | **Monorepo Tool** | Turborepo | Latest | Build caching, task orchestration, Vercel integration |
 
@@ -527,7 +527,7 @@ Comprehensive developer experience strategy covering local setup, quality gates,
 8. Accessibility checks (axe-core)
 
 **Local Development Setup**:
-- Prerequisites: Node.js 22.x, pnpm 10.x, Docker (optional for local DB)
+- Prerequisites: Node.js 24.x, pnpm 10.x, Docker (optional for local DB)
 - First-time setup guide (6 steps from clone to running server)
 - VS Code configuration with 15 recommended extensions
 - Common development tasks (testing, database, building, linting)

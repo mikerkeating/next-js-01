@@ -336,8 +336,8 @@ validate_criterion() {
     elif [[ "$criterion_lower" =~ "typescript" && "$criterion_lower" =~ "strict" ]]; then
         check_typescript_strict && result=0 || result=1
 
-    elif [[ "$criterion_lower" =~ "node" && "$criterion_lower" =~ "22" ]]; then
-        check_node_version "^22" && result=0 || result=1
+    elif [[ "$criterion_lower" =~ "node" && "$criterion_lower" =~ "24" ]]; then
+        check_node_version "^24" && result=0 || result=1
 
     elif [[ "$criterion_lower" =~ "pnpm" && "$criterion_lower" =~ "10" ]]; then
         if command -v pnpm &>/dev/null; then

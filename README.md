@@ -27,7 +27,7 @@ Open [http://localhost:3000](http://localhost:3000) in your browser.
 
 ## Prerequisites
 
-- **Node.js**: 22.x LTS (see `.nvmrc`)
+- **Node.js**: 24.x LTS (see `.nvmrc`)
 - **pnpm**: 10.x (`npm install -g pnpm@10`)
 
 For exact version constraints, see [canonical-versions.md](/docs/2-technical/references/canonical-versions.md).
@@ -407,7 +407,7 @@ All changes must go through pull requests with:
 
 | Issue | Solution |
 |-------|----------|
-| `pnpm install` fails | Verify Node.js 22.x and pnpm 10.x are installed |
+| `pnpm install` fails | Verify Node.js 24.x and pnpm 10.x are installed |
 | `pnpm dev` port in use | Kill process on port 3000 or use `PORT=3001 pnpm dev` |
 | Environment validation fails | Check `.env.local` has all required variables from `.env.example` |
 | Type errors on build | Run `pnpm type-check` locally to see specific errors |

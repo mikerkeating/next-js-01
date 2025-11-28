@@ -7,7 +7,7 @@
 | Field | Value |
 |-------|-------|
 | **Status** | Active |
-| **Last Updated** | 2025-11-27 |
+| **Last Updated** | 2025-11-28 |
 | **Owner** | Technical Lead |
 
 ---
@@ -16,7 +16,7 @@
 
 | Technology | Version | Constraint | Notes |
 |------------|---------|------------|-------|
-| **Node.js** | 22.x LTS | `>=22.17.1 <23.0.0` | Current LTS, required for Next.js 16 |
+| **Node.js** | 24.x LTS | `>=24.0.0 <25.0.0` | Current LTS, required for Next.js 16 |
 | **pnpm** | 10.x | `>=10.22.0` | Workspace-native package manager |
 | **Next.js** | 16.x | `^16.0.0` | App Router, Server Components |
 | **React** | 19.x | `^19.0.0` | Latest stable with concurrent features |
@@ -31,7 +31,7 @@ For `package.json` files:
 {
   "packageManager": "pnpm@10.22.0",
   "engines": {
-    "node": ">=22.17.1 <23.0.0",
+    "node": ">=24.0.0 <25.0.0",
     "pnpm": ">=10.22.0"
   }
 }
@@ -39,7 +39,7 @@ For `package.json` files:
 
 For `.nvmrc`:
 ```
-22
+24
 ```
 
 ---
@@ -183,7 +183,7 @@ Reference this file instead of hardcoding versions:
 Node.js version per [canonical versions](/docs/2-technical/references/canonical-versions.md)
 
 <!-- Avoid -->
-Node.js 22.x LTS
+Node.js 24.x LTS
 ```
 
 ### In Story Documents
@@ -223,4 +223,5 @@ Copy the exact constraint from this file:
 
 | Date | Change | Author |
 |------|--------|--------|
+| 2025-11-28 | Updated Node.js from 22.x to 24.x LTS | Claude Code |
 | 2025-11-27 | Initial version - consolidated all version references | Claude Code |

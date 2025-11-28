@@ -478,7 +478,7 @@ Never hardcode version numbers. Always reference canonical-versions.md.
 **Avoid:**
 ```bash
 pnpm add -D playwright@1.40.0
-node-version: '22'
+node-version: '24'
 ```
 
 **Do this instead:**
