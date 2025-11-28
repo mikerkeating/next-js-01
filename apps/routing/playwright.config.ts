@@ -58,7 +58,7 @@ export default defineConfig({
   ],
 
   /* Output directory for test artifacts */
-  outputDir: 'tests/e2e/results/',
+  outputDir: 'testing/e2e/results/',
 
   /* Alternative: Run local dev server (uncomment if not using Vercel previews)
   webServer: process.env.BASE_URL

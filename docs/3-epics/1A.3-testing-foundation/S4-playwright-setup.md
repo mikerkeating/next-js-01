@@ -17,7 +17,7 @@
 - [ ] Running `pnpm test:e2e` executes Playwright tests from the `tests/e2e` directory
 - [ ] Tests execute across Chrome, Firefox, and WebKit (Safari) browsers
 - [ ] Failed tests automatically capture screenshots and video recordings
-- [ ] Screenshots and videos are stored in `tests/e2e/results/` directory
+- [ ] Screenshots and videos are stored in `testing/e2e/results/` directory
 - [ ] BASE_URL environment variable configures the target URL for preview deployments
 - [ ] Playwright retries failed tests twice in CI environments automatically
 - [ ] Turborepo caches Playwright test results correctly
@@ -76,7 +76,7 @@ pnpm add -D @playwright/test
 - [ ] **Browser Installation**: Run `pnpm exec playwright install --with-deps` completes without errors
 - [ ] **Example Test Execution**: `pnpm test:e2e` runs the example test successfully
 - [ ] **Multi-Browser Check**: Test output shows Chrome, Firefox, and WebKit all executed
-- [ ] **Failure Artifacts**: Force a test failure and verify screenshot/video appear in `tests/e2e/results/`
+- [ ] **Failure Artifacts**: Force a test failure and verify screenshot/video appear in `testing/e2e/results/`
 - [ ] **BASE_URL Override**: `BASE_URL=https://example.com pnpm test:e2e` uses the specified URL
 
 ### Automated Tests
@@ -186,7 +186,7 @@ Key pattern notes:
 #### AD-1A.3.S4.1: Test Results Directory Location
 **Scope**: Story-specific (does not affect other stories)
 
-**Decision**: Store Playwright results in `tests/e2e/results/` rather than default `test-results/`
+**Decision**: Store Playwright results in `testing/e2e/results/` rather than default `test-results/`
 
 **Rationale**:
 - Keeps all E2E-related files under `tests/e2e/` for discoverability
