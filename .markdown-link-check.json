@@ -1,0 +1,47 @@
+{
+  "ignorePatterns": [
+    {
+      "pattern": "^https://github\\.com/.*/pull/",
+      "comment": "GitHub PR links may require authentication"
+    },
+    {
+      "pattern": "^https://github\\.com/.*/issues/",
+      "comment": "GitHub issue links may be private"
+    },
+    {
+      "pattern": "^https://.*\\.vercel\\.app",
+      "comment": "Vercel preview deployments are temporary"
+    },
+    {
+      "pattern": "^https://.*localhost",
+      "comment": "Local development URLs"
+    },
+    {
+      "pattern": "^http://localhost",
+      "comment": "Local development URLs"
+    },
+    {
+      "pattern": "^https://your-org",
+      "comment": "Placeholder organization URLs"
+    },
+    {
+      "pattern": "^https://example\\.com",
+      "comment": "Example domain URLs"
+    },
+    {
+      "pattern": "^mailto:",
+      "comment": "Email links"
+    }
+  ],
+  "replacementPatterns": [
+    {
+      "pattern": "^/",
+      "replacement": "./"
+    }
+  ],
+  "timeout": "10s",
+  "retryOn429": true,
+  "retryCount": 3,
+  "fallbackRetryDelay": "5s",
+  "aliveStatusCodes": [200, 206, 301, 302, 307, 308]
+}

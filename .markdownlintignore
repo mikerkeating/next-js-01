@@ -1,0 +1,26 @@
+# Dependencies
+node_modules/
+**/node_modules/
+
+# Build outputs
+dist/
+.next/
+out/
+
+# Auto-generated files
+CHANGELOG.md
+pnpm-lock.yaml
+
+# Test artifacts
+coverage/
+.turbo/
+
+# IDE and editor files
+.vscode/
+.idea/
+
+# Third-party/vendor files
+**/vendor/
+
+# Testing error logs (may contain non-standard markdown)
+testing/

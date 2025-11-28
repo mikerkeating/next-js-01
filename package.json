@@ -19,6 +19,9 @@
     "reinstall": "pnpm clean && pnpm install",
     "format": "prettier --write .",
     "format:check": "prettier --check .",
+    "lint:md": "markdownlint-cli2 \"**/*.md\" \"#**/node_modules/**\"",
+    "lint:md:fix": "markdownlint-cli2 --fix \"**/*.md\" \"#**/node_modules/**\"",
+    "lint:md:links": "find . -name '*.md' -not -path './node_modules/*' -not -path './.git/*' | xargs -I {} markdown-link-check {} -c .markdown-link-check.json",
     "test:e2e:smoke": "pnpm --filter routing test:e2e:smoke"
   },
   "pnpm": {
@@ -36,7 +39,11 @@
       "eslint --fix",
       "prettier --write"
     ],
-    "*.{json,md,yml,yaml}": [
+    "*.md": [
+      "markdownlint-cli2 --fix",
+      "prettier --write"
+    ],
+    "*.{json,yml,yaml}": [
       "prettier --write"
     ]
   },
@@ -46,6 +53,8 @@
     "eslint": "^8.57.1",
     "husky": "^9.1.7",
     "lint-staged": "^15.5.2",
+    "markdown-link-check": "^3.14.2",
+    "markdownlint-cli2": "^0.19.1",
     "prettier": "^3.2.0",
     "turbo": "^2.6.1"
   }
