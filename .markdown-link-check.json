@@ -13,10 +13,6 @@
       "comment": "Vercel preview deployments are temporary"
     },
     {
-      "pattern": "^https://.*localhost",
-      "comment": "Local development URLs"
-    },
-    {
       "pattern": "^http://localhost",
       "comment": "Local development URLs"
     },
@@ -43,5 +39,12 @@
   "retryOn429": true,
   "retryCount": 3,
   "fallbackRetryDelay": "5s",
-  "aliveStatusCodes": [200, 206, 301, 302, 307, 308]
+  "aliveStatusCodes": [
+    200,
+    206,
+    301,
+    302,
+    307,
+    308
+  ]
 }

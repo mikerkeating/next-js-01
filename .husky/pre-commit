@@ -1,3 +1,5 @@
+#!/bin/sh
+
 # Pre-commit hook
 # This hook runs before each commit to enforce quality gates
 # See: docs/2-technical/2-tad-developer-experience.md#pre-commit-quality-gates

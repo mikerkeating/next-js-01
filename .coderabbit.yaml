@@ -11,9 +11,9 @@ language: "en-GB"
 # Review configuration
 reviews:
   # Review profile controls verbosity and strictness
-  # Options: "chill" | "balanced" | "assertive"
+  # Options: "chill"| "assertive"
   # "balanced" is the default - thorough but not excessive
-  profile: "balanced"
+  profile: "assertive"
 
   # Automatic code review on PR creation and updates
   auto_review:
@@ -50,6 +50,9 @@ reviews:
 
     # Auto-generated types
     - "!**/*.d.ts"
+
+    # Documentation files
+    - "!**/*.md"
 
   # Request changes on significant issues
   request_changes_workflow: true
