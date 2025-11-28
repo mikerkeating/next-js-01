@@ -20,6 +20,7 @@
 - [ ] Running `pnpm install` succeeds without errors
 - [ ] Directory structure includes `apps/` and `packages/` directories (with `.gitkeep`)
 - [ ] `.nvmrc` file exists with correct Node.js version
+- [ ] Creating a new package in `packages/` automatically integrates with workspace commands (verified by test)
 
 ## Technical Requirements
 
@@ -60,6 +61,7 @@ No new dependencies to install - this story configures pnpm itself.
 ### Manual Verification
 - [ ] **Workspace Recognition**: Run `pnpm list -r` and confirm workspace structure is recognised
 - [ ] **Install Success**: Run `pnpm install` from fresh state (delete node_modules first)
+- [ ] **Package Auto-Integration**: Create a test package in `packages/`, run `pnpm install`, verify it appears in `pnpm list -r`
 
 ### Verification Commands
 ```bash
@@ -73,6 +75,15 @@ node -e "const p=require('./package.json'); \
 
 # Verify directory structure
 ls apps/ packages/
+
+# Verify new packages auto-integrate with workspace (creates temp package, verifies, cleans up)
+mkdir -p packages/test-pkg && \
+  echo '{"name":"@repo/test","version":"0.0.0"}' > packages/test-pkg/package.json && \
+  pnpm install && \
+  pnpm list -r --depth 0 | grep -q "@repo/test" && \
+  echo "✓ New package auto-integrated" && \
+  rm -rf packages/test-pkg && \
+  pnpm install
 ```
 
 ## Implementation Notes

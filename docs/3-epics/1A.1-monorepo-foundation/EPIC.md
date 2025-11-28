@@ -48,7 +48,7 @@ The Monorepo Foundation transforms the steel thread Next.js application into a f
 
 - [ ] Developers can run `pnpm dev` from root and start all applications
 - [ ] Developers can run `pnpm build` and get cached results on subsequent runs (>70% build time reduction on cache hit)
-- [ ] Running `pnpm turbo build --filter=apps/routing` builds only the routing app and its dependencies
+- [ ] Running `pnpm turbo build --filter=@repo/routing` builds only the routing app and its dependencies
 - [ ] Remote cache is enabled and team members share cached build artefacts via Vercel
 - [ ] Creating a new package in `packages/` automatically integrates with workspace commands
 - [ ] All TypeScript packages compile without errors using `pnpm turbo type-check`
