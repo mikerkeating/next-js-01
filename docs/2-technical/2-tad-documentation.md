@@ -823,7 +823,7 @@ Documentation effectiveness is measured by:
 
 #### For Package Consumer (README.md - Top Section)
 
-````markdown
+`````markdown
 # @repo/auth
 
 Authentication and authorization package using Clerk with multi-tenant support.
@@ -1224,4 +1224,4 @@ By treating documentation with the same rigor as code, we ensure the platform is
 **Back to**: [Technical Architecture Document (TAD)](2-tad.md)
 ```
 ````
-````
+`````
