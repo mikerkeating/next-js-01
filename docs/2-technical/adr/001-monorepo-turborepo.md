@@ -52,7 +52,7 @@ next-js-2025-12-1/
 │   ├── observability/    # Logging & error tracking
 │   ├── middleware/       # Shared middleware
 │   ├── api-client/       # Type-safe API client
-│   ├── org/              # Organisation context
+│   ├── org/              # Organization context
 │   └── testing/          # Testing utilities
 ├── docs/                 # Product documentation
 ├── scripts/              # Build & deployment scripts
@@ -102,11 +102,13 @@ next-js-2025-12-1/
 #### Option 1: Polyrepo (Multiple Repositories)
 
 **Pros:**
+
 - Clear separation of concerns
 - Independent deployment pipelines
 - Easier access control per repository
 
 **Cons:**
+
 - ❌ Difficult to share code (requires publishing packages)
 - ❌ Hard to maintain version consistency
 - ❌ Complex cross-repo changes require multiple PRs
@@ -118,11 +120,13 @@ next-js-2025-12-1/
 #### Option 2: Monorepo with Nx
 
 **Pros:**
+
 - Powerful build system with extensive plugin ecosystem
 - Advanced code generation capabilities
 - Comprehensive project graph visualization
 
 **Cons:**
+
 - ❌ Steeper learning curve
 - ❌ More opinionated structure
 - ❌ Less optimal Vercel integration compared to Turborepo
@@ -133,10 +137,12 @@ next-js-2025-12-1/
 #### Option 3: Monorepo with Lerna
 
 **Pros:**
+
 - Mature monorepo tool
 - Good npm publishing workflow
 
 **Cons:**
+
 - ❌ Maintenance has slowed down
 - ❌ Less focused on build performance
 - ❌ No remote caching out of the box
@@ -147,11 +153,13 @@ next-js-2025-12-1/
 #### Option 4: Monorepo with Yarn Workspaces only
 
 **Pros:**
+
 - Simple setup
 - Native yarn feature
 - Good for basic monorepos
 
 **Cons:**
+
 - ❌ No build caching
 - ❌ No task orchestration
 - ❌ Manual dependency graph management

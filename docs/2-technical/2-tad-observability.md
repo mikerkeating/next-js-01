@@ -5,6 +5,7 @@
 Our observability strategy ensures the application is monitored, debuggable, and maintainable through structured logging, error tracking, and health monitoring. This section covers Epic 2A.3 requirements.
 
 **Key Principles**:
+
 - **Structured Logging**: All logs use JSON format for queryability
 - **Error Boundaries**: Graceful error handling with automatic tracking
 - **Real-time Monitoring**: Health checks and vitals tracking
@@ -20,14 +21,14 @@ All application logs use a standardized JSON structure:
 ```typescript
 // packages/logger/src/types.ts
 interface LogEntry {
-  timestamp: string;        // ISO 8601 format
-  level: LogLevel;         // debug | info | warn | error | fatal
-  message: string;         // Human-readable message
-  environment: string;     // development | preview | staging | production
-  service: string;         // Service name (e.g., 'routing-app', 'api')
-  traceId?: string;        // Request trace ID for correlation
-  userId?: string;         // User ID (if authenticated, hashed for privacy)
-  metadata?: Record<string, unknown>;  // Additional context
+  timestamp: string; // ISO 8601 format
+  level: LogLevel; // debug | info | warn | error | fatal
+  message: string; // Human-readable message
+  environment: string; // development | preview | staging | production
+  service: string; // Service name (e.g., 'routing-app', 'api')
+  traceId?: string; // Request trace ID for correlation
+  userId?: string; // User ID (if authenticated, hashed for privacy)
+  metadata?: Record<string, unknown>; // Additional context
   error?: {
     name: string;
     message: string;
@@ -35,29 +36,29 @@ interface LogEntry {
     code?: string;
   };
   performance?: {
-    duration?: number;     // Operation duration in ms
-    memory?: number;       // Memory usage in bytes
+    duration?: number; // Operation duration in ms
+    memory?: number; // Memory usage in bytes
   };
 }
 
-type LogLevel = 'debug' | 'info' | 'warn' | 'error' | 'fatal';
+type LogLevel = "debug" | "info" | "warn" | "error" | "fatal";
 ```
 
 #### Log Levels
 
-| Level | When to Use | Examples | Retention |
-|-------|-------------|----------|-----------|
-| **debug** | Development troubleshooting, verbose details | Function entry/exit, variable values | 7 days |
-| **info** | Normal operation events | User login, API calls, data updates | 30 days |
-| **warn** | Recoverable issues, deprecations | Fallback used, retry attempted, slow query | 90 days |
-| **error** | Errors requiring attention | API failure, validation error, uncaught exception | 180 days |
-| **fatal** | Critical system failures | Database unavailable, auth service down | 365 days |
+| Level     | When to Use                                  | Examples                                          | Retention |
+| --------- | -------------------------------------------- | ------------------------------------------------- | --------- |
+| **debug** | Development troubleshooting, verbose details | Function entry/exit, variable values              | 7 days    |
+| **info**  | Normal operation events                      | User login, API calls, data updates               | 30 days   |
+| **warn**  | Recoverable issues, deprecations             | Fallback used, retry attempted, slow query        | 90 days   |
+| **error** | Errors requiring attention                   | API failure, validation error, uncaught exception | 180 days  |
+| **fatal** | Critical system failures                     | Database unavailable, auth service down           | 365 days  |
 
 #### Logger Implementation
 
 ```typescript
 // packages/logger/src/logger.ts
-import { env } from '@repo/config/env';
+import { env } from "@repo/config/env";
 
 export class Logger {
   private service: string;
@@ -65,7 +66,7 @@ export class Logger {
 
   constructor(service: string) {
     this.service = service;
-    this.environment = env.VERCEL_ENV || 'development';
+    this.environment = env.VERCEL_ENV || "development";
   }
 
   private log(level: LogLevel, message: string, metadata?: LogMetadata): void {
@@ -84,51 +85,55 @@ export class Logger {
 
     // In production, send to Vercel logs (JSON format)
     // In development, pretty-print for readability
-    if (this.environment === 'development') {
+    if (this.environment === "development") {
       this.prettyPrint(entry);
     } else {
       console.log(JSON.stringify(entry));
     }
 
     // Send errors to Sentry
-    if (level === 'error' || level === 'fatal') {
+    if (level === "error" || level === "fatal") {
       this.sendToSentry(entry);
     }
   }
 
   debug(message: string, metadata?: LogMetadata): void {
-    this.log('debug', message, metadata);
+    this.log("debug", message, metadata);
   }
 
   info(message: string, metadata?: LogMetadata): void {
-    this.log('info', message, metadata);
+    this.log("info", message, metadata);
   }
 
   warn(message: string, metadata?: LogMetadata): void {
-    this.log('warn', message, metadata);
+    this.log("warn", message, metadata);
   }
 
   error(message: string, error?: Error, metadata?: LogMetadata): void {
-    this.log('error', message, {
+    this.log("error", message, {
       ...metadata,
-      error: error ? {
-        name: error.name,
-        message: error.message,
-        stack: error.stack,
-        code: (error as any).code,
-      } : undefined,
+      error: error
+        ? {
+            name: error.name,
+            message: error.message,
+            stack: error.stack,
+            code: (error as any).code,
+          }
+        : undefined,
     });
   }
 
   fatal(message: string, error?: Error, metadata?: LogMetadata): void {
-    this.log('fatal', message, {
+    this.log("fatal", message, {
       ...metadata,
-      error: error ? {
-        name: error.name,
-        message: error.message,
-        stack: error.stack,
-        code: (error as any).code,
-      } : undefined,
+      error: error
+        ? {
+            name: error.name,
+            message: error.message,
+            stack: error.stack,
+            code: (error as any).code,
+          }
+        : undefined,
     });
   }
 
@@ -140,18 +145,18 @@ export class Logger {
 
   private prettyPrint(entry: LogEntry): void {
     const colors = {
-      debug: '\x1b[36m',   // Cyan
-      info: '\x1b[32m',    // Green
-      warn: '\x1b[33m',    // Yellow
-      error: '\x1b[31m',   // Red
-      fatal: '\x1b[35m',   // Magenta
-      reset: '\x1b[0m',
+      debug: "\x1b[36m", // Cyan
+      info: "\x1b[32m", // Green
+      warn: "\x1b[33m", // Yellow
+      error: "\x1b[31m", // Red
+      fatal: "\x1b[35m", // Magenta
+      reset: "\x1b[0m",
     };
 
     const color = colors[entry.level];
     console.log(
       `${color}[${entry.level.toUpperCase()}]${colors.reset} ${entry.timestamp} - ${entry.message}`,
-      entry.metadata || ''
+      entry.metadata || ""
     );
   }
 
@@ -161,28 +166,28 @@ export class Logger {
 }
 
 // Usage examples
-const logger = new Logger('routing-app');
+const logger = new Logger("routing-app");
 
 // Info log
-logger.info('User logged in', {
-  userId: 'user_123',
-  data: { method: 'oauth' }
+logger.info("User logged in", {
+  userId: "user_123",
+  data: { method: "oauth" },
 });
 
 // Error log
 try {
   await riskyOperation();
 } catch (error) {
-  logger.error('Operation failed', error as Error, {
-    data: { operation: 'riskyOperation' }
+  logger.error("Operation failed", error as Error, {
+    data: { operation: "riskyOperation" },
   });
 }
 
 // Performance log
 const start = Date.now();
 await performTask();
-logger.info('Task completed', {
-  performance: { duration: Date.now() - start }
+logger.info("Task completed", {
+  performance: { duration: Date.now() - start },
 });
 ```
 
@@ -192,31 +197,31 @@ logger.info('Task completed', {
 
 ```typescript
 // packages/observability/src/sentry.ts
-import * as Sentry from '@sentry/nextjs';
-import { env } from '@repo/config/env';
+import * as Sentry from "@sentry/nextjs";
+import { env } from "@repo/config/env";
 
 export function initSentry(): void {
   if (!env.SENTRY_DSN) {
-    console.warn('Sentry DSN not configured, error tracking disabled');
+    console.warn("Sentry DSN not configured, error tracking disabled");
     return;
   }
 
   Sentry.init({
     dsn: env.SENTRY_DSN,
-    environment: env.VERCEL_ENV || 'development',
+    environment: env.VERCEL_ENV || "development",
 
     // Performance monitoring
-    tracesSampleRate: env.VERCEL_ENV === 'production' ? 0.1 : 1.0,
+    tracesSampleRate: env.VERCEL_ENV === "production" ? 0.1 : 1.0,
 
     // Session replay (production only)
-    replaysSessionSampleRate: env.VERCEL_ENV === 'production' ? 0.01 : 0,
-    replaysOnErrorSampleRate: env.VERCEL_ENV === 'production' ? 1.0 : 0,
+    replaysSessionSampleRate: env.VERCEL_ENV === "production" ? 0.01 : 0,
+    replaysOnErrorSampleRate: env.VERCEL_ENV === "production" ? 1.0 : 0,
 
     // Integrations
     integrations: [
       new Sentry.BrowserTracing({
         tracePropagationTargets: [
-          'localhost',
+          "localhost",
           /^https:\/\/[^/]*\.vercel\.app/,
           env.NEXT_PUBLIC_API_URL,
         ],
@@ -231,15 +236,15 @@ export function initSentry(): void {
     beforeSend(event, hint) {
       // Filter out known benign errors
       if (event.exception) {
-        const errorMessage = event.exception.values?.[0]?.value || '';
+        const errorMessage = event.exception.values?.[0]?.value || "";
 
         // Ignore cancelled requests
-        if (errorMessage.includes('AbortError')) {
+        if (errorMessage.includes("AbortError")) {
           return null;
         }
 
         // Ignore network errors (handled by retry logic)
-        if (errorMessage.includes('NetworkError')) {
+        if (errorMessage.includes("NetworkError")) {
           return null;
         }
       }
@@ -256,7 +261,7 @@ export function initSentry(): void {
     // Add custom context
     beforeBreadcrumb(breadcrumb) {
       // Sanitize breadcrumb data
-      if (breadcrumb.category === 'console') {
+      if (breadcrumb.category === "console") {
         return null; // Don't send console logs to Sentry
       }
       return breadcrumb;
@@ -265,7 +270,7 @@ export function initSentry(): void {
 
   // Set user context (only after authentication)
   Sentry.setUser({
-    id: 'anonymous', // Will be updated after auth
+    id: "anonymous", // Will be updated after auth
   });
 }
 
@@ -283,20 +288,14 @@ export function clearSentryUser(): void {
 }
 
 // Capture custom errors
-export function captureError(
-  error: Error,
-  context?: Record<string, unknown>
-): void {
+export function captureError(error: Error, context?: Record<string, unknown>): void {
   Sentry.captureException(error, {
     extra: context,
   });
 }
 
 // Capture custom messages
-export function captureMessage(
-  message: string,
-  level: Sentry.SeverityLevel = 'info'
-): void {
+export function captureMessage(message: string, level: Sentry.SeverityLevel = "info"): void {
   Sentry.captureMessage(message, level);
 }
 ```
@@ -406,11 +405,11 @@ export default function RootLayout({ children }: { children: ReactNode }) {
 
 ```typescript
 // packages/api/src/middleware/error-handler.ts
-import { NextRequest, NextResponse } from 'next/server';
-import { Logger } from '@repo/logger';
-import { captureError } from '@repo/observability/sentry';
+import { NextRequest, NextResponse } from "next/server";
+import { Logger } from "@repo/logger";
+import { captureError } from "@repo/observability/sentry";
 
-const logger = new Logger('api-error-handler');
+const logger = new Logger("api-error-handler");
 
 export class ApiError extends Error {
   constructor(
@@ -419,7 +418,7 @@ export class ApiError extends Error {
     public code?: string
   ) {
     super(message);
-    this.name = 'ApiError';
+    this.name = "ApiError";
   }
 }
 
@@ -453,7 +452,7 @@ export async function errorHandler(
     }
 
     // Unknown error - log and report
-    logger.error('Unhandled API error', error as Error, {
+    logger.error("Unhandled API error", error as Error, {
       data: {
         path: request.nextUrl.pathname,
         method: request.method,
@@ -470,8 +469,8 @@ export async function errorHandler(
       {
         success: false,
         error: {
-          message: 'Internal server error',
-          code: 'INTERNAL_ERROR',
+          message: "Internal server error",
+          code: "INTERNAL_ERROR",
         },
       },
       { status: 500 }
@@ -481,13 +480,13 @@ export async function errorHandler(
 
 // Usage in API routes
 // apps/routing/src/app/api/example/route.ts
-import { errorHandler, ApiError } from '@repo/api/middleware/error-handler';
+import { errorHandler, ApiError } from "@repo/api/middleware/error-handler";
 
 export async function GET(request: NextRequest) {
   return errorHandler(request, async (req) => {
     // Your API logic here
     if (someCondition) {
-      throw new ApiError('Resource not found', 404, 'NOT_FOUND');
+      throw new ApiError("Resource not found", 404, "NOT_FOUND");
     }
 
     return NextResponse.json({ success: true, data: {} });
@@ -567,14 +566,14 @@ Building on the health check endpoint defined in the Steel Thread section, we pr
 
 ```typescript
 // packages/observability/src/health-checks.ts
-import { Logger } from '@repo/logger';
-import { db } from '@repo/database';
-import { env } from '@repo/config/env';
+import { Logger } from "@repo/logger";
+import { db } from "@repo/database";
+import { env } from "@repo/config/env";
 
-const logger = new Logger('health-checks');
+const logger = new Logger("health-checks");
 
 export interface HealthCheckResult {
-  status: 'ok' | 'degraded' | 'error';
+  status: "ok" | "degraded" | "error";
   responseTime?: number;
   message?: string;
   lastChecked: string;
@@ -588,23 +587,23 @@ export async function checkDatabase(): Promise<HealthCheckResult> {
 
   try {
     // Simple query to test connection
-    await db.execute('SELECT 1');
+    await db.execute("SELECT 1");
 
     const responseTime = Date.now() - start;
-    const status = responseTime > 1000 ? 'degraded' : 'ok';
+    const status = responseTime > 1000 ? "degraded" : "ok";
 
     return {
       status,
       responseTime,
-      message: status === 'degraded' ? 'Slow response time' : undefined,
+      message: status === "degraded" ? "Slow response time" : undefined,
       lastChecked: new Date().toISOString(),
     };
   } catch (error) {
-    logger.error('Database health check failed', error as Error);
+    logger.error("Database health check failed", error as Error);
 
     return {
-      status: 'error',
-      message: 'Database connection failed',
+      status: "error",
+      message: "Database connection failed",
       lastChecked: new Date().toISOString(),
     };
   }
@@ -618,8 +617,8 @@ export async function checkAuth(): Promise<HealthCheckResult> {
 
   try {
     // Verify Clerk API key is valid
-    const response = await fetch('https://api.clerk.com/v1/sessions', {
-      method: 'HEAD',
+    const response = await fetch("https://api.clerk.com/v1/sessions", {
+      method: "HEAD",
       headers: {
         Authorization: `Bearer ${env.CLERK_SECRET_KEY}`,
       },
@@ -629,23 +628,23 @@ export async function checkAuth(): Promise<HealthCheckResult> {
 
     if (!response.ok) {
       return {
-        status: 'error',
+        status: "error",
         message: `Clerk API returned ${response.status}`,
         lastChecked: new Date().toISOString(),
       };
     }
 
     return {
-      status: responseTime > 500 ? 'degraded' : 'ok',
+      status: responseTime > 500 ? "degraded" : "ok",
       responseTime,
       lastChecked: new Date().toISOString(),
     };
   } catch (error) {
-    logger.error('Auth health check failed', error as Error);
+    logger.error("Auth health check failed", error as Error);
 
     return {
-      status: 'error',
-      message: 'Auth service unreachable',
+      status: "error",
+      message: "Auth service unreachable",
       lastChecked: new Date().toISOString(),
     };
   }
@@ -658,8 +657,8 @@ export async function checkCache(): Promise<HealthCheckResult> {
   // If no cache configured, return ok
   if (!env.REDIS_URL) {
     return {
-      status: 'ok',
-      message: 'Cache not configured',
+      status: "ok",
+      message: "Cache not configured",
       lastChecked: new Date().toISOString(),
     };
   }
@@ -672,17 +671,17 @@ export async function checkCache(): Promise<HealthCheckResult> {
     const responseTime = Date.now() - start;
 
     return {
-      status: 'ok',
+      status: "ok",
       responseTime,
       lastChecked: new Date().toISOString(),
     };
   } catch (error) {
-    logger.warn('Cache health check failed', error as Error);
+    logger.warn("Cache health check failed", error as Error);
 
     // Cache is non-critical, return degraded instead of error
     return {
-      status: 'degraded',
-      message: 'Cache unavailable',
+      status: "degraded",
+      message: "Cache unavailable",
       lastChecked: new Date().toISOString(),
     };
   }
@@ -692,26 +691,22 @@ export async function checkCache(): Promise<HealthCheckResult> {
  * Aggregate health check for all services
  */
 export async function checkAllServices(): Promise<{
-  overall: 'healthy' | 'degraded' | 'unhealthy';
+  overall: "healthy" | "degraded" | "unhealthy";
   checks: {
     database: HealthCheckResult;
     auth: HealthCheckResult;
     cache: HealthCheckResult;
   };
 }> {
-  const [database, auth, cache] = await Promise.all([
-    checkDatabase(),
-    checkAuth(),
-    checkCache(),
-  ]);
+  const [database, auth, cache] = await Promise.all([checkDatabase(), checkAuth(), checkCache()]);
 
   const checks = { database, auth, cache };
 
   // Determine overall status
-  const hasError = Object.values(checks).some(check => check.status === 'error');
-  const hasDegraded = Object.values(checks).some(check => check.status === 'degraded');
+  const hasError = Object.values(checks).some((check) => check.status === "error");
+  const hasDegraded = Object.values(checks).some((check) => check.status === "degraded");
 
-  const overall = hasError ? 'unhealthy' : hasDegraded ? 'degraded' : 'healthy';
+  const overall = hasError ? "unhealthy" : hasDegraded ? "degraded" : "healthy";
 
   return { overall, checks };
 }
@@ -743,8 +738,8 @@ export default function RootLayout({ children }: { children: ReactNode }) {
 
 ```typescript
 // packages/observability/src/posthog.ts
-import posthog from 'posthog-js';
-import { env } from '@repo/config/env';
+import posthog from "posthog-js";
+import { env } from "@repo/config/env";
 
 export function initPostHog(): void {
   if (!env.NEXT_PUBLIC_POSTHOG_KEY) {
@@ -752,9 +747,9 @@ export function initPostHog(): void {
   }
 
   posthog.init(env.NEXT_PUBLIC_POSTHOG_KEY, {
-    api_host: env.NEXT_PUBLIC_POSTHOG_HOST || 'https://app.posthog.com',
+    api_host: env.NEXT_PUBLIC_POSTHOG_HOST || "https://app.posthog.com",
     loaded: (posthog) => {
-      if (env.VERCEL_ENV === 'development') {
+      if (env.VERCEL_ENV === "development") {
         posthog.debug();
       }
     },
@@ -783,34 +778,34 @@ All observability utilities must maintain **80% test coverage**:
 
 ```typescript
 // packages/observability/__tests__/logger.test.ts
-import { describe, it, expect, vi } from 'vitest';
-import { Logger } from '../src/logger';
+import { describe, it, expect, vi } from "vitest";
+import { Logger } from "../src/logger";
 
-describe('Logger', () => {
-  it('should log info messages in JSON format', () => {
-    const consoleSpy = vi.spyOn(console, 'log');
-    const logger = new Logger('test-service');
+describe("Logger", () => {
+  it("should log info messages in JSON format", () => {
+    const consoleSpy = vi.spyOn(console, "log");
+    const logger = new Logger("test-service");
 
-    logger.info('Test message', { data: { key: 'value' } });
+    logger.info("Test message", { data: { key: "value" } });
 
     expect(consoleSpy).toHaveBeenCalled();
     const logEntry = JSON.parse(consoleSpy.mock.calls[0][0]);
-    expect(logEntry.level).toBe('info');
-    expect(logEntry.message).toBe('Test message');
-    expect(logEntry.service).toBe('test-service');
+    expect(logEntry.level).toBe("info");
+    expect(logEntry.message).toBe("Test message");
+    expect(logEntry.service).toBe("test-service");
   });
 
-  it('should include error details in error logs', () => {
-    const consoleSpy = vi.spyOn(console, 'log');
-    const logger = new Logger('test-service');
-    const error = new Error('Test error');
+  it("should include error details in error logs", () => {
+    const consoleSpy = vi.spyOn(console, "log");
+    const logger = new Logger("test-service");
+    const error = new Error("Test error");
 
-    logger.error('Operation failed', error);
+    logger.error("Operation failed", error);
 
     const logEntry = JSON.parse(consoleSpy.mock.calls[0][0]);
-    expect(logEntry.level).toBe('error');
-    expect(logEntry.error.name).toBe('Error');
-    expect(logEntry.error.message).toBe('Test error');
+    expect(logEntry.level).toBe("error");
+    expect(logEntry.error.name).toBe("Error");
+    expect(logEntry.error.message).toBe("Test error");
   });
 });
 ```
@@ -818,6 +813,7 @@ describe('Logger', () => {
 ### Observability Checklist
 
 **Development Phase**:
+
 - [ ] Structured logger configured in all services
 - [ ] Error boundaries wrap all major UI sections
 - [ ] API routes use error handler middleware
@@ -826,6 +822,7 @@ describe('Logger', () => {
 - [ ] Health check utilities tested
 
 **Pre-Production**:
+
 - [ ] Sentry project created and DSN added to environment variables
 - [ ] Log retention policies configured (per level)
 - [ ] Error filtering rules configured in Sentry
@@ -834,6 +831,7 @@ describe('Logger', () => {
 - [ ] PII scrubbing verified in logs and error reports
 
 **Production**:
+
 - [ ] Verify logs appear in Vercel dashboard
 - [ ] Verify errors are captured in Sentry
 - [ ] Monitor Web Vitals in Vercel Analytics
@@ -842,4 +840,3 @@ describe('Logger', () => {
 - [ ] Regular review of error trends and performance metrics
 
 ---
-

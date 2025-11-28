@@ -35,11 +35,11 @@ You are an expert database engineer specializing in PostgreSQL, multi-tenant arc
 
 Design for data isolation by default:
 
-- Every table (except User/Organization) includes `organization_id` foreign key
-- All queries filter by `organization_id` to prevent data leakage
-- Indexes optimize organization-scoped queries (`organization_id` + common filters)
+- Every table (except User/Organization) includes `Organization_id` foreign key
+- All queries filter by `Organization_id` to prevent data leakage
+- Indexes optimize Organization-scoped queries (`Organization_id` + common filters)
 - Consider row-level security (RLS) policies for defense-in-depth
-- Test cross-organization data access is impossible at database level
+- Test cross-Organization data access is impossible at database level
 
 ### 2. Performance Is a Feature
 
@@ -87,7 +87,7 @@ Encode business rules in the database:
 
 1. **Understand the Domain**: What entities exist? How do they relate?
 2. **Identify Access Patterns**: How will data be queried? What's filtered frequently?
-3. **Model Multi-Tenancy**: Which tables need `organization_id`? What's the cascade behavior?
+3. **Model Multi-Tenancy**: Which tables need `Organization_id`? What's the cascade behavior?
 4. **Define Relationships**: Foreign keys, one-to-many, many-to-many junction tables
 5. **Add Constraints**: NOT NULL, UNIQUE, CHECK constraints for data integrity
 6. **Plan Indexes**: Cover frequent query patterns, especially org-scoped queries
@@ -125,17 +125,18 @@ When changing schemas:
 ```sql
 CREATE TABLE content (
     id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-    organization_id UUID NOT NULL REFERENCES organizations(id) ON DELETE CASCADE,
+    Organization_id UUID NOT NULL REFERENCES Organizations(id) ON DELETE CASCADE,
     title TEXT NOT NULL,
     created_at TIMESTAMPTZ DEFAULT NOW(),
     updated_at TIMESTAMPTZ DEFAULT NOW()
 );
 
-CREATE INDEX idx_content_org_created ON content(organization_id, created_at DESC);
+CREATE INDEX idx_content_org_created ON content(Organization_id, created_at DESC);
 ```
 
 **Why This Pattern**:
-- `organization_id` foreign key enforces referential integrity
+
+- `Organization_id` foreign key enforces referential integrity
 - CASCADE delete removes org data when org deleted
 - Composite index (org_id, created_at) optimizes common "recent content for org" queries
 - Timestamps enable sorting, filtering, audit trails
@@ -145,22 +146,23 @@ CREATE INDEX idx_content_org_created ON content(organization_id, created_at DESC
 **Many-to-Many with Metadata**:
 
 ```sql
-CREATE TABLE user_organizations (
+CREATE TABLE user_Organizations (
     id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
     user_id UUID NOT NULL REFERENCES users(id) ON DELETE CASCADE,
-    organization_id UUID NOT NULL REFERENCES organizations(id) ON DELETE CASCADE,
+    Organization_id UUID NOT NULL REFERENCES Organizations(id) ON DELETE CASCADE,
     role TEXT NOT NULL CHECK (role IN ('internal', 'product-seller', 'agency-seller', 'client')),
     created_at TIMESTAMPTZ DEFAULT NOW(),
-    UNIQUE(user_id, organization_id)
+    UNIQUE(user_id, Organization_id)
 );
 
-CREATE INDEX idx_user_orgs_user ON user_organizations(user_id);
-CREATE INDEX idx_user_orgs_org ON user_organizations(organization_id);
+CREATE INDEX idx_user_orgs_user ON user_Organizations(user_id);
+CREATE INDEX idx_user_orgs_org ON user_Organizations(Organization_id);
 ```
 
 **Why This Pattern**:
-- Supports users belonging to multiple organizations
-- Role stored per-organization (user can be admin in one org, client in another)
+
+- Supports users belonging to multiple Organizations
+- Role stored per-Organization (user can be admin in one org, client in another)
 - UNIQUE constraint prevents duplicate memberships
 - Indexes on both foreign keys optimize lookups from either direction
 
@@ -171,17 +173,18 @@ CREATE INDEX idx_user_orgs_org ON user_organizations(organization_id);
 ```sql
 CREATE TABLE campaigns (
     id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-    organization_id UUID NOT NULL REFERENCES organizations(id) ON DELETE CASCADE,
+    Organization_id UUID NOT NULL REFERENCES Organizations(id) ON DELETE CASCADE,
     name TEXT NOT NULL,
     deleted_at TIMESTAMPTZ,
     created_at TIMESTAMPTZ DEFAULT NOW()
 );
 
-CREATE INDEX idx_campaigns_org_active ON campaigns(organization_id, created_at DESC) 
+CREATE INDEX idx_campaigns_org_active ON campaigns(Organization_id, created_at DESC)
     WHERE deleted_at IS NULL;
 ```
 
 **Why This Pattern**:
+
 - Partial index (WHERE deleted_at IS NULL) keeps index small and fast
 - Enables data recovery and audit trails
 - Queries filter `WHERE deleted_at IS NULL` to exclude soft-deleted records
@@ -194,7 +197,7 @@ CREATE INDEX idx_campaigns_org_active ON campaigns(organization_id, created_at D
 ```sql
 CREATE TABLE analytics_events (
     id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-    organization_id UUID NOT NULL REFERENCES organizations(id) ON DELETE CASCADE,
+    Organization_id UUID NOT NULL REFERENCES Organizations(id) ON DELETE CASCADE,
     event_type TEXT NOT NULL,
     event_data JSONB,
     user_id UUID REFERENCES users(id) ON DELETE SET NULL,
@@ -202,12 +205,13 @@ CREATE TABLE analytics_events (
 );
 
 CREATE INDEX idx_events_org_type_time ON analytics_events(
-    organization_id, event_type, created_at DESC
+    Organization_id, event_type, created_at DESC
 );
 CREATE INDEX idx_events_data_gin ON analytics_events USING gin(event_data);
 ```
 
 **Why This Pattern**:
+
 - Composite index optimizes "recent events of type X for org Y" queries
 - GIN index on JSONB enables fast queries on event_data fields
 - `ON DELETE SET NULL` preserves events when users deleted
@@ -238,40 +242,40 @@ CREATE INDEX idx_events_data_gin ON analytics_events USING gin(event_data);
 
 ```sql
 -- Common pattern: recent items for an org
-SELECT * FROM content 
-WHERE organization_id = $1 
-ORDER BY created_at DESC 
+SELECT * FROM content
+WHERE Organization_id = $1
+ORDER BY created_at DESC
 LIMIT 20;
 
 -- Optimal index
-CREATE INDEX idx_content_org_created ON content(organization_id, created_at DESC);
+CREATE INDEX idx_content_org_created ON content(Organization_id, created_at DESC);
 ```
 
 **Filtered Organization Queries**:
 
 ```sql
 -- Pattern: filtered items for an org
-SELECT * FROM campaigns 
-WHERE organization_id = $1 
-  AND status = 'active' 
+SELECT * FROM campaigns
+WHERE Organization_id = $1
+  AND status = 'active'
   AND deleted_at IS NULL;
 
 -- Optimal index (most selective filters first)
-CREATE INDEX idx_campaigns_org_status ON campaigns(organization_id, status) 
+CREATE INDEX idx_campaigns_org_status ON campaigns(Organization_id, status)
 WHERE deleted_at IS NULL;
 ```
 
 **Aggregations**:
 
 ```sql
--- Pattern: counts/sums per organization
-SELECT organization_id, COUNT(*), SUM(revenue) 
-FROM orders 
-WHERE created_at >= $1 
-GROUP BY organization_id;
+-- Pattern: counts/sums per Organization
+SELECT Organization_id, COUNT(*), SUM(revenue)
+FROM orders
+WHERE created_at >= $1
+GROUP BY Organization_id;
 
 -- Optimal index
-CREATE INDEX idx_orders_created_org ON orders(created_at, organization_id);
+CREATE INDEX idx_orders_created_org ON orders(created_at, Organization_id);
 ```
 
 ### EXPLAIN ANALYZE Interpretation
@@ -306,7 +310,7 @@ BEGIN;
 
 CREATE TABLE campaigns (
     id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-    organization_id UUID NOT NULL REFERENCES organizations(id) ON DELETE CASCADE,
+    Organization_id UUID NOT NULL REFERENCES Organizations(id) ON DELETE CASCADE,
     name TEXT NOT NULL,
     status TEXT NOT NULL DEFAULT 'draft' CHECK (status IN ('draft', 'active', 'paused', 'completed')),
     budget_cents INTEGER,
@@ -314,7 +318,7 @@ CREATE TABLE campaigns (
     updated_at TIMESTAMPTZ DEFAULT NOW()
 );
 
-CREATE INDEX idx_campaigns_org_status ON campaigns(organization_id, status);
+CREATE INDEX idx_campaigns_org_status ON campaigns(Organization_id, status);
 
 COMMIT;
 
@@ -391,13 +395,14 @@ reserve_pool_timeout = 5
 ```
 
 **Why Transaction Mode**:
+
 - Connections released after each transaction (not held by idle sessions)
 - Higher concurrency with fewer database connections
 - Works with most ORMs (session mode needed for temporary tables, cursors)
 
 **Pool Sizing Guidelines**:
 
-- `default_pool_size`: ~(2 * num_cpu_cores) on database server
+- `default_pool_size`: ~(2 \* num_cpu_cores) on database server
 - `max_client_conn`: Application-side connection limit (can be high)
 - `reserve_pool_size`: Extra connections for burst traffic
 - Monitor: If apps wait for connections, increase pool size
@@ -405,16 +410,19 @@ reserve_pool_timeout = 5
 ### Environment-Specific Configuration
 
 **Development**:
+
 - Direct database connections (no pooling)
 - Verbose query logging
 - Lower connection limits (5-10)
 
 **Staging**:
+
 - Pooling enabled (test pool configuration)
 - Moderate logging
 - Production-like data volumes
 
 **Production**:
+
 - Pooling required (PgBouncer)
 - Selective query logging (slow queries only)
 - Higher connection limits (20-50 per pool)
@@ -443,19 +451,19 @@ model Organization {
   updatedAt DateTime @updatedAt @map("updated_at")
 
   content   Content[]
-  
-  @@map("organizations")
+
+  @@map("Organizations")
 }
 
 model Content {
   id             String       @id @default(uuid())
-  organizationId String       @map("organization_id")
+  OrganizationId String       @map("Organization_id")
   title          String
   createdAt      DateTime     @default(now()) @map("created_at")
-  
-  organization   Organization @relation(fields: [organizationId], references: [id], onDelete: Cascade)
-  
-  @@index([organizationId, createdAt(sort: Desc)])
+
+  Organization   Organization @relation(fields: [OrganizationId], references: [id], onDelete: Cascade)
+
+  @@index([OrganizationId, createdAt(sort: Desc)])
   @@map("content")
 }
 ```
@@ -479,7 +487,7 @@ export type Organization = {
 
 export type Content = {
   id: string;
-  organizationId: string;
+  OrganizationId: string;
   title: string;
   createdAt: Date;
 };
@@ -490,32 +498,41 @@ export type Content = {
 **Schema Definition** (`schema.ts`):
 
 ```typescript
-import { pgTable, uuid, text, timestamp } from 'drizzle-orm/pg-core';
+import { pgTable, uuid, text, timestamp } from "drizzle-orm/pg-core";
 
-export const organizations = pgTable('organizations', {
-  id: uuid('id').defaultRandom().primaryKey(),
-  name: text('name').notNull(),
-  createdAt: timestamp('created_at').defaultNow(),
-  updatedAt: timestamp('updated_at').defaultNow(),
+export const Organizations = pgTable("Organizations", {
+  id: uuid("id").defaultRandom().primaryKey(),
+  name: text("name").notNull(),
+  createdAt: timestamp("created_at").defaultNow(),
+  updatedAt: timestamp("updated_at").defaultNow(),
 });
 
-export const content = pgTable('content', {
-  id: uuid('id').defaultRandom().primaryKey(),
-  organizationId: uuid('organization_id').notNull().references(() => organizations.id, { onDelete: 'cascade' }),
-  title: text('title').notNull(),
-  createdAt: timestamp('created_at').defaultNow(),
-}, (table) => ({
-  orgCreatedIdx: index('idx_content_org_created').on(table.organizationId, table.createdAt.desc()),
-}));
+export const content = pgTable(
+  "content",
+  {
+    id: uuid("id").defaultRandom().primaryKey(),
+    OrganizationId: uuid("Organization_id")
+      .notNull()
+      .references(() => Organizations.id, { onDelete: "cascade" }),
+    title: text("title").notNull(),
+    createdAt: timestamp("created_at").defaultNow(),
+  },
+  (table) => ({
+    orgCreatedIdx: index("idx_content_org_created").on(
+      table.OrganizationId,
+      table.createdAt.desc()
+    ),
+  })
+);
 ```
 
 **Type Inference**:
 
 ```typescript
-import { InferModel } from 'drizzle-orm';
-import { organizations, content } from './schema';
+import { InferModel } from "drizzle-orm";
+import { Organizations, content } from "./schema";
 
-export type Organization = InferModel<typeof organizations>;
+export type Organization = InferModel<typeof Organizations>;
 export type Content = InferModel<typeof content>;
 ```
 
@@ -528,7 +545,7 @@ export type Content = InferModel<typeof content>;
 ```sql
 CREATE TABLE posts (
     id UUID PRIMARY KEY,
-    organization_id UUID NOT NULL REFERENCES organizations(id) ON DELETE CASCADE
+    Organization_id UUID NOT NULL REFERENCES Organizations(id) ON DELETE CASCADE
 );
 ```
 
@@ -585,18 +602,21 @@ CREATE TABLE reservations (
 ### Key Metrics to Track
 
 **Query Performance**:
+
 - P50, P95, P99 query latencies by type
 - Slow query log (queries >100ms)
 - Query execution plans for common queries
 - Cache hit rates (PostgreSQL buffer cache)
 
 **Connection Health**:
+
 - Active connections vs pool size
 - Connection wait times
 - Connection errors/timeouts
 - Pool exhaustion events
 
 **Database Health**:
+
 - Table sizes and growth rates
 - Index usage statistics (unused indexes waste space/write performance)
 - Replication lag (if using replicas)
@@ -607,7 +627,7 @@ CREATE TABLE reservations (
 **Find Slow Queries** (requires `pg_stat_statements`):
 
 ```sql
-SELECT 
+SELECT
     query,
     calls,
     mean_exec_time,
@@ -621,7 +641,7 @@ LIMIT 20;
 **Find Missing Indexes**:
 
 ```sql
-SELECT 
+SELECT
     schemaname,
     tablename,
     seq_scan,
@@ -634,7 +654,7 @@ ORDER BY seq_scan DESC;
 **Find Unused Indexes**:
 
 ```sql
-SELECT 
+SELECT
     schemaname,
     tablename,
     indexname,
@@ -647,7 +667,7 @@ ORDER BY pg_relation_size(indexrelid) DESC;
 **Table Sizes**:
 
 ```sql
-SELECT 
+SELECT
     schemaname,
     tablename,
     pg_size_pretty(pg_total_relation_size(schemaname||'.'||tablename)) AS total_size
@@ -686,7 +706,7 @@ ORDER BY pg_total_relation_size(schemaname||'.'||tablename) DESC;
 
 ### Schema Design Issues
 
-- ❌ Missing `organization_id` on org-scoped tables (data leakage risk)
+- ❌ Missing `Organization_id` on org-scoped tables (data leakage risk)
 - ❌ No foreign keys (referential integrity not enforced)
 - ❌ Missing indexes on frequently filtered columns
 - ❌ TEXT columns without length limits (unbounded growth)

@@ -3,17 +3,20 @@
 > **To implement this story:** Read the Technical Requirements, create/modify the specified files following TAD patterns, then verify using the Test Requirements and Verification Checklist.
 
 ## Context
+
 - **Epic**: [Steel Thread Deployment](./EPIC.md)
 - **Depends On**: [S6: Create Playwright Smoke Test Suite](./S6-smoke-tests.md)
 - **Blocks**: [S8: Document Deployment Process](./S8-documentation.md)
 - **Runs in Parallel With**: None
 
 ## User Story
+
 **As a** developer
 **I want** automated CI checks that run on every pull request and push
 **So that** code quality is enforced and deployment failures are caught before merging
 
 ## Acceptance Criteria
+
 - [x] GitHub Actions workflow file created at `.github/workflows/ci.yml`
 - [x] Workflow runs on pull requests to `development` branch
 - [x] Workflow runs on pushes to `development` branch
@@ -30,13 +33,15 @@
 ## Technical Requirements
 
 ### Files to Create
-| Path | Purpose |
-|------|---------|
+
+| Path                       | Purpose                                                           |
+| -------------------------- | ----------------------------------------------------------------- |
 | `.github/workflows/ci.yml` | Main CI workflow with lint, type-check, test, build, and E2E jobs |
 
 ### Files to Modify
-| Path | Changes |
-|------|---------|
+
+| Path           | Changes                                                |
+| -------------- | ------------------------------------------------------ |
 | `package.json` | Ensure lint, type-check, test, and build scripts exist |
 
 ### Dependencies
@@ -44,6 +49,7 @@
 > **Version Reference**: Use exact versions from [canonical-versions.md](/docs/2-technical/references/canonical-versions.md)
 
 No additional npm dependencies required. GitHub Actions uses:
+
 - `actions/checkout@v4`
 - `actions/setup-node@v4`
 - `pnpm/action-setup@v4`
@@ -52,17 +58,18 @@ No additional npm dependencies required. GitHub Actions uses:
 
 ### Configuration Details
 
-| Setting | Requirement | TAD Reference |
-|---------|-------------|---------------|
-| Trigger branches | `development` for PR and push events | [TAD: GitHub Actions Workflow](/docs/2-technical/2-tad-steel-thread-deployment.md#github-actions-workflow) |
-| Node.js version | Per canonical-versions.md (24.x) | [canonical-versions.md](/docs/2-technical/references/canonical-versions.md) |
-| pnpm version | Per canonical-versions.md (10.x) | [canonical-versions.md](/docs/2-technical/references/canonical-versions.md) |
-| Concurrency | Cancel in-progress runs for same branch | [TAD: GitHub Actions Workflow](/docs/2-technical/2-tad-steel-thread-deployment.md#github-actions-workflow) |
-| E2E timeout | 300s for Vercel preview wait | [TAD: Deployment Smoke Tests](/docs/2-technical/2-tad-steel-thread-deployment.md#deployment-smoke-tests) |
+| Setting          | Requirement                             | TAD Reference                                                                                              |
+| ---------------- | --------------------------------------- | ---------------------------------------------------------------------------------------------------------- |
+| Trigger branches | `development` for PR and push events    | [TAD: GitHub Actions Workflow](/docs/2-technical/2-tad-steel-thread-deployment.md#github-actions-workflow) |
+| Node.js version  | Per canonical-versions.md (24.x)        | [canonical-versions.md](/docs/2-technical/references/canonical-versions.md)                                |
+| pnpm version     | Per canonical-versions.md (10.x)        | [canonical-versions.md](/docs/2-technical/references/canonical-versions.md)                                |
+| Concurrency      | Cancel in-progress runs for same branch | [TAD: GitHub Actions Workflow](/docs/2-technical/2-tad-steel-thread-deployment.md#github-actions-workflow) |
+| E2E timeout      | 300s for Vercel preview wait            | [TAD: Deployment Smoke Tests](/docs/2-technical/2-tad-steel-thread-deployment.md#deployment-smoke-tests)   |
 
 ## Test Requirements
 
 ### Manual Verification
+
 - [ ] Create a PR to `development` branch and verify all jobs run
 - [ ] Verify lint job catches ESLint violations
 - [ ] Verify type-check job catches TypeScript errors
@@ -71,6 +78,7 @@ No additional npm dependencies required. GitHub Actions uses:
 - [ ] Verify failed checks prevent PR merge
 
 ### Verification Commands
+
 ```bash
 # Test workflow locally with act (optional)
 act -j lint --container-architecture linux/amd64
@@ -108,6 +116,7 @@ pnpm run test:e2e:smoke --help
    - Test full workflow with a real PR
 
 ### Key Concepts
+
 - **Job Parallelization**: lint, type-check, test, and build run in parallel for faster feedback
 - **E2E Dependency**: e2e-smoke job uses `needs: [lint, type-check, test, build]` to run only after all pass
 - **Concurrency Groups**: Prevent wasted CI minutes by cancelling outdated runs
@@ -116,26 +125,30 @@ pnpm run test:e2e:smoke --help
 ### Common Patterns
 
 Reference the TAD for implementation patterns:
+
 - [TAD: GitHub Actions Workflow](/docs/2-technical/2-tad-steel-thread-deployment.md#github-actions-workflow)
 
 Key pattern notes:
+
 - Use `pnpm install --frozen-lockfile` to ensure reproducible builds
 - Cache pnpm store with `actions/setup-node` cache option
 - Run E2E only on `pull_request` events (not needed for push to development)
 
 ### Troubleshooting
 
-| Issue | Solution |
-|-------|----------|
+| Issue                                 | Solution                                                                                 |
+| ------------------------------------- | ---------------------------------------------------------------------------------------- |
 | E2E tests timeout waiting for preview | Increase `max_timeout` in wait-for-vercel-preview; verify Vercel GitHub app is connected |
-| pnpm cache not working | Verify `cache: 'pnpm'` is set in actions/setup-node |
-| Workflow not triggering | Check branch name matches trigger; verify workflow file syntax |
-| Status checks not appearing | GitHub may take a few minutes to register new workflow; push a commit to trigger |
+| pnpm cache not working                | Verify `cache: 'pnpm'` is set in actions/setup-node                                      |
+| Workflow not triggering               | Check branch name matches trigger; verify workflow file syntax                           |
+| Status checks not appearing           | GitHub may take a few minutes to register new workflow; push a commit to trigger         |
 
 ## Estimated Effort
+
 **Size**: M (4-8h)
 
 **Breakdown**:
+
 - Workflow file creation: 30min
 - Core jobs configuration: 1h
 - E2E job with Vercel wait: 1h
@@ -145,12 +158,14 @@ Key pattern notes:
 ## Architecture Decisions
 
 ### Consolidated Decisions (reference only)
+
 - [TAD: CI/CD Approach](/docs/2-technical/2-tad.md#cicd-approach) - GitHub Actions for CI/CD pipeline
 - [TAD: GitHub Actions Workflow](/docs/2-technical/2-tad-steel-thread-deployment.md#github-actions-workflow) - Workflow structure and jobs
 
 ### Story-Specific Decisions
 
 #### AD-0A.1.S7.1: Parallel Core Jobs
+
 **Scope**: Story-specific (does not affect other stories)
 
 **Decision**: Run lint, type-check, test, and build jobs in parallel rather than sequentially.
@@ -160,6 +175,7 @@ Key pattern notes:
 **Consequences**: Higher concurrent runner usage; faster developer feedback.
 
 #### AD-0A.1.S7.2: E2E Only on Pull Requests
+
 **Scope**: Story-specific (does not affect other stories)
 
 **Decision**: Only run E2E smoke tests on `pull_request` events, not on `push` events.
@@ -180,20 +196,24 @@ Key pattern notes:
 ## Dependencies on Other Stories
 
 ### Depends On (Must Complete First)
+
 - **S6**: Create Playwright Smoke Test Suite - Provides `test:e2e:smoke` script for E2E job
 
 ### Enables (Unblocks These Stories)
+
 - **S8**: Document Deployment Process - Needs CI workflow complete to document full pipeline
 
 ## References
 
 ### Epic & TAD References
+
 - [EPIC.md](./EPIC.md)
 - [TAD: CI/CD Approach](/docs/2-technical/2-tad.md#cicd-approach)
 - [TAD: GitHub Actions Workflow](/docs/2-technical/2-tad-steel-thread-deployment.md#github-actions-workflow)
 - [TAD: Branch Protection Rules](/docs/2-technical/2-tad-steel-thread-deployment.md#github-repository-configuration)
 
 ### External Documentation
+
 - [GitHub Actions Documentation](https://docs.github.com/en/actions)
 - [pnpm/action-setup](https://github.com/pnpm/action-setup)
 - [wait-for-vercel-preview](https://github.com/patrickedqvist/wait-for-vercel-preview)
@@ -201,11 +221,13 @@ Key pattern notes:
 ## Verification Checklist
 
 ### Pre-Verification
+
 - [x] S6 (Playwright Smoke Test Suite) completed
 - [x] Local environment matches [canonical versions](/docs/2-technical/references/canonical-versions.md)
 - [ ] Vercel GitHub integration connected to repository - requires Vercel account setup
 
 ### Implementation Quality
+
 - [x] All acceptance criteria met (except branch protection which requires GitHub settings)
 - [x] Workflow syntax valid (GitHub validates on push)
 - [ ] All jobs pass on a test PR - requires first PR to test
@@ -213,11 +235,13 @@ Key pattern notes:
 - [ ] Concurrency correctly cancels outdated runs - requires multiple pushes to test
 
 ### Git Hygiene
+
 - [x] Conventional commit message used (e.g., `ci: add GitHub Actions CI workflow`)
 - [x] No unrelated changes included
 - [x] Workflow file properly indented (2 spaces)
 
 ## Status
+
 - **State**: Complete
 - **Completed**: 2025-11-27
 - **PR**: -
@@ -225,25 +249,31 @@ Key pattern notes:
 ## Completion Notes
 
 ### Summary
+
 Created GitHub Actions CI workflow at `.github/workflows/ci.yml` with five jobs (lint, type-check, test, build, e2e-smoke) that run on PRs and pushes to the `development` branch. The workflow uses Node.js 24.x and pnpm 10.x per canonical versions, with concurrency settings to cancel in-progress runs. E2E smoke tests are configured to run only on PRs, waiting for Vercel preview deployments before executing. A commented-out alternative for local builds is preserved in both the workflow and Playwright config.
 
 ### Test Results
-| Test | Command | Result |
-|------|---------|--------|
-| Lint | `pnpm lint` | Pending (requires bash approval) |
-| Types | `pnpm type-check` | Pending (requires bash approval) |
-| Build | `pnpm build` | Pending (requires bash approval) |
+
+| Test      | Command               | Result                                |
+| --------- | --------------------- | ------------------------------------- |
+| Lint      | `pnpm lint`           | Pending (requires bash approval)      |
+| Types     | `pnpm type-check`     | Pending (requires bash approval)      |
+| Build     | `pnpm build`          | Pending (requires bash approval)      |
 | E2E Smoke | `pnpm test:e2e:smoke` | Pending (requires running dev server) |
 
 ### Files Changed
+
 Beyond planned files:
+
 - `package.json` - Added `test` script placeholder for unit tests
 - `playwright.config.ts` - Contains commented-out `webServer` config for local testing alternative
 
 ### Known Issues
+
 - **Issue**: Branch protection rules for required status checks - **Status**: Deferred - **Tracking**: Requires manual GitHub repository settings configuration after first workflow run
 
 ### Lessons Learned
+
 - The wait-for-vercel-preview action requires the Vercel GitHub integration to be connected to the repository
 - E2E smoke job only runs on `pull_request` events per AD-0A.1.S7.2 decision (not on push to development)
 - The pnpm/action-setup@v4 action reads the pnpm version from the `packageManager` field in package.json automatically—do not specify an explicit `version:` parameter in the workflow, as this causes `ERR_PNPM_BAD_PM_VERSION` errors when the versions diverge

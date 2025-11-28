@@ -15,6 +15,7 @@ Create the epic details file (EPIC.md) for the specified Epic, including the sto
 ## Input Documents
 
 Read and reference these documents:
+
 1. **Roadmap**: `docs/1-product/3-roadmap.md` - for epic definition, phase context, and acceptance criteria
 2. **PRD**: `docs/1-product/1-prd.md` - for product requirements and feature context
 3. **TAD**: `docs/2-technical/2-tad.md` (and related TAD files) - for technical architecture and patterns
@@ -25,6 +26,7 @@ Read and reference these documents:
 Create the epic directory and EPIC.md file at: `docs/3-epics/{epic-slug}/EPIC.md`
 
 Where `{epic-slug}` follows the pattern: `{PhaseID}.{Number}-{kebab-case-name}`
+
 - Example: `1A.1-monorepo-setup/EPIC.md`
 - Example: `2A.3-observability/EPIC.md`
 
@@ -37,12 +39,14 @@ Use [epic-details-template.md](./epic-details-template.md) as the template struc
 Epics are planning documents that define what will be delivered and break it into stories. They should not contain implementation details.
 
 **DO NOT include:**
+
 - Implementation code or configuration examples
 - Detailed technical specifications (these belong in TAD)
 - Story-level acceptance criteria (those go in individual stories)
 - Hardcoded version numbers
 
 **DO include:**
+
 - High-level acceptance criteria (measurable outcomes)
 - Story breakdown with titles, sizes, and dependencies
 - Dependency graph showing story relationships
@@ -53,6 +57,7 @@ Epics are planning documents that define what will be delivered and break it int
 ### Story Breakdown Guidelines
 
 When defining stories for the epic:
+
 - Each story should be independently implementable and testable
 - Target 4-8 stories per epic (split if more needed)
 - Identify parallel execution opportunities
@@ -64,28 +69,31 @@ When defining stories for the epic:
 Epic acceptance criteria should be **outcomes**, not **tasks**:
 
 **Good (outcomes):**
+
 - "Developers can run `pnpm build` and get cached results"
 - "Preview deployments are created for every PR"
 
 **Bad (tasks):**
+
 - "Install Turborepo"
 - "Configure caching"
 
 ### Dependencies
 
 Document all three dependency types:
+
 - **Requires**: Epics that must complete before this one can start
 - **Blocks**: Epics that depend on this one completing
 - **Parallel**: Epics that can run concurrently with this one
 
 ## Reference Documents
 
-| Document | Purpose |
-|----------|---------|
-| [epic-details-template.md](./epic-details-template.md) | Epic structure template |
-| [story-details-template.md](./story-details-template.md) | Story structure (for understanding story breakdown) |
-| [file-structure.md](docs/1-product/references/file-structure.md) | File location conventions |
-| [canonical-versions.md](/docs/2-technical/references/canonical-versions.md) | Technology versions |
+| Document                                                                    | Purpose                                             |
+| --------------------------------------------------------------------------- | --------------------------------------------------- |
+| [epic-details-template.md](./epic-details-template.md)                      | Epic structure template                             |
+| [story-details-template.md](./story-details-template.md)                    | Story structure (for understanding story breakdown) |
+| [file-structure.md](docs/1-product/references/file-structure.md)            | File location conventions                           |
+| [canonical-versions.md](/docs/2-technical/references/canonical-versions.md) | Technology versions                                 |
 
 ## Validation
 
@@ -94,6 +102,7 @@ When complete, validate the epic against [epic-acceptance-criteria.md](./epic-ac
 ### Quality Checks
 
 Before finishing, verify:
+
 - [ ] All acceptance criteria are measurable outcomes (not tasks)
 - [ ] Story table includes Size, Depends On, and Blocks columns
 - [ ] Story dependency graph matches the story table
@@ -107,6 +116,7 @@ Before finishing, verify:
 ### Post-Creation
 
 After creating the EPIC.md:
+
 1. Story files can be created using [story-details-prompt-template.md](./story-details-prompt-template.md)
 2. Update the roadmap status if needed
 3. Verify cross-references between related epics

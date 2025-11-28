@@ -52,6 +52,6 @@ execute @docs/0-process/references/story-dev-prompt.md for docs/3-epics/0A.1-ste
 execute @docs/0-process/references/story-dev-prompt.md for docs/3-epics/0A.1-steel-thread/S8-documentation.md
 ```
 
-### S9: Middleware
+###  S9: Middleware
 
 execute @docs/0-process/references/story-dev-prompt.md for S9-basic-auth-middleware

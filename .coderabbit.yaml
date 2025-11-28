@@ -1,0 +1,81 @@
+# CodeRabbit Configuration
+# AI-powered code review for pull requests
+# Documentation: https://docs.coderabbit.ai/guides/configure-coderabbit
+
+# Schema version for configuration format
+version: "2"
+
+# Language for review comments - British English per project convention
+language: "en-GB"
+
+# Review configuration
+reviews:
+  # Review profile controls verbosity and strictness
+  # Options: "chill"| "assertive"
+  # "balanced" is the default - thorough but not excessive
+  profile: "assertive"
+
+  # Automatic code review on PR creation and updates
+  auto_review:
+    enabled: true
+    # Review when PR is opened or synchronised (new commits pushed)
+    drafts: false # Skip draft PRs to reduce noise
+
+  # Path-based exclusions to avoid reviewing generated/vendored files
+  path_filters:
+    # Lockfiles - auto-generated, no code review value
+    - "!pnpm-lock.yaml"
+    - "!package-lock.json"
+    - "!yarn.lock"
+
+    # Build output directories
+    - "!dist/**"
+    - "!.next/**"
+    - "!out/**"
+    - "!build/**"
+
+    # Dependencies and caches
+    - "!node_modules/**"
+    - "!.turbo/**"
+    - "!.cache/**"
+
+    # IDE and editor config
+    - "!.vscode/**"
+    - "!.idea/**"
+
+    # Coverage and test output
+    - "!coverage/**"
+    - "!test-results/**"
+    - "!playwright-report/**"
+
+    # Auto-generated types
+    - "!**/*.d.ts"
+
+    # Documentation files
+    - "!**/*.md"
+
+  # Request changes on significant issues
+  request_changes_workflow: true
+
+  # Review labels to add to PRs
+  labels:
+    - "ai-review"
+
+  # Path-specific review instructions
+  path_instructions:
+    - path: "apps/**"
+      instructions: "Focus on Next.js best practices, React patterns, and performance optimizations."
+    - path: "packages/**"
+      instructions: "Ensure proper TypeScript types, package boundaries, and reusable patterns."
+    - path: "**/*.test.ts"
+      instructions: "Check test coverage, assertion quality, and testing best practices."
+    - path: "**/*.test.tsx"
+      instructions: "Check test coverage, assertion quality, and testing best practices."
+
+# Chat configuration for interactive review discussions
+chat:
+  # Enable auto-reply to comments on CodeRabbit reviews
+  auto_reply: true
+
+# Tone and style preferences
+tone_instructions: "Be constructive and educational. Focus on actionable feedback with brief explanations. Avoid being overly pedantic about minor style issues that linters handle."

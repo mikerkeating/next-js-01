@@ -15,11 +15,11 @@
 
 {2-3 sentences describing the evaluation outcome and any critical findings}
 
-| Category | Epic Requirements | Story Coverage | Status |
-|----------|-------------------|----------------|--------|
-| {Section 1} | {N} criteria | S{N} ({%}) | {Status emoji} {Status} |
-| {Section 2} | {N} criteria | S{N} + S{M} ({%}) | {Status emoji} {Status} |
-| {Section N} | {N} criteria | S{N} ({%}) | {Status emoji} {Status} |
+| Category    | Epic Requirements | Story Coverage    | Status                  |
+| ----------- | ----------------- | ----------------- | ----------------------- |
+| {Section 1} | {N} criteria      | S{N} ({%})        | {Status emoji} {Status} |
+| {Section 2} | {N} criteria      | S{N} + S{M} ({%}) | {Status emoji} {Status} |
+| {Section N} | {N} criteria      | S{N} ({%})        | {Status emoji} {Status} |
 
 **Status Legend**: :white_check_mark: Complete | :warning: Partial | :x: Missing
 
@@ -30,11 +30,13 @@
 ### {Section 1 Name} (EPIC.md:{line-range})
 
 **Epic Criteria**:
+
 - [x] {Criterion 1 from epic acceptance criteria}
 - [x] {Criterion 2 from epic acceptance criteria}
 - [ ] {Criterion 3 - uncovered}
 
 **Story Coverage**: **S{N} ({Story Title})**
+
 - {Criterion 1}: Lines {N}-{M} or specific section reference
 - {Criterion 2}: Lines {N}-{M} or specific section reference
 - {Criterion 3}: **NOT COVERED** - {reason or recommendation}
@@ -46,10 +48,12 @@
 ### {Section 2 Name} (EPIC.md:{line-range})
 
 **Epic Criteria**:
+
 - [x] {Criterion 1}
 - [x] {Criterion 2}
 
 **Story Coverage**: **S{N} ({Story Title})** + **S{M} ({Story Title})**
+
 - S{N}: {What it covers}
 - S{M}: {What it covers}
 
@@ -64,19 +68,20 @@
 ## Story Dependency Analysis
 
 ### EPIC Dependency Graph
-
 ```
+
 S1 ({Brief description})
- ↓
+↓
 S2 ({Brief description}) ←──────────────┐
- ↓                                      │
-S3 ({Brief description})                │
- ↓                                      │
+↓ │
+S3 ({Brief description}) │
+↓ │
 S4 ({Brief description}) → S5 ({Brief}) │
- ↓                          ↓           │
+↓ ↓ │
 S6 ({Brief description}) ←──────────────┘
- ↓
+↓
 S{N} ({Brief description}) ← depends on all previous stories
+
 ```
 
 ### Story Dependencies Validation
@@ -219,6 +224,7 @@ The EPIC identified decisions requiring approval. Status of each:
 ### When to Use This Template
 
 Use this template to create a `story-eval.md` file after:
+
 1. The EPIC.md has been created and approved
 2. All story files (S1-S{N}.md) have been created
 3. Before implementation begins
@@ -226,6 +232,7 @@ Use this template to create a `story-eval.md` file after:
 ### Purpose
 
 The story evaluation serves as a quality gate ensuring:
+
 - Stories fully deliver the epic's acceptance criteria
 - No gaps exist between epic requirements and story coverage
 - Dependencies are correctly sequenced
@@ -234,21 +241,22 @@ The story evaluation serves as a quality gate ensuring:
 
 ### Required Sections
 
-| Section | Required | Notes |
-|---------|----------|-------|
-| Executive Summary | Yes | Quick pass/fail assessment |
-| Detailed Coverage Analysis | Yes | Maps each epic criterion to stories |
-| Story Dependency Analysis | Yes | Validates dependency graph |
-| Effort Estimation Review | Yes | Compares epic vs story estimates |
-| Story Quality Assessment | Recommended | Template adherence check |
-| Open Questions & Decisions | If applicable | Decision status tracking |
-| Recommendations | Yes | Required/optional changes |
-| Conclusion | Yes | Final recommendation |
-| Traceability Matrix | Recommended | Detailed criterion-to-story mapping |
+| Section                    | Required      | Notes                               |
+| -------------------------- | ------------- | ----------------------------------- |
+| Executive Summary          | Yes           | Quick pass/fail assessment          |
+| Detailed Coverage Analysis | Yes           | Maps each epic criterion to stories |
+| Story Dependency Analysis  | Yes           | Validates dependency graph          |
+| Effort Estimation Review   | Yes           | Compares epic vs story estimates    |
+| Story Quality Assessment   | Recommended   | Template adherence check            |
+| Open Questions & Decisions | If applicable | Decision status tracking            |
+| Recommendations            | Yes           | Required/optional changes           |
+| Conclusion                 | Yes           | Final recommendation                |
+| Traceability Matrix        | Recommended   | Detailed criterion-to-story mapping |
 
 ### Coverage Status Indicators
 
 Use consistent status indicators:
+
 - :white_check_mark: or `✅` - Fully covered
 - :warning: or `⚠️` - Partially covered (specify gaps)
 - :x: or `❌` - Not covered (blocking issue)
@@ -256,11 +264,13 @@ Use consistent status indicators:
 ### Assessment Verdicts
 
 **PASS**: All acceptance criteria covered, no blocking issues
+
 - Stories fully deliver epic requirements
 - Dependencies correctly ordered
 - Estimates reasonable
 
 **FAIL**: Critical gaps or issues exist
+
 - Missing acceptance criteria coverage
 - Circular or incorrect dependencies
 - Significant estimation issues
@@ -268,6 +278,7 @@ Use consistent status indicators:
 ### Traceability Depth
 
 For each epic acceptance criterion, provide:
+
 1. **Which story** covers it (S1, S2, etc.)
 2. **Where in the story** (line numbers or section name)
 3. **How completely** (full/partial/not covered)
@@ -292,10 +303,12 @@ Example: `docs/3-epics/1A.2-package-management/story-eval.md`
 Based on the verdict:
 
 **If PASS**:
+
 - Proceed to implementation
 - Note any optional improvements for consideration
 
 **If FAIL**:
+
 - Address required changes first
 - Re-run evaluation after changes
 - Do not begin implementation until PASS

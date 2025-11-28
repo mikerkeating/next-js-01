@@ -36,6 +36,7 @@ We will use **Next.js 16** (App Router) as our primary React framework for all w
 ### Configuration
 
 **Key Features Enabled**:
+
 - App Router (default in Next.js 16)
 - React Server Components
 - Server Actions
@@ -44,50 +45,52 @@ We will use **Next.js 16** (App Router) as our primary React framework for all w
 - Incremental Static Regeneration (ISR)
 
 **Example next.config.js**:
+
 ```javascript
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   reactStrictMode: true,
-  transpilePackages: ['@repo/ui', '@repo/database', '@repo/auth'],
+  transpilePackages: ["@repo/ui", "@repo/database", "@repo/auth"],
 
   experimental: {
     // Enable Turbopack for faster dev builds
     turbo: {
       resolveAlias: {
-        '@': './src',
+        "@": "./src",
       },
     },
   },
 
   images: {
-    domains: ['clerk.com', 'images.unsplash.com'],
-    formats: ['image/avif', 'image/webp'],
+    domains: ["clerk.com", "images.unsplash.com"],
+    formats: ["image/avif", "image/webp"],
   },
 
   // Enable Edge Runtime for API routes when needed
   async headers() {
     return [
       {
-        source: '/:path*',
+        source: "/:path*",
         headers: [
           {
-            key: 'X-DNS-Prefetch-Control',
-            value: 'on'
+            key: "X-DNS-Prefetch-Control",
+            value: "on",
           },
           {
-            key: 'Strict-Transport-Security',
-            value: 'max-age=31536000; includeSubDomains'
+            key: "Strict-Transport-Security",
+            value: "max-age=31536000; includeSubDomains",
           },
         ],
       },
-    ]
+    ];
   },
-}
+};
 
-module.exports = nextConfig
+module.exports = nextConfig;
 ```
 
 **TypeScript Configuration**:
+
 ```json
 {
   "extends": "@repo/config/nextjs.json",
@@ -136,7 +139,7 @@ module.exports = nextConfig
    - Nested layouts and parallel routes
    - Built-in loading and error states
    - Streaming and Suspense support
-   - Better code organization
+   - Better code Organization
 
 3. **Rendering Flexibility**
    - **SSR**: Dynamic pages rendered on each request
@@ -200,11 +203,13 @@ module.exports = nextConfig
 #### Option 1: Create React App (CRA)
 
 **Pros:**
+
 - Simple setup
 - Official React tool
 - Good for simple SPAs
 
 **Cons:**
+
 - ❌ No SSR/SSG support
 - ❌ No built-in routing
 - ❌ No API routes
@@ -218,6 +223,7 @@ module.exports = nextConfig
 #### Option 2: Remix
 
 **Pros:**
+
 - Excellent developer experience
 - Great data loading patterns
 - Progressive enhancement focus
@@ -225,6 +231,7 @@ module.exports = nextConfig
 - Nested routing
 
 **Cons:**
+
 - ❌ Smaller ecosystem compared to Next.js
 - ❌ Less mature image/font optimization
 - ❌ Fewer deployment options
@@ -237,12 +244,14 @@ module.exports = nextConfig
 #### Option 3: Vite + React Router
 
 **Pros:**
+
 - Extremely fast development builds
 - Modern tooling
 - Flexible architecture
 - Good plugin ecosystem
 
 **Cons:**
+
 - ❌ No built-in SSR (requires manual setup)
 - ❌ No automatic code splitting
 - ❌ No image optimization
@@ -255,12 +264,14 @@ module.exports = nextConfig
 #### Option 4: Gatsby
 
 **Pros:**
+
 - Excellent for static sites
 - Great plugin ecosystem
 - GraphQL data layer
 - Good image optimization
 
 **Cons:**
+
 - ❌ Primarily static site generator
 - ❌ Slower builds at scale
 - ❌ Complex data layer
@@ -273,12 +284,14 @@ module.exports = nextConfig
 #### Option 5: SvelteKit
 
 **Pros:**
+
 - Smaller bundle sizes
 - Fast performance
 - Modern developer experience
 - Good TypeScript support
 
 **Cons:**
+
 - ❌ Different framework (not React)
 - ❌ Team needs to learn Svelte
 - ❌ Smaller ecosystem
@@ -291,11 +304,13 @@ module.exports = nextConfig
 #### Option 6: Next.js Pages Router (v13-15)
 
 **Pros:**
+
 - Mature and stable
 - Large ecosystem
 - Well-understood patterns
 
 **Cons:**
+
 - ❌ Older architecture
 - ❌ No Server Components support
 - ❌ Less efficient data fetching
@@ -486,17 +501,17 @@ export default function RootLayout({
 
 ```typescript
 // app/actions.ts
-'use server'
+"use server";
 
-import { db } from '@repo/database'
-import { revalidatePath } from 'next/cache'
+import { db } from "@repo/database";
+import { revalidatePath } from "next/cache";
 
 export async function createUser(formData: FormData) {
-  const name = formData.get('name')
+  const name = formData.get("name");
 
-  await db.insert(users).values({ name })
+  await db.insert(users).values({ name });
 
-  revalidatePath('/users')
+  revalidatePath("/users");
 }
 ```
 
@@ -567,15 +582,15 @@ export default async function Page() {
 
 ```typescript
 // middleware.ts
-import { authMiddleware } from '@clerk/nextjs'
+import { authMiddleware } from "@clerk/nextjs";
 
 export default authMiddleware({
-  publicRoutes: ['/login', '/signup', '/']
-})
+  publicRoutes: ["/login", "/signup", "/"],
+});
 
 export const config = {
-  matcher: ['/((?!.*\\..*|_next).*)', '/', '/(api|trpc)(.*)'],
-}
+  matcher: ["/((?!.*\\..*|_next).*)", "/", "/(api|trpc)(.*)"],
+};
 ```
 
 ## References

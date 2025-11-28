@@ -1,0 +1,7 @@
+#!/usr/bin/env sh
+
+# Commit message hook
+# This hook validates commit messages against conventional commits format
+# See: docs/2-technical/references/commit-guidelines.md
+
+pnpm exec commitlint --edit $1

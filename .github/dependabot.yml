@@ -1,0 +1,137 @@
+# Dependabot Configuration
+# Automated dependency updates for npm packages and GitHub Actions
+# Reference: https://docs.github.com/en/code-security/dependabot/dependabot-version-updates/configuration-options-for-the-dependabot.yml-file
+
+version: 2
+
+updates:
+  # npm ecosystem - Node.js dependencies
+  - package-ecosystem: "npm"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+      day: "monday"
+      time: "09:00"
+      timezone: "Pacific/Auckland"
+    target-branch: "development"
+    labels:
+      - "dependencies"
+      - "npm"
+    commit-message:
+      prefix: "chore(deps)"
+    open-pull-requests-limit: 10
+
+    # Group related dependencies to reduce PR noise
+    # See: https://docs.github.com/en/code-security/dependabot/dependabot-version-updates/configuration-options-for-the-dependabot.yml-file#groups
+    groups:
+      # TypeScript and type definitions
+      typescript:
+        patterns:
+          - "typescript"
+          - "@types/*"
+        update-types:
+          - "minor"
+          - "patch"
+
+      # Testing tools (Vitest, Playwright, Testing Library)
+      testing:
+        patterns:
+          - "vitest"
+          - "@vitest/*"
+          - "playwright"
+          - "@playwright/*"
+          - "@testing-library/*"
+          - "happy-dom"
+          - "msw"
+        update-types:
+          - "minor"
+          - "patch"
+
+      # Linting and formatting tools
+      linting:
+        patterns:
+          - "eslint"
+          - "eslint-*"
+          - "@eslint/*"
+          - "prettier"
+          - "@typescript-eslint/*"
+          - "markdownlint*"
+        update-types:
+          - "minor"
+          - "patch"
+
+      # React ecosystem
+      react:
+        patterns:
+          - "react"
+          - "react-dom"
+          - "@types/react"
+          - "@types/react-dom"
+        update-types:
+          - "minor"
+          - "patch"
+
+      # Next.js framework
+      nextjs:
+        patterns:
+          - "next"
+          - "@next/*"
+        update-types:
+          - "minor"
+          - "patch"
+
+      # Turborepo and build tools
+      build-tools:
+        patterns:
+          - "turbo"
+          - "tsup"
+          - "vite"
+          - "@vitejs/*"
+        update-types:
+          - "minor"
+          - "patch"
+
+      # Git hooks and commit tools
+      git-hooks:
+        patterns:
+          - "husky"
+          - "lint-staged"
+          - "@commitlint/*"
+          - "commitlint"
+        update-types:
+          - "minor"
+          - "patch"
+
+      # Validation and schemas
+      validation:
+        patterns:
+          - "zod"
+          - "@t3-oss/*"
+        update-types:
+          - "minor"
+          - "patch"
+
+  # GitHub Actions ecosystem
+  - package-ecosystem: "github-actions"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+      day: "monday"
+      time: "09:00"
+      timezone: "Pacific/Auckland"
+    target-branch: "development"
+    labels:
+      - "dependencies"
+      - "github-actions"
+    commit-message:
+      prefix: "chore(deps)"
+    open-pull-requests-limit: 5
+
+    # Group all GitHub Actions together
+    groups:
+      actions:
+        patterns:
+          - "*"
+        update-types:
+          - "minor"
+          - "patch"

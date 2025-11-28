@@ -29,12 +29,14 @@ Use this checklist to validate epic documents before story creation and implemen
 ### Content Quality Checks
 
 #### Acceptance Criteria Quality
+
 - [ ] All criteria are **outcomes**, not tasks
 - [ ] All criteria are measurable/verifiable
 - [ ] At least 3 meaningful criteria (excluding boilerplate)
 - [ ] No vague criteria like "system works correctly"
 
 **Fail examples:**
+
 ```markdown
 - [ ] Install Turborepo
 - [ ] Configure caching
@@ -42,6 +44,7 @@ Use this checklist to validate epic documents before story creation and implemen
 ```
 
 **Pass examples:**
+
 ```markdown
 - [ ] Developers can run `pnpm build` and get cached results
 - [ ] Build time reduced by >70% on cache hit
@@ -49,6 +52,7 @@ Use this checklist to validate epic documents before story creation and implemen
 ```
 
 #### Story Table Completeness
+
 - [ ] All stories have unique IDs (S1, S2, etc.)
 - [ ] All stories have linked markdown files
 - [ ] Size estimates provided (XS/S/M/L)
@@ -56,26 +60,30 @@ Use this checklist to validate epic documents before story creation and implemen
 - [ ] Blocking relationships documented (Blocks column)
 
 **Fail example:**
+
 ```markdown
-| ID | Title | Status |
-|----|-------|--------|
-| S1 | Setup | ⬜ |
+| ID  | Title | Status |
+| --- | ----- | ------ |
+| S1  | Setup | ⬜     |
 ```
 
 **Pass example:**
+
 ```markdown
-| ID | Title | Size | Status | Depends On | Blocks |
-|----|-------|------|--------|------------|--------|
-| S1 | [Configure Turborepo](./S1-configure-turborepo.md) | M | ⬜ | - | S2, S3 |
+| ID  | Title                                              | Size | Status | Depends On | Blocks |
+| --- | -------------------------------------------------- | ---- | ------ | ---------- | ------ |
+| S1  | [Configure Turborepo](./S1-configure-turborepo.md) | M    | ⬜     | -          | S2, S3 |
 ```
 
 #### Dependency Graph Accuracy
+
 - [ ] Graph matches story table dependencies
 - [ ] Parallel tracks clearly identified
 - [ ] No circular dependencies
 - [ ] Parallel execution notes explain concurrency
 
 #### No Orphan Stories
+
 - [ ] Every story contributes to at least one acceptance criterion
 - [ ] No stories exist that don't advance epic goals
 
@@ -83,14 +91,15 @@ Use this checklist to validate epic documents before story creation and implemen
 
 ### Epic Size Guidelines
 
-| Epic Size | Stories | Hours | Status |
-|-----------|---------|-------|--------|
-| Small | 2-4 | 8-20h | - [ ] Within limit |
-| Medium | 4-8 | 20-50h | - [ ] Within limit |
-| Large | 8-12 | 50-80h | - [ ] Within limit |
-| X-Large | 12+ | 80h+ | - [ ] Must be split |
+| Epic Size | Stories | Hours  | Status              |
+| --------- | ------- | ------ | ------------------- |
+| Small     | 2-4     | 8-20h  | - [ ] Within limit  |
+| Medium    | 4-8     | 20-50h | - [ ] Within limit  |
+| Large     | 8-12    | 50-80h | - [ ] Within limit  |
+| X-Large   | 12+     | 80h+   | - [ ] Must be split |
 
 If exceeding limits, verify:
+
 - [ ] Epic has clear, focused scope
 - [ ] Cannot be naturally split into phases
 - [ ] All stories are necessary for acceptance criteria
@@ -101,18 +110,21 @@ If exceeding limits, verify:
 ### Dependency Validation
 
 #### Epic-Level Dependencies
+
 - [ ] All "Requires" epics exist and are documented
 - [ ] All "Blocks" epics reference this epic in their "Requires"
 - [ ] Parallel epics have no conflicting resource needs
 - [ ] No circular epic dependencies
 
 #### Story-Level Dependencies
+
 - [ ] Dependencies form a directed acyclic graph (DAG)
 - [ ] No story depends on a story that comes after it
 - [ ] Parallel stories have no data dependencies
 - [ ] Critical path is identifiable
 
 **Circular dependency example (FAIL):**
+
 ```
 S1 depends on S3
 S2 depends on S1
@@ -120,6 +132,7 @@ S3 depends on S2  ← Creates cycle
 ```
 
 **Valid dependency example (PASS):**
+
 ```
 S1 (no dependencies)
 S2 depends on S1
@@ -155,11 +168,11 @@ S4 depends on S2, S3
 - [ ] Estimates are realistic for story sizes
 
 | Size | Hours Range |
-|------|-------------|
-| XS | 1-2h |
-| S | 2-4h |
-| M | 4-8h |
-| L | 8-16h |
+| ---- | ----------- |
+| XS   | 1-2h        |
+| S    | 2-4h        |
+| M    | 4-8h        |
+| L    | 8-16h       |
 
 ---
 
@@ -174,6 +187,7 @@ S4 depends on S2, S3
 ### Pre-Implementation Checklist
 
 Before creating story details, verify:
+
 - [ ] Epic document passes all above criteria
 - [ ] TAD sections referenced exist and are complete
 - [ ] PRD requirements are clear and approved
@@ -209,26 +223,28 @@ Run this mental checklist:
 
 ### Common Epic Anti-Patterns
 
-| Anti-Pattern | Detection | Resolution |
-|--------------|-----------|------------|
-| Kitchen Sink Epic | 15+ stories, multiple unrelated features | Split by feature area |
-| Vague Goals | "Improve system" acceptance criteria | Define measurable outcomes |
-| Missing Dependencies | Stories fail due to unidentified prereqs | Review for implicit dependencies |
-| Sequential Lock | All stories in single chain | Identify parallelization opportunities |
-| Scope Creep Risk | No "Out of Scope" section | Add explicit boundaries |
-| Orphan Stories | Stories don't map to criteria | Remove or add criteria |
-| Underestimated Epic | L-sized stories throughout | Break down large stories |
+| Anti-Pattern         | Detection                                | Resolution                             |
+| -------------------- | ---------------------------------------- | -------------------------------------- |
+| Kitchen Sink Epic    | 15+ stories, multiple unrelated features | Split by feature area                  |
+| Vague Goals          | "Improve system" acceptance criteria     | Define measurable outcomes             |
+| Missing Dependencies | Stories fail due to unidentified prereqs | Review for implicit dependencies       |
+| Sequential Lock      | All stories in single chain              | Identify parallelization opportunities |
+| Scope Creep Risk     | No "Out of Scope" section                | Add explicit boundaries                |
+| Orphan Stories       | Stories don't map to criteria            | Remove or add criteria                 |
+| Underestimated Epic  | L-sized stories throughout               | Break down large stories               |
 
 ---
 
 ### Epic-Story Alignment Check
 
 For each acceptance criterion, verify:
+
 - [ ] At least one story addresses this criterion
 - [ ] Story completion will satisfy the criterion
 - [ ] No gaps between stories and outcomes
 
 For each story, verify:
+
 - [ ] Story contributes to at least one criterion
 - [ ] Story is necessary (not nice-to-have)
 - [ ] Story scope is appropriate for its size estimate

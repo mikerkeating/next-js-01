@@ -3,6 +3,7 @@
 > **To create stories for this epic:** Define the epic scope and acceptance criteria first, then break down into stories following the [story template](../../0-process/references/story-details-template.md). Each story should be independently implementable and testable.
 
 ## Context
+
 - **PRD Reference**: [PRD: Technical Requirements](/docs/1-product/1-prd.md#6-technical-requirements)
 - **TAD Reference**: [TAD: Documentation Architecture](/docs/2-technical/2-tad-documentation.md)
 - **Phase**: 1A - Foundation & Infrastructure (Days 3-7)
@@ -11,21 +12,24 @@
 ## Dependencies
 
 ### Requires (Must Complete First)
-| Epic | Title | Reason |
-|------|-------|--------|
+
+| Epic | Title                                                                    | Reason                                                                                                             |
+| ---- | ------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------ |
 | 1A.2 | [Package Management & Quality Gates](../1A.2-package-management/EPIC.md) | Markdown linting configuration (markdownlint), pre-commit hooks for documentation files, and quality gate patterns |
 
 ### Blocks (Enables These Epics)
-| Epic | Title | What This Provides |
-|------|-------|-------------------|
-| 1A.5 | [Basic CI/CD Pipeline](../1A.5-basic-cicd/EPIC.md) | Documentation quality checks for CI pipeline, ADR template for pipeline decisions |
-| 2A.x | All Phase 2A Package Epics | README template structure, ARCHITECTURE.md and CONTRIBUTING.md patterns for packages |
-| 3B.4 | [Documentation Application](../3B.4-docs-app/EPIC.md) | Documentation site framework selection (Nextra/Docusaurus), directory structure, and content organisation |
-| 7A.1 | [Developer Documentation Enhancement](../7A.1-dev-docs/EPIC.md) | Foundation documentation structure to expand upon, ADR catalog to complete |
+
+| Epic | Title                                                           | What This Provides                                                                                        |
+| ---- | --------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------- |
+| 1A.5 | [Basic CI/CD Pipeline](../1A.5-basic-cicd/EPIC.md)              | Documentation quality checks for CI pipeline, ADR template for pipeline decisions                         |
+| 2A.x | All Phase 2A Package Epics                                      | README template structure, ARCHITECTURE.md and CONTRIBUTING.md patterns for packages                      |
+| 3B.4 | [Documentation Application](../3B.4-docs-app/EPIC.md)           | Documentation site framework selection (Nextra/Docusaurus), directory structure, and content Organization |
+| 7A.1 | [Developer Documentation Enhancement](../7A.1-dev-docs/EPIC.md) | Foundation documentation structure to expand upon, ADR catalog to complete                                |
 
 ### Can Run in Parallel With
-| Epic | Title | Notes |
-|------|-------|-------|
+
+| Epic | Title                                                    | Notes                                                      |
+| ---- | -------------------------------------------------------- | ---------------------------------------------------------- |
 | 1A.3 | [Testing Foundation](../1A.3-testing-foundation/EPIC.md) | No resource conflicts; different tooling and file patterns |
 
 ## Overview
@@ -33,6 +37,7 @@
 Documentation Foundation establishes documentation-as-code practices for the monorepo, ensuring all code is accompanied by appropriate documentation from day one. This epic creates the `/docs` directory structure, sets up documentation site infrastructure, establishes the Architecture Decision Record (ADR) process, and creates essential root documentation files. The foundation ensures developers have templates and patterns for consistent documentation across all packages and applications.
 
 **Key Deliverables:**
+
 - `/docs` directory structure: `/adr`, `/architecture`, `/api`, `/guides`, `/3-epics`
 - Documentation site framework configured (Nextra or Docusaurus)
 - ADR template and initial architectural decisions documented (ADR-001 through ADR-007)
@@ -59,15 +64,15 @@ Documentation Foundation establishes documentation-as-code practices for the mon
 
 ## Stories
 
-| ID | Title | Size | Status | Depends On | Blocks |
-|----|-------|------|--------|------------|--------|
-| S1 | [Create Documentation Directory Structure](./S1-docs-structure.md) | S | ⬜ | - | S2, S3, S4, S5 |
-| S2 | [Configure Documentation Site Framework](./S2-docs-site.md) | M | ⬜ | S1 | S7 |
-| S3 | [Create ADR Template and Document Initial Decisions](./S3-adr-setup.md) | M | ⬜ | S1 | S7 |
-| S4 | [Create Root Documentation Files](./S4-root-docs.md) | M | ⬜ | S1 | S6, S7 |
-| S5 | [Create Package Documentation Templates](./S5-package-templates.md) | S | ⬜ | S1 | S7 |
-| S6 | [Create CLAUDE.md Epic Template](./S6-claude-template.md) | S | ⬜ | S4 | S7 |
-| S7 | [Integrate Documentation Quality Gates](./S7-docs-quality-gates.md) | S | ⬜ | S2, S3, S4, S5, S6 | - |
+| ID  | Title                                                                   | Size | Status | Depends On         | Blocks         |
+| --- | ----------------------------------------------------------------------- | ---- | ------ | ------------------ | -------------- |
+| S1  | [Create Documentation Directory Structure](./S1-docs-structure.md)      | S    | ⬜     | -                  | S2, S3, S4, S5 |
+| S2  | [Configure Documentation Site Framework](./S2-docs-site.md)             | M    | ⬜     | S1                 | S7             |
+| S3  | [Create ADR Template and Document Initial Decisions](./S3-adr-setup.md) | M    | ⬜     | S1                 | S7             |
+| S4  | [Create Root Documentation Files](./S4-root-docs.md)                    | M    | ⬜     | S1                 | S6, S7         |
+| S5  | [Create Package Documentation Templates](./S5-package-templates.md)     | S    | ⬜     | S1                 | S7             |
+| S6  | [Create CLAUDE.md Epic Template](./S6-claude-template.md)               | S    | ⬜     | S4                 | S7             |
+| S7  | [Integrate Documentation Quality Gates](./S7-docs-quality-gates.md)     | S    | ⬜     | S2, S3, S4, S5, S6 | -              |
 
 **Status Legend**: ⬜ Not Started | 🟡 In Progress | ✅ Complete | ❌ Blocked
 
@@ -89,6 +94,7 @@ S1 (Documentation Structure)
 ```
 
 **Parallel Execution Notes:**
+
 - S2, S3, S4, and S5 can all start immediately after S1 completes
 - S6 (CLAUDE.md Template) depends on S4 for root documentation patterns
 - S7 (Quality Gates) is the final convergence point requiring all templates complete
@@ -96,20 +102,23 @@ S1 (Documentation Structure)
 ## Technical Constraints
 
 ### Required Patterns
+
 - **Documentation Pyramid**: Four layers (WHY/WHAT/HOW/CONTEXT) per [TAD: Documentation Architecture](/docs/2-technical/2-tad-documentation.md#documentation-layers)
 - **Two Audiences Strategy**: Package documentation must serve both maintainers and consumers per [TAD: Two Audiences Strategy](/docs/2-technical/2-tad-documentation.md#two-audiences-strategy)
 - **ADR Format**: Follow the ADR template structure with Status, Context, Decision, Alternatives, Consequences per [TAD: Architecture Decision Records](/docs/2-technical/2-tad.md#architecture-decision-records)
 - **Living Documentation**: Documentation updated with every code change per [TAD: Maintenance Strategy](/docs/2-technical/2-tad-documentation.md#maintenance-strategy)
 
 ### Technology Decisions
-| Decision | Choice | Reference |
-|----------|--------|-----------|
-| Documentation Site Framework | Nextra or Docusaurus | [TAD: Delivery Formats](/docs/2-technical/2-tad-documentation.md#delivery-formats) |
-| Markdown Linting | markdownlint-cli2 | [Epic 1A.2: Markdown Linting](/docs/3-epics/1A.2-package-management/EPIC.md) |
-| API Documentation | TypeDoc + OpenAPI/Swagger | [TAD: Generation vs Hand-Written](/docs/2-technical/2-tad-documentation.md#generation-vs-hand-written) |
-| Diagram Format | Mermaid (in Markdown) | [TAD: Hand-Written Documentation](/docs/2-technical/2-tad-documentation.md#hand-written-documentation) |
+
+| Decision                     | Choice                    | Reference                                                                                              |
+| ---------------------------- | ------------------------- | ------------------------------------------------------------------------------------------------------ |
+| Documentation Site Framework | Nextra or Docusaurus      | [TAD: Delivery Formats](/docs/2-technical/2-tad-documentation.md#delivery-formats)                     |
+| Markdown Linting             | markdownlint-cli2         | [Epic 1A.2: Markdown Linting](/docs/3-epics/1A.2-package-management/EPIC.md)                           |
+| API Documentation            | TypeDoc + OpenAPI/Swagger | [TAD: Generation vs Hand-Written](/docs/2-technical/2-tad-documentation.md#generation-vs-hand-written) |
+| Diagram Format               | Mermaid (in Markdown)     | [TAD: Hand-Written Documentation](/docs/2-technical/2-tad-documentation.md#hand-written-documentation) |
 
 ### Constraints
+
 - **Versions**: Documentation site framework version per [Canonical Versions](/docs/2-technical/references/canonical-versions.md)
 - **Build Integration**: Documentation site must build as part of Turborepo pipeline
 - **Preview Deployments**: Documentation changes must deploy to Vercel preview for review
@@ -134,46 +143,48 @@ The following items are explicitly NOT part of this epic:
 
 > **Note**: Flag decisions that need resolution before or during implementation.
 
-| Decision | Options | Impact | Status |
-|----------|---------|--------|--------|
-| Documentation site framework | Nextra vs Docusaurus | Affects build configuration, theming, and feature set | ⬜ Open |
-| ADR numbering scheme | Sequential (001, 002) vs date-based (2025-001) | Affects ADR file naming and organisation | ✅ Resolved: Sequential |
-| Root README length | Comprehensive vs minimal (link to docs) | Affects first impression and maintenance burden | ⬜ Open |
-| Diagram tooling | Mermaid only vs Mermaid + Excalidraw | Affects diagram creation workflow | ✅ Resolved: Mermaid in docs |
-| Documentation site deployment | Subdomain (docs.example.com) vs path (/docs) | Affects routing configuration and SEO | ⬜ Open |
+| Decision                      | Options                                        | Impact                                                | Status                       |
+| ----------------------------- | ---------------------------------------------- | ----------------------------------------------------- | ---------------------------- |
+| Documentation site framework  | Nextra vs Docusaurus                           | Affects build configuration, theming, and feature set | ⬜ Open                      |
+| ADR numbering scheme          | Sequential (001, 002) vs date-based (2025-001) | Affects ADR file naming and Organization              | ✅ Resolved: Sequential      |
+| Root README length            | Comprehensive vs minimal (link to docs)        | Affects first impression and maintenance burden       | ⬜ Open                      |
+| Diagram tooling               | Mermaid only vs Mermaid + Excalidraw           | Affects diagram creation workflow                     | ✅ Resolved: Mermaid in docs |
+| Documentation site deployment | Subdomain (docs.example.com) vs path (/docs)   | Affects routing configuration and SEO                 | ⬜ Open                      |
 
 ## Risks and Mitigations
 
-| Risk | Likelihood | Impact | Mitigation |
-|------|------------|--------|------------|
-| Documentation framework choice limits future features | Medium | Medium | Choose mature framework (Nextra/Docusaurus) with active community; abstract where possible |
-| ADRs become stale or ignored | Medium | High | Include ADR review in quarterly audit; link ADRs from code comments; make creating ADRs easy |
-| Package documentation templates too rigid | Low | Medium | Keep templates flexible with required and optional sections; iterate based on team feedback |
-| Documentation build slows down CI/CD | Low | Medium | Build docs only on changes to /docs directory; use Turborepo caching |
-| Documentation diverges from code | High | High | Enforce documentation checklist in PR template; block PRs with broken links |
+| Risk                                                  | Likelihood | Impact | Mitigation                                                                                   |
+| ----------------------------------------------------- | ---------- | ------ | -------------------------------------------------------------------------------------------- |
+| Documentation framework choice limits future features | Medium     | Medium | Choose mature framework (Nextra/Docusaurus) with active community; abstract where possible   |
+| ADRs become stale or ignored                          | Medium     | High   | Include ADR review in quarterly audit; link ADRs from code comments; make creating ADRs easy |
+| Package documentation templates too rigid             | Low        | Medium | Keep templates flexible with required and optional sections; iterate based on team feedback  |
+| Documentation build slows down CI/CD                  | Low        | Medium | Build docs only on changes to /docs directory; use Turborepo caching                         |
+| Documentation diverges from code                      | High       | High   | Enforce documentation checklist in PR template; block PRs with broken links                  |
 
 ## Estimated Effort
 
-| Metric | Value |
-|--------|-------|
-| Total Stories | 7 |
-| Total Hours | 26h |
-| Calendar Days | 2-3 days |
+| Metric          | Value                       |
+| --------------- | --------------------------- |
+| Total Stories   | 7                           |
+| Total Hours     | 26h                         |
+| Calendar Days   | 2-3 days                    |
 | Parallel Tracks | 4 (S2, S3, S4, S5 after S1) |
 
 ### Story Breakdown
-| Size | Count | Hours |
-|------|-------|-------|
-| XS (1-2h) | 0 | 0h |
-| S (2-4h) | 4 | 12h |
-| M (4-8h) | 3 | 14h |
-| L (8-16h) | 0 | 0h |
+
+| Size      | Count | Hours |
+| --------- | ----- | ----- |
+| XS (1-2h) | 0     | 0h    |
+| S (2-4h)  | 4     | 12h   |
+| M (4-8h)  | 3     | 14h   |
+| L (8-16h) | 0     | 0h    |
 
 **Note**: S-sized stories are mostly file creation and template setup. M-sized stories (Documentation Site, ADR Setup, Root Docs) require more configuration, content creation, and verification.
 
 ## References
 
 ### Internal Documentation
+
 - [PRD: Technical Requirements](/docs/1-product/1-prd.md#6-technical-requirements)
 - [TAD: Documentation Architecture](/docs/2-technical/2-tad-documentation.md)
 - [TAD: Overview](/docs/2-technical/2-tad.md#documentation-architecture)
@@ -182,6 +193,7 @@ The following items are explicitly NOT part of this epic:
 - [File Structure Guide](/docs/1-product/references/file-structure.md)
 
 ### ADRs
+
 - [ADR-001: Monorepo with Turborepo](/docs/2-technical/adr/001-monorepo-turborepo.md)
 - [ADR-002: pnpm as Package Manager](/docs/2-technical/adr/002-pnpm-package-manager.md)
 - [ADR-003: Next.js 16 as Framework](/docs/2-technical/adr/003-nextjs-framework.md)
@@ -191,9 +203,10 @@ The following items are explicitly NOT part of this epic:
 - [ADR-007: Multi-tenant Data Model](/docs/2-technical/adr/007-multi-tenant-model.md)
 
 ### External Documentation
+
 - [Nextra Documentation](https://nextra.site/)
 - [Docusaurus Documentation](https://docusaurus.io/)
-- [ADR GitHub Organisation](https://adr.github.io/)
+- [ADR GitHub Organization](https://adr.github.io/)
 - [Mermaid Documentation](https://mermaid.js.org/)
 - [markdownlint Rules](https://github.com/DavidAnson/markdownlint/blob/main/doc/Rules.md)
 - [Conventional Commits](https://www.conventionalcommits.org/)

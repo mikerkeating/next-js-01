@@ -6,13 +6,13 @@
 
 ## Context
 
-We need to select an authentication and user management solution for our multi-tenant SaaS platform that provides secure, scalable authentication while delivering an excellent user experience. The solution must support multiple authentication methods, integrate seamlessly with Next.js, provide organization management features, and scale with our growth.
+We need to select an authentication and user management solution for our multi-tenant SaaS platform that provides secure, scalable authentication while delivering an excellent user experience. The solution must support multiple authentication methods, integrate seamlessly with Next.js, provide Organization management features, and scale with our growth.
 
 ### Key Requirements
 
 1. **Authentication Methods**: Email/password, OAuth (Google, GitHub, etc.), magic links
 2. **User Management**: User profiles, session management, account settings
-3. **Organization Support**: Multi-tenant organization management
+3. **Organization Support**: Multi-tenant Organization management
 4. **Security**: Industry-standard security practices, JWT tokens, secure sessions
 5. **Developer Experience**: Easy integration, good documentation, TypeScript support
 6. **User Experience**: Beautiful, customizable UI components
@@ -36,6 +36,7 @@ We will use **Clerk** as our authentication and user management provider.
 ### Configuration
 
 **Environment Variables**:
+
 ```bash
 # Public keys (client-side)
 NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY=pk_test_...
@@ -50,40 +51,34 @@ CLERK_WEBHOOK_SECRET=whsec_...
 ```
 
 **Middleware Configuration (middleware.ts)**:
+
 ```typescript
-import { authMiddleware } from '@clerk/nextjs'
+import { authMiddleware } from "@clerk/nextjs";
 
 export default authMiddleware({
   // Public routes that don't require authentication
-  publicRoutes: [
-    '/',
-    '/sign-in(.*)',
-    '/sign-up(.*)',
-    '/api/webhooks/clerk',
-    '/api/health',
-  ],
+  publicRoutes: ["/", "/sign-in(.*)", "/sign-up(.*)", "/api/webhooks/clerk", "/api/health"],
 
   // Routes that can be accessed while signed out
-  ignoredRoutes: [
-    '/api/webhooks/clerk',
-  ],
+  ignoredRoutes: ["/api/webhooks/clerk"],
 
   // After auth middleware
   afterAuth(auth, req) {
-    // Handle organization context
+    // Handle Organization context
     if (auth.userId && auth.orgId) {
       // Inject org context into request
-      req.headers.set('x-organization-id', auth.orgId)
+      req.headers.set("x-Organization-id", auth.orgId);
     }
   },
-})
+});
 
 export const config = {
-  matcher: ['/((?!.*\\..*|_next).*)', '/', '/(api|trpc)(.*)'],
-}
+  matcher: ["/((?!.*\\..*|_next).*)", "/", "/(api|trpc)(.*)"],
+};
 ```
 
 **Root Layout (app/layout.tsx)**:
+
 ```typescript
 import { ClerkProvider } from '@clerk/nextjs'
 
@@ -103,97 +98,101 @@ export default function RootLayout({
 ```
 
 **Webhook Handler (app/api/webhooks/clerk/route.ts)**:
+
 ```typescript
-import { Webhook } from 'svix'
-import { headers } from 'next/headers'
-import { WebhookEvent } from '@clerk/nextjs/server'
-import { db } from '@repo/database'
-import { users, organisations, userOrganisations } from '@repo/database/schema'
+import { Webhook } from "svix";
+import { headers } from "next/headers";
+import { WebhookEvent } from "@clerk/nextjs/server";
+import { db } from "@repo/database";
+import { users, Organizations, userOrganizations } from "@repo/database/schema";
 
 export async function POST(req: Request) {
   // Get webhook secret
-  const WEBHOOK_SECRET = process.env.CLERK_WEBHOOK_SECRET
+  const WEBHOOK_SECRET = process.env.CLERK_WEBHOOK_SECRET;
   if (!WEBHOOK_SECRET) {
-    throw new Error('Missing CLERK_WEBHOOK_SECRET')
+    throw new Error("Missing CLERK_WEBHOOK_SECRET");
   }
 
   // Get headers
-  const headerPayload = headers()
-  const svix_id = headerPayload.get('svix-id')
-  const svix_timestamp = headerPayload.get('svix-timestamp')
-  const svix_signature = headerPayload.get('svix-signature')
+  const headerPayload = headers();
+  const svix_id = headerPayload.get("svix-id");
+  const svix_timestamp = headerPayload.get("svix-timestamp");
+  const svix_signature = headerPayload.get("svix-signature");
 
   if (!svix_id || !svix_timestamp || !svix_signature) {
-    return new Response('Missing svix headers', { status: 400 })
+    return new Response("Missing svix headers", { status: 400 });
   }
 
   // Get body
-  const payload = await req.json()
-  const body = JSON.stringify(payload)
+  const payload = await req.json();
+  const body = JSON.stringify(payload);
 
   // Verify webhook
-  const wh = new Webhook(WEBHOOK_SECRET)
-  let evt: WebhookEvent
+  const wh = new Webhook(WEBHOOK_SECRET);
+  let evt: WebhookEvent;
 
   try {
     evt = wh.verify(body, {
-      'svix-id': svix_id,
-      'svix-timestamp': svix_timestamp,
-      'svix-signature': svix_signature,
-    }) as WebhookEvent
+      "svix-id": svix_id,
+      "svix-timestamp": svix_timestamp,
+      "svix-signature": svix_signature,
+    }) as WebhookEvent;
   } catch (err) {
-    return new Response('Invalid signature', { status: 400 })
+    return new Response("Invalid signature", { status: 400 });
   }
 
   // Handle events
   switch (evt.type) {
-    case 'user.created':
+    case "user.created":
       await db.insert(users).values({
         clerkId: evt.data.id,
         email: evt.data.email_addresses[0].email_address,
         name: `${evt.data.first_name} ${evt.data.last_name}`.trim(),
         avatarUrl: evt.data.image_url,
-      })
-      break
+      });
+      break;
 
-    case 'user.updated':
-      await db.update(users)
+    case "user.updated":
+      await db
+        .update(users)
         .set({
           email: evt.data.email_addresses[0].email_address,
           name: `${evt.data.first_name} ${evt.data.last_name}`.trim(),
           avatarUrl: evt.data.image_url,
           updatedAt: new Date(),
         })
-        .where(eq(users.clerkId, evt.data.id))
-      break
+        .where(eq(users.clerkId, evt.data.id));
+      break;
 
-    case 'organization.created':
-      await db.insert(organisations).values({
+    case "organization.created":
+      await db.insert(Organizations).values({
         clerkId: evt.data.id,
         name: evt.data.name,
         slug: evt.data.slug,
-      })
-      break
+      });
+      break;
 
-    case 'organizationMembership.created':
-      // Add user to organization
-      const [user] = await db.select()
+    case "organizationMembership.created":
+      // Add user to Organization
+      const [user] = await db
+        .select()
         .from(users)
-        .where(eq(users.clerkId, evt.data.public_user_data.user_id))
+        .where(eq(users.clerkId, evt.data.public_user_data.user_id));
 
-      const [org] = await db.select()
-        .from(organisations)
-        .where(eq(organisations.clerkId, evt.data.organization.id))
+      const [org] = await db
+        .select()
+        .from(Organizations)
+        .where(eq(Organizations.clerkId, evt.data.Organization.id));
 
-      await db.insert(userOrganisations).values({
+      await db.insert(userOrganizations).values({
         userId: user.id,
-        organisationId: org.id,
+        OrganizationId: org.id,
         role: mapClerkRoleToOurRole(evt.data.role),
-      })
-      break
+      });
+      break;
   }
 
-  return new Response('Webhook processed', { status: 200 })
+  return new Response("Webhook processed", { status: 200 });
 }
 ```
 
@@ -223,7 +222,7 @@ export async function POST(req: Request) {
    - Smooth user flows
 
 4. **Organization Management**
-   - Built-in organization support
+   - Built-in Organization support
    - Role-based access control
    - Invitation system
    - Organization switching
@@ -274,6 +273,7 @@ export async function POST(req: Request) {
 #### Option 1: NextAuth.js / Auth.js
 
 **Pros:**
+
 - Open source and free
 - Full control over auth flow
 - Works with any database
@@ -281,10 +281,11 @@ export async function POST(req: Request) {
 - No vendor lock-in
 
 **Cons:**
+
 - ❌ Requires more setup and maintenance
 - ❌ No built-in UI components
 - ❌ Manual security updates required
-- ❌ No organization management
+- ❌ No Organization management
 - ❌ More code to maintain
 - ❌ Need to handle edge cases yourself
 
@@ -293,6 +294,7 @@ export async function POST(req: Request) {
 #### Option 2: Auth0
 
 **Pros:**
+
 - Enterprise-grade
 - Extensive features
 - Good documentation
@@ -300,6 +302,7 @@ export async function POST(req: Request) {
 - Mature product
 
 **Cons:**
+
 - ❌ More expensive than Clerk
 - ❌ Less modern developer experience
 - ❌ UI components less polished
@@ -312,6 +315,7 @@ export async function POST(req: Request) {
 #### Option 3: Supabase Auth
 
 **Pros:**
+
 - Free and open source
 - Integrated with Supabase database
 - Good documentation
@@ -319,18 +323,20 @@ export async function POST(req: Request) {
 - Simple API
 
 **Cons:**
+
 - ❌ Coupled to Supabase ecosystem
 - ❌ Limited UI components
-- ❌ No organization management
+- ❌ No Organization management
 - ❌ Less polished than Clerk
 - ❌ Fewer OAuth providers
 - ❌ Requires more custom code
 
-**Decision**: Rejected - While good, lacks organization features and polished UX.
+**Decision**: Rejected - While good, lacks Organization features and polished UX.
 
 #### Option 4: Firebase Authentication
 
 **Pros:**
+
 - Google backing
 - Generous free tier
 - Good mobile support
@@ -338,9 +344,10 @@ export async function POST(req: Request) {
 - Easy to start
 
 **Cons:**
+
 - ❌ Tied to Firebase ecosystem
 - ❌ Limited customization
-- ❌ No organization support
+- ❌ No Organization support
 - ❌ Not optimized for Next.js
 - ❌ Older SDK design
 - ❌ Less suitable for SaaS
@@ -350,6 +357,7 @@ export async function POST(req: Request) {
 #### Option 5: Amazon Cognito
 
 **Pros:**
+
 - AWS integration
 - Scalable
 - Secure
@@ -357,6 +365,7 @@ export async function POST(req: Request) {
 - HIPAA eligible
 
 **Cons:**
+
 - ❌ Complex setup
 - ❌ Poor developer experience
 - ❌ No UI components
@@ -369,12 +378,14 @@ export async function POST(req: Request) {
 #### Option 6: Custom Built Authentication
 
 **Pros:**
+
 - Complete control
 - No vendor costs
 - Custom features
 - No limitations
 
 **Cons:**
+
 - ❌ Months of development time
 - ❌ Security risks if done wrong
 - ❌ Ongoing maintenance burden
@@ -467,11 +478,11 @@ export async function POST(req: Request) {
 
 ### Phase 4: Organization Setup (Day 3-4)
 
-- [ ] Enable organizations in Clerk
-- [ ] Create organization sync webhook handlers
-- [ ] Implement organization switching UI
+- [ ] Enable Organizations in Clerk
+- [ ] Create Organization sync webhook handlers
+- [ ] Implement Organization switching UI
 - [ ] Map Clerk roles to our roles
-- [ ] Test organization flows
+- [ ] Test Organization flows
 
 ### Phase 5: Customization (Week 1-2)
 
@@ -479,7 +490,7 @@ export async function POST(req: Request) {
 - [ ] Configure email templates
 - [ ] Set up custom session claims
 - [ ] Add user profile management
-- [ ] Implement organization invitations
+- [ ] Implement Organization invitations
 
 ### Phase 6: Production Ready (Week 2)
 
@@ -596,7 +607,7 @@ export default async function OrgDashboard() {
   const { userId, orgId, orgRole } = auth()
 
   if (!orgId) {
-    redirect('/select-organization')
+    redirect('/select-Organization')
   }
 
   // Fetch org-specific data
@@ -610,19 +621,19 @@ export default async function OrgDashboard() {
 
 ```typescript
 // app/api/users/route.ts
-import { auth } from '@clerk/nextjs'
-import { NextResponse } from 'next/server'
+import { auth } from "@clerk/nextjs";
+import { NextResponse } from "next/server";
 
 export async function GET() {
-  const { userId } = auth()
+  const { userId } = auth();
 
   if (!userId) {
-    return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
+    return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
 
   // Fetch data
-  const users = await getUsers()
-  return NextResponse.json(users)
+  const users = await getUsers();
+  return NextResponse.json(users);
 }
 ```
 
@@ -654,9 +665,9 @@ export default async function AdminPage() {
 
 2. **Organization Isolation**
    - Always check orgId in protected routes
-   - Filter database queries by organization
+   - Filter database queries by Organization
    - Use middleware to inject org context
-   - Validate organization membership
+   - Validate Organization membership
 
 3. **Webhook Handling**
    - Always verify webhook signatures
@@ -680,7 +691,7 @@ export default async function AdminPage() {
 
 - [Clerk Documentation](https://clerk.com/docs)
 - [Clerk Next.js Quickstart](https://clerk.com/docs/quickstarts/nextjs)
-- [Clerk Organizations](https://clerk.com/docs/organizations/overview)
+- [Clerk Organizations](https://clerk.com/docs/Organizations/overview)
 - [Clerk Webhooks](https://clerk.com/docs/integrations/webhooks)
 - [Clerk Security](https://clerk.com/docs/security/overview)
 
@@ -694,7 +705,7 @@ export default async function AdminPage() {
 
 Clerk's combination of excellent developer experience, beautiful user interface, and comprehensive features makes it the ideal choice for our authentication needs. While there's some vendor lock-in risk, the time saved and features provided far outweigh the concerns for a startup.
 
-The built-in organization management perfectly aligns with our multi-tenant architecture, and the webhook system ensures our database stays in sync with authentication state. This allows us to leverage Clerk's expertise in authentication while maintaining control over our data model.
+The built-in Organization management perfectly aligns with our multi-tenant architecture, and the webhook system ensures our database stays in sync with authentication state. This allows us to leverage Clerk's expertise in authentication while maintaining control over our data model.
 
 ---
 

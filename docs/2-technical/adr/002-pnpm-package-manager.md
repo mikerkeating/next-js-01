@@ -32,13 +32,15 @@ We will use **pnpm (version 10.x)** as our package manager for the entire monore
 ### Configuration
 
 **pnpm-workspace.yaml**:
+
 ```yaml
 packages:
-  - 'apps/*'
-  - 'packages/*'
+  - "apps/*"
+  - "packages/*"
 ```
 
 **Root package.json**:
+
 ```json
 {
   "name": "next-js-2025-12-1",
@@ -52,6 +54,7 @@ packages:
 ```
 
 **.npmrc**:
+
 ```ini
 # Strict dependency resolution
 auto-install-peers=false
@@ -117,24 +120,26 @@ side-effects-cache=true
 
 Based on industry benchmarks (approximate):
 
-| Operation | npm 10 | yarn 4 | pnpm 10 | Winner |
-|-----------|---------|---------|---------|---------|
-| **Clean install** | 51s | 30s | 24s | ✅ pnpm |
-| **With cache** | 7s | 8s | 3s | ✅ pnpm |
-| **With lockfile** | 14s | 11s | 6s | ✅ pnpm |
-| **Disk space** | 500 MB | 450 MB | 300 MB | ✅ pnpm |
+| Operation         | npm 10 | yarn 4 | pnpm 10 | Winner  |
+| ----------------- | ------ | ------ | ------- | ------- |
+| **Clean install** | 51s    | 30s    | 24s     | ✅ pnpm |
+| **With cache**    | 7s     | 8s     | 3s      | ✅ pnpm |
+| **With lockfile** | 14s    | 11s    | 6s      | ✅ pnpm |
+| **Disk space**    | 500 MB | 450 MB | 300 MB  | ✅ pnpm |
 
 ### Alternatives Considered
 
 #### Option 1: npm (8.x+)
 
 **Pros:**
+
 - Default package manager bundled with Node.js
 - Widest compatibility
 - No additional installation required
 - Workspace support added in v7
 
 **Cons:**
+
 - ❌ Slower installation compared to pnpm
 - ❌ Less disk efficient (flat node_modules)
 - ❌ Allows phantom dependencies
@@ -146,11 +151,13 @@ Based on industry benchmarks (approximate):
 #### Option 2: Yarn Classic (1.x)
 
 **Pros:**
+
 - Mature and stable
 - Good performance
 - Widespread adoption
 
 **Cons:**
+
 - ❌ In maintenance mode (not actively developed)
 - ❌ Superseded by Yarn Berry/Modern
 - ❌ Less efficient than modern alternatives
@@ -161,12 +168,14 @@ Based on industry benchmarks (approximate):
 #### Option 3: Yarn Modern/Berry (4.x)
 
 **Pros:**
+
 - Plug'n'Play (PnP) mode for faster installs
 - Modern architecture
 - Good workspace support
 - Active development
 
 **Cons:**
+
 - ❌ PnP mode has compatibility issues with some packages
 - ❌ Steeper learning curve (especially with PnP)
 - ❌ Some tools don't work well with PnP
@@ -178,12 +187,14 @@ Based on industry benchmarks (approximate):
 #### Option 4: Bun (1.x)
 
 **Pros:**
+
 - Extremely fast JavaScript runtime
 - Built-in package manager
 - Modern tooling
 - Growing ecosystem
 
 **Cons:**
+
 - ❌ Still relatively new (production readiness concerns)
 - ❌ Requires using Bun runtime (not just Node.js)
 - ❌ Less mature ecosystem compared to established options
@@ -345,21 +356,25 @@ pnpm list -r
 For projects migrating from npm or yarn:
 
 1. **Remove old lockfiles**:
+
    ```bash
    rm -f package-lock.json yarn.lock
    ```
 
 2. **Install pnpm**:
+
    ```bash
    npm install -g pnpm@10
    ```
 
 3. **Import dependencies**:
+
    ```bash
    pnpm import  # Converts package-lock.json to pnpm-lock.yaml
    ```
 
 4. **Install dependencies**:
+
    ```bash
    pnpm install
    ```

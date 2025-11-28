@@ -70,3 +70,5 @@ storybook-static/
 
 # Testing artifacts
 testing/
+# Turborepo
+.turbo

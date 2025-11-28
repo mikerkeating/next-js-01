@@ -3,17 +3,20 @@
 > **To implement this story:** Read the Technical Requirements, create/modify the specified files following TAD patterns, then verify using the Test Requirements and Verification Checklist.
 
 ## Context
+
 - **Epic**: [Steel Thread Deployment](./EPIC.md)
 - **Depends On**: [S4: Implement Health Check Endpoint](./S4-health-endpoint.md), [S5: Configure Environment Variables](./S5-environment-variables.md)
 - **Blocks**: [S7: Setup GitHub Actions CI Workflow](./S7-github-actions.md)
 - **Runs in Parallel With**: None
 
 ## User Story
+
 **As a** developer
 **I want** automated smoke tests that run against deployed environments
 **So that** I can verify critical functionality works after each deployment before merging PRs
 
 ## Acceptance Criteria
+
 - [x] Playwright installed and configured per canonical versions
 - [x] Smoke test suite validates health endpoint returns 200 OK with "healthy" status
 - [x] Smoke test verifies homepage loads successfully
@@ -26,23 +29,26 @@
 ## Technical Requirements
 
 ### Files to Create
-| Path | Purpose |
-|------|---------|
-| `playwright.config.ts` | Playwright configuration with base URL and reporters |
-| `tests/e2e/smoke.spec.ts` | Smoke test suite for deployment validation |
+
+| Path                      | Purpose                                              |
+| ------------------------- | ---------------------------------------------------- |
+| `playwright.config.ts`    | Playwright configuration with base URL and reporters |
+| `tests/e2e/smoke.spec.ts` | Smoke test suite for deployment validation           |
 
 ### Files to Modify
-| Path | Changes |
-|------|---------|
-| `package.json` | Add Playwright dependency and test:e2e:smoke script |
-| `.gitignore` | Add playwright-report/, test-results/, playwright/.cache/ |
-| `README.md` | Document smoke test usage and commands |
+
+| Path           | Changes                                                   |
+| -------------- | --------------------------------------------------------- |
+| `package.json` | Add Playwright dependency and test:e2e:smoke script       |
+| `.gitignore`   | Add playwright-report/, test-results/, playwright/.cache/ |
+| `README.md`    | Document smoke test usage and commands                    |
 
 ### Dependencies
 
 > **Version Reference**: Use exact versions from [canonical-versions.md](/docs/2-technical/references/canonical-versions.md)
 
 **Install commands:**
+
 ```bash
 pnpm add -D @playwright/test
 npx playwright install chromium
@@ -50,21 +56,23 @@ npx playwright install chromium
 
 ### Configuration Details
 
-| Setting | Requirement | TAD Reference |
-|---------|-------------|---------------|
+| Setting  | Requirement                         | TAD Reference                                                                                            |
+| -------- | ----------------------------------- | -------------------------------------------------------------------------------------------------------- |
 | Base URL | Configurable via `BASE_URL` env var | [TAD: Deployment Smoke Tests](/docs/2-technical/2-tad-steel-thread-deployment.md#deployment-smoke-tests) |
-| Browsers | Chromium only (speed optimization) | [TAD: Testing Architecture](/docs/2-technical/2-tad.md#testing) |
-| Timeout | 30s per test, 60s total suite | [TAD: Deployment Smoke Tests](/docs/2-technical/2-tad-steel-thread-deployment.md#deployment-smoke-tests) |
-| Retries | 2 in CI, 0 locally | [TAD: Deployment Smoke Tests](/docs/2-technical/2-tad-steel-thread-deployment.md#deployment-smoke-tests) |
+| Browsers | Chromium only (speed optimization)  | [TAD: Testing Architecture](/docs/2-technical/2-tad.md#testing)                                          |
+| Timeout  | 30s per test, 60s total suite       | [TAD: Deployment Smoke Tests](/docs/2-technical/2-tad-steel-thread-deployment.md#deployment-smoke-tests) |
+| Retries  | 2 in CI, 0 locally                  | [TAD: Deployment Smoke Tests](/docs/2-technical/2-tad-steel-thread-deployment.md#deployment-smoke-tests) |
 
 ## Test Requirements
 
 ### Manual Verification
+
 - [x] `pnpm test:e2e:smoke` runs successfully against local dev server
 - [ ] Tests pass against Vercel preview deployment
 - [x] HTML report generated in `playwright-report/`
 
 ### Verification Commands
+
 ```bash
 # Run smoke tests locally
 pnpm dev &
@@ -100,6 +108,7 @@ npx playwright show-report
    - Update README with usage
 
 ### Key Concepts
+
 - **Smoke Tests**: Quick validation of critical paths; not comprehensive testing
 - **Base URL Pattern**: Tests use configurable BASE_URL for environment flexibility
 - **Fail Fast**: Health check failure should fail entire suite early
@@ -107,21 +116,24 @@ npx playwright show-report
 ### Common Patterns
 
 Reference the TAD for implementation patterns:
+
 - [TAD: Deployment Smoke Tests](/docs/2-technical/2-tad-steel-thread-deployment.md#deployment-smoke-tests)
 
 Key pattern notes:
+
 - Use `request` context for API tests, `page` for browser tests
 - Configure `baseURL` from `BASE_URL` env var with localhost fallback
 
 ### Troubleshooting
 
-| Issue | Solution |
-|-------|----------|
-| Tests timeout on preview | Use wait-for-vercel-preview in CI; handle cold starts |
-| Console error test fails on expected errors | Filter by type ('error'); ignore known benign errors |
-| BASE_URL not used | Verify `baseURL: process.env.BASE_URL` in config |
+| Issue                                       | Solution                                              |
+| ------------------------------------------- | ----------------------------------------------------- |
+| Tests timeout on preview                    | Use wait-for-vercel-preview in CI; handle cold starts |
+| Console error test fails on expected errors | Filter by type ('error'); ignore known benign errors  |
+| BASE_URL not used                           | Verify `baseURL: process.env.BASE_URL` in config      |
 
 ## Estimated Effort
+
 **Size**: M (4-8h)
 
 **Breakdown**: Install/config (30min), test suite (1.5h), testing (1h), docs (30min)
@@ -129,12 +141,14 @@ Key pattern notes:
 ## Architecture Decisions
 
 ### Consolidated Decisions (reference only)
+
 - [TAD: Testing Architecture](/docs/2-technical/2-tad.md#testing) - E2E testing with Playwright
 - [TAD: Deployment Smoke Tests](/docs/2-technical/2-tad-steel-thread-deployment.md#deployment-smoke-tests)
 
 ### Story-Specific Decisions
 
 #### AD-0A.1.S6.1: Chromium-Only for Smoke Tests
+
 **Scope**: Story-specific (does not affect other stories)
 
 **Decision**: Run smoke tests only in Chromium, not full cross-browser suite.
@@ -144,6 +158,7 @@ Key pattern notes:
 **Consequences**: Firefox/WebKit issues not caught in deployment pipeline; faster PR feedback.
 
 #### AD-0A.1.S6.2: Minimal Smoke Test Scope
+
 **Scope**: Story-specific (does not affect other stories)
 
 **Decision**: Smoke suite includes 4 tests: health check, homepage load, console errors, static assets.
@@ -161,20 +176,24 @@ Key pattern notes:
 ## Dependencies on Other Stories
 
 ### Depends On (Must Complete First)
+
 - **S4**: Health Check Endpoint - Primary smoke test target
 - **S5**: Environment Variables - Provides BASE_URL pattern
 
 ### Enables (Unblocks These Stories)
+
 - **S7**: GitHub Actions CI Workflow - Needs smoke tests as CI quality gate
 
 ## References
 
 ### Epic & TAD References
+
 - [EPIC.md](./EPIC.md)
 - [TAD: Testing Architecture](/docs/2-technical/2-tad.md#testing)
 - [TAD: Deployment Smoke Tests](/docs/2-technical/2-tad-steel-thread-deployment.md#deployment-smoke-tests)
 
 ### External Documentation
+
 - [Playwright Documentation](https://playwright.dev/docs/intro)
 - [Playwright API Testing](https://playwright.dev/docs/api-testing)
 - [Playwright CI Configuration](https://playwright.dev/docs/ci)
@@ -182,11 +201,13 @@ Key pattern notes:
 ## Verification Checklist
 
 ### Pre-Verification
+
 - [x] S4 (Health Check Endpoint) completed
 - [x] S5 (Environment Variables) completed
 - [x] Local environment matches [canonical versions](/docs/2-technical/references/canonical-versions.md)
 
 ### Implementation Quality
+
 - [x] All acceptance criteria met
 - [x] Playwright installed and Chromium browser available
 - [x] `pnpm test:e2e:smoke` executes without errors locally
@@ -194,11 +215,13 @@ Key pattern notes:
 - [x] `pnpm lint` and `pnpm type-check` pass
 
 ### Git Hygiene
+
 - [ ] Conventional commit message used (e.g., `test(e2e): add Playwright smoke test suite`)
 - [x] No unrelated changes included
 - [x] playwright-report/ and test-results/ not committed
 
 ## Status
+
 - **State**: Implementation Complete
 - **PR**: -
 - **Completed**: -

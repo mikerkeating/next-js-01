@@ -55,6 +55,7 @@ Documentation is not a "Phase 7" task but an ongoing practice embedded in every 
 ### 2. Two Audiences Per Package
 
 Every package serves two distinct audiences with different needs:
+
 - **Package Maintainer** (internal developer who builds/maintains)
 - **Package Consumer** (developer who uses the package)
 
@@ -66,6 +67,7 @@ Every package serves two distinct audiences with different needs:
 ### 4. Quality Gates Enforce Completeness
 
 CI/CD fails if:
+
 - Packages lack README.md
 - Public functions lack JSDoc
 - API endpoints missing from OpenAPI spec
@@ -74,6 +76,7 @@ CI/CD fails if:
 ### 5. Living Documentation
 
 Documentation is versioned with code and updated with every change:
+
 - Code change → Update inline comments
 - API change → Update OpenAPI spec and README
 - Architecture change → Update TAD, create ADR
@@ -118,6 +121,7 @@ The **Documentation Pyramid** organizes documentation into four layers from stra
 **Purpose**: Explain strategic decisions and long-term architectural vision
 
 **Documents**:
+
 - `docs/1-product/1-prd.md` — Product Requirements Document
 - `docs/2-technical/2-tad.md` — Technical Architecture Document
 - `docs/2-technical/adr/*.md` — Architecture Decision Records
@@ -131,6 +135,7 @@ The **Documentation Pyramid** organizes documentation into four layers from stra
 **Purpose**: Explain what the product does and how users interact with it
 
 **Documents**:
+
 - `apps/*/README.md` — Application-level documentation
 - `docs/guides/*.md` — User guides and tutorials
 - Generated API documentation (OpenAPI/Swagger)
@@ -144,6 +149,7 @@ The **Documentation Pyramid** organizes documentation into four layers from stra
 **Purpose**: Explain how to implement, extend, and operate the system
 
 **Documents**:
+
 - `packages/*/README.md` — Package usage and maintenance
 - `packages/*/docs/ARCHITECTURE.md` — Internal package structure
 - `packages/*/docs/TESTING.md` — Testing strategies
@@ -159,6 +165,7 @@ The **Documentation Pyramid** organizes documentation into four layers from stra
 **Purpose**: Provide context for development workflow and onboarding
 
 **Documents**:
+
 - `docs/3-epics/*/EPIC.md` — Epic specifications
 - `docs/3-epics/*/S*.md` — Story specifications
 - `CONTRIBUTING.md` — Development workflow
@@ -177,6 +184,7 @@ The **Documentation Pyramid** organizes documentation into four layers from stra
 **Who**: Developers who build and maintain the package itself
 
 **Needs**:
+
 - Understanding the package's internal architecture
 - How to add features or fix bugs within the package
 - Testing strategy and test location
@@ -184,6 +192,7 @@ The **Documentation Pyramid** organizes documentation into four layers from stra
 - Design decisions and trade-offs
 
 **Documentation Location**:
+
 ```
 packages/{name}/
 ├── README.md                  # Includes "For Maintainers" section
@@ -197,22 +206,27 @@ packages/{name}/
 ```
 
 **Example Content** (from `packages/auth/README.md`):
+
 ```markdown
 ## For Maintainers
 
 ### Architecture
+
 See [docs/ARCHITECTURE.md](./docs/ARCHITECTURE.md) for internal structure.
 
 ### Development
+
 1. Clone monorepo: `git clone ...`
 2. Install dependencies: `pnpm install`
 3. Run tests: `pnpm test`
 4. Build: `pnpm build`
 
 ### Testing
+
 See [docs/TESTING.md](./docs/TESTING.md) for testing strategy.
 
 ### Releasing
+
 See [docs/RELEASING.md](./docs/RELEASING.md) for version management.
 ```
 
@@ -223,6 +237,7 @@ See [docs/RELEASING.md](./docs/RELEASING.md) for version management.
 **Who**: Developers who use the package in their applications
 
 **Needs**:
+
 - How to install and configure the package
 - API reference (what functions/components are available)
 - Usage examples and common patterns
@@ -230,6 +245,7 @@ See [docs/RELEASING.md](./docs/RELEASING.md) for version management.
 - Migration guides when upgrading
 
 **Documentation Location**:
+
 ```
 packages/{name}/
 ├── README.md                  # Top section: installation, usage, examples
@@ -239,6 +255,7 @@ packages/{name}/
 ```
 
 **Example Content** (from `packages/auth/README.md`):
+
 ```markdown
 # @repo/auth
 
@@ -282,7 +299,7 @@ export default requireRole('internal')(AdminPage);
 
 ## Documentation Structure
 
-Complete monorepo documentation organization:
+Complete monorepo documentation Organization:
 
 ```
 next-js-2025-12-1/
@@ -390,16 +407,16 @@ next-js-2025-12-1/
 
 Documentation ownership is distributed across epic phases to ensure documentation is created alongside implementation:
 
-| Epic Phase | Documentation Created | Primary Owner |
-|------------|----------------------|---------------|
-| **P (Planning)** | PRD, TAD, ADRs, Epic/Story specs | Tech Lead + PM |
-| **0A-1A (Foundation)** | README, CONTRIBUTING, architecture diagrams, monorepo structure | Platform Team |
+| Epic Phase               | Documentation Created                                            | Primary Owner       |
+| ------------------------ | ---------------------------------------------------------------- | ------------------- |
+| **P (Planning)**         | PRD, TAD, ADRs, Epic/Story specs                                 | Tech Lead + PM      |
+| **0A-1A (Foundation)**   | README, CONTRIBUTING, architecture diagrams, monorepo structure  | Platform Team       |
 | **2A (Shared Packages)** | Package READMEs (both audiences), ARCHITECTURE.md, API reference | Package Maintainers |
-| **2B (Product Domain)** | Product domain docs, data model documentation | Product Team |
-| **3A-3B (Applications)** | App READMEs, API docs (OpenAPI), user guides | App Teams |
-| **4A-8A (Features)** | Feature guides, usage examples, troubleshooting | Feature Teams |
-| **7A (Documentation)** | Documentation completeness audit, doc site | Documentation Team |
-| **8A (Operations)** | Operational runbooks, incident procedures | DevOps + All Teams |
+| **2B (Product Domain)**  | Product domain docs, data model documentation                    | Product Team        |
+| **3A-3B (Applications)** | App READMEs, API docs (OpenAPI), user guides                     | App Teams           |
+| **4A-8A (Features)**     | Feature guides, usage examples, troubleshooting                  | Feature Teams       |
+| **7A (Documentation)**   | Documentation completeness audit, doc site                       | Documentation Team  |
+| **8A (Operations)**      | Operational runbooks, incident procedures                        | DevOps + All Teams  |
 
 ### Continuous Ownership
 
@@ -419,15 +436,16 @@ While specific documentation is created during epic phases, **all teams own docu
 
 **Philosophy**: Generate documentation from code to ensure accuracy and reduce maintenance burden.
 
-| Type | Generated From | Tool | Output Location |
-|------|----------------|------|-----------------|
-| **API Reference** | TypeScript source with JSDoc | TypeDoc | `packages/*/docs/api/` |
-| **Component Library** | React components + stories | Storybook | Deployed Storybook site |
-| **API Endpoints** | Route handlers with decorators | OpenAPI/Swagger | `docs/api/openapi.yaml` |
-| **Database Schema** | Drizzle schema definitions | Drizzle Kit + custom script | `packages/database/docs/SCHEMA.md` |
-| **Type Definitions** | TypeScript interfaces/types | TypeDoc | Included in API reference |
+| Type                  | Generated From                 | Tool                        | Output Location                    |
+| --------------------- | ------------------------------ | --------------------------- | ---------------------------------- |
+| **API Reference**     | TypeScript source with JSDoc   | TypeDoc                     | `packages/*/docs/api/`             |
+| **Component Library** | React components + stories     | Storybook                   | Deployed Storybook site            |
+| **API Endpoints**     | Route handlers with decorators | OpenAPI/Swagger             | `docs/api/openapi.yaml`            |
+| **Database Schema**   | Drizzle schema definitions     | Drizzle Kit + custom script | `packages/database/docs/SCHEMA.md` |
+| **Type Definitions**  | TypeScript interfaces/types    | TypeDoc                     | Included in API reference          |
 
 **CI/CD Integration**:
+
 ```yaml
 # .github/workflows/docs.yml
 - name: Generate API Documentation
@@ -441,6 +459,7 @@ While specific documentation is created during epic phases, **all teams own docu
 ```
 
 **Benefits**:
+
 - Always in sync with code
 - No manual maintenance
 - Type-safe documentation
@@ -452,17 +471,18 @@ While specific documentation is created during epic phases, **all teams own docu
 
 **Philosophy**: Write documentation where human explanation, context, and decision-making are required.
 
-| Type | Format | Location | Purpose |
-|------|--------|----------|---------|
-| **Architecture Diagrams** | Mermaid / Excalidraw | `docs/architecture/diagrams/` | Visual system overview |
-| **ADRs** | Markdown (template) | `docs/2-technical/adr/` | Document architectural decisions |
-| **User Guides** | Markdown | `docs/guides/` | Step-by-step tutorials |
-| **Runbooks** | Markdown | `docs/operations/runbooks/` | Operational procedures |
-| **Epic/Story Specs** | Markdown (template) | `docs/3-epics/` | Implementation guidance |
-| **ARCHITECTURE.md** | Markdown | `packages/*/docs/` | Package internal structure |
-| **Troubleshooting** | Markdown | Package READMEs | Common issues and solutions |
+| Type                      | Format               | Location                      | Purpose                          |
+| ------------------------- | -------------------- | ----------------------------- | -------------------------------- |
+| **Architecture Diagrams** | Mermaid / Excalidraw | `docs/architecture/diagrams/` | Visual system overview           |
+| **ADRs**                  | Markdown (template)  | `docs/2-technical/adr/`       | Document architectural decisions |
+| **User Guides**           | Markdown             | `docs/guides/`                | Step-by-step tutorials           |
+| **Runbooks**              | Markdown             | `docs/operations/runbooks/`   | Operational procedures           |
+| **Epic/Story Specs**      | Markdown (template)  | `docs/3-epics/`               | Implementation guidance          |
+| **ARCHITECTURE.md**       | Markdown             | `packages/*/docs/`            | Package internal structure       |
+| **Troubleshooting**       | Markdown             | Package READMEs               | Common issues and solutions      |
 
 **Quality Standards**:
+
 - Use templates (ADR, Epic, Story) for consistency
 - Include examples and code snippets
 - Link to related documentation
@@ -510,7 +530,7 @@ jobs:
       - name: Check Markdown Links
         uses: gaurav-nelson/github-action-markdown-link-check@v1
         with:
-          use-quiet-mode: 'yes'
+          use-quiet-mode: "yes"
 
       - name: Spell Check (optional)
         run: |
@@ -568,6 +588,7 @@ Documentation is delivered in multiple formats optimized for different audiences
 **URL**: `https://docs.example.com`
 
 **Features**:
+
 - Full-text search
 - Version switcher
 - Dark mode
@@ -584,6 +605,7 @@ Documentation is delivered in multiple formats optimized for different audiences
 **URL**: `https://api.example.com/docs`
 
 **Features**:
+
 - "Try it out" functionality
 - Authentication testing
 - Request/response examples
@@ -600,6 +622,7 @@ Documentation is delivered in multiple formats optimized for different audiences
 **URL**: `https://storybook.example.com`
 
 **Features**:
+
 - Interactive component playground
 - Props table documentation
 - Accessibility checks
@@ -616,6 +639,7 @@ Documentation is delivered in multiple formats optimized for different audiences
 **URL**: `https://example.com/docs`
 
 **Features**:
+
 - Integrated with marketing site
 - Search functionality
 - Feedback mechanism
@@ -631,6 +655,7 @@ Documentation is delivered in multiple formats optimized for different audiences
 **Location**: Private wiki + `docs/operations/`
 
 **Features**:
+
 - Quick access for on-call engineers
 - Edit history and version control
 - Alert integration
@@ -650,16 +675,16 @@ Documentation is delivered in multiple formats optimized for different audiences
 
 Documentation updates are triggered by specific events:
 
-| Trigger Event | Required Documentation Update | Responsibility |
-|--------------|------------------------------|----------------|
-| **Code Change** | Update inline comments, JSDoc | Developer (PR author) |
-| **API Change** | Update OpenAPI spec, package README | Developer (PR author) |
-| **Architecture Change** | Update TAD, create new ADR | Tech Lead |
-| **New Feature** | Update user guides, add examples | Feature team |
-| **Bug Fix** | Update troubleshooting section | Developer (PR author) |
-| **Incident** | Update runbook with lessons learned | On-call engineer |
-| **Onboarding Feedback** | Improve getting started guide | Team lead |
-| **Deprecation** | Add migration guide, update changelog | Package maintainer |
+| Trigger Event           | Required Documentation Update         | Responsibility        |
+| ----------------------- | ------------------------------------- | --------------------- |
+| **Code Change**         | Update inline comments, JSDoc         | Developer (PR author) |
+| **API Change**          | Update OpenAPI spec, package README   | Developer (PR author) |
+| **Architecture Change** | Update TAD, create new ADR            | Tech Lead             |
+| **New Feature**         | Update user guides, add examples      | Feature team          |
+| **Bug Fix**             | Update troubleshooting section        | Developer (PR author) |
+| **Incident**            | Update runbook with lessons learned   | On-call engineer      |
+| **Onboarding Feedback** | Improve getting started guide         | Team lead             |
+| **Deprecation**         | Add migration guide, update changelog | Package maintainer    |
 
 ---
 
@@ -701,12 +726,14 @@ Documentation updates are triggered by specific events:
 Documentation is versioned alongside code:
 
 **Strategy**:
+
 - Documentation lives in same repo as code (monorepo)
 - Git tags include documentation at that version
 - Documentation site has version switcher
 - Breaking changes require migration guides
 
 **Example**:
+
 ```
 v1.0.0 → Documentation for v1.0.0 API
 v2.0.0 → Documentation for v2.0.0 API + migration guide from v1 to v2
@@ -723,6 +750,7 @@ Documentation effectiveness is measured by:
 **Target**: New developer productive in < 2 days
 
 **Measurement**:
+
 - Track time from "git clone" to first PR merged
 - Survey new team members on documentation quality
 - Identify gaps in onboarding documentation
@@ -734,6 +762,7 @@ Documentation effectiveness is measured by:
 **Target**: Decrease "how do I..." questions by 50% after documentation improvements
 
 **Measurement**:
+
 - Track support tickets categorized as "documentation issue"
 - Measure repeat questions (indicating documentation gap)
 - Monitor Slack/Discord "help" channel volume
@@ -745,6 +774,7 @@ Documentation effectiveness is measured by:
 **Target**: 80% of developers find answers without asking teammates
 
 **Measurement**:
+
 - Survey developers monthly on documentation usefulness
 - Track documentation site search queries
 - Monitor "documentation not found" searches
@@ -753,9 +783,10 @@ Documentation effectiveness is measured by:
 
 ### 4. Developer Confidence
 
-**Target**: Developers understand *why* things work, not just *how*
+**Target**: Developers understand _why_ things work, not just _how_
 
 **Measurement**:
+
 - Survey developers on understanding of architectural decisions
 - Code review quality (fewer "why does this work?" questions)
 - ADR adoption rate (team proactively creating ADRs)
@@ -767,6 +798,7 @@ Documentation effectiveness is measured by:
 **Target**: 100% of packages have complete documentation (both audiences)
 
 **Measurement**:
+
 - Automated checks in CI/CD (must pass)
 - JSDoc coverage percentage (aim for 90%+)
 - Manual audit quarterly
@@ -778,6 +810,7 @@ Documentation effectiveness is measured by:
 **Target**: <5% of documentation is outdated or incorrect
 
 **Measurement**:
+
 - User-reported documentation issues
 - Quarterly audit findings
 - Automated link checking (0 broken links)
@@ -790,7 +823,7 @@ Documentation effectiveness is measured by:
 
 #### For Package Consumer (README.md - Top Section)
 
-```markdown
+`````markdown
 # @repo/auth
 
 Authentication and authorization package using Clerk with multi-tenant support.
@@ -810,7 +843,7 @@ pnpm add @repo/auth
 import { requireAuth } from '@repo/auth';
 
 function DashboardPage() {
-  return <div>Protected Dashboard</div>;
+return <div>Protected Dashboard</div>;
 }
 
 export default requireAuth(DashboardPage);
@@ -822,7 +855,7 @@ export default requireAuth(DashboardPage);
 import { requireRole } from '@repo/auth';
 
 function AdminPage() {
-  return <div>Admin Panel</div>;
+return <div>Admin Panel</div>;
 }
 
 export default requireRole('internal')(AdminPage);
@@ -834,8 +867,8 @@ export default requireRole('internal')(AdminPage);
 import { useAuth } from '@repo/auth';
 
 function UserProfile() {
-  const { user, organisation } = useAuth();
-  return <div>Hello {user.name} from {organisation.name}</div>;
+const { user, Organization } = useAuth();
+return <div>Hello {user.name} from {Organization.name}</div>;
 }
 \`\`\`
 
@@ -908,47 +941,47 @@ See [docs/CONTRIBUTING.md](./docs/CONTRIBUTING.md) for contribution guidelines.
 
 #### For Package Maintainer (/docs/ARCHITECTURE.md)
 
-```markdown
+````markdown
 # @repo/auth Architecture
 
 Internal architecture documentation for maintainers of the auth package.
 
 ## Overview
 
-The auth package provides a unified authentication and authorization layer using Clerk, with custom RBAC and multi-tenant organization support.
+The auth package provides a unified authentication and authorization layer using Clerk, with custom RBAC and multi-tenant Organization support.
 
 ## Package Structure
 
 \`\`\`
 packages/auth/
 ├── src/
-│   ├── index.ts              # Public API exports
-│   ├── client/               # Client-side hooks and components
-│   │   ├── useAuth.ts        # Auth context hook
-│   │   ├── RequireAuth.tsx   # Auth HOC
-│   │   └── AuthProvider.tsx  # Context provider
-│   ├── server/               # Server-side utilities
-│   │   ├── requireAuth.ts    # Server-side auth middleware
-│   │   ├── getAuth.ts        # Get auth from request
-│   │   └── permissions.ts    # RBAC helpers
-│   ├── middleware/           # Edge middleware
-│   │   └── authMiddleware.ts # Clerk middleware wrapper
-│   ├── types/                # TypeScript types
-│   │   ├── user.ts
-│   │   ├── organisation.ts
-│   │   └── permissions.ts
-│   └── utils/                # Internal utilities
-│       ├── roleMapping.ts    # Clerk role → app role
-│       └── tokenValidation.ts
+│ ├── index.ts # Public API exports
+│ ├── client/ # Client-side hooks and components
+│ │ ├── useAuth.ts # Auth context hook
+│ │ ├── RequireAuth.tsx # Auth HOC
+│ │ └── AuthProvider.tsx # Context provider
+│ ├── server/ # Server-side utilities
+│ │ ├── requireAuth.ts # Server-side auth middleware
+│ │ ├── getAuth.ts # Get auth from request
+│ │ └── permissions.ts # RBAC helpers
+│ ├── middleware/ # Edge middleware
+│ │ └── authMiddleware.ts # Clerk middleware wrapper
+│ ├── types/ # TypeScript types
+│ │ ├── user.ts
+│ │ ├── Organization.ts
+│ │ └── permissions.ts
+│ └── utils/ # Internal utilities
+│ ├── roleMapping.ts # Clerk role → app role
+│ └── tokenValidation.ts
 ├── tests/
-│   ├── client/
-│   ├── server/
-│   └── integration/
+│ ├── client/
+│ ├── server/
+│ └── integration/
 └── docs/
-    ├── ARCHITECTURE.md       # This file
-    ├── TESTING.md
-    ├── CONTRIBUTING.md
-    └── RELEASING.md
+├── ARCHITECTURE.md # This file
+├── TESTING.md
+├── CONTRIBUTING.md
+└── RELEASING.md
 \`\`\`
 
 ## Design Decisions
@@ -960,7 +993,7 @@ packages/auth/
 
 ### 2. Custom RBAC Layer
 
-**Decision**: Build custom RBAC on top of Clerk organizations
+**Decision**: Build custom RBAC on top of Clerk Organizations
 **Rationale**: Clerk's built-in roles are too basic for our multi-tenant needs
 
 **Implementation**: Map Clerk roles to application roles in `roleMapping.ts`
@@ -976,17 +1009,17 @@ packages/auth/
 
 \`\`\`
 User Login Request
-    ↓
+↓
 Clerk Hosted UI (OAuth/Magic Link/Password)
-    ↓
+↓
 Clerk issues JWT token
-    ↓
+↓
 Token stored in httpOnly secure cookie
-    ↓
+↓
 Edge middleware validates token on each request
-    ↓
+↓
 User context injected into request
-    ↓
+↓
 Available in app via useAuth() or getAuth()
 \`\`\`
 
@@ -994,13 +1027,13 @@ Available in app via useAuth() or getAuth()
 
 \`\`\`
 Protected Route Request
-    ↓
+↓
 requireAuth() HOC checks session
-    ↓
+↓
 requireRole() checks user role
-    ↓
+↓
 checkPermission() validates specific permission
-    ↓
+↓
 Access granted or 403 Forbidden
 \`\`\`
 
@@ -1031,7 +1064,7 @@ See [TESTING.md](./TESTING.md) for full details.
 - [ ] Implement MFA enforcement for admin roles
 - [ ] Add session management UI (view/revoke sessions)
 - [ ] Support API key authentication for programmatic access
-\`\`\`
+      \`\`\`
 
 ---
 
@@ -1048,7 +1081,8 @@ See [TESTING.md](./TESTING.md) for full details.
 ## Context
 
 We need an authentication solution for the platform that supports:
-- Multi-tenant organizations
+
+- Multi-tenant Organizations
 - Social login (Google, GitHub)
 - Email/password and magic link authentication
 - Session management
@@ -1061,16 +1095,19 @@ Use Clerk as our authentication provider.
 ## Alternatives Considered
 
 ### 1. NextAuth.js
+
 - **Pros**: Open source, self-hosted, free
 - **Cons**: More setup required, less polished UI, webhook support limited
 - **Why Not**: More development effort, less feature-complete
 
 ### 2. Auth0
+
 - **Pros**: Enterprise-grade, highly configurable
 - **Cons**: Expensive ($240/mo for base plan), complex setup
 - **Why Not**: Overkill for our needs, higher cost
 
 ### 3. Custom Auth
+
 - **Pros**: Full control, no third-party dependency
 - **Cons**: Significant development time, security risk if not done correctly
 - **Why Not**: Not core to our value proposition, high risk
@@ -1078,6 +1115,7 @@ Use Clerk as our authentication provider.
 ## Rationale
 
 Clerk provides the best balance of:
+
 - **Developer Experience**: Excellent DX with React SDK, pre-built components
 - **Features**: Organizations, social login, magic links, webhooks out of the box
 - **Cost**: Free tier covers development, $25/mo for production is reasonable
@@ -1087,23 +1125,26 @@ Clerk provides the best balance of:
 ## Consequences
 
 ### Positive
+
 - Faster implementation (1 week vs. 4+ weeks for custom)
 - Pre-built UI components save design/dev time
 - Managed security and compliance
 - Excellent webhook support for user sync
 
 ### Negative
+
 - Vendor lock-in (mitigated by abstracting auth behind @repo/auth)
 - Monthly cost at scale ($25/mo base + $0.02/MAU)
 - Some customization limits (e.g., email templates)
 
 ### Neutral
+
 - Need to maintain abstraction layer for potential future migration
 
 ## Implementation Notes
 
 - Abstract Clerk behind `@repo/auth` package to allow future migration
-- Use Clerk organizations for multi-tenancy
+- Use Clerk Organizations for multi-tenancy
 - Sync users to database via webhooks
 - Custom RBAC layer on top of Clerk roles
 
@@ -1112,7 +1153,7 @@ Clerk provides the best balance of:
 - [Clerk Documentation](https://clerk.com/docs)
 - [Clerk Pricing](https://clerk.com/pricing)
 - [Authentication Epic: 2A.2](../../3-epics/2A.2-auth-package/EPIC.md)
-\`\`\`
+  \`\`\`
 
 ---
 
@@ -1120,19 +1161,19 @@ Clerk provides the best balance of:
 
 Documentation is not a single phase but a continuous practice embedded across multiple epics:
 
-| Epic | Documentation Deliverables |
-|------|----------------------------|
-| **P.3: Epic & Story Specifications** | EPIC.md and Story files for all epics |
-| **0A.1: Steel Thread** | Initial README, deployment documentation |
-| **1A.1: Monorepo Foundation** | Root README, CONTRIBUTING.md, workspace structure |
-| **1A.4: Documentation Foundation** | ADR template, documentation structure, this TAD section |
-| **1A.5: CI/CD Pipeline** | Quality gates for documentation enforcement |
-| **2A.x: Each Package Epic** | Package README (both audiences), ARCHITECTURE.md, TESTING.md, API reference |
-| **2B.1: Database Schema** | Schema documentation, migration guides |
-| **3A.x: Application Epics** | App README, deployment guides |
-| **3B.4: Documentation Application** | Public documentation site (Nextra/Docusaurus) |
-| **7A.1: Developer Documentation** | Documentation completeness audit, gap filling |
-| **7A.2: Operational Documentation** | Runbooks, incident response procedures |
+| Epic                                 | Documentation Deliverables                                                  |
+| ------------------------------------ | --------------------------------------------------------------------------- |
+| **P.3: Epic & Story Specifications** | EPIC.md and Story files for all epics                                       |
+| **0A.1: Steel Thread**               | Initial README, deployment documentation                                    |
+| **1A.1: Monorepo Foundation**        | Root README, CONTRIBUTING.md, workspace structure                           |
+| **1A.4: Documentation Foundation**   | ADR template, documentation structure, this TAD section                     |
+| **1A.5: CI/CD Pipeline**             | Quality gates for documentation enforcement                                 |
+| **2A.x: Each Package Epic**          | Package README (both audiences), ARCHITECTURE.md, TESTING.md, API reference |
+| **2B.1: Database Schema**            | Schema documentation, migration guides                                      |
+| **3A.x: Application Epics**          | App README, deployment guides                                               |
+| **3B.4: Documentation Application**  | Public documentation site (Nextra/Docusaurus)                               |
+| **7A.1: Developer Documentation**    | Documentation completeness audit, gap filling                               |
+| **7A.2: Operational Documentation**  | Runbooks, incident response procedures                                      |
 
 ### Documentation-Specific Epic: 7A (Documentation Enhancement)
 
@@ -1141,6 +1182,7 @@ Documentation is not a single phase but a continuous practice embedded across mu
 **Goal**: Ensure all developer-facing documentation is complete, accurate, and accessible.
 
 **Deliverables**:
+
 1. Audit all package documentation for completeness
 2. Fill gaps in user guides and tutorials
 3. Ensure all public APIs have JSDoc
@@ -1153,6 +1195,7 @@ Documentation is not a single phase but a continuous practice embedded across mu
 **Goal**: Create comprehensive operational runbooks for production support.
 
 **Deliverables**:
+
 1. Incident response procedures
 2. Deployment runbooks
 3. Database backup/restore procedures
@@ -1179,3 +1222,6 @@ By treating documentation with the same rigor as code, we ensure the platform is
 ---
 
 **Back to**: [Technical Architecture Document (TAD)](2-tad.md)
+```
+````
+`````

@@ -36,11 +36,13 @@ We will use **Vercel** as our primary hosting platform for all Next.js applicati
 ### Deployment Strategy
 
 **Environment Mapping**:
+
 - **Production**: Deploy from `main` branch → `example.com`
 - **Staging**: Deploy from `staging` branch → `staging.example.com`
 - **Preview**: Automatic deploys on PR creation/update → `*-preview.vercel.app`
 
 **Monorepo Configuration (vercel.json)**:
+
 ```json
 {
   "version": 2,
@@ -65,6 +67,7 @@ We will use **Vercel** as our primary hosting platform for all Next.js applicati
 
 **Per-App Configuration**:
 Each Next.js app has its own Vercel project with specific settings:
+
 - Root Directory: `apps/{app-name}`
 - Build Command: `cd ../.. && pnpm turbo run build --filter={apps/{app-name}}...`
 - Install Command: `pnpm install --frozen-lockfile`
@@ -73,6 +76,7 @@ Each Next.js app has its own Vercel project with specific settings:
 ### Environment Variables Strategy
 
 **Shared Variables** (via Vercel Project Settings):
+
 ```bash
 # Database
 DATABASE_URL=<from_neon_or_supabase>
@@ -96,6 +100,7 @@ NEXT_PUBLIC_APP_URL=https://example.com
 ```
 
 **Per-Environment Configuration**:
+
 - Development: Uses `.env.local` (not committed)
 - Preview: Uses Vercel Preview environment variables
 - Production: Uses Vercel Production environment variables
@@ -180,6 +185,7 @@ NEXT_PUBLIC_APP_URL=https://example.com
 #### Option 1: AWS (Amplify/Elastic Beanstalk/ECS)
 
 **Pros:**
+
 - Full control over infrastructure
 - Wide range of services
 - Enterprise-grade reliability
@@ -187,6 +193,7 @@ NEXT_PUBLIC_APP_URL=https://example.com
 - Good for complex architectures
 
 **Cons:**
+
 - ❌ Significant DevOps overhead
 - ❌ Complex configuration for Next.js
 - ❌ Slower deployment process
@@ -200,6 +207,7 @@ NEXT_PUBLIC_APP_URL=https://example.com
 #### Option 2: Netlify
 
 **Pros:**
+
 - Good Next.js support
 - Automatic preview deployments
 - Edge Functions
@@ -207,6 +215,7 @@ NEXT_PUBLIC_APP_URL=https://example.com
 - Good developer experience
 
 **Cons:**
+
 - ❌ Less optimized for Next.js than Vercel
 - ❌ Slower builds for large projects
 - ❌ Edge Functions more limited
@@ -219,6 +228,7 @@ NEXT_PUBLIC_APP_URL=https://example.com
 #### Option 3: Cloudflare Pages
 
 **Pros:**
+
 - Excellent global network
 - Generous free tier
 - Fast edge locations
@@ -226,6 +236,7 @@ NEXT_PUBLIC_APP_URL=https://example.com
 - Workers for serverless functions
 
 **Cons:**
+
 - ❌ Limited Next.js SSR support
 - ❌ Primarily for static sites
 - ❌ Server Components support incomplete
@@ -238,6 +249,7 @@ NEXT_PUBLIC_APP_URL=https://example.com
 #### Option 4: Railway/Render
 
 **Pros:**
+
 - Simple deployment process
 - Docker support
 - Database hosting included
@@ -245,6 +257,7 @@ NEXT_PUBLIC_APP_URL=https://example.com
 - Good for fullstack apps
 
 **Cons:**
+
 - ❌ Not specialized for Next.js
 - ❌ No global edge network
 - ❌ Manual configuration required
@@ -257,12 +270,14 @@ NEXT_PUBLIC_APP_URL=https://example.com
 #### Option 5: Self-Hosted (VPS/Docker/Kubernetes)
 
 **Pros:**
+
 - Complete control
 - Potentially lower cost at scale
 - No vendor lock-in
 - Custom configurations possible
 
 **Cons:**
+
 - ❌ Significant DevOps overhead
 - ❌ Manual scaling required
 - ❌ No automatic optimizations
@@ -276,12 +291,14 @@ NEXT_PUBLIC_APP_URL=https://example.com
 #### Option 6: Fly.io
 
 **Pros:**
+
 - Good for fullstack apps
 - Edge deployment
 - Good pricing
 - Docker support
 
 **Cons:**
+
 - ❌ Less Next.js-specific optimization
 - ❌ More complex setup
 - ❌ Smaller community

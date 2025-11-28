@@ -2,12 +2,12 @@
 
 ### References
 
-| Size | Hours | Complexity | Example |
-|------|-------|------------|---------|
-| **S** | 2-4h | Single file, clear scope | "Add health check endpoint" |
-| **M** | 4-6h | Multiple files, some integration | "Configure Vitest with coverage" |
-| **L** | 6-8h | Cross-cutting, complex logic | "Implement auth middleware chain" |
-| **XL** | 8h+ | **Too large — split further** | — |
+| Size   | Hours | Complexity                       | Example                           |
+| ------ | ----- | -------------------------------- | --------------------------------- |
+| **S**  | 2-4h  | Single file, clear scope         | "Add health check endpoint"       |
+| **M**  | 4-6h  | Multiple files, some integration | "Configure Vitest with coverage"  |
+| **L**  | 6-8h  | Cross-cutting, complex logic     | "Implement auth middleware chain" |
+| **XL** | 8h+   | **Too large — split further**    | —                                 |
 
 ### Example: Epic 2A.2 Broken into Stories
 

@@ -116,7 +116,7 @@ jobs:
         run: pnpm install --frozen-lockfile
 
       - name: Install Playwright browsers
-        run: npx playwright install chromium --with-deps
+        run: pnpm --filter @repo/routing exec playwright install chromium --with-deps
 
       - name: Get Vercel Preview URL
         id: vercel-preview
@@ -169,6 +169,6 @@ jobs:
         with:
           name: playwright-results
           path: |
-            playwright-report/
-            test-results/
+            apps/routing/playwright-report/
+            apps/routing/testing/e2e/results/
           retention-days: 7

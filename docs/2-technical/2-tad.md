@@ -2,12 +2,12 @@
 
 ## Document Information
 
-| Field | Value |
-|-------|-------|
-| **Version** | 2.0 |
-| **Status** | Draft |
-| **Owner** | Technical Lead / Architect |
-| **Last Updated** | 2025-11-24 |
+| Field            | Value                                                           |
+| ---------------- | --------------------------------------------------------------- |
+| **Version**      | 2.0                                                             |
+| **Status**       | Draft                                                           |
+| **Owner**        | Technical Lead / Architect                                      |
+| **Last Updated** | 2025-11-24                                                      |
 | **Dependencies** | [Product Requirements Document (PRD)](/docs/1-product/1-prd.md) |
 
 ---
@@ -45,6 +45,7 @@ This Technical Architecture Document (TAD) defines how we're building the system
 ### Scope
 
 This document covers:
+
 - Technology stack selection and rationale
 - High-level system architecture
 - Application structure and data flow
@@ -68,85 +69,85 @@ This document covers:
 
 ### Framework & Runtime
 
-| Component | Selection | Version | Rationale |
-|-----------|-----------|---------|-----------|
-| **Framework** | Next.js | 16 | Modern React framework with App Router, server components, and excellent Vercel integration |
-| **Language** | TypeScript | 5.x | Type safety, better DX, industry standard |
-| **Runtime** | Node.js | 24.x LTS | Stable LTS version with good performance |
-| **Package Manager** | pnpm | 9.x | Fast, efficient, workspace support |
-| **Monorepo Tool** | Turborepo | Latest | Build caching, task orchestration, Vercel integration |
+| Component           | Selection  | Version  | Rationale                                                                                   |
+| ------------------- | ---------- | -------- | ------------------------------------------------------------------------------------------- |
+| **Framework**       | Next.js    | 16       | Modern React framework with App Router, server components, and excellent Vercel integration |
+| **Language**        | TypeScript | 5.x      | Type safety, better DX, industry standard                                                   |
+| **Runtime**         | Node.js    | 24.x LTS | Stable LTS version with good performance                                                    |
+| **Package Manager** | pnpm       | 9.x      | Fast, efficient, workspace support                                                          |
+| **Monorepo Tool**   | Turborepo  | Latest   | Build caching, task orchestration, Vercel integration                                       |
 
 **ADR Reference**: [ADR-001: Monorepo with Turborepo](adr/001-monorepo-turborepo.md), [ADR-002: pnpm as package manager](adr/002-pnpm-package-manager.md), [ADR-003: Next.js 16 as framework](adr/003-nextjs-framework.md)
 
 ### Database & ORM
 
-| Component | Selection | Version | Rationale |
-|-----------|-----------|---------|-----------|
-| **Database** | PostgreSQL | 16+ | Robust, ACID-compliant, excellent JSON support |
-| **Database Host** | Neon / Supabase | Latest | Serverless Postgres with excellent developer experience |
-| **ORM** | Drizzle | Latest | Type-safe, performant, excellent DX |
-| **Migration Tool** | Drizzle Kit | Latest | Built-in migration support |
+| Component          | Selection       | Version | Rationale                                               |
+| ------------------ | --------------- | ------- | ------------------------------------------------------- |
+| **Database**       | PostgreSQL      | 16+     | Robust, ACID-compliant, excellent JSON support          |
+| **Database Host**  | Neon / Supabase | Latest  | Serverless Postgres with excellent developer experience |
+| **ORM**            | Drizzle         | Latest  | Type-safe, performant, excellent DX                     |
+| **Migration Tool** | Drizzle Kit     | Latest  | Built-in migration support                              |
 
 **ADR Reference**: [ADR-005: Drizzle as ORM](adr/005-drizzle-orm.md)
 
 ### Authentication & Authorization
 
-| Component | Selection | Version | Rationale |
-|-----------|-----------|---------|-----------|
-| **Auth Provider** | Clerk | Latest | Modern, feature-rich, excellent UX, webhook support |
-| **Session Management** | Clerk | Latest | Built-in with Clerk |
-| **Multi-tenancy** | Custom + Clerk Orgs | Latest | Leverages Clerk organizations with custom role mapping |
+| Component              | Selection           | Version | Rationale                                              |
+| ---------------------- | ------------------- | ------- | ------------------------------------------------------ |
+| **Auth Provider**      | Clerk               | Latest  | Modern, feature-rich, excellent UX, webhook support    |
+| **Session Management** | Clerk               | Latest  | Built-in with Clerk                                    |
+| **Multi-tenancy**      | Custom + Clerk Orgs | Latest  | Leverages Clerk Organizations with custom role mapping |
 
 **ADR Reference**: [ADR-006: Clerk for authentication](adr/006-clerk-authentication.md), [ADR-007: Multi-tenant data model](adr/007-multi-tenant-model.md)
 
 ### Hosting & Deployment
 
-| Component | Selection | Version | Rationale |
-|-----------|-----------|---------|-----------|
-| **Hosting Platform** | Vercel | Latest | First-class Next.js support, edge network, preview deployments |
-| **CDN** | Vercel Edge Network | Latest | Global edge distribution, automatic optimization |
-| **Edge Functions** | Vercel Edge Functions | Latest | Low-latency middleware execution |
+| Component            | Selection             | Version | Rationale                                                      |
+| -------------------- | --------------------- | ------- | -------------------------------------------------------------- |
+| **Hosting Platform** | Vercel                | Latest  | First-class Next.js support, edge network, preview deployments |
+| **CDN**              | Vercel Edge Network   | Latest  | Global edge distribution, automatic optimization               |
+| **Edge Functions**   | Vercel Edge Functions | Latest  | Low-latency middleware execution                               |
 
 **ADR Reference**: [ADR-004: Vercel as hosting platform](adr/004-vercel-hosting.md)
 
 ### Analytics & Observability
 
-| Component | Selection | Purpose |
-|-----------|-----------|---------|
-| **Product Analytics** | PostHog | Event tracking, feature flags, session replay |
-| **Web Analytics** | Google Analytics 4 | Marketing attribution, traffic analysis |
-| **Performance** | Vercel Analytics | Core Web Vitals, performance insights |
-| **Error Tracking** | Sentry | Error monitoring, performance tracing |
-| **Logging** | Custom (JSON) | Structured logging with Vercel integration |
+| Component             | Selection          | Purpose                                       |
+| --------------------- | ------------------ | --------------------------------------------- |
+| **Product Analytics** | PostHog            | Event tracking, feature flags, session replay |
+| **Web Analytics**     | Google Analytics 4 | Marketing attribution, traffic analysis       |
+| **Performance**       | Vercel Analytics   | Core Web Vitals, performance insights         |
+| **Error Tracking**    | Sentry             | Error monitoring, performance tracing         |
+| **Logging**           | Custom (JSON)      | Structured logging with Vercel integration    |
 
 ### UI & Styling
 
-| Component | Selection | Version | Rationale |
-|-----------|-----------|---------|-----------|
-| **UI Components** | shadcn/ui | Latest | Accessible, customizable, copy-paste components |
-| **Styling** | Tailwind CSS | 4.x | Utility-first, fast, excellent DX |
-| **Icons** | Lucide React | Latest | Consistent, tree-shakeable icon set |
+| Component         | Selection    | Version | Rationale                                       |
+| ----------------- | ------------ | ------- | ----------------------------------------------- |
+| **UI Components** | shadcn/ui    | Latest  | Accessible, customizable, copy-paste components |
+| **Styling**       | Tailwind CSS | 4.x     | Utility-first, fast, excellent DX               |
+| **Icons**         | Lucide React | Latest  | Consistent, tree-shakeable icon set             |
 
 ### Testing
 
-| Component | Selection | Purpose |
-|-----------|-----------|---------|
-| **Unit Testing** | Vitest | Fast, modern, ESM-native |
-| **Component Testing** | React Testing Library | Component testing with Vitest |
-| **E2E Testing** | Playwright | Cross-browser end-to-end testing |
-| **Load Testing** | k6 / Artillery | Performance and load testing |
-| **Visual Regression** | Chromatic | Visual diff testing for Storybook |
+| Component             | Selection             | Purpose                           |
+| --------------------- | --------------------- | --------------------------------- |
+| **Unit Testing**      | Vitest                | Fast, modern, ESM-native          |
+| **Component Testing** | React Testing Library | Component testing with Vitest     |
+| **E2E Testing**       | Playwright            | Cross-browser end-to-end testing  |
+| **Load Testing**      | k6 / Artillery        | Performance and load testing      |
+| **Visual Regression** | Chromatic             | Visual diff testing for Storybook |
 
 ### Development Tools
 
-| Component | Selection | Purpose |
-|-----------|-----------|---------|
-| **Component Library** | Storybook | Component development and documentation |
-| **Linting** | ESLint | Code quality and consistency |
-| **Formatting** | Prettier | Code formatting |
-| **Type Checking** | TypeScript | Static type checking |
-| **Git Hooks** | Husky | Pre-commit quality gates |
-| **Commit Linting** | Commitlint | Conventional commit enforcement |
+| Component             | Selection  | Purpose                                 |
+| --------------------- | ---------- | --------------------------------------- |
+| **Component Library** | Storybook  | Component development and documentation |
+| **Linting**           | ESLint     | Code quality and consistency            |
+| **Formatting**        | Prettier   | Code formatting                         |
+| **Type Checking**     | TypeScript | Static type checking                    |
+| **Git Hooks**         | Husky      | Pre-commit quality gates                |
+| **Commit Linting**    | Commitlint | Conventional commit enforcement         |
 
 ---
 
@@ -173,7 +174,7 @@ This document covers:
 ├─────────────────────────────────────────────────────────────────┤
 │  Vercel Edge Functions                                          │
 │  - Authentication (Clerk)                                       │
-│  - Organisation Context                                         │
+│  - Organization Context                                         │
 │  - Rate Limiting                                                │
 │  - Security Headers                                             │
 │  - Logging                                                      │
@@ -226,7 +227,7 @@ next-js-2025-12-1/
 │   ├── observability/    # Logging & error tracking
 │   ├── middleware/       # Shared middleware
 │   ├── api-client/       # Type-safe API client
-│   ├── org/              # Organisation context
+│   ├── org/              # Organization context
 │   └── testing/          # Testing utilities
 ├── docs/
 │   ├── 0-product/        # Product documentation (PRD, TAD, roadmap)
@@ -318,13 +319,13 @@ Only org-scoped data returned
 
 #### REST Conventions
 
-| Method | Endpoint | Purpose |
-|--------|----------|---------|
-| GET | `/v1/users` | List users |
-| GET | `/v1/users/:id` | Get single user |
-| POST | `/v1/users` | Create user |
-| PATCH | `/v1/users/:id` | Update user |
-| DELETE | `/v1/users/:id` | Delete user |
+| Method | Endpoint        | Purpose         |
+| ------ | --------------- | --------------- |
+| GET    | `/v1/users`     | List users      |
+| GET    | `/v1/users/:id` | Get single user |
+| POST   | `/v1/users`     | Create user     |
+| PATCH  | `/v1/users/:id` | Update user     |
+| DELETE | `/v1/users/:id` | Delete user     |
 
 #### Response Format
 
@@ -336,23 +337,25 @@ Errors include a success flag, error code, human-readable message, and field-lev
 
 ### Database Schema Overview
 
-Our database follows a multi-tenant architecture with strict organization-level data isolation. The schema supports:
+Our database follows a multi-tenant architecture with strict Organization-level data isolation. The schema supports:
 
 - **User Management**: Users with soft deletion and privacy compliance fields
 - **Organization Multi-tenancy**: Organizations with user-role associations (internal, product-seller, agency-seller, client)
-- **Content Management**: Flexible JSONB-based content storage with organization scoping
+- **Content Management**: Flexible JSONB-based content storage with Organization scoping
 - **Audit Trail**: Comprehensive audit logging for compliance (GDPR/CCPA)
 - **Privacy & Compliance**: Deletion requests, data export requests, user consents, and privacy preferences
-- **Analytics**: Event tracking with organization and user context
+- **Analytics**: Event tracking with Organization and user context
 
 **Key Design Principles**:
-- All tenant-scoped tables include `organisation_id` for row-level security
+
+- All tenant-scoped tables include `Organization_id` for row-level security
 - Soft deletion with grace periods for GDPR "right to be forgotten"
 - JSONB fields for flexible schema evolution
 - Comprehensive audit logging for all mutations
 
 **Entity Relationships**:
-- Users ↔ Organisations (many-to-many through user_organisations)
+
+- Users ↔ Organizations (many-to-many through user_Organizations)
 - Content, Analytics Events scoped to Organizations
 - Deletion/Export Requests linked to Users
 
@@ -365,6 +368,7 @@ Our database follows a multi-tenant architecture with strict organization-level 
 Our deployment pipeline establishes automated, repeatable deployments from developer laptop to production. The steel thread proves that code can flow through all environments with proper quality gates.
 
 **Key Components**:
+
 - **Health Check Endpoint**: `/api/health` with database, auth, and cache validation
 - **GitHub Actions CI/CD**: Automated lint, type-check, test, build, and E2E smoke tests
 - **Vercel Integration**: Automatic preview deployments for PRs, production deploys on merge
@@ -373,6 +377,7 @@ Our deployment pipeline establishes automated, repeatable deployments from devel
 - **SSL Management**: Automatic certificate provisioning and renewal via Vercel
 
 **Quality Gates**:
+
 - Pre-commit: Lint, format, type-check
 - PR: Full test suite, build verification, E2E smoke tests
 - Production: Staging smoke tests, health checks, monitoring validation
@@ -386,6 +391,7 @@ Our deployment pipeline establishes automated, repeatable deployments from devel
 Comprehensive observability ensures the application is monitored, debuggable, and maintainable through structured logging, error tracking, and health monitoring.
 
 **Key Principles**:
+
 - **Structured Logging**: JSON format with 5 log levels (debug, info, warn, error, fatal)
 - **Error Boundaries**: React error boundaries with automatic Sentry reporting
 - **Real-time Monitoring**: Health checks, Core Web Vitals tracking
@@ -393,6 +399,7 @@ Comprehensive observability ensures the application is monitored, debuggable, an
 - **Performance Tracking**: Custom metrics, database query performance, API response times
 
 **Components**:
+
 - **Logger Package** (`@repo/logger`): Structured JSON logging with environment-aware formatting
 - **Sentry Integration**: Error tracking with source maps, breadcrumbs, and user context
 - **React Error Boundary**: Graceful error handling with fallback UI
@@ -401,6 +408,7 @@ Comprehensive observability ensures the application is monitored, debuggable, an
 - **PostHog Integration**: Product analytics with feature flags and session replay
 
 **Log Retention**:
+
 - Debug: 7 days
 - Info: 30 days
 - Warn: 90 days
@@ -416,6 +424,7 @@ Comprehensive observability ensures the application is monitored, debuggable, an
 Type-safe, versioned content management system with multi-tenant isolation supporting various content types (landing pages, blog posts, documentation, product templates).
 
 **Key Features**:
+
 - **Type-Safe Schemas**: Zod validation for all content types with TypeScript inference
 - **Version Control**: Full version history with diff tracking and rollback capability
 - **Multi-Tenant Isolation**: Organization-scoped content with RBAC
@@ -423,12 +432,14 @@ Type-safe, versioned content management system with multi-tenant isolation suppo
 - **Migration System**: Legacy content importer for smooth transitions
 
 **Content Types**:
+
 - Landing Pages (hero, features, CTA sections)
 - Blog Posts (markdown with frontmatter)
 - Documentation Pages (hierarchical navigation)
 - Product Templates (reusable product configurations)
 
 **Storage Strategy**:
+
 - Metadata in PostgreSQL for queryability
 - Full content in JSONB for flexibility
 - Version snapshots for history tracking
@@ -443,6 +454,7 @@ Type-safe, versioned content management system with multi-tenant isolation suppo
 Comprehensive testing strategy following the testing pyramid: more unit tests, fewer integration tests, minimal E2E tests.
 
 **Testing Philosophy**:
+
 - **Test Early**: Fast tests in development, comprehensive tests in CI
 - **Test Realistically**: Real database for integration tests, real browser for E2E
 - **Test Coverage**: Minimum 80% overall, 95% for critical paths
@@ -458,6 +470,7 @@ Comprehensive testing strategy following the testing pyramid: more unit tests, f
 6. **Accessibility Tests**: axe-core/Playwright for WCAG 2.1 Level AA compliance
 
 **Test Infrastructure**:
+
 - Dedicated test database with automatic seeding
 - Test fixtures and factories for consistent test data
 - Parallel test execution with worker isolation
@@ -474,28 +487,34 @@ Monorepo with 12 shared packages providing reusable functionality across all app
 **Package Layers** (Foundation → Data → Service → Application → Testing):
 
 **Foundation Layer**:
+
 - `@repo/config`: Shared configurations (TypeScript, ESLint, Tailwind)
 - `@repo/logger`: Structured JSON logging
 - `@repo/validation`: Zod validation schemas
 
 **Data Layer**:
+
 - `@repo/database`: Drizzle ORM schema, queries, migrations
 
 **Service Layer**:
+
 - `@repo/auth`: Clerk integration with RBAC
-- `@repo/org`: Multi-tenant organization context
+- `@repo/org`: Multi-tenant Organization context
 - `@repo/api-client`: Type-safe API client
 - `@repo/analytics`: PostHog/GA4 event tracking
 - `@repo/observability`: Sentry/logging/health checks
 
 **Application Layer**:
+
 - `@repo/ui`: shadcn/ui component library
 - `@repo/middleware`: Next.js middleware composition
 
 **Testing Layer**:
+
 - `@repo/testing`: Test fixtures, helpers, mocks
 
 **Dependency Rules**:
+
 - Packages can only depend on packages in lower layers
 - Circular dependencies are prevented
 - Public API contracts are strictly enforced
@@ -512,11 +531,13 @@ Comprehensive developer experience strategy covering local setup, quality gates,
 **Quality Gates**:
 
 **Pre-commit Hooks** (Husky/lint-staged):
+
 - ESLint auto-fix
 - Prettier formatting
 - TypeScript type checking (changed files only)
 
 **CI/CD Pipeline Gates**:
+
 1. ESLint validation
 2. TypeScript type checking (full codebase)
 3. Vitest (80% coverage minimum)
@@ -527,13 +548,15 @@ Comprehensive developer experience strategy covering local setup, quality gates,
 8. Accessibility checks (axe-core)
 
 **Local Development Setup**:
+
 - Prerequisites: Node.js 24.x, pnpm 10.x, Docker (optional for local DB)
 - First-time setup guide (6 steps from clone to running server)
 - VS Code configuration with 15 recommended extensions
 - Common development tasks (testing, database, building, linting)
 
 **PR Workflow**:
-- Branch naming conventions (feature/*, fix/*, epic/*, hotfix/*)
+
+- Branch naming conventions (feature/_, fix/_, epic/_, hotfix/_)
 - Conventional commits (feat, fix, docs, style, refactor, test, chore)
 - PR template with checklist
 - Squash-and-merge strategy for clean git history
@@ -545,9 +568,10 @@ Comprehensive developer experience strategy covering local setup, quality gates,
 
 ## Edge Middleware Architecture
 
-Composable middleware chain executing at the edge for authentication, organization context, rate limiting, and security headers.
+Composable middleware chain executing at the edge for authentication, Organization context, rate limiting, and security headers.
 
 **Middleware Chain Composition**:
+
 - Composable middleware with context passing
 - Short-circuit support for early returns
 - Conditional execution based on path patterns
@@ -564,11 +588,13 @@ Composable middleware chain executing at the edge for authentication, organizati
 7. **Role-Based Route Protection**: requireRole and requirePermission helpers
 
 **Performance Targets**:
+
 - Cold start: < 30ms target, 50ms max
 - Warm execution: < 5ms target, 10ms max
 - Total chain: < 20ms target, 50ms max
 
 **Optimization Techniques**:
+
 - Edge Config for fast lookups
 - Lazy loading of non-critical middleware
 - Request coalescing for parallel checks
@@ -583,6 +609,7 @@ Composable middleware chain executing at the edge for authentication, organizati
 Global content delivery network strategy for optimal performance, efficient caching, and reduced latency across all geographic regions.
 
 **Core Strategy**:
+
 - **Vercel Edge Network**: 40+ global edge locations with automatic geographic routing
 - **Multi-Layer Caching**: Edge cache, CDN cache, browser cache with intelligent invalidation
 - **Asset Optimization**: Automatic image optimization, compression, and format conversion
@@ -606,30 +633,35 @@ Global content delivery network strategy for optimal performance, efficient cach
    - Full route cache for static routes
 
 **Asset Delivery**:
+
 - **Images**: Next.js Image Optimization with WebP/AVIF conversion, lazy loading, responsive sizes
 - **JavaScript/CSS**: Minification, tree-shaking, code splitting with Turbopack
 - **Fonts**: Self-hosted with font-display: swap, preload hints
 - **Static Files**: Immutable with content-hash filenames, 1-year cache headers
 
 **Cache Invalidation Strategies**:
+
 - **On-demand**: Manual purge via Vercel API or webhook triggers
 - **Deployment-based**: Automatic purge on new deployment
 - **Tag-based**: Granular cache invalidation using Next.js cache tags
 - **Time-based**: ISR revalidation at configured intervals
 
 **Geographic Distribution**:
+
 - Primary region: US-EAST-1 (application/database)
 - Edge POPs: Global distribution across 6 continents
 - Smart routing: Automatic failover and load balancing
 - Regional optimization: Asset pre-warming in high-traffic regions
 
 **Performance Targets**:
+
 - Edge cache hit ratio: >90%
 - TTFB from edge: <50ms (p95)
 - Static asset delivery: <100ms globally (p95)
 - Cache invalidation propagation: <60 seconds globally
 
 **CDN Features**:
+
 - **DDoS Protection**: Automatic traffic filtering and rate limiting at edge
 - **SSL/TLS**: Automatic certificate provisioning and renewal
 - **Compression**: Brotli/Gzip compression for text assets
@@ -647,7 +679,7 @@ Reusable UI component library powering the product interface with consistent UX,
 **Core Components**:
 
 1. **Role Badge**: Visual role indicators (internal, product-seller, agency-seller, client)
-2. **Content Card**: Content display with organization context and permission-gated actions
+2. **Content Card**: Content display with Organization context and permission-gated actions
 3. **Permission Gate**: Conditional rendering based on user permissions
 4. **User Role Selector**: Role assignment interface for administrators
 5. **Radar Chart**: Multi-dimensional maturity model visualization
@@ -655,6 +687,7 @@ Reusable UI component library powering the product interface with consistent UX,
 7. **Advanced Search**: Faceted filtering with real-time results
 
 **Component Standards**:
+
 - Built on shadcn/ui foundation
 - Styled with Tailwind CSS
 - WCAG 2.1 Level AA compliant
@@ -663,6 +696,7 @@ Reusable UI component library powering the product interface with consistent UX,
 - Visual regression testing with Chromatic
 
 **Testing Requirements**:
+
 - Vitest unit tests for all variants
 - React Testing Library for behavior testing
 - jest-axe for accessibility validation
@@ -697,10 +731,12 @@ Comprehensive documentation strategy treating documentation as a first-class pro
   - Focus: How to install, configure, and use the package effectively
 
 **Documentation Generation**:
+
 - **Auto-generated**: API reference (TypeDoc), component library (Storybook), OpenAPI specs, database schema
 - **Hand-written**: Architecture diagrams (Mermaid), guides, ADRs, runbooks, operational procedures
 
 **Quality Gates**:
+
 - CI/CD enforces documentation completeness
 - All packages must have README.md
 - All public functions require JSDoc
@@ -709,12 +745,14 @@ Comprehensive documentation strategy treating documentation as a first-class pro
 - Documentation review as part of PR process
 
 **Documentation Formats**:
+
 - Developers: Static site (Nextra/Docusaurus)
 - API Consumers: Interactive docs (Swagger UI)
 - Component Users: Storybook (deployed)
 - Operations: Runbooks in repo + wiki
 
 **Maintenance Strategy**:
+
 - Living documentation updated with every code change
 - Quarterly documentation audits for accuracy
 - User feedback loop tracking most-viewed docs
@@ -753,23 +791,23 @@ Comprehensive documentation strategy treating documentation as a first-class pro
 
 ### Environment Strategy
 
-| Environment | Purpose | URL Pattern | Deployment Trigger |
-|-------------|---------|-------------|-------------------|
-| **Development** | Local development | `localhost:3000` | Manual (local) |
-| **Preview** | PR review | `*.vercel.app` | PR creation/update |
-| **Staging** | Pre-production testing | `staging.example.com` | Push to `staging` branch |
-| **Production** | Live application | `example.com` | Push to `main` branch |
+| Environment     | Purpose                | URL Pattern           | Deployment Trigger       |
+| --------------- | ---------------------- | --------------------- | ------------------------ |
+| **Development** | Local development      | `localhost:3000`      | Manual (local)           |
+| **Preview**     | PR review              | `*.vercel.app`        | PR creation/update       |
+| **Staging**     | Pre-production testing | `staging.example.com` | Push to `staging` branch |
+| **Production**  | Live application       | `example.com`         | Push to `main` branch    |
 
 ### Environment Variables
 
-| Variable | Description | Required In |
-|----------|-------------|-------------|
-| `DATABASE_URL` | PostgreSQL connection string | All |
-| `CLERK_SECRET_KEY` | Clerk API secret | All |
-| `CLERK_PUBLISHABLE_KEY` | Clerk public key | All |
-| `NEXT_PUBLIC_POSTHOG_KEY` | PostHog project key | Production, Staging |
-| `SENTRY_DSN` | Sentry error tracking | Production, Staging |
-| `NEXT_PUBLIC_API_URL` | API base URL | All |
+| Variable                  | Description                  | Required In         |
+| ------------------------- | ---------------------------- | ------------------- |
+| `DATABASE_URL`            | PostgreSQL connection string | All                 |
+| `CLERK_SECRET_KEY`        | Clerk API secret             | All                 |
+| `CLERK_PUBLISHABLE_KEY`   | Clerk public key             | All                 |
+| `NEXT_PUBLIC_POSTHOG_KEY` | PostHog project key          | Production, Staging |
+| `SENTRY_DSN`              | Sentry error tracking        | Production, Staging |
+| `NEXT_PUBLIC_API_URL`     | API base URL                 | All                 |
 
 ### CI/CD Approach
 
@@ -805,22 +843,22 @@ Jobs:
 
 #### Metrics to Track
 
-| Category | Metrics | Tool |
-|----------|---------|------|
-| **Performance** | Core Web Vitals (LCP, FID, CLS), TTFB | Vercel Analytics |
-| **Errors** | Error rate, error types, stack traces | Sentry |
-| **Usage** | Page views, user journeys, feature usage | PostHog, GA4 |
+| Category           | Metrics                                   | Tool             |
+| ------------------ | ----------------------------------------- | ---------------- |
+| **Performance**    | Core Web Vitals (LCP, FID, CLS), TTFB     | Vercel Analytics |
+| **Errors**         | Error rate, error types, stack traces     | Sentry           |
+| **Usage**          | Page views, user journeys, feature usage  | PostHog, GA4     |
 | **Infrastructure** | Function duration, cold starts, bandwidth | Vercel Dashboard |
-| **Database** | Query performance, connection pool usage | Neon/Supabase |
+| **Database**       | Query performance, connection pool usage  | Neon/Supabase    |
 
 #### Alerting Strategy
 
-| Alert Type | Threshold | Notification Channel |
-|------------|-----------|---------------------|
-| Error rate spike | >1% of requests | Slack + PagerDuty |
-| High latency | p95 > 2s | Slack |
-| Database connection pool | >80% utilization | Email |
-| Failed deployment | Any | Slack + Email |
+| Alert Type               | Threshold        | Notification Channel |
+| ------------------------ | ---------------- | -------------------- |
+| Error rate spike         | >1% of requests  | Slack + PagerDuty    |
+| High latency             | p95 > 2s         | Slack                |
+| Database connection pool | >80% utilization | Email                |
+| Failed deployment        | Any              | Slack + Email        |
 
 ### Backup & Disaster Recovery
 
@@ -849,6 +887,7 @@ Jobs:
 Comprehensive security strategy covering authentication, authorization, data protection, and compliance (GDPR/CCPA).
 
 **Authentication Flow**:
+
 1. User initiates login via Clerk
 2. Clerk handles OAuth/magic link/password flow
 3. Clerk issues JWT token
@@ -857,23 +896,27 @@ Comprehensive security strategy covering authentication, authorization, data pro
 6. User context injected into request
 
 **Authorization Model**:
+
 - **Roles**: Internal, Product-Seller, Agency-Seller, Client
 - **RBAC**: Role-based access control with granular permissions
 - **Resource-Level Permissions**: Organization-scoped data access
 
 **Data Protection**:
+
 - **In Transit**: TLS 1.3 (enforced by Vercel)
 - **At Rest**: Database-level encryption (Neon/Supabase)
 - **Sensitive Fields**: Application-level AES-256-GCM encryption for PII
-- **Row-Level Security**: Database policies enforce organization isolation
+- **Row-Level Security**: Database policies enforce Organization isolation
 
 **Compliance**:
+
 - **GDPR**: Right to access, right to deletion (30-day grace period), data export, consent management
 - **CCPA**: "Do Not Sell" opt-out, data disclosure, privacy preferences
 - **Audit Trail**: Comprehensive audit logging for all data mutations
 - **Vendor Management**: DPA tracking, compliance verification
 
 **Security Implementation**:
+
 - **CSRF Protection**: HMAC-signed tokens for all mutations
 - **Input Validation**: Zod schemas with SQL injection prevention
 - **Rate Limiting**: 100/min per user, 1000/min per org
@@ -922,6 +965,7 @@ Third-party service integrations with proper error handling, retry logic, and mo
    - KV storage (rate limiting)
 
 **Integration Patterns**:
+
 - Webhook validation with signature verification
 - Retry logic with exponential backoff
 - Circuit breakers for failing services
@@ -936,38 +980,38 @@ Third-party service integrations with proper error handling, retry logic, and mo
 
 ### Core Web Vitals
 
-| Metric | Target (p75) | Good | Needs Improvement | Poor |
-|--------|--------------|------|-------------------|------|
-| **LCP** (Largest Contentful Paint) | < 2.5s | < 2.5s | 2.5s - 4s | > 4s |
-| **FID** (First Input Delay) | < 100ms | < 100ms | 100ms - 300ms | > 300ms |
-| **CLS** (Cumulative Layout Shift) | < 0.1 | < 0.1 | 0.1 - 0.25 | > 0.25 |
+| Metric                             | Target (p75) | Good    | Needs Improvement | Poor    |
+| ---------------------------------- | ------------ | ------- | ----------------- | ------- |
+| **LCP** (Largest Contentful Paint) | < 2.5s       | < 2.5s  | 2.5s - 4s         | > 4s    |
+| **FID** (First Input Delay)        | < 100ms      | < 100ms | 100ms - 300ms     | > 300ms |
+| **CLS** (Cumulative Layout Shift)  | < 0.1        | < 0.1   | 0.1 - 0.25        | > 0.25  |
 
 ### API Response Time Targets
 
-| Endpoint Type | Target (p95) | Target (p99) |
-|---------------|--------------|--------------|
-| GET (simple query) | < 100ms | < 200ms |
-| GET (complex query) | < 300ms | < 500ms |
-| POST/PATCH | < 200ms | < 400ms |
-| File upload | < 2s | < 5s |
+| Endpoint Type       | Target (p95) | Target (p99) |
+| ------------------- | ------------ | ------------ |
+| GET (simple query)  | < 100ms      | < 200ms      |
+| GET (complex query) | < 300ms      | < 500ms      |
+| POST/PATCH          | < 200ms      | < 400ms      |
+| File upload         | < 2s         | < 5s         |
 
 ### Scalability Requirements
 
-| Metric | Current | 6 Months | 12 Months |
-|--------|---------|----------|-----------|
-| **Concurrent Users** | 100 | 1,000 | 10,000 |
-| **Requests per Second** | 50 | 500 | 5,000 |
-| **Database Size** | 1 GB | 10 GB | 100 GB |
-| **Storage** | 10 GB | 100 GB | 1 TB |
+| Metric                  | Current | 6 Months | 12 Months |
+| ----------------------- | ------- | -------- | --------- |
+| **Concurrent Users**    | 100     | 1,000    | 10,000    |
+| **Requests per Second** | 50      | 500      | 5,000     |
+| **Database Size**       | 1 GB    | 10 GB    | 100 GB    |
+| **Storage**             | 10 GB   | 100 GB   | 1 TB      |
 
 ### Performance Budget
 
-| Resource | Budget | Current | Status |
-|----------|--------|---------|--------|
-| **JavaScript** | < 200 KB | TBD | ⏳ |
-| **CSS** | < 50 KB | TBD | ⏳ |
-| **Images (per page)** | < 1 MB | TBD | ⏳ |
-| **Fonts** | < 100 KB | TBD | ⏳ |
+| Resource              | Budget   | Current | Status |
+| --------------------- | -------- | ------- | ------ |
+| **JavaScript**        | < 200 KB | TBD     | ⏳     |
+| **CSS**               | < 50 KB  | TBD     | ⏳     |
+| **Images (per page)** | < 1 MB   | TBD     | ⏳     |
+| **Fonts**             | < 100 KB | TBD     | ⏳     |
 
 ---
 
@@ -975,15 +1019,15 @@ Third-party service integrations with proper error handling, retry logic, and mo
 
 ### ADR Index
 
-| ADR | Title | Status | Date |
-|-----|-------|--------|------|
-| [ADR-001](adr/001-monorepo-turborepo.md) | Monorepo with Turborepo | ✅ Accepted | 2025-11-24 |
-| [ADR-002](adr/002-pnpm-package-manager.md) | pnpm as Package Manager | ✅ Accepted | 2025-11-24 |
-| [ADR-003](adr/003-nextjs-framework.md) | Next.js 16 as Framework | ✅ Accepted | 2025-11-24 |
-| [ADR-004](adr/004-vercel-hosting.md) | Vercel as Hosting Platform | ✅ Accepted | 2025-11-24 |
-| [ADR-005](adr/005-drizzle-orm.md) | Drizzle as ORM | ✅ Accepted | 2025-11-24 |
-| [ADR-006](adr/006-clerk-authentication.md) | Clerk for Authentication | ✅ Accepted | 2025-11-24 |
-| [ADR-007](adr/007-multi-tenant-model.md) | Multi-tenant Data Model | ✅ Accepted | 2025-11-24 |
+| ADR                                        | Title                      | Status      | Date       |
+| ------------------------------------------ | -------------------------- | ----------- | ---------- |
+| [ADR-001](adr/001-monorepo-turborepo.md)   | Monorepo with Turborepo    | ✅ Accepted | 2025-11-24 |
+| [ADR-002](adr/002-pnpm-package-manager.md) | pnpm as Package Manager    | ✅ Accepted | 2025-11-24 |
+| [ADR-003](adr/003-nextjs-framework.md)     | Next.js 16 as Framework    | ✅ Accepted | 2025-11-24 |
+| [ADR-004](adr/004-vercel-hosting.md)       | Vercel as Hosting Platform | ✅ Accepted | 2025-11-24 |
+| [ADR-005](adr/005-drizzle-orm.md)          | Drizzle as ORM             | ✅ Accepted | 2025-11-24 |
+| [ADR-006](adr/006-clerk-authentication.md) | Clerk for Authentication   | ✅ Accepted | 2025-11-24 |
+| [ADR-007](adr/007-multi-tenant-model.md)   | Multi-tenant Data Model    | ✅ Accepted | 2025-11-24 |
 
 ### Creating New ADRs
 
@@ -995,14 +1039,14 @@ When making significant architectural decisions, create a new ADR using the temp
 
 ### Glossary
 
-| Term | Definition |
-|------|------------|
-| **ADR** | Architecture Decision Record - Document capturing an important architectural decision |
-| **Edge Function** | Serverless function running at edge locations close to users |
-| **Monorepo** | Single repository containing multiple apps and packages |
-| **ORM** | Object-Relational Mapping - Database abstraction layer |
-| **RLS** | Row-Level Security - Database-level access control |
-| **SSR** | Server-Side Rendering - Rendering React on the server |
+| Term              | Definition                                                                            |
+| ----------------- | ------------------------------------------------------------------------------------- |
+| **ADR**           | Architecture Decision Record - Document capturing an important architectural decision |
+| **Edge Function** | Serverless function running at edge locations close to users                          |
+| **Monorepo**      | Single repository containing multiple apps and packages                               |
+| **ORM**           | Object-Relational Mapping - Database abstraction layer                                |
+| **RLS**           | Row-Level Security - Database-level access control                                    |
+| **SSR**           | Server-Side Rendering - Rendering React on the server                                 |
 
 ### Related Documents
 
@@ -1027,22 +1071,22 @@ When making significant architectural decisions, create a new ADR using the temp
 
 ### Document History
 
-| Version | Date | Author | Changes |
-|---------|------|--------|---------|
-| 1.0 | 2025-11-24 | Claude Code | Initial TAD structure created |
-| 1.1-1.11 | 2025-11-24 | Claude Code | Progressive additions of detailed implementations |
-| 2.0 | 2025-11-24 | Claude Code | Restructured as high-level architecture document with links to detailed implementation docs |
-| 2.1 | 2025-11-25 | Claude Code | Added Documentation Architecture section with link to detailed implementation |
+| Version  | Date       | Author      | Changes                                                                                     |
+| -------- | ---------- | ----------- | ------------------------------------------------------------------------------------------- |
+| 1.0      | 2025-11-24 | Claude Code | Initial TAD structure created                                                               |
+| 1.1-1.11 | 2025-11-24 | Claude Code | Progressive additions of detailed implementations                                           |
+| 2.0      | 2025-11-24 | Claude Code | Restructured as high-level architecture document with links to detailed implementation docs |
+| 2.1      | 2025-11-25 | Claude Code | Added Documentation Architecture section with link to detailed implementation               |
 
 ---
 
 ## Approval
 
-| Role | Name | Signature | Date |
-|------|------|-----------|------|
-| **Technical Lead** | | | |
-| **Product Manager** | | | |
-| **Security Lead** | | | |
+| Role                | Name | Signature | Date |
+| ------------------- | ---- | --------- | ---- |
+| **Technical Lead**  |      |           |      |
+| **Product Manager** |      |           |      |
+| **Security Lead**   |      |           |      |
 
 ---
 

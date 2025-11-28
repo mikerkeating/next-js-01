@@ -14,26 +14,26 @@
 
 ### Requires (Must Complete First)
 
-| Epic | Title | Reason |
-|------|-------|--------|
+| Epic | Title                                            | Reason                                                                   |
+| ---- | ------------------------------------------------ | ------------------------------------------------------------------------ |
 | 2A.8 | [API Client Package](../2A.8-api-client/EPIC.md) | Provides type-safe HTTP client for CDN API interactions and file uploads |
 
 ### Blocks (Enables These Epics)
 
-| Epic | Title | What This Provides |
-|------|-------|-------------------|
-| 3A.2 | Routing Application Shell | CDN asset references for static files, images, and optimized delivery |
-| 3B.3 | Routing Configuration (Product Routes) | CDN proxy rules and asset delivery integration |
-| 3B.4 | Documentation Application | Optimized image delivery and static asset hosting |
-| 3B.5 | Demo & Marketing Application | Asset management for marketing images and media |
+| Epic | Title                                  | What This Provides                                                    |
+| ---- | -------------------------------------- | --------------------------------------------------------------------- |
+| 3A.2 | Routing Application Shell              | CDN asset references for static files, images, and optimized delivery |
+| 3B.3 | Routing Configuration (Product Routes) | CDN proxy rules and asset delivery integration                        |
+| 3B.4 | Documentation Application              | Optimized image delivery and static asset hosting                     |
+| 3B.5 | Demo & Marketing Application           | Asset management for marketing images and media                       |
 
 ### Can Run in Parallel With
 
-| Epic | Title | Notes |
-|------|-------|-------|
-| 2B.1 | Product Database Schema | No shared dependencies; CDN is infrastructure-only |
-| 2B.2 | Multi-Tenant Organisation Model | No shared dependencies |
-| 2B.3 | Product Analytics Events & Taxonomy | No shared dependencies |
+| Epic | Title                               | Notes                                              |
+| ---- | ----------------------------------- | -------------------------------------------------- |
+| 2B.1 | Product Database Schema             | No shared dependencies; CDN is infrastructure-only |
+| 2B.2 | Multi-Tenant Organization Model     | No shared dependencies                             |
+| 2B.3 | Product Analytics Events & Taxonomy | No shared dependencies                             |
 
 ## Overview
 
@@ -71,15 +71,15 @@ Create the CDN & Asset Management application (`/apps/cdn`) that provides static
 
 ## Stories
 
-| ID | Title | Size | Status | Depends On | Blocks |
-|----|-------|------|--------|------------|--------|
-| S1 | [CDN Application Setup](./S1-cdn-app-setup.md) | M | ⬜ | - | S2, S3, S4, S5, S6 |
-| S2 | [Image Optimisation Pipeline](./S2-image-optimisation.md) | M | ⬜ | S1 | S7 |
-| S3 | [Image Transformation API](./S3-image-transformation.md) | M | ⬜ | S1 | S7 |
-| S4 | [Cache Headers and Content-Hash URLs](./S4-cache-headers.md) | S | ⬜ | S1 | S7 |
-| S5 | [File Upload Utilities](./S5-file-upload.md) | M | ⬜ | S1 | S7 |
-| S6 | [Cache Invalidation API](./S6-cache-invalidation.md) | S | ⬜ | S1 | S7 |
-| S7 | [Integration Tests and Documentation](./S7-integration-tests.md) | M | ⬜ | S2, S3, S4, S5, S6 | - |
+| ID  | Title                                                            | Size | Status | Depends On         | Blocks             |
+| --- | ---------------------------------------------------------------- | ---- | ------ | ------------------ | ------------------ |
+| S1  | [CDN Application Setup](./S1-cdn-app-setup.md)                   | M    | ⬜     | -                  | S2, S3, S4, S5, S6 |
+| S2  | [Image Optimisation Pipeline](./S2-image-optimisation.md)        | M    | ⬜     | S1                 | S7                 |
+| S3  | [Image Transformation API](./S3-image-transformation.md)         | M    | ⬜     | S1                 | S7                 |
+| S4  | [Cache Headers and Content-Hash URLs](./S4-cache-headers.md)     | S    | ⬜     | S1                 | S7                 |
+| S5  | [File Upload Utilities](./S5-file-upload.md)                     | M    | ⬜     | S1                 | S7                 |
+| S6  | [Cache Invalidation API](./S6-cache-invalidation.md)             | S    | ⬜     | S1                 | S7                 |
+| S7  | [Integration Tests and Documentation](./S7-integration-tests.md) | M    | ⬜     | S2, S3, S4, S5, S6 | -                  |
 
 **Status Legend**: ⬜ Not Started | 🟡 In Progress | ✅ Complete | ❌ Blocked
 
@@ -112,12 +112,12 @@ S1 (CDN application setup)
 
 ### Technology Decisions
 
-| Decision | Choice | Reference |
-|----------|--------|-----------|
-| Hosting Platform | Vercel | [ADR-004: Vercel as Hosting Platform](/docs/2-technical/adr/004-vercel-hosting.md) |
-| Image Formats | WebP/AVIF with JPEG/PNG fallback | [TAD: CDN Architecture](/docs/2-technical/2-tad-cdn.md#image-formats) |
+| Decision         | Choice                                   | Reference                                                                              |
+| ---------------- | ---------------------------------------- | -------------------------------------------------------------------------------------- |
+| Hosting Platform | Vercel                                   | [ADR-004: Vercel as Hosting Platform](/docs/2-technical/adr/004-vercel-hosting.md)     |
+| Image Formats    | WebP/AVIF with JPEG/PNG fallback         | [TAD: CDN Architecture](/docs/2-technical/2-tad-cdn.md#image-formats)                  |
 | Caching Strategy | Three-layer (browser, edge, application) | [TAD: CDN Architecture](/docs/2-technical/2-tad-cdn.md#three-layer-cache-architecture) |
-| Monorepo Tool | Turborepo | [ADR-001: Monorepo with Turborepo](/docs/2-technical/adr/001-monorepo-turborepo.md) |
+| Monorepo Tool    | Turborepo                                | [ADR-001: Monorepo with Turborepo](/docs/2-technical/adr/001-monorepo-turborepo.md)    |
 
 ### Constraints
 
@@ -136,7 +136,7 @@ The following items are explicitly NOT part of this epic:
 - **Audio Processing** - No audio manipulation; pass-through delivery only
 - **Asset Management UI** - UI for managing assets deferred to Epic 3B.6 (Authenticated Tools)
 - **Asset Metadata Database** - Asset tracking stored in product database (Epic 2B.1)
-- **Organisation-Scoped Assets** - Multi-tenant asset isolation implemented in product layer (Epic 3B.6)
+- **Organization-Scoped Assets** - Multi-tenant asset isolation implemented in product layer (Epic 3B.6)
 - **External CDN Providers** - Cloudflare, CloudFront, etc. not used; Vercel Edge Network only
 - **Custom Domain SSL** - SSL managed automatically by Vercel; no custom certificate management
 
@@ -144,38 +144,38 @@ The following items are explicitly NOT part of this epic:
 
 > **Note**: Flag decisions that need resolution before or during implementation.
 
-| Decision | Options | Impact | Status |
-|----------|---------|--------|--------|
-| CDN subdomain naming | `cdn.example.com` vs `assets.example.com` | Affects URL structure and configuration | ⬜ Open |
-| Image transformation security | Signed URLs vs rate limiting only | Prevents abuse of transformation API | ⬜ Open |
-| Maximum image dimensions | 4096x4096 vs 8192x8192 | Affects memory usage and processing time | ✅ Resolved: 4096x4096 per Vercel limits |
+| Decision                      | Options                                   | Impact                                   | Status                                   |
+| ----------------------------- | ----------------------------------------- | ---------------------------------------- | ---------------------------------------- |
+| CDN subdomain naming          | `cdn.example.com` vs `assets.example.com` | Affects URL structure and configuration  | ⬜ Open                                  |
+| Image transformation security | Signed URLs vs rate limiting only         | Prevents abuse of transformation API     | ⬜ Open                                  |
+| Maximum image dimensions      | 4096x4096 vs 8192x8192                    | Affects memory usage and processing time | ✅ Resolved: 4096x4096 per Vercel limits |
 
 ## Risks and Mitigations
 
-| Risk | Likelihood | Impact | Mitigation |
-|------|------------|--------|------------|
-| High bandwidth costs from large images | Medium | Medium | Implement aggressive caching, image size limits, and format conversion to reduce file sizes |
-| Image transformation abuse | Medium | High | Implement rate limiting per IP and signed URLs for transformations |
-| Cache invalidation delays | Low | Medium | Document 60-second propagation time; provide instant purge for critical paths |
-| Edge function cold start latency | Low | Low | Pre-warm critical paths; use ISR for frequently accessed images |
+| Risk                                   | Likelihood | Impact | Mitigation                                                                                  |
+| -------------------------------------- | ---------- | ------ | ------------------------------------------------------------------------------------------- |
+| High bandwidth costs from large images | Medium     | Medium | Implement aggressive caching, image size limits, and format conversion to reduce file sizes |
+| Image transformation abuse             | Medium     | High   | Implement rate limiting per IP and signed URLs for transformations                          |
+| Cache invalidation delays              | Low        | Medium | Document 60-second propagation time; provide instant purge for critical paths               |
+| Edge function cold start latency       | Low        | Low    | Pre-warm critical paths; use ISR for frequently accessed images                             |
 
 ## Estimated Effort
 
-| Metric | Value |
-|--------|-------|
-| Total Stories | 7 |
-| Total Hours | 36h |
-| Calendar Days | 3-5 days |
+| Metric          | Value                         |
+| --------------- | ----------------------------- |
+| Total Stories   | 7                             |
+| Total Hours     | 36h                           |
+| Calendar Days   | 3-5 days                      |
 | Parallel Tracks | 5 (S2-S6 can run in parallel) |
 
 ### Story Breakdown
 
-| Size | Count | Hours |
-|------|-------|-------|
-| XS (1-2h) | 0 | 0h |
-| S (2-4h) | 2 | 8h |
-| M (4-8h) | 5 | 28h |
-| L (8-16h) | 0 | 0h |
+| Size      | Count | Hours |
+| --------- | ----- | ----- |
+| XS (1-2h) | 0     | 0h    |
+| S (2-4h)  | 2     | 8h    |
+| M (4-8h)  | 5     | 28h   |
+| L (8-16h) | 0     | 0h    |
 
 ## References
 

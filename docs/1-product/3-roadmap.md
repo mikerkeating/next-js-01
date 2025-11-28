@@ -1,4 +1,4 @@
-# Epic Delivery Roadmap v2.2 
+# Epic Delivery Roadmap v2.2
 
 ## Overview
 
@@ -77,11 +77,11 @@ This roadmap separates **Platform Foundation** (generic, reusable for any Next.j
 
 ### Definitions
 
-| Level | Scope | Duration | Owner | Definition Location |
-|-------|-------|----------|-------|---------------------|
-| **Epic** | Feature area or capability | 1-2 weeks | Tech Lead | Roadmap + `/docs/3-epics/{id}/EPIC.md` |
-| **Story** | Single implementable unit | 2-8 hours | Claude Code Agent | `/docs/3-epics/{id}/S{N}-{slug}.md` |
-| **Task** | Atomic action | 15min-2h | Claude Code Agent | Generated during implementation |
+| Level     | Scope                      | Duration  | Owner             | Definition Location                    |
+| --------- | -------------------------- | --------- | ----------------- | -------------------------------------- |
+| **Epic**  | Feature area or capability | 1-2 weeks | Tech Lead         | Roadmap + `/docs/3-epics/{id}/EPIC.md` |
+| **Story** | Single implementable unit  | 2-8 hours | Claude Code Agent | `/docs/3-epics/{id}/S{N}-{slug}.md`    |
+| **Task**  | Atomic action              | 15min-2h  | Claude Code Agent | Generated during implementation        |
 
 ### File Structure
 
@@ -130,11 +130,11 @@ S8 (Documentation) ← depends on S1-S6
 
 ### PR Strategy
 
-| Approach | When to Use | Example |
-|----------|-------------|---------|
-| **1 PR per Story** | Complex stories, need review checkpoints | Auth implementation |
-| **1 PR per Epic** | Small epics, fast iteration | Config package |
-| **Batched Stories** | Related stories, efficient review | S1+S2+S3 together |
+| Approach            | When to Use                              | Example             |
+| ------------------- | ---------------------------------------- | ------------------- |
+| **1 PR per Story**  | Complex stories, need review checkpoints | Auth implementation |
+| **1 PR per Epic**   | Small epics, fast iteration              | Config package      |
+| **Batched Stories** | Related stories, efficient review        | S1+S2+S3 together   |
 
 Recommended default: **1 PR per Story** for traceability and easier rollback.
 
@@ -145,6 +145,7 @@ Recommended default: **1 PR per Story** for traceability and easier rollback.
 ### PLANNING & DESIGN (Pre-Development)
 
 #### Phase P: Planning & Architecture (Week 0)
+
 - P.1: Product Requirements Document (PRD)
 - P.2: Technical Architecture Document (TAD)
 - P.3: Epic & Story Specifications (EPIC.md + Story files)
@@ -154,9 +155,11 @@ Recommended default: **1 PR per Story** for traceability and easier rollback.
 ### PLATFORM FOUNDATION (Generic)
 
 #### Phase 0A: Steel Thread (Day 1-2)
+
 - 0A.1: Steel Thread Deployment
 
 #### Phase 1A: Foundation & Infrastructure (Days 3-7)
+
 - 1A.1: Monorepo Foundation
 - 1A.2: Package Management & Quality Gates
 - 1A.3: Testing Foundation
@@ -164,6 +167,7 @@ Recommended default: **1 PR per Story** for traceability and easier rollback.
 - 1A.5: Basic CI/CD Pipeline
 
 #### Phase 2A: Core Platform Packages (Week 2)
+
 - 2A.1: Configuration Package
 - 2A.2: Database Infrastructure (generic schema patterns)
 - 2A.3: Observability Package
@@ -174,6 +178,7 @@ Recommended default: **1 PR per Story** for traceability and easier rollback.
 - 2A.8: API Client Package
 
 #### Phase 3A: Platform Applications (Week 4)
+
 - 3A.1: CDN & Asset Management Application
 - 3A.2: Routing Application Shell
 
@@ -182,8 +187,9 @@ Recommended default: **1 PR per Story** for traceability and easier rollback.
 ### PRODUCT IMPLEMENTATION (Project-Specific)
 
 #### Phase 2B: Product Domain Packages (Weeks 2-4)
+
 - 2B.1: Product Database Schema
-- 2B.2: Multi-Tenant Organisation Model
+- 2B.2: Multi-Tenant Organization Model
 - 2B.3: Product Analytics Events & Taxonomy
 - 2B.4: Product Content Schema & Reader
 - 2B.5: Product UI Components (Org Switcher, etc.)
@@ -191,6 +197,7 @@ Recommended default: **1 PR per Story** for traceability and easier rollback.
 - 2B.7: Product Auth Roles & Permissions
 
 #### Phase 3B: Product Applications (Weeks 4-7)
+
 - 3B.1: API Application (product endpoints)
 - 3B.2: Content Migration (JSON → Database)
 - 3B.3: Routing Configuration (product routes)
@@ -200,6 +207,7 @@ Recommended default: **1 PR per Story** for traceability and easier rollback.
 - 3B.7: Landing Page Builder Application
 
 #### Phase 3B (Post-MVP Backlog)
+
 - 3B.8: Reporting & Automation (deferred)
 - 3B.9: Webhooks & Integrations (deferred)
 
@@ -208,24 +216,29 @@ Recommended default: **1 PR per Story** for traceability and easier rollback.
 ### PRODUCTION READINESS (Generic + Product)
 
 #### Phase 4A: Quality Enhancement (Weeks 6-7)
+
 - 4A.1: Advanced Testing Infrastructure
 - 4A.2: Storybook Enhancement
 - 4A.3: Accessibility Audit & Remediation
 
 #### Phase 5A: DevOps Enhancement (Weeks 7-8)
+
 - 5A.1: Advanced CI/CD Pipeline
 - 5A.2: Vercel Production Configuration
 
 #### Phase 6A: Security & Performance (Weeks 8-9)
+
 - 6A.1: Security Hardening
 - 6A.2: Performance Optimisation
 - 6A.3: Compliance Implementation
 
 #### Phase 7A: Documentation & Training (Weeks 9-10)
+
 - 7A.1: Developer Documentation Enhancement
 - 7A.2: Operational Documentation
 
 #### Phase 8A: Launch Preparation (Week 10)
+
 - 8A.1: Pre-Launch Validation
 - 8A.2: Launch Readiness
 
@@ -381,6 +394,7 @@ These artefacts must exist before any code is written. They inform all subsequen
 **Acceptance Criteria**:
 
 **Technology Stack**:
+
 - [ ] Framework selection documented (Next.js 16, React 19)
 - [ ] Language and runtime (TypeScript, Node.js version)
 - [ ] Database selection (PostgreSQL via Neon/Supabase)
@@ -391,6 +405,7 @@ These artefacts must exist before any code is written. They inform all subsequen
 - [ ] Analytics providers (PostHog, GA4, Vercel Analytics)
 
 **System Architecture**:
+
 - [ ] High-level system diagram
 - [ ] Application architecture (monorepo structure)
 - [ ] Data flow diagrams
@@ -399,6 +414,7 @@ These artefacts must exist before any code is written. They inform all subsequen
 - [ ] Multi-tenancy approach documented
 
 **Infrastructure**:
+
 - [ ] Deployment architecture
 - [ ] Environment strategy (dev, staging, production)
 - [ ] CI/CD approach
@@ -406,22 +422,26 @@ These artefacts must exist before any code is written. They inform all subsequen
 - [ ] Backup and disaster recovery approach
 
 **Security Architecture**:
+
 - [ ] Authentication flow
 - [ ] Authorisation model (roles, permissions)
 - [ ] Data protection approach
 - [ ] Compliance requirements (GDPR, CCPA)
 
 **Integration Points**:
+
 - [ ] Third-party services listed
 - [ ] API contracts defined (or approach documented)
 - [ ] Webhook strategies
 
 **Performance Targets**:
+
 - [ ] Core Web Vitals targets
 - [ ] API response time targets
 - [ ] Scalability requirements
 
 **Architecture Decision Record - ADRs Created**:
+
 - [ ] ADR-001: Monorepo with Turborepo
 - [ ] ADR-002: pnpm as package manager
 - [ ] ADR-003: Next.js 16 as framework
@@ -444,7 +464,7 @@ These artefacts must exist before any code is written. They inform all subsequen
 
 **Dependencies**: Epic P.1 (PRD), Epic P.2 (TAD)
 
-**Acceptance Criteria**: 
+**Acceptance Criteria**:
 
 - [x] EPIC.md template finalised - [epic-details-template.md](/docs/0-process/references/epic-details-template.md)
 - [x] Story file template (S{N}-{slug}.md) finalised - [story-details-template.md](/docs/0-process/references/story-details-sizing.md)
@@ -485,6 +505,7 @@ These epics can be extracted as a reusable Next.js monorepo starter kit.
 **Goal**: Establish working end-to-end deployment pipeline before any feature development
 
 **Claude Code Agent Instructions**:
+
 ```
 Read: CLAUDE.md for Epic 0A.1
 Execute: Create minimal Next.js app, configure Vercel, establish GitHub integration
@@ -551,29 +572,34 @@ Verify: Preview URL returns 200 OK, auto-deploy on push works
 **Acceptance Criteria**:
 
 **Package Management**:
+
 - [ ] pnpm configured with `.npmrc`
 - [ ] `pnpm-workspace.yaml` defines workspaces
 - [ ] Lock file committed
 - [ ] Node.js version in `.nvmrc`
 
 **Environment Configuration**:
+
 - [ ] `.env.example` template
 - [ ] Environment validation with `@t3-oss/env-nextjs`
 - [ ] Validation fails build on missing vars
 
 **Quality Gates**:
+
 - [ ] Husky pre-commit hooks
 - [ ] lint-staged for ESLint + Prettier
 - [ ] Commitlint with conventional commits
 - [ ] Failed checks prevent commits
 
 **Markdown & Documentation Linting**:
+
 - [ ] markdownlint installed and configured
 - [ ] `.markdownlint.json` with project rules
 - [ ] Markdown files included in lint-staged
 - [ ] Documentation style consistency enforced
 
 **Automated Dependency Management**:
+
 - [ ] `.github/dependabot.yml` configured
 - [ ] Weekly update schedule for npm dependencies
 - [ ] Weekly update schedule for GitHub Actions
@@ -582,6 +608,7 @@ Verify: Preview URL returns 200 OK, auto-deploy on push works
 - [ ] Grouped updates for related packages (e.g., all ESLint plugins)
 
 **AI Code Review**:
+
 - [ ] `.coderabbit.yaml` configured at repository root
 - [ ] Review profile set (e.g., assertive, balanced)
 - [ ] Path-based review rules defined
@@ -607,6 +634,7 @@ Verify: Preview URL returns 200 OK, auto-deploy on push works
 **Acceptance Criteria**:
 
 **Unit Testing**:
+
 - [ ] Vitest installed and configured
 - [ ] Shared config in `@repo/config`
 - [ ] Coverage thresholds: 80%
@@ -614,17 +642,20 @@ Verify: Preview URL returns 200 OK, auto-deploy on push works
 - [ ] Mock utilities (fetch, timers)
 
 **E2E Testing**:
+
 - [ ] Playwright with Chrome, Firefox, Safari
 - [ ] Base URL configurable for previews
 - [ ] Screenshot/video on failure
 - [ ] Smoke test validates health endpoint
 
 **Testing Utilities**:
+
 - [ ] `@repo/testing` package
 - [ ] `renderWithProviders`, mock factories
 - [ ] MSW for API mocking
 
 **CI Integration**:
+
 - [ ] `turbo run test` and `turbo run test:e2e`
 - [ ] Coverage reports in PR comments
 
@@ -667,6 +698,7 @@ Verify: Preview URL returns 200 OK, auto-deploy on push works
 **Acceptance Criteria**:
 
 **PR Workflow**:
+
 - [ ] Triggers on pull_request
 - [ ] Jobs: lint, type-check, test, build
 - [ ] Turborepo filtering (affected only)
@@ -676,12 +708,14 @@ Verify: Preview URL returns 200 OK, auto-deploy on push works
 - [ ] All checks required for merge
 
 **Main Workflow**:
+
 - [ ] Triggers on push to development
 - [ ] Full test suite
 - [ ] Deploy to staging
 - [ ] Failure notifications
 
 **Security**:
+
 - [ ] Dependabot configured
 - [ ] `npm audit` in CI
 
@@ -739,6 +773,7 @@ Verify: Preview URL returns 200 OK, auto-deploy on push works
 - [ ] 80% test coverage
 
 **What's NOT included** (see 2B.1):
+
 - Product-specific tables
 - Product-specific RLS policies
 - Product-specific seed data
@@ -798,6 +833,7 @@ Verify: Preview URL returns 200 OK, auto-deploy on push works
 - [ ] 80% test coverage
 
 **What's NOT included** (see 2B.3):
+
 - Product-specific event taxonomy
 - Product-specific event schemas
 - Product-specific A/B tests
@@ -825,6 +861,7 @@ Verify: Preview URL returns 200 OK, auto-deploy on push works
 - [ ] Component tracking integration
 
 **Generic Components**:
+
 - [ ] Button (all variants)
 - [ ] Input (with validation states)
 - [ ] Select (single/multi)
@@ -839,6 +876,7 @@ Verify: Preview URL returns 200 OK, auto-deploy on push works
 - [ ] Spinner/Loading
 
 **Standards**:
+
 - [ ] `data-component-id` props on all
 - [ ] Accessible (ARIA, keyboard, focus)
 - [ ] axe-core tests pass
@@ -846,7 +884,8 @@ Verify: Preview URL returns 200 OK, auto-deploy on push works
 - [ ] 80% test coverage
 
 **What's NOT included** (see 2B.5):
-- Organisation Switcher
+
+- Organization Switcher
 - Role-based components
 - Product-specific composite components
 
@@ -877,7 +916,8 @@ Verify: Preview URL returns 200 OK, auto-deploy on push works
 - [ ] 80% test coverage
 
 **What's NOT included** (see 2B.6):
-- Organisation context middleware
+
+- Organization context middleware
 - Role-based access middleware
 - Product-specific route protection
 
@@ -910,8 +950,9 @@ Verify: Preview URL returns 200 OK, auto-deploy on push works
 - [ ] 80% test coverage
 
 **What's NOT included** (see 2B.7):
+
 - Product-specific roles (Internal, Product-Seller, etc.)
-- Organisation context in auth
+- Organization context in auth
 - Role-based permission utilities
 - Product-specific webhook handlers
 
@@ -996,6 +1037,7 @@ Verify: Preview URL returns 200 OK, auto-deploy on push works
 - [ ] Mobile responsive shell
 
 **What's NOT included** (see 3B.3):
+
 - Product-specific routes
 - Product-specific rewrites
 - Product-specific pages
@@ -1027,25 +1069,29 @@ These epics contain business logic specific to this product.
 **Acceptance Criteria**:
 
 **Core Tables**:
+
 - [ ] `users` table (extends generic with product fields)
-- [ ] `organisations` table with settings JSONB
-- [ ] `user_organisations` join table
-- [ ] `user_organisations.role` enum: internal, product-seller, agency-seller, client
-- [ ] `content` table with organisation scoping
+- [ ] `Organizations` table with settings JSONB
+- [ ] `user_Organizations` join table
+- [ ] `user_Organizations.role` enum: internal, product-seller, agency-seller, client
+- [ ] `content` table with Organization scoping
 - [ ] `analytics_events` table
 - [ ] All foreign key indexes
 - [ ] `created_at`, `updated_at` timestamps
 
 **Multi-Tenancy**:
-- [ ] RLS policies for organisation isolation
+
+- [ ] RLS policies for Organization isolation
 - [ ] RLS tests validate cross-org blocked
 
 **Seed Data**:
-- [ ] Test organisations
+
+- [ ] Test Organizations
 - [ ] Test users with various roles
 - [ ] Sample content per org
 
 **Documentation**:
+
 - [ ] ER diagram
 - [ ] Schema reference
 
@@ -1053,20 +1099,20 @@ These epics contain business logic specific to this product.
 
 ---
 
-### Epic 2B.2: Multi-Tenant Organisation Model
+### Epic 2B.2: Multi-Tenant Organization Model
 
 **Type**: Product-Specific
 
-**Goal**: Organisation context, switching, and data isolation
+**Goal**: Organization context, switching, and data isolation
 
 **Dependencies**: Epic 2B.1
 
 **Acceptance Criteria**:
 
 - [ ] `@repo/org` package
-- [ ] Organisation context provider
-- [ ] `useOrganisation()` hook: currentOrg, switchOrganisation(), userOrganisations[]
-- [ ] Organisation data fetching
+- [ ] Organization context provider
+- [ ] `useOrganization()` hook: currentOrg, switchOrganization(), userOrganizations[]
+- [ ] Organization data fetching
 - [ ] Org-scoped query utilities
 - [ ] Default org selection logic
 - [ ] Org slug validation
@@ -1113,17 +1159,20 @@ These epics contain business logic specific to this product.
 **Acceptance Criteria**:
 
 **Content Structure**:
+
 - [ ] `/content` directory
 - [ ] Content index at `/content/content-index.json`
 - [ ] Org directories under `/content/{org-id}/`
 
 **Content Types**:
+
 - [ ] Marketing pages (hero, features, testimonials)
 - [ ] Documentation references
 - [ ] Demo configurations
 - [ ] Landing page templates
 
 **Content Loader**:
+
 - [ ] `loadContentIndex()`
 - [ ] `getOrgContent(orgId, contentType)`
 - [ ] `queryContent(orgId, filters)`
@@ -1146,7 +1195,8 @@ These epics contain business logic specific to this product.
 **Acceptance Criteria**:
 
 **Components**:
-- [ ] Organisation Switcher
+
+- [ ] Organization Switcher
 - [ ] Role Badge
 - [ ] Content Card (with org context)
 - [ ] Permission Gate component
@@ -1158,6 +1208,7 @@ These epics contain business logic specific to this product.
 - [ ] Saved searches
 
 **Standards**:
+
 - [ ] Storybook stories
 - [ ] Accessibility tests
 - [ ] 80% coverage
@@ -1170,13 +1221,13 @@ These epics contain business logic specific to this product.
 
 **Type**: Product-Specific
 
-**Goal**: Organisation and role-based middleware
+**Goal**: Organization and role-based middleware
 
 **Dependencies**: Epic 2A.6 (Generic Middleware), Epic 2B.2 (Org Model)
 
 **Acceptance Criteria**:
 
-- [ ] Organisation context middleware
+- [ ] Organization context middleware
 - [ ] Org validation middleware (user belongs to org)
 - [ ] Role-based access middleware
 - [ ] Minimum role requirement checks
@@ -1199,18 +1250,21 @@ These epics contain business logic specific to this product.
 **Acceptance Criteria**:
 
 **Roles**:
+
 - [ ] Internal (full access)
 - [ ] Product-Seller (org admin)
 - [ ] Agency-Seller (limited admin)
 - [ ] Client (read + limited write)
 
 **Permissions**:
+
 - [ ] Permission matrix defined
 - [ ] `canAccess(resource, action)` utility
 - [ ] `usePermissions()` hook with role context
 - [ ] Role hierarchy utilities
 
 **Webhook Handlers**:
+
 - [ ] User created → sync to DB with org
 - [ ] User updated → sync changes
 - [ ] User deleted → cascade handling
@@ -1233,27 +1287,31 @@ These epics contain business logic specific to this product.
 **Acceptance Criteria**:
 
 **Infrastructure**:
+
 - [ ] API app at `/apps/api`
 - [ ] OpenAPI 3.1 spec (design-first)
 - [ ] Deployed to `api.example.com`
 - [ ] Versioned under `/v1`
 
 **Endpoints**:
+
 - [ ] Users: CRUD `/v1/users`
-- [ ] Organisations: CRUD `/v1/organisations`
-- [ ] Organisation Members: `/v1/organisations/:id/members`
+- [ ] Organizations: CRUD `/v1/Organizations`
+- [ ] Organization Members: `/v1/Organizations/:id/members`
 - [ ] Content: CRUD `/v1/content`
 - [ ] Analytics: POST `/v1/events`
 - [ ] Metadata: GET `/v1/metadata/config`, `/v1/metadata/features`
 - [ ] File upload: multipart/form-data
 
 **Security**:
+
 - [ ] Clerk JWT validation
 - [ ] Org context extraction
 - [ ] Role-based authorization
 - [ ] Rate limiting
 
 **Documentation**:
+
 - [ ] Swagger UI at `/v1/docs`
 
 **EPIC.md Location**: `/docs/3-epics/3B.1-api/EPIC.md`
@@ -1295,6 +1353,7 @@ These epics contain business logic specific to this product.
 **Acceptance Criteria**:
 
 **Routes**:
+
 - [ ] `/` → Homepage
 - [ ] `/docs/*` → Documentation app
 - [ ] `/demo/*` → Demo app
@@ -1303,11 +1362,13 @@ These epics contain business logic specific to this product.
 - [ ] `/landing/*` → Landing pages
 
 **Rewrites**:
+
 - [ ] API proxy rules
 - [ ] CDN asset rules
 - [ ] App delegation rules
 
 **Pages**:
+
 - [ ] Homepage with product content
 - [ ] Marketing pages
 - [ ] SEO configuration per route
@@ -1384,7 +1445,7 @@ These epics contain business logic specific to this product.
 - [ ] Content versioning
 - [ ] Comments and annotations system
 - [ ] Approval workflows (draft → review → published)
-- [ ] Activity feed per organization
+- [ ] Activity feed per Organization
 - [ ] Third-party API integration framework
 
 **EPIC.md Location**: `/docs/3-epics/3B.6-tools/EPIC.md`
@@ -1426,13 +1487,15 @@ These epics contain business logic specific to this product.
 **Acceptance Criteria**:
 
 **Report Generation**:
+
 - [ ] Configurable report templates
 - [ ] Scheduled delivery (daily, weekly, monthly)
 - [ ] Multiple export formats (PDF, Excel, PowerPoint)
-- [ ] Custom branding per organization
+- [ ] Custom branding per Organization
 - [ ] Distribution lists and notifications
 
 **Automation**:
+
 - [ ] Report scheduling infrastructure
 - [ ] Email delivery system
 - [ ] Report history and versioning
@@ -1440,6 +1503,7 @@ These epics contain business logic specific to this product.
 - [ ] Export queue processing
 
 **Standards**:
+
 - [ ] 80% test coverage
 - [ ] Performance: < 30s for complex reports
 - [ ] Email delivery < 5 minutes after generation
@@ -1461,28 +1525,32 @@ These epics contain business logic specific to this product.
 **Acceptance Criteria**:
 
 **Webhook Infrastructure**:
-- [ ] Configurable webhook endpoints per organization
+
+- [ ] Configurable webhook endpoints per Organization
 - [ ] Event filtering and routing
 - [ ] Retry logic with exponential backoff
 - [ ] Webhook signature verification (HMAC)
 - [ ] Activity log for webhook deliveries
 
 **Event System**:
+
 - [ ] Webhook event catalog
 - [ ] Payload versioning
 - [ ] Event replay capability
 - [ ] Dead letter queue for failed deliveries
 
 **Management UI**:
+
 - [ ] Webhook configuration interface
 - [ ] Delivery status monitoring
 - [ ] Test webhook functionality
 - [ ] Event payload inspector
 
 **Standards**:
+
 - [ ] 80% test coverage
 - [ ] Delivery SLA: 99.9% within 30 seconds
-- [ ] Rate limiting per organization
+- [ ] Rate limiting per Organization
 
 **EPIC.md Location**: `/docs/3-epics/3B.9-webhooks-integrations/EPIC.md`
 
@@ -1699,35 +1767,35 @@ These phases apply to both platform and product.
 
 ## Epic Count Summary
 
-| Section | Epic Count | Type |
-|---------|------------|------|
-| **Planning & Design** | | |
-| Phase P: Planning | 3 | Mixed |
-| **Subtotal Planning** | **3** | **Pre-Dev** |
-| | | |
-| **Platform Foundation** | | |
-| Phase 0A: Steel Thread | 1 | Generic |
-| Phase 1A: Foundation | 5 | Generic |
-| Phase 2A: Platform Packages | 8 | Generic |
-| Phase 3A: Platform Apps | 2 | Generic |
-| **Subtotal Platform** | **16** | **Generic** |
-| | | |
-| **Product Implementation** | | |
-| Phase 2B: Product Packages | 7 | Product |
-| Phase 3B: Product Apps | 7 | Product |
-| Phase 3B: Post-MVP Backlog | 2 | Product (Deferred) |
-| **Subtotal Product** | **16** | **Product** |
-| | | |
-| **Production Readiness** | | |
-| Phase 4A: Quality | 3 | Mixed |
-| Phase 5A: DevOps | 2 | Mixed |
-| Phase 6A: Security | 3 | Mixed |
-| Phase 7A: Documentation | 2 | Mixed |
-| Phase 8A: Launch | 2 | Mixed |
-| **Subtotal Readiness** | **12** | **Mixed** |
-| | | |
-| **TOTAL (MVP)** | **45** | |
-| **TOTAL (with Post-MVP)** | **47** | |
+| Section                     | Epic Count | Type               |
+| --------------------------- | ---------- | ------------------ |
+| **Planning & Design**       |            |                    |
+| Phase P: Planning           | 3          | Mixed              |
+| **Subtotal Planning**       | **3**      | **Pre-Dev**        |
+|                             |            |                    |
+| **Platform Foundation**     |            |                    |
+| Phase 0A: Steel Thread      | 1          | Generic            |
+| Phase 1A: Foundation        | 5          | Generic            |
+| Phase 2A: Platform Packages | 8          | Generic            |
+| Phase 3A: Platform Apps     | 2          | Generic            |
+| **Subtotal Platform**       | **16**     | **Generic**        |
+|                             |            |                    |
+| **Product Implementation**  |            |                    |
+| Phase 2B: Product Packages  | 7          | Product            |
+| Phase 3B: Product Apps      | 7          | Product            |
+| Phase 3B: Post-MVP Backlog  | 2          | Product (Deferred) |
+| **Subtotal Product**        | **16**     | **Product**        |
+|                             |            |                    |
+| **Production Readiness**    |            |                    |
+| Phase 4A: Quality           | 3          | Mixed              |
+| Phase 5A: DevOps            | 2          | Mixed              |
+| Phase 6A: Security          | 3          | Mixed              |
+| Phase 7A: Documentation     | 2          | Mixed              |
+| Phase 8A: Launch            | 2          | Mixed              |
+| **Subtotal Readiness**      | **12**     | **Mixed**          |
+|                             |            |                    |
+| **TOTAL (MVP)**             | **45**     |                    |
+| **TOTAL (with Post-MVP)**   | **47**     |                    |
 
 ---
 
@@ -1804,6 +1872,7 @@ Phase 0-1   ┌─────────────────────�
 ```
 
 This allows:
+
 - Platform team to build reusable infrastructure
 - Product team to follow with business logic
 - Clear handoff points between streams

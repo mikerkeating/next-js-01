@@ -13,6 +13,7 @@ Create the story details file for the specified Story within the specified Epic.
 ## Input Documents
 
 Read and reference these documents:
+
 1. The EPIC.md file at `docs/3-epics/{epic-path}/EPIC.md`
 2. Product Requirements Document and Technical Architecture Document files referenced in the EPIC.md
 
@@ -29,12 +30,14 @@ Use [story-details-template.md](./story-details-template.md) as the template str
 Stories are requirement documents, not implementation guides. The TAD contains implementation patterns and code examples.
 
 **DO NOT include:**
+
 - Copy-paste implementation code (>15 lines)
 - Full configuration file contents
 - Duplicated TAD content (interfaces, schemas, workflows)
 - Hardcoded version numbers
 
 **DO include:**
+
 - Acceptance criteria (specific, measurable outcomes)
 - Files to create/modify (paths and purpose only)
 - Dependencies (package names, reference canonical-versions.md)
@@ -44,6 +47,7 @@ Stories are requirement documents, not implementation guides. The TAD contains i
 ### Architecture Decisions
 
 Consolidate decisions - don't scatter them across stories:
+
 - **Cross-cutting decisions** → Add to TAD, link from story
 - **Major architectural decisions** → Create ADR, link from story
 - **Story-specific choices only** → Document in story
@@ -52,11 +56,11 @@ See [Template Usage Guide](./story-details-template.md#architecture-decision-for
 
 ## Reference Documents
 
-| Document | Purpose |
-|----------|---------|
-| [story-details-template.md](./story-details-template.md) | Story structure template |
-| [file-structure.md](docs/1-product/references/file-structure.md) | File location conventions |
-| [coding-standards.md](/docs/2-technical/references/coding-standards.md) | Coding standards |
+| Document                                                                    | Purpose                                      |
+| --------------------------------------------------------------------------- | -------------------------------------------- |
+| [story-details-template.md](./story-details-template.md)                    | Story structure template                     |
+| [file-structure.md](docs/1-product/references/file-structure.md)            | File location conventions                    |
+| [coding-standards.md](/docs/2-technical/references/coding-standards.md)     | Coding standards                             |
 | [canonical-versions.md](/docs/2-technical/references/canonical-versions.md) | Technology versions (single source of truth) |
 
 ## Validation
@@ -66,6 +70,7 @@ When complete, validate the story against [story-acceptance-criteria.md](./story
 ### Quality Checks
 
 Before finishing, verify:
+
 - [ ] No code blocks exceed 15 lines (exception: Verification Commands may be up to 25 lines)
 - [ ] No hardcoded version numbers
 - [ ] No TAD content duplicated

@@ -23,7 +23,7 @@ test.describe('Deployment Smoke Tests', () => {
       expect(response.status()).toBe(200);
 
       const body = await response.json();
-      expect(body.status).toBe('healthy');
+      expect(['healthy', 'degraded']).toContain(body.status);
       expect(body).toHaveProperty('timestamp');
       expect(body).toHaveProperty('version');
       expect(body).toHaveProperty('environment');

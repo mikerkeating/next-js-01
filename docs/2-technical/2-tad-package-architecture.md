@@ -5,6 +5,7 @@
 This section defines the internal structure, public API surface, and inter-package dependencies for all shared packages in our monorepo. These packages form the foundation for Phases 2A and 2B, providing reusable functionality across all applications.
 
 **Key Principles**:
+
 - **Single Responsibility**: Each package has one clear purpose
 - **Explicit Dependencies**: Dependencies are declared and versioned
 - **Public API Contract**: Clear boundary between public and internal code
@@ -13,20 +14,20 @@ This section defines the internal structure, public API surface, and inter-packa
 
 ### Package Overview
 
-| Package | Purpose | Dependencies | Applications Using |
-|---------|---------|--------------|-------------------|
-| **@repo/config** | Shared configuration (TypeScript, ESLint, Tailwind) | None | All apps & packages |
-| **@repo/database** | Database schema, queries, migrations | `drizzle-orm`, `postgres` | `routing`, `api`, `tools` |
-| **@repo/auth** | Authentication utilities and middleware | `@clerk/nextjs`, `@repo/database` | `routing`, `api`, `tools` |
-| **@repo/ui** | Shared UI component library | `react`, `tailwindcss`, `@radix-ui/*` | `routing`, `marketing`, `docs`, `tools` |
-| **@repo/analytics** | Analytics tracking and configuration | `posthog-js`, `react`, `@repo/auth` | `routing`, `marketing`, `tools` |
-| **@repo/observability** | Logging, error tracking, health checks | `@sentry/nextjs`, `@repo/logger` | All apps |
-| **@repo/logger** | Structured logging implementation | None | All apps & packages |
-| **@repo/middleware** | Shared Next.js middleware | `@repo/auth`, `@repo/logger` | `routing`, `api`, `tools` |
-| **@repo/api-client** | Type-safe API client | `@repo/auth`, `zod` | `routing`, `marketing`, `tools` |
-| **@repo/org** | Organization context and utilities | `@repo/database`, `@repo/auth` | `routing`, `api`, `tools` |
-| **@repo/validation** | Input validation schemas | `zod` | All apps & packages |
-| **@repo/testing** | Testing utilities and helpers | `vitest`, `@testing-library/react` | All apps & packages |
+| Package                 | Purpose                                             | Dependencies                          | Applications Using                      |
+| ----------------------- | --------------------------------------------------- | ------------------------------------- | --------------------------------------- |
+| **@repo/config**        | Shared configuration (TypeScript, ESLint, Tailwind) | None                                  | All apps & packages                     |
+| **@repo/database**      | Database schema, queries, migrations                | `drizzle-orm`, `postgres`             | `routing`, `api`, `tools`               |
+| **@repo/auth**          | Authentication utilities and middleware             | `@clerk/nextjs`, `@repo/database`     | `routing`, `api`, `tools`               |
+| **@repo/ui**            | Shared UI component library                         | `react`, `tailwindcss`, `@radix-ui/*` | `routing`, `marketing`, `docs`, `tools` |
+| **@repo/analytics**     | Analytics tracking and configuration                | `posthog-js`, `react`, `@repo/auth`   | `routing`, `marketing`, `tools`         |
+| **@repo/observability** | Logging, error tracking, health checks              | `@sentry/nextjs`, `@repo/logger`      | All apps                                |
+| **@repo/logger**        | Structured logging implementation                   | None                                  | All apps & packages                     |
+| **@repo/middleware**    | Shared Next.js middleware                           | `@repo/auth`, `@repo/logger`          | `routing`, `api`, `tools`               |
+| **@repo/api-client**    | Type-safe API client                                | `@repo/auth`, `zod`                   | `routing`, `marketing`, `tools`         |
+| **@repo/org**           | Organization context and utilities                  | `@repo/database`, `@repo/auth`        | `routing`, `api`, `tools`               |
+| **@repo/validation**    | Input validation schemas                            | `zod`                                 | All apps & packages                     |
+| **@repo/testing**       | Testing utilities and helpers                       | `vitest`, `@testing-library/react`    | All apps & packages                     |
 
 ### Dependency Graph
 
@@ -106,12 +107,12 @@ packages/config/
 
 ```typescript
 // Environment validation (packages/config/src/env.ts)
-export { createEnv } from '@t3-oss/env-nextjs';
-export { env } from './env-config';
+export { createEnv } from "@t3-oss/env-nextjs";
+export { env } from "./env-config";
 
 // Usage in consuming packages
-import { env } from '@repo/config/env';
-const apiUrl = env.NEXT_PUBLIC_API_URL;  // Type-safe, validated
+import { env } from "@repo/config/env";
+const apiUrl = env.NEXT_PUBLIC_API_URL; // Type-safe, validated
 ```
 
 **Configuration Exports**:
@@ -150,14 +151,14 @@ packages/database/
 │   ├── schema/
 │   │   ├── index.ts           # Re-exports all schemas
 │   │   ├── users.ts           # User table schema
-│   │   ├── organisations.ts   # Organisation table schema
+│   │   ├── Organizations.ts   # Organization table schema
 │   │   ├── content.ts         # Content table schema
 │   │   ├── analytics.ts       # Analytics events schema
 │   │   ├── audit-logs.ts      # Audit log schema
 │   │   └── privacy.ts         # Privacy-related tables
 │   ├── queries/
 │   │   ├── users.ts           # User queries
-│   │   ├── organisations.ts   # Organisation queries
+│   │   ├── Organizations.ts   # Organization queries
 │   │   ├── content.ts         # Content queries
 │   │   └── analytics.ts       # Analytics queries
 │   ├── migrations/
@@ -176,14 +177,14 @@ packages/database/
 // packages/database/src/index.ts
 
 // 1. Database Client
-export { db } from './client';
+export { db } from "./client";
 
 // 2. Schema Definitions
-export * from './schema';
+export * from "./schema";
 export type {
   User,
-  Organisation,
-  UserOrganisation,
+  Organization,
+  UserOrganization,
   Content,
   AnalyticsEvent,
   AuditLog,
@@ -192,7 +193,7 @@ export type {
   UserConsent,
   UserPrivacyPreferences,
   VendorAgreement,
-} from './types';
+} from "./types";
 
 // 3. Query Functions
 export {
@@ -203,41 +204,41 @@ export {
   updateUser,
   deleteUser,
 
-  // Organisation queries
-  getOrganisationById,
-  getOrganisationBySlug,
-  createOrganisation,
-  updateOrganisation,
-  getUserOrganisations,
-  addUserToOrganisation,
-  removeUserFromOrganisation,
+  // Organization queries
+  getOrganizationById,
+  getOrganizationBySlug,
+  createOrganization,
+  updateOrganization,
+  getUserOrganizations,
+  addUserToOrganization,
+  removeUserFromOrganization,
 
   // Content queries
   getContentById,
-  getContentByOrganisation,
+  getContentByOrganization,
   createContent,
   updateContent,
   deleteContent,
 
   // Analytics queries
   trackEvent,
-  getEventsByOrganisation,
+  getEventsByOrganization,
   getEventsByUser,
-} from './queries';
+} from "./queries";
 
 // 4. Utilities
-export { sql } from 'drizzle-orm';
-export { eq, and, or, not, isNull, isNotNull } from 'drizzle-orm';
+export { sql } from "drizzle-orm";
+export { eq, and, or, not, isNull, isNotNull } from "drizzle-orm";
 ```
 
 **Usage Example**:
 
 ```typescript
 // In apps/routing/src/app/api/users/route.ts
-import { db, getUserById, type User } from '@repo/database';
+import { db, getUserById, type User } from "@repo/database";
 
 export async function GET(request: Request) {
-  const userId = request.headers.get('x-user-id');
+  const userId = request.headers.get("x-user-id");
   const user: User | null = await getUserById(userId);
 
   return Response.json({ user });
@@ -245,6 +246,7 @@ export async function GET(request: Request) {
 ```
 
 **Dependencies**:
+
 - `drizzle-orm`: ORM library
 - `postgres`: PostgreSQL driver
 - `@repo/logger`: Structured logging
@@ -289,18 +291,9 @@ packages/auth/
 // packages/auth/src/index.ts
 
 // 1. Clerk Integration
-export {
-  clerkClient,
-  clerkMiddleware,
-  auth,
-  currentUser,
-  getAuth,
-} from './clerk/client';
+export { clerkClient, clerkMiddleware, auth, currentUser, getAuth } from "./clerk/client";
 
-export {
-  handleClerkWebhook,
-  type ClerkWebhookEvent,
-} from './clerk/webhooks';
+export { handleClerkWebhook, type ClerkWebhookEvent } from "./clerk/webhooks";
 
 // 2. Session Management
 export {
@@ -309,40 +302,20 @@ export {
   destroySession,
   refreshSession,
   type Session,
-} from './session/manager';
+} from "./session/manager";
 
 // 3. RBAC (Role-Based Access Control)
-export {
-  Roles,
-  Permissions,
-  type Role,
-  type Permission,
-} from './rbac/roles';
+export { Roles, Permissions, type Role, type Permission } from "./rbac/roles";
 
-export {
-  checkPermission,
-  requirePermission,
-  hasRole,
-  requireRole,
-} from './rbac/checks';
+export { checkPermission, requirePermission, hasRole, requireRole } from "./rbac/checks";
 
 // 4. Utilities
-export {
-  hashPassword,
-  verifyPassword,
-} from './utils/hash';
+export { hashPassword, verifyPassword } from "./utils/hash";
 
-export {
-  generateToken,
-  verifyToken,
-} from './utils/tokens';
+export { generateToken, verifyToken } from "./utils/tokens";
 
 // 5. Types
-export type {
-  AuthUser,
-  AuthSession,
-  AuthContext,
-} from './types';
+export type { AuthUser, AuthSession, AuthContext } from "./types";
 ```
 
 **Usage Example**:
@@ -384,6 +357,7 @@ export default async function AdminPage() {
 ```
 
 **Dependencies**:
+
 - `@clerk/nextjs`: Clerk authentication SDK
 - `@repo/database`: User and session storage
 - `@repo/logger`: Structured logging
@@ -443,10 +417,7 @@ packages/ui/
 // packages/ui/src/index.ts
 
 // 1. UI Components (shadcn/ui)
-export {
-  Button,
-  type ButtonProps,
-} from './components/ui/button';
+export { Button, type ButtonProps } from "./components/ui/button";
 
 export {
   Card,
@@ -455,7 +426,7 @@ export {
   CardDescription,
   CardContent,
   CardFooter,
-} from './components/ui/card';
+} from "./components/ui/card";
 
 export {
   Dialog,
@@ -465,7 +436,7 @@ export {
   DialogTitle,
   DialogDescription,
   DialogFooter,
-} from './components/ui/dialog';
+} from "./components/ui/dialog";
 
 // ... all shadcn/ui components
 
@@ -478,44 +449,31 @@ export {
   FormControl,
   FormDescription,
   FormMessage,
-} from './components/forms/form';
+} from "./components/forms/form";
 
-export {
-  FormError,
-  type FormErrorProps,
-} from './components/forms/form-error';
+export { FormError, type FormErrorProps } from "./components/forms/form-error";
 
 // 3. Layout Components
-export { Header } from './components/layout/header';
-export { Footer } from './components/layout/footer';
-export { Sidebar } from './components/layout/sidebar';
-export { Container } from './components/layout/container';
+export { Header } from "./components/layout/header";
+export { Footer } from "./components/layout/footer";
+export { Sidebar } from "./components/layout/sidebar";
+export { Container } from "./components/layout/container";
 
 // 4. Feedback Components
-export {
-  ErrorBoundary,
-  type ErrorBoundaryProps,
-} from './components/feedback/error-boundary';
+export { ErrorBoundary, type ErrorBoundaryProps } from "./components/feedback/error-boundary";
 
-export {
-  Loading,
-  Spinner,
-} from './components/feedback/loading';
+export { Loading, Spinner } from "./components/feedback/loading";
 
-export {
-  toast,
-  useToast,
-  Toaster,
-} from './components/feedback/toast';
+export { toast, useToast, Toaster } from "./components/feedback/toast";
 
 // 5. Hooks
-export { useMediaQuery } from './hooks/use-media-query';
-export { useDebounce } from './hooks/use-debounce';
-export { useToast } from './hooks/use-toast';
+export { useMediaQuery } from "./hooks/use-media-query";
+export { useDebounce } from "./hooks/use-debounce";
+export { useToast } from "./hooks/use-toast";
 
 // 6. Utilities
-export { cn } from './utils/cn';
-export { formatDate, formatCurrency } from './utils/format';
+export { cn } from "./utils/cn";
+export { formatDate, formatCurrency } from "./utils/format";
 ```
 
 **Usage Example**:
@@ -555,6 +513,7 @@ export default function Dashboard() {
 ```
 
 **Dependencies**:
+
 - `react`: React library
 - `react-dom`: React DOM
 - `@radix-ui/*`: Radix UI primitives
@@ -602,30 +561,14 @@ packages/analytics/
 // packages/analytics/src/index.ts
 
 // 1. PostHog Integration
-export {
-  PostHogProvider,
-  type PostHogConfig,
-} from './posthog/provider';
+export { PostHogProvider, type PostHogConfig } from "./posthog/provider";
 
-export {
-  usePostHog,
-  useFeatureFlag,
-} from './posthog/hooks';
+export { usePostHog, useFeatureFlag } from "./posthog/hooks";
 
 // 2. Event Tracking
-export {
-  track,
-  identify,
-  page,
-  group,
-  alias,
-} from './events/tracker';
+export { track, identify, page, group, alias } from "./events/tracker";
 
-export {
-  Events,
-  type EventName,
-  type EventProperties,
-} from './events/definitions';
+export { Events, type EventName, type EventProperties } from "./events/definitions";
 
 // 3. Consent Management
 export {
@@ -633,13 +576,10 @@ export {
   updateConsent,
   getConsentPreferences,
   type ConsentPreferences,
-} from './consent/manager';
+} from "./consent/manager";
 
 // 4. Types
-export type {
-  AnalyticsUser,
-  TrackingEvent,
-} from './types';
+export type { AnalyticsUser, TrackingEvent } from "./types";
 ```
 
 **Event Schema**:
@@ -649,34 +589,34 @@ export type {
 
 export const Events = {
   // User Events
-  USER_SIGNED_UP: 'user_signed_up',
-  USER_LOGGED_IN: 'user_logged_in',
-  USER_LOGGED_OUT: 'user_logged_out',
+  USER_SIGNED_UP: "user_signed_up",
+  USER_LOGGED_IN: "user_logged_in",
+  USER_LOGGED_OUT: "user_logged_out",
 
   // Content Events
-  CONTENT_CREATED: 'content_created',
-  CONTENT_UPDATED: 'content_updated',
-  CONTENT_DELETED: 'content_deleted',
-  CONTENT_PUBLISHED: 'content_published',
+  CONTENT_CREATED: "content_created",
+  CONTENT_UPDATED: "content_updated",
+  CONTENT_DELETED: "content_deleted",
+  CONTENT_PUBLISHED: "content_published",
 
   // Landing Page Events
-  LANDING_PAGE_VIEWED: 'landing_page_viewed',
-  LANDING_PAGE_CREATED: 'landing_page_created',
-  LANDING_PAGE_PUBLISHED: 'landing_page_published',
+  LANDING_PAGE_VIEWED: "landing_page_viewed",
+  LANDING_PAGE_CREATED: "landing_page_created",
+  LANDING_PAGE_PUBLISHED: "landing_page_published",
 } as const;
 
-export type EventName = typeof Events[keyof typeof Events];
+export type EventName = (typeof Events)[keyof typeof Events];
 
 // Type-safe event properties
 export interface EventProperties {
   [Events.USER_SIGNED_UP]: {
-    method: 'email' | 'oauth';
+    method: "email" | "oauth";
     provider?: string;
   };
 
   [Events.CONTENT_CREATED]: {
     contentType: string;
-    organisationId: string;
+    OrganizationId: string;
   };
 
   // ... all event properties
@@ -711,7 +651,7 @@ export function CreateContentButton() {
     // Track event
     track(Events.CONTENT_CREATED, {
       contentType: content.type,
-      organisationId: content.organisationId,
+      OrganizationId: content.OrganizationId,
     });
   };
 
@@ -720,6 +660,7 @@ export function CreateContentButton() {
 ```
 
 **Dependencies**:
+
 - `posthog-js`: PostHog SDK
 - `react`: React library
 - `@repo/auth`: User identification
@@ -766,7 +707,7 @@ export {
   captureMessage,
   setSentryUser,
   clearSentryUser,
-} from './sentry/client';
+} from "./sentry/client";
 
 // 2. Health Checks
 export {
@@ -775,18 +716,13 @@ export {
   checkCache,
   checkAllServices,
   type HealthCheckResult,
-} from './health-checks/aggregator';
+} from "./health-checks/aggregator";
 
 // 3. Web Vitals
-export {
-  reportWebVitals,
-} from './web-vitals/reporter';
+export { reportWebVitals } from "./web-vitals/reporter";
 
 // 4. Types
-export type {
-  HealthStatus,
-  ServiceHealth,
-} from './types';
+export type { HealthStatus, ServiceHealth } from "./types";
 ```
 
 **Usage Example**:
@@ -823,6 +759,7 @@ export default function RootLayout({ children }: { children: ReactNode }) {
 ```
 
 **Dependencies**:
+
 - `@sentry/nextjs`: Sentry SDK
 - `web-vitals`: Web Vitals library
 - `@repo/logger`: Structured logging
@@ -856,47 +793,41 @@ packages/logger/
 ```typescript
 // packages/logger/src/index.ts
 
-export {
-  Logger,
-} from './logger';
+export { Logger } from "./logger";
 
-export type {
-  LogEntry,
-  LogLevel,
-  LogMetadata,
-} from './types';
+export type { LogEntry, LogLevel, LogMetadata } from "./types";
 
 // Singleton for convenience
-export const logger = new Logger('default');
+export const logger = new Logger("default");
 ```
 
 **Usage Example**:
 
 ```typescript
 // In any package or application
-import { Logger } from '@repo/logger';
+import { Logger } from "@repo/logger";
 
-const logger = new Logger('user-service');
+const logger = new Logger("user-service");
 
 // Info log
-logger.info('User created', {
+logger.info("User created", {
   userId: user.id,
-  data: { method: 'registration' },
+  data: { method: "registration" },
 });
 
 // Error log
 try {
   await riskyOperation();
 } catch (error) {
-  logger.error('Operation failed', error as Error, {
-    data: { operation: 'riskyOperation' },
+  logger.error("Operation failed", error as Error, {
+    data: { operation: "riskyOperation" },
   });
 }
 
 // Performance log
 const start = Date.now();
 await performTask();
-logger.info('Task completed', {
+logger.info("Task completed", {
   performance: { duration: Date.now() - start },
 });
 ```
@@ -919,7 +850,7 @@ packages/middleware/
 │   ├── auth.ts                # Authentication middleware
 │   ├── rate-limit.ts          # Rate limiting middleware
 │   ├── logging.ts             # Request logging middleware
-│   ├── org-context.ts         # Organisation context middleware
+│   ├── org-context.ts         # Organization context middleware
 │   ├── security-headers.ts    # Security headers middleware
 │   ├── composer.ts            # Middleware composition utility
 │   └── index.ts               # Public API exports
@@ -932,30 +863,17 @@ packages/middleware/
 ```typescript
 // packages/middleware/src/index.ts
 
-export {
-  authMiddleware,
-} from './auth';
+export { authMiddleware } from "./auth";
 
-export {
-  rateLimitMiddleware,
-  createRateLimiter,
-} from './rate-limit';
+export { rateLimitMiddleware, createRateLimiter } from "./rate-limit";
 
-export {
-  loggingMiddleware,
-} from './logging';
+export { loggingMiddleware } from "./logging";
 
-export {
-  orgContextMiddleware,
-} from './org-context';
+export { orgContextMiddleware } from "./org-context";
 
-export {
-  securityHeadersMiddleware,
-} from './security-headers';
+export { securityHeadersMiddleware } from "./security-headers";
 
-export {
-  composeMiddleware,
-} from './composer';
+export { composeMiddleware } from "./composer";
 ```
 
 **Usage Example**:
@@ -968,7 +886,7 @@ import {
   loggingMiddleware,
   securityHeadersMiddleware,
   composeMiddleware,
-} from '@repo/middleware';
+} from "@repo/middleware";
 
 export default composeMiddleware([
   loggingMiddleware,
@@ -978,13 +896,12 @@ export default composeMiddleware([
 ]);
 
 export const config = {
-  matcher: [
-    '/((?!_next/static|_next/image|favicon.ico).*)',
-  ],
+  matcher: ["/((?!_next/static|_next/image|favicon.ico).*)"],
 };
 ```
 
 **Dependencies**:
+
 - `@repo/auth`: Authentication utilities
 - `@repo/logger`: Request logging
 - `@repo/database`: Rate limit storage
@@ -1005,7 +922,7 @@ packages/api-client/
 │   ├── client.ts              # Base API client
 │   ├── endpoints/
 │   │   ├── users.ts           # User endpoints
-│   │   ├── organisations.ts   # Organisation endpoints
+│   │   ├── Organizations.ts   # Organization endpoints
 │   │   ├── content.ts         # Content endpoints
 │   │   └── analytics.ts       # Analytics endpoints
 │   ├── types.ts               # Request/response types
@@ -1020,30 +937,13 @@ packages/api-client/
 ```typescript
 // packages/api-client/src/index.ts
 
-export {
-  APIClient,
-  createAPIClient,
-} from './client';
+export { APIClient, createAPIClient } from "./client";
 
-export {
-  UserAPI,
-  OrganisationAPI,
-  ContentAPI,
-  AnalyticsAPI,
-} from './endpoints';
+export { UserAPI, OrganizationAPI, ContentAPI, AnalyticsAPI } from "./endpoints";
 
-export {
-  APIError,
-  ValidationError,
-  AuthenticationError,
-  NotFoundError,
-} from './errors';
+export { APIError, ValidationError, AuthenticationError, NotFoundError } from "./errors";
 
-export type {
-  APIResponse,
-  APIErrorResponse,
-  PaginatedResponse,
-} from './types';
+export type { APIResponse, APIErrorResponse, PaginatedResponse } from "./types";
 ```
 
 **Usage Example**:
@@ -1070,6 +970,7 @@ export async function UserProfile({ userId }: { userId: string }) {
 ```
 
 **Dependencies**:
+
 - `@repo/auth`: Authentication token management
 - `@repo/validation`: Request/response validation
 - `zod`: Schema validation
@@ -1080,7 +981,7 @@ export async function UserProfile({ userId }: { userId: string }) {
 
 #### @repo/org
 
-**Purpose**: Organisation context management and multi-tenant utilities.
+**Purpose**: Organization context management and multi-tenant utilities.
 
 **Internal Structure**:
 
@@ -1092,7 +993,7 @@ packages/org/
 │   │   ├── hooks.ts           # React hooks
 │   │   └── types.ts           # Context types
 │   ├── utils/
-│   │   ├── switcher.ts        # Organisation switching logic
+│   │   ├── switcher.ts        # Organization switching logic
 │   │   └── permissions.ts     # Org-level permissions
 │   └── index.ts               # Public API exports
 ├── package.json
@@ -1104,53 +1005,43 @@ packages/org/
 ```typescript
 // packages/org/src/index.ts
 
-export {
-  OrganisationProvider,
-  useOrganisation,
-  useOrganisationList,
-} from './context/provider';
+export { OrganizationProvider, useOrganization, useOrganizationList } from "./context/provider";
 
-export {
-  switchOrganisation,
-  getCurrentOrganisation,
-} from './utils/switcher';
+export { switchOrganization, getCurrentOrganization } from "./utils/switcher";
 
-export type {
-  OrganisationContext,
-  OrganisationMembership,
-} from './context/types';
+export type { OrganizationContext, OrganizationMembership } from "./context/types";
 ```
 
 **Usage Example**:
 
 ```typescript
 // In apps/routing/src/app/layout.tsx
-import { OrganisationProvider } from '@repo/org';
+import { OrganizationProvider } from '@repo/org';
 
 export default function RootLayout({ children }: { children: ReactNode }) {
   return (
     <html lang="en">
       <body>
-        <OrganisationProvider>
+        <OrganizationProvider>
           {children}
-        </OrganisationProvider>
+        </OrganizationProvider>
       </body>
     </html>
   );
 }
 
 // In a component
-import { useOrganisation } from '@repo/org';
+import { useOrganization } from '@repo/org';
 
-export function OrganisationSwitcher() {
-  const { organisation, organisations, switchTo } = useOrganisation();
+export function OrganizationSwitcher() {
+  const { Organization, Organizations, switchTo } = useOrganization();
 
   return (
     <select
-      value={organisation.id}
+      value={Organization.id}
       onChange={(e) => switchTo(e.target.value)}
     >
-      {organisations.map(org => (
+      {Organizations.map(org => (
         <option key={org.id} value={org.id}>
           {org.name}
         </option>
@@ -1161,7 +1052,8 @@ export function OrganisationSwitcher() {
 ```
 
 **Dependencies**:
-- `@repo/database`: Organisation data access
+
+- `@repo/database`: Organization data access
 - `@repo/auth`: User authentication
 - `react`: React library
 
@@ -1180,7 +1072,7 @@ packages/validation/
 ├── src/
 │   ├── schemas/
 │   │   ├── user.ts            # User validation schemas
-│   │   ├── organisation.ts    # Organisation schemas
+│   │   ├── Organization.ts    # Organization schemas
 │   │   ├── content.ts         # Content schemas
 │   │   ├── auth.ts            # Auth schemas
 │   │   └── common.ts          # Common schemas (email, uuid, etc.)
@@ -1202,9 +1094,9 @@ export {
   userUpdateSchema,
   userQuerySchema,
 
-  // Organisation schemas
-  organisationCreateSchema,
-  organisationUpdateSchema,
+  // Organization schemas
+  OrganizationCreateSchema,
+  OrganizationUpdateSchema,
 
   // Content schemas
   contentCreateSchema,
@@ -1219,20 +1111,16 @@ export {
   emailSchema,
   uuidSchema,
   paginationSchema,
-} from './schemas';
+} from "./schemas";
 
-export {
-  validateRequest,
-  validateQuery,
-  validateBody,
-} from './middleware/validator';
+export { validateRequest, validateQuery, validateBody } from "./middleware/validator";
 ```
 
 **Usage Example**:
 
 ```typescript
 // In apps/routing/src/app/api/users/route.ts
-import { validateBody, userCreateSchema } from '@repo/validation';
+import { validateBody, userCreateSchema } from "@repo/validation";
 
 export async function POST(request: Request) {
   const body = await request.json();
@@ -1246,18 +1134,16 @@ export async function POST(request: Request) {
 }
 
 // With middleware
-import { validateRequest } from '@repo/validation';
+import { validateRequest } from "@repo/validation";
 
-export const POST = validateRequest(
-  userCreateSchema,
-  async (request, validatedData) => {
-    const user = await createUser(validatedData);
-    return Response.json({ user });
-  }
-);
+export const POST = validateRequest(userCreateSchema, async (request, validatedData) => {
+  const user = await createUser(validatedData);
+  return Response.json({ user });
+});
 ```
 
 **Dependencies**:
+
 - `zod`: Schema validation library
 
 **Consumed By**: All applications and packages
@@ -1275,7 +1161,7 @@ packages/testing/
 ├── src/
 │   ├── fixtures/
 │   │   ├── users.ts           # User test fixtures
-│   │   ├── organisations.ts   # Organisation fixtures
+│   │   ├── Organizations.ts   # Organization fixtures
 │   │   └── content.ts         # Content fixtures
 │   ├── helpers/
 │   │   ├── database.ts        # Test database helpers
@@ -1301,36 +1187,36 @@ packages/testing/
 export {
   // Fixtures
   createUserFixture,
-  createOrganisationFixture,
+  createOrganizationFixture,
   createContentFixture,
-} from './fixtures';
+} from "./fixtures";
 
 export {
   // Database helpers
   setupTestDatabase,
   teardownTestDatabase,
   resetTestDatabase,
-} from './helpers/database';
+} from "./helpers/database";
 
 export {
   // Auth helpers
   mockAuthUser,
   mockAuthSession,
   createTestUser,
-} from './helpers/auth';
+} from "./helpers/auth";
 
 export {
   // API helpers
   mockAPIRequest,
   mockAPIResponse,
-} from './helpers/api';
+} from "./helpers/api";
 
 export {
   // Mocks
   mockClerk,
   mockPostHog,
   mockSentry,
-} from './mocks';
+} from "./mocks";
 ```
 
 **Usage Example**:
@@ -1382,6 +1268,7 @@ describe('User API', () => {
 ```
 
 **Dependencies**:
+
 - `vitest`: Test framework
 - `@testing-library/react`: React testing utilities
 - `@playwright/test`: E2E testing
@@ -1435,20 +1322,23 @@ describe('User API', () => {
 // .eslintrc.js (root)
 {
   "rules": {
-    "import/no-restricted-paths": ["error", {
-      "zones": [
-        {
-          "target": "./packages/config",
-          "from": "./packages",
-          "except": ["./config"]
-        },
-        {
-          "target": "./packages/logger",
-          "from": "./packages",
-          "except": ["./logger"]
-        }
-      ]
-    }]
+    "import/no-restricted-paths": [
+      "error",
+      {
+        "zones": [
+          {
+            "target": "./packages/config",
+            "from": "./packages",
+            "except": ["./config"]
+          },
+          {
+            "target": "./packages/logger",
+            "from": "./packages",
+            "except": ["./logger"]
+          }
+        ]
+      }
+    ]
   }
 }
 ```
@@ -1458,16 +1348,19 @@ describe('User API', () => {
 ### Package Versioning Strategy
 
 **Internal Packages** (all `@repo/*` packages):
+
 - Use workspace protocol: `"@repo/database": "workspace:*"`
 - All packages share the same version from root `package.json`
 - Version bumps are synchronized across all packages
 
 **External Dependencies**:
+
 - Locked to exact versions in `pnpm-lock.yaml`
 - Major version updates require ADR and testing across all packages
 - Security updates applied immediately via Dependabot
 
 **Publishing** (if needed for external consumption):
+
 - Packages are private by default: `"private": true`
 - If published to npm: Use semantic versioning independently per package
 
@@ -1559,4 +1452,3 @@ MIT
 ```
 
 ---
-
