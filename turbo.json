@@ -1,5 +1,13 @@
 {
   "$schema": "https://turbo.build/schema.json",
+  "globalEnv": ["NODE_ENV", "CI"],
+  "globalDependencies": [
+    ".env",
+    ".env.local",
+    ".env.development.local",
+    ".env.test.local",
+    ".env.production.local"
+  ],
   "tasks": {
     "build": {
       "dependsOn": ["^build"],
@@ -10,27 +18,23 @@
       "persistent": true
     },
     "lint": {
-      "dependsOn": ["^build"]
+      "dependsOn": ["^build"],
+      "outputs": []
     },
     "lint:fix": {
       "dependsOn": ["^build"],
       "cache": false
     },
     "test": {
-      "dependsOn": ["^build"]
+      "dependsOn": ["^build"],
+      "outputs": ["coverage/**"]
     },
     "type-check": {
-      "dependsOn": ["^build"]
+      "dependsOn": ["^build"],
+      "outputs": []
     },
     "clean": {
       "cache": false
     }
-  },
-  "globalDependencies": [
-    ".env",
-    ".env.local",
-    ".env.development.local",
-    ".env.test.local",
-    ".env.production.local"
-  ]
+  }
 }
