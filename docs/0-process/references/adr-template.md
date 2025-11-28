@@ -63,10 +63,12 @@
 ### Option 1: {Alternative Name}
 
 **Pros:**
+
 - Pro 1
 - Pro 2
 
 **Cons:**
+
 - Con 1
 - Con 2
 
