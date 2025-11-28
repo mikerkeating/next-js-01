@@ -22,7 +22,7 @@ import type {
   OverallHealthStatus,
 } from '@/lib/health/types';
 
-// Track when the server started for uptime calculation
+// Track when the server started for uptime calculation. The uptime will only reflect the time since the last cold start, not the actual deployment uptime
 const serverStartTime = Date.now();
 
 /**
@@ -56,10 +56,9 @@ function getEnvironment(): Environment {
     return 'preview';
   }
 
-  // Check for staging environment (usually set via custom domain or env var)
-  // Note: VERCEL_ENV can be 'production', 'preview', or 'development'
-  // Staging is determined by a custom STAGING_ENV variable
-  if (vercelEnv === 'staging' || process.env.STAGING_ENV === 'true') {
+  // Check for staging environment via custom env var
+  // Note: VERCEL_ENV can only be 'production', 'preview', or 'development'
+  if (process.env.STAGING_ENV === 'true') {
     return 'staging';
   }
 

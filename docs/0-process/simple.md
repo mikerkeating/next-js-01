@@ -107,13 +107,12 @@ For the stories listed in `## Resourcing Table` of `docs/3-epics/1A.1-monorepo-f
 
 > **Usage:** `execute @docs/0-process/references/epic-story-check-prompt-template.md for Epic 1A.1`
 >
-> Example: `execute @docs/0-process/references/epic-story-check-prompt-template.md for Epic 0A.1`
+> Example: `execute @docs/0-process/references/epic-story-check-prompt-template.md for Epic 1A.1`
 
 
 ---
 
-`Use docs/2-technical/references/commit-guidelines.md to generate a GitHub commit message and commit. Do not push.`
- and push the changes`
+`Use docs/2-technical/references/commit-guidelines.md to generate a GitHub commit message and commit. Do not push/ push the change.`
 
 `Update @docs/3-epics/0A.1-steel-thread/S7-github-actions.md  to reflect this change. Add to the Lessons Learned section at the bottom of the doc.`
 

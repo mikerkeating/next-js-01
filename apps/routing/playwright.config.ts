@@ -1,7 +1,7 @@
 import { defineConfig, devices } from '@playwright/test';
 
 /**
- * Playwright configuration for smoke tests.
+ * Playwright configuration for E2E and smoke tests.
  *
  * @see https://playwright.dev/docs/test-configuration
  */
@@ -58,7 +58,7 @@ export default defineConfig({
   ],
 
   /* Output directory for test artifacts */
-  outputDir: 'test-results/',
+  outputDir: 'tests/e2e/results/',
 
   /* Alternative: Run local dev server (uncomment if not using Vercel previews)
   webServer: process.env.BASE_URL
