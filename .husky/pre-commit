@@ -2,7 +2,4 @@
 # This hook runs before each commit to enforce quality gates
 # See: docs/2-technical/2-tad-developer-experience.md#pre-commit-quality-gates
 
-# Placeholder: lint-staged will be configured in S4-lint-staged
-# pnpm lint-staged
-
-echo "pre-commit hook executed"
+pnpm lint-staged
