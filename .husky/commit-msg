@@ -1,0 +1,8 @@
+# Commit message hook
+# This hook validates commit messages against conventional commits format
+# See: docs/2-technical/references/commit-guidelines.md
+
+# Placeholder: commitlint will be configured in S5-commitlint
+# pnpm exec commitlint --edit $1
+
+echo "commit-msg hook executed"
