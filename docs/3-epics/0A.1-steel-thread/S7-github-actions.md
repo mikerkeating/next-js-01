@@ -246,4 +246,5 @@ Beyond planned files:
 ### Lessons Learned
 - The wait-for-vercel-preview action requires the Vercel GitHub integration to be connected to the repository
 - E2E smoke job only runs on `pull_request` events per AD-0A.1.S7.2 decision (not on push to development)
-- Using pnpm/action-setup@v4 with version: 10 aligns with canonical-versions.md
+- The pnpm/action-setup@v4 action reads the pnpm version from the `packageManager` field in package.json automatically—do not specify an explicit `version:` parameter in the workflow, as this causes `ERR_PNPM_BAD_PM_VERSION` errors when the versions diverge
+- The build job requires `NEXT_PUBLIC_APP_URL` environment variable to be set (validated by `src/env.ts`). Use a placeholder URL like `https://example.com` for CI builds since the actual URL is set by the deployment environment
