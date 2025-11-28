@@ -77,6 +77,9 @@ For complete configuration templates, see: [TAD: {Section}](/docs/2-technical/2-
 - [ ] {Integration test description} - Verify external service integration
 
 ### Verification Commands
+
+> **Note**: Verification command blocks may be up to 25 lines to accommodate multiple test commands.
+
 ```bash
 # Command to verify {aspect}
 {command}
@@ -120,13 +123,10 @@ Key pattern notes for this story:
 
 ### Troubleshooting
 
-**Issue**: {Common issue description}
-- **Cause**: {Why this happens}
-- **Solution**: {How to resolve}
-
-**Issue**: {Another common issue}
-- **Cause**: {Why this happens}
-- **Solution**: {How to resolve}
+| Issue | Cause | Solution |
+|-------|-------|----------|
+| {Common issue description} | {Why this happens} | {How to resolve} |
+| {Another common issue} | {Why this happens} | {How to resolve} |
 
 ### Reference Materials
 - [{External Doc Title}]({url})
@@ -282,6 +282,16 @@ Use the full epic ID in story identifiers:
 | M | 4-8h | Multiple files, moderate complexity |
 | L | 8-16h | Many files, significant complexity, consider splitting |
 | XL | 16h+ | Should be split into multiple stories |
+
+### Section Condensation (S/XS Stories Only)
+
+For smaller stories, the following sections may be condensed to reduce verbosity:
+
+| Section | Condensed Format |
+|---------|------------------|
+| References | Single combined list instead of separate subsections |
+| Verification Checklist | Combined bullets by category instead of four separate subsections |
+| Estimated Effort | Size and hours only; breakdown not required |
 
 ### Writing Effective Acceptance Criteria
 

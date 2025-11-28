@@ -146,7 +146,7 @@ while [ $EPICS_COMPLETED -lt $MAX_EPICS ]; do
         --verbose \
         --max-turns "$CLAUDE_MAX_TURNS" \
         --output-format json \
-        --allowedTools "Read(*) Edit(*) Write(*) Bash(pnpm*) Bash(gh*) Bash(*) Glob(*) Grep(*) Task(*) TodoWrite(*)" \
+        --allowedTools "Read(*) Edit(*) Write(*) Bash(pnpm*) Bash(gh*) Bash(git*) Bash(*) Glob(*) Grep(*) Task(*) TodoWrite(*)" \
         2>&1 | awk -v max_turns="$CLAUDE_MAX_TURNS" '
         BEGIN { turn = 0 }
         /"role"[[:space:]]*:[[:space:]]*"assistant"/ {

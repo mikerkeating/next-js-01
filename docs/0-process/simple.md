@@ -40,7 +40,7 @@ We now have the `EPIC.md` files for the following epics. Sense check these vs `/
 
 = some small tweaks
 
-## Check the epic files vs the Roadmap - DONE
+## Check the epic files vs the Roadmap Phase - DONE
 
 We now have the `EPIC.md` files for the following epics. Sense check these against `/docs/1-product/3-roadmap.md` to verify that these will deliver the `### PLATFORM FOUNDATION (Generic)`. Does the content of the epic.md files align with @docs/1-product/3-roadmap.md? Are there any gaps that need to be resolved?
 
@@ -109,6 +109,12 @@ For the stories listed in `## Resourcing Table` of `docs/3-epics/1A.1-monorepo-f
 >
 > Example: `execute @docs/0-process/references/epic-story-check-prompt-template.md for Epic 1A.2`
 
+
+---
+
+`Use docs/2-technical/references/commit-guidelines.md to generate a GitHub commit message, commit and push the changes`
+
+`Update @docs/3-epics/0A.1-steel-thread/S7-github-actions.md  to reflect this change. Add to the Lessons Learned section at the bottom of the doc`
 
 
 

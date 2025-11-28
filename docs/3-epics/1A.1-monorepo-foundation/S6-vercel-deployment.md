@@ -157,14 +157,14 @@ vercel env pull .env.local
 - [Turborepo on Vercel](https://vercel.com/docs/monorepos/turborepo)
 
 ## Estimated Effort
-**Size**: S (2-4h)
+**Size**: M (4-8h)
 
 **Breakdown**:
-- Dashboard configuration: 0.5h
-- vercel.json creation (if needed): 0.5h
-- Preview deployment testing: 1h
-- Production deployment verification: 0.5h
-- Troubleshooting buffer: 0.5h
+- Dashboard configuration: 1h
+- vercel.json creation (if needed): 1h
+- Preview deployment testing: 1.5h
+- Production deployment verification: 1h
+- Troubleshooting buffer: 1.5h
 
 ## Architecture Decisions
 

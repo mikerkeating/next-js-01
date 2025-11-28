@@ -66,10 +66,11 @@ When complete, validate the story against [story-acceptance-criteria.md](./story
 ### Quality Checks
 
 Before finishing, verify:
-- [ ] No code blocks exceed 15 lines
+- [ ] No code blocks exceed 15 lines (exception: Verification Commands may be up to 25 lines)
 - [ ] No hardcoded version numbers
 - [ ] No TAD content duplicated
 - [ ] Story length within limits (XS/S: <150, M: <250, L: <350 lines)
+- [ ] Story size matches length - if exceeding limits, re-classify size
 - [ ] Implementation patterns link to TAD sections
 - [ ] Cross-cutting decisions consolidated to TAD (not in story)
 
