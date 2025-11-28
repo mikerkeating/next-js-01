@@ -89,7 +89,7 @@ graph TB
 
 ## Directory Structure
 
-```
+```text
 mk3-platform/
 ├── apps/                    # Next.js applications
 │   └── routing/             # Main routing app (deployed to Vercel)
