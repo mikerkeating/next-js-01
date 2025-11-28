@@ -88,6 +88,43 @@ pnpm test          # Must pass all tests
 pnpm build         # Must complete successfully
 ```
 
+### Documentation Quality Checks
+
+The project has documentation quality gates that run automatically:
+
+```bash
+pnpm lint:md       # Markdown linting
+pnpm check:readmes # Verify all packages have README.md
+pnpm check:jsdoc   # JSDoc coverage check (80% threshold)
+pnpm check:docs    # Run all documentation checks
+```
+
+Pre-commit hooks automatically run markdown linting on staged files.
+
+### Bypassing Quality Gates (Emergency Only)
+
+In rare emergency situations, you can bypass pre-commit hooks:
+
+```bash
+git commit --no-verify -m "fix(critical): emergency fix for production issue"
+```
+
+**Important guidelines for emergency bypasses:**
+
+- Only use `--no-verify` for genuine emergencies (production outages, security fixes)
+- Create a follow-up commit or PR to address any quality issues bypassed
+- Document the emergency in the commit message body
+- Never bypass for convenience - quality gates exist to prevent issues
+
+Example emergency commit:
+
+```bash
+git commit --no-verify -m "fix(auth): emergency patch for authentication bypass
+
+EMERGENCY: Production authentication was broken.
+TODO: Follow-up PR needed to fix linting warnings introduced."
+```
+
 ## Commit Messages
 
 Follow the [Conventional Commits](https://www.conventionalcommits.org/) specification. See [commit-guidelines.md](/docs/2-technical/references/commit-guidelines.md) for details.

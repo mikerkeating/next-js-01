@@ -80,6 +80,14 @@
     },
     "clean": {
       "cache": false
+    },
+    "check-jsdoc": {
+      "cache": false,
+      "outputs": []
+    },
+    "check-docs": {
+      "cache": false,
+      "outputs": []
     }
   }
 }
