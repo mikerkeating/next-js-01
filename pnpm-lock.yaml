@@ -7,6 +7,15 @@ settings:
 importers:
 
   .:
+    devDependencies:
+      prettier:
+        specifier: ^3.2.0
+        version: 3.7.1
+      turbo:
+        specifier: ^2.6.1
+        version: 2.6.1
+
+  apps/routing:
     dependencies:
       '@t3-oss/env-nextjs':
         specifier: ^0.10.0
@@ -51,15 +60,9 @@ importers:
       postcss:
         specifier: ^8.4.0
         version: 8.5.6
-      prettier:
-        specifier: ^3.2.0
-        version: 3.7.1
       tailwindcss:
         specifier: ^4.0.0
         version: 4.1.17
-      turbo:
-        specifier: ^2.6.1
-        version: 2.6.1
       typescript:
         specifier: ^5.7.0
         version: 5.9.3
