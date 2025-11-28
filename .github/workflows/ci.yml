@@ -127,6 +127,7 @@ jobs:
         run: pnpm test:e2e:smoke
         env:
           BASE_URL: ${{ steps.vercel-preview.outputs.url }}
+          VERCEL_AUTOMATION_BYPASS_SECRET: ${{ secrets.VERCEL_AUTOMATION_BYPASS_SECRET }}
 
       - name: Upload test results
         uses: actions/upload-artifact@v4
