@@ -8,15 +8,22 @@
     "pnpm": ">=10.22.0"
   },
   "scripts": {
-    "dev": "next dev",
-    "build": "next build",
+    "dev": "turbo dev",
+    "build": "turbo build",
+    "lint": "turbo lint",
+    "lint:fix": "turbo lint:fix",
+    "type-check": "turbo type-check",
+    "test": "turbo test",
+    "clean": "turbo clean",
+    "dev:next": "next dev",
+    "build:next": "next build",
     "start": "next start",
-    "lint": "eslint . --max-warnings 0",
-    "lint:fix": "eslint . --fix",
-    "type-check": "tsc --noEmit",
+    "lint:local": "eslint . --max-warnings 0",
+    "lint:fix:local": "eslint . --fix",
+    "type-check:local": "tsc --noEmit",
     "format": "prettier --write .",
     "format:check": "prettier --check .",
-    "test": "echo 'No unit tests configured yet'",
+    "test:local": "echo 'No unit tests configured yet'",
     "test:e2e:smoke": "playwright test tests/e2e/smoke.spec.ts"
   },
   "dependencies": {
@@ -44,6 +51,7 @@
     "postcss": "^8.4.0",
     "prettier": "^3.2.0",
     "tailwindcss": "^4.0.0",
+    "turbo": "^2.6.1",
     "typescript": "^5.7.0"
   }
 }
