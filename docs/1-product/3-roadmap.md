@@ -717,7 +717,7 @@ Verify: Preview URL returns 200 OK, auto-deploy on push works
 **Security**:
 
 - [ ] Dependabot configured
-- [ ] `npm audit` in CI
+- [ ] `pnpm audit` in CI
 
 **Reusability**: 100% — Standard CI/CD pattern
 
