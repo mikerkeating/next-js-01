@@ -94,31 +94,31 @@ execute @docs/0-process/references/story-details-prompt-template.md for Story S8
 
 # Story Details Prompts for Epic 1A.3
 
-### S1: Install and Configure Vitest
+### S1: Install and Configure Vitest - DONE
 
 ```markdown
 execute @docs/0-process/references/story-details-prompt-template.md for Story S1 within Epic 1A.3
 ```
 
-### S2: Configure React Testing Library
+### S2: Configure React Testing Library - DONE
 
 ```markdown
 execute @docs/0-process/references/story-details-prompt-template.md for Story S2 within Epic 1A.3
 ```
 
-### S3: Set Up Mock Utilities and Factories
+### S3: Set Up Mock Utilities and Factories - DONE
 
 ```markdown
 execute @docs/0-process/references/story-details-prompt-template.md for Story S3 within Epic 1A.3
 ```
 
-### S4: Install and Configure Playwright
+### S4: Install and Configure Playwright - DONE
 
 ```markdown
 execute @docs/0-process/references/story-details-prompt-template.md for Story S4 within Epic 1A.3
 ```
 
-### S5: Create @repo/testing Package
+### S5: Create @repo/testing Package - DONE
 
 ```markdown
 execute @docs/0-process/references/story-details-prompt-template.md for Story S5 within Epic 1A.3
