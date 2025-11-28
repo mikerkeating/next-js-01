@@ -1,12 +1,12 @@
-import { defineConfig, devices } from '@playwright/test';
+import { defineConfig, devices } from "@playwright/test";
 
 /**
- * Playwright configuration for E2E and smoke tests.
+ * Playwright configuration for E2E tests.
  *
  * @see https://playwright.dev/docs/test-configuration
  */
 export default defineConfig({
-  testDir: './tests/e2e',
+  testDir: "./tests/e2e",
 
   /* Run tests in files in parallel */
   fullyParallel: true,
@@ -21,25 +21,22 @@ export default defineConfig({
   workers: process.env.CI ? 1 : undefined,
 
   /* Reporter to use */
-  reporter: [
-    ['html', { outputFolder: 'playwright-report' }],
-    ['list'],
-  ],
+  reporter: [["html", { outputFolder: "playwright-report" }], ["list"]],
 
   /* Shared settings for all the projects below */
   use: {
     /* Base URL from environment variable with localhost fallback */
-    baseURL: process.env.BASE_URL || 'http://localhost:3000',
+    baseURL: process.env.BASE_URL || "http://localhost:3000",
 
     /* Collect trace when retrying the failed test */
-    trace: 'on-first-retry',
+    trace: "on-first-retry",
 
     /* Screenshot on failure */
-    screenshot: 'only-on-failure',
+    screenshot: "only-on-failure",
 
     /* Vercel deployment protection bypass header */
     extraHTTPHeaders: process.env.VERCEL_AUTOMATION_BYPASS_SECRET
-      ? { 'x-vercel-protection-bypass': process.env.VERCEL_AUTOMATION_BYPASS_SECRET }
+      ? { "x-vercel-protection-bypass": process.env.VERCEL_AUTOMATION_BYPASS_SECRET }
       : undefined,
   },
 
@@ -52,13 +49,13 @@ export default defineConfig({
   /* Configure projects for smoke tests - Chromium only for speed */
   projects: [
     {
-      name: 'chromium',
-      use: { ...devices['Desktop Chrome'] },
+      name: "chromium",
+      use: { ...devices["Desktop Chrome"] },
     },
   ],
 
   /* Output directory for test artifacts */
-  outputDir: 'testing/e2e/results/',
+  outputDir: "testing/e2e/results/",
 
   /* Alternative: Run local dev server (uncomment if not using Vercel previews)
   webServer: process.env.BASE_URL

@@ -169,7 +169,7 @@ The output should not include code, sequencing, sizing, critical path analysis, 
 - [x] Create a draft pull request from the epic branch into `development`
 - [ ] Use the Claude Code PR review and generate a markdown file report
 - [ ] Extract Claude Code PR review recommendations/ enhancements/ observations into a markdown file report
-- [ ] Run the promot below to validate and fix
+- [ ] Run the prompt below to validate and fix
 -
 
 ## Epic Implementation Prompts

@@ -270,7 +270,7 @@ Authentication and authorization package using Clerk.
 
 - Setting up protected routes
 - Role-based access control
-- Organization context
+- Organisation context
 
 ## Troubleshooting
 

@@ -131,7 +131,7 @@ User/Admin Initiates Deletion
 
 **Cascade Deletion Strategy:**
 
-Organization deletion cascades in this order:
+Organisation deletion cascades in this order:
 
 1. Mark organisation as deleted (soft delete)
 2. Cascade delete all user_organisations memberships
@@ -643,7 +643,7 @@ CREATE INDEX idx_audit_logs_resource ON audit_logs(resource_type, resource_id);
 | ------------------- | ---------------------------------------------------------------------------------------------------------------- | -------- |
 | **Authentication**  | `auth.login`, `auth.logout`, `auth.failed_login`, `auth.password_reset`, `auth.mfa_enabled`, `auth.mfa_disabled` | Critical |
 | **User Management** | `user.created`, `user.updated`, `user.deleted`, `user.role_changed`, `user.invited`, `user.suspended`            | Critical |
-| **Organization**    | `org.created`, `org.updated`, `org.deleted`, `org.member_added`, `org.member_removed`, `org.settings_changed`    | Critical |
+| **Organisation**    | `org.created`, `org.updated`, `org.deleted`, `org.member_added`, `org.member_removed`, `org.settings_changed`    | Critical |
 | **Permissions**     | `permission.granted`, `permission.revoked`, `role.assigned`, `role.removed`                                      | Critical |
 | **Data Deletion**   | `deletion.requested`, `deletion.cancelled`, `deletion.completed`, `deletion.grace_period_expired`                | Critical |
 | **Data Export**     | `export.requested`, `export.generated`, `export.downloaded`                                                      | Warning  |
@@ -924,7 +924,7 @@ export const auditQueries = {
       .limit(limit);
   },
 
-  // Get organization audit trail
+  // Get Organisation audit trail
   async getOrgAuditTrail(orgId: string, startDate: Date, endDate: Date) {
     return await db
       .select()
@@ -1142,7 +1142,7 @@ export async function generateComplianceReport(orgId: string, startDate: Date, e
   const logs = await auditQueries.getOrgAuditTrail(orgId, startDate, endDate);
 
   const report = {
-    organization: orgId,
+    Organisation: orgId,
     period: {
       start: startDate.toISOString(),
       end: endDate.toISOString(),
@@ -1174,7 +1174,7 @@ export async function generateComplianceReport(orgId: string, startDate: Date, e
 Per PRD Section 5.2 requirements:
 
 - 100 requests/minute per user
-- 1,000 requests/minute per organization
+- 1,000 requests/minute per Organisation
 - API-level enforcement via middleware
 
 #### Rate Limiting Implementation
@@ -1212,7 +1212,7 @@ const RATE_LIMIT_CONFIG: RateLimitConfig = {
 
 export async function rateLimitMiddleware(req: Request, res: Response, next: NextFunction) {
   const userId = req.user?.id;
-  const orgId = req.organization?.id;
+  const orgId = req.Organisation?.id;
 
   if (!userId) {
     // Anonymous requests - apply IP-based rate limiting
@@ -1238,7 +1238,7 @@ export async function rateLimitMiddleware(req: Request, res: Response, next: Nex
     });
   }
 
-  // Check organization rate limit if applicable
+  // Check Organisation rate limit if applicable
   if (orgId) {
     const orgLimitKey = `org:${orgId}`;
     const orgAllowed = await checkRateLimit(
@@ -1252,7 +1252,7 @@ export async function rateLimitMiddleware(req: Request, res: Response, next: Nex
         success: false,
         error: {
           code: "ORG_RATE_LIMIT_EXCEEDED",
-          message: "Organization rate limit exceeded (1000 requests/minute)",
+          message: "Organisation rate limit exceeded (1000 requests/minute)",
           retryAfter: await getRetryAfter(orgLimitKey),
         },
       });

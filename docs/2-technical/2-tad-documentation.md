@@ -287,7 +287,7 @@ export default requireRole('internal')(AdminPage);
 
 - [Setting up protected routes](../../../docs/guides/protected-routes.md)
 - [Role-based access control](../../../docs/guides/rbac.md)
-- [Organization context](../../../docs/guides/org-context.md)
+- [Organisation context](../../../docs/guides/org-context.md)
 
 ## Troubleshooting
 
@@ -299,7 +299,7 @@ export default requireRole('internal')(AdminPage);
 
 ## Documentation Structure
 
-Complete monorepo documentation organization:
+Complete monorepo documentation Organisation:
 
 ```
 next-js-2025-12-1/
@@ -887,7 +887,7 @@ Full API documentation: [View TypeDoc →](./docs/api/index.html)
 
 - [Setting up protected routes](../../../docs/guides/protected-routes.md)
 - [Role-based access control (RBAC)](../../../docs/guides/rbac.md)
-- [Organization context management](../../../docs/guides/org-context.md)
+- [Organisation context management](../../../docs/guides/org-context.md)
 - [Custom permissions](../../../docs/guides/custom-permissions.md)
 
 ## Troubleshooting
@@ -948,7 +948,7 @@ Internal architecture documentation for maintainers of the auth package.
 
 ## Overview
 
-The auth package provides a unified authentication and authorization layer using Clerk, with custom RBAC and multi-tenant organization support.
+The auth package provides a unified authentication and authorization layer using Clerk, with custom RBAC and multi-tenant Organisation support.
 
 ## Package Structure
 
@@ -993,7 +993,7 @@ packages/auth/
 
 ### 2. Custom RBAC Layer
 
-**Decision**: Build custom RBAC on top of Clerk organizations
+**Decision**: Build custom RBAC on top of Clerk Organisations
 **Rationale**: Clerk's built-in roles are too basic for our multi-tenant needs
 
 **Implementation**: Map Clerk roles to application roles in `roleMapping.ts`
@@ -1082,7 +1082,7 @@ See [TESTING.md](./TESTING.md) for full details.
 
 We need an authentication solution for the platform that supports:
 
-- Multi-tenant organizations
+- Multi-tenant Organisations
 - Social login (Google, GitHub)
 - Email/password and magic link authentication
 - Session management
@@ -1117,7 +1117,7 @@ Use Clerk as our authentication provider.
 Clerk provides the best balance of:
 
 - **Developer Experience**: Excellent DX with React SDK, pre-built components
-- **Features**: Organizations, social login, magic links, webhooks out of the box
+- **Features**: Organisations, social login, magic links, webhooks out of the box
 - **Cost**: Free tier covers development, $25/mo for production is reasonable
 - **Security**: Managed security updates, compliance (SOC 2, GDPR)
 - **Time to Market**: Faster implementation vs. building custom
@@ -1144,7 +1144,7 @@ Clerk provides the best balance of:
 ## Implementation Notes
 
 - Abstract Clerk behind `@repo/auth` package to allow future migration
-- Use Clerk organizations for multi-tenancy
+- Use Clerk Organisations for multi-tenancy
 - Sync users to database via webhooks
 - Custom RBAC layer on top of Clerk roles
 

@@ -68,7 +68,7 @@ pnpm add -D @playwright/test
 | `use.trace`      | `on-first-retry`        | [EPIC: Failure Artifacts](/docs/3-epics/1A.3-testing-foundation/EPIC.md#constraints) |
 | `use.screenshot` | `only-on-failure`       | [EPIC: Failure Artifacts](/docs/3-epics/1A.3-testing-foundation/EPIC.md#constraints) |
 | `use.video`      | `retain-on-failure`     | [EPIC: Failure Artifacts](/docs/3-epics/1A.3-testing-foundation/EPIC.md#constraints) |
-| `outputDir`      | `tests/e2e/results`     | Standard output directory                                                            |
+| `outputDir`      | `testing/e2e/results`   | Standard output directory                                                            |
 
 **Configuration Rationale**:
 
@@ -198,7 +198,7 @@ Key pattern notes:
 
 ### Consolidated Decisions (reference only)
 
-- [TAD: Testing Architecture](/docs/2-technical/2-tad-testing.md) - E2E testing patterns and file organization
+- [TAD: Testing Architecture](/docs/2-technical/2-tad-testing.md) - E2E testing patterns and file Organisation
 - [EPIC: Technology Decisions](/docs/3-epics/1A.3-testing-foundation/EPIC.md#technology-decisions) - Playwright as E2E framework choice
 
 ### Story-Specific Decisions

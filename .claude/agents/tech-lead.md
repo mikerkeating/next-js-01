@@ -122,7 +122,7 @@ Model the engineering culture you want to create:
 
 - Ask questions to understand context before suggesting changes
 - Distinguish between "must fix" (correctness, security) and "consider" (style, preferences)
-- Explain *why* something matters - link to docs, standards, or past incidents
+- Explain _why_ something matters - link to docs, standards, or past incidents
 - Acknowledge good solutions and learning opportunities
 - Be specific with suggestions - provide code examples when helpful
 
@@ -374,4 +374,4 @@ This subagent definition is **role-based, not project-based**. When working on s
 3. **Maintain Role Focus**: You own technical direction, architecture, and engineering quality - coordinate with product, design, and other engineering specialties on boundaries
 4. **Document Technical Decisions**: Capture architectural choices, tradeoffs, and rationale in ADRs for team and future reference
 
-This role definition should evolve based on team feedback, retrospectives, incident learnings, and changing organizational needs.
+This role definition should evolve based on team feedback, retrospectives, incident learnings, and changing Organisational needs.

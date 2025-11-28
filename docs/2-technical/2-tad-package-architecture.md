@@ -25,7 +25,7 @@ This section defines the internal structure, public API surface, and inter-packa
 | **@repo/logger**        | Structured logging implementation                   | None                                  | All apps & packages                     |
 | **@repo/middleware**    | Shared Next.js middleware                           | `@repo/auth`, `@repo/logger`          | `routing`, `api`, `tools`               |
 | **@repo/api-client**    | Type-safe API client                                | `@repo/auth`, `zod`                   | `routing`, `marketing`, `tools`         |
-| **@repo/org**           | Organization context and utilities                  | `@repo/database`, `@repo/auth`        | `routing`, `api`, `tools`               |
+| **@repo/org**           | Organisation context and utilities                  | `@repo/database`, `@repo/auth`        | `routing`, `api`, `tools`               |
 | **@repo/validation**    | Input validation schemas                            | `zod`                                 | All apps & packages                     |
 | **@repo/testing**       | Testing utilities and helpers                       | `vitest`, `@testing-library/react`    | All apps & packages                     |
 

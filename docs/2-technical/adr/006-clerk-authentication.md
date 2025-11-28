@@ -6,13 +6,13 @@
 
 ## Context
 
-We need to select an authentication and user management solution for our multi-tenant SaaS platform that provides secure, scalable authentication while delivering an excellent user experience. The solution must support multiple authentication methods, integrate seamlessly with Next.js, provide organization management features, and scale with our growth.
+We need to select an authentication and user management solution for our multi-tenant SaaS platform that provides secure, scalable authentication while delivering an excellent user experience. The solution must support multiple authentication methods, integrate seamlessly with Next.js, provide Organisation management features, and scale with our growth.
 
 ### Key Requirements
 
 1. **Authentication Methods**: Email/password, OAuth (Google, GitHub, etc.), magic links
 2. **User Management**: User profiles, session management, account settings
-3. **Organization Support**: Multi-tenant organization management
+3. **Organisation Support**: Multi-tenant Organisation management
 4. **Security**: Industry-standard security practices, JWT tokens, secure sessions
 5. **Developer Experience**: Easy integration, good documentation, TypeScript support
 6. **User Experience**: Beautiful, customizable UI components
@@ -64,10 +64,10 @@ export default authMiddleware({
 
   // After auth middleware
   afterAuth(auth, req) {
-    // Handle organization context
+    // Handle Organisation context
     if (auth.userId && auth.orgId) {
       // Inject org context into request
-      req.headers.set("x-organization-id", auth.orgId);
+      req.headers.set("x-Organisation-id", auth.orgId);
     }
   },
 });
@@ -164,7 +164,7 @@ export async function POST(req: Request) {
         .where(eq(users.clerkId, evt.data.id));
       break;
 
-    case "organization.created":
+    case "Organisation.created":
       await db.insert(organisations).values({
         clerkId: evt.data.id,
         name: evt.data.name,
@@ -172,8 +172,8 @@ export async function POST(req: Request) {
       });
       break;
 
-    case "organizationMembership.created":
-      // Add user to organization
+    case "OrganisationMembership.created":
+      // Add user to Organisation
       const [user] = await db
         .select()
         .from(users)
@@ -182,7 +182,7 @@ export async function POST(req: Request) {
       const [org] = await db
         .select()
         .from(organisations)
-        .where(eq(organisations.clerkId, evt.data.organization.id));
+        .where(eq(organisations.clerkId, evt.data.Organisation.id));
 
       await db.insert(userOrganisations).values({
         userId: user.id,
@@ -221,11 +221,11 @@ export async function POST(req: Request) {
    - Branded sign-in experience
    - Smooth user flows
 
-4. **Organization Management**
-   - Built-in organization support
+4. **Organisation Management**
+   - Built-in Organisation support
    - Role-based access control
    - Invitation system
-   - Organization switching
+   - Organisation switching
    - Member management
 
 5. **Security First**
@@ -285,7 +285,7 @@ export async function POST(req: Request) {
 - ❌ Requires more setup and maintenance
 - ❌ No built-in UI components
 - ❌ Manual security updates required
-- ❌ No organization management
+- ❌ No Organisation management
 - ❌ More code to maintain
 - ❌ Need to handle edge cases yourself
 
@@ -326,12 +326,12 @@ export async function POST(req: Request) {
 
 - ❌ Coupled to Supabase ecosystem
 - ❌ Limited UI components
-- ❌ No organization management
+- ❌ No Organisation management
 - ❌ Less polished than Clerk
 - ❌ Fewer OAuth providers
 - ❌ Requires more custom code
 
-**Decision**: Rejected - While good, lacks organization features and polished UX.
+**Decision**: Rejected - While good, lacks Organisation features and polished UX.
 
 #### Option 4: Firebase Authentication
 
@@ -347,7 +347,7 @@ export async function POST(req: Request) {
 
 - ❌ Tied to Firebase ecosystem
 - ❌ Limited customization
-- ❌ No organization support
+- ❌ No Organisation support
 - ❌ Not optimized for Next.js
 - ❌ Older SDK design
 - ❌ Less suitable for SaaS
@@ -402,7 +402,7 @@ export async function POST(req: Request) {
 1. **Fast Implementation**: Authentication ready in hours, not weeks
 2. **Beautiful UX**: Professional authentication flows out of the box
 3. **Secure by Default**: Industry-standard security without effort
-4. **Organization Support**: Multi-tenancy features built-in
+4. **Organisation Support**: Multi-tenancy features built-in
 5. **Less Maintenance**: No auth code to maintain
 6. **Scalable**: Grows with our user base automatically
 7. **Compliance Ready**: GDPR, SOC 2 handled by Clerk
@@ -476,13 +476,13 @@ export async function POST(req: Request) {
 - [ ] Implement user sync on update
 - [ ] Test webhook delivery
 
-### Phase 4: Organization Setup (Day 3-4)
+### Phase 4: Organisation Setup (Day 3-4)
 
-- [ ] Enable organizations in Clerk
-- [ ] Create organization sync webhook handlers
-- [ ] Implement organization switching UI
+- [ ] Enable Organisations in Clerk
+- [ ] Create Organisation sync webhook handlers
+- [ ] Implement Organisation switching UI
 - [ ] Map Clerk roles to our roles
-- [ ] Test organization flows
+- [ ] Test Organisation flows
 
 ### Phase 5: Customization (Week 1-2)
 
@@ -490,7 +490,7 @@ export async function POST(req: Request) {
 - [ ] Configure email templates
 - [ ] Set up custom session claims
 - [ ] Add user profile management
-- [ ] Implement organization invitations
+- [ ] Implement Organisation invitations
 
 ### Phase 6: Production Ready (Week 2)
 
@@ -509,7 +509,7 @@ export async function POST(req: Request) {
 - [ ] Zero security incidents
 - [ ] Webhook delivery success > 99%
 - [ ] Session management working reliably
-- [ ] Organization switching works smoothly
+- [ ] Organisation switching works smoothly
 - [ ] Team comfortable with Clerk within 1 week
 
 ### Testing Checklist
@@ -529,24 +529,24 @@ export async function POST(req: Request) {
    - [ ] Account deletion works
    - [ ] Avatar upload works
 
-3. **Organizations**:
-   - [ ] Organization creation works
+3. **Organisations**:
+   - [ ] Organisation creation works
    - [ ] Member invitations work
    - [ ] Role assignment works
-   - [ ] Organization switching works
+   - [ ] Organisation switching works
    - [ ] Member removal works
 
 4. **Webhooks**:
    - [ ] User creation syncs to database
    - [ ] User updates sync to database
-   - [ ] Organization creation syncs
+   - [ ] Organisation creation syncs
    - [ ] Membership changes sync
    - [ ] Webhook signatures verified
 
 5. **Security**:
    - [ ] Sessions expire correctly
    - [ ] Protected routes work
-   - [ ] Organization isolation enforced
+   - [ ] Organisation isolation enforced
    - [ ] CSRF protection works
    - [ ] Rate limiting active
 
@@ -598,7 +598,7 @@ export function UserProfile() {
 }
 ```
 
-### Organization Context
+### Organisation Context
 
 ```typescript
 import { auth } from '@clerk/nextjs'
@@ -607,13 +607,13 @@ export default async function OrgDashboard() {
   const { userId, orgId, orgRole } = auth()
 
   if (!orgId) {
-    redirect('/select-organization')
+    redirect('/select-Organisation')
   }
 
   // Fetch org-specific data
   const data = await getOrgData(orgId)
 
-  return <div>Organization: {orgId}</div>
+  return <div>Organisation: {orgId}</div>
 }
 ```
 
@@ -663,11 +663,11 @@ export default async function AdminPage() {
    - Validate sessions on the server
    - Use short-lived tokens
 
-2. **Organization Isolation**
+2. **Organisation Isolation**
    - Always check orgId in protected routes
-   - Filter database queries by organization
+   - Filter database queries by Organisation
    - Use middleware to inject org context
-   - Validate organization membership
+   - Validate Organisation membership
 
 3. **Webhook Handling**
    - Always verify webhook signatures
@@ -691,7 +691,7 @@ export default async function AdminPage() {
 
 - [Clerk Documentation](https://clerk.com/docs)
 - [Clerk Next.js Quickstart](https://clerk.com/docs/quickstarts/nextjs)
-- [Clerk Organizations](https://clerk.com/docs/organizations/overview)
+- [Clerk Organisations](https://clerk.com/docs/Organisations/overview)
 - [Clerk Webhooks](https://clerk.com/docs/integrations/webhooks)
 - [Clerk Security](https://clerk.com/docs/security/overview)
 
@@ -699,13 +699,13 @@ export default async function AdminPage() {
 
 - [ADR-003: Next.js 16 as Framework](003-nextjs-framework.md) - Clerk integrates with Next.js
 - [ADR-005: Drizzle as ORM](005-drizzle-orm.md) - User data synced via webhooks
-- [ADR-007: Multi-tenant Data Model](007-multi-tenant-model.md) - Organization management
+- [ADR-007: Multi-tenant Data Model](007-multi-tenant-model.md) - Organisation management
 
 ## Notes
 
 Clerk's combination of excellent developer experience, beautiful user interface, and comprehensive features makes it the ideal choice for our authentication needs. While there's some vendor lock-in risk, the time saved and features provided far outweigh the concerns for a startup.
 
-The built-in organization management perfectly aligns with our multi-tenant architecture, and the webhook system ensures our database stays in sync with authentication state. This allows us to leverage Clerk's expertise in authentication while maintaining control over our data model.
+The built-in Organisation management perfectly aligns with our multi-tenant architecture, and the webhook system ensures our database stays in sync with authentication state. This allows us to leverage Clerk's expertise in authentication while maintaining control over our data model.
 
 ---
 

@@ -139,7 +139,7 @@ module.exports = nextConfig;
    - Nested layouts and parallel routes
    - Built-in loading and error states
    - Streaming and Suspense support
-   - Better code organization
+   - Better code Organisation
 
 3. **Rendering Flexibility**
    - **SSR**: Dynamic pages rendered on each request

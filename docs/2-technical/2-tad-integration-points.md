@@ -22,8 +22,8 @@ Events handled:
 - `user.created`: Sync user to database
 - `user.updated`: Update user data
 - `user.deleted`: Soft delete user
-- `organization.created`: Create org record
-- `organizationMembership.created`: Add user to org
+- `Organisation.created`: Create org record
+- `OrganisationMembership.created`: Add user to org
 
 #### PostHog Events
 
@@ -509,7 +509,7 @@ export class RBACGuard {
     resource: string,
     action: "create" | "read" | "update" | "delete"
   ): Promise<boolean> {
-    // Get user's role in organization
+    // Get user's role in Organisation
     const membership = await db.query.user_organisations.findFirst({
       where: and(
         eq(user_organisations.user_id, userId),

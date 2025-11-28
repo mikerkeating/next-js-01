@@ -96,7 +96,7 @@ This document covers:
 | ---------------------- | ------------------- | ------- | ------------------------------------------------------ |
 | **Auth Provider**      | Clerk               | Latest  | Modern, feature-rich, excellent UX, webhook support    |
 | **Session Management** | Clerk               | Latest  | Built-in with Clerk                                    |
-| **Multi-tenancy**      | Custom + Clerk Orgs | Latest  | Leverages Clerk organizations with custom role mapping |
+| **Multi-tenancy**      | Custom + Clerk Orgs | Latest  | Leverages Clerk Organisations with custom role mapping |
 
 **ADR Reference**: [ADR-006: Clerk for authentication](adr/006-clerk-authentication.md), [ADR-007: Multi-tenant data model](adr/007-multi-tenant-model.md)
 
@@ -337,14 +337,14 @@ Errors include a success flag, error code, human-readable message, and field-lev
 
 ### Database Schema Overview
 
-Our database follows a multi-tenant architecture with strict organization-level data isolation. The schema supports:
+Our database follows a multi-tenant architecture with strict Organisation-level data isolation. The schema supports:
 
 - **User Management**: Users with soft deletion and privacy compliance fields
-- **Organization Multi-tenancy**: Organizations with user-role associations (internal, product-seller, agency-seller, client)
-- **Content Management**: Flexible JSONB-based content storage with organization scoping
+- **Organisation Multi-tenancy**: Organisations with user-role associations (internal, product-seller, agency-seller, client)
+- **Content Management**: Flexible JSONB-based content storage with Organisation scoping
 - **Audit Trail**: Comprehensive audit logging for compliance (GDPR/CCPA)
 - **Privacy & Compliance**: Deletion requests, data export requests, user consents, and privacy preferences
-- **Analytics**: Event tracking with organization and user context
+- **Analytics**: Event tracking with Organisation and user context
 
 **Key Design Principles**:
 
@@ -356,7 +356,7 @@ Our database follows a multi-tenant architecture with strict organization-level 
 **Entity Relationships**:
 
 - Users ↔ Organisations (many-to-many through user_organisations)
-- Content, Analytics Events scoped to Organizations
+- Content, Analytics Events scoped to Organisations
 - Deletion/Export Requests linked to Users
 
 **ADR Reference**: [ADR-007: Multi-tenant data model](adr/007-multi-tenant-model.md)
@@ -427,7 +427,7 @@ Type-safe, versioned content management system with multi-tenant isolation suppo
 
 - **Type-Safe Schemas**: Zod validation for all content types with TypeScript inference
 - **Version Control**: Full version history with diff tracking and rollback capability
-- **Multi-Tenant Isolation**: Organization-scoped content with RBAC
+- **Multi-Tenant Isolation**: Organisation-scoped content with RBAC
 - **Draft/Published Workflow**: Content lifecycle management with approval workflows
 - **Migration System**: Legacy content importer for smooth transitions
 
@@ -499,7 +499,7 @@ Monorepo with 12 shared packages providing reusable functionality across all app
 **Service Layer**:
 
 - `@repo/auth`: Clerk integration with RBAC
-- `@repo/org`: Multi-tenant organization context
+- `@repo/org`: Multi-tenant Organisation context
 - `@repo/api-client`: Type-safe API client
 - `@repo/analytics`: PostHog/GA4 event tracking
 - `@repo/observability`: Sentry/logging/health checks
@@ -568,7 +568,7 @@ Comprehensive developer experience strategy covering local setup, quality gates,
 
 ## Edge Middleware Architecture
 
-Composable middleware chain executing at the edge for authentication, organization context, rate limiting, and security headers.
+Composable middleware chain executing at the edge for authentication, Organisation context, rate limiting, and security headers.
 
 **Middleware Chain Composition**:
 
@@ -581,7 +581,7 @@ Composable middleware chain executing at the edge for authentication, organizati
 
 1. **Logging Middleware**: Structured request/response logging with trace IDs
 2. **Security Headers**: CSP, HSTS, X-Frame-Options, X-Content-Type-Options
-3. **Organization Context Extraction**: 5 methods (header, subdomain, path, query, cookie)
+3. **Organisation Context Extraction**: 5 methods (header, subdomain, path, query, cookie)
 4. **Authentication**: Clerk session verification with redirect handling
 5. **CSRF Protection**: Token validation on mutations (POST, PUT, DELETE, PATCH)
 6. **Rate Limiting**: 100/min per user, 1000/min per org, 20/min anonymous (Vercel KV)
@@ -679,7 +679,7 @@ Reusable UI component library powering the product interface with consistent UX,
 **Core Components**:
 
 1. **Role Badge**: Visual role indicators (internal, product-seller, agency-seller, client)
-2. **Content Card**: Content display with organization context and permission-gated actions
+2. **Content Card**: Content display with Organisation context and permission-gated actions
 3. **Permission Gate**: Conditional rendering based on user permissions
 4. **User Role Selector**: Role assignment interface for administrators
 5. **Radar Chart**: Multi-dimensional maturity model visualization
@@ -899,14 +899,14 @@ Comprehensive security strategy covering authentication, authorization, data pro
 
 - **Roles**: Internal, Product-Seller, Agency-Seller, Client
 - **RBAC**: Role-based access control with granular permissions
-- **Resource-Level Permissions**: Organization-scoped data access
+- **Resource-Level Permissions**: Organisation-scoped data access
 
 **Data Protection**:
 
 - **In Transit**: TLS 1.3 (enforced by Vercel)
 - **At Rest**: Database-level encryption (Neon/Supabase)
 - **Sensitive Fields**: Application-level AES-256-GCM encryption for PII
-- **Row-Level Security**: Database policies enforce organization isolation
+- **Row-Level Security**: Database policies enforce Organisation isolation
 
 **Compliance**:
 
@@ -936,7 +936,7 @@ Third-party service integrations with proper error handling, retry logic, and mo
 1. **Clerk (Authentication)**
    - User management, session handling
    - Webhook integration for user sync
-   - Organization management
+   - Organisation management
 
 2. **Neon/Supabase (Database)**
    - PostgreSQL hosting

@@ -38,14 +38,14 @@ mockUseUser.mockReturnValue(
 **❌ WRONG**:
 
 ```typescript
-const result = await createOrganization(data);
+const result = await createOrganisation(data);
 expect(result.error).toContain("text"); // TS error if success: true
 ```
 
 **✅ CORRECT**: Always narrow before accessing union properties
 
 ```typescript
-const result = await createOrganization(data);
+const result = await createOrganisation(data);
 if (!result.success) {
   // Type narrowing
   expect(result.error).toContain("text");
@@ -261,10 +261,10 @@ turbo run build
 **Available helpers** (`packages/auth/src/test/types.ts`):
 
 - `createMockClerkUser()`
-- `createMockClerkOrganization()`
+- `createMockClerkOrganisation()`
 - `createMockClerkMembership()`
 - `mockUseUserReturn()`
-- `mockUseOrganizationReturn()`
+- `mockUseOrganisationReturn()`
 - `mockAuthReturn()`
 
 **Example**:
@@ -332,7 +332,7 @@ export type User = z.infer<typeof userSchema>;
 
 ---
 
-### 6.3 @repo/organizations - Action Results
+### 6.3 @repo/Organisations - Action Results
 
 **All actions return discriminated unions**:
 

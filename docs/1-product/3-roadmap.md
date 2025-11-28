@@ -1445,7 +1445,7 @@ These epics contain business logic specific to this product.
 - [ ] Content versioning
 - [ ] Comments and annotations system
 - [ ] Approval workflows (draft → review → published)
-- [ ] Activity feed per organization
+- [ ] Activity feed per Organisation
 - [ ] Third-party API integration framework
 
 **EPIC.md Location**: `/docs/3-epics/3B.6-tools/EPIC.md`
@@ -1491,7 +1491,7 @@ These epics contain business logic specific to this product.
 - [ ] Configurable report templates
 - [ ] Scheduled delivery (daily, weekly, monthly)
 - [ ] Multiple export formats (PDF, Excel, PowerPoint)
-- [ ] Custom branding per organization
+- [ ] Custom branding per Organisation
 - [ ] Distribution lists and notifications
 
 **Automation**:
@@ -1526,7 +1526,7 @@ These epics contain business logic specific to this product.
 
 **Webhook Infrastructure**:
 
-- [ ] Configurable webhook endpoints per organization
+- [ ] Configurable webhook endpoints per Organisation
 - [ ] Event filtering and routing
 - [ ] Retry logic with exponential backoff
 - [ ] Webhook signature verification (HMAC)
@@ -1550,7 +1550,7 @@ These epics contain business logic specific to this product.
 
 - [ ] 80% test coverage
 - [ ] Delivery SLA: 99.9% within 30 seconds
-- [ ] Rate limiting per organization
+- [ ] Rate limiting per Organisation
 
 **EPIC.md Location**: `/docs/3-epics/3B.9-webhooks-integrations/EPIC.md`
 

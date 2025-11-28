@@ -297,7 +297,7 @@ Make documentation usable by everyone:
 
 ### Content Strategy
 
-- Define documentation structure and organization
+- Define documentation structure and Organisation
 - Plan progressive disclosure strategy
 - Establish terminology and naming conventions
 - Create documentation templates and patterns

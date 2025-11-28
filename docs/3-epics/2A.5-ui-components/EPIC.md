@@ -4,7 +4,7 @@
 
 ## Context
 
-- **PRD Reference**: [PRD: Feature M.3 - Organization-Specific Content Views](/docs/1-product/1-prd.md#feature-m3-organization-specific-content-views)
+- **PRD Reference**: [PRD: Feature M.3 - Organisation-Specific Content Views](/docs/1-product/1-prd.md#feature-m3-Organisation-specific-content-views)
 - **TAD Reference**: [TAD: UI Components Architecture](/docs/2-technical/2-tad.md#ui-components-architecture)
 - **Phase**: 2A - Core Platform Packages (Week 2)
 - **Type**: Foundation
@@ -13,27 +13,27 @@
 
 ### Requires (Must Complete First)
 
-| Epic | Title | Reason |
-|------|-------|--------|
-| 2A.3 | [Observability Package](../2A.3-observability/EPIC.md) | Error boundary integration for component error handling |
+| Epic | Title                                                       | Reason                                                        |
+| ---- | ----------------------------------------------------------- | ------------------------------------------------------------- |
+| 2A.3 | [Observability Package](../2A.3-observability/EPIC.md)      | Error boundary integration for component error handling       |
 | 2A.4 | [Analytics Infrastructure](../2A.4-analytics-infra/EPIC.md) | Component tracking utilities and `data-component-id` patterns |
 
 ### Blocks (Enables These Epics)
 
-| Epic | Title | What This Provides |
-|------|-------|-------------------|
-| 2A.6 | [Middleware Package](../2A.6-middleware/EPIC.md) | UI components may be used in middleware configuration |
-| 2B.5 | [Product UI Components](../2B.5-product-ui/EPIC.md) | Generic components as foundation for product-specific composite components |
-| 3A.2 | [Routing Application Shell](../3A.2-routing-shell/EPIC.md) | Layout and navigation components |
-| 3B.4 | [Documentation Application](../3B.4-docs-app/EPIC.md) | Generic UI components for documentation interface |
-| 3B.5 | [Demo & Marketing Application](../3B.5-demo-marketing/EPIC.md) | Marketing-ready component library |
-| 3B.6 | [Authenticated Tools Application](../3B.6-tools/EPIC.md) | UI components for authenticated application interfaces |
+| Epic | Title                                                          | What This Provides                                                         |
+| ---- | -------------------------------------------------------------- | -------------------------------------------------------------------------- |
+| 2A.6 | [Middleware Package](../2A.6-middleware/EPIC.md)               | UI components may be used in middleware configuration                      |
+| 2B.5 | [Product UI Components](../2B.5-product-ui/EPIC.md)            | Generic components as foundation for product-specific composite components |
+| 3A.2 | [Routing Application Shell](../3A.2-routing-shell/EPIC.md)     | Layout and navigation components                                           |
+| 3B.4 | [Documentation Application](../3B.4-docs-app/EPIC.md)          | Generic UI components for documentation interface                          |
+| 3B.5 | [Demo & Marketing Application](../3B.5-demo-marketing/EPIC.md) | Marketing-ready component library                                          |
+| 3B.6 | [Authenticated Tools Application](../3B.6-tools/EPIC.md)       | UI components for authenticated application interfaces                     |
 
 ### Can Run in Parallel With
 
-| Epic | Title | Notes |
-|------|-------|-------|
-| 2A.2 | [Database Infrastructure](../2A.2-database-infra/EPIC.md) | Independent infrastructure; no data dependencies |
+| Epic | Title                                                       | Notes                                                                    |
+| ---- | ----------------------------------------------------------- | ------------------------------------------------------------------------ |
+| 2A.2 | [Database Infrastructure](../2A.2-database-infra/EPIC.md)   | Independent infrastructure; no data dependencies                         |
 | 2A.4 | [Analytics Infrastructure](../2A.4-analytics-infra/EPIC.md) | Component tracking integration can be added after initial implementation |
 
 ## Overview
@@ -69,15 +69,15 @@ This epic establishes the generic UI component library for the platform, built o
 
 ## Stories
 
-| ID | Title | Size | Status | Depends On | Blocks |
-|----|-------|------|--------|------------|--------|
-| S1 | [Create @repo/ui Package Structure](./S1-package-structure.md) | S | ⬜ | - | S2, S3, S4 |
-| S2 | [Configure shadcn/ui CLI and Tailwind Theme](./S2-shadcn-tailwind-setup.md) | M | ⬜ | S1 | S3, S4, S5 |
-| S3 | [Implement Form Components](./S3-form-components.md) | M | ⬜ | S2 | S6, S7 |
-| S4 | [Implement Layout Components](./S4-layout-components.md) | M | ⬜ | S2 | S6, S7 |
-| S5 | [Implement Feedback Components](./S5-feedback-components.md) | M | ⬜ | S2 | S6, S7 |
-| S6 | [Add Accessibility and Error Boundary Integration](./S6-accessibility-error-boundaries.md) | M | ⬜ | S3, S4, S5 | S7 |
-| S7 | [Configure Storybook and Write Documentation](./S7-storybook-docs.md) | M | ⬜ | S3, S4, S5, S6 | - |
+| ID  | Title                                                                                      | Size | Status | Depends On     | Blocks     |
+| --- | ------------------------------------------------------------------------------------------ | ---- | ------ | -------------- | ---------- |
+| S1  | [Create @repo/ui Package Structure](./S1-package-structure.md)                             | S    | ⬜     | -              | S2, S3, S4 |
+| S2  | [Configure shadcn/ui CLI and Tailwind Theme](./S2-shadcn-tailwind-setup.md)                | M    | ⬜     | S1             | S3, S4, S5 |
+| S3  | [Implement Form Components](./S3-form-components.md)                                       | M    | ⬜     | S2             | S6, S7     |
+| S4  | [Implement Layout Components](./S4-layout-components.md)                                   | M    | ⬜     | S2             | S6, S7     |
+| S5  | [Implement Feedback Components](./S5-feedback-components.md)                               | M    | ⬜     | S2             | S6, S7     |
+| S6  | [Add Accessibility and Error Boundary Integration](./S6-accessibility-error-boundaries.md) | M    | ⬜     | S3, S4, S5     | S7         |
+| S7  | [Configure Storybook and Write Documentation](./S7-storybook-docs.md)                      | M    | ⬜     | S3, S4, S5, S6 | -          |
 
 **Status Legend**: ⬜ Not Started | 🟡 In Progress | ✅ Complete | ❌ Blocked
 
@@ -119,13 +119,13 @@ S1 (Package structure)
 
 ### Technology Decisions
 
-| Decision | Choice | Reference |
-|----------|--------|-----------|
-| Component Library | shadcn/ui | [TAD: UI & Styling](/docs/2-technical/2-tad.md#ui--styling) |
-| Styling Framework | Tailwind CSS v4 | [TAD: UI & Styling](/docs/2-technical/2-tad.md#ui--styling) |
-| Icon Library | Lucide React | [TAD: UI & Styling](/docs/2-technical/2-tad.md#ui--styling) |
-| Component Documentation | Storybook | [TAD: Development Tools](/docs/2-technical/2-tad.md#development-tools) |
-| Accessibility Testing | axe-core | [TAD: Testing Architecture](/docs/2-technical/2-tad.md#testing-architecture) |
+| Decision                | Choice          | Reference                                                                    |
+| ----------------------- | --------------- | ---------------------------------------------------------------------------- |
+| Component Library       | shadcn/ui       | [TAD: UI & Styling](/docs/2-technical/2-tad.md#ui--styling)                  |
+| Styling Framework       | Tailwind CSS v4 | [TAD: UI & Styling](/docs/2-technical/2-tad.md#ui--styling)                  |
+| Icon Library            | Lucide React    | [TAD: UI & Styling](/docs/2-technical/2-tad.md#ui--styling)                  |
+| Component Documentation | Storybook       | [TAD: Development Tools](/docs/2-technical/2-tad.md#development-tools)       |
+| Accessibility Testing   | axe-core        | [TAD: Testing Architecture](/docs/2-technical/2-tad.md#testing-architecture) |
 
 ### Constraints
 
@@ -154,47 +154,47 @@ The following items are explicitly NOT part of this epic:
 
 > **Note**: Flag decisions that need resolution before or during implementation.
 
-| Decision | Options | Impact | Status |
-|----------|---------|--------|--------|
-| shadcn/ui registry | Default vs Custom registry | Component version control | ✅ Resolved: Default registry |
-| Dark mode implementation | CSS variables vs Tailwind dark mode | Theme switching approach | ✅ Resolved: Tailwind CSS v4 native dark mode |
-| Toast notification position | Top-right vs Bottom-right | UX consistency | ⬜ Open |
-| Form validation library | React Hook Form vs Formik | Component integration | ✅ Resolved: React Hook Form per TAD |
+| Decision                    | Options                             | Impact                    | Status                                        |
+| --------------------------- | ----------------------------------- | ------------------------- | --------------------------------------------- |
+| shadcn/ui registry          | Default vs Custom registry          | Component version control | ✅ Resolved: Default registry                 |
+| Dark mode implementation    | CSS variables vs Tailwind dark mode | Theme switching approach  | ✅ Resolved: Tailwind CSS v4 native dark mode |
+| Toast notification position | Top-right vs Bottom-right           | UX consistency            | ⬜ Open                                       |
+| Form validation library     | React Hook Form vs Formik           | Component integration     | ✅ Resolved: React Hook Form per TAD          |
 
 ## Risks and Mitigations
 
-| Risk | Likelihood | Impact | Mitigation |
-|------|------------|--------|------------|
-| shadcn/ui component conflicts with existing styles | Low | Medium | Use CSS containment; scope component styles |
-| Tailwind v4 breaking changes | Low | Medium | Pin version; test upgrades carefully |
-| Accessibility compliance gaps | Medium | High | Run axe-core in CI; conduct manual accessibility review |
-| Component API changes during development | Medium | Low | Define component interfaces upfront; use TypeScript strictly |
-| Storybook build complexity | Low | Low | Configure proper webpack/vite for monorepo |
-| Bundle size concerns | Medium | Medium | Implement tree-shaking; monitor with bundlephobia |
+| Risk                                               | Likelihood | Impact | Mitigation                                                   |
+| -------------------------------------------------- | ---------- | ------ | ------------------------------------------------------------ |
+| shadcn/ui component conflicts with existing styles | Low        | Medium | Use CSS containment; scope component styles                  |
+| Tailwind v4 breaking changes                       | Low        | Medium | Pin version; test upgrades carefully                         |
+| Accessibility compliance gaps                      | Medium     | High   | Run axe-core in CI; conduct manual accessibility review      |
+| Component API changes during development           | Medium     | Low    | Define component interfaces upfront; use TypeScript strictly |
+| Storybook build complexity                         | Low        | Low    | Configure proper webpack/vite for monorepo                   |
+| Bundle size concerns                               | Medium     | Medium | Implement tree-shaking; monitor with bundlephobia            |
 
 ## Estimated Effort
 
-| Metric | Value |
-|--------|-------|
-| Total Stories | 7 |
-| Total Hours | 32-48h |
-| Calendar Days | 4-5 days |
-| Parallel Tracks | 3 |
+| Metric          | Value    |
+| --------------- | -------- |
+| Total Stories   | 7        |
+| Total Hours     | 32-48h   |
+| Calendar Days   | 4-5 days |
+| Parallel Tracks | 3        |
 
 ### Story Breakdown
 
-| Size | Count | Hours |
-|------|-------|-------|
-| XS (1-2h) | 0 | 0h |
-| S (2-4h) | 1 | 2-4h |
-| M (4-8h) | 6 | 24-48h |
-| L (8-16h) | 0 | 0h |
+| Size      | Count | Hours  |
+| --------- | ----- | ------ |
+| XS (1-2h) | 0     | 0h     |
+| S (2-4h)  | 1     | 2-4h   |
+| M (4-8h)  | 6     | 24-48h |
+| L (8-16h) | 0     | 0h     |
 
 ## References
 
 ### Internal Documentation
 
-- [PRD: Feature M.3 - Organization-Specific Content Views](/docs/1-product/1-prd.md#feature-m3-organization-specific-content-views)
+- [PRD: Feature M.3 - Organisation-Specific Content Views](/docs/1-product/1-prd.md#feature-m3-Organisation-specific-content-views)
 - [TAD: UI & Styling](/docs/2-technical/2-tad.md#ui--styling)
 - [TAD: UI Components Architecture](/docs/2-technical/2-tad.md#ui-components-architecture)
 - [TAD: Testing Architecture](/docs/2-technical/2-tad.md#testing-architecture)

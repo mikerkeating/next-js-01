@@ -6,27 +6,27 @@
 
 ## Context
 
-We need to design a multi-tenant data model that supports our SaaS platform with multiple organizations, each with their own users, content, and analytics. The data model must ensure complete data isolation between tenants, support flexible role-based access control, scale efficiently, and integrate seamlessly with our authentication provider (Clerk) and ORM (Drizzle).
+We need to design a multi-tenant data model that supports our SaaS platform with multiple Organisations, each with their own users, content, and analytics. The data model must ensure complete data isolation between tenants, support flexible role-based access control, scale efficiently, and integrate seamlessly with our authentication provider (Clerk) and ORM (Drizzle).
 
 ### Key Requirements
 
 1. **Data Isolation**: Complete separation of tenant data at the database level
 2. **Flexible Roles**: Support for 4 distinct user roles (Internal, Product-Seller, Agency-Seller, Client)
-3. **Organization Hierarchy**: Users can belong to multiple organizations with different roles
+3. **Organisation Hierarchy**: Users can belong to multiple Organisations with different roles
 4. **Performance**: Efficient queries with proper indexing and partitioning strategies
 5. **Security**: Row-Level Security (RLS) policies to enforce tenant isolation
-6. **Clerk Integration**: Sync user and organization data from Clerk webhooks
+6. **Clerk Integration**: Sync user and Organisation data from Clerk webhooks
 7. **Audit Trail**: Track who created/updated resources and when
 8. **Soft Deletes**: Support data recovery and GDPR compliance
-9. **Scalability**: Handle growth from 10 to 10,000+ organizations
+9. **Scalability**: Handle growth from 10 to 10,000+ Organisations
 10. **Type Safety**: Full TypeScript type inference with Drizzle ORM
 
 ### Constraints
 
 - Must work with PostgreSQL 16+
-- Must integrate with Clerk's organization model
+- Must integrate with Clerk's Organisation model
 - Must support Drizzle ORM type inference
-- Database queries must filter by organization_id by default
+- Database queries must filter by Organisation_id by default
 - RLS policies must be enforced at the database level
 - Must support GDPR right to deletion with 30-day grace period
 
@@ -48,8 +48,8 @@ users ← user_organisations → organisations
 **Tenancy Strategy**:
 
 - All tenant-scoped tables include `organisation_id` foreign key
-- RLS policies enforce organization context on every query
-- Middleware injects organization context from Clerk session
+- RLS policies enforce Organisation context on every query
+- Middleware injects Organisation context from Clerk session
 - Soft deletes with `deleted_at` timestamp for data recovery
 
 ### Database Schema
@@ -326,7 +326,7 @@ ALTER TABLE analytics_events FORCE ROW LEVEL SECURITY;
 **RLS Policy for Content**
 
 ```sql
--- Policy for organization isolation
+-- Policy for Organisation isolation
 CREATE POLICY org_isolation_content ON content
   USING (
     organisation_id = current_setting('app.current_org_id', true)::uuid
@@ -352,7 +352,7 @@ CREATE POLICY org_isolation_analytics_events ON analytics_events
   );
 ```
 
-### Organization Context Middleware
+### Organisation Context Middleware
 
 **packages/middleware/src/org-context.ts**
 
@@ -369,7 +369,7 @@ export async function withOrgContext<T>(callback: () => Promise<T>): Promise<T> 
   }
 
   if (!orgId) {
-    throw new Error("No organization context");
+    throw new Error("No Organisation context");
   }
 
   // Set PostgreSQL session variable for RLS
@@ -386,7 +386,7 @@ export async function withOrgContext<T>(callback: () => Promise<T>): Promise<T> 
 
 ### Query Patterns
 
-**Basic Queries with Organization Context**
+**Basic Queries with Organisation Context**
 
 ```typescript
 import { db } from "@repo/database";
@@ -416,7 +416,7 @@ export async function listContent() {
 }
 ```
 
-**Multi-Organization Queries (Internal Users Only)**
+**Multi-Organisation Queries (Internal Users Only)**
 
 ```typescript
 import { db } from "@repo/database";
@@ -502,7 +502,7 @@ export async function checkPermission(
    - Single database instance serves all tenants
    - No per-tenant database provisioning overhead
    - Shared resources (connections, memory, CPU)
-   - PostgreSQL handles thousands of organizations efficiently
+   - PostgreSQL handles thousands of Organisations efficiently
 
 5. **Row-Level Security Benefits**
    - Database-enforced tenant isolation
@@ -517,10 +517,10 @@ export async function checkPermission(
    - Audit trails across all tenants
 
 7. **Clerk Integration**
-   - Natural mapping: Clerk organizations → database organizations
+   - Natural mapping: Clerk Organisations → database Organisations
    - Webhook sync keeps data in sync
-   - User can belong to multiple organizations
-   - Organization context from JWT token
+   - User can belong to multiple Organisations
+   - Organisation context from JWT token
 
 8. **Compliance & Security**
    - GDPR right to deletion: soft delete with grace period
@@ -536,7 +536,7 @@ export async function checkPermission(
 
 10. **Developer Experience**
     - Type-safe queries with full IntelliSense
-    - Automatic organization filtering via RLS
+    - Automatic Organisation filtering via RLS
     - Clear mental model: one database, filtered queries
     - Easy to reason about and debug
 
@@ -648,11 +648,11 @@ export async function checkPermission(
 3. **Type Safety**: Full TypeScript inference with Drizzle schema
 4. **Development Speed**: Unified schema accelerates feature development
 5. **Cost Efficiency**: Shared resources reduce infrastructure costs
-6. **Clerk Integration**: Natural mapping to Clerk's organization model
+6. **Clerk Integration**: Natural mapping to Clerk's Organisation model
 7. **Compliance Ready**: Soft deletes and audit trails support GDPR
 8. **Performance**: Proper indexing ensures fast queries even at scale
 9. **Flexibility**: JSONB fields allow tenant-specific customization
-10. **Scalability**: Can handle 10,000+ organizations on single database
+10. **Scalability**: Can handle 10,000+ Organisations on single database
 
 ### Negative
 
@@ -661,15 +661,15 @@ export async function checkPermission(
 3. **Limited Customization**: Cannot easily customize schema per tenant
 4. **RLS Overhead**: Small query performance overhead from RLS policies
 5. **Backup Granularity**: Cannot restore individual tenant without full restore
-6. **Testing Complexity**: Must carefully test organization context in all queries
+6. **Testing Complexity**: Must carefully test Organisation context in all queries
 
 ### Mitigation Strategies
 
 1. **Noisy Neighbor Mitigation**:
-   - Monitor query performance per organization
+   - Monitor query performance per Organisation
    - Set statement timeout limits (5s for web, 30s for background)
-   - Implement rate limiting per organization
-   - Add read replicas for high-traffic organizations
+   - Implement rate limiting per Organisation
+   - Add read replicas for high-traffic Organisations
    - Use connection pooling (PgBouncer) to manage connections
 
 2. **Migration Safety**:
@@ -682,7 +682,7 @@ export async function checkPermission(
 3. **RLS Performance**:
    - Create compound indexes including `organisation_id`
    - Monitor query plans with EXPLAIN ANALYZE
-   - Cache organization context in request lifecycle
+   - Cache Organisation context in request lifecycle
    - Use materialized views for complex cross-tenant analytics
    - Consider disabling RLS for internal admin queries
 
@@ -695,7 +695,7 @@ export async function checkPermission(
 
 5. **Testing Best Practices**:
    - Use separate test database per developer
-   - Factory functions that auto-create organization context
+   - Factory functions that auto-create Organisation context
    - Integration tests with multiple tenants
    - RLS policy tests to verify isolation
    - Load testing with realistic multi-tenant scenarios
@@ -707,27 +707,27 @@ export async function checkPermission(
 - [x] Define Drizzle schema for core tables (users, organisations, user_organisations)
 - [ ] Create initial migration files with Drizzle Kit
 - [ ] Set up RLS policies on tenant-scoped tables
-- [ ] Implement organization context middleware
+- [ ] Implement Organisation context middleware
 - [ ] Create base query utilities with org context
 - [ ] Write unit tests for RLS policies
 
 ### Phase 2: Clerk Integration (Week 1-2)
 
-- [ ] Implement Clerk webhook handlers (user.created, organization.created)
-- [ ] Sync user and organization data to database
-- [ ] Handle organization membership events
+- [ ] Implement Clerk webhook handlers (user.created, Organisation.created)
+- [ ] Sync user and Organisation data to database
+- [ ] Handle Organisation membership events
 - [ ] Add role assignment logic
 - [ ] Test webhook retry and failure handling
 - [ ] Document webhook setup process
 
 ### Phase 3: Application Integration (Week 2)
 
-- [ ] Create content table with organization context
+- [ ] Create content table with Organisation context
 - [ ] Implement CRUD operations with RLS
 - [ ] Add soft delete functionality
 - [ ] Create permission checking utilities
-- [ ] Build organization switcher UI component
-- [ ] Test multi-organization user flows
+- [ ] Build Organisation switcher UI component
+- [ ] Test multi-Organisation user flows
 
 ### Phase 4: Analytics & Monitoring (Week 3)
 
@@ -741,7 +741,7 @@ export async function checkPermission(
 ### Phase 5: Testing & Optimization (Week 3-4)
 
 - [ ] Write integration tests for all tenant-scoped queries
-- [ ] Load test with 1000+ organizations
+- [ ] Load test with 1000+ Organisations
 - [ ] Optimize indexes based on query patterns
 - [ ] Test soft delete and recovery flows
 - [ ] Verify GDPR compliance (export, delete)
@@ -763,7 +763,7 @@ export async function checkPermission(
 - [ ] 100% of tenant-scoped tables have RLS policies enabled
 - [ ] Zero cross-tenant data leakage in security audit
 - [ ] Query performance < 100ms for single-org queries
-- [ ] Support 1000+ organizations on single database
+- [ ] Support 1000+ Organisations on single database
 - [ ] Clerk webhook sync completes in < 1 second
 - [ ] All integration tests pass with multi-tenant scenarios
 - [ ] GDPR data export completes in < 5 minutes
@@ -771,22 +771,22 @@ export async function checkPermission(
 ### Testing Checklist
 
 1. **Isolation Testing**:
-   - [ ] User A cannot query User B's organization data
+   - [ ] User A cannot query User B's Organisation data
    - [ ] RLS policies block unauthorized access attempts
-   - [ ] Organization context correctly set in middleware
+   - [ ] Organisation context correctly set in middleware
    - [ ] Soft deletes are excluded from queries
 
 2. **Clerk Integration**:
    - [ ] User creation webhook syncs to database
-   - [ ] Organization creation webhook syncs to database
+   - [ ] Organisation creation webhook syncs to database
    - [ ] Membership changes update user_organisations table
    - [ ] Role assignments work correctly
 
 3. **Query Patterns**:
-   - [ ] Basic CRUD operations respect organization context
-   - [ ] List queries filter by organization
-   - [ ] Related data (joins) respects organization boundaries
-   - [ ] Cross-organization queries work for internal users only
+   - [ ] Basic CRUD operations respect Organisation context
+   - [ ] List queries filter by Organisation
+   - [ ] Related data (joins) respects Organisation boundaries
+   - [ ] Cross-Organisation queries work for internal users only
 
 4. **Performance**:
    - [ ] Queries use proper indexes (check EXPLAIN ANALYZE)
@@ -806,7 +806,7 @@ export async function checkPermission(
 
 1. **Determine Scope**: Is this table global or tenant-scoped?
 2. **Add Discriminator**: If tenant-scoped, add `organisation_id` column
-3. **Enable RLS**: Create RLS policy for organization isolation
+3. **Enable RLS**: Create RLS policy for Organisation isolation
 4. **Add Indexes**: Compound index on `(organisation_id, <lookup_field>)`
 5. **Soft Deletes**: Add `deleted_at` timestamp if data needs recovery
 6. **Audit Trail**: Add `created_by`, `updated_by`, `created_at`, `updated_at`
@@ -861,7 +861,7 @@ CREATE POLICY soft_delete_projects ON projects
 
 ### Query Guidelines
 
-1. **Always Use Organization Context**: Wrap queries in `withOrgContext()`
+1. **Always Use Organisation Context**: Wrap queries in `withOrgContext()`
 2. **Exclude Soft Deletes**: Filter `deleted_at IS NULL` in queries
 3. **Check Permissions**: Verify user role before sensitive operations
 4. **Use Type-Safe Queries**: Leverage Drizzle's type inference
@@ -870,7 +870,7 @@ CREATE POLICY soft_delete_projects ON projects
 ### Security Guidelines
 
 1. **Never Bypass RLS**: Except for internal admin operations with explicit checks
-2. **Validate Org Context**: Always verify organization ID from Clerk session
+2. **Validate Org Context**: Always verify Organisation ID from Clerk session
 3. **Audit Critical Operations**: Log all data modifications with user context
 4. **Test Isolation**: Write tests that attempt cross-tenant access
 5. **Monitor Violations**: Alert on RLS policy denial logs
@@ -946,7 +946,7 @@ export async function updateContent(id: string, data: UpdateContentInput) {
 }
 ```
 
-### Pagination with Organization Context
+### Pagination with Organisation Context
 
 ```typescript
 import { db } from "@repo/database";
@@ -988,7 +988,7 @@ export async function paginateContent(page = 1, pageSize = 20) {
 
 - [PostgreSQL Row-Level Security](https://www.postgresql.org/docs/current/ddl-rowsecurity.html)
 - [Drizzle ORM Documentation](https://orm.drizzle.team/)
-- [Clerk Organizations](https://clerk.com/docs/organizations/overview)
+- [Clerk Organisations](https://clerk.com/docs/Organisations/overview)
 - [Multi-Tenancy Patterns](https://docs.microsoft.com/en-us/azure/architecture/guide/multitenant/overview)
 - [GDPR Compliance](https://gdpr.eu/)
 - [PostgreSQL Partitioning](https://www.postgresql.org/docs/current/ddl-partitioning.html)
@@ -996,16 +996,16 @@ export async function paginateContent(page = 1, pageSize = 20) {
 ## Related ADRs
 
 - [ADR-005: Drizzle as ORM](005-drizzle-orm.md) - ORM used for type-safe queries
-- [ADR-006: Clerk for Authentication](006-clerk-authentication.md) - Authentication and organization management
+- [ADR-006: Clerk for Authentication](006-clerk-authentication.md) - Authentication and Organisation management
 - [ADR-004: Vercel as Hosting Platform](004-vercel-hosting.md) - Hosting infrastructure
 
 ## Notes
 
 The shared database with RLS approach provides the best balance of operational simplicity, security, and developer experience for our multi-tenant SaaS platform. By enforcing tenant isolation at the database level through Row-Level Security policies, we create a defense-in-depth security model that prevents accidental data leakage even if application code has bugs.
 
-The integration with Clerk's organization model is natural and seamless, with webhook handlers keeping our database synchronized. The use of Drizzle ORM provides full type safety while the RLS policies work transparently in the background.
+The integration with Clerk's Organisation model is natural and seamless, with webhook handlers keeping our database synchronized. The use of Drizzle ORM provides full type safety while the RLS policies work transparently in the background.
 
-This architecture supports our growth from MVP to thousands of organizations while maintaining simplicity and security. If we eventually need to scale beyond a single database, we have clear paths forward: read replicas, table partitioning, or tenant sharding.
+This architecture supports our growth from MVP to thousands of Organisations while maintaining simplicity and security. If we eventually need to scale beyond a single database, we have clear paths forward: read replicas, table partitioning, or tenant sharding.
 
 ---
 

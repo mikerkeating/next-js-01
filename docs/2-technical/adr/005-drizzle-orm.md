@@ -19,7 +19,7 @@ We need to select an Object-Relational Mapping (ORM) tool for our PostgreSQL dat
 7. **Relations**: Support for complex relationships
 8. **PostgreSQL Features**: Full PostgreSQL support (JSON, arrays, CTEs, etc.)
 9. **Edge Compatibility**: Works with edge runtimes
-10. **Multi-tenancy**: Supports organization-scoped queries
+10. **Multi-tenancy**: Supports Organisation-scoped queries
 
 ### Constraints
 
@@ -381,7 +381,7 @@ export const db = drizzle(process.env.DATABASE_URL!, { schema });
 ### Phase 4: Query Patterns (Week 1)
 
 - [ ] Create common query utilities
-- [ ] Implement organization scoping helpers
+- [ ] Implement Organisation scoping helpers
 - [ ] Add transaction helpers
 - [ ] Create seed scripts
 - [ ] Write query examples
@@ -499,7 +499,7 @@ const result = await db
   .where(eq(users.id, userId));
 ```
 
-### Organization-Scoped Queries
+### Organisation-Scoped Queries
 
 ```typescript
 import { db } from "@repo/database";
@@ -537,7 +537,7 @@ await db.transaction(async (tx) => {
     })
     .returning();
 
-  // Create organization
+  // Create Organisation
   const [org] = await tx
     .insert(organisations)
     .values({
@@ -599,7 +599,7 @@ CREATE INDEX IF NOT EXISTS "idx_users_email" ON "users" ("email");
 
 ## Best Practices
 
-1. **Schema Organization**
+1. **Schema Organisation**
    - One file per table
    - Export types from schema files
    - Use consistent naming conventions
@@ -608,7 +608,7 @@ CREATE INDEX IF NOT EXISTS "idx_users_email" ON "users" ("email");
 2. **Query Patterns**
    - Use `db.query` for simple queries
    - Use builder for complex queries
-   - Always filter by organization
+   - Always filter by Organisation
    - Use transactions for multi-step operations
 
 3. **Type Safety**
@@ -696,7 +696,7 @@ export function withoutDeleted<T>(query: T) {
 
 - [ADR-001: Monorepo with Turborepo](001-monorepo-turborepo.md) - Database package in monorepo
 - [ADR-003: Next.js 16 as Framework](003-nextjs-framework.md) - Drizzle in Server Components
-- [ADR-007: Multi-tenant Data Model](007-multi-tenant-model.md) - Organization-scoped queries
+- [ADR-007: Multi-tenant Data Model](007-multi-tenant-model.md) - Organisation-scoped queries
 
 ## Notes
 

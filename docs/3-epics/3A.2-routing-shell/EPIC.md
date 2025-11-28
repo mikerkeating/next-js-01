@@ -4,7 +4,7 @@
 
 ## Context
 
-- **PRD Reference**: [PRD: Feature M.3 Organization-Specific Content Views](/docs/1-product/1-prd.md#feature-m3-organization-specific-content-views)
+- **PRD Reference**: [PRD: Feature M.3 Organisation-Specific Content Views](/docs/1-product/1-prd.md#feature-m3-Organisation-specific-content-views)
 - **TAD Reference**: [TAD: System Architecture](/docs/2-technical/2-tad.md#system-architecture), [TAD: CDN Architecture](/docs/2-technical/2-tad-cdn.md)
 - **Phase**: 3A - Platform Applications
 - **Type**: Foundation
@@ -168,7 +168,7 @@ The following items are explicitly NOT part of this epic:
 
 ### Internal Documentation
 
-- [PRD: Feature M.3 Organization-Specific Content Views](/docs/1-product/1-prd.md#feature-m3-organization-specific-content-views)
+- [PRD: Feature M.3 Organisation-Specific Content Views](/docs/1-product/1-prd.md#feature-m3-Organisation-specific-content-views)
 - [TAD: System Architecture](/docs/2-technical/2-tad.md#system-architecture)
 - [TAD: CDN Architecture](/docs/2-technical/2-tad-cdn.md)
 - [Roadmap: Phase 3A](/docs/1-product/3-roadmap.md#phase-3a-platform-applications-week-4)

@@ -125,7 +125,7 @@ Key documentation principles:
 | ----------------------------- | -------------------------------------------------------------- |
 | Commands don't work           | Verify documented commands against actual package.json scripts |
 | Missing environment variables | Cross-reference with Vercel dashboard and `.env.example`       |
-| Outdated links                | Run markdown link checker before finalizing                    |
+| Outdated links                | Run Markdown link checker before finalizing                    |
 
 ## Estimated Effort
 
@@ -143,7 +143,7 @@ Key documentation principles:
 ### Consolidated Decisions (reference only)
 
 - [TAD: Documentation Architecture](/docs/2-technical/2-tad.md#documentation-architecture) - Two-audience approach (maintainer/consumer)
-- [TAD: Environment Variables Strategy](/docs/2-technical/2-tad-steel-thread-deployment.md#environment-variables-strategy) - Variable naming and organization
+- [TAD: Environment Variables Strategy](/docs/2-technical/2-tad-steel-thread-deployment.md#environment-variables-strategy) - Variable naming and Organisation
 
 ### Story-Specific Decisions
 
