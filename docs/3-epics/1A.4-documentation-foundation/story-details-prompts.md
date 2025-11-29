@@ -41,3 +41,9 @@ execute @docs/0-process/references/story-details-prompt-template.md for Story S6
 ```markdown
 execute @docs/0-process/references/story-details-prompt-template.md for Story S7 within Epic 1A.4
 ```
+
+### S8: Documentation for the Documentation
+
+```markdown
+execute @docs/0-process/references/story-details-prompt-template.md for Story S8 within Epic 1A.4
+```

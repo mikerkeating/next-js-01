@@ -73,6 +73,9 @@ Documentation Foundation establishes documentation-as-code practices for the mon
 | S5  | [Create Package Documentation Templates](./S5-package-templates.md)     | S    | ⬜     | S1                 | S7             |
 | S6  | [Create CLAUDE.md Epic Template](./S6-claude-template.md)               | S    | ⬜     | S4                 | S7             |
 | S7  | [Integrate Documentation Quality Gates](./S7-docs-quality-gates.md)     | S    | ⬜     | S2, S3, S4, S5, S6 | -              |
+| S8  | [Document Documentation Foundation Setup](./S8-docs-readme.md)          | S    | ⬜     | S2, S7             | -              |
+| S9  | [Protect Documentation App with Basic Auth](./S9-basic-auth.md)         | S    | ⬜     | S10                | -              |
+| S10 | [Deploy Documentation App to Vercel](./S10-vercel-deploy.md)            | S    | ⬜     | S2                 | S9             |
 
 **Status Legend**: ⬜ Not Started | 🟡 In Progress | ✅ Complete | ❌ Blocked
 
@@ -81,6 +84,13 @@ Documentation Foundation establishes documentation-as-code practices for the mon
 ```
 S1 (Documentation Structure)
  ├──→ S2 (Documentation Site Framework)
+ │     ├──→ S10 (Deploy to Vercel)
+ │     │     ↓
+ │     │     └──→ S9 (Basic Auth Protection)
+ │     │
+ │     └──→ S7 (Documentation Quality Gates) ←── S3, S4, S5, S6
+ │           ↓
+ │           └──→ S8 (Document Documentation Foundation Setup)
  │
  ├──→ S3 (ADR Template & Initial ADRs)
  │
@@ -89,15 +99,15 @@ S1 (Documentation Structure)
  │     └──→ S6 (CLAUDE.md Template)
  │
  └──→ S5 (Package Documentation Templates)
-       ↓
-       └──→ S7 (Documentation Quality Gates) ←── S2, S3, S4, S6
 ```
 
 **Parallel Execution Notes:**
 
 - S2, S3, S4, and S5 can all start immediately after S1 completes
 - S6 (CLAUDE.md Template) depends on S4 for root documentation patterns
-- S7 (Quality Gates) is the final convergence point requiring all templates complete
+- S7 (Quality Gates) is the convergence point requiring all templates complete
+- S10 (Vercel Deploy) can start after S2, runs in parallel with S7/S8
+- S9 (Basic Auth) is the final story after S10 deployment is configured
 
 ## Technical Constraints
 
@@ -165,9 +175,9 @@ The following items are explicitly NOT part of this epic:
 
 | Metric          | Value                       |
 | --------------- | --------------------------- |
-| Total Stories   | 7                           |
-| Total Hours     | 26h                         |
-| Calendar Days   | 2-3 days                    |
+| Total Stories   | 10                          |
+| Total Hours     | 34h                         |
+| Calendar Days   | 3-4 days                    |
 | Parallel Tracks | 4 (S2, S3, S4, S5 after S1) |
 
 ### Story Breakdown
@@ -175,11 +185,11 @@ The following items are explicitly NOT part of this epic:
 | Size      | Count | Hours |
 | --------- | ----- | ----- |
 | XS (1-2h) | 0     | 0h    |
-| S (2-4h)  | 4     | 12h   |
+| S (2-4h)  | 7     | 20h   |
 | M (4-8h)  | 3     | 14h   |
 | L (8-16h) | 0     | 0h    |
 
-**Note**: S-sized stories are mostly file creation and template setup. M-sized stories (Documentation Site, ADR Setup, Root Docs) require more configuration, content creation, and verification.
+**Note**: S-sized stories are mostly file creation and template setup. M-sized stories (Documentation Site, ADR Setup, Root Docs) require more configuration, content creation, and verification. S8 creates the README documenting how the documentation system works. S10 and S9 handle Vercel deployment and basic auth protection respectively.
 
 ## References
 
@@ -216,4 +226,4 @@ The following items are explicitly NOT part of this epic:
 - **State**: Not Started
 - **Started**: -
 - **Completed**: -
-- **Stories Complete**: 0/7
+- **Stories Complete**: 0/10
