@@ -5,7 +5,7 @@
  * Copies README.md files from packages/* to docs/packages/ for inclusion
  * in the documentation site. Adds frontmatter and cleans stale files.
  *
- * Usage: pnpm aggregate-docs
+ * Usage: pnpm docs-aggregates
  */
 
 import * as fs from "node:fs";

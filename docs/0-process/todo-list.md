@@ -5,10 +5,12 @@
   - [x] S8
   - [x] S9
   - [x] S10
-  - confirm done - get epic-eval
-  - README
+  - [x] confirm done - get epic-eval
+  - [x] S11
+  - [x] README
 - 1A.5-basic-cicd
-  - [ ] keep going
+  - [ ] keep going from 3 onwards
+  - [ ] 3 noting that 1A.3 is complete
 - 2A.1-config-package
-  - [x] does it do eslint 9 flat? changes
+  - [x] does it do eslint 9 flat? changed
   - [ ] run this

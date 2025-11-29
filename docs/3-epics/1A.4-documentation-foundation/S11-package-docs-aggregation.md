@@ -38,10 +38,10 @@
 
 ### Files to Modify
 
-| Path           | Change                                                    |
-| -------------- | --------------------------------------------------------- |
-| `turbo.json`   | Add `aggregate-docs` task, update docs build dependencies |
-| `package.json` | Add `aggregate-docs` script at workspace root             |
+| Path           | Change                                                     |
+| -------------- | ---------------------------------------------------------- |
+| `turbo.json`   | Add `docs-aggregates` task, update docs build dependencies |
+| `package.json` | Add `docs-aggregates` script at workspace root             |
 
 ### Dependencies
 
@@ -64,12 +64,12 @@ No new npm dependencies required. Script uses Node.js built-in `fs` and `path` m
 ```json
 {
   "tasks": {
-    "aggregate-docs": {
+    "docs-aggregates": {
       "inputs": ["packages/*/README.md"],
       "outputs": ["docs/packages/*.md", "!docs/packages/_meta.json"]
     },
     "docs#build": {
-      "dependsOn": ["aggregate-docs", "^build"],
+      "dependsOn": ["docs-aggregates", "^build"],
       "inputs": ["app/**", "*.tsx", "*.ts", "*.mjs", "../../docs/**/*.md", "../../docs/**/*.mdx"],
       "outputs": [".next/**", "!.next/cache/**"]
     }
@@ -95,7 +95,7 @@ Create `docs/packages/_meta.json` to configure sidebar:
 
 ```bash
 # Run aggregation script
-pnpm aggregate-docs
+pnpm docs-aggregates
 
 # Verify files created
 ls docs/packages/
@@ -106,7 +106,7 @@ pnpm --filter docs build
 
 ### Manual Verification
 
-- [ ] Run `pnpm aggregate-docs` and verify files appear in `docs/packages/`
+- [ ] Run `pnpm docs-aggregates` and verify files appear in `docs/packages/`
 - [ ] Verify docs site builds successfully with aggregated content
 - [ ] Navigate to `/docs/packages/testing` and verify content matches `packages/testing/README.md`
 - [ ] Delete a package README, run script, verify corresponding docs file is removed
@@ -230,17 +230,17 @@ description: "Auto-generated from packages/testing/README.md"
 
 ### Summary
 
-Implemented package documentation aggregation script that copies README files from `packages/*` to `docs/packages/` with frontmatter injection. The script integrates with Turborepo as a root-level task (`//#aggregate-docs`) that runs automatically before docs site builds. Generated markdown files are gitignored to maintain a single source of truth.
+Implemented package documentation aggregation script that copies README files from `packages/*` to `docs/packages/` with frontmatter injection. The script integrates with Turborepo as a root-level task (`//#docs-aggregates`) that runs automatically before docs site builds. Generated markdown files are gitignored to maintain a single source of truth.
 
 ### Test Results
 
-| Test       | Command                       | Result           |
-| ---------- | ----------------------------- | ---------------- |
-| Lint       | `pnpm lint`                   | Pass             |
-| Types      | `pnpm type-check`             | Pass             |
-| Unit Tests | `pnpm test`                   | N/A (script)     |
-| Build      | `pnpm docs:build`             | Pass (239 pages) |
-| Turbo      | `turbo run //#aggregate-docs` | Pass             |
+| Test       | Command                        | Result           |
+| ---------- | ------------------------------ | ---------------- |
+| Lint       | `pnpm lint`                    | Pass             |
+| Types      | `pnpm type-check`              | Pass             |
+| Unit Tests | `pnpm test`                    | N/A (script)     |
+| Build      | `pnpm docs:build`              | Pass (239 pages) |
+| Turbo      | `turbo run //#docs-aggregates` | Pass             |
 
 ### Files Changed
 
@@ -249,8 +249,8 @@ All files per technical requirements:
 - `scripts/aggregate-package-docs.ts` - Aggregation script with frontmatter injection
 - `docs/packages/.gitignore` - Ignores generated `*.md` files
 - `docs/packages/_meta.json` - Nextra navigation config
-- `turbo.json` - Added `//#aggregate-docs` root task with docs#build dependency
-- `package.json` - Added `aggregate-docs` script, `tsx` devDependency
+- `turbo.json` - Added `//#docs-aggregates` root task with docs#build dependency
+- `package.json` - Added `docs-aggregates` script, `tsx` devDependency
 
 ### Known Issues
 

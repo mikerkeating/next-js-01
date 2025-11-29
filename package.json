@@ -32,7 +32,7 @@
     "test:e2e:smoke": "pnpm exec playwright test --project=smoke-chromium --project=smoke-firefox --project=smoke-webkit",
     "docs:dev": "pnpm --filter docs dev",
     "docs:build": "pnpm --filter docs build",
-    "aggregate-docs": "node --import tsx scripts/aggregate-package-docs.ts"
+    "docs-aggregates": "node --import tsx scripts/aggregate-package-docs.ts"
   },
   "pnpm": {
     "onlyBuiltDependencies": [
