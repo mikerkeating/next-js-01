@@ -10,6 +10,10 @@
     "tsconfig.json"
   ],
   "tasks": {
+    "//#aggregate-docs": {
+      "inputs": ["packages/*/README.md"],
+      "outputs": ["docs/packages/*.md", "!docs/packages/_meta.json"]
+    },
     "build": {
       "dependsOn": ["^build"],
       "inputs": [
@@ -23,7 +27,7 @@
       "outputs": [".next/**", "!.next/cache/**", "dist/**"]
     },
     "docs#build": {
-      "dependsOn": ["^build"],
+      "dependsOn": ["//#aggregate-docs", "^build"],
       "inputs": ["app/**", "*.tsx", "*.ts", "*.mjs", "../../docs/**/*.md", "../../docs/**/*.mdx"],
       "outputs": [".next/**", "!.next/cache/**"]
     },
