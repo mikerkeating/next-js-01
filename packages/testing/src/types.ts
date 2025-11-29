@@ -10,7 +10,7 @@
  */
 
 import type { RenderOptions as RTLRenderOptions, RenderResult } from "@testing-library/react";
-import type { ReactNode } from "react";
+import type { ReactElement, ReactNode } from "react";
 
 /**
  * Options for configuring test providers.
@@ -56,10 +56,16 @@ export interface RenderWithProvidersOptions extends Omit<RTLRenderOptions, "wrap
 /**
  * Result type from renderWithProviders.
  *
- * This is the standard RenderResult from React Testing Library.
- * The rerender function maintains the same provider context.
+ * Extends RenderResult with a stricter rerender signature that matches
+ * the initial render's ReactElement requirement for API consistency.
  */
-export type RenderWithProvidersResult = RenderResult;
+export interface RenderWithProvidersResult extends Omit<RenderResult, "rerender"> {
+  /**
+   * Re-render the component with a new element while maintaining providers.
+   * @param ui - The React element to render (must be ReactElement, not ReactNode)
+   */
+  rerender: (ui: ReactElement) => void;
+}
 
 /**
  * Props for the TestProviders component.

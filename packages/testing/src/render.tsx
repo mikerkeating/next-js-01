@@ -8,7 +8,7 @@
  */
 
 import { render } from "@testing-library/react";
-import type { ReactElement, ReactNode } from "react";
+import type { ReactElement } from "react";
 
 import { createTestWrapper } from "./providers";
 import type { RenderWithProvidersOptions, RenderWithProvidersResult } from "./types";
@@ -66,7 +66,7 @@ export function renderWithProviders(
   // Return result with custom rerender that maintains providers
   return {
     ...result,
-    rerender: (newUi: ReactNode) => {
+    rerender: (newUi: ReactElement) => {
       result.rerender(<Wrapper>{newUi}</Wrapper>);
     },
   };
