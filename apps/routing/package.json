@@ -9,8 +9,9 @@
     "lint": "eslint . --max-warnings 0",
     "lint:fix": "eslint . --fix",
     "type-check": "tsc --noEmit",
-    "test": "echo 'No unit tests configured yet'",
-    "test:coverage": "echo 'Coverage reporting requires Vitest setup from Epic 1A.3'",
+    "test": "vitest",
+    "test:ci": "vitest run",
+    "test:coverage": "vitest run --coverage",
     "test:e2e:smoke": "playwright test tests/e2e/smoke.spec.ts",
     "clean": "rm -rf .next .turbo node_modules"
   },
@@ -23,6 +24,7 @@
   },
   "devDependencies": {
     "@playwright/test": "^1.40.0",
+    "@repo/config": "workspace:*",
     "@tailwindcss/postcss": "^4.1.17",
     "@types/node": "^24.0.0",
     "@types/react": "^19.0.0",
@@ -30,8 +32,10 @@
     "autoprefixer": "^10.4.0",
     "eslint": "^8.56.0",
     "eslint-config-next": "^15.0.0",
+    "happy-dom": "^20.0.11",
     "postcss": "^8.4.0",
     "tailwindcss": "^4.0.0",
-    "typescript": "^5.7.0"
+    "typescript": "^5.7.0",
+    "vitest": "^4.0.14"
   }
 }

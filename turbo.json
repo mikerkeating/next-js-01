@@ -43,7 +43,14 @@
     "test": {
       "dependsOn": ["^build"],
       "inputs": ["$TURBO_DEFAULT$", "vitest.config.*", "vitest.workspace.*", "testing/**"],
-      "outputs": ["testing/coverage/**"]
+      "outputs": ["testing/coverage/**"],
+      "cache": false,
+      "persistent": true
+    },
+    "test:ci": {
+      "dependsOn": ["^build"],
+      "inputs": ["$TURBO_DEFAULT$", "vitest.config.*", "vitest.workspace.*", "testing/**"],
+      "outputs": []
     },
     "test:coverage": {
       "dependsOn": ["^build"],
