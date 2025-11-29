@@ -2,9 +2,9 @@
   - [x] confirm done - docs/3-epics/1A.3-testing-foundation/epic-eval.md
   - [x] README
 - 1A.4-documentation-foundation
-  - [ ] S8
-  - [ ] S9
-  - [ ] S10
+  - [x] S8
+  - [x] S9
+  - [x] S10
   - confirm done - get epic-eval
   - README
 - 1A.5-basic-cicd

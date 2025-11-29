@@ -1,4 +1,4 @@
-Epic - `1A.4` = `1A.4-documentation-foundation`
+Epic - `1A.4-documentation-foundation` = `1A.4`
 
 ---
 

@@ -47,3 +47,15 @@ execute @docs/0-process/references/story-details-prompt-template.md for Story S7
 ```markdown
 execute @docs/0-process/references/story-details-prompt-template.md for Story S8 within Epic 1A.4
 ```
+
+### S9: Auth
+
+```markdown
+execute @docs/0-process/references/story-details-prompt-template.md for Story S9 within Epic 1A.4
+```
+
+### S10: Vercel
+
+```markdown
+execute @docs/0-process/references/story-details-prompt-template.md for Story S10 within Epic 1A.4
+```
