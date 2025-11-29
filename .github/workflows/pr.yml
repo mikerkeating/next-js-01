@@ -3,11 +3,17 @@
 # Runs automated quality checks on every pull request to ensure code quality
 # before merging. Jobs run in parallel for faster feedback.
 #
-# Triggers: Pull requests to development and main branches
+# Filtering (S2):
+# - Uses Turborepo --filter=[HEAD^1] to run only affected packages
+# - Remote caching via Vercel for shared artifacts across CI runs
+# - Full runs available via workflow_dispatch or 'ci:full' label
+#
+# Triggers: Pull requests to development and main branches, workflow_dispatch
 # Jobs: lint, type-check, test, build (all parallel)
 #
 # Related Stories:
 # - Epic 1A.5.S1: Create PR Workflow with Quality Checks
+# - Epic 1A.5.S2: Configure Turborepo Filtering for CI
 #
 # Concurrency:
 # - Cancels in-progress runs when new commits are pushed to the same PR
@@ -21,12 +27,26 @@ on:
       - development
       - main
     # Don't skip docs changes - they might affect build or have code examples
-    # Can add path filters in S2 (Turborepo filtering)
+  # Allow manual trigger for full CI runs without filtering
+  workflow_dispatch:
+    inputs:
+      full_run:
+        description: "Run full CI without filtering"
+        required: false
+        default: true
+        type: boolean
 
 # Cancel in-progress runs on the same PR to save CI minutes
 concurrency:
-  group: pr-${{ github.event.pull_request.number }}
+  group: pr-${{ github.event.pull_request.number || github.run_id }}
   cancel-in-progress: true
+
+# Environment variables for Vercel Remote Cache
+# TURBO_TOKEN and TURBO_TEAM must be configured as repository secrets
+env:
+  TURBO_TOKEN: ${{ secrets.TURBO_TOKEN }}
+  TURBO_TEAM: ${{ secrets.TURBO_TEAM }}
+  TURBO_REMOTE_ONLY: true
 
 jobs:
   # Lint job - ESLint code quality checks
@@ -37,12 +57,30 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
+        with:
+          # fetch-depth: 2 required for HEAD^1 comparison in Turborepo filtering
+          fetch-depth: 2
 
       - name: Setup Node.js and pnpm
         uses: ./.github/actions/setup
 
+      - name: Determine filter flag
+        id: filter
+        run: |
+          # Use full run (no filter) if: workflow_dispatch with full_run=true, or 'ci:full' label present
+          if [[ "${{ github.event_name }}" == "workflow_dispatch" && "${{ inputs.full_run }}" == "true" ]]; then
+            echo "flag=" >> $GITHUB_OUTPUT
+            echo "Running full CI (workflow_dispatch)"
+          elif [[ "${{ contains(github.event.pull_request.labels.*.name, 'ci:full') }}" == "true" ]]; then
+            echo "flag=" >> $GITHUB_OUTPUT
+            echo "Running full CI (ci:full label)"
+          else
+            echo "flag=--filter=[HEAD^1]" >> $GITHUB_OUTPUT
+            echo "Running filtered CI for affected packages only"
+          fi
+
       - name: Run ESLint
-        run: pnpm lint
+        run: pnpm turbo run lint ${{ steps.filter.outputs.flag }} --summarize
 
   # Type check job - TypeScript compilation check
   type-check:
@@ -52,12 +90,30 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
+        with:
+          # fetch-depth: 2 required for HEAD^1 comparison in Turborepo filtering
+          fetch-depth: 2
 
       - name: Setup Node.js and pnpm
         uses: ./.github/actions/setup
 
+      - name: Determine filter flag
+        id: filter
+        run: |
+          # Use full run (no filter) if: workflow_dispatch with full_run=true, or 'ci:full' label present
+          if [[ "${{ github.event_name }}" == "workflow_dispatch" && "${{ inputs.full_run }}" == "true" ]]; then
+            echo "flag=" >> $GITHUB_OUTPUT
+            echo "Running full CI (workflow_dispatch)"
+          elif [[ "${{ contains(github.event.pull_request.labels.*.name, 'ci:full') }}" == "true" ]]; then
+            echo "flag=" >> $GITHUB_OUTPUT
+            echo "Running full CI (ci:full label)"
+          else
+            echo "flag=--filter=[HEAD^1]" >> $GITHUB_OUTPUT
+            echo "Running filtered CI for affected packages only"
+          fi
+
       - name: Run TypeScript type check
-        run: pnpm type-check
+        run: pnpm turbo run type-check ${{ steps.filter.outputs.flag }} --summarize
 
   # Test job - Vitest unit and integration tests
   test:
@@ -67,12 +123,30 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
+        with:
+          # fetch-depth: 2 required for HEAD^1 comparison in Turborepo filtering
+          fetch-depth: 2
 
       - name: Setup Node.js and pnpm
         uses: ./.github/actions/setup
 
+      - name: Determine filter flag
+        id: filter
+        run: |
+          # Use full run (no filter) if: workflow_dispatch with full_run=true, or 'ci:full' label present
+          if [[ "${{ github.event_name }}" == "workflow_dispatch" && "${{ inputs.full_run }}" == "true" ]]; then
+            echo "flag=" >> $GITHUB_OUTPUT
+            echo "Running full CI (workflow_dispatch)"
+          elif [[ "${{ contains(github.event.pull_request.labels.*.name, 'ci:full') }}" == "true" ]]; then
+            echo "flag=" >> $GITHUB_OUTPUT
+            echo "Running full CI (ci:full label)"
+          else
+            echo "flag=--filter=[HEAD^1]" >> $GITHUB_OUTPUT
+            echo "Running filtered CI for affected packages only"
+          fi
+
       - name: Run tests
-        run: pnpm test
+        run: pnpm turbo run test ${{ steps.filter.outputs.flag }} --summarize
 
   # Build job - Verify the application builds successfully
   build:
@@ -82,12 +156,30 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
+        with:
+          # fetch-depth: 2 required for HEAD^1 comparison in Turborepo filtering
+          fetch-depth: 2
 
       - name: Setup Node.js and pnpm
         uses: ./.github/actions/setup
 
+      - name: Determine filter flag
+        id: filter
+        run: |
+          # Use full run (no filter) if: workflow_dispatch with full_run=true, or 'ci:full' label present
+          if [[ "${{ github.event_name }}" == "workflow_dispatch" && "${{ inputs.full_run }}" == "true" ]]; then
+            echo "flag=" >> $GITHUB_OUTPUT
+            echo "Running full CI (workflow_dispatch)"
+          elif [[ "${{ contains(github.event.pull_request.labels.*.name, 'ci:full') }}" == "true" ]]; then
+            echo "flag=" >> $GITHUB_OUTPUT
+            echo "Running full CI (ci:full label)"
+          else
+            echo "flag=--filter=[HEAD^1]" >> $GITHUB_OUTPUT
+            echo "Running filtered CI for affected packages only"
+          fi
+
       - name: Build application
-        run: pnpm build
+        run: pnpm turbo run build ${{ steps.filter.outputs.flag }} --summarize
         env:
           # Provide required build-time environment variables
           # These are placeholder values for CI build validation

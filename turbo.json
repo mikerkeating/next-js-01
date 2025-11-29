@@ -1,81 +1,58 @@
 {
   "$schema": "https://turbo.build/schema.json",
-  "globalEnv": [
-    "NODE_ENV",
-    "CI"
-  ],
+  "globalEnv": ["NODE_ENV", "CI"],
   "globalDependencies": [
     ".env",
     ".env.local",
     ".env.development.local",
     ".env.test.local",
-    ".env.production.local"
+    ".env.production.local",
+    "tsconfig.json"
   ],
   "tasks": {
     "build": {
-      "dependsOn": [
-        "^build"
+      "dependsOn": ["^build"],
+      "inputs": [
+        "$TURBO_DEFAULT$",
+        "!**/*.test.ts",
+        "!**/*.test.tsx",
+        "!**/*.spec.ts",
+        "!**/*.spec.tsx",
+        "!testing/**"
       ],
-      "outputs": [
-        ".next/**",
-        "!.next/cache/**",
-        "dist/**"
-      ]
+      "outputs": [".next/**", "!.next/cache/**", "dist/**"]
     },
     "docs#build": {
-      "dependsOn": [
-        "^build"
-      ],
-      "inputs": [
-        "app/**",
-        "*.tsx",
-        "*.ts",
-        "*.mjs",
-        "../../docs/**/*.md",
-        "../../docs/**/*.mdx"
-      ],
-      "outputs": [
-        ".next/**",
-        "!.next/cache/**"
-      ]
+      "dependsOn": ["^build"],
+      "inputs": ["app/**", "*.tsx", "*.ts", "*.mjs", "../../docs/**/*.md", "../../docs/**/*.mdx"],
+      "outputs": [".next/**", "!.next/cache/**"]
     },
     "dev": {
       "cache": false,
       "persistent": true
     },
     "lint": {
-      "dependsOn": [
-        "^build"
-      ],
+      "dependsOn": ["^build"],
+      "inputs": ["$TURBO_DEFAULT$", "eslint.config.js", "eslint.config.mjs", ".eslintrc*"],
       "outputs": []
     },
     "lint:fix": {
-      "dependsOn": [
-        "^build"
-      ],
+      "dependsOn": ["^build"],
       "cache": false
     },
     "test": {
-      "dependsOn": [
-        "^build"
-      ],
-      "outputs": [
-        "testing/coverage/**"
-      ]
+      "dependsOn": ["^build"],
+      "inputs": ["$TURBO_DEFAULT$", "vitest.config.*", "vitest.workspace.*", "testing/**"],
+      "outputs": ["testing/coverage/**"]
     },
     "test:e2e": {
-      "dependsOn": [
-        "^build"
-      ],
-      "outputs": [
-        "testing/e2e/results/**"
-      ],
+      "dependsOn": ["^build"],
+      "outputs": ["testing/e2e/results/**"],
       "cache": true
     },
     "type-check": {
-      "dependsOn": [
-        "^build"
-      ],
+      "dependsOn": ["^build"],
+      "inputs": ["$TURBO_DEFAULT$", "tsconfig.json", "tsconfig.*.json"],
       "outputs": []
     },
     "clean": {
