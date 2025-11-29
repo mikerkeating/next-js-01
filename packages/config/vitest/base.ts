@@ -30,9 +30,6 @@ export const baseConfig = defineConfig({
     // Files to exclude from testing
     exclude: ["**/node_modules/**", "**/dist/**", "**/.next/**", "**/coverage/**"],
 
-    // Watch mode configuration
-    watch: true,
-
     // Enable better test output
     reporters: ["default"],
 

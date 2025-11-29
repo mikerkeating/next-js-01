@@ -54,11 +54,7 @@ test.describe("Homepage", () => {
    * be present on every page for accessibility.
    */
   test("should have accessible structure", async ({ page }) => {
-    // Check for main content area - store reference for potential future assertions
-    // Using Playwright's auto-waiting locators
-    const _main = page.locator("main");
-
-    // If no main element exists, at least verify body has content
+    // Verify body has content
     const bodyContent = page.locator("body");
     await expect(bodyContent).not.toBeEmpty();
   });
@@ -81,10 +77,12 @@ test.describe("Homepage", () => {
     // Test tablet viewport
     await page.setViewportSize({ width: 768, height: 1024 });
     await page.waitForLoadState("domcontentloaded");
+    await expect(bodyContent).toBeVisible();
 
     // Test desktop viewport (original size)
     await page.setViewportSize({ width: 1280, height: 720 });
     await page.waitForLoadState("domcontentloaded");
+    await expect(bodyContent).toBeVisible();
   });
 });
 
