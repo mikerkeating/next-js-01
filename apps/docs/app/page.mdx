@@ -1,0 +1,48 @@
+# MK3 Platform Documentation
+
+Welcome to the MK3 Platform documentation. This site contains architectural decisions, guides, and API references for the platform.
+
+## Documentation Structure
+
+Our documentation follows a **four-layer pyramid**:
+
+### Level 1: WHY (Strategic)
+
+- **[Product Requirements](/docs/1-product/1-prd)** - What we're building and why
+- **[Technical Architecture](/docs/2-technical/2-tad)** - How we're building it
+- **[Architecture Decisions](/docs/2-technical/adr)** - Why we made specific decisions
+
+### Level 2: WHAT (Product)
+
+- **[User Guides](/docs/guides)** - How to use the applications
+- **[API Reference](/docs/api)** - Endpoint documentation
+
+### Level 3: HOW (Implementation)
+
+- **[Package Documentation](/docs/2-technical)** - How to use each package
+- **[Coding Standards](/docs/2-technical/references/coding-standards)** - Code quality rules
+
+### Level 4: CONTEXT (Development)
+
+- **[Epic Specifications](/docs/3-epics)** - Implementation guidance
+- **[Process Guide](/docs/0-process)** - Development workflow
+
+## Quick Links
+
+import { Cards } from 'nextra/components'
+
+<Cards>
+  <Cards.Card title="Getting Started" href="/docs/0-process" />
+  <Cards.Card title="Architecture" href="/docs/2-technical/2-tad" />
+  <Cards.Card title="Epics" href="/docs/3-epics" />
+  <Cards.Card title="Guides" href="/docs/guides" />
+</Cards>
+
+## About This Site
+
+This documentation site is built with [Nextra](https://nextra.site/) and automatically renders all markdown files from the `/docs` directory. It features:
+
+- **Full-text search** - Find content quickly across all documentation
+- **Dark mode** - Toggle between light and dark themes
+- **Mobile responsive** - Works on all device sizes
+- **Auto-generated navigation** - Sidebar matches directory structure

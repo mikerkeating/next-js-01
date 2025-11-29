@@ -1,0 +1,243 @@
+# Story 2A.3.S1: Create @repo/observability Package Structure
+
+> **To implement this story:** Read the Technical Requirements, create/modify the specified files following TAD patterns, then verify using the Test Requirements and Verification Checklist.
+
+## Context
+
+- **Epic**: [Observability Package](./EPIC.md)
+- **Depends On**: [2A.1: Configuration Package](../2A.1-config-package/EPIC.md) - TypeScript and ESLint configs
+- **Blocks**: [S2: Structured Logger](./S2-structured-logger.md), [S3: Sentry Integration](./S3-sentry-integration.md), [S4: Error Boundary](./S4-error-boundary.md), [S5: Web Vitals Tracking](./S5-web-vitals.md), [S6: Health Check Utilities](./S6-health-checks.md)
+- **Runs in Parallel With**: None
+
+## User Story
+
+**As a** developer
+**I want** a properly configured `@repo/observability` package with TypeScript, ESLint, and build tooling
+**So that** I can implement logging, error tracking, and monitoring utilities in a type-safe, well-structured manner
+
+## Acceptance Criteria
+
+- [ ] Package directory exists at `packages/observability/` with standard monorepo structure
+- [ ] Package builds successfully with TypeScript (`pnpm build`)
+- [ ] All linting passes with no errors (`pnpm lint`)
+- [ ] Type checking passes with strict mode enabled (`pnpm type-check`)
+- [ ] Package exports are properly configured for tree-shaking and ES modules
+- [ ] Package.json includes correct dependencies and peer dependencies
+- [ ] README.md documents package purpose and basic usage
+- [ ] Package integrates with Turborepo build pipeline
+
+## Technical Requirements
+
+### Files to Create
+
+| Path                                    | Purpose                                     |
+| --------------------------------------- | ------------------------------------------- |
+| `packages/observability/package.json`   | Package configuration and dependencies      |
+| `packages/observability/tsconfig.json`  | TypeScript configuration extending @repo/config |
+| `packages/observability/.eslintrc.js`   | ESLint configuration extending @repo/config |
+| `packages/observability/src/index.ts`   | Main package entry point with exports       |
+| `packages/observability/src/types.ts`   | Shared TypeScript type definitions          |
+| `packages/observability/README.md`      | Package documentation                       |
+| `packages/observability/.gitignore`     | Git ignore rules for build artifacts        |
+| `packages/observability/tsup.config.ts` | Build configuration for package bundling    |
+
+### Files to Modify
+
+| Path         | Changes                                                 |
+| ------------ | ------------------------------------------------------- |
+| `turbo.json` | Add `@repo/observability#build` task to pipeline        |
+| Root `pnpm-workspace.yaml` | Verify `packages/*` pattern includes observability |
+
+### Dependencies
+
+> **Version Reference**: Use exact versions from [canonical-versions.md](/docs/2-technical/references/canonical-versions.md)
+
+**Install commands:**
+
+```bash
+# Navigate to package directory
+cd packages/observability
+
+# Install production dependencies (to be added in later stories)
+# Sentry SDK will be added in S3
+# web-vitals will be added in S5
+
+# Install development dependencies
+pnpm add -D typescript tsup @repo/config
+```
+
+### Configuration Details
+
+> **Note**: For complete configuration file templates, reference the TAD.
+> This section describes configuration REQUIREMENTS, not full file contents.
+
+| Setting                      | Requirement                                              | TAD Reference                                                                  |
+| ---------------------------- | -------------------------------------------------------- | ------------------------------------------------------------------------------ |
+| TypeScript `strict` mode     | Must be enabled for type safety                          | [TAD: Package Architecture](/docs/2-technical/2-tad-package-architecture.md)   |
+| ESLint extends               | Must extend `@repo/config/eslint/base`                   | [TAD: Package Architecture](/docs/2-technical/2-tad-package-architecture.md)   |
+| Package exports              | Use conditional exports for ESM                          | [TAD: Package Architecture](/docs/2-technical/2-tad-package-architecture.md)   |
+| Build output                 | Generate ESM modules in `dist/` directory                | [TAD: Package Architecture](/docs/2-technical/2-tad-package-architecture.md)   |
+| Module type                  | `"type": "module"` for native ESM support                | [TAD: Package Architecture](/docs/2-technical/2-tad-package-architecture.md)   |
+
+**Configuration Rationale**: The observability package must support both server and client environments (Edge, Node.js, browser), requiring ESM modules with proper conditional exports. TypeScript strict mode ensures type safety for logging metadata and error handling. Build tooling (tsup) enables tree-shaking for minimal bundle impact on client-side applications.
+
+For complete configuration templates, see: [TAD: Package Architecture](/docs/2-technical/2-tad-package-architecture.md)
+
+## Test Requirements
+
+### Manual Verification
+
+- [ ] **Package Installation**: Install package from monorepo root (`pnpm install`) completes without errors
+- [ ] **Build Output**: Build generates `dist/` directory with `.js` and `.d.ts` files
+- [ ] **Import Test**: Create test file importing from `@repo/observability` and verify TypeScript resolution works
+
+### Automated Tests
+
+- [ ] Unit: `packages/observability/__tests__/package.test.ts` - Verify package.json exports are valid
+- [ ] Integration: Verify package can be imported in a Next.js app context (deferred to S7)
+
+### Verification Commands
+
+```bash
+# Install dependencies from monorepo root
+pnpm install
+
+# Build the observability package
+pnpm --filter @repo/observability build
+
+# Run linting
+pnpm --filter @repo/observability lint
+
+# Run type checking
+pnpm --filter @repo/observability type-check
+
+# Verify package exports are accessible
+node -e "import('@repo/observability').then(console.log)"
+
+# Verify Turborepo caching works
+pnpm build --filter @repo/observability
+pnpm build --filter @repo/observability # Should use cache
+```
+
+## Implementation Notes
+
+### Implementation Sequence
+
+1. **Create Package Directory**: Create `packages/observability/` with `src/` and `__tests__/` subdirectories
+2. **Configure Package.json**: Set `@repo/observability` name, exports for `./index`, scripts (`build`, `lint`, `type-check`, `test`), and `"type": "module"`
+3. **Configure TypeScript**: Create `tsconfig.json` extending `@repo/config/typescript/base` with output to `dist/` and `declaration: true`
+4. **Configure ESLint**: Create `.eslintrc.js` extending `@repo/config/eslint/base`
+5. **Configure Build (tsup)**: Create `tsup.config.ts` for ESM bundling with tree-shaking
+6. **Create Initial Source**: Create `src/index.ts` and `src/types.ts` with placeholder exports
+7. **Update Turborepo**: Add `@repo/observability#build` to `turbo.json` pipeline
+8. **Write README.md**: Document package purpose, planned exports, and reference Epic 2A.3
+
+### Key Concepts
+
+- **Monorepo Package**: Package uses `@repo/*` scoping and is published only within the monorepo workspace
+- **Tree-Shaking**: ESM exports allow consuming apps to import only what they need, reducing bundle size
+- **Type Definitions**: `.d.ts` files enable TypeScript autocomplete and type checking in consuming apps
+- **Turborepo Integration**: Package participates in monorepo build caching and task orchestration
+
+### Common Patterns
+
+> **Note**: For implementation code examples, reference the TAD.
+> Stories describe WHAT patterns to use, not HOW to implement them.
+
+Reference the TAD for implementation patterns:
+
+- [TAD: Package Architecture](/docs/2-technical/2-tad-package-architecture.md)
+- [TAD: Observability Package Structure](/docs/2-technical/2-tad-package-architecture.md#repoobservability)
+
+Key pattern notes for this story:
+
+- Use conditional exports in package.json to support both server and client imports
+- Follow the standard package structure: `src/` for source, `dist/` for build output, `__tests__/` for tests
+- Use tsup for bundling to generate optimized ESM output with type declarations
+
+### Troubleshooting
+
+| Issue                                      | Cause                                        | Solution                                                         |
+| ------------------------------------------ | -------------------------------------------- | ---------------------------------------------------------------- |
+| TypeScript cannot find `@repo/config`      | Config package not built or linked           | Run `pnpm build --filter @repo/config` first                     |
+| Import fails with module not found         | Package exports not configured correctly     | Verify `package.json` exports field matches file structure       |
+| Turborepo doesn't cache build              | Task not defined in `turbo.json`             | Add `@repo/observability#build` to pipeline with outputs config  |
+| ESLint fails with config not found         | ESLint config package not installed properly | Verify `@repo/config` is in devDependencies and installed        |
+| Type checking fails with strict mode error | Source files have type errors                | Fix type errors or add `@ts-expect-error` comments with explanations |
+
+### Reference Materials
+
+- [Turborepo Package Architecture](https://turbo.build/repo/docs/core-concepts/monorepos/structuring-a-repository)
+- [TypeScript Package Exports](https://www.typescriptlang.org/docs/handbook/esm-node.html)
+- [tsup Documentation](https://tsup.egoist.dev/)
+- [pnpm Workspace Protocol](https://pnpm.io/workspaces)
+
+## Estimated Effort
+
+**Size**: S (2-4h)
+
+## Architecture Decisions
+
+**Consolidated Decisions** (documented in TAD/ADRs):
+- [TAD: Package Architecture](/docs/2-technical/2-tad-package-architecture.md) - Monorepo package structure
+- [ADR-001: Monorepo with Turborepo](/docs/2-technical/adr/001-monorepo-turborepo.md) - Build caching rationale
+- [TAD: Observability Architecture](/docs/2-technical/2-tad-observability.md) - Overall observability strategy
+
+**AD-2A.3.S1.1: Use tsup for Package Bundling**
+
+Use tsup instead of tsc for building the package. tsup provides zero-config bundling with tree-shaking, generates optimized ESM output with type declarations, and has faster build times for library packages. Alternative (tsc) rejected because it requires additional bundling configuration.
+
+## Out of Scope
+
+The following items are explicitly NOT part of this story:
+
+- **Actual logger implementation** - Deferred to S2 (Structured Logger)
+- **Sentry SDK integration** - Deferred to S3 (Sentry Integration)
+- **React Error Boundary component** - Deferred to S4 (Error Boundary)
+- **Web Vitals tracking utilities** - Deferred to S5 (Web Vitals)
+- **Health check implementation** - Deferred to S6 (Health Checks)
+- **Comprehensive test suite** - Deferred to S7 (Tests and Documentation)
+- **Environment variable configuration** - Handled by `@repo/config` package
+
+## Dependencies on Other Stories
+
+### Depends On (Must Complete First)
+
+- **2A.1: Configuration Package** - Provides TypeScript and ESLint configurations that this package extends
+
+### Enables (Unblocks These Stories)
+
+- **S2: Structured Logger** - Requires package structure to implement logger class
+- **S3: Sentry Integration** - Requires package structure to add Sentry SDK
+- **S4: Error Boundary** - Requires package structure to create React component
+- **S5: Web Vitals** - Requires package structure to implement tracking utilities
+- **S6: Health Checks** - Requires package structure to create health check functions
+
+## References
+
+**Internal**:
+- [EPIC.md: Overview](./EPIC.md#overview), [Technical Constraints](./EPIC.md#technical-constraints)
+- [TAD: Package Architecture](/docs/2-technical/2-tad-package-architecture.md)
+- [TAD: Observability Architecture](/docs/2-technical/2-tad-observability.md)
+- [ADR-001: Monorepo with Turborepo](/docs/2-technical/adr/001-monorepo-turborepo.md)
+- [ADR-002: pnpm as Package Manager](/docs/2-technical/adr/002-pnpm-package-manager.md)
+
+**External**:
+- [Turborepo Handbook](https://turbo.build/repo/docs/core-concepts/monorepos/structuring-a-repository)
+- [pnpm Workspaces](https://pnpm.io/workspaces)
+- [TypeScript Package Exports](https://www.typescriptlang.org/docs/handbook/esm-node.html)
+- [tsup Documentation](https://tsup.egoist.dev/)
+
+## Verification Checklist
+
+- [ ] **Pre-Verification**: Epic 2A.1 complete; local environment matches [canonical versions](/docs/2-technical/references/canonical-versions.md)
+- [ ] **Implementation**: All acceptance criteria met; [coding standards](/docs/2-technical/references/coding-standards.md) followed
+- [ ] **Quality**: No lint errors; types compile; build succeeds; Turborepo caching works
+- [ ] **Documentation**: README.md complete; package.json includes description
+- [ ] **Git**: Conventional commit (e.g., `feat(observability): create package structure`); PR references Epic 2A.3.S1
+
+## Status
+
+- **State**: Not Started
+- **PR**: -
+- **Completed**: -

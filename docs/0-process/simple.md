@@ -1,72 +1,11 @@
-Epic - `1A.3`
-Epic - `1A.3-testing-foundation`
-Epic - `1A.3-testing-foundation`, `1A.3-testing-foundation`, `1A.3-testing-foundation`, `1A.4-documentation-foundation`, `1A.5-basic-cicd`
-
-## Generate List of Epics - DONE
-
-For the list of epics below, based on docs/1-product/3-roadmap.md, generate a new markdown file with, for each epic, a heading line (at ### level) and a single line underneath as per `usage` and `example` below
-
-> **Usage:** `execute @docs/0-process/references/epic-details-prompt-template.md for Epic {EpicID}`
->
-> Example: `execute @docs/0-process/references/epic-details-prompt-template.md for Epic 1A.1`
-
-### list
-
-- 0A.1: Steel Thread Deployment
-- 1A.1: Monorepo Foundation
-- 1A.3: Package Management & Quality Gates
-- 1A.3: Testing Foundation
-- 1A.4: Documentation Foundation
-- 1A.5: Basic CI/CD Pipeline
-- 2A.1: Configuration Package
-- 2A.2: Database Infrastructure (generic schema patterns)
-- 2A.3: Observability Package
-- 2A.4: Analytics Infrastructure (generic event system)
-- 2A.5: UI Component Library (generic components only)
-- 2A.6: Middleware Package (generic patterns)
-- 2A.7: Auth Infrastructure (generic Clerk setup)
-- 2A.8: API Client Package
-- 3A.1: CDN & Asset Management Application
-- 3A.2: Routing Application Shell
+Epic - `1A.4`
+Epic - `1A.4-documentation-foundation`
 
 ---
 
-## Generate epics' details via script - DONE
+## List Stories for an Epic - `1A.4-documentation-foundation` - DONE
 
-`./scripts/run-next-story-prompt-auto.sh`
-
-##  Check the epic files vs templates - DONE
-
-We now have the `EPIC.md` files for the following epics. Sense-check these vs `/docs/0-process/references/epic-details-template.md` and `/docs/0-process/references/epic-details-prompt-template.m` in case we need to improve the files.
-
-= some small tweaks
-
-## Check the epic files vs the Roadmap Phase - DONE
-
-We now have the `EPIC.md` files for the following epics. Sense-check these against `/docs/1-product/3-roadmap.md` to verify that these will deliver the `### PLATFORM FOUNDATION (Generic)`. Does the content of the epic.md files align with @docs/1-product/3-roadmap.md? Are there any gaps that need to be resolved?
-
-- 0A.1: Steel Thread Deployment
-- 1A.1: Monorepo Foundation
-- 1A.3: Package Management & Quality Gates
-- 1A.3: Testing Foundation
-- 1A.4: Documentation Foundation
-- 1A.5: Basic CI/CD Pipeline
-- 2A.1: Configuration Package
-- 2A.2: Database Infrastructure (generic schema patterns)
-- 2A.3: Observability Package
-- 2A.4: Analytics Infrastructure (generic event system)
-- 2A.5: UI Component Library (generic components only)
-- 2A.6: Middleware Package (generic patterns)
-- 2A.7: Auth Infrastructure (generic Clerk setup)
-- 2A.8: API Client Package
-- 3A.1: CDN & Asset Management Application
-- 3A.2: Routing Application Shell
-
----
-
-## List Stories for an Epic - `1A.3-testing-foundation` - DONE
-
-For the list of stories under `## Stories` of `docs/3-epics/1A.3-testing-foundation/EPIC.md`, generate a new markdown file `docs/3-epics/1A.3-testing-foundation/story-details-prompts.md` with, for each story, a heading line (at ### level) and a single statement underneath as per `usage` and `example` below. Wrap each statement within ````markdown` block
+For the list of stories under `## Stories` of `docs/3-epics/1A.4-documentation-foundation/EPIC.md`, generate a new markdown file `docs/3-epics/1A.4-documentation-foundation/story-details-prompts.md` with, for each story, a heading line (at ### level) and a single statement underneath as per `usage` and `example` below. Wrap each statement within ````markdown` block
 
 > **Usage:** `execute @docs/0-process/references/story-details-prompt-template.md for Story {StoryID} within Epic {EpicID}`
 >
@@ -74,37 +13,37 @@ For the list of stories under `## Stories` of `docs/3-epics/1A.3-testing-foundat
 
 ## Generate Stories for an Epic - DONE
 
-`./scripts/run-next-story-prompt-auto.sh --prompts-file docs/3-epics/1A.3-testing-foundation/story-details-prompts.md`
+`./scripts/run-next-story-prompt-auto.sh --prompts-file docs/3-epics/1A.4-documentation-foundation/story-details-prompts.md`
 
-## Check the stories vs the template - `1A.3-testing-foundation`
+## Check the stories vs the template - `1A.4-documentation-foundation`
 
-We now have the story md files for the `docs/3-epics/1A.3-testing-foundation/EPIC.md` within `docs/3-epics/1A.3-testing-foundation`. Sense-check these vs `/docs/0-process/references/story-details-template.md` and `/docs/0-process/references/story-details-prompt-template.md` in case we need to improve the prompt or template.
+We now have the story md files for the `docs/3-epics/1A.4-documentation-foundation/EPIC.md` within `docs/3-epics/1A.4-documentation-foundation`. Sense-check these vs `/docs/0-process/references/story-details-template.md` and `/docs/0-process/references/story-details-prompt-template.md` in case we need to improve the prompt or template.
 
-## Check the stories vs the epic - `1A.3-testing-foundation`
+## Check the stories vs the epic - `1A.4-documentation-foundation`
 
-We now have the story md files for the `docs/3-epics/1A.3-testing-foundation/EPIC.md` within `docs/3-epics/1A.3-testing-foundation`. Sense-check these vs `docs/3-epics/1A.3-testing-foundation/EPIC.md` to validate the these stories will deliver the acceptance criteria in the epic.
+We now have the story md files for the `docs/3-epics/1A.4-documentation-foundation/EPIC.md` within `docs/3-epics/1A.4-documentation-foundation`. Sense-check these vs `docs/3-epics/1A.4-documentation-foundation/EPIC.md` to validate the these stories will deliver the acceptance criteria in the epic.
 
 ---
 
-Use the .claude/agents/engineering-manager.md subagent to evaluate each story within `docs/3-epics/1A.3-testing-foundation`. The engineering manager should identify the engineering roles (e.g. backend, database, devops, frontend, fullstack) for each story. There should be a primary role and may be a secondary role. If a handoff is needed from primary to secondary role, this should be noted. Output a `## Resourcing Table` into a new markdown file: `docs/3-epics/1A.3-testing-foundation/story-resourcing.md`. The output should not include code, sequencing, sizing, critical path analysis, dependencies or other information which exists in existing files.
+Use the .claude/agents/engineering-manager.md subagent to evaluate each story within `docs/3-epics/1A.4-documentation-foundation`. The engineering manager should identify the engineering roles (e.g. backend, database, devops, frontend, fullstack) for each story. There should be a primary role and may be a secondary role. If a handoff is needed from primary to secondary role, this should be noted. Output a `## Resourcing Table` into a new markdown file: `docs/3-epics/1A.4-documentation-foundation/story-resourcing.md`. The output should not include code, sequencing, sizing, critical path analysis, dependencies or other information which exists in existing files.
 
 ---
 
 ## Generate list of stories with implementation prompts
 
-For the stories listed in `## Resourcing Table` of `docs/3-epics/1A.3-testing-foundation/story-resourcing.md`, generate a new markdown file `docs/3-epics/1A.3-testing-foundation/story-implementation-prompts.md` with, for each story, a heading line (at ### level) and a single statement underneath as per `usage` and `example` below. Wrap each statement within ````markdown` block. If a secondary role is needed to complete the implementation, add the statement for the secondary role after the primary role.
+For the stories listed in `## Resourcing Table` of `docs/3-epics/1A.4-documentation-foundation/story-resourcing.md`, generate a new markdown file `docs/3-epics/1A.4-documentation-foundation/story-implementation-prompts.md` with, for each story, a heading line (at ### level) and a single statement underneath as per `usage` and `example` below. Wrap each statement within ````markdown` block. If a secondary role is needed to complete the implementation, add the statement for the secondary role after the primary role.
 
 > **Usage:** `use @.claude/agents/[agent].md to execute @docs/0-process/references/story-dev-prompt.md for [story-path]`
 >
-> Example: `use @.claude/agents/engineer-backend.md to execute @docs/0-process/references/story-dev-prompt.md for docs/3-epics/1A.3-testing-foundation/S2-env-config.md`
+> Example: `use @.claude/agents/engineer-backend.md to execute @docs/0-process/references/story-dev-prompt.md for docs/3-epics/1A.4-documentation-foundation/S2-env-config.md`
 
 ## Implement the stories
 
-`./scripts/run-next-story-prompt-auto.sh --prompts-file docs/3-epics/1A.3-testing-foundation/story-implementation-prompts.md`
+`./scripts/run-next-story-prompt-auto.sh --prompts-file docs/3-epics/1A.4-documentation-foundation/story-implementation-prompts.md`
 
 ---
 
-## Check the stories deliver the epic `1A.3-testing-foundation`
+## Check the stories deliver the epic `1A.4-documentation-foundation`
 
 > **Usage:** `execute @docs/0-process/references/epic-story-check-prompt-template.md for Epic 1A.1`
 >
@@ -122,7 +61,7 @@ For the stories listed in `## Resourcing Table` of `docs/3-epics/1A.3-testing-fo
 - [ ] Run story eval
 - [ ] check the story-eval file
 - [ ] Make decisions and record
-- [ ] Run the prompts for `1A.3-testing-foundation`
+- [ ] Run the prompts for `1A.4-documentation-foundation`
 
 The complete workflow is now:
 

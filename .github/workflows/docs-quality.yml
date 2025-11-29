@@ -1,0 +1,151 @@
+# Documentation Quality Gate CI Workflow
+#
+# Validates documentation quality on pull requests
+# See: docs/3-epics/1A.4-documentation-foundation/S7-docs-quality-gates.md
+#
+# Checks performed:
+# - Markdown linting (markdownlint-cli2)
+# - Link validation (markdown-link-check)
+# - Package README existence
+# - JSDoc coverage (80% threshold)
+
+name: Documentation Quality
+
+on:
+  pull_request:
+    branches: [development, main]
+    paths:
+      - 'docs/**'
+      - 'packages/**/README.md'
+      - 'packages/**/src/**/*.ts'
+      - 'packages/**/src/**/*.tsx'
+      - 'apps/**/README.md'
+      - '*.md'
+      - '.markdownlint*'
+      - '.markdown-link-check.json'
+  push:
+    branches: [development]
+    paths:
+      - 'docs/**'
+      - 'packages/**/README.md'
+      - '*.md'
+
+concurrency:
+  group: docs-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  markdown-lint:
+    name: Markdown Linting
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+          cache: 'pnpm'
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Run markdown linting
+        run: pnpm lint:md
+
+  link-check:
+    name: Link Validation
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+          cache: 'pnpm'
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Check internal links in documentation
+        run: |
+          echo "Checking internal links in documentation..."
+          # Check docs directory
+          find docs -name '*.md' -print0 | xargs -0 -I {} pnpm markdown-link-check {} -c .markdown-link-check.json --quiet || true
+          # Check root markdown files
+          for file in README.md CONTRIBUTING.md; do
+            if [ -f "$file" ]; then
+              pnpm markdown-link-check "$file" -c .markdown-link-check.json --quiet || true
+            fi
+          done
+          # Check package READMEs
+          find packages -name 'README.md' -print0 | xargs -0 -I {} pnpm markdown-link-check {} -c .markdown-link-check.json --quiet || true
+          # Check app READMEs
+          find apps -name 'README.md' -print0 | xargs -0 -I {} pnpm markdown-link-check {} -c .markdown-link-check.json --quiet || true
+          echo "Link check complete. External link failures are warnings only."
+
+  package-readmes:
+    name: Package README Check
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Check package READMEs
+        run: ./scripts/check-package-readmes.sh
+
+  jsdoc-coverage:
+    name: JSDoc Coverage
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Check JSDoc coverage
+        run: ./scripts/check-jsdoc-coverage.sh
+
+  # Summary job that depends on all checks
+  docs-quality-gate:
+    name: Documentation Quality Gate
+    runs-on: ubuntu-latest
+    needs: [markdown-lint, package-readmes, jsdoc-coverage]
+    # Link check is intentionally not included as a hard requirement
+    # External links can fail due to temporary issues
+    if: always()
+    steps:
+      - name: Check results
+        run: |
+          echo "Documentation Quality Gate Results"
+          echo "=================================="
+          echo ""
+          echo "Markdown Linting: ${{ needs.markdown-lint.result }}"
+          echo "Package READMEs: ${{ needs.package-readmes.result }}"
+          echo "JSDoc Coverage: ${{ needs.jsdoc-coverage.result }}"
+          echo ""
+
+          # Fail if any required check failed
+          if [ "${{ needs.markdown-lint.result }}" = "failure" ]; then
+            echo "ERROR: Markdown linting failed"
+            exit 1
+          fi
+
+          if [ "${{ needs.package-readmes.result }}" = "failure" ]; then
+            echo "ERROR: Package README check failed"
+            exit 1
+          fi
+
+          if [ "${{ needs.jsdoc-coverage.result }}" = "failure" ]; then
+            echo "ERROR: JSDoc coverage check failed"
+            exit 1
+          fi
+
+          echo "All documentation quality checks passed!"

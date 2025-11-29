@@ -3,5 +3,15 @@
 # Pre-commit hook
 # This hook runs before each commit to enforce quality gates
 # See: docs/2-technical/2-tad-developer-experience.md#pre-commit-quality-gates
+# See: docs/3-epics/1A.4-documentation-foundation/S7-docs-quality-gates.md
+#
+# Quality gates:
+# 1. lint-staged: ESLint, Prettier, markdownlint for staged files
+# 2. Link checking for markdown files is done via lint-staged
+#
+# To bypass quality gates for emergency commits:
+#   git commit --no-verify -m "your message"
+#
+# Note: Use --no-verify sparingly. Bypassed commits should be fixed in follow-up.
 
 pnpm lint-staged

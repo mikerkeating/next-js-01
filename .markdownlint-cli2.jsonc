@@ -1,0 +1,134 @@
+// Markdown linting configuration for markdownlint-cli2
+// Documentation quality gate - enforces markdown consistency
+// See: docs/2-technical/2-tad-documentation.md#quality-gates
+{
+  // Configuration for markdownlint rules
+  "config": {
+    // Use default rules as baseline
+    "default": true,
+
+    // MD003: Heading style - use ATX (#) format
+    "MD003": {
+      "style": "atx"
+    },
+
+    // MD004: Unordered list style - use dashes
+    "MD004": {
+      "style": "dash"
+    },
+
+    // MD007: Unordered list indentation - 2 spaces
+    "MD007": {
+      "indent": 2
+    },
+
+    // MD013: Line length - DISABLED
+    // Rationale: Code blocks and tables often exceed line limits
+    // This is documented in the story AD-1A.4.S7.1
+    "MD013": false,
+
+    // MD024: Multiple headings with same content - allow in siblings
+    "MD024": {
+      "siblings_only": true
+    },
+
+    // MD033: Inline HTML - allow specific elements
+    // Rationale: Complex tables, Mermaid diagrams, and custom elements need HTML
+    "MD033": {
+      "allowed_elements": [
+        "br",
+        "details",
+        "summary",
+        "img",
+        "a",
+        "sup",
+        "sub",
+        "kbd",
+        "code",
+        "pre",
+        "div",
+        "span",
+        "table",
+        "thead",
+        "tbody",
+        "tr",
+        "th",
+        "td",
+        // Claude Code prompt elements
+        "example",
+        "commentary",
+        "reasoning",
+        "env",
+        "system-reminder",
+        "ide_selection",
+        "antml:function_calls",
+        "antml:invoke",
+        "antml:parameter",
+        "function_results",
+        "result",
+        "name",
+        "output",
+        "good-example",
+        "bad-example"
+      ]
+    },
+
+    // MD001: Heading increment - DISABLED (allows skipping levels for flexibility)
+    "MD001": false,
+
+    // MD025: Single title/H1 - DISABLED (multiple H1s allowed in some docs)
+    "MD025": false,
+
+    // MD035: Horizontal rule style - DISABLED
+    "MD035": false,
+
+    // MD036: Emphasis used instead of heading - DISABLED
+    "MD036": false,
+
+    // MD040: Fenced code blocks require language - DISABLED
+    "MD040": false,
+
+    // MD041: First line should be H1 - DISABLED
+    // Rationale: Some files start with frontmatter or metadata
+    "MD041": false,
+
+    // MD046: Code block style - DISABLED (allow both fenced and indented)
+    "MD046": false,
+
+    // MD048: Code fence style - use backticks
+    "MD048": {
+      "style": "backtick"
+    },
+
+    // MD051: Link fragments - DISABLED (anchor validation handled by link checker)
+    "MD051": false,
+
+    // MD060: Deprecated config - DISABLED
+    "MD060": false
+  },
+
+  // Glob patterns for files to lint
+  "globs": [
+    "docs/**/*.md",
+    "packages/**/README.md",
+    "apps/**/README.md",
+    "*.md"
+  ],
+
+  // Patterns to ignore
+  "ignores": [
+    "**/node_modules/**",
+    "**/dist/**",
+    "**/.next/**",
+    "**/out/**",
+    "**/coverage/**",
+    "**/.turbo/**",
+    "**/vendor/**",
+    "testing/**",
+    "CHANGELOG.md",
+    "pnpm-lock.yaml"
+  ],
+
+  // Fix errors automatically when --fix is used
+  "fix": false
+}
