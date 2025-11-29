@@ -29,7 +29,7 @@
     "check:jsdoc": "./scripts/check-jsdoc-coverage.sh",
     "check:jsdoc:warn": "./scripts/check-jsdoc-coverage.sh --warn-only",
     "test:e2e": "pnpm exec playwright test",
-    "test:e2e:smoke": "pnpm --filter routing test:e2e:smoke",
+    "test:e2e:smoke": "pnpm exec playwright test --project=smoke-chromium --project=smoke-firefox --project=smoke-webkit",
     "docs:dev": "pnpm --filter docs dev",
     "docs:build": "pnpm --filter docs build"
   },

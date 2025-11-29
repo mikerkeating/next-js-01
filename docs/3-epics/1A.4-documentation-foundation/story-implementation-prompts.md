@@ -73,3 +73,19 @@ use @.claude/agents/engineer-devops.md to execute @docs/0-process/references/sto
 ```markdown
 use @.claude/agents/engineer-documentation.md to execute @docs/0-process/references/story-dev-prompt.md for docs/3-epics/1A.4-documentation-foundation/S7-docs-quality-gates.md
 ```
+
+### S8: Vercel
+
+**Primary Role:**
+
+```markdown
+use @.claude/agents/engineer-devops.md to execute @docs/0-process/references/story-dev-prompt.md for docs/3-epics/1A.4-documentation-foundation/S8-vercel-deploy.md.md
+```
+
+### S9: Auth
+
+**Primary Role:**
+
+```markdown
+use @.claude/agents/engineer-devops.md to execute @docs/0-process/references/story-dev-prompt.md for docs/3-epics/1A.4-documentation-foundation/S9-basic-auth.md.md
+```
