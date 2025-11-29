@@ -17,12 +17,12 @@
 
 ## Acceptance Criteria
 
-- [ ] React Testing Library renders components correctly in Vitest test environment
-- [ ] `screen` queries (`getByRole`, `getByText`, etc.) work as expected
-- [ ] `userEvent` simulates user interactions (click, type, tab)
-- [ ] Custom jest-dom matchers available (`toBeInTheDocument`, `toHaveClass`, etc.) without explicit imports
-- [ ] Happy-dom environment configured as default for component tests
-- [ ] Sample component test demonstrates rendering, querying, and user interaction
+- [x] React Testing Library renders components correctly in Vitest test environment
+- [x] `screen` queries (`getByRole`, `getByText`, etc.) work as expected
+- [x] `userEvent` simulates user interactions (click, type, tab)
+- [x] Custom jest-dom matchers available (`toBeInTheDocument`, `toHaveClass`, etc.) without explicit imports
+- [x] Happy-dom environment configured as default for component tests
+- [x] Sample component test demonstrates rendering, querying, and user interaction
 
 ## Technical Requirements
 
@@ -60,15 +60,15 @@ pnpm add -D @testing-library/react @testing-library/jest-dom @testing-library/us
 
 ### Manual Verification
 
-- [ ] **Component Rendering**: Render a React component in test, verify it appears
-- [ ] **User Interaction**: Simulate button click with userEvent, verify callback fires
-- [ ] **DOM Matchers**: Use `toBeInTheDocument()` without explicit import
+- [x] **Component Rendering**: Render a React component in test, verify it appears
+- [x] **User Interaction**: Simulate button click with userEvent, verify callback fires
+- [x] **DOM Matchers**: Use `toBeInTheDocument()` without explicit import
 
 ### Automated Tests
 
-- [ ] Unit: `Button.test.tsx` - Verify button renders with correct text
-- [ ] Unit: `Button.test.tsx` - Verify click handler fires on user click
-- [ ] Unit: `Button.test.tsx` - Verify disabled state prevents interaction
+- [x] Unit: `Button.test.tsx` - Verify button renders with correct text
+- [x] Unit: `Button.test.tsx` - Verify click handler fires on user click
+- [x] Unit: `Button.test.tsx` - Verify disabled state prevents interaction
 
 ### Verification Commands
 
@@ -156,15 +156,15 @@ Reference the TAD for implementation patterns:
 
 ### Pre-Verification
 
-- [ ] S1 (Vitest Setup) completed
-- [ ] Local environment matches [canonical versions](/docs/2-technical/references/canonical-versions.md)
+- [x] S1 (Vitest Setup) completed
+- [x] Local environment matches [canonical versions](/docs/2-technical/references/canonical-versions.md)
 
 ### Implementation Quality
 
-- [ ] All acceptance criteria met
-- [ ] No lint errors; types compile
-- [ ] Sample component test passing
-- [ ] Matchers work without per-file imports
+- [x] All acceptance criteria met
+- [x] No lint errors; types compile
+- [x] Sample component test passing
+- [x] Matchers work without per-file imports
 
 ### Git Hygiene
 
@@ -173,6 +173,48 @@ Reference the TAD for implementation patterns:
 
 ## Status
 
-- **State**: Not Started
+- **State**: Complete
+- **Completed**: 2025-11-29
 - **PR**: -
-- **Completed**: -
+
+## Completion Notes
+
+### Summary
+
+Configured React Testing Library with Vitest for component testing across the monorepo. Created a shared setup file in `packages/config/vitest/setup-react.ts` that imports jest-dom matchers and handles cleanup between tests. Added a sample Button component with comprehensive tests demonstrating RTL patterns including rendering, user interactions, disabled state handling, and keyboard accessibility.
+
+### Test Results
+
+| Test       | Command                                  | Result                            |
+| ---------- | ---------------------------------------- | --------------------------------- |
+| Lint       | `pnpm lint --filter @repo/routing`       | Pass                              |
+| Types      | `pnpm type-check --filter @repo/routing` | Pass                              |
+| Unit Tests | `pnpm test:ci --filter @repo/routing`    | Pass (23 tests - 8 new RTL tests) |
+| Build      | `pnpm build --filter @repo/routing`      | Pass                              |
+
+### Files Changed
+
+**Created (adapted from story spec):**
+
+- `packages/config/vitest/setup-react.ts` - Shared RTL setup with jest-dom matchers and cleanup
+- `apps/routing/src/components/Button.tsx` - Sample button component (story specified `apps/web`)
+- `apps/routing/src/components/Button.test.tsx` - RTL tests demonstrating patterns (story specified `apps/web`)
+
+**Modified:**
+
+- `packages/config/package.json` - Added export for `setup-react` and RTL dependencies
+- `apps/routing/vitest.config.ts` - Added setupFiles reference to shared setup
+- `apps/routing/vitest.d.ts` - Added jest-dom type reference for TypeScript support
+- `apps/routing/package.json` - Added RTL dependencies (@testing-library/react, jest-dom, user-event, dom)
+
+### Deviations from Plan
+
+1. **App name**: Story specified `apps/web` but actual app is `apps/routing`. All implementations adapted accordingly (consistent with S1).
+2. **Additional dependency**: Added `@testing-library/dom` as peer dependency required by `@testing-library/react` and `@testing-library/user-event`.
+3. **TypeScript types**: Added jest-dom type reference to `vitest.d.ts` for proper TypeScript support of DOM matchers.
+
+### Lessons Learned
+
+- The `@testing-library/jest-dom` package provides Vitest-specific matchers via `@testing-library/jest-dom/vitest` import
+- TypeScript requires explicit type reference (`/// <reference types="@testing-library/jest-dom" />`) to recognize jest-dom matchers on Vitest's expect
+- The setup file should include `cleanup()` from RTL in afterEach to prevent test isolation issues

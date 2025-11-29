@@ -31,7 +31,8 @@ export default mergeConfig(
       environment: "happy-dom",
 
       // Setup files run before each test file
-      // setupFiles: ['./src/test/setup.ts'],
+      // Includes React Testing Library setup with jest-dom matchers
+      setupFiles: ["@repo/config/vitest/setup-react"],
     },
   })
 );
