@@ -169,12 +169,25 @@ jobs:
             # Extract package name from path
             PACKAGE=$(dirname "$file" | sed 's|^\./||' | sed 's|/coverage||')
 
-            # Parse JSON and extract percentages
+            # Parse JSON and extract percentages (jq is pre-installed on GitHub runners)
             if command -v jq &> /dev/null; then
-              STATEMENTS=$(jq -r '.total.statements.pct // 0' "$file")
-              BRANCHES=$(jq -r '.total.branches.pct // 0' "$file")
-              FUNCTIONS=$(jq -r '.total.functions.pct // 0' "$file")
-              LINES=$(jq -r '.total.lines.pct // 0' "$file")
+              # Validate JSON and extract coverage data with error handling
+              if ! STATEMENTS=$(jq -r '.total.statements.pct // 0' "$file" 2>&1); then
+                echo "Warning: Failed to parse coverage data in $file: $STATEMENTS" >&2
+                continue
+              fi
+              if ! BRANCHES=$(jq -r '.total.branches.pct // 0' "$file" 2>&1); then
+                echo "Warning: Failed to parse branches in $file: $BRANCHES" >&2
+                continue
+              fi
+              if ! FUNCTIONS=$(jq -r '.total.functions.pct // 0' "$file" 2>&1); then
+                echo "Warning: Failed to parse functions in $file: $FUNCTIONS" >&2
+                continue
+              fi
+              if ! LINES=$(jq -r '.total.lines.pct // 0' "$file" 2>&1); then
+                echo "Warning: Failed to parse lines in $file: $LINES" >&2
+                continue
+              fi
 
               echo "| $PACKAGE | ${STATEMENTS}% | ${BRANCHES}% | ${FUNCTIONS}% | ${LINES}% |" >> coverage-report.md
 
