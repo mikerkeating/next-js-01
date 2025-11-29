@@ -11,7 +11,7 @@
     "./mocks/handlers": "./src/mocks/handlers.ts",
     "./factories": "./src/factories/index.ts",
     "./factories/user": "./src/factories/user.ts",
-    "./factories/organization": "./src/factories/Organization.ts"
+    "./factories/organization": "./src/factories/organization.ts"
   },
   "scripts": {
     "lint": "eslint . --max-warnings 0",

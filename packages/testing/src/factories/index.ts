@@ -26,7 +26,7 @@ export {
   createMinimalOrganization,
   createOrganizationForOwner,
   type Organization,
-} from "./Organization";
+} from "./organization";
 
 // Re-export faker for advanced usage
 export { faker } from "@faker-js/faker";
