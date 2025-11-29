@@ -87,7 +87,6 @@ export const coverageConfig: CoverageOptions<"v8"> = {
     "**/.next/**",
 
     // Test utilities and setup (testing infrastructure)
-    "**/testing/**",
     "**/test/**",
     "**/__tests__/**",
     "**/__mocks__/**",
