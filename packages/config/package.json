@@ -5,7 +5,11 @@
   "description": "Shared configuration files for the monorepo",
   "exports": {
     "./vitest/base": "./vitest/base.ts",
-    "./vitest/setup-react": "./vitest/setup-react.ts"
+    "./vitest/setup-react": "./vitest/setup-react.ts",
+    "./vitest/setup-msw": "./vitest/setup-msw.ts"
+  },
+  "dependencies": {
+    "@repo/testing": "workspace:*"
   },
   "devDependencies": {
     "@testing-library/jest-dom": "^6.1.0",

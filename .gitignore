@@ -68,7 +68,7 @@ yarn-error.log*
 # Storybook
 storybook-static/
 
-# Testing artifacts
-testing/
+# Testing artifacts (root level only, not packages/testing)
+/testing/
 # Turborepo
 .turbo

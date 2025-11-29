@@ -32,7 +32,8 @@ export default mergeConfig(
 
       // Setup files run before each test file
       // Includes React Testing Library setup with jest-dom matchers
-      setupFiles: ["@repo/config/vitest/setup-react"],
+      // Includes MSW server setup for API mocking
+      setupFiles: ["@repo/config/vitest/setup-react", "@repo/config/vitest/setup-msw"],
     },
   })
 );
