@@ -1,31 +1,35 @@
-# Development Branch CI Workflow
+# Pull Request Quality Checks Workflow
 #
-# Runs on push to development branch for continuous integration.
-# Pull request checks are handled by pr.yml workflow.
+# Runs automated quality checks on every pull request to ensure code quality
+# before merging. Jobs run in parallel for faster feedback.
 #
-# Note: E2E smoke tests moved to pr.yml as they require preview deployments.
-# This workflow will be enhanced in S5 (Main Workflow) to include
-# deployment to staging and production notifications.
+# Triggers: Pull requests to development and main branches
+# Jobs: lint, type-check, test, build (all parallel)
 #
 # Related Stories:
-# - Epic 1A.5.S1: Create PR Workflow with Quality Checks (created pr.yml)
-# - Epic 1A.5.S5: Main Workflow (will enhance this file)
+# - Epic 1A.5.S1: Create PR Workflow with Quality Checks
+#
+# Concurrency:
+# - Cancels in-progress runs when new commits are pushed to the same PR
+# - Prevents wasted CI minutes on superseded commits
 
-name: CI
+name: PR Quality Checks
 
 on:
-  push:
-    branches: [development]
-    paths-ignore:
-      - "docs/**"
-      - "*.md"
-      - ".vscode/**"
+  pull_request:
+    branches:
+      - development
+      - main
+    # Don't skip docs changes - they might affect build or have code examples
+    # Can add path filters in S2 (Turborepo filtering)
 
+# Cancel in-progress runs on the same PR to save CI minutes
 concurrency:
-  group: ${{ github.workflow }}-${{ github.ref }}
+  group: pr-${{ github.event.pull_request.number }}
   cancel-in-progress: true
 
 jobs:
+  # Lint job - ESLint code quality checks
   lint:
     name: Lint
     runs-on: ubuntu-latest
@@ -40,6 +44,7 @@ jobs:
       - name: Run ESLint
         run: pnpm lint
 
+  # Type check job - TypeScript compilation check
   type-check:
     name: Type Check
     runs-on: ubuntu-latest
@@ -54,6 +59,7 @@ jobs:
       - name: Run TypeScript type check
         run: pnpm type-check
 
+  # Test job - Vitest unit and integration tests
   test:
     name: Test
     runs-on: ubuntu-latest
@@ -68,6 +74,7 @@ jobs:
       - name: Run tests
         run: pnpm test
 
+  # Build job - Verify the application builds successfully
   build:
     name: Build
     runs-on: ubuntu-latest
@@ -82,4 +89,6 @@ jobs:
       - name: Build application
         run: pnpm build
         env:
+          # Provide required build-time environment variables
+          # These are placeholder values for CI build validation
           NEXT_PUBLIC_APP_URL: https://example.com
