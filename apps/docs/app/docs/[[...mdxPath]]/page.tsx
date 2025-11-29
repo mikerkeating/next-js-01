@@ -3,14 +3,14 @@ import { useMDXComponents as getMDXComponents } from "nextra-theme-docs";
 
 export const generateStaticParams = generateStaticParamsFor("mdxPath");
 
+interface PageProps {
+  params: { mdxPath?: string[] } | Promise<{ mdxPath?: string[] }>;
+}
+
 export async function generateMetadata(props: PageProps) {
   const params = await props.params;
   const { metadata } = await importPage(params.mdxPath);
   return metadata;
-}
-
-interface PageProps {
-  params: Promise<{ mdxPath?: string[] }>;
 }
 
 export default async function Page(props: PageProps) {

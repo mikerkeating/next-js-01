@@ -5,9 +5,10 @@ import "nextra-theme-docs/style.css";
 import type { ReactNode } from "react";
 import type { Metadata } from "next";
 
-const GITHUB_REPO = "https://github.com/mikerkeating/next-js-01";
-const DOCS_BRANCH = "development";
-const DOCS_PATH = "docs";
+const GITHUB_REPO =
+  process.env.NEXT_PUBLIC_DOCS_GITHUB_REPO ?? "https://github.com/mikerkeating/next-js-01";
+const DOCS_BRANCH = process.env.NEXT_PUBLIC_DOCS_GITHUB_BRANCH ?? "development";
+const DOCS_PATH = process.env.NEXT_PUBLIC_DOCS_PATH ?? "docs";
 
 export const metadata: Metadata = {
   title: {
