@@ -2,21 +2,57 @@
  * @repo/testing - Shared testing utilities for the monorepo
  *
  * This package provides reusable testing utilities including:
+ * - renderWithProviders for rendering components with test providers
  * - MSW (Mock Service Worker) for API mocking
  * - Data factories using @faker-js/faker
+ * - Re-exports of React Testing Library utilities for version consistency
  *
  * @example
  * ```typescript
  * // Import everything from the main entry
- * import { server, createUser, createOrganization } from '@repo/testing';
+ * import {
+ *   renderWithProviders,
+ *   screen,
+ *   userEvent,
+ *   createUser,
+ *   createOrganization
+ * } from '@repo/testing';
  *
+ * test('renders component', async () => {
+ *   const user = userEvent.setup();
+ *   renderWithProviders(<MyComponent />);
+ *
+ *   await user.click(screen.getByRole('button'));
+ *   expect(screen.getByText('Clicked')).toBeInTheDocument();
+ * });
+ * ```
+ *
+ * @example
+ * ```typescript
  * // Or import from specific subpaths for better tree-shaking
+ * import { renderWithProviders } from '@repo/testing/render';
  * import { server, setupMswServer } from '@repo/testing/mocks';
  * import { createUser, createOrganization } from '@repo/testing/factories';
  * ```
  *
  * @packageDocumentation
  */
+
+// Render utilities
+export { renderWithProviders } from "./render";
+export { TestProviders, createTestWrapper } from "./providers";
+
+// Types
+export type {
+  ProviderOptions,
+  RenderWithProvidersOptions,
+  RenderWithProvidersResult,
+  TestProvidersProps,
+} from "./types";
+
+// Re-export React Testing Library utilities for version consistency
+export { screen, within, waitFor, act, cleanup } from "@testing-library/react";
+export { default as userEvent } from "@testing-library/user-event";
 
 // Re-export all mocks
 export * from "./mocks";

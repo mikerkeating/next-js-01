@@ -6,6 +6,9 @@
   "type": "module",
   "exports": {
     ".": "./src/index.ts",
+    "./render": "./src/render.tsx",
+    "./providers": "./src/providers.tsx",
+    "./types": "./src/types.ts",
     "./mocks": "./src/mocks/index.ts",
     "./mocks/server": "./src/mocks/server.ts",
     "./mocks/handlers": "./src/mocks/handlers.ts",
@@ -17,18 +20,28 @@
     "lint": "eslint . --max-warnings 0",
     "lint:fix": "eslint . --fix",
     "type-check": "tsc --noEmit",
-    "test": "vitest --passWithNoTests",
-    "test:ci": "vitest run --passWithNoTests"
+    "test": "vitest",
+    "test:ci": "vitest run"
   },
   "dependencies": {
     "@faker-js/faker": "^8.4.1",
+    "@testing-library/react": "^16.0.0",
+    "@testing-library/user-event": "^14.5.0",
     "msw": "^2.12.3"
   },
   "devDependencies": {
+    "@testing-library/jest-dom": "^6.1.0",
+    "@types/react": "^19.0.0",
+    "@types/react-dom": "^19.0.0",
+    "happy-dom": "^20.0.11",
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0",
     "typescript": "^5.7.0",
     "vitest": "^4.0.14"
   },
   "peerDependencies": {
+    "react": ">=18.0.0",
+    "react-dom": ">=18.0.0",
     "vitest": ">=2.0.0"
   }
 }
