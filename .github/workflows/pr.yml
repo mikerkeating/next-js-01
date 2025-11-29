@@ -73,18 +73,11 @@ jobs:
 
       - name: Determine filter flag
         id: filter
-        run: |
-          # Use full run (no filter) if: workflow_dispatch with full_run=true, or 'ci:full' label present
-          if [[ "${{ github.event_name }}" == "workflow_dispatch" && "${{ inputs.full_run }}" == "true" ]]; then
-            echo "flag=" >> $GITHUB_OUTPUT
-            echo "Running full CI (workflow_dispatch)"
-          elif [[ "${{ contains(github.event.pull_request.labels.*.name, 'ci:full') }}" == "true" ]]; then
-            echo "flag=" >> $GITHUB_OUTPUT
-            echo "Running full CI (ci:full label)"
-          else
-            echo "flag=--filter=[HEAD^1]" >> $GITHUB_OUTPUT
-            echo "Running filtered CI for affected packages only"
-          fi
+        uses: ./.github/actions/turbo-filter
+        with:
+          event_name: ${{ github.event_name }}
+          full_run: ${{ inputs.full_run }}
+          has_full_label: ${{ contains(github.event.pull_request.labels.*.name, 'ci:full') }}
 
       - name: Run ESLint
         run: pnpm turbo run lint ${{ steps.filter.outputs.flag }} --summarize
@@ -106,18 +99,11 @@ jobs:
 
       - name: Determine filter flag
         id: filter
-        run: |
-          # Use full run (no filter) if: workflow_dispatch with full_run=true, or 'ci:full' label present
-          if [[ "${{ github.event_name }}" == "workflow_dispatch" && "${{ inputs.full_run }}" == "true" ]]; then
-            echo "flag=" >> $GITHUB_OUTPUT
-            echo "Running full CI (workflow_dispatch)"
-          elif [[ "${{ contains(github.event.pull_request.labels.*.name, 'ci:full') }}" == "true" ]]; then
-            echo "flag=" >> $GITHUB_OUTPUT
-            echo "Running full CI (ci:full label)"
-          else
-            echo "flag=--filter=[HEAD^1]" >> $GITHUB_OUTPUT
-            echo "Running filtered CI for affected packages only"
-          fi
+        uses: ./.github/actions/turbo-filter
+        with:
+          event_name: ${{ github.event_name }}
+          full_run: ${{ inputs.full_run }}
+          has_full_label: ${{ contains(github.event.pull_request.labels.*.name, 'ci:full') }}
 
       - name: Run TypeScript type check
         run: pnpm turbo run type-check ${{ steps.filter.outputs.flag }} --summarize
@@ -139,18 +125,11 @@ jobs:
 
       - name: Determine filter flag
         id: filter
-        run: |
-          # Use full run (no filter) if: workflow_dispatch with full_run=true, or 'ci:full' label present
-          if [[ "${{ github.event_name }}" == "workflow_dispatch" && "${{ inputs.full_run }}" == "true" ]]; then
-            echo "flag=" >> $GITHUB_OUTPUT
-            echo "Running full CI (workflow_dispatch)"
-          elif [[ "${{ contains(github.event.pull_request.labels.*.name, 'ci:full') }}" == "true" ]]; then
-            echo "flag=" >> $GITHUB_OUTPUT
-            echo "Running full CI (ci:full label)"
-          else
-            echo "flag=--filter=[HEAD^1]" >> $GITHUB_OUTPUT
-            echo "Running filtered CI for affected packages only"
-          fi
+        uses: ./.github/actions/turbo-filter
+        with:
+          event_name: ${{ github.event_name }}
+          full_run: ${{ inputs.full_run }}
+          has_full_label: ${{ contains(github.event.pull_request.labels.*.name, 'ci:full') }}
 
       - name: Run tests with coverage
         run: pnpm turbo run test:coverage ${{ steps.filter.outputs.flag }} --summarize
@@ -274,18 +253,11 @@ jobs:
 
       - name: Determine filter flag
         id: filter
-        run: |
-          # Use full run (no filter) if: workflow_dispatch with full_run=true, or 'ci:full' label present
-          if [[ "${{ github.event_name }}" == "workflow_dispatch" && "${{ inputs.full_run }}" == "true" ]]; then
-            echo "flag=" >> $GITHUB_OUTPUT
-            echo "Running full CI (workflow_dispatch)"
-          elif [[ "${{ contains(github.event.pull_request.labels.*.name, 'ci:full') }}" == "true" ]]; then
-            echo "flag=" >> $GITHUB_OUTPUT
-            echo "Running full CI (ci:full label)"
-          else
-            echo "flag=--filter=[HEAD^1]" >> $GITHUB_OUTPUT
-            echo "Running filtered CI for affected packages only"
-          fi
+        uses: ./.github/actions/turbo-filter
+        with:
+          event_name: ${{ github.event_name }}
+          full_run: ${{ inputs.full_run }}
+          has_full_label: ${{ contains(github.event.pull_request.labels.*.name, 'ci:full') }}
 
       - name: Build application
         run: pnpm turbo run build ${{ steps.filter.outputs.flag }} --summarize

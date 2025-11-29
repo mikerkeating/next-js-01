@@ -1,0 +1,61 @@
+# Reusable composite action for Turborepo filter flag determination
+# Centralizes the logic for deciding whether to run full CI or filtered CI
+#
+# Filter modes:
+# - Full run (no filter): workflow_dispatch with full_run=true, or 'ci:full' label
+# - Filtered run: --filter=[HEAD^1] to run only affected packages
+#
+# Usage:
+#   jobs:
+#     example:
+#       steps:
+#         - uses: actions/checkout@v4
+#         - name: Determine filter flag
+#           id: filter
+#           uses: ./.github/actions/turbo-filter
+#           with:
+#             event_name: ${{ github.event_name }}
+#             full_run: ${{ inputs.full_run }}
+#             has_full_label: ${{ contains(github.event.pull_request.labels.*.name, 'ci:full') }}
+#         - name: Run task
+#           run: pnpm turbo run build ${{ steps.filter.outputs.flag }}
+
+name: Turbo Filter Flag
+description: Determine Turborepo filter flag for CI runs
+
+inputs:
+  event_name:
+    description: The GitHub event name (github.event_name)
+    required: true
+  full_run:
+    description: Whether full run was requested via workflow_dispatch (inputs.full_run)
+    required: false
+    default: "false"
+  has_full_label:
+    description: Whether the PR has the ci:full label
+    required: false
+    default: "false"
+
+outputs:
+  flag:
+    description: The Turborepo filter flag (empty for full run, --filter=[HEAD^1] for filtered)
+    value: ${{ steps.determine.outputs.flag }}
+
+runs:
+  using: composite
+  steps:
+    - name: Determine filter flag
+      id: determine
+      shell: bash
+      run: |
+        # Use full run (no filter) if: workflow_dispatch with full_run=true, or 'ci:full' label present
+        if [[ "${{ inputs.event_name }}" == "workflow_dispatch" && "${{ inputs.full_run }}" == "true" ]]; then
+          echo "flag=" >> $GITHUB_OUTPUT
+          echo "Running full CI (workflow_dispatch)"
+        elif [[ "${{ inputs.has_full_label }}" == "true" ]]; then
+          echo "flag=" >> $GITHUB_OUTPUT
+          echo "Running full CI (ci:full label)"
+        else
+          echo "flag=--filter=[HEAD^1]" >> $GITHUB_OUTPUT
+          echo "Running filtered CI for affected packages only"
+        fi
