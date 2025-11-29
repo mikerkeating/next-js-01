@@ -10,6 +10,7 @@
     "lint:fix": "eslint . --fix",
     "type-check": "tsc --noEmit",
     "test": "echo 'No unit tests configured yet'",
+    "test:coverage": "echo 'Coverage reporting requires Vitest setup from Epic 1A.3'",
     "test:e2e:smoke": "playwright test tests/e2e/smoke.spec.ts",
     "clean": "rm -rf .next .turbo node_modules"
   },

@@ -9,6 +9,8 @@
     "lint": "eslint . --max-warnings 0",
     "lint:fix": "eslint . --fix",
     "type-check": "tsc --noEmit",
+    "test": "echo 'No unit tests for docs app'",
+    "test:coverage": "echo 'No coverage for docs app'",
     "clean": "rm -rf .next .turbo node_modules"
   },
   "dependencies": {

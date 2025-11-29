@@ -45,6 +45,11 @@
       "inputs": ["$TURBO_DEFAULT$", "vitest.config.*", "vitest.workspace.*", "testing/**"],
       "outputs": ["testing/coverage/**"]
     },
+    "test:coverage": {
+      "dependsOn": ["^build"],
+      "inputs": ["$TURBO_DEFAULT$", "vitest.config.*", "vitest.workspace.*", "testing/**"],
+      "outputs": ["coverage/**"]
+    },
     "test:e2e": {
       "dependsOn": ["^build"],
       "outputs": ["testing/e2e/results/**"],
