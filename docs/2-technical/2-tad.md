@@ -1031,7 +1031,7 @@ Third-party service integrations with proper error handling, retry logic, and mo
 
 ### Creating New ADRs
 
-When making significant architectural decisions, create a new ADR using the template in [docs/3-references/adr-template.md](../3-references/adr-template.md).
+When making significant architectural decisions, create a new ADR using the [ADR Template](/docs/0-process/references/adr-template.md). See the [ADR Catalog](/docs/2-technical/adr/README.md) for detailed instructions.
 
 ---
 
