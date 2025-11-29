@@ -59,10 +59,15 @@ describe("renderWithProviders", () => {
   });
 
   it("creates isolated providers per render call", () => {
-    // This test verifies that each render call gets its own provider instance
-    // preventing state leakage between tests
-    renderWithProviders(<TestComponent text="First" />);
+    // Render first component
+    const { unmount: unmount1 } = renderWithProviders(<TestComponent text="First" />);
     expect(screen.getByText("First")).toBeInTheDocument();
+    unmount1();
+
+    // Render second component - should not share state with first
+    renderWithProviders(<TestComponent text="Second" />);
+    expect(screen.getByText("Second")).toBeInTheDocument();
+    expect(screen.queryByText("First")).not.toBeInTheDocument();
   });
 
   it("supports custom wrapper component via providerOptions", () => {
