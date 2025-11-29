@@ -11,7 +11,10 @@
 #   0 - All packages have README.md files
 #   1 - One or more packages missing README.md
 
-set -e
+set -euo pipefail
+
+# Change to repository root (parent of scripts directory)
+cd "$(dirname "$0")/.."
 
 # Colors for output
 RED='\033[0;31m'
