@@ -6,6 +6,8 @@ import type { ReactNode } from "react";
 import type { Metadata } from "next";
 
 const GITHUB_REPO = "https://github.com/mikerkeating/next-js-01";
+const DOCS_BRANCH = "development";
+const DOCS_PATH = "docs";
 
 export const metadata: Metadata = {
   title: {
@@ -22,11 +24,13 @@ export const metadata: Metadata = {
 
 const navbar = <Navbar logo={<strong>MK3 Platform</strong>} projectLink={GITHUB_REPO} />;
 
-const footer = (
-  <Footer>
-    <span>MIT {new Date().getFullYear()} &copy; MK3 Platform</span>
-  </Footer>
-);
+function SiteFooter() {
+  return (
+    <Footer>
+      <span>MIT {new Date().getFullYear()} &copy; MK3 Platform</span>
+    </Footer>
+  );
+}
 
 interface RootLayoutProps {
   children: ReactNode;
@@ -42,8 +46,8 @@ export default async function RootLayout({ children }: RootLayoutProps): Promise
         <Layout
           navbar={navbar}
           pageMap={pageMap}
-          docsRepositoryBase={`${GITHUB_REPO}/tree/main/docs`}
-          footer={footer}
+          docsRepositoryBase={`${GITHUB_REPO}/tree/${DOCS_BRANCH}/${DOCS_PATH}`}
+          footer={<SiteFooter />}
           sidebar={{ defaultMenuCollapseLevel: 1 }}
           toc={{ float: true }}
           editLink="Edit this page on GitHub"

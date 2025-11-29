@@ -21,7 +21,7 @@ export default async function Page(props: PageProps) {
 
   return (
     <Wrapper toc={toc} metadata={metadata} {...rest}>
-      <MDXContent {...props} params={params} />
+      <MDXContent params={params} />
     </Wrapper>
   );
 }

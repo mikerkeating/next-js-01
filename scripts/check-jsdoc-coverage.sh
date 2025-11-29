@@ -16,14 +16,17 @@
 #   0 - JSDoc coverage meets threshold
 #   1 - JSDoc coverage below threshold (unless --warn-only)
 
-set -e
+set -euo pipefail
+
+# Change to repository root (parent of scripts directory)
+cd "$(dirname "$0")/.."
 
 # Configuration
 THRESHOLD=80  # Minimum JSDoc coverage percentage
 WARN_ONLY=false
 
 # Parse arguments
-if [ "$1" = "--warn-only" ]; then
+if [ "${1:-}" = "--warn-only" ]; then
   WARN_ONLY=true
 fi
 
@@ -117,24 +120,55 @@ for pkg_dir in packages/*/; do
         ;;
     esac
 
-    # Count exported functions/classes/constants
-    file_exports=$(grep -cE "^export (async )?function |^export const |^export class |^export interface |^export type " "$file" 2>/dev/null || echo "0")
+    # -------------------------------------------------------------------------
+    # Export Detection Heuristic
+    # -------------------------------------------------------------------------
+    # Counted as exports:
+    #   - export function / export async function
+    #   - export const / export let / export var
+    #   - export class / export abstract class
+    #   - export interface / export type
+    #   - export default (function, class, const, etc.)
+    #   - export { ... } from '...' (re-exports)
+    #
+    # Intentionally excluded:
+    #   - Inline exports within object literals or function bodies
+    #   - Dynamic exports (module.exports, exports.foo)
+    #   - export = syntax (legacy TypeScript)
+    #
+    # JSDoc detection accepts up to 3 blank/whitespace-only lines between
+    # the closing */ and the export statement.
+    # -------------------------------------------------------------------------
 
-    # Count documented exports (JSDoc ending with */ followed by export on next line)
+    # Count exported functions/classes/constants including default and re-exports
+    file_exports=$(grep -cE "^export (async )?(function |const |let |var |class |abstract class |interface |type |default )|^export \{[^}]+\} from " "$file" 2>/dev/null || echo "0")
+
+    # Count documented exports (JSDoc ending with */ followed by export,
+    # allowing up to 3 blank/whitespace-only lines between them)
     documented_in_file=0
-    prev_was_jsdoc_end=false
+    lines_since_jsdoc=999  # Large number = no recent JSDoc
 
     while IFS= read -r line; do
       # Check for JSDoc end (line ending with */)
       case "$line" in
         *"*/")
-          prev_was_jsdoc_end=true
+          lines_since_jsdoc=0
           continue
           ;;
       esac
 
-      # Check for export after JSDoc
-      if [ "$prev_was_jsdoc_end" = "true" ]; then
+      # Check if this is a blank/whitespace-only line
+      trimmed="${line#"${line%%[![:space:]]*}"}"
+      if [ -z "$trimmed" ]; then
+        # Blank line: increment counter but stay in "after JSDoc" window
+        if [ "$lines_since_jsdoc" -lt 999 ]; then
+          lines_since_jsdoc=$((lines_since_jsdoc + 1))
+        fi
+        continue
+      fi
+
+      # Check for export after JSDoc (within 3-line window)
+      if [ "$lines_since_jsdoc" -le 3 ]; then
         case "$line" in
           export\ * | "export	"*)
             documented_in_file=$((documented_in_file + 1))
@@ -142,7 +176,8 @@ for pkg_dir in packages/*/; do
         esac
       fi
 
-      prev_was_jsdoc_end=false
+      # Non-blank line resets the JSDoc window
+      lines_since_jsdoc=999
     done < "$file"
 
     # Write to temp files for aggregation (subshell can't modify parent vars)
