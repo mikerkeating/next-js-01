@@ -10,7 +10,7 @@
  */
 
 import type { RenderOptions as RTLRenderOptions, RenderResult } from "@testing-library/react";
-import type { ReactElement, ReactNode } from "react";
+import type { ComponentType, ReactElement, ReactNode } from "react";
 
 /**
  * Options for configuring test providers.
@@ -27,7 +27,7 @@ export interface ProviderOptions {
    * Custom wrapper component to use around children.
    * If provided, this will be used in addition to the default providers.
    */
-  wrapper?: React.ComponentType<{ children: ReactNode }>;
+  wrapper?: ComponentType<{ children: ReactNode }>;
 }
 
 /**
