@@ -1,23 +1,9 @@
 /**
- * Shared Vitest configuration for all packages in the monorepo.
+ * Shared coverage configuration for Vitest.
  *
- * This base configuration provides consistent test settings across all apps
- * and packages. Individual vitest.config.ts files should extend this base
- * and add app-specific settings like path aliases.
- *
- * Includes coverage configuration for enforcing quality thresholds.
- * Coverage is collected when running `pnpm test:coverage`.
- *
- * @see https://vitest.dev/config/
- * @see https://vitest.dev/guide/coverage.html
- */
-import { defineConfig } from "vitest/config";
-
-/**
- * Coverage configuration for enforcing quality thresholds.
- *
- * This configuration uses the V8 provider for native coverage collection
- * and enforces minimum thresholds to maintain test quality.
+ * This configuration provides consistent coverage settings across all
+ * packages in the monorepo. It uses the V8 provider for native coverage
+ * collection and enforces minimum thresholds to maintain test quality.
  *
  * Coverage thresholds:
  * - 80% minimum for lines, branches, functions, and statements
@@ -27,18 +13,27 @@ import { defineConfig } from "vitest/config";
  * - text: Console output for local development
  * - lcov: Standard format for CI/CD integration
  * - html: Interactive browser-based report
+ *
+ * @see https://vitest.dev/guide/coverage.html
  */
-const coverageConfig: {
-  provider: "v8";
-  enabled: boolean;
-  reportsDirectory: string;
-  reporter: string[];
-  thresholds: { lines: number; branches: number; functions: number; statements: number };
-  exclude: string[];
-  include: string[];
-  skipFull: boolean;
-  clean: boolean;
-} = {
+import type { CoverageOptions } from "vitest/node";
+
+/**
+ * Coverage configuration object for merging into Vitest config.
+ *
+ * @example
+ * ```ts
+ * import { mergeConfig } from 'vitest/config';
+ * import { coverageConfig } from '@repo/config/vitest/coverage';
+ *
+ * export default mergeConfig(baseConfig, {
+ *   test: {
+ *     coverage: coverageConfig,
+ *   },
+ * });
+ * ```
+ */
+export const coverageConfig: CoverageOptions<"v8"> = {
   // Use V8 coverage provider for native, fast coverage collection
   // V8 is faster than Istanbul and doesn't require code transformation
   provider: "v8",
@@ -112,40 +107,4 @@ const coverageConfig: {
   clean: true,
 };
 
-export const baseConfig = defineConfig({
-  test: {
-    // Enable global APIs (describe, it, expect) without imports
-    globals: true,
-
-    // Default test environment for DOM-based tests
-    // Individual packages can override to 'node' for non-DOM tests
-    environment: "happy-dom",
-
-    // Test file patterns to discover
-    include: ["**/*.test.ts", "**/*.test.tsx"],
-
-    // Files to exclude from testing
-    exclude: ["**/node_modules/**", "**/dist/**", "**/.next/**", "**/coverage/**"],
-
-    // Watch mode configuration
-    watch: true,
-
-    // Enable better test output
-    reporters: ["default"],
-
-    // Pool configuration for running tests in parallel
-    pool: "threads",
-
-    // Timeout for each test (in ms)
-    testTimeout: 10000,
-
-    // Timeout for hooks (beforeEach, afterEach, etc.)
-    hookTimeout: 10000,
-
-    // Coverage configuration from shared settings
-    // Activated when running with --coverage flag
-    coverage: coverageConfig,
-  },
-});
-
-export default baseConfig;
+export default coverageConfig;

@@ -2,9 +2,11 @@
   "name": "@repo/config",
   "version": "0.1.0",
   "private": true,
+  "type": "module",
   "description": "Shared configuration files for the monorepo",
   "exports": {
     "./vitest/base": "./vitest/base.ts",
+    "./vitest/coverage": "./vitest/coverage.ts",
     "./vitest/setup-react": "./vitest/setup-react.ts",
     "./vitest/setup-msw": "./vitest/setup-msw.ts"
   },
@@ -14,6 +16,7 @@
   "devDependencies": {
     "@testing-library/jest-dom": "^6.1.0",
     "@testing-library/react": "^16.0.0",
+    "@vitest/coverage-v8": "^4.0.14",
     "vitest": "^4.0.14"
   }
 }
