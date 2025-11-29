@@ -4,10 +4,11 @@
 - 1A.4-documentation-foundation
   - [ ] S8
   - [ ] S9
-  - [ ] documentation
+  - [ ] S10
   - confirm done - get epic-eval
   - README
 - 1A.5-basic-cicd
   - [ ] keep going
 - 2A.1-config-package
-  - [ ] does it do eslint 9 flat?
+  - [x] does it do eslint 9 flat? changes
+  - [ ] run this
