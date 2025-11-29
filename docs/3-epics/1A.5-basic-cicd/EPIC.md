@@ -44,7 +44,7 @@ Basic CI/CD Pipeline establishes automated quality gates and deployment workflow
 - All checks required for merge (branch protection)
 - Main workflow: full test suite, staging deployment, failure notifications
 - Dependabot configured for automated dependency updates
-- npm audit integrated for security vulnerability scanning
+- pnpm audit integrated for security vulnerability scanning
 
 ## Acceptance Criteria
 
@@ -57,7 +57,7 @@ Basic CI/CD Pipeline establishes automated quality gates and deployment workflow
 - [ ] Merging to `development` branch triggers full test suite and staging deployment automatically
 - [ ] Build failures on `development` branch send notifications to configured channels (Slack/Discord)
 - [ ] Dependabot creates PRs for dependency updates on weekly schedule with security updates prioritised
-- [ ] `npm audit` runs on every PR and fails on high/critical vulnerabilities
+- [ ] `pnpm audit` runs on every PR and fails on high/critical vulnerabilities
 - [ ] Branch protection rules enforce: required reviews, passing checks, and up-to-date branch
 - [ ] CI pipeline completes in <10 minutes for full run, <5 minutes for affected-only run
 - [ ] All stories complete and verified
@@ -135,7 +135,7 @@ S5 (Main Workflow) ──┼──→ S6 (Branch Protection)
 The following items are explicitly NOT part of this epic:
 
 - **OWASP ZAP Security Scanning** - Deferred to Epic 5A.1 (Advanced CI/CD Pipeline)
-- **Snyk Vulnerability Scanning** - Deferred to Epic 5A.1; `npm audit` provides basic coverage
+- **Snyk Vulnerability Scanning** - Deferred to Epic 5A.1; `pnpm audit` provides basic coverage
 - **License Compliance Checking** - Deferred to Epic 5A.1 (Advanced CI/CD Pipeline)
 - **Semantic Versioning and Automated Changelog** - Deferred to Epic 5A.1 (Advanced CI/CD Pipeline)
 - **Automated Rollback Procedures** - Deferred to Epic 5A.1; manual rollback via Vercel initially

@@ -136,7 +136,7 @@ The following items are explicitly NOT part of this epic:
 - **ESLint Rule Configuration** - Initial rules only; advanced rules deferred to Epic 2A.1 (Configuration Package)
 - **Prettier Plugin Configuration** - Basic formatting only; Tailwind sorting deferred to Epic 2A.1
 - **Testing Tool Configuration (Vitest)** - Deferred to Epic 1A.3 (Testing Foundation)
-- **Security Scanning (npm audit in CI)** - Deferred to Epic 1A.5 (Basic CI/CD Pipeline)
+- **Security Scanning (pnpm audit in CI)** - Deferred to Epic 1A.5 (Basic CI/CD Pipeline)
 - **Type-Checking in Pre-commit** - Too slow for pre-commit; runs in CI only
 - **Storybook Integration** - Deferred to Epic 4A.2 (Storybook Enhancement)
 - **Advanced Dependabot Configuration** - Auto-merge for patch updates requires CI pipeline first (Epic 1A.5)

@@ -1,0 +1,33 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(pnpm lint *)",
+      "Bash(pnpm lint:*)",
+      "Bash(pnpm type-check *)",
+      "Bash(pnpm build *)",
+      "Bash(pnpm dev *)",
+      "Bash(pnpm add *)",
+      "Bash(pnpm exec *)",
+      "Bash(pnpm list *)",
+      "Bash(pnpm eslint *)",
+      "Bash(pnpm test *)",
+      "Bash(lsof:*)",
+      "Bash(kill:*)",
+      "Bash(git -C /Users/mac/Code/mkcubed/next-js-01 status)",
+      "Bash(./scripts/run-next-story-prompt-auto.sh:*)",
+      "Bash(git mv:*)",
+      "Bash(git add *)",
+      "WebFetch(domain:fonts.googleapis.com)",
+      "WebFetch(domain:fonts.gstatic.com)"
+    ],
+    "deny": [],
+    "ask": []
+  },
+  "sandbox": {
+    "enabled": true,
+    "autoAllowBashIfSandboxed": true,
+    "network": {
+      "allowLocalBinding": true
+    }
+  }
+}
