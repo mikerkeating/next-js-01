@@ -70,19 +70,25 @@ function generateSlug(text: string): string {
  * ```
  */
 export function createOrganization(overrides: Partial<Organization> = {}): Organization {
-  const companyName = faker.company.name();
   const now = new Date();
 
-  return {
+  const base = {
     id: faker.string.uuid(),
-    name: companyName,
-    slug: generateSlug(companyName),
+    name: faker.company.name(),
+    slug: "", // Will be set below
     description: faker.company.catchPhrase(),
     logoUrl: faker.image.urlLoremFlickr({ category: "business" }),
     ownerId: faker.string.uuid(),
     createdAt: faker.date.past({ years: 1 }),
     updatedAt: now,
     ...overrides,
+  };
+
+  // Generate slug from final name (after overrides)
+  const finalName = overrides.name ?? base.name;
+  return {
+    ...base,
+    slug: overrides.slug ?? generateSlug(finalName),
   };
 }
 
@@ -117,19 +123,25 @@ export function createOrganizations(
  * @returns An Organization object with minimal but valid data
  */
 export function createMinimalOrganization(overrides: Partial<Organization> = {}): Organization {
-  const name = faker.company.name();
   const now = new Date();
 
-  return {
+  const base = {
     id: faker.string.uuid(),
-    name,
-    slug: generateSlug(name),
+    name: faker.company.name(),
+    slug: "", // Will be set below
     description: null,
     logoUrl: null,
     ownerId: faker.string.uuid(),
     createdAt: now,
     updatedAt: now,
     ...overrides,
+  };
+
+  // Generate slug from final name (after overrides)
+  const finalName = overrides.name ?? base.name;
+  return {
+    ...base,
+    slug: overrides.slug ?? generateSlug(finalName),
   };
 }
 
