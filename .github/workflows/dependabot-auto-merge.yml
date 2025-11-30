@@ -1,0 +1,74 @@
+# Dependabot Auto-Merge Workflow
+#
+# Automatically merges Dependabot PRs for patch-level updates after CI passes.
+# This reduces manual overhead while maintaining safety through CI validation.
+#
+# Scope:
+# - ONLY patch updates (x.x.N) are auto-merged
+# - Minor and major updates require manual review
+# - Security updates follow the same rules (patch = auto, minor/major = manual)
+#
+# Safety:
+# - Waits for all CI checks to pass before merging
+# - Uses squash merge to maintain clean commit history
+# - Requires Dependabot to have bypass permissions for branch protection
+#
+# Related Stories:
+# - Epic 1A.5.S7: Set Up Dependabot and Security Scanning
+#
+# Reference: https://docs.github.com/en/code-security/dependabot/working-with-dependabot/automating-dependabot-with-github-actions
+
+name: Dependabot Auto-Merge
+
+on:
+  pull_request_target:
+    types:
+      - opened
+      - synchronize
+      - reopened
+
+# Permissions required for auto-merge
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  dependabot-auto-merge:
+    name: Auto-Merge Patch Updates
+    runs-on: ubuntu-latest
+    # Only run for Dependabot PRs
+    if: github.actor == 'dependabot[bot]'
+    steps:
+      # Fetch Dependabot metadata to determine update type
+      - name: Fetch Dependabot metadata
+        id: metadata
+        uses: dependabot/fetch-metadata@v2
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+
+      # Only auto-merge patch updates
+      # Semantic versioning: patch = x.x.N (bug fixes, no breaking changes)
+      - name: Enable auto-merge for patch updates
+        if: steps.metadata.outputs.update-type == 'version-update:semver-patch'
+        run: gh pr merge --auto --squash "$PR_URL"
+        env:
+          PR_URL: ${{ github.event.pull_request.html_url }}
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      # Log decision for transparency
+      - name: Log merge decision
+        run: |
+          echo "## Dependabot Auto-Merge Decision" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "| Field | Value |" >> $GITHUB_STEP_SUMMARY
+          echo "|-------|-------|" >> $GITHUB_STEP_SUMMARY
+          echo "| **Package** | ${{ steps.metadata.outputs.dependency-names }} |" >> $GITHUB_STEP_SUMMARY
+          echo "| **Update Type** | ${{ steps.metadata.outputs.update-type }} |" >> $GITHUB_STEP_SUMMARY
+          echo "| **Previous Version** | ${{ steps.metadata.outputs.previous-version }} |" >> $GITHUB_STEP_SUMMARY
+          echo "| **New Version** | ${{ steps.metadata.outputs.new-version }} |" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          if [ "${{ steps.metadata.outputs.update-type }}" == "version-update:semver-patch" ]; then
+            echo "**Action**: Auto-merge enabled (patch update)" >> $GITHUB_STEP_SUMMARY
+          else
+            echo "**Action**: Manual review required (${{ steps.metadata.outputs.update-type }})" >> $GITHUB_STEP_SUMMARY
+          fi
