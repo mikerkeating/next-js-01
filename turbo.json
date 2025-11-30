@@ -72,6 +72,9 @@
       "inputs": ["$TURBO_DEFAULT$", "vitest.config.*", "vitest.workspace.*", "testing/**"],
       "outputs": ["coverage/**"]
     },
+    "docs#test:coverage": {
+      "outputs": []
+    },
     "test:e2e": {
       "dependsOn": ["^build"],
       "outputs": ["testing/e2e/results/**"],
