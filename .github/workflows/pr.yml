@@ -249,7 +249,7 @@ jobs:
 
       # Post coverage comment to PR (sticky - updates existing comment)
       - name: Post coverage comment
-        if: github.event_name == 'pull_request'
+        if: github.event_name == 'pull_request' && steps.coverage.outputs.has_coverage == 'true'
         uses: marocchino/sticky-pull-request-comment@v2 # commit hash does not work
         with:
           header: coverage-report

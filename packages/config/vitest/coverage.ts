@@ -6,7 +6,7 @@
  * collection and enforces minimum thresholds to maintain test quality.
  *
  * Coverage thresholds:
- * - 80% minimum for lines, branches, functions, and statements
+ * - Centralized thresholds — see config below for current values
  * - Tests fail when coverage drops below threshold (exit code 1)
  *
  * Reporters:

@@ -131,6 +131,15 @@ export function createUsers(
   count: number = 3,
   overrides?: Partial<User> | ((index: number) => Partial<User>)
 ): User[] {
+  if (
+    typeof count !== "number" ||
+    !Number.isFinite(count) ||
+    !Number.isInteger(count) ||
+    count < 0
+  ) {
+    throw new RangeError(`createUsers: count must be a non-negative integer, received ${count}`);
+  }
+
   return Array.from({ length: count }, (_, i) =>
     createUser(typeof overrides === "function" ? overrides(i) : overrides)
   );

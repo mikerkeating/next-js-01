@@ -11,10 +11,11 @@
 
 import { createBasicAuthProxy } from "@repo/middleware/basic-auth";
 
-const { proxy } = createBasicAuthProxy({
+const { proxy, config } = createBasicAuthProxy({
   realm: "Documentation",
   bypassPaths: ["/_next/static/*", "/_next/image/*", "/favicon.ico"],
   bypassStaticFiles: true,
+  allowUnauthenticatedWhenMisconfigured: process.env.NODE_ENV !== "production",
 });
 
-export { proxy };
+export { proxy, config };
