@@ -50,7 +50,8 @@ export const coverageConfig: CoverageOptions<"v8"> = {
   // - text: console output for quick local checks
   // - lcov: standard format for CI integration (Codecov, SonarQube, etc.)
   // - html: interactive report for detailed local analysis
-  reporter: ["text", "lcov", "html"],
+  // - json-summary: generates coverage-summary.json for PR comments (Epic 1A.5.S3)
+  reporter: ["text", "lcov", "html", "json-summary"],
 
   // Enforce minimum coverage thresholds
   // Tests fail with exit code 1 when coverage drops below these values

@@ -1,0 +1,109 @@
+# Wait for Vercel Preview Deployment
+#
+# Polls GitHub Deployments API for Vercel preview URL.
+# Vercel's GitHub integration creates deployments automatically.
+#
+# This avoids third-party actions by using native GitHub CLI.
+#
+# Usage:
+#   - uses: ./.github/actions/wait-for-vercel
+#     id: vercel
+#     with:
+#       token: ${{ secrets.GITHUB_TOKEN }}
+#   - run: echo "Preview URL: ${{ steps.vercel.outputs.url }}"
+
+name: Wait for Vercel Preview
+description: Wait for Vercel preview deployment and return the URL
+
+inputs:
+  token:
+    description: GitHub token for API access
+    required: true
+  max_timeout:
+    description: Maximum time to wait in seconds
+    required: false
+    default: "300"
+  check_interval:
+    description: Interval between checks in seconds
+    required: false
+    default: "10"
+
+outputs:
+  url:
+    description: The Vercel preview deployment URL
+    value: ${{ steps.wait.outputs.url }}
+
+runs:
+  using: composite
+  steps:
+    - name: Wait for Vercel deployment
+      id: wait
+      shell: bash
+      env:
+        GH_TOKEN: ${{ inputs.token }}
+        MAX_TIMEOUT: ${{ inputs.max_timeout }}
+        CHECK_INTERVAL: ${{ inputs.check_interval }}
+      run: |
+        echo "Waiting for Vercel preview deployment..."
+
+        START_TIME=$(date +%s)
+        DEPLOYMENT_URL=""
+
+        while true; do
+          CURRENT_TIME=$(date +%s)
+          ELAPSED=$((CURRENT_TIME - START_TIME))
+
+          if [ "$ELAPSED" -ge "$MAX_TIMEOUT" ]; then
+            echo "::error::Timeout waiting for Vercel deployment after ${MAX_TIMEOUT}s"
+            exit 1
+          fi
+
+          # Get deployments for this commit/PR using GitHub API
+          # Vercel creates deployments with environment containing the URL
+          DEPLOYMENTS=$(gh api \
+            -H "Accept: application/vnd.github+json" \
+            "/repos/${{ github.repository }}/deployments?sha=${{ github.event.pull_request.head.sha }}&per_page=10" \
+            2>/dev/null || echo "[]")
+
+          # Find Vercel deployment (creator login is typically 'vercel[bot]')
+          DEPLOYMENT_ID=$(echo "$DEPLOYMENTS" | jq -r '
+            [.[] | select(.creator.login == "vercel[bot]" or .creator.type == "Bot")] |
+            sort_by(.created_at) |
+            reverse |
+            .[0].id // empty
+          ')
+
+          if [ -n "$DEPLOYMENT_ID" ] && [ "$DEPLOYMENT_ID" != "null" ]; then
+            echo "Found deployment ID: $DEPLOYMENT_ID"
+
+            # Get deployment statuses to find the URL
+            STATUSES=$(gh api \
+              -H "Accept: application/vnd.github+json" \
+              "/repos/${{ github.repository }}/deployments/${DEPLOYMENT_ID}/statuses" \
+              2>/dev/null || echo "[]")
+
+            # Find successful deployment with URL
+            DEPLOYMENT_URL=$(echo "$STATUSES" | jq -r '
+              [.[] | select(.state == "success")] |
+              .[0].environment_url // .[0].target_url // empty
+            ')
+
+            if [ -n "$DEPLOYMENT_URL" ] && [ "$DEPLOYMENT_URL" != "null" ]; then
+              echo "Found preview URL: $DEPLOYMENT_URL"
+              echo "url=$DEPLOYMENT_URL" >> $GITHUB_OUTPUT
+              exit 0
+            else
+              # Check if still in progress
+              PENDING=$(echo "$STATUSES" | jq -r '[.[] | select(.state == "pending" or .state == "in_progress")] | length')
+              if [ "$PENDING" -gt 0 ]; then
+                echo "Deployment in progress, waiting... (${ELAPSED}s elapsed)"
+              else
+                echo "Deployment found but no URL yet, waiting... (${ELAPSED}s elapsed)"
+              fi
+            fi
+          else
+            echo "No Vercel deployment found yet, waiting... (${ELAPSED}s elapsed)"
+          fi
+
+          sleep "$CHECK_INTERVAL"
+        done

@@ -1,0 +1,384 @@
+# Main Branch Workflow
+#
+# Runs when code is merged to the development branch. Executes the full test
+# suite (no Turborepo filtering) to ensure comprehensive validation before
+# deploying to the staging environment.
+#
+# Features:
+# - Full test suite execution (lint, type-check, test, build)
+# - Staging deployment via Vercel (auto-deploys on push)
+# - E2E smoke tests against staging URL
+# - Failure notifications to Slack/Discord
+# - Concurrency control to prevent parallel staging deployments
+#
+# Related Stories:
+# - Epic 1A.5.S5: Create Main Branch Workflow
+#
+# Prerequisites:
+# - Vercel project configured with staging environment
+# - SLACK_WEBHOOK_URL or DISCORD_WEBHOOK_URL secret configured (optional)
+# - TURBO_TOKEN and TURBO_TEAM secrets for remote caching
+
+name: Main Branch
+
+on:
+  push:
+    branches:
+      - development
+    # Run on all changes - staging deployment needs full validation
+    # paths-ignore not used here to ensure complete coverage
+
+# Concurrency: Only one staging deployment at a time
+# This prevents race conditions and ensures deployments are sequential
+concurrency:
+  group: staging-deployment
+  cancel-in-progress: false # Don't cancel in-progress deployments
+
+# Permissions for deployment status checks and notifications
+permissions:
+  contents: read
+  deployments: read
+
+# Environment variables for Vercel Remote Cache
+env:
+  TURBO_TOKEN: ${{ secrets.TURBO_TOKEN }}
+  TURBO_TEAM: ${{ secrets.TURBO_TEAM }}
+  TURBO_CACHE: remote:rw
+
+jobs:
+  # ============================================================================
+  # Quality Check Jobs - Run full test suite (no filtering)
+  # All jobs run in parallel for faster feedback
+  # ============================================================================
+
+  # Lint job - ESLint code quality checks (full codebase)
+  lint:
+    name: Lint
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js and pnpm
+        uses: ./.github/actions/setup
+
+      - name: Run ESLint (full codebase)
+        run: pnpm lint
+
+  # Type check job - TypeScript compilation check (full codebase)
+  type-check:
+    name: Type Check
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js and pnpm
+        uses: ./.github/actions/setup
+
+      - name: Run TypeScript type check (full codebase)
+        run: pnpm type-check
+
+  # Test job - Vitest unit and integration tests (full codebase)
+  test:
+    name: Test
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js and pnpm
+        uses: ./.github/actions/setup
+
+      - name: Run tests (full codebase)
+        run: pnpm test
+
+  # Build job - Verify the application builds successfully (full codebase)
+  build:
+    name: Build
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js and pnpm
+        uses: ./.github/actions/setup
+
+      - name: Build application (full codebase)
+        run: pnpm build
+        env:
+          # Build-time environment variables
+          NEXT_PUBLIC_APP_URL: https://staging.example.com
+
+  # ============================================================================
+  # Staging Deployment Job
+  # Vercel auto-deploys on push; this job waits and validates the deployment
+  # ============================================================================
+
+  staging-deploy:
+    name: Staging Deployment
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    needs: [lint, type-check, test, build]
+    outputs:
+      staging_url: ${{ steps.wait-staging.outputs.url }}
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      # Wait for Vercel staging deployment
+      # Vercel automatically deploys to staging on push to development branch
+      - name: Wait for Vercel Staging Deployment
+        id: wait-staging
+        shell: bash
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          echo "Waiting for Vercel staging deployment..."
+
+          MAX_TIMEOUT=300
+          CHECK_INTERVAL=15
+          START_TIME=$(date +%s)
+          DEPLOYMENT_URL=""
+
+          while true; do
+            CURRENT_TIME=$(date +%s)
+            ELAPSED=$((CURRENT_TIME - START_TIME))
+
+            if [ "$ELAPSED" -ge "$MAX_TIMEOUT" ]; then
+              echo "::error::Timeout waiting for Vercel staging deployment after ${MAX_TIMEOUT}s"
+              exit 1
+            fi
+
+            # Get deployments for this commit
+            DEPLOYMENTS=$(gh api \
+              -H "Accept: application/vnd.github+json" \
+              "/repos/${{ github.repository }}/deployments?sha=${{ github.sha }}&per_page=10" \
+              2>/dev/null || echo "[]")
+
+            # Find Vercel deployment
+            DEPLOYMENT_ID=$(echo "$DEPLOYMENTS" | jq -r '
+              [.[] | select(.creator.login == "vercel[bot]" or .creator.type == "Bot")] |
+              sort_by(.created_at) |
+              reverse |
+              .[0].id // empty
+            ')
+
+            if [ -n "$DEPLOYMENT_ID" ] && [ "$DEPLOYMENT_ID" != "null" ]; then
+              echo "Found deployment ID: $DEPLOYMENT_ID"
+
+              # Get deployment statuses
+              STATUSES=$(gh api \
+                -H "Accept: application/vnd.github+json" \
+                "/repos/${{ github.repository }}/deployments/${DEPLOYMENT_ID}/statuses" \
+                2>/dev/null || echo "[]")
+
+              # Find successful deployment with URL
+              DEPLOYMENT_URL=$(echo "$STATUSES" | jq -r '
+                [.[] | select(.state == "success")] |
+                .[0].environment_url // .[0].target_url // empty
+              ')
+
+              if [ -n "$DEPLOYMENT_URL" ] && [ "$DEPLOYMENT_URL" != "null" ]; then
+                echo "Staging deployment ready: $DEPLOYMENT_URL"
+                echo "url=$DEPLOYMENT_URL" >> $GITHUB_OUTPUT
+                exit 0
+              else
+                PENDING=$(echo "$STATUSES" | jq -r '[.[] | select(.state == "pending" or .state == "in_progress")] | length')
+                if [ "$PENDING" -gt 0 ]; then
+                  echo "Deployment in progress... (${ELAPSED}s elapsed)"
+                else
+                  echo "Deployment found but no URL yet... (${ELAPSED}s elapsed)"
+                fi
+              fi
+            else
+              echo "No Vercel deployment found yet... (${ELAPSED}s elapsed)"
+            fi
+
+            sleep "$CHECK_INTERVAL"
+          done
+
+      # Report deployment status
+      - name: Report Staging Deployment
+        run: |
+          echo "## Staging Deployment Complete" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "**URL**: ${{ steps.wait-staging.outputs.url }}" >> $GITHUB_STEP_SUMMARY
+          echo "**Commit**: ${{ github.sha }}" >> $GITHUB_STEP_SUMMARY
+          echo "**Branch**: ${{ github.ref_name }}" >> $GITHUB_STEP_SUMMARY
+
+  # ============================================================================
+  # E2E Smoke Tests Job
+  # Validates the staging deployment with smoke tests
+  # ============================================================================
+
+  e2e-smoke:
+    name: E2E Smoke Tests (Staging)
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    needs: [staging-deploy]
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js and pnpm
+        uses: ./.github/actions/setup
+
+      # Install Playwright browsers for smoke tests
+      - name: Install Playwright browsers
+        run: pnpm exec playwright install --with-deps chromium firefox webkit
+
+      # Run smoke tests against staging URL
+      - name: Run Playwright smoke tests
+        run: pnpm test:e2e:smoke
+        env:
+          BASE_URL: ${{ needs.staging-deploy.outputs.staging_url }}
+          CI: true
+
+      # Upload test report on failure
+      - name: Upload Playwright report
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: playwright-staging-smoke-report
+          path: |
+            testing/e2e/report/
+            testing/e2e/results/
+          retention-days: 7
+
+      # Upload test traces for debugging failures
+      - name: Upload Playwright traces
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: playwright-staging-smoke-traces
+          path: testing/e2e/results/**/*.zip
+          retention-days: 7
+          if-no-files-found: ignore
+
+      # Report smoke test results
+      - name: Report Smoke Test Results
+        if: success()
+        run: |
+          echo "## E2E Smoke Tests Passed" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "Staging deployment validated successfully." >> $GITHUB_STEP_SUMMARY
+          echo "**Tested URL**: ${{ needs.staging-deploy.outputs.staging_url }}" >> $GITHUB_STEP_SUMMARY
+
+  # ============================================================================
+  # Notification Job
+  # Sends notifications on workflow failure
+  # ============================================================================
+
+  notify-failure:
+    name: Notify Failure
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    needs: [lint, type-check, test, build, staging-deploy, e2e-smoke]
+    if: failure()
+    steps:
+      - name: Prepare failure context
+        id: context
+        run: |
+          echo "commit_short=$(echo '${{ github.sha }}' | cut -c1-7)" >> $GITHUB_OUTPUT
+          echo "commit_url=${{ github.server_url }}/${{ github.repository }}/commit/${{ github.sha }}" >> $GITHUB_OUTPUT
+          echo "workflow_url=${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}" >> $GITHUB_OUTPUT
+
+      # Slack notification (if webhook configured)
+      - name: Notify Slack
+        if: ${{ secrets.SLACK_WEBHOOK_URL != '' }}
+        uses: slackapi/slack-github-action@485a9d42d3a73031f12ec201c457e2162c45d02d
+        with:
+          payload: |
+            {
+              "blocks": [
+                {
+                  "type": "header",
+                  "text": {
+                    "type": "plain_text",
+                    "text": "Main Branch Build Failed",
+                    "emoji": true
+                  }
+                },
+                {
+                  "type": "section",
+                  "fields": [
+                    {
+                      "type": "mrkdwn",
+                      "text": "*Repository:*\n${{ github.repository }}"
+                    },
+                    {
+                      "type": "mrkdwn",
+                      "text": "*Branch:*\n${{ github.ref_name }}"
+                    },
+                    {
+                      "type": "mrkdwn",
+                      "text": "*Commit:*\n<${{ steps.context.outputs.commit_url }}|${{ steps.context.outputs.commit_short }}>"
+                    },
+                    {
+                      "type": "mrkdwn",
+                      "text": "*Author:*\n${{ github.actor }}"
+                    }
+                  ]
+                },
+                {
+                  "type": "section",
+                  "text": {
+                    "type": "mrkdwn",
+                    "text": "*Commit Message:*\n${{ github.event.head_commit.message }}"
+                  }
+                },
+                {
+                  "type": "actions",
+                  "elements": [
+                    {
+                      "type": "button",
+                      "text": {
+                        "type": "plain_text",
+                        "text": "View Workflow Run"
+                      },
+                      "url": "${{ steps.context.outputs.workflow_url }}"
+                    }
+                  ]
+                }
+              ]
+            }
+        env:
+          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+          SLACK_WEBHOOK_TYPE: INCOMING_WEBHOOK
+
+      # Discord notification (if webhook configured)
+      - name: Notify Discord
+        if: ${{ secrets.DISCORD_WEBHOOK_URL != '' }}
+        run: |
+          curl -H "Content-Type: application/json" \
+            -d '{
+              "embeds": [{
+                "title": "Main Branch Build Failed",
+                "color": 15158332,
+                "fields": [
+                  {"name": "Repository", "value": "${{ github.repository }}", "inline": true},
+                  {"name": "Branch", "value": "${{ github.ref_name }}", "inline": true},
+                  {"name": "Commit", "value": "[${{ steps.context.outputs.commit_short }}](${{ steps.context.outputs.commit_url }})", "inline": true},
+                  {"name": "Author", "value": "${{ github.actor }}", "inline": true},
+                  {"name": "Message", "value": "${{ github.event.head_commit.message }}"}
+                ],
+                "url": "${{ steps.context.outputs.workflow_url }}"
+              }]
+            }' \
+            ${{ secrets.DISCORD_WEBHOOK_URL }}
+
+      # Always log to workflow summary
+      - name: Log failure summary
+        run: |
+          echo "## Build Failed" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "The main branch build has failed. Please investigate and fix." >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "**Commit**: [${{ steps.context.outputs.commit_short }}](${{ steps.context.outputs.commit_url }})" >> $GITHUB_STEP_SUMMARY
+          echo "**Author**: ${{ github.actor }}" >> $GITHUB_STEP_SUMMARY
+          echo "**Message**: ${{ github.event.head_commit.message }}" >> $GITHUB_STEP_SUMMARY

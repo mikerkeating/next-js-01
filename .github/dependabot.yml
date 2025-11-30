@@ -1,6 +1,17 @@
 # Dependabot Configuration
 # Automated dependency updates for npm packages and GitHub Actions
+#
+# Features:
+# - Weekly version updates on Monday 09:00 UTC
+# - Security updates handled immediately (separate from version updates)
+# - Dependency grouping reduces PR volume (~20/week to ~5/week)
+# - Conventional commit format for all PRs
+# - Auto-merge for patch updates via dependabot-auto-merge.yml workflow
+#
 # Reference: https://docs.github.com/en/code-security/dependabot/dependabot-version-updates/configuration-options-for-the-dependabot.yml-file
+#
+# Related Stories:
+# - Epic 1A.5.S7: Set Up Dependabot and Security Scanning
 
 version: 2
 
@@ -12,7 +23,7 @@ updates:
       interval: "weekly"
       day: "monday"
       time: "09:00"
-      timezone: "Pacific/Auckland"
+      timezone: "UTC"
     target-branch: "development"
     labels:
       - "dependencies"
@@ -20,6 +31,8 @@ updates:
     commit-message:
       prefix: "chore(deps)"
     open-pull-requests-limit: 10
+    # Rebase strategy ensures PRs stay current with target branch
+    rebase-strategy: "auto"
 
     # Group related dependencies to reduce PR noise
     # See: https://docs.github.com/en/code-security/dependabot/dependabot-version-updates/configuration-options-for-the-dependabot.yml-file#groups
@@ -118,7 +131,7 @@ updates:
       interval: "weekly"
       day: "monday"
       time: "09:00"
-      timezone: "Pacific/Auckland"
+      timezone: "UTC"
     target-branch: "development"
     labels:
       - "dependencies"
@@ -126,6 +139,7 @@ updates:
     commit-message:
       prefix: "chore(deps)"
     open-pull-requests-limit: 5
+    rebase-strategy: "auto"
 
     # Group all GitHub Actions together
     groups:
