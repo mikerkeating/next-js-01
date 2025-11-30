@@ -17,7 +17,7 @@
 
 // User factory exports
 // Note: setFakerSeed affects all factories as they share the same faker instance
-export { createUser, createUsers, createMinimalUser, setFakerSeed, type User } from "./user";
+export { createUser, createUsers, setFakerSeed, type User } from "./user";
 
 // Organization factory exports
 export {

@@ -23,6 +23,9 @@ import { faker } from "@faker-js/faker";
 /**
  * User type representing a user in the system.
  * This should match the User type from your database schema.
+ *
+ * TODO: Import User from @repo/database when EPIC 2A.2 is complete
+ * See: docs/3-epics/2A.2-database-infra/EPIC.md
  */
 export interface User {
   id: string;
@@ -86,7 +89,7 @@ export function createUser(overrides: Partial<User> = {}): User {
   const lastName = faker.person.lastName();
   const now = new Date();
 
-  return {
+  const user = {
     id: faker.string.uuid(),
     email: faker.internet.email({ firstName, lastName }),
     name: `${firstName} ${lastName}`,
@@ -96,13 +99,20 @@ export function createUser(overrides: Partial<User> = {}): User {
     updatedAt: now,
     ...overrides,
   };
+
+  // Ensure updatedAt is never before createdAt
+  if (user.createdAt > user.updatedAt) {
+    user.updatedAt = user.createdAt;
+  }
+
+  return user;
 }
 
 /**
  * Create multiple users with realistic mock data.
  *
  * @param count - Number of users to create (default: 3)
- * @param overrides - Partial user data to apply to all users
+ * @param overrides - Partial user data or function returning per-user overrides
  * @returns Array of User objects
  *
  * @example
@@ -110,32 +120,18 @@ export function createUser(overrides: Partial<User> = {}): User {
  * // Create 5 users
  * const users = createUsers(5);
  *
- * // Create 3 users with same organization
- * const users = createUsers(3, { organizationId: 'org-123' });
+ * // Create 3 users with same avatar
+ * const users = createUsers(3, { avatarUrl: null });
+ *
+ * // Create users with unique emails per index
+ * const users = createUsers(3, (i) => ({ email: `user${i}@example.com` }));
  * ```
  */
-export function createUsers(count: number = 3, overrides: Partial<User> = {}): User[] {
-  return Array.from({ length: count }, () => createUser(overrides));
-}
-
-/**
- * Create a minimal user object with only required fields.
- * Useful for testing validation or edge cases.
- *
- * @param overrides - Partial user data to override defaults
- * @returns A User object with minimal but valid data
- */
-export function createMinimalUser(overrides: Partial<User> = {}): User {
-  const now = new Date();
-
-  return {
-    id: faker.string.uuid(),
-    email: faker.internet.email(),
-    name: faker.person.fullName(),
-    clerkId: `clerk_${faker.string.alphanumeric(24)}`,
-    avatarUrl: null,
-    createdAt: now,
-    updatedAt: now,
-    ...overrides,
-  };
+export function createUsers(
+  count: number = 3,
+  overrides?: Partial<User> | ((index: number) => Partial<User>)
+): User[] {
+  return Array.from({ length: count }, (_, i) =>
+    createUser(typeof overrides === "function" ? overrides(i) : overrides)
+  );
 }
