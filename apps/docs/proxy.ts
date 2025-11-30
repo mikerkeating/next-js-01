@@ -1,5 +1,10 @@
+import { timingSafeEqual as cryptoTimingSafeEqual } from "crypto";
+
 import type { NextRequest } from "next/server";
 import { NextResponse } from "next/server";
+
+// Use Node.js runtime for access to crypto.timingSafeEqual
+export const runtime = "nodejs";
 
 /**
  * Basic Authentication Proxy for Documentation Site
@@ -38,7 +43,12 @@ export function proxy(request: NextRequest): NextResponse {
     return unauthorizedResponse();
   }
 
-  const [providedUsername, providedPassword] = credentials.split(":");
+  const colonIndex = credentials.indexOf(":");
+  if (colonIndex === -1) {
+    return unauthorizedResponse();
+  }
+  const providedUsername = credentials.substring(0, colonIndex);
+  const providedPassword = credentials.substring(colonIndex + 1);
 
   // Validate credentials using timing-safe comparison
   if (
@@ -67,27 +77,18 @@ function unauthorizedResponse(): NextResponse {
 }
 
 /**
- * Timing-safe string comparison to prevent timing attacks.
- * Compares strings in constant time regardless of where they differ.
+ * Timing-safe string comparison using Node.js crypto.
+ * Uses constant-time comparison to prevent timing attacks.
  */
 function timingSafeEqual(a: string, b: string): boolean {
-  if (a.length !== b.length) {
-    // Still do a comparison to maintain constant time
-    // Using volatile pattern to prevent optimizer from removing the comparison
-    let _dummy = 0;
-    for (let i = 0; i < a.length; i++) {
-      _dummy |= a.charCodeAt(i) ^ (b.charCodeAt(i % b.length) || 0);
-    }
-    // Use _dummy to prevent dead code elimination (volatile read)
-    if (_dummy < -1) return true; // Never true, but compiler can't prove it
+  const bufA = Buffer.from(a);
+  const bufB = Buffer.from(b);
+  if (bufA.length !== bufB.length) {
+    // Compare against itself to maintain constant time
+    cryptoTimingSafeEqual(bufA, bufA);
     return false;
   }
-
-  let result = 0;
-  for (let i = 0; i < a.length; i++) {
-    result |= a.charCodeAt(i) ^ b.charCodeAt(i);
-  }
-  return result === 0;
+  return cryptoTimingSafeEqual(bufA, bufB);
 }
 
 /**
