@@ -37,6 +37,21 @@ export interface BasicAuthProxyOptions {
    * @default true
    */
   bypassStaticFiles?: boolean;
+
+  /**
+   * Whether to allow unauthenticated access when credentials are not configured.
+   *
+   * When false (default):
+   * - In development (NODE_ENV === 'development'): Returns 500 error with warning
+   * - In production: Returns 500 error to fail fast
+   *
+   * When true:
+   * - Allows requests through without authentication (with console warning)
+   * - Use only for local development or testing scenarios
+   *
+   * @default false
+   */
+  allowUnauthenticatedWhenMisconfigured?: boolean;
 }
 
 /**

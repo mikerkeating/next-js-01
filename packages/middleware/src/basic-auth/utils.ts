@@ -7,6 +7,58 @@ import { createHash, timingSafeEqual as cryptoTimingSafeEqual } from "crypto";
 import { NextResponse } from "next/server";
 
 /**
+ * Common static file extensions to bypass authentication.
+ * These are matched at the end of the path to avoid false positives
+ * on versioned API paths like /api/v1.2/users.
+ */
+const STATIC_FILE_EXTENSIONS = [
+  // Styles
+  "css",
+  // Scripts
+  "js",
+  "mjs",
+  "cjs",
+  // Images
+  "png",
+  "jpg",
+  "jpeg",
+  "gif",
+  "svg",
+  "ico",
+  "webp",
+  "avif",
+  // Fonts
+  "woff",
+  "woff2",
+  "ttf",
+  "eot",
+  "otf",
+  // Data/Documents
+  "json",
+  "xml",
+  "txt",
+  "pdf",
+  // Media
+  "webm",
+  "mp4",
+  "mp3",
+  "ogg",
+  "wav",
+  // Source maps
+  "map",
+] as const;
+
+/**
+ * Regex pattern matching common static file extensions at the end of a path.
+ */
+const STATIC_FILE_REGEX = new RegExp(`\\.(${STATIC_FILE_EXTENSIONS.join("|")})$`, "i");
+
+/**
+ * Regex pattern string for use in Next.js matcher (without anchors, case-insensitive handled separately).
+ */
+const STATIC_FILE_MATCHER_PATTERN = `.*\\.(${STATIC_FILE_EXTENSIONS.join("|")})`;
+
+/**
  * Returns a 401 Unauthorized response with WWW-Authenticate header
  * to trigger the browser's basic auth prompt.
  *
@@ -57,6 +109,17 @@ export function decodeBase64(encoded: string): string | null {
 }
 
 /**
+ * Normalizes a path to ensure it starts with a single leading slash.
+ *
+ * @param path - The path to normalize
+ * @returns The normalized path with a leading slash
+ */
+function normalizePath(path: string): string {
+  // Remove leading slashes and add exactly one
+  return "/" + path.replace(/^\/+/, "");
+}
+
+/**
  * Creates a function to check if a path should bypass authentication.
  *
  * @param bypassPaths - Array of paths to bypass (exact match or prefix with /*)
@@ -67,22 +130,28 @@ export function createBypassChecker(
   bypassStaticFiles: boolean
 ): (pathname: string) => boolean {
   return (pathname: string): boolean => {
+    // Normalize the pathname for consistent comparison
+    const normalizedPathname = normalizePath(pathname);
+
     // Check explicit bypass paths
     for (const path of bypassPaths) {
       if (path.endsWith("/*")) {
-        // Prefix match
-        const prefix = path.slice(0, -1); // Remove the '*'
-        if (pathname.startsWith(prefix)) {
+        // Prefix match: normalize and remove trailing '*'
+        const prefix = normalizePath(path.slice(0, -1)); // Remove '*', then normalize
+        if (normalizedPathname.startsWith(prefix)) {
           return true;
         }
-      } else if (pathname === path) {
-        // Exact match
-        return true;
+      } else {
+        // Exact match: normalize both paths
+        const normalizedPath = normalizePath(path);
+        if (normalizedPathname === normalizedPath) {
+          return true;
+        }
       }
     }
 
-    // Check for static files (paths with extensions)
-    if (bypassStaticFiles && /\.[a-zA-Z0-9]+$/.test(pathname)) {
+    // Check for static files (common file extensions at end of path)
+    if (bypassStaticFiles && STATIC_FILE_REGEX.test(normalizedPathname)) {
       return true;
     }
 
@@ -101,20 +170,22 @@ export function generateMatcherPattern(bypassPaths: string[], bypassStaticFiles:
   const patterns: string[] = [];
 
   for (const path of bypassPaths) {
+    // Normalize the path first, then extract the pattern without leading slash
+    const normalized = normalizePath(path.endsWith("/*") ? path.slice(0, -2) : path);
+    const withoutLeadingSlash = normalized.slice(1); // Remove leading /
+
     if (path.endsWith("/*")) {
-      // Convert /path/* to path pattern (without leading slash)
-      const prefix = path.slice(1, -2); // Remove leading / and trailing /*
-      patterns.push(escapeRegex(prefix));
+      // Prefix pattern
+      patterns.push(escapeRegex(withoutLeadingSlash));
     } else {
-      // Exact path (without leading slash)
-      const exactPath = path.startsWith("/") ? path.slice(1) : path;
-      patterns.push(escapeRegex(exactPath));
+      // Exact path pattern
+      patterns.push(escapeRegex(withoutLeadingSlash));
     }
   }
 
-  // Add static file pattern if needed
+  // Add static file pattern if needed (matches common extensions at end of path)
   if (bypassStaticFiles) {
-    patterns.push(".*\\..+"); // Match any path with a file extension
+    patterns.push(STATIC_FILE_MATCHER_PATTERN);
   }
 
   if (patterns.length === 0) {

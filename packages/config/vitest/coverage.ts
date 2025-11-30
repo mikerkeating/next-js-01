@@ -67,10 +67,9 @@ export const coverageConfig: CoverageOptions<"v8"> = {
   // Patterns to exclude from coverage collection
   exclude: [
     // Test files (coverage of tests is not meaningful)
+    // Note: Only .test.* patterns needed - project uses .spec.* for Playwright E2E tests
     "**/*.test.ts",
     "**/*.test.tsx",
-    "**/*.spec.ts",
-    "**/*.spec.tsx",
 
     // Type declarations (no runtime code)
     "**/*.d.ts",

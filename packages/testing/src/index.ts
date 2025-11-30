@@ -87,8 +87,19 @@ export { cleanup } from "@testing-library/react";
  */
 export { default as userEvent } from "@testing-library/user-event";
 
-// Re-export all mocks
-export * from "./mocks";
+// Mock utilities - MSW server and handlers
+export { server, setupMswServer, handlers, http, HttpResponse } from "./mocks";
+export type { MockUser, MockOrganization, ApiResponse } from "./mocks";
 
-// Re-export all factories
-export * from "./factories";
+// Data factories - @faker-js/faker based test data generation
+export {
+  createUser,
+  createUsers,
+  createOrganization,
+  createOrganizations,
+  createMinimalOrganization,
+  createOrganizationForOwner,
+  setFakerSeed,
+  faker,
+} from "./factories";
+export type { User, Organization } from "./factories";
