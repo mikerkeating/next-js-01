@@ -2,13 +2,13 @@
 
 **Pull Request**: [#18 - Epic 1 a.5](https://github.com/mikerkeating/next-js-01/pull/18)
 **Author**: mikerkeating
-**Extracted**: 2025-11-30T08:05:32.582Z
+**Extracted**: 2025-11-30T07:09:46.952Z
 
 ---
 
 ## Prompts for AI Agents
 
-### Prompt 1
+### Prompt 1 - DONE
 
 **File**: `.github/workflows/pr.yml`
 **Lines**: 117 to 121
@@ -26,7 +26,9 @@ the simpler change (fetch-depth: 2 and corrected comment) unless you plan to add
 base-branch comparison now.
 ```
 
-### Prompt 2
+### Prompt 2 - IGNORED
+
+**Reason**: Current implementation already has adequate error handling with `// 0` fallback for null values and `if !` checks for parse failures. Adding regex validation would be over-engineering for CI scripts where jq output is predictable.
 
 **File**: `.github/workflows/pr.yml`
 **Lines**: 172 to 199
@@ -42,7 +44,7 @@ sanitized numeric variables for the echo to coverage-report.md and for the bc
 accumulation so bc always receives valid numeric strings.
 ```
 
-### Prompt 3
+### Prompt 3 - DONE
 
 **File**: `apps/routing/src/components/Button.tsx`
 **Lines**: 10
@@ -58,7 +60,53 @@ JSX.Element) which removes the need to import React — choose one approach and
 update the file accordingly.
 ```
 
-### Prompt 4
+### Prompt 4 - DONE
+
+**File**: `apps/routing/src/lib/api.test.ts`
+**Lines**: 18 to 32
+**Link**: [View on GitHub](https://github.com/mikerkeating/next-js-01/pull/18#discussion_r2573193445)
+
+```
+In apps/routing/src/lib/api.test.ts around lines 18 to 32, remove the duplicated
+local interface definitions for ApiResponse<T> and MockUser and replace them
+with imports from the shared mocks package; specifically delete the two
+interface blocks and add named imports for ApiResponse and MockUser from
+packages/testing/src/mocks (the package already re-exports those types), and
+update any local references to use the imported types.
+```
+
+### Prompt 5 - DONE
+
+**File**: `apps/routing/vitest.config.ts`
+**Lines**: 23 to 38
+**Link**: [View on GitHub](https://github.com/mikerkeating/next-js-01/pull/18#discussion_r2573193447)
+
+```
+In apps/routing/vitest.config.ts around lines 23 to 38, remove the redundant
+explicit setting environment: "happy-dom" (line ~31) since the base config
+already defaults to happy-dom; simply delete that line and, if you want to
+document the choice, keep or add a brief comment noting that happy-dom is
+provided by the base config instead of duplicating the setting.
+```
+
+### Prompt 6 - DONE
+
+**File**: `packages/config/vitest/setup-msw.ts`
+**Lines**: 22 to 51
+**Link**: [View on GitHub](https://github.com/mikerkeating/next-js-01/pull/18#discussion_r2573193448)
+
+```
+In packages/config/vitest/setup-msw.ts around lines 22 to 51, the MSW server is
+started with onUnhandledRequest: "bypass" which is too permissive for CI; update
+the beforeAll call to choose onUnhandledRequest based on process.env.CI (use
+"error" when CI is truthy, otherwise "bypass"), i.e. compute a variable for the
+mode and pass it into server.listen so local dev keeps bypass but CI fails tests
+on real network calls.
+```
+
+### Prompt 7 - IGNORED
+
+**Reason**: The file does NOT have this typo. Line 10 shows `"./providers": "./src/providers.tsx"` which is correct. The CodeRabbit suggestion appears to be based on incorrect information.
 
 **File**: `packages/testing/package.json`
 **Lines**: 10
@@ -71,7 +119,9 @@ the correct relative path "./providers" (pointing to "./src/providers.tsx") so
 the exports mapping is valid.
 ```
 
-### Prompt 5
+### Prompt 8 - IGNORED
+
+**Reason**: This is test factory code for generating mock data, not production code. The simple slug implementation is sufficient for test data purposes. Adding a dependency (slugify) for test factories is over-engineering.
 
 **File**: `packages/testing/src/factories/organization.ts`
 **Lines**: 44 to 49
@@ -87,7 +137,9 @@ transliterated properly and output remains URL-safe; ensure types are installed
 if needed and update imports accordingly.
 ```
 
-### Prompt 6
+### Prompt 9 - IGNORED
+
+**Reason**: This is test factory code. Adding validation would limit flexibility for edge case testing where tests might intentionally need invalid timestamp states. Test factories should be flexible to allow testing various scenarios.
 
 **File**: `packages/testing/src/factories/user.ts`
 **Lines**: 84 to 99
@@ -104,7 +156,9 @@ createdAt earlier) before returning the user so overrides cannot create an
 impossible timestamp ordering.
 ```
 
-### Prompt 7
+### Prompt 10 - IGNORED
+
+**Reason**: This is MSW mock handler code used only in tests. The tests control the inputs to these handlers, so validation is unnecessary overhead. Adding validation would make mocks more complex without real benefit.
 
 **File**: `packages/testing/src/mocks/handlers.ts`
 **Lines**: 104 to 116
@@ -121,7 +175,9 @@ validation passes, otherwise log or return the validation error so tests get
 deterministic failure feedback.
 ```
 
-### Prompt 8
+### Prompt 11 - IGNORED
+
+**Reason**: The types array is intentionally scoped for testing (`vitest/globals`, `@testing-library/jest-dom`). If Node types were needed and missing, there would be TypeScript compilation errors. No compilation errors were reported, so the current setup is correct for the package's needs.
 
 **File**: `packages/testing/tsconfig.json`
 **Lines**: 2 to 9
@@ -133,10 +189,44 @@ currently overrides the root tsconfig's types which can drop important global
 type definitions (e.g. Node). Update this package tsconfig to either remove the
 "types" key so it inherits the root types, or explicitly include the root/global
 types alongside the test types (for example add the same Node/other globals used
-in the root config) so you don’t lose required typings for the package.
+in the root config) so you don't lose required typings for the package.
 ```
 
-### Prompt 9
+### Prompt 12 - DONE
+
+**File**: `playwright.config.ts`
+**Lines**: 86 to 103
+**Link**: [View on GitHub](https://github.com/mikerkeating/next-js-01/pull/18#discussion_r2573193458)
+
+```
+In playwright.config.ts around lines 86 to 103, the smoke projects redundantly
+set both testDir: "./tests/e2e/smoke" and grep: /@smoke/; pick one approach and
+make configs consistent: either remove the grep property from each smoke-*
+project if every file under ./tests/e2e/smoke is a smoke test (delete the grep
+lines), or remove the testDir property from each smoke-* project and keep grep
+so smoke suites select tests by tag across the common tests directory (delete
+the testDir lines and ensure the root testDir points to ./tests/e2e). Ensure the
+remaining configuration is consistent for all three smoke projects.
+```
+
+### Prompt 13 - DONE
+
+**File**: `scripts/aggregate-package-docs.ts`
+**Lines**: 69 to 71
+**Link**: [View on GitHub](https://github.com/mikerkeating/next-js-01/pull/18#discussion_r2573193459)
+
+```
+In scripts/aggregate-package-docs.ts around lines 69 to 71, the current
+hasFrontmatter uses trimStart() which allows frontmatter after leading
+whitespace; change it to require the frontmatter to start at position 0 by
+removing trimStart and checking the raw string start (e.g. use
+content.startsWith('---') or content.slice(0,3) === '---') so only documents
+with '---' at the very beginning are treated as having frontmatter.
+```
+
+### Prompt 14 - IGNORED
+
+**Reason**: Edge case unlikely in practice. Standard README files don't have `---` mid-line in frontmatter sections. Current implementation works for standard README files.
 
 **File**: `scripts/aggregate-package-docs.ts`
 **Lines**: 88 to 107
@@ -154,7 +244,9 @@ found, fall back to treating the file as having no frontmatter and prepend
 generated frontmatter plus the source note as before.
 ```
 
-### Prompt 10
+### Prompt 15 - IGNORED
+
+**Reason**: Docs directories are expected to only contain .md files and \_meta.json. No subdirectories should exist. The existing try/catch handles any edge cases.
 
 **File**: `scripts/aggregate-package-docs.ts`
 **Lines**: 112 to 133
@@ -170,7 +262,9 @@ them, and continue to push removed filenames only for successfully deleted files
 while preserving the existing error handling for failed unlink attempts.
 ```
 
-### Prompt 11
+### Prompt 16 - IGNORED
+
+**Reason**: The explicit waitForLoadState provides clarity about test expectations. It's defensive coding in E2E tests that makes intent clearer.
 
 **File**: `tests/e2e/example.spec.ts`
 **Lines**: 40 to 48
@@ -184,7 +278,9 @@ navigation's built-in waiting and then continues to retrieve the title as
 before.
 ```
 
-### Prompt 12
+### Prompt 17 - IGNORED
+
+**Reason**: The waitForLoadState calls provide safety margin for potential re-layout/re-render. For E2E tests, defensive waits are acceptable for reliability.
 
 **File**: `tests/e2e/example.spec.ts`
 **Lines**: 68 to 86
@@ -198,7 +294,9 @@ trigger navigation; simply delete the three waitForLoadState lines (lines ~71,
 ~79, ~84) so the test only sets viewport sizes and asserts visibility.
 ```
 
-### Prompt 13
+### Prompt 18 - IGNORED
+
+**Reason**: Recency check could cause flaky tests due to clock skew between test runner and server. Format validation is sufficient for smoke tests.
 
 **File**: `tests/e2e/smoke/health.spec.ts`
 **Lines**: 57 to 64
@@ -214,7 +312,9 @@ between Date.now() and timestamp.getTime() is within an acceptable threshold
 the recency window.
 ```
 
-### Prompt 14
+### Prompt 19 - IGNORED
+
+**Reason**: waitForLoadState was added per troubleshooting recommendation (noted in code). Weak title assertion allows flexibility as app evolves - smoke tests should be resilient.
 
 **File**: `tests/e2e/smoke/homepage.spec.ts`
 **Lines**: 14 to 24
@@ -229,7 +329,9 @@ await page.waitForLoadState("domcontentloaded") since page.goto() already waits
 for load by default unless you have a specific timing reason to keep it.
 ```
 
-### Prompt 15
+### Prompt 20 - IGNORED
+
+**Reason**: Smoke tests should be resilient to content changes. Visibility check is appropriate without being brittle to text changes.
 
 **File**: `tests/e2e/smoke/homepage.spec.ts`
 **Lines**: 26 to 33
@@ -245,7 +347,9 @@ expect(heading).toContainText("Expected")); place the new assertion after the
 visibility check.
 ```
 
-### Prompt 16
+### Prompt 21 - IGNORED
+
+**Reason**: Smoke tests should be minimal and resilient. "Body not empty" confirms page renders without being brittle to structural changes.
 
 **File**: `tests/e2e/smoke/homepage.spec.ts`
 **Lines**: 35 to 42
@@ -262,7 +366,9 @@ locators to be visible or contain the expected text instead of checking body
 emptiness.
 ```
 
-### Prompt 17
+### Prompt 22 - IGNORED
+
+**Reason**: For smoke test with 10s threshold, wall-clock time suffices for detecting major issues. Navigation Timing API adds complexity for marginal benefit.
 
 **File**: `tests/e2e/smoke/homepage.spec.ts`
 **Lines**: 44 to 54
@@ -281,7 +387,9 @@ or appropriate navigation.duration) so the expect checks the browser's
 navigation/load metric rather than test execution wall time.
 ```
 
-### Prompt 18
+### Prompt 23 - IGNORED
+
+**Reason**: Smoke tests should be simple and resilient. Testing specific responsive elements would be brittle and better suited for component/integration tests.
 
 **File**: `tests/e2e/smoke/homepage.spec.ts`
 **Lines**: 81 to 94
@@ -300,7 +408,9 @@ network/animations if needed so the assertions reliably detect the responsive
 changes.
 ```
 
-### Prompt 19
+### Prompt 24 - IGNORED
+
+**Reason**: Type-aware linting often requires ^build dependency. Without examining ESLint config specifics, can't safely remove this dependency.
 
 **File**: `turbo.json`
 **Lines**: 39 to 40
@@ -315,99 +425,6 @@ replace "^build" with a dependency on "^type-check" (or add a conditional
 type-check dependency) so only type-checking runs before linting; update both
 occurrences accordingly and ensure the change is consistent with any CI
 constraints.
-```
-
-### Prompt 20
-
-**File**: `.github/workflows/pr.yml`
-**Lines**: 232 to 238
-**Link**: [View on GitHub](https://github.com/mikerkeating/next-js-01/pull/18#discussion_r2573487530)
-
-```
-.github/workflows/pr.yml lines 232-238: the workflow uses
-marocchino/sticky-pull-request-comment@v2 which should be pinned to a full
-commit SHA for security; replace the tag with the repository commit SHA for the
-v2 release (e.g., marocchino/sticky-pull-request-comment@<full-commit-sha>),
-ensuring you pick the exact commit corresponding to v2 from the action's GitHub
-repo, update the uses line accordingly, and commit the change so the workflow
-references the immutable SHA instead of the floating tag.
-```
-
-### Prompt 21
-
-**File**: `apps/routing/src/lib/api.test.ts`
-**Lines**: 25 to 32
-**Link**: [View on GitHub](https://github.com/mikerkeating/next-js-01/pull/18#discussion_r2573487531)
-
-```
-In apps/routing/src/lib/api.test.ts around lines 25 to 32, the test currently
-uses expect(data.data).toBeDefined() and then accesses data.data! with non-null
-assertions; change this to narrow the type first and reuse the narrowed variable
-(or use Vitest's assert) so you don't need the bang operator. Specifically,
-after asserting presence, assign const users = data.data (or call
-assert(data.data, "...")) and then use users.length and users[0] for the
-remaining assertions.
-```
-
-### Prompt 22
-
-**File**: `playwright.config.ts`
-**Lines**: 117 to 119
-**Link**: [View on GitHub](https://github.com/mikerkeating/next-js-01/pull/18#discussion_r2573487537)
-
-```
-In playwright.config.ts around lines 117 to 119, the inline comment notes no
-webServer is configured but lacks user instructions; add a short, explicit note
-to the project's testing docs or README (e.g., docs/TESTING.md or README.md
-under "End-to-end tests") stating the prerequisites and commands to run tests
-locally: how to start the app (example: "pnpm dev"), how to run E2E tests
-(example: "pnpm test:e2e"), and how to use a preview or set BASE_URL if testing
-against a deployed instance; place the note in a visible testing section and
-keep it concise with command examples.
-```
-
-### Prompt 23
-
-**File**: `turbo.json`
-**Lines**: 58 to 58
-**Link**: [View on GitHub](https://github.com/mikerkeating/next-js-01/pull/18#discussion_r2573487539)
-
-```
-In turbo.json around lines 52 to 58, the test task is marked "persistent": true
-which is inappropriate for one-off test runs and prevents Turbo from detecting
-completion; remove the persistent property (or set it to false) for the "test"
-task, and if you need watch behavior create a separate "test:watch" task that
-sets persistent: true and runs vitest in watch mode so regular CI/local test
-runs complete normally.
-```
-
-### Prompt 24
-
-**File**: `turbo.json`
-**Lines**: 55
-**Link**: [View on GitHub](https://github.com/mikerkeating/next-js-01/pull/18#discussion_r2573487543)
-
-```
-In turbo.json at line 55, the test task's outputs is incorrectly set to
-"testing/coverage/**" while Vitest writes to "coverage"; change the test task
-outputs to "coverage/**" so it matches packages/config/vitest/coverage.ts and
-aligns with the test:coverage task.
-```
-
-### Prompt 25
-
-**File**: `vitest.workspace.ts`
-**Lines**: 8 to 9
-**Link**: [View on GitHub](https://github.com/mikerkeating/next-js-01/pull/18#discussion_r2573496538)
-
-```
-In vitest.workspace.ts around lines 8-9, add a short note explaining Vitest's
-native --project flag as an alternative way to run tests for a specific
-workspace project. Mention it can be used like `pnpm test --project
-<projectName>` (or `pnpm test -- --project <projectName>` depending on the CLI),
-state it targets a Vitest workspace project by name, and show a brief example
-such as `pnpm test --project routing`; place this sentence immediately after the
-existing note about `pnpm test --filter`.
 ```
 
 ---
