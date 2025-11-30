@@ -94,7 +94,7 @@ export function createUser(overrides: Partial<User> = {}): User {
     email: faker.internet.email({ firstName, lastName }),
     name: `${firstName} ${lastName}`,
     clerkId: `clerk_${faker.string.alphanumeric(24)}`,
-    avatarUrl: faker.image.avatar(),
+    avatarUrl: Math.random() < 0.1 ? null : faker.image.avatar(),
     createdAt: faker.date.past({ years: 1 }),
     updatedAt: now,
     ...overrides,

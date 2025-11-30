@@ -107,6 +107,9 @@ pnpm test:e2e
 # Run with specific base URL
 BASE_URL=http://localhost:3000 pnpm test:e2e
 
+# Run with HTTPS certificate error bypass (for local self-signed certs only)
+PLAYWRIGHT_IGNORE_HTTPS_ERRORS=true pnpm test:e2e
+
 # Run in headed mode for debugging
 pnpm exec playwright test --headed
 
@@ -176,6 +179,11 @@ Key pattern notes:
 
 - **Cause**: Race conditions or timing issues
 - **Solution**: Use proper Playwright assertions (auto-waiting) instead of manual waits
+
+**Issue**: HTTPS certificate errors when testing local dev server with self-signed certs
+
+- **Cause**: Local HTTPS server uses self-signed or untrusted certificates
+- **Solution**: Set `PLAYWRIGHT_IGNORE_HTTPS_ERRORS=true` in your environment. This is an explicit opt-in for security - never use in CI or production testing.
 
 ### Reference Materials
 

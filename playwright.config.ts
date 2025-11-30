@@ -20,6 +20,21 @@ const baseURL = process.env.BASE_URL || "http://localhost:3000";
  */
 const isCI = !!process.env.CI;
 
+/**
+ * Whether to ignore HTTPS certificate errors (e.g., self-signed certs).
+ * Requires explicit opt-in via PLAYWRIGHT_IGNORE_HTTPS_ERRORS=true.
+ *
+ * Use this ONLY for:
+ * - Local development with self-signed certificates
+ * - Testing against local HTTPS dev servers (e.g., mkcert, self-signed)
+ *
+ * To enable: Set PLAYWRIGHT_IGNORE_HTTPS_ERRORS=true in your environment
+ * or prefix your test command: PLAYWRIGHT_IGNORE_HTTPS_ERRORS=true pnpm test:e2e
+ *
+ * WARNING: Never enable in CI or production testing environments.
+ */
+const ignoreHTTPSErrors = process.env.PLAYWRIGHT_IGNORE_HTTPS_ERRORS === "true";
+
 export default defineConfig({
   // Test directory containing E2E specs
   testDir: "./tests/e2e",
@@ -75,8 +90,8 @@ export default defineConfig({
     // Viewport for consistent rendering across browsers
     viewport: { width: 1280, height: 720 },
 
-    // Ignore HTTPS errors for local development only
-    ignoreHTTPSErrors: !isCI,
+    // Ignore HTTPS errors only when explicitly enabled (see config comment above)
+    ignoreHTTPSErrors,
   },
 
   // Browser projects for cross-browser testing

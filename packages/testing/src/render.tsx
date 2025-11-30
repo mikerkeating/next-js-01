@@ -63,11 +63,6 @@ export function renderWithProviders(
     wrapper: Wrapper,
   });
 
-  // Return result with custom rerender that maintains providers
-  return {
-    ...result,
-    rerender: (newUi: ReactElement) => {
-      result.rerender(<Wrapper>{newUi}</Wrapper>);
-    },
-  };
+  // Return result - RTL's rerender automatically uses the wrapper option
+  return result;
 }
