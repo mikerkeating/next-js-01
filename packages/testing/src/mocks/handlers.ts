@@ -27,29 +27,37 @@ import { http, HttpResponse } from "msw";
  * User type for mock API responses
  */
 export interface MockUser {
-  id: string;
-  email: string;
-  name: string;
-  createdAt: string;
+  readonly id: string;
+  readonly email: string;
+  readonly name: string;
+  readonly createdAt: string;
 }
 
 /**
  * Organization type for mock API responses
  */
 export interface MockOrganization {
-  id: string;
-  name: string;
-  slug: string;
-  createdAt: string;
+  readonly id: string;
+  readonly name: string;
+  readonly slug: string;
+  readonly createdAt: string;
 }
 
 /**
  * Standard API response wrapper
  */
 export interface ApiResponse<T> {
-  success: boolean;
-  data?: T;
-  error?: string;
+  readonly success: boolean;
+  readonly data?: T;
+  readonly error?: string;
+}
+
+/**
+ * Request body for creating a user
+ */
+export interface CreateUserRequest {
+  email: string;
+  name: string;
 }
 
 /**
@@ -102,7 +110,18 @@ export const handlers = [
    * POST /api/users - Creates a new mock user
    */
   http.post("/api/users", async ({ request }) => {
-    const body = (await request.json()) as { email: string; name: string };
+    const body = (await request.json()) as CreateUserRequest;
+
+    if (!body.email || !body.name) {
+      return HttpResponse.json(
+        {
+          success: false,
+          error: "Email and name are required",
+        } as ApiResponse<never>,
+        { status: 400 }
+      );
+    }
+
     const response: ApiResponse<MockUser> = {
       success: true,
       data: {

@@ -17,6 +17,7 @@
  *
  * @see https://mswjs.io/docs/integrations/node
  */
+import type { SetupServer } from "msw/node";
 import { setupServer } from "msw/node";
 import { beforeAll, afterEach, afterAll } from "vitest";
 
@@ -31,7 +32,7 @@ import { handlers } from "./handlers";
  * - `server.close()` - Stop intercepting requests (call in afterAll)
  * - `server.use(handler)` - Add test-specific handler overrides
  */
-export const server = setupServer(...handlers);
+export const server: SetupServer = setupServer(...handlers);
 
 /**
  * Helper function to set up MSW server with Vitest lifecycle hooks.
@@ -48,7 +49,14 @@ export const server = setupServer(...handlers);
  * });
  * ```
  */
+let isSetup = false;
+
 export function setupMswServer(): void {
+  if (isSetup) {
+    return;
+  }
+  isSetup = true;
+
   // Start server before all tests
   beforeAll(() => {
     server.listen({
