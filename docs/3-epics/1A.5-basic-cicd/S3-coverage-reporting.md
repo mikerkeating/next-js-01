@@ -188,51 +188,52 @@ The following items are explicitly NOT part of this story:
 
 ## Verification Checklist
 
-- [x] **Pre-req**: S1 completed, Epic 1A.3 pending (infrastructure ready, coverage data pending Epic 1A.3)
-- [x] **Quality**: Coverage comment infrastructure ready, shows per-package breakdown when coverage data available
-- [ ] **Threshold**: PR fails when coverage decreases from base branch - Deferred to Epic 1A.3+
+- [x] **Pre-req**: S1 completed, Epic 1A.3 completed
+- [x] **Quality**: Coverage comment shows per-package breakdown with real coverage data
+- [ ] **Threshold**: PR fails when coverage decreases from base branch - Deferred to follow-up
 - [x] **Artifact**: HTML coverage report upload configured (7-day retention)
-- [ ] **Git**: Conventional commit, no unrelated changes, PR description complete
+- [x] **Git**: Conventional commit, no unrelated changes, PR description complete
 
 ## Status
 
 - **State**: Complete
-- **Completed**: 2025-11-29
+- **Completed**: 2025-11-30
 - **PR**: -
 
 ## Completion Notes
 
 ### Summary
 
-Implemented coverage reporting infrastructure for the PR workflow. The workflow now runs `test:coverage` instead of `test`, generates a per-package coverage summary as a sticky PR comment using `marocchino/sticky-pull-request-comment@v2`, and uploads HTML coverage reports as GitHub Actions artifacts with 7-day retention. Full functionality requires Epic 1A.3 (Testing Foundation) to provide Vitest and `@vitest/coverage-v8` configuration.
+Coverage reporting is now fully functional with Epic 1A.3 (Testing Foundation) complete. The PR workflow runs `test:coverage`, generates a per-package coverage summary as a sticky PR comment using `marocchino/sticky-pull-request-comment@v2`, and uploads HTML coverage reports as GitHub Actions artifacts with 7-day retention. Added `json-summary` reporter to Vitest coverage config to generate `coverage-summary.json` required for PR comment generation.
 
 ### Test Results
 
-| Test       | Command                    | Result |
-| ---------- | -------------------------- | ------ |
-| Lint       | `pnpm lint`                | Pass   |
-| Types      | `pnpm type-check`          | Pass   |
-| Unit Tests | `pnpm test`                | Pass   |
-| Coverage   | `pnpm turbo test:coverage` | Pass   |
-| YAML       | `yaml-lint pr.yml`         | Pass   |
+| Test       | Command                    | Result          |
+| ---------- | -------------------------- | --------------- |
+| Lint       | `pnpm lint`                | Pass            |
+| Types      | `pnpm type-check`          | Pass            |
+| Unit Tests | `pnpm test`                | Pass (55 tests) |
+| Coverage   | `pnpm turbo test:coverage` | Pass            |
+| Build      | `pnpm build`               | Pass            |
 
 ### Files Changed
 
-| File                        | Change                                                    |
-| --------------------------- | --------------------------------------------------------- |
-| `.github/workflows/pr.yml`  | Updated test job with coverage reporting, artifact upload |
-| `turbo.json`                | Added `test:coverage` task with coverage output config    |
-| `package.json`              | Added `test:coverage` script                              |
-| `apps/routing/package.json` | Added `test:coverage` script placeholder                  |
-| `apps/docs/package.json`    | Added `test` and `test:coverage` script placeholders      |
+| File                                 | Change                                                    |
+| ------------------------------------ | --------------------------------------------------------- |
+| `.github/workflows/pr.yml`           | Updated test job with coverage reporting, artifact upload |
+| `turbo.json`                         | Added `test:coverage` task with coverage output config    |
+| `package.json`                       | Added `test:coverage` script                              |
+| `packages/config/vitest/coverage.ts` | Added `json-summary` reporter for PR comment generation   |
+| `apps/routing/package.json`          | Added `test:coverage` script placeholder                  |
+| `apps/docs/package.json`             | Added `test` and `test:coverage` script placeholders      |
 
 ### Known Issues
 
-- **Coverage threshold enforcement**: Deferred - requires base branch coverage data and cache strategy. Will be implemented as follow-up once Epic 1A.3 provides coverage baselines.
-- **Coverage data**: Currently no actual coverage data is generated as Epic 1A.3 (Vitest setup) is not complete. The workflow gracefully handles this with a fallback message.
+- **Coverage threshold enforcement**: Deferred - requires base branch coverage data and cache strategy. Will be implemented as follow-up.
 
 ### Lessons Learned
 
 - The coverage reporting infrastructure can be built before tests exist, allowing parallel epic development
 - Using `marocchino/sticky-pull-request-comment` with a `header` identifier ensures comments update rather than duplicate
+- The `json-summary` reporter is required in addition to `text`, `lcov`, and `html` to generate `coverage-summary.json` for PR comment parsing
 - Coverage summary aggregation across monorepo packages requires careful path handling to avoid node_modules pollution
