@@ -1,0 +1,110 @@
+# Reusable E2E Smoke Test Workflow
+#
+# Runs Playwright smoke tests against a deployment URL.
+# Designed to be called from PR workflow (preview URL) and Main workflow (production).
+#
+# Features:
+# - Waits for Vercel preview deployment (if called with check_deployment: true)
+# - Runs smoke tests across Chromium, Firefox, and WebKit
+# - Uploads Playwright artifacts (screenshots, traces) on failure
+# - Retries tests 2x to handle transient deployment delays
+#
+# Related Stories:
+# - Epic 1A.5.S4: Integrate Preview Deployment and E2E Smoke Tests
+#
+# Usage:
+#   jobs:
+#     e2e-smoke:
+#       uses: ./.github/workflows/e2e-smoke.yml
+#       with:
+#         base_url: ${{ needs.wait-for-preview.outputs.preview_url }}
+#       secrets: inherit
+
+name: E2E Smoke Tests
+
+on:
+  workflow_call:
+    inputs:
+      base_url:
+        description: "Base URL to run smoke tests against"
+        required: false
+        type: string
+      check_deployment:
+        description: "Wait for Vercel preview deployment before testing"
+        required: false
+        default: false
+        type: boolean
+    outputs:
+      preview_url:
+        description: "The preview URL (if check_deployment was true)"
+        value: ${{ jobs.e2e-smoke.outputs.preview_url }}
+
+jobs:
+  e2e-smoke:
+    name: E2E Smoke Tests
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    outputs:
+      preview_url: ${{ steps.vercel-preview.outputs.url }}
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js and pnpm
+        uses: ./.github/actions/setup
+
+      # Install Playwright browsers
+      - name: Install Playwright browsers
+        run: pnpm exec playwright install --with-deps chromium firefox webkit
+
+      # Wait for Vercel preview deployment (if requested)
+      # Uses GitHub Deployments API instead of third-party action
+      - name: Wait for Vercel Preview
+        if: inputs.check_deployment
+        id: vercel-preview
+        uses: ./.github/actions/wait-for-vercel
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          max_timeout: "300"
+          check_interval: "10"
+
+      # Determine the URL to test against
+      - name: Set test URL
+        id: set-url
+        run: |
+          if [ "${{ inputs.check_deployment }}" == "true" ]; then
+            echo "base_url=${{ steps.vercel-preview.outputs.url }}" >> $GITHUB_OUTPUT
+          elif [ -n "${{ inputs.base_url }}" ]; then
+            echo "base_url=${{ inputs.base_url }}" >> $GITHUB_OUTPUT
+          else
+            echo "Error: Either base_url input or check_deployment must be provided"
+            exit 1
+          fi
+
+      # Run smoke tests
+      - name: Run Playwright smoke tests
+        run: pnpm test:e2e:smoke
+        env:
+          BASE_URL: ${{ steps.set-url.outputs.base_url }}
+          CI: true
+
+      # Upload test artifacts on failure
+      - name: Upload Playwright report
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: playwright-smoke-report
+          path: |
+            testing/e2e/report/
+            testing/e2e/results/
+          retention-days: 7
+
+      # Upload test traces for debugging
+      - name: Upload Playwright traces
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: playwright-smoke-traces
+          path: testing/e2e/results/**/*.zip
+          retention-days: 7
+          if-no-files-found: ignore

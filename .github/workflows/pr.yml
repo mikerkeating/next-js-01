@@ -15,12 +15,13 @@
 # - Note: Coverage decrease detection planned for future implementation
 #
 # Triggers: Pull requests to development and main branches, workflow_dispatch
-# Jobs: lint, type-check, test (with coverage), build (all parallel)
+# Jobs: lint, type-check, test (with coverage), build (all parallel), e2e-smoke (after quality checks)
 #
 # Related Stories:
 # - Epic 1A.5.S1: Create PR Workflow with Quality Checks
 # - Epic 1A.5.S2: Configure Turborepo Filtering for CI
 # - Epic 1A.5.S3: Add Coverage Reporting to PRs
+# - Epic 1A.5.S4: Integrate Preview Deployment and E2E Smoke Tests
 #
 # Concurrency:
 # - Cancels in-progress runs when new commits are pushed to the same PR
@@ -302,3 +303,62 @@ jobs:
           # Provide required build-time environment variables
           # These are placeholder values for CI build validation
           NEXT_PUBLIC_APP_URL: https://example.com
+
+  # E2E Smoke Test job - validates preview deployment
+  # Runs after all quality checks pass, waits for Vercel preview, then runs smoke tests
+  # Story: Epic 1A.5.S4
+  e2e-smoke:
+    name: E2E Smoke Tests
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    needs: [lint, type-check, test, build]
+    # Only run on pull requests (not workflow_dispatch without PR context)
+    if: github.event_name == 'pull_request'
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js and pnpm
+        uses: ./.github/actions/setup
+
+      # Install Playwright browsers for smoke tests
+      - name: Install Playwright browsers
+        run: pnpm exec playwright install --with-deps chromium firefox webkit
+
+      # Wait for Vercel preview deployment using custom action
+      # Uses GitHub Deployments API instead of third-party action
+      - name: Wait for Vercel Preview
+        id: vercel-preview
+        uses: ./.github/actions/wait-for-vercel
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          max_timeout: "300"
+          check_interval: "10"
+
+      # Run smoke tests against preview URL
+      - name: Run Playwright smoke tests
+        run: pnpm test:e2e:smoke
+        env:
+          BASE_URL: ${{ steps.vercel-preview.outputs.url }}
+          CI: true
+
+      # Upload test report on failure
+      - name: Upload Playwright report
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: playwright-smoke-report
+          path: |
+            testing/e2e/report/
+            testing/e2e/results/
+          retention-days: 7
+
+      # Upload test traces for debugging failures
+      - name: Upload Playwright traces
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: playwright-smoke-traces
+          path: testing/e2e/results/**/*.zip
+          retention-days: 7
+          if-no-files-found: ignore
