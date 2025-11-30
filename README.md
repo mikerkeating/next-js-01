@@ -155,6 +155,92 @@ pnpm test          # Must pass all tests
 pnpm build         # Must complete successfully
 ```
 
+## Testing
+
+The monorepo includes a comprehensive testing infrastructure using Vitest for unit/integration tests and Playwright for E2E tests.
+
+### Quick Start
+
+```typescript
+// Import from @repo/testing for consistent utilities
+import {
+  renderWithProviders,
+  screen,
+  userEvent,
+  createUser,
+} from "@repo/testing";
+
+test("renders user greeting", async () => {
+  const user = userEvent.setup();
+  const mockUser = createUser({ name: "Jane" });
+
+  renderWithProviders(<Greeting user={mockUser} />);
+
+  expect(screen.getByText("Hello, Jane")).toBeInTheDocument();
+});
+```
+
+### Test Commands
+
+| Command               | Description                        |
+| --------------------- | ---------------------------------- |
+| `pnpm test`           | Run all unit/integration tests     |
+| `pnpm test:ci`        | Run tests in CI mode (no watch)    |
+| `pnpm test:coverage`  | Run tests with coverage report     |
+| `pnpm test:e2e`       | Run all Playwright E2E tests       |
+| `pnpm test:e2e:smoke` | Run smoke tests against deployment |
+
+### Test Types
+
+| Type            | Tool       | Purpose                              | Location                  |
+| --------------- | ---------- | ------------------------------------ | ------------------------- |
+| **Unit**        | Vitest     | Test isolated functions/components   | `*.test.ts`, `*.test.tsx` |
+| **Integration** | Vitest     | Test multiple units working together | `*.integration.test.ts`   |
+| **E2E**         | Playwright | Test full user flows in browser      | `tests/e2e/**/*.spec.ts`  |
+| **Smoke**       | Playwright | Validate deployments work            | `tests/e2e/smoke/**/*.ts` |
+
+### Writing Tests
+
+Unit tests use the `@repo/testing` package which provides:
+
+- **renderWithProviders**: Render components with test providers
+- **Mock Factories**: Generate realistic test data (`createUser`, `createOrganization`)
+- **MSW Server**: Mock API responses
+- **Testing Library**: Re-exported utilities for version consistency
+
+```typescript
+// Example: Testing a component with mocked API
+import { renderWithProviders, screen, server } from "@repo/testing";
+import { http, HttpResponse } from "msw";
+
+test("displays user list from API", async () => {
+  server.use(
+    http.get("/api/users", () => {
+      return HttpResponse.json({
+        success: true,
+        data: [{ id: "1", name: "Test User" }],
+      });
+    })
+  );
+
+  renderWithProviders(<UserList />);
+
+  expect(await screen.findByText("Test User")).toBeInTheDocument();
+});
+```
+
+### Test Troubleshooting
+
+| Issue                    | Solution                                                    |
+| ------------------------ | ----------------------------------------------------------- |
+| Tests hanging            | Check for unresolved promises or missing `await`            |
+| MSW not intercepting     | Ensure `setupMswServer()` is called; check URL patterns     |
+| Coverage below threshold | Run `pnpm test:coverage` to see uncovered lines             |
+| E2E tests failing        | Run `pnpm exec playwright install` to install browsers      |
+| Flaky E2E tests          | Add explicit waits: `await page.waitForSelector('.loaded')` |
+
+See [packages/testing/README.md](/packages/testing/README.md) for detailed `@repo/testing` API documentation.
+
 ## Workspace Commands
 
 Use `--filter` to target specific workspaces:

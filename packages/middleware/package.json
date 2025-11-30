@@ -1,0 +1,35 @@
+{
+  "name": "@repo/middleware",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Shared middleware utilities for Next.js applications",
+  "type": "module",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    },
+    "./basic-auth": {
+      "types": "./dist/basic-auth/index.d.ts",
+      "import": "./dist/basic-auth/index.js"
+    }
+  },
+  "scripts": {
+    "build": "tsc",
+    "clean": "rm -rf dist",
+    "prepare": "pnpm run build",
+    "lint": "eslint . --max-warnings 0",
+    "lint:fix": "eslint . --fix",
+    "type-check": "tsc --noEmit"
+  },
+  "devDependencies": {
+    "@types/node": "^22.0.0",
+    "next": "^16.0.0",
+    "typescript": "^5.7.0"
+  },
+  "peerDependencies": {
+    "next": ">=16.0.0"
+  }
+}

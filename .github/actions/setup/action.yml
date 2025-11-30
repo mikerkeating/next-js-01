@@ -1,0 +1,44 @@
+# Reusable composite action for Node.js and pnpm setup
+# Provides consistent development environment across all CI workflows
+#
+# Features:
+# - Node.js version from .nvmrc
+# - pnpm version from package.json packageManager field
+# - Dependency caching for faster builds
+# - Frozen lockfile for reproducible installs
+#
+# Usage:
+#   jobs:
+#     example:
+#       steps:
+#         - uses: actions/checkout@v4
+#         - uses: ./.github/actions/setup
+
+name: Setup Node.js and pnpm
+description: Set up Node.js, pnpm, and install dependencies with caching
+
+inputs:
+  skip-install:
+    description: Skip dependency installation (useful when only setup is needed)
+    required: false
+    default: "false"
+
+runs:
+  using: composite
+  steps:
+    # pnpm/action-setup@v4 automatically reads version from package.json packageManager field
+    - name: Setup pnpm
+      uses: pnpm/action-setup@v4
+
+    # setup-node with node-version-file reads from .nvmrc
+    - name: Setup Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version-file: ".nvmrc"
+        cache: "pnpm"
+
+    # Install dependencies with frozen lockfile for reproducible builds
+    - name: Install dependencies
+      if: inputs.skip-install != 'true'
+      shell: bash
+      run: pnpm install --frozen-lockfile

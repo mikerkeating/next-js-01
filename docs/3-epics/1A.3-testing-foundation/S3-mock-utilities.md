@@ -17,13 +17,13 @@
 
 ## Acceptance Criteria
 
-- [ ] MSW (Mock Service Worker) is installed and configured for API request interception
-- [ ] MSW handlers can be defined and used in Vitest tests
-- [ ] Mock factories generate realistic test data using @faker-js/faker
-- [ ] User factory creates valid user objects with optional overrides
-- [ ] Organization factory creates valid Organization objects with optional overrides
-- [ ] MSW server starts before tests and resets handlers between tests
-- [ ] Sample test demonstrates API mocking with MSW handler
+- [x] MSW (Mock Service Worker) is installed and configured for API request interception
+- [x] MSW handlers can be defined and used in Vitest tests
+- [x] Mock factories generate realistic test data using @faker-js/faker
+- [x] User factory creates valid user objects with optional overrides
+- [x] Organization factory creates valid Organization objects with optional overrides
+- [x] MSW server starts before tests and resets handlers between tests
+- [x] Sample test demonstrates API mocking with MSW handler
 
 ## Technical Requirements
 
@@ -72,15 +72,15 @@ pnpm add msw @faker-js/faker --filter @repo/testing
 
 ### Manual Verification
 
-- [ ] **MSW Interception**: Write a test that fetches `/api/users`, verify MSW handler responds
-- [ ] **Factory Override**: Create user with custom email, verify override applied
-- [ ] **Handler Reset**: Verify handlers reset between tests (no state leakage)
+- [x] **MSW Interception**: Write a test that fetches `/api/users`, verify MSW handler responds
+- [x] **Factory Override**: Create user with custom email, verify override applied
+- [x] **Handler Reset**: Verify handlers reset between tests (no state leakage)
 
 ### Automated Tests
 
-- [ ] Unit: `api.test.ts` - Verify MSW intercepts fetch request and returns mocked response
-- [ ] Unit: `api.test.ts` - Verify factory creates valid user object
-- [ ] Unit: `api.test.ts` - Verify factory accepts partial overrides
+- [x] Unit: `api.test.ts` - Verify MSW intercepts fetch request and returns mocked response
+- [x] Unit: `api.test.ts` - Verify factory creates valid user object
+- [x] Unit: `api.test.ts` - Verify factory accepts partial overrides
 
 ### Integration Tests
 
@@ -252,32 +252,68 @@ The following items are explicitly NOT part of this story:
 
 ### Pre-Verification
 
-- [ ] S1 (Vitest Setup) completed
-- [ ] Local environment matches [canonical versions](/docs/2-technical/references/canonical-versions.md)
-- [ ] packages/testing package exists (may need to create if not present)
+- [x] S1 (Vitest Setup) completed
+- [x] Local environment matches [canonical versions](/docs/2-technical/references/canonical-versions.md)
+- [x] packages/testing package exists (may need to create if not present)
 
 ### Implementation Quality
 
-- [ ] All acceptance criteria met
-- [ ] [Coding standards](/docs/2-technical/references/coding-standards.md) followed
-- [ ] No lint errors
-- [ ] Types compile successfully
-- [ ] MSW handlers type-safe with request/response types
-- [ ] Factories return correctly typed objects
+- [x] All acceptance criteria met
+- [x] [Coding standards](/docs/2-technical/references/coding-standards.md) followed
+- [x] No lint errors
+- [x] Types compile successfully
+- [x] MSW handlers type-safe with request/response types
+- [x] Factories return correctly typed objects
 
 ### Documentation
 
-- [ ] Factory functions have JSDoc comments explaining usage
-- [ ] MSW handlers have comments explaining mocked endpoints
+- [x] Factory functions have JSDoc comments explaining usage
+- [x] MSW handlers have comments explaining mocked endpoints
 
 ### Git Hygiene
 
-- [ ] Conventional commit message used
-- [ ] No unrelated changes included
+- [x] Conventional commit message used
+- [x] No unrelated changes included
 - [ ] PR description complete
 
 ## Status
 
-- **State**: Not Started
+- **State**: Complete
+- **Completed**: 2025-11-29
 - **PR**: -
-- **Completed**: -
+
+## Completion Notes
+
+### Summary
+
+Implemented the @repo/testing package with MSW (Mock Service Worker) for API mocking and @faker-js/faker for generating realistic test data. Created type-safe factories for User and Organization entities with partial override support. Added MSW setup file for Vitest integration with proper lifecycle hooks (beforeAll, afterEach, afterAll). Sample tests demonstrating both MSW interception and factory usage pass successfully.
+
+### Test Results
+
+| Test       | Command           | Result          |
+| ---------- | ----------------- | --------------- |
+| Lint       | `pnpm lint`       | Pass            |
+| Types      | `pnpm type-check` | Pass            |
+| Unit Tests | `pnpm test`       | Pass (34 tests) |
+| Build      | `pnpm build`      | Pass            |
+
+### Files Changed
+
+Beyond planned files, the following additional files were created/modified:
+
+- `packages/testing/package.json` - Created new package (story specified modification, but package didn't exist)
+- `packages/testing/tsconfig.json` - TypeScript configuration for the testing package
+- `packages/config/vitest/setup-msw.ts` - MSW setup file for Vitest (instead of modifying base.ts directly)
+- `packages/config/package.json` - Added @repo/testing dependency and setup-msw export
+- `apps/routing/vitest.config.ts` - Added setup-msw to setupFiles array
+- `apps/routing/package.json` - Added @repo/testing as devDependency
+- `apps/routing/src/lib/api.test.ts` - Sample test (story specified apps/web which doesn't exist, used apps/routing)
+
+### Known Issues
+
+None.
+
+### Lessons Learned
+
+- The story referenced `apps/web` which doesn't exist in this monorepo; the actual app is `apps/routing`. Story templates should be verified against actual codebase structure.
+- MSW exports (`http`, `HttpResponse`) should be re-exported from the testing package to avoid requiring MSW as a direct dependency in consuming packages.

@@ -182,7 +182,7 @@ Key pattern notes for this story:
 ### Consolidated Decisions (reference only)
 
 - [TAD: Package Architecture](/docs/2-technical/2-tad-package-architecture.md) - Package structure and exports patterns
-- [TAD: Technology Stack](/docs/2-technical/2-tad.md#development-tools) - ESLint 8.x selection
+- [TAD: Technology Stack](/docs/2-technical/2-tad.md#development-tools) - ESLint 9.x selection
 - [EPIC: Technology Decisions](./EPIC.md#technology-decisions) - Flat config decision
 - [Coding Standards](/docs/2-technical/references/coding-standards.md) - Import ordering and naming rules
 

@@ -16,6 +16,10 @@ playwright-report/
 playwright/.cache/
 test-results/
 
+# E2E Test Results (Playwright)
+testing/e2e/results/
+testing/e2e/report/
+
 # Environment
 .env
 .env.local
@@ -68,7 +72,7 @@ yarn-error.log*
 # Storybook
 storybook-static/
 
-# Testing artifacts
-testing/
+# Testing artifacts (root level only, not packages/testing)
+/testing/
 # Turborepo
 .turbo

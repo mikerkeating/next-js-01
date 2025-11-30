@@ -45,6 +45,7 @@ Documentation Foundation establishes documentation-as-code practices for the mon
 - CLAUDE.md template for AI-assisted epic implementation
 - Package documentation templates (README.md structure, ARCHITECTURE.md, CONTRIBUTING.md)
 - Documentation quality gates integrated with pre-commit hooks
+- Build script to aggregate package READMEs into `/docs/packages/` and app READMEs into `/docs/apps/` for unified documentation
 
 ## Acceptance Criteria
 
@@ -59,6 +60,8 @@ Documentation Foundation establishes documentation-as-code practices for the mon
 - [ ] SECURITY.md provides vulnerability reporting instructions and security contact information
 - [ ] Package README template guides developers on documenting packages for both maintainers and consumers
 - [ ] Documentation files pass markdown linting on pre-commit (integrated with Epic 1A.2)
+- [ ] Package READMEs are automatically aggregated into `/docs/packages/` and appear on the docs site
+- [ ] App READMEs are automatically aggregated into `/docs/apps/` and appear on the docs site
 - [ ] All stories complete and verified
 - [ ] Documentation updated
 
@@ -73,6 +76,11 @@ Documentation Foundation establishes documentation-as-code practices for the mon
 | S5  | [Create Package Documentation Templates](./S5-package-templates.md)     | S    | ⬜     | S1                 | S7             |
 | S6  | [Create CLAUDE.md Epic Template](./S6-claude-template.md)               | S    | ⬜     | S4                 | S7             |
 | S7  | [Integrate Documentation Quality Gates](./S7-docs-quality-gates.md)     | S    | ⬜     | S2, S3, S4, S5, S6 | -              |
+| S8  | [Document Documentation Foundation Setup](./S8-docs-readme.md)          | S    | ⬜     | S2, S7             | -              |
+| S9  | [Protect Documentation App with Basic Auth](./S9-basic-auth.md)         | S    | ⬜     | S10                | -              |
+| S10 | [Deploy Documentation App to Vercel](./S10-vercel-deploy.md)            | S    | ⬜     | S2                 | S9             |
+| S11 | [Package Documentation Aggregation](./S11-package-docs-aggregation.md)  | S    | ⬜     | S2                 | S12            |
+| S12 | [App Documentation Aggregation](./S12-app-docs-aggregation.md)          | S    | ⬜     | S2, S11            | -              |
 
 **Status Legend**: ⬜ Not Started | 🟡 In Progress | ✅ Complete | ❌ Blocked
 
@@ -81,6 +89,17 @@ Documentation Foundation establishes documentation-as-code practices for the mon
 ```
 S1 (Documentation Structure)
  ├──→ S2 (Documentation Site Framework)
+ │     ├──→ S10 (Deploy to Vercel)
+ │     │     ↓
+ │     │     └──→ S9 (Basic Auth Protection)
+ │     │
+ │     ├──→ S11 (Package Documentation Aggregation)
+ │     │     ↓
+ │     │     └──→ S12 (App Documentation Aggregation)
+ │     │
+ │     └──→ S7 (Documentation Quality Gates) ←── S3, S4, S5, S6
+ │           ↓
+ │           └──→ S8 (Document Documentation Foundation Setup)
  │
  ├──→ S3 (ADR Template & Initial ADRs)
  │
@@ -89,15 +108,17 @@ S1 (Documentation Structure)
  │     └──→ S6 (CLAUDE.md Template)
  │
  └──→ S5 (Package Documentation Templates)
-       ↓
-       └──→ S7 (Documentation Quality Gates) ←── S2, S3, S4, S6
 ```
 
 **Parallel Execution Notes:**
 
 - S2, S3, S4, and S5 can all start immediately after S1 completes
 - S6 (CLAUDE.md Template) depends on S4 for root documentation patterns
-- S7 (Quality Gates) is the final convergence point requiring all templates complete
+- S7 (Quality Gates) is the convergence point requiring all templates complete
+- S10 (Vercel Deploy) can start after S2, runs in parallel with S7/S8
+- S9 (Basic Auth) is the final story after S10 deployment is configured
+- S11 (Package Docs Aggregation) can start after S2, runs in parallel with S7-S10
+- S12 (App Docs Aggregation) depends on S11, extends the aggregation script for apps
 
 ## Technical Constraints
 
@@ -165,9 +186,9 @@ The following items are explicitly NOT part of this epic:
 
 | Metric          | Value                       |
 | --------------- | --------------------------- |
-| Total Stories   | 7                           |
-| Total Hours     | 26h                         |
-| Calendar Days   | 2-3 days                    |
+| Total Stories   | 12                          |
+| Total Hours     | 39h                         |
+| Calendar Days   | 3-4 days                    |
 | Parallel Tracks | 4 (S2, S3, S4, S5 after S1) |
 
 ### Story Breakdown
@@ -175,11 +196,11 @@ The following items are explicitly NOT part of this epic:
 | Size      | Count | Hours |
 | --------- | ----- | ----- |
 | XS (1-2h) | 0     | 0h    |
-| S (2-4h)  | 4     | 12h   |
+| S (2-4h)  | 9     | 25h   |
 | M (4-8h)  | 3     | 14h   |
 | L (8-16h) | 0     | 0h    |
 
-**Note**: S-sized stories are mostly file creation and template setup. M-sized stories (Documentation Site, ADR Setup, Root Docs) require more configuration, content creation, and verification.
+**Note**: S-sized stories are mostly file creation and template setup. M-sized stories (Documentation Site, ADR Setup, Root Docs) require more configuration, content creation, and verification. S8 creates the README documenting how the documentation system works. S10 and S9 handle Vercel deployment and basic auth protection respectively. S11 creates build script to aggregate package READMEs into the docs site. S12 extends the aggregation script to include app READMEs.
 
 ## References
 
@@ -216,4 +237,4 @@ The following items are explicitly NOT part of this epic:
 - **State**: Not Started
 - **Started**: -
 - **Completed**: -
-- **Stories Complete**: 0/7
+- **Stories Complete**: 0/12

@@ -1,0 +1,10 @@
+{
+  "extends": "../../tsconfig.json",
+  "compilerOptions": {
+    "outDir": "dist",
+    "rootDir": ".",
+    "types": ["node", "vitest/globals", "@testing-library/jest-dom"]
+  },
+  "include": ["src/**/*", "vitest.d.ts", "vitest.config.ts", "vitest.setup.ts"],
+  "exclude": ["node_modules", "dist"]
+}

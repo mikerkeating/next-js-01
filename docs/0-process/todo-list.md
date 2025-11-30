@@ -1,0 +1,17 @@
+- 1A.3-testing-foundation
+  - [x] confirm done - docs/3-epics/1A.3-testing-foundation/epic-eval.md
+  - [x] README
+- 1A.4-documentation-foundation
+  - [x] S8
+  - [x] S9
+  - [x] S10
+  - [x] confirm done - get epic-eval
+  - [x] S11
+  - [x] README
+  - [x] S12
+- 1A.5-basic-cicd
+  - [ ] keep going from 3 onwards
+  - [ ] 3 noting that 1A.3 is complete
+- 2A.1-config-package
+  - [x] does it do eslint 9 flat? changed
+  - [ ] run this

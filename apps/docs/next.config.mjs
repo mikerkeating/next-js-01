@@ -16,6 +16,6 @@ const withNextra = nextra({
 
 export default withNextra({
   reactStrictMode: true,
-  // Transpile nextra packages for monorepo compatibility
-  transpilePackages: ['nextra', 'nextra-theme-docs']
+  // Transpile nextra packages and internal packages for monorepo compatibility
+  transpilePackages: ['nextra', 'nextra-theme-docs', '@repo/middleware']
 })

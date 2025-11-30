@@ -1,4 +1,4 @@
-Epic - `1A.4` = `1A.4-documentation-foundation`
+Epic - `1A.4-documentation-foundation` = `1A.4`
 
 ---
 
@@ -41,3 +41,25 @@ For the stories listed in `## Resourcing Table` of `docs/3-epics/1A.4-documentat
 ## Check the stories deliver the epic `1A.4-documentation-foundation`
 
 `execute @docs/0-process/references/epic-story-check-prompt-template.md for Epic 1A.4`
+
+## Process CodeRabbit PR feedback - DONE
+
+For each `###` item which is not marked `- DONE` or `- IGNORED` in docs/3-epics/1A.4-documentation-foundation/epic-1A.4-pr-coderabbit.md, evaluate the suggested change and check if it is both valid and useful.
+
+If not, mark the `### Prompt` as `- IGNORED` and note the rationale.
+
+If valid, implement a fix/ change and when complete, mark the item as `- DONE`.
+
+Move to the next `### Prompt`
+
+## Use Claude Code PR review
+
+Use Claude Code PR Review tools to evaluate [PR 18](https://github.com/mikerkeating/next-js-01/pull/18)
+
+## Process Claude Code PR feedback - DONE
+
+For each `###` item which is not marked `- DONE` or `- IGNORED` in docs/3-epics/1A.4-documentation-foundation/epic-1A.4-pr-claude.md, evaluate the suggested change and check if it is both valid and useful.
+
+If not, mark the `###` item as `- IGNORED` and move to the next `###` item.
+
+If valid, implement a fix/ change and when complete, mark the item as `- DONE`.

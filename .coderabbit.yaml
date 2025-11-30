@@ -1,9 +1,7 @@
+# yaml-language-server: $schema=https://coderabbit.ai/integrations/schema.v2.json
 # CodeRabbit Configuration
 # AI-powered code review for pull requests
 # Documentation: https://docs.coderabbit.ai/guides/configure-coderabbit
-
-# Schema version for configuration format
-version: "2"
 
 # Language for review comments - British English per project convention
 language: "en-GB"

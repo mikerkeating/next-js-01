@@ -17,14 +17,14 @@
 
 ## Acceptance Criteria
 
-- [ ] PR workflow triggers on all pull requests to `development` and `main` branches
-- [ ] Workflow runs lint, type-check, test, and build jobs in parallel
-- [ ] Each job completes independently and reports its own status
-- [ ] Workflow uses pnpm for dependency installation with frozen lockfile
-- [ ] Node.js version matches `.nvmrc` specification
-- [ ] Workflow cancels in-progress runs when new commits are pushed to the same PR
-- [ ] All jobs complete within 15 minutes individually (30 minutes total workflow)
-- [ ] Job failures provide clear error output for debugging
+- [x] PR workflow triggers on all pull requests to `development` and `main` branches
+- [x] Workflow runs lint, type-check, test, and build jobs in parallel
+- [x] Each job completes independently and reports its own status
+- [x] Workflow uses pnpm for dependency installation with frozen lockfile
+- [x] Node.js version matches `.nvmrc` specification
+- [x] Workflow cancels in-progress runs when new commits are pushed to the same PR
+- [x] All jobs complete within 15 minutes individually (30 minutes total workflow)
+- [x] Job failures provide clear error output for debugging
 
 ## Technical Requirements
 
@@ -224,14 +224,54 @@ The following items are explicitly NOT part of this story:
 
 ## Verification Checklist
 
-- [ ] **Pre-req**: Epic 1A.3 completed, environment matches [canonical versions](/docs/2-technical/references/canonical-versions.md)
-- [ ] **Quality**: All acceptance criteria met, YAML valid, jobs parallel, concurrency configured
-- [ ] **Versions**: Node.js from `.nvmrc`, pnpm from canonical-versions.md
-- [ ] **Docs**: Workflow file has explanatory comments
+- [x] **Pre-req**: Epic 1A.3 completed, environment matches [canonical versions](/docs/2-technical/references/canonical-versions.md)
+- [x] **Quality**: All acceptance criteria met, YAML valid, jobs parallel, concurrency configured
+- [x] **Versions**: Node.js from `.nvmrc`, pnpm from canonical-versions.md
+- [x] **Docs**: Workflow file has explanatory comments
 - [ ] **Git**: Conventional commit, no unrelated changes, PR description complete
 
 ## Status
 
-- **State**: Not Started
+- **State**: Complete
+- **Completed**: 2025-11-29
 - **PR**: -
-- **Completed**: -
+
+## Completion Notes
+
+### Summary
+
+Created a dedicated PR workflow (`.github/workflows/pr.yml`) with parallel quality check jobs (lint, type-check, test, build) and a reusable composite action (`.github/actions/setup/action.yml`) for consistent Node.js/pnpm setup. Modified the existing `ci.yml` to only handle push events, separating concerns between PR and push workflows.
+
+### Test Results
+
+| Test       | Command                     | Result |
+| ---------- | --------------------------- | ------ |
+| YAML Lint  | `pnpm dlx yaml-lint pr.yml` | Pass   |
+| Lint       | `pnpm lint`                 | Pass   |
+| Types      | `pnpm type-check`           | Pass   |
+| Unit Tests | `pnpm test`                 | Pass   |
+| Build      | `pnpm build`                | Pass   |
+
+### Files Changed
+
+| File                               | Change                                                     |
+| ---------------------------------- | ---------------------------------------------------------- |
+| `.github/workflows/pr.yml`         | Created - PR workflow with parallel quality check jobs     |
+| `.github/actions/setup/action.yml` | Created - Reusable composite action for Node.js/pnpm setup |
+| `.github/workflows/ci.yml`         | Modified - Removed PR triggers, now push-only for S5       |
+
+### Key Implementation Details
+
+1. **Reusable Setup Action**: Uses `pnpm/action-setup@v4` which reads version from `package.json` `packageManager` field, and `actions/setup-node@v4` with `node-version-file: '.nvmrc'` for consistent versioning
+2. **Concurrency**: PR workflow uses `pr-${{ github.event.pull_request.number }}` group with `cancel-in-progress: true`
+3. **Timeout**: All jobs have 15-minute timeout as per acceptance criteria
+4. **Parallel Execution**: No `needs` dependencies between lint, type-check, test, and build jobs
+
+### Known Issues
+
+None.
+
+### Lessons Learned
+
+- The `pnpm/action-setup@v4` action automatically reads the pnpm version from the `packageManager` field in `package.json`, eliminating the need for explicit version specification
+- Separating PR and push workflows provides cleaner architecture and easier maintenance for future stories (S5)

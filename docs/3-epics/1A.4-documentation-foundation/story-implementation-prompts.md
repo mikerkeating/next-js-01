@@ -73,3 +73,43 @@ use @.claude/agents/engineer-devops.md to execute @docs/0-process/references/sto
 ```markdown
 use @.claude/agents/engineer-documentation.md to execute @docs/0-process/references/story-dev-prompt.md for docs/3-epics/1A.4-documentation-foundation/S7-docs-quality-gates.md
 ```
+
+### S8: Docs
+
+**Primary Role:**
+
+```markdown
+use @.claude/agents/engineer-devops.md to execute @docs/0-process/references/story-dev-prompt.md for docs/3-epics/1A.4-documentation-foundation/S8-docs-readme.md
+```
+
+### S9: Auth
+
+**Primary Role:**
+
+```markdown
+use @.claude/agents/engineer-devops.md to execute @docs/0-process/references/story-dev-prompt.md for docs/3-epics/1A.4-documentation-foundation/S9-basic-auth.md
+```
+
+### S10: Vercel
+
+**Primary Role:**
+
+```markdown
+use @.claude/agents/engineer-devops.md to execute @docs/0-process/references/story-dev-prompt.md for docs/3-epics/1A.4-documentation-foundation/S10-vercel-deploy.md
+```
+
+### S11: Package Docs
+
+**Primary Role:**
+
+```markdown
+use @.claude/agents/engineer-devops.md to execute @docs/0-process/references/story-dev-prompt.md for docs/3-epics/1A.4-documentation-foundation/S11-package-docs-aggregation.md
+```
+
+### S12: App Docs
+
+**Primary Role:**
+
+```markdown
+use @.claude/agents/engineer-devops.md to execute @docs/0-process/references/story-dev-prompt.md for docs/3-epics/1A.4-documentation-foundation/S12-app-docs-aggregation.md
+```

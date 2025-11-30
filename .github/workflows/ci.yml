@@ -1,18 +1,25 @@
+# Development Branch CI Workflow
+#
+# Runs on push to development branch for continuous integration.
+# Pull request checks are handled by pr.yml workflow.
+#
+# Note: E2E smoke tests require preview deployments; to be added in a future story.
+# This workflow will be enhanced in S5 (Main Workflow) to include
+# deployment to staging and production notifications.
+#
+# Related Stories:
+# - Epic 1A.5.S1: Create PR Workflow with Quality Checks (created pr.yml)
+# - Epic 1A.5.S5: Main Workflow (will enhance this file)
+
 name: CI
 
 on:
-  pull_request:
-    branches: [development]
-    paths-ignore:
-      - 'docs/**'
-      - '*.md'
-      - '.vscode/**'
   push:
     branches: [development]
     paths-ignore:
-      - 'docs/**'
-      - '*.md'
-      - '.vscode/**'
+      - "docs/**"
+      - "*.md"
+      - ".vscode/**"
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
@@ -22,18 +29,13 @@ jobs:
   lint:
     name: Lint
     runs-on: ubuntu-latest
+    timeout-minutes: 15
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout code
+        uses: actions/checkout@v4
 
-      - uses: pnpm/action-setup@v4
-
-      - uses: actions/setup-node@v4
-        with:
-          node-version: '24'
-          cache: 'pnpm'
-
-      - name: Install dependencies
-        run: pnpm install --frozen-lockfile
+      - name: Setup Node.js and pnpm
+        uses: ./.github/actions/setup
 
       - name: Run ESLint
         run: pnpm lint
@@ -41,18 +43,13 @@ jobs:
   type-check:
     name: Type Check
     runs-on: ubuntu-latest
+    timeout-minutes: 15
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout code
+        uses: actions/checkout@v4
 
-      - uses: pnpm/action-setup@v4
-
-      - uses: actions/setup-node@v4
-        with:
-          node-version: '24'
-          cache: 'pnpm'
-
-      - name: Install dependencies
-        run: pnpm install --frozen-lockfile
+      - name: Setup Node.js and pnpm
+        uses: ./.github/actions/setup
 
       - name: Run TypeScript type check
         run: pnpm type-check
@@ -60,115 +57,29 @@ jobs:
   test:
     name: Test
     runs-on: ubuntu-latest
+    timeout-minutes: 15
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout code
+        uses: actions/checkout@v4
 
-      - uses: pnpm/action-setup@v4
-
-      - uses: actions/setup-node@v4
-        with:
-          node-version: '24'
-          cache: 'pnpm'
-
-      - name: Install dependencies
-        run: pnpm install --frozen-lockfile
+      - name: Setup Node.js and pnpm
+        uses: ./.github/actions/setup
 
       - name: Run tests
-        run: pnpm test || echo "No test script configured yet - skipping"
+        run: pnpm test
 
   build:
     name: Build
     runs-on: ubuntu-latest
+    timeout-minutes: 15
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout code
+        uses: actions/checkout@v4
 
-      - uses: pnpm/action-setup@v4
-
-      - uses: actions/setup-node@v4
-        with:
-          node-version: '24'
-          cache: 'pnpm'
-
-      - name: Install dependencies
-        run: pnpm install --frozen-lockfile
+      - name: Setup Node.js and pnpm
+        uses: ./.github/actions/setup
 
       - name: Build application
         run: pnpm build
         env:
           NEXT_PUBLIC_APP_URL: https://example.com
-
-  e2e-smoke:
-    name: E2E Smoke Tests
-    runs-on: ubuntu-latest
-    needs: [lint, type-check, test, build]
-    if: github.event_name == 'pull_request'
-    steps:
-      - uses: actions/checkout@v4
-
-      - uses: pnpm/action-setup@v4
-
-      - uses: actions/setup-node@v4
-        with:
-          node-version: '24'
-          cache: 'pnpm'
-
-      - name: Install dependencies
-        run: pnpm install --frozen-lockfile
-
-      - name: Install Playwright browsers
-        run: pnpm --filter @repo/routing exec playwright install chromium --with-deps
-
-      - name: Get Vercel Preview URL
-        id: vercel-preview
-        env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: |
-          echo "Waiting for Vercel deployment..."
-          for i in {1..60}; do
-            # Get deployments for this SHA, filter for Vercel
-            DEPLOYMENT=$(gh api repos/${{ github.repository }}/deployments \
-              -q ".[] | select(.creator.login == \"vercel[bot]\" and .sha == \"${{ github.event.pull_request.head.sha }}\") | {id, environment}" \
-              2>/dev/null | head -1) || true
-
-            if [ -n "$DEPLOYMENT" ]; then
-              DEPLOY_ID=$(echo "$DEPLOYMENT" | jq -r '.id')
-              echo "Found deployment: $DEPLOY_ID"
-
-              # Get the deployment status with target_url
-              URL=$(gh api repos/${{ github.repository }}/deployments/$DEPLOY_ID/statuses \
-                -q '.[0].target_url // empty' 2>/dev/null) || true
-
-              if [ -n "$URL" ]; then
-                echo "url=$URL" >> $GITHUB_OUTPUT
-                echo "Preview URL: $URL"
-                exit 0
-              fi
-            fi
-
-            echo "Waiting for deployment... (attempt $i/60)"
-            sleep 5
-          done
-          echo "::error::Vercel deployment not found after 5 minutes"
-          exit 1
-
-      # Alternative: Run against local build (uncomment if Vercel not configured)
-      # - name: Build application
-      #   run: pnpm build
-      #   env:
-      #     NEXT_PUBLIC_APP_URL: http://localhost:3000
-
-      - name: Run Playwright smoke tests
-        run: pnpm test:e2e:smoke
-        env:
-          BASE_URL: ${{ steps.vercel-preview.outputs.url }}
-          VERCEL_AUTOMATION_BYPASS_SECRET: ${{ secrets.VERCEL_AUTOMATION_BYPASS_SECRET }}
-
-      - name: Upload test results
-        uses: actions/upload-artifact@v4
-        if: always()
-        with:
-          name: playwright-results
-          path: |
-            apps/routing/playwright-report/
-            apps/routing/testing/e2e/results/
-          retention-days: 7

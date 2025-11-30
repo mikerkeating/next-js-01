@@ -117,14 +117,14 @@ S1 (Package Structure)
 
 ### Technology Decisions
 
-| Decision             | Choice                          | Reference                                                                             |
-| -------------------- | ------------------------------- | ------------------------------------------------------------------------------------- |
-| TypeScript Version   | 5.x with strict mode            | [Canonical Versions](/docs/2-technical/references/canonical-versions.md)              |
-| ESLint Version       | 8.x with Next.js, React plugins | [Canonical Versions](/docs/2-technical/references/canonical-versions.md)              |
-| Prettier Version     | 3.x                             | [Canonical Versions](/docs/2-technical/references/canonical-versions.md)              |
-| Tailwind CSS Version | 4.x (CSS-first configuration)   | [Canonical Versions](/docs/2-technical/references/canonical-versions.md)              |
-| Monorepo Tool        | Turborepo                       | [ADR-001: Monorepo with Turborepo](/docs/2-technical/adr/001-monorepo-turborepo.md)   |
-| Package Manager      | pnpm with workspaces            | [ADR-002: pnpm as Package Manager](/docs/2-technical/adr/002-pnpm-package-manager.md) |
+| Decision             | Choice                        | Reference                                                                             |
+| -------------------- | ----------------------------- | ------------------------------------------------------------------------------------- |
+| TypeScript Version   | 5.x with strict mode          | [Canonical Versions](/docs/2-technical/references/canonical-versions.md)              |
+| ESLint Version       | 9.x with flat config (native) | [Canonical Versions](/docs/2-technical/references/canonical-versions.md)              |
+| Prettier Version     | 3.x                           | [Canonical Versions](/docs/2-technical/references/canonical-versions.md)              |
+| Tailwind CSS Version | 4.x (CSS-first configuration) | [Canonical Versions](/docs/2-technical/references/canonical-versions.md)              |
+| Monorepo Tool        | Turborepo                     | [ADR-001: Monorepo with Turborepo](/docs/2-technical/adr/001-monorepo-turborepo.md)   |
+| Package Manager      | pnpm with workspaces          | [ADR-002: pnpm as Package Manager](/docs/2-technical/adr/002-pnpm-package-manager.md) |
 
 ### Constraints
 

@@ -112,7 +112,7 @@ For `.nvmrc`:
 | Technology      | Version | Constraint | Notes                  |
 | --------------- | ------- | ---------- | ---------------------- |
 | **Turborepo**   | Latest  | `^2.0.0`   | Monorepo build         |
-| **ESLint**      | 8.x     | `^8.56.0`  | Linting                |
+| **ESLint**      | 9.x     | `^9.39.0`  | Linting (flat config)  |
 | **Prettier**    | 3.x     | `^3.2.0`   | Formatting             |
 | **Husky**       | 9.x     | `^9.0.0`   | Git hooks              |
 | **lint-staged** | 15.x    | `^15.2.0`  | Staged file linting    |
