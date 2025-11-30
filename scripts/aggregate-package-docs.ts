@@ -69,10 +69,11 @@ function hasValidReadme(sourceDir: string, name: string): { valid: boolean; path
 }
 
 /**
- * Check if content already has frontmatter
+ * Check if content already has frontmatter.
+ * Frontmatter must start at position 0 per the spec.
  */
 function hasFrontmatter(content: string): boolean {
-  return content.trimStart().startsWith("---");
+  return content.startsWith("---");
 }
 
 /**

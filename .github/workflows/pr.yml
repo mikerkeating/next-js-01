@@ -117,8 +117,8 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
         with:
-          # fetch-depth: 0 required for coverage comparison with base branch
-          fetch-depth: 0
+          # fetch-depth: 2 required for HEAD^1 comparison in Turborepo filtering
+          fetch-depth: 2
 
       - name: Setup Node.js and pnpm
         uses: ./.github/actions/setup

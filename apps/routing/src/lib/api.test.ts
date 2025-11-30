@@ -12,24 +12,8 @@
  */
 import { describe, it, expect } from "vitest";
 
-import { server, http, HttpResponse } from "@repo/testing/mocks";
+import { server, http, HttpResponse, type ApiResponse, type MockUser } from "@repo/testing/mocks";
 import { createUser, createOrganization } from "@repo/testing/factories";
-
-/**
- * API Response types matching the mock handler responses.
- */
-interface ApiResponse<T> {
-  success: boolean;
-  data?: T;
-  error?: string;
-}
-
-interface MockUser {
-  id: string;
-  email: string;
-  name: string;
-  createdAt: string;
-}
 
 describe("MSW API Mocking", () => {
   describe("Default Handlers", () => {

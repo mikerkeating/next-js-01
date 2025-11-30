@@ -25,12 +25,13 @@ import { server } from "@repo/testing/mocks/server";
 
 /**
  * Start MSW server before all tests.
- * - onUnhandledRequest: 'bypass' allows non-mocked requests to pass through.
- *   Change to 'warn' or 'error' if you want to catch unmocked requests.
+ * - In CI: 'error' to fail tests on unmocked network calls
+ * - Locally: 'bypass' allows non-mocked requests to pass through
  */
 beforeAll(() => {
+  const onUnhandledRequest = process.env.CI ? "error" : "bypass";
   server.listen({
-    onUnhandledRequest: "bypass",
+    onUnhandledRequest,
   });
 });
 

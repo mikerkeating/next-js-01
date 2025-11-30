@@ -7,11 +7,11 @@
  * - Forwarding native button attributes
  * - Handling disabled state
  */
-import type { ButtonHTMLAttributes } from "react";
+import type { ButtonHTMLAttributes, JSX } from "react";
 
 export type ButtonProps = ButtonHTMLAttributes<HTMLButtonElement>;
 
-export function Button({ children, type = "button", ...props }: ButtonProps): React.ReactElement {
+export function Button({ children, type = "button", ...props }: ButtonProps): JSX.Element {
   return (
     <button type={type} {...props}>
       {children}

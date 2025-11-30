@@ -27,8 +27,7 @@ export default mergeConfig(
       // Root directory for tests
       root: __dirname,
 
-      // Use happy-dom for React component tests (default from base)
-      environment: "happy-dom",
+      // happy-dom environment inherited from base config
 
       // Setup files run before each test file
       // Includes React Testing Library setup with jest-dom matchers

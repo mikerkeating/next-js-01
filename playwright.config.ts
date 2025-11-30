@@ -82,23 +82,20 @@ export default defineConfig({
   // Browser projects for cross-browser testing
   projects: [
     // Smoke test projects - fast deployment validation
-    // Use @smoke tag in test.describe to include tests in smoke suite
+    // All tests in ./tests/e2e/smoke are smoke tests
     {
       name: "smoke-chromium",
       use: { ...devices["Desktop Chrome"] },
-      grep: /@smoke/,
       testDir: "./tests/e2e/smoke",
     },
     {
       name: "smoke-firefox",
       use: { ...devices["Desktop Firefox"] },
-      grep: /@smoke/,
       testDir: "./tests/e2e/smoke",
     },
     {
       name: "smoke-webkit",
       use: { ...devices["Desktop Safari"] },
-      grep: /@smoke/,
       testDir: "./tests/e2e/smoke",
     },
 

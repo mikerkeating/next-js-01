@@ -41,3 +41,15 @@ For the stories listed in `## Resourcing Table` of `docs/3-epics/1A.4-documentat
 ## Check the stories deliver the epic `1A.4-documentation-foundation`
 
 `execute @docs/0-process/references/epic-story-check-prompt-template.md for Epic 1A.4`
+
+## Process CodeRabbit PR feedback - DONE
+
+For each `### Prompt` which is not marked `- DONE` in docs/3-epics/1A.4-documentation-foundation/epic-1A.4-pr-coderabbit.md, evaluate the suggested change and check if it is both valid and useful.
+
+If not, mark the `### Prompt` as `- IGNORED` and move to the next `### Prompt`.
+
+If valid, implement the prompt.
+
+## Use Claude Code PR review
+
+Use Claude Code PR REview
