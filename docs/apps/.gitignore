@@ -1,0 +1,4 @@
+# Auto-generated app documentation files
+# These are created by `pnpm docs-aggregates` and should not be committed
+*.md
+!_meta.json

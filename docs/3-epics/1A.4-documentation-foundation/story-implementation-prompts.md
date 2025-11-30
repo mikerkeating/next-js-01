@@ -105,3 +105,11 @@ use @.claude/agents/engineer-devops.md to execute @docs/0-process/references/sto
 ```markdown
 use @.claude/agents/engineer-devops.md to execute @docs/0-process/references/story-dev-prompt.md for docs/3-epics/1A.4-documentation-foundation/S11-package-docs-aggregation.md
 ```
+
+### S12: App Docs
+
+**Primary Role:**
+
+```markdown
+use @.claude/agents/engineer-devops.md to execute @docs/0-process/references/story-dev-prompt.md for docs/3-epics/1A.4-documentation-foundation/S12-app-docs-aggregation.md
+```

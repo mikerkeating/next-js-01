@@ -1,9 +1,10 @@
 #!/usr/bin/env node
 /**
- * Aggregate Package Documentation
+ * Aggregate Package and App Documentation
  *
- * Copies README.md files from packages/* to docs/packages/ for inclusion
- * in the documentation site. Adds frontmatter and cleans stale files.
+ * Copies README.md files from packages/* and apps/* to docs/packages/ and
+ * docs/apps/ for inclusion in the documentation site. Adds frontmatter and
+ * cleans stale files.
  *
  * Usage: pnpm docs-aggregates
  */
@@ -20,6 +21,10 @@ const __dirname = path.dirname(__filename);
 const REPO_ROOT = path.resolve(__dirname, "..");
 const PACKAGES_DIR = path.join(REPO_ROOT, "packages");
 const DOCS_PACKAGES_DIR = path.join(REPO_ROOT, "docs", "packages");
+const APPS_DIR = path.join(REPO_ROOT, "apps");
+const DOCS_APPS_DIR = path.join(REPO_ROOT, "docs", "apps");
+
+type SourceType = "package" | "app";
 
 // Files to preserve during cleanup
 const PRESERVED_FILES = new Set([".gitignore", "_meta.json"]);
@@ -32,15 +37,15 @@ interface AggregationResult {
 }
 
 /**
- * Get all direct child directories of the packages folder
+ * Get all direct child directories of a source folder
  */
-function getPackageDirectories(): string[] {
-  if (!fs.existsSync(PACKAGES_DIR)) {
+function getDirectories(sourceDir: string): string[] {
+  if (!fs.existsSync(sourceDir)) {
     return [];
   }
 
   return fs
-    .readdirSync(PACKAGES_DIR, { withFileTypes: true })
+    .readdirSync(sourceDir, { withFileTypes: true })
     .filter((dirent) => dirent.isDirectory())
     .map((dirent) => dirent.name);
 }
@@ -48,8 +53,8 @@ function getPackageDirectories(): string[] {
 /**
  * Check if a README exists and has content
  */
-function hasValidReadme(packageName: string): { valid: boolean; path: string } {
-  const readmePath = path.join(PACKAGES_DIR, packageName, "README.md");
+function hasValidReadme(sourceDir: string, name: string): { valid: boolean; path: string } {
+  const readmePath = path.join(sourceDir, name, "README.md");
 
   if (!fs.existsSync(readmePath)) {
     return { valid: false, path: readmePath };
@@ -71,12 +76,20 @@ function hasFrontmatter(content: string): boolean {
 }
 
 /**
- * Generate frontmatter for a package README
+ * Generate frontmatter for a package or app README
  */
-function generateFrontmatter(packageName: string): string {
+function generateFrontmatter(name: string, type: SourceType): string {
+  if (type === "package") {
+    return `---
+title: "@repo/${name}"
+description: "Auto-generated from packages/${name}/README.md"
+---
+
+`;
+  }
   return `---
-title: "@repo/${packageName}"
-description: "Auto-generated from packages/${packageName}/README.md"
+title: "${name}"
+description: "Auto-generated from apps/${name}/README.md"
 ---
 
 `;
@@ -85,8 +98,9 @@ description: "Auto-generated from packages/${packageName}/README.md"
 /**
  * Add a source note comment to the content
  */
-function addSourceNote(packageName: string, content: string): string {
-  const sourceNote = `<!-- Auto-generated from packages/${packageName}/README.md -->\n\n`;
+function addSourceNote(name: string, content: string, type: SourceType): string {
+  const sourceDir = type === "package" ? "packages" : "apps";
+  const sourceNote = `<!-- Auto-generated from ${sourceDir}/${name}/README.md -->\n\n`;
 
   if (hasFrontmatter(content)) {
     // Insert source note after frontmatter
@@ -103,25 +117,25 @@ function addSourceNote(packageName: string, content: string): string {
   }
 
   // Add frontmatter and source note
-  return generateFrontmatter(packageName) + sourceNote + content;
+  return generateFrontmatter(name, type) + sourceNote + content;
 }
 
 /**
- * Clean stale files from docs/packages/
+ * Clean stale files from a docs directory
  */
-function cleanStaleFiles(result: AggregationResult): void {
-  if (!fs.existsSync(DOCS_PACKAGES_DIR)) {
+function cleanStaleFiles(docsDir: string, result: AggregationResult): void {
+  if (!fs.existsSync(docsDir)) {
     return;
   }
 
-  const files = fs.readdirSync(DOCS_PACKAGES_DIR);
+  const files = fs.readdirSync(docsDir);
 
   for (const file of files) {
     if (PRESERVED_FILES.has(file)) {
       continue;
     }
 
-    const filePath = path.join(DOCS_PACKAGES_DIR, file);
+    const filePath = path.join(docsDir, file);
     try {
       fs.unlinkSync(filePath);
       result.removed.push(file);
@@ -133,40 +147,47 @@ function cleanStaleFiles(result: AggregationResult): void {
 }
 
 /**
- * Ensure the docs/packages directory exists
+ * Ensure a docs directory exists
  */
-function ensureDocsPackagesDir(): void {
-  if (!fs.existsSync(DOCS_PACKAGES_DIR)) {
-    fs.mkdirSync(DOCS_PACKAGES_DIR, { recursive: true });
+function ensureDocsDir(docsDir: string): void {
+  if (!fs.existsSync(docsDir)) {
+    fs.mkdirSync(docsDir, { recursive: true });
   }
 }
 
 /**
- * Copy a package README to docs/packages/
+ * Copy a README to a docs directory
  */
-function copyPackageReadme(
-  packageName: string,
+function copyReadme(
+  name: string,
   readmePath: string,
+  docsDir: string,
+  type: SourceType,
   result: AggregationResult
 ): void {
   try {
     const content = fs.readFileSync(readmePath, "utf-8");
-    const processedContent = addSourceNote(packageName, content);
+    const processedContent = addSourceNote(name, content, type);
 
-    const targetPath = path.join(DOCS_PACKAGES_DIR, `${packageName}.md`);
+    const targetPath = path.join(docsDir, `${name}.md`);
     fs.writeFileSync(targetPath, processedContent, "utf-8");
 
-    result.copied.push(packageName);
+    result.copied.push(name);
   } catch (error) {
     const message = error instanceof Error ? error.message : "Unknown error";
-    result.errors.push(`Failed to copy ${packageName}: ${message}`);
+    result.errors.push(`Failed to copy ${name}: ${message}`);
   }
 }
 
 /**
- * Main aggregation function
+ * Aggregate docs from a source directory
  */
-function aggregatePackageDocs(): AggregationResult {
+function aggregateDocs(
+  sourceDir: string,
+  docsDir: string,
+  type: SourceType,
+  label: string
+): AggregationResult {
   const result: AggregationResult = {
     copied: [],
     skipped: [],
@@ -175,77 +196,101 @@ function aggregatePackageDocs(): AggregationResult {
   };
 
   // Ensure target directory exists
-  ensureDocsPackagesDir();
+  ensureDocsDir(docsDir);
 
   // Clean stale files first
-  cleanStaleFiles(result);
+  cleanStaleFiles(docsDir, result);
 
-  // Get all package directories
-  const packages = getPackageDirectories();
+  // Get all directories
+  const items = getDirectories(sourceDir);
 
-  if (packages.length === 0) {
-    console.log("No packages found in packages/");
+  if (items.length === 0) {
+    console.log(`No ${label} found in ${path.basename(sourceDir)}/`);
     return result;
   }
 
-  // Process each package
-  for (const packageName of packages) {
-    const readme = hasValidReadme(packageName);
+  // Process each item
+  for (const name of items) {
+    const readme = hasValidReadme(sourceDir, name);
 
     if (!readme.valid) {
-      console.warn(`Warning: Skipping ${packageName} - no valid README.md`);
-      result.skipped.push(packageName);
+      console.warn(`Warning: Skipping ${name} - no valid README.md`);
+      result.skipped.push(name);
       continue;
     }
 
-    copyPackageReadme(packageName, readme.path, result);
+    copyReadme(name, readme.path, docsDir, type, result);
   }
 
   return result;
 }
 
 /**
- * Print results summary
+ * Main aggregation function - aggregates both packages and apps
  */
-function printSummary(result: AggregationResult): void {
-  console.log("\n=== Package Documentation Aggregation ===\n");
+function aggregateAllDocs(): {
+  packages: AggregationResult;
+  apps: AggregationResult;
+} {
+  const packages = aggregateDocs(PACKAGES_DIR, DOCS_PACKAGES_DIR, "package", "packages");
+  const apps = aggregateDocs(APPS_DIR, DOCS_APPS_DIR, "app", "apps");
+
+  return { packages, apps };
+}
+
+/**
+ * Print results summary for a single aggregation
+ */
+function printSectionSummary(result: AggregationResult, sectionLabel: string): void {
+  console.log(`\n--- ${sectionLabel} ---`);
 
   if (result.copied.length > 0) {
     console.log(`Copied (${result.copied.length}):`);
-    for (const pkg of result.copied) {
-      console.log(`  + ${pkg}.md`);
+    for (const item of result.copied) {
+      console.log(`  + ${item}.md`);
     }
   }
 
   if (result.skipped.length > 0) {
-    console.log(`\nSkipped (${result.skipped.length}):`);
-    for (const pkg of result.skipped) {
-      console.log(`  - ${pkg} (no README.md)`);
+    console.log(`Skipped (${result.skipped.length}):`);
+    for (const item of result.skipped) {
+      console.log(`  - ${item} (no README.md)`);
     }
   }
 
   if (result.removed.length > 0) {
-    console.log(`\nRemoved stale files (${result.removed.length}):`);
+    console.log(`Removed stale files (${result.removed.length}):`);
     for (const file of result.removed) {
       console.log(`  x ${file}`);
     }
   }
 
   if (result.errors.length > 0) {
-    console.log(`\nErrors (${result.errors.length}):`);
+    console.log(`Errors (${result.errors.length}):`);
     for (const error of result.errors) {
       console.error(`  ! ${error}`);
     }
   }
+}
 
-  console.log("\n=========================================\n");
+/**
+ * Print full results summary
+ */
+function printSummary(results: { packages: AggregationResult; apps: AggregationResult }): void {
+  console.log("\n=== Documentation Aggregation ===");
+
+  printSectionSummary(results.packages, "Packages");
+  printSectionSummary(results.apps, "Apps");
+
+  console.log("\n=================================\n");
 }
 
 // Run the aggregation
-const result = aggregatePackageDocs();
-printSummary(result);
+const results = aggregateAllDocs();
+printSummary(results);
 
 // Exit with error code if there were errors
-if (result.errors.length > 0) {
+const totalErrors = results.packages.errors.length + results.apps.errors.length;
+if (totalErrors > 0) {
   process.exit(1);
 }

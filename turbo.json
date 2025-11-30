@@ -11,8 +11,13 @@
   ],
   "tasks": {
     "//#docs-aggregates": {
-      "inputs": ["packages/*/README.md"],
-      "outputs": ["docs/packages/*.md", "!docs/packages/_meta.json"]
+      "inputs": ["packages/*/README.md", "apps/*/README.md"],
+      "outputs": [
+        "docs/packages/*.md",
+        "docs/apps/*.md",
+        "!docs/packages/_meta.json",
+        "!docs/apps/_meta.json"
+      ]
     },
     "build": {
       "dependsOn": ["^build"],
