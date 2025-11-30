@@ -16,6 +16,6 @@ export default defineWorkspace([
   // Apps with tests
   "apps/routing/vitest.config.ts",
 
-  // Packages with tests (add as they gain test coverage)
-  // 'packages/*/vitest.config.ts',
+  // Packages with tests
+  "packages/testing/vitest.config.ts",
 ]);

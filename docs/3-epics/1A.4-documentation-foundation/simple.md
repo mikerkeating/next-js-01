@@ -44,7 +44,7 @@ For the stories listed in `## Resourcing Table` of `docs/3-epics/1A.4-documentat
 
 ## Process CodeRabbit PR feedback - DONE
 
-For each `### Prompt` which is not marked `- DONE` in docs/3-epics/1A.4-documentation-foundation/epic-1A.4-pr-coderabbit.md, evaluate the suggested change and check if it is both valid and useful.
+For each `### Prompt` which is not marked `- DONE` or `- IGNORED` in docs/3-epics/1A.4-documentation-foundation/epic-1A.4-pr-coderabbit.md, evaluate the suggested change and check if it is both valid and useful.
 
 If not, mark the `### Prompt` as `- IGNORED` and move to the next `### Prompt`.
 
@@ -52,4 +52,12 @@ If valid, implement the prompt.
 
 ## Use Claude Code PR review
 
-Use Claude Code PR REview
+Use Claude Code PR Review tools to evaluate [PR 18](https://github.com/mikerkeating/next-js-01/pull/18)
+
+## Process Claude Code PR feedback - DONE
+
+For each `###` item which is not marked `- DONE` or `- IGNORED` in docs/3-epics/1A.4-documentation-foundation/epic-1A.4-pr-claude.md, evaluate the suggested change and check if it is both valid and useful.
+
+If not, mark the `###` item as `- IGNORED` and move to the next `###` item.
+
+If valid, implement a fix/ change, When complete, mark the item as `- DONE`.

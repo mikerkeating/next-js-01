@@ -12,7 +12,7 @@
 # - Generates coverage reports during test job using Vitest coverage
 # - Posts coverage summary as sticky PR comment (updates on each push)
 # - Uploads HTML coverage report as artifact for detailed review
-# - Fails PR if coverage decreases from base branch
+# - Note: Coverage decrease detection planned for future implementation
 #
 # Triggers: Pull requests to development and main branches, workflow_dispatch
 # Jobs: lint, type-check, test (with coverage), build (all parallel)

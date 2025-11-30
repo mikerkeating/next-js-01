@@ -8,6 +8,7 @@
   - [x] confirm done - get epic-eval
   - [x] S11
   - [x] README
+  - [x] S12
 - 1A.5-basic-cicd
   - [ ] keep going from 3 onwards
   - [ ] 3 noting that 1A.3 is complete

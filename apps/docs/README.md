@@ -246,8 +246,8 @@ The docs app is integrated into the Turborepo build pipeline:
 ```json
 {
   "docs#build": {
-    "dependsOn": ["^build"],
-    "inputs": ["$TURBO_DEFAULT$", "../../docs/**/*.md", "../../docs/**/*.mdx"],
+    "dependsOn": ["//#docs-aggregates", "^build"],
+    "inputs": ["app/**", "*.tsx", "*.ts", "*.mjs", "../../docs/**/*.md", "../../docs/**/*.mdx"],
     "outputs": [".next/**", "!.next/cache/**"]
   }
 }
@@ -255,6 +255,7 @@ The docs app is integrated into the Turborepo build pipeline:
 
 This ensures:
 
+- Docs aggregates (package READMEs) are generated before docs build
 - Docs build runs after package builds
 - Changes to `/docs` content trigger rebuilds
 - Build outputs are cached for faster subsequent builds

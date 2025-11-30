@@ -102,7 +102,7 @@ const admin = createUser({
 
 // Create multiple users
 const users = createUsers(5);
-const teamMembers = createUsers(3, { organizationId: "org-123" });
+const teamMembers = createUsers(3, { name: "Team Member" });
 ```
 
 **User Properties:**

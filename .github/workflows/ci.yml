@@ -3,7 +3,7 @@
 # Runs on push to development branch for continuous integration.
 # Pull request checks are handled by pr.yml workflow.
 #
-# Note: E2E smoke tests moved to pr.yml as they require preview deployments.
+# Note: E2E smoke tests require preview deployments; to be added in a future story.
 # This workflow will be enhanced in S5 (Main Workflow) to include
 # deployment to staging and production notifications.
 #
