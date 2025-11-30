@@ -110,13 +110,46 @@ export const handlers = [
    * POST /api/users - Creates a new mock user
    */
   http.post("/api/users", async ({ request }) => {
-    const body = (await request.json()) as CreateUserRequest;
-
-    if (!body.email || !body.name) {
+    let body: unknown;
+    try {
+      body = await request.json();
+    } catch {
       return HttpResponse.json(
         {
           success: false,
-          error: "Email and name are required",
+          error: "Invalid JSON in request body",
+        } as ApiResponse<never>,
+        { status: 400 }
+      );
+    }
+
+    if (typeof body !== "object" || body === null) {
+      return HttpResponse.json(
+        {
+          success: false,
+          error: "Request body must be an object",
+        } as ApiResponse<never>,
+        { status: 400 }
+      );
+    }
+
+    const { email, name } = body as Record<string, unknown>;
+
+    if (typeof email !== "string" || email.trim() === "") {
+      return HttpResponse.json(
+        {
+          success: false,
+          error: "Field 'email' is required and must be a non-empty string",
+        } as ApiResponse<never>,
+        { status: 400 }
+      );
+    }
+
+    if (typeof name !== "string" || name.trim() === "") {
+      return HttpResponse.json(
+        {
+          success: false,
+          error: "Field 'name' is required and must be a non-empty string",
         } as ApiResponse<never>,
         { status: 400 }
       );
@@ -126,8 +159,8 @@ export const handlers = [
       success: true,
       data: {
         id: `user-${Date.now()}`,
-        email: body.email,
-        name: body.name,
+        email,
+        name,
         createdAt: new Date().toISOString(),
       },
     };

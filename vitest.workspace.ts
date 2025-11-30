@@ -7,6 +7,8 @@
  *
  * Running `pnpm test` at the root will execute tests across all projects.
  * Running `pnpm test --filter <package>` runs tests for a specific package.
+ * Alternatively, use Vitest's native --project flag to target a workspace project
+ * by name: `pnpm test -- --project <projectName>` (e.g., `pnpm test -- --project routing`).
  *
  * @see https://vitest.dev/guide/workspace
  */

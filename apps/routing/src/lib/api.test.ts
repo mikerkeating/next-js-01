@@ -10,7 +10,7 @@
  * @see https://mswjs.io/docs/basics/mocking-responses
  * @see https://fakerjs.dev/
  */
-import { describe, it, expect } from "vitest";
+import { describe, it, expect, assert } from "vitest";
 
 import { server, http, HttpResponse, type ApiResponse, type MockUser } from "@repo/testing/mocks";
 import { createUser, createOrganization } from "@repo/testing/factories";
@@ -25,11 +25,12 @@ describe("MSW API Mocking", () => {
       // Assert: Verify MSW handler responded with mock data
       expect(response.ok).toBe(true);
       expect(data.success).toBe(true);
-      expect(data.data).toBeDefined();
-      expect(data.data!.length).toBeGreaterThan(0);
-      expect(data.data![0]).toHaveProperty("id");
-      expect(data.data![0]).toHaveProperty("email");
-      expect(data.data![0]).toHaveProperty("name");
+      assert(data.data, "Expected data.data to be defined");
+      const users = data.data;
+      expect(users.length).toBeGreaterThan(0);
+      expect(users[0]).toHaveProperty("id");
+      expect(users[0]).toHaveProperty("email");
+      expect(users[0]).toHaveProperty("name");
     });
 
     it("should intercept GET /api/users/:id and return user by ID", async () => {
@@ -40,8 +41,9 @@ describe("MSW API Mocking", () => {
       // Assert: Verify the response includes the user ID from the URL
       expect(response.ok).toBe(true);
       expect(data.success).toBe(true);
-      expect(data.data).toBeDefined();
-      expect(data.data!.id).toBe("user-123");
+      assert(data.data, "Expected data.data to be defined");
+      const user = data.data;
+      expect(user.id).toBe("user-123");
     });
 
     it("should intercept POST /api/users and return created user", async () => {
@@ -59,8 +61,10 @@ describe("MSW API Mocking", () => {
       // Assert: Verify the created user matches the input
       expect(response.status).toBe(201);
       expect(data.success).toBe(true);
-      expect(data.data!.email).toBe("newuser@example.com");
-      expect(data.data!.name).toBe("New User");
+      assert(data.data, "Expected data.data to be defined");
+      const createdUser = data.data;
+      expect(createdUser.email).toBe("newuser@example.com");
+      expect(createdUser.name).toBe("New User");
     });
   });
 
@@ -91,7 +95,7 @@ describe("MSW API Mocking", () => {
 
       expect(response.ok).toBe(true);
       expect(data.success).toBe(true);
-      expect(data.data).toBeDefined();
+      assert(data.data, "Expected data.data to be defined");
     });
   });
 });
