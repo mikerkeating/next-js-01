@@ -16,7 +16,7 @@
  *   tsx scripts/pr-coderabbit-comments.ts 84 1A.5 my-epic-name
  */
 
-import { execSync } from "child_process";
+import { execFileSync } from "child_process";
 import { mkdirSync, writeFileSync } from "fs";
 import { join } from "path";
 
@@ -77,13 +77,6 @@ if (!/^[0-9][A-Z]\.[0-9]+$/i.test(EPIC_NUMBER)) {
   process.exit(1);
 }
 
-// Additional security check: ensure no path traversal characters
-if (EPIC_NUMBER.includes("..") || EPIC_NUMBER.includes("/") || EPIC_NUMBER.includes("\\")) {
-  console.error(`Error: Invalid characters in epic number: ${EPIC_NUMBER}`);
-  console.error('Epic number cannot contain "..", "/", or "\\" characters');
-  process.exit(1);
-}
-
 // Validate epic slug format (lowercase letters, numbers, and hyphens only)
 if (!/^[a-z0-9-]+$/.test(EPIC_SLUG)) {
   console.error(`Error: Invalid epic slug format: ${EPIC_SLUG}`);
@@ -96,7 +89,7 @@ if (!/^[a-z0-9-]+$/.test(EPIC_SLUG)) {
  */
 function ghApi(endpoint: string): unknown {
   try {
-    const result = execSync(`gh api ${endpoint}`, {
+    const result = execFileSync("gh", ["api", endpoint], {
       encoding: "utf-8",
       maxBuffer: 10 * 1024 * 1024, // 10MB buffer for large responses
     });
@@ -343,7 +336,7 @@ function generateMarkdown(prInfo: PRInfo, prompts: ExtractedPrompt[], nitpicks: 
   return lines.join("\n");
 }
 
-async function main() {
+function main(): void {
   try {
     console.log(`\nExtracting CodeRabbit comments from PR #${PR_NUMBER} for Epic ${EPIC_NUMBER}\n`);
 

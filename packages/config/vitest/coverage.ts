@@ -98,8 +98,9 @@ export const coverageConfig: CoverageOptions<"v8"> = {
   // Files to include in coverage (source code patterns)
   include: ["src/**/*.{ts,tsx}"],
 
-  // Skip coverage for files with no tests
-  // This prevents artificially low coverage from untested files
+  // Skip files with 100% coverage from the report
+  // When true, files with full coverage are excluded from reports
+  // When false (default), all files are included regardless of coverage level
   skipFull: false,
 
   // Clean coverage results before each run

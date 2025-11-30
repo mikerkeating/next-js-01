@@ -12,6 +12,4 @@ import { afterEach } from "vitest";
 /**
  * Cleanup after each test to ensure DOM is reset between tests.
  */
-afterEach(() => {
-  cleanup();
-});
+afterEach(cleanup);

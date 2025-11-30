@@ -37,7 +37,7 @@ export function proxy(request: NextRequest): NextResponse {
   let credentials: string;
 
   try {
-    credentials = atob(base64Credentials);
+    credentials = Buffer.from(base64Credentials, "base64").toString("utf-8");
   } catch {
     // Invalid base64 encoding
     return unauthorizedResponse();

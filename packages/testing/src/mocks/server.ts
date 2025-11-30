@@ -49,6 +49,11 @@ export const server: SetupServer = setupServer(...handlers);
  * });
  * ```
  */
+/**
+ * Guard to prevent duplicate MSW server setup within the same worker process.
+ * Each Vitest worker gets its own server instance, so this is worker-scoped.
+ * This is intentional - we want each worker to have its own isolated MSW setup.
+ */
 let isSetup = false;
 
 export function setupMswServer(): void {

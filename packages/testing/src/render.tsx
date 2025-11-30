@@ -57,10 +57,10 @@ export function renderWithProviders(
   // Create wrapper with providers
   const Wrapper = createTestWrapper(providerOptions);
 
-  // Render with the wrapper
+  // Render with the wrapper (spread renderOptions first to ensure our wrapper takes precedence)
   const result = render(ui, {
-    wrapper: Wrapper,
     ...renderOptions,
+    wrapper: Wrapper,
   });
 
   // Return result with custom rerender that maintains providers

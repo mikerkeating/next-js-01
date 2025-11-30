@@ -38,9 +38,9 @@ on:
   workflow_dispatch:
     inputs:
       full_run:
-        description: "Run full CI without filtering"
+        description: "Run full CI without filtering (set to true to force full run)"
         required: false
-        default: true
+        default: false
         type: boolean
 
 # Cancel in-progress runs on the same PR to save CI minutes

@@ -28,7 +28,6 @@
       "Bash(lsof:*)",
       "Bash(kill:*)",
       "Bash(git status)",
-      "Bash(git -C /Users/macbookuser/Code/mkcubed/next-js-01 status)",
       "Bash(./scripts/run-next-story-prompt-auto.sh:*)",
       "Bash(git mv:*)",
       "Bash(git add *)",
