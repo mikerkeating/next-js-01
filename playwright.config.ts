@@ -75,8 +75,8 @@ export default defineConfig({
     // Viewport for consistent rendering across browsers
     viewport: { width: 1280, height: 720 },
 
-    // Ignore HTTPS errors for local development
-    ignoreHTTPSErrors: true,
+    // Ignore HTTPS errors for local development only
+    ignoreHTTPSErrors: !isCI,
   },
 
   // Browser projects for cross-browser testing
@@ -99,18 +99,21 @@ export default defineConfig({
       testDir: "./tests/e2e/smoke",
     },
 
-    // Full E2E test projects
+    // Full E2E test projects (excluding smoke tests to avoid duplication)
     {
       name: "chromium",
       use: { ...devices["Desktop Chrome"] },
+      testIgnore: /smoke/,
     },
     {
       name: "firefox",
       use: { ...devices["Desktop Firefox"] },
+      testIgnore: /smoke/,
     },
     {
       name: "webkit",
       use: { ...devices["Desktop Safari"] },
+      testIgnore: /smoke/,
     },
   ],
 
