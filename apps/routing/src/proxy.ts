@@ -3,9 +3,6 @@ import { timingSafeEqual as cryptoTimingSafeEqual } from "crypto";
 import type { NextRequest } from "next/server";
 import { NextResponse } from "next/server";
 
-// Use Node.js runtime for access to crypto.timingSafeEqual
-export const runtime = "nodejs";
-
 /**
  * Basic Authentication Proxy
  *
