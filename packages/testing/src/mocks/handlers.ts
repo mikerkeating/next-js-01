@@ -176,4 +176,14 @@ export const handlers = [
   }),
 ];
 
-export { http, HttpResponse };
+/**
+ * HTTP request method helpers from MSW.
+ * @see https://mswjs.io/docs/api/http
+ */
+export { http };
+
+/**
+ * HTTP response builder from MSW.
+ * @see https://mswjs.io/docs/api/http-response
+ */
+export { HttpResponse };

@@ -51,7 +51,40 @@ export type {
 } from "./types";
 
 // Re-export React Testing Library utilities for version consistency
-export { screen, within, waitFor, act, cleanup } from "@testing-library/react";
+/**
+ * Screen queries for finding elements in rendered output.
+ * @see https://testing-library.com/docs/queries/about
+ */
+export { screen } from "@testing-library/react";
+
+/**
+ * Queries scoped to a specific container element.
+ * @see https://testing-library.com/docs/dom-testing-library/api-within
+ */
+export { within } from "@testing-library/react";
+
+/**
+ * Wait for async operations to complete in tests.
+ * @see https://testing-library.com/docs/dom-testing-library/api-async#waitfor
+ */
+export { waitFor } from "@testing-library/react";
+
+/**
+ * Wrap state updates in act() for proper React batching.
+ * @see https://testing-library.com/docs/react-testing-library/api#act
+ */
+export { act } from "@testing-library/react";
+
+/**
+ * Clean up rendered components between tests.
+ * @see https://testing-library.com/docs/react-testing-library/api#cleanup
+ */
+export { cleanup } from "@testing-library/react";
+
+/**
+ * User interaction simulation for testing.
+ * @see https://testing-library.com/docs/user-event/intro
+ */
 export { default as userEvent } from "@testing-library/user-event";
 
 // Re-export all mocks

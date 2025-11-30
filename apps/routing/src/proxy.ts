@@ -11,9 +11,17 @@ import { NextResponse } from "next/server";
  *
  * Bypasses:
  * - /api/health - Health check endpoint for monitoring
- * - Static assets are excluded via matcher config below
+ * - /_next/* - Next.js static assets and internals
+ * - Static file extensions (.svg, .png, .jpg, etc.)
  */
 export function proxy(request: NextRequest): NextResponse {
+  const { pathname } = request.nextUrl;
+
+  // Bypass authentication for excluded paths
+  if (shouldBypassAuth(pathname)) {
+    return NextResponse.next();
+  }
+
   const username = process.env.BASIC_AUTH_USERNAME;
   const password = process.env.BASIC_AUTH_PASSWORD;
 
@@ -90,23 +98,33 @@ function timingSafeEqual(a: string, b: string): boolean {
 }
 
 /**
- * Proxy matcher configuration.
- * Excludes routes that should bypass authentication:
+ * Determines if a path should bypass authentication.
+ * Excludes routes that don't need protection:
  * - /api/health - Health check endpoint for monitoring services
  * - /_next/* - Next.js static assets and internals
  * - /favicon.ico - Favicon
  * - Static file extensions (.svg, .png, .jpg, etc.)
  */
-export const config = {
-  matcher: [
-    /*
-     * Match all request paths except:
-     * - /api/health (health check endpoint)
-     * - /_next/static (static files)
-     * - /_next/image (image optimization files)
-     * - /favicon.ico (favicon file)
-     * - Files with extensions (static assets)
-     */
-    "/((?!api/health|_next/static|_next/image|favicon\\.ico|.*\\..*).*)",
-  ],
-};
+function shouldBypassAuth(pathname: string): boolean {
+  // Health check endpoint for monitoring
+  if (pathname === "/api/health") {
+    return true;
+  }
+
+  // Next.js internals (static files, image optimization)
+  if (pathname.startsWith("/_next/")) {
+    return true;
+  }
+
+  // Favicon
+  if (pathname === "/favicon.ico") {
+    return true;
+  }
+
+  // Static files with extensions (e.g., .svg, .png, .jpg, .css, .js)
+  if (/\.[a-zA-Z0-9]+$/.test(pathname)) {
+    return true;
+  }
+
+  return false;
+}

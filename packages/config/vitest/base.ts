@@ -13,7 +13,7 @@
  */
 import { defineConfig } from "vitest/config";
 
-import { coverageConfig } from "./coverage";
+import { coverageConfig } from "./coverage.ts";
 
 export const baseConfig = defineConfig({
   test: {

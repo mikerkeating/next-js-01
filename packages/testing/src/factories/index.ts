@@ -28,5 +28,8 @@ export {
   type Organization,
 } from "./organization";
 
-// Re-export faker for advanced usage
+/**
+ * Faker instance for generating realistic test data.
+ * @see https://fakerjs.dev/api/
+ */
 export { faker } from "@faker-js/faker";
