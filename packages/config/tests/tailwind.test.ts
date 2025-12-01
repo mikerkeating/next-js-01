@@ -35,9 +35,12 @@ describe("Tailwind CSS v4 Configuration", () => {
       expect(openBraces).toBe(closeBraces);
     });
 
-    it("should import Tailwind CSS", () => {
+    it("should document that tailwindcss import is in consuming app", () => {
+      // The @import "tailwindcss" directive was intentionally moved to consuming apps
+      // per S6 decision to avoid module resolution issues during PostCSS processing.
+      // This file provides theme tokens to be imported AFTER tailwindcss.
       const content = readFileSync(baseCssPath, "utf-8");
-      expect(content).toMatch(/@import\s+["']tailwindcss["']/);
+      expect(content).toMatch(/Import tailwindcss in the consuming app/i);
     });
 
     it("should use @theme directive for CSS-first configuration", () => {
@@ -218,6 +221,101 @@ describe("theme.ts exports", () => {
     // Check that types are exported (they should be TypeScript types)
     expect(theme.ColorPalette).toBeDefined();
     expect(theme.SpacingKey).toBeDefined();
+  });
+});
+
+describe("theme.ts utility functions", () => {
+  describe("getCssColorVar", () => {
+    it("should generate correct CSS variable reference for primary-500", async () => {
+      const { getCssColorVar } = await import("../src/tailwind/theme.js");
+      expect(getCssColorVar("primary", "500")).toBe("var(--color-primary-500)");
+    });
+
+    it("should generate correct CSS variable reference for any palette and shade", async () => {
+      const { getCssColorVar } = await import("../src/tailwind/theme.js");
+      expect(getCssColorVar("secondary", "100")).toBe("var(--color-secondary-100)");
+      expect(getCssColorVar("error", "900")).toBe("var(--color-error-900)");
+      expect(getCssColorVar("neutral", "50")).toBe("var(--color-neutral-50)");
+    });
+  });
+
+  describe("spacingToPx", () => {
+    it("should convert spacing key 0 to 0 pixels", async () => {
+      const { spacingToPx } = await import("../src/tailwind/theme.js");
+      expect(spacingToPx("0")).toBe(0);
+    });
+
+    it("should convert spacing key px to 1 pixel", async () => {
+      const { spacingToPx } = await import("../src/tailwind/theme.js");
+      expect(spacingToPx("px")).toBe(1);
+    });
+
+    it("should convert rem-based spacing to pixels (16px base)", async () => {
+      const { spacingToPx } = await import("../src/tailwind/theme.js");
+      expect(spacingToPx("1")).toBe(4); // 0.25rem * 16
+      expect(spacingToPx("2")).toBe(8); // 0.5rem * 16
+      expect(spacingToPx("4")).toBe(16); // 1rem * 16
+      expect(spacingToPx("8")).toBe(32); // 2rem * 16
+    });
+  });
+
+  describe("isColorPalette", () => {
+    it("should return true for valid color palettes", async () => {
+      const { isColorPalette } = await import("../src/tailwind/theme.js");
+      expect(isColorPalette("primary")).toBe(true);
+      expect(isColorPalette("secondary")).toBe(true);
+      expect(isColorPalette("accent")).toBe(true);
+      expect(isColorPalette("neutral")).toBe(true);
+      expect(isColorPalette("success")).toBe(true);
+      expect(isColorPalette("warning")).toBe(true);
+      expect(isColorPalette("error")).toBe(true);
+    });
+
+    it("should return false for invalid color palettes", async () => {
+      const { isColorPalette } = await import("../src/tailwind/theme.js");
+      expect(isColorPalette("invalid")).toBe(false);
+      expect(isColorPalette("red")).toBe(false);
+      expect(isColorPalette("blue")).toBe(false);
+      expect(isColorPalette("")).toBe(false);
+    });
+  });
+
+  describe("isColorShade", () => {
+    it("should return true for valid color shades", async () => {
+      const { isColorShade } = await import("../src/tailwind/theme.js");
+      expect(isColorShade("50")).toBe(true);
+      expect(isColorShade("100")).toBe(true);
+      expect(isColorShade("500")).toBe(true);
+      expect(isColorShade("900")).toBe(true);
+      expect(isColorShade("950")).toBe(true);
+    });
+
+    it("should return false for invalid color shades", async () => {
+      const { isColorShade } = await import("../src/tailwind/theme.js");
+      expect(isColorShade("0")).toBe(false);
+      expect(isColorShade("1000")).toBe(false);
+      expect(isColorShade("550")).toBe(false);
+      expect(isColorShade("")).toBe(false);
+    });
+  });
+
+  describe("isSpacingKey", () => {
+    it("should return true for valid spacing keys", async () => {
+      const { isSpacingKey } = await import("../src/tailwind/theme.js");
+      expect(isSpacingKey("0")).toBe(true);
+      expect(isSpacingKey("px")).toBe(true);
+      expect(isSpacingKey("1")).toBe(true);
+      expect(isSpacingKey("4")).toBe(true);
+      expect(isSpacingKey("16")).toBe(true);
+      expect(isSpacingKey("96")).toBe(true);
+    });
+
+    it("should return false for invalid spacing keys", async () => {
+      const { isSpacingKey } = await import("../src/tailwind/theme.js");
+      expect(isSpacingKey("invalid")).toBe(false);
+      expect(isSpacingKey("100")).toBe(false);
+      expect(isSpacingKey("")).toBe(false);
+    });
   });
 });
 

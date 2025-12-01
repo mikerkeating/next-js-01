@@ -102,4 +102,53 @@ describe("main entry point", () => {
     const indexPath = resolve(packageRoot, "src/index.ts");
     expect(existsSync(indexPath)).toBe(true);
   });
+
+  it("should re-export all Tailwind theme utilities from main entry", async () => {
+    const mainExports = await import("../src/index.js");
+
+    // Color utilities
+    expect(mainExports.colorPalettes).toBeDefined();
+    expect(mainExports.colorShades).toBeDefined();
+    expect(mainExports.getCssColorVar).toBeDefined();
+    expect(mainExports.isColorPalette).toBeDefined();
+    expect(mainExports.isColorShade).toBeDefined();
+
+    // Spacing utilities
+    expect(mainExports.spacingScale).toBeDefined();
+    expect(mainExports.spacingToPx).toBeDefined();
+    expect(mainExports.isSpacingKey).toBeDefined();
+
+    // Typography utilities
+    expect(mainExports.fontFamilies).toBeDefined();
+    expect(mainExports.fontSizes).toBeDefined();
+    expect(mainExports.fontWeights).toBeDefined();
+    expect(mainExports.lineHeights).toBeDefined();
+
+    // Layout utilities
+    expect(mainExports.borderRadius).toBeDefined();
+    expect(mainExports.zIndex).toBeDefined();
+
+    // CSS path constant
+    expect(mainExports.TAILWIND_BASE_CSS_PATH).toBeDefined();
+    expect(mainExports.TAILWIND_BASE_CSS_PATH).toBe("@repo/config/tailwind/base.css");
+  });
+
+  it("should export utility functions that work correctly from main entry", async () => {
+    const { getCssColorVar, spacingToPx, isColorPalette, isSpacingKey } =
+      await import("../src/index.js");
+
+    // Test getCssColorVar
+    expect(getCssColorVar("primary", "500")).toBe("var(--color-primary-500)");
+
+    // Test spacingToPx
+    expect(spacingToPx("4")).toBe(16);
+
+    // Test isColorPalette
+    expect(isColorPalette("primary")).toBe(true);
+    expect(isColorPalette("invalid")).toBe(false);
+
+    // Test isSpacingKey
+    expect(isSpacingKey("4")).toBe(true);
+    expect(isSpacingKey("invalid")).toBe(false);
+  });
 });
