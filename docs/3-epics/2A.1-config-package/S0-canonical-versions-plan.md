@@ -254,7 +254,7 @@ logoUrl: faker.image.url(),
 
 ---
 
-## Phase 3B: Zod Upgrade (3 → 4)
+## Phase 3B: Zod Upgrade (3 → 4) - DONE
 
 **Risk Level:** Medium-High
 **Estimated PR Size:** Medium
