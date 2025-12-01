@@ -20,17 +20,17 @@ import type { HealthCheckDetail } from './types';
  * - Execute `SELECT 1` query
  * - Return error if connection fails or times out
  */
-export async function checkDatabase(): Promise<HealthCheckDetail> {
+export function checkDatabase(): Promise<HealthCheckDetail> {
   const start = Date.now();
 
   // Stub implementation for steel thread
   // Real implementation will query the database
-  return {
+  return Promise.resolve({
     status: 'ok',
     responseTime: Date.now() - start,
     message: 'Stub: Database check not yet implemented',
     lastChecked: new Date().toISOString(),
-  };
+  });
 }
 
 /**
@@ -41,17 +41,17 @@ export async function checkDatabase(): Promise<HealthCheckDetail> {
  * - Check API key validity
  * - Return degraded if response time > 1s
  */
-export async function checkAuth(): Promise<HealthCheckDetail> {
+export function checkAuth(): Promise<HealthCheckDetail> {
   const start = Date.now();
 
   // Stub implementation for steel thread
   // Real implementation will ping Clerk API
-  return {
+  return Promise.resolve({
     status: 'ok',
     responseTime: Date.now() - start,
     message: 'Stub: Auth check not yet implemented',
     lastChecked: new Date().toISOString(),
-  };
+  });
 }
 
 /**
@@ -62,15 +62,15 @@ export async function checkAuth(): Promise<HealthCheckDetail> {
  * - Execute PING command
  * - Return error if connection fails
  */
-export async function checkCache(): Promise<HealthCheckDetail> {
+export function checkCache(): Promise<HealthCheckDetail> {
   const start = Date.now();
 
   // Stub implementation for steel thread
   // Real implementation will ping cache service
-  return {
+  return Promise.resolve({
     status: 'ok',
     responseTime: Date.now() - start,
     message: 'Stub: Cache check not yet implemented',
     lastChecked: new Date().toISOString(),
-  };
+  });
 }

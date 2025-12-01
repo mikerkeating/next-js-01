@@ -1,1 +1,2 @@
-@import "tailwindcss";
+@import 'tailwindcss';
+@import '@repo/config/tailwind/base.css';
