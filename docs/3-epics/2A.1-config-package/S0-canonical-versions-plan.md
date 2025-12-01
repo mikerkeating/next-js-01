@@ -186,7 +186,7 @@ This config format is compatible with v16. No changes expected.
 
 ---
 
-## Phase 3A: @faker-js/faker Upgrade (8 → 10)
+## Phase 3A: @faker-js/faker Upgrade (8 → 10) - DONE
 
 **Risk Level:** Medium
 **Estimated PR Size:** Medium

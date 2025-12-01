@@ -77,7 +77,7 @@ export function createOrganization(overrides: Partial<Organization> = {}): Organ
     name: faker.company.name(),
     slug: "", // Will be set below
     description: faker.company.catchPhrase(),
-    logoUrl: faker.image.urlLoremFlickr({ category: "business" }),
+    logoUrl: faker.image.url(),
     ownerId: faker.string.uuid(),
     createdAt: faker.date.past({ years: 1 }),
     updatedAt: now,
