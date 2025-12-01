@@ -107,6 +107,143 @@ cd apps/routing && pnpm lint --print-config src/app/page.tsx | head -20
 pnpm --filter @repo/config exec node -e "console.log(require.resolve('@repo/config/eslint/base'))"
 ```
 
+## ESLint 9 Migration (Prerequisite)
+
+> **Reference**: [S0-canonical-versions-plan.md](./S0-canonical-versions-plan.md) Phase 3C
+
+This story requires ESLint 9 with flat config. If the monorepo is still on ESLint 8, complete this migration first.
+
+### Current State Assessment
+
+| Package              | Current | Target | Location                |
+| -------------------- | ------- | ------ | ----------------------- |
+| `eslint`             | ^8.57.1 | ^9.x   | root                    |
+| `eslint`             | ^8.56.0 | ^9.x   | apps/docs, apps/routing |
+| `eslint-config-next` | ^15.0.0 | ^16.x  | apps/docs, apps/routing |
+
+### Migration Strategy
+
+ESLint 9 uses **flat config** (`eslint.config.js`) instead of `.eslintrc.*`. Since no legacy configs exist in this monorepo, you need to:
+
+1. Create `eslint.config.js` at root and in each app
+2. Update all ESLint packages
+3. Add `"type": "module"` to root `package.json` (enables ESM syntax in config files)
+
+### Step 1: Add ESM Module Type to Root
+
+```json
+// package.json (root)
+{
+  "type": "module"
+  // ... rest of config
+}
+```
+
+This enables `export default` syntax in `.js` config files. Without this, you'd need to use `.mjs` extensions.
+
+### Step 2: Create Root ESLint Config
+
+Create `eslint.config.js` at root:
+
+```javascript
+import js from "@eslint/js";
+import tsPlugin from "@typescript-eslint/eslint-plugin";
+import tsParser from "@typescript-eslint/parser";
+
+export default [
+  js.configs.recommended,
+  {
+    files: ["**/*.ts", "**/*.tsx"],
+    languageOptions: {
+      parser: tsParser,
+      parserOptions: {
+        ecmaVersion: "latest",
+        sourceType: "module",
+      },
+    },
+    plugins: {
+      "@typescript-eslint": tsPlugin,
+    },
+    rules: {
+      // Add your rules here
+    },
+  },
+  {
+    ignores: ["node_modules/", ".next/", "dist/", ".turbo/"],
+  },
+];
+```
+
+### Step 3: Create App-Level ESLint Configs
+
+For Next.js apps, create `apps/routing/eslint.config.js`:
+
+```javascript
+import nextPlugin from "@next/eslint-plugin-next";
+import reactPlugin from "eslint-plugin-react";
+import hooksPlugin from "eslint-plugin-react-hooks";
+import tsPlugin from "@typescript-eslint/eslint-plugin";
+import tsParser from "@typescript-eslint/parser";
+
+export default [
+  {
+    files: ["**/*.ts", "**/*.tsx"],
+    languageOptions: {
+      parser: tsParser,
+    },
+    plugins: {
+      "@typescript-eslint": tsPlugin,
+      react: reactPlugin,
+      "react-hooks": hooksPlugin,
+      "@next/next": nextPlugin,
+    },
+    rules: {
+      ...nextPlugin.configs.recommended.rules,
+      ...nextPlugin.configs["core-web-vitals"].rules,
+    },
+  },
+  {
+    ignores: [".next/"],
+  },
+];
+```
+
+### Step 4: Install New Dependencies
+
+```bash
+# Root
+pnpm add -D @eslint/js @typescript-eslint/eslint-plugin @typescript-eslint/parser
+
+# Apps
+pnpm --filter @repo/routing add -D @next/eslint-plugin-next eslint-plugin-react eslint-plugin-react-hooks
+pnpm --filter docs add -D @next/eslint-plugin-next eslint-plugin-react eslint-plugin-react-hooks
+```
+
+### Step 5: Update ESLint Packages
+
+```bash
+pnpm up -r eslint eslint-config-next
+```
+
+### Step 6: Migrate Other Config Files to ESM
+
+When adding `"type": "module"`, other CommonJS config files need migration:
+
+| File                   | Current                  | Migration              |
+| ---------------------- | ------------------------ | ---------------------- |
+| `commitlint.config.js` | `module.exports = {...}` | `export default {...}` |
+
+### Migration Verification Checklist
+
+- [ ] `pnpm lint` passes at root
+- [ ] `pnpm lint` passes in apps/routing
+- [ ] `pnpm lint` passes in apps/docs
+- [ ] `pnpm lint:fix` works correctly
+- [ ] lint-staged still works with ESLint
+- [ ] CI lint job passes
+
+---
+
 ## Implementation Notes
 
 ### Implementation Sequence
