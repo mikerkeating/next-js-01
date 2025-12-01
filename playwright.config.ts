@@ -14,6 +14,12 @@ import { defineConfig, devices } from "@playwright/test";
 /**
  * Load environment variables from .env.local if it exists.
  * Playwright doesn't auto-load .env files like Next.js does.
+ *
+ * Note: This uses a simple custom parser rather than the dotenv package.
+ * It handles KEY=VALUE pairs (including values with = signs) and comments.
+ * This is sufficient for our use case (simple basic auth credentials) and
+ * avoids adding a dependency. For complex .env needs (quoted values,
+ * multiline, escape sequences), consider switching to dotenv.
  */
 const envLocalPath = resolve(__dirname, ".env.local");
 if (existsSync(envLocalPath)) {
