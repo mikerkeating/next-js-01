@@ -20,7 +20,7 @@ describe('MSW API Mocking', () => {
     it('should intercept GET /api/users and return mocked response', async () => {
       // Act: Make a fetch request that MSW will intercept
       const response = await fetch('/api/users');
-      const data: ApiResponse<MockUser[]> = await response.json();
+      const data = (await response.json()) as ApiResponse<MockUser[]>;
 
       // Assert: Verify MSW handler responded with mock data
       expect(response.ok).toBe(true);
@@ -36,7 +36,7 @@ describe('MSW API Mocking', () => {
     it('should intercept GET /api/users/:id and return user by ID', async () => {
       // Act: Fetch a specific user
       const response = await fetch('/api/users/user-123');
-      const data: ApiResponse<MockUser> = await response.json();
+      const data = (await response.json()) as ApiResponse<MockUser>;
 
       // Assert: Verify the response includes the user ID from the URL
       expect(response.ok).toBe(true);
@@ -56,7 +56,7 @@ describe('MSW API Mocking', () => {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(newUser),
       });
-      const data: ApiResponse<MockUser> = await response.json();
+      const data = (await response.json()) as ApiResponse<MockUser>;
 
       // Assert: Verify the created user matches the input
       expect(response.status).toBe(201);
@@ -79,7 +79,7 @@ describe('MSW API Mocking', () => {
 
       // Act: Make the request
       const response = await fetch('/api/users');
-      const data: ApiResponse<MockUser[]> = await response.json();
+      const data = (await response.json()) as ApiResponse<MockUser[]>;
 
       // Assert: Verify the custom error response
       expect(response.status).toBe(500);
@@ -91,7 +91,7 @@ describe('MSW API Mocking', () => {
       // This test runs after the previous one but should get the default handler
       // because handlers are reset in afterEach (via MSW setup file)
       const response = await fetch('/api/users');
-      const data: ApiResponse<MockUser[]> = await response.json();
+      const data = (await response.json()) as ApiResponse<MockUser[]>;
 
       expect(response.ok).toBe(true);
       expect(data.success).toBe(true);

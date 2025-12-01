@@ -10,6 +10,11 @@
  */
 import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest';
 
+// Import after mocking
+import { checkDatabase, checkAuth, checkCache } from '@/lib/health/checks';
+
+import { GET } from './route';
+
 import type { HealthCheckDetail, HealthCheckResponse } from '@/lib/health/types';
 
 // Mock the health check functions
@@ -18,10 +23,6 @@ vi.mock('@/lib/health/checks', () => ({
   checkAuth: vi.fn(),
   checkCache: vi.fn(),
 }));
-
-// Import after mocking
-import { checkDatabase, checkAuth, checkCache } from '@/lib/health/checks';
-import { GET } from './route';
 
 // Type the mocked functions
 const mockCheckDatabase = vi.mocked(checkDatabase);
@@ -79,7 +80,7 @@ describe('GET /api/health', () => {
 
       // Act
       const response = await GET();
-      const data: HealthCheckResponse = await response.json();
+      const data = (await response.json()) as HealthCheckResponse;
 
       // Assert
       expect(data).toHaveProperty('status');
@@ -103,7 +104,7 @@ describe('GET /api/health', () => {
 
       // Act
       const response = await GET();
-      const data: HealthCheckResponse = await response.json();
+      const data = (await response.json()) as HealthCheckResponse;
 
       // Assert
       expect(() => new Date(data.timestamp)).not.toThrow();
@@ -118,7 +119,7 @@ describe('GET /api/health', () => {
 
       // Act
       const response = await GET();
-      const data: HealthCheckResponse = await response.json();
+      const data = (await response.json()) as HealthCheckResponse;
 
       // Assert
       expect(typeof data.uptime).toBe('number');
@@ -135,7 +136,7 @@ describe('GET /api/health', () => {
 
       // Act
       const response = await GET();
-      const data: HealthCheckResponse = await response.json();
+      const data = (await response.json()) as HealthCheckResponse;
 
       // Assert
       expect(response.status).toBe(200);
@@ -150,7 +151,7 @@ describe('GET /api/health', () => {
 
       // Act
       const response = await GET();
-      const data: HealthCheckResponse = await response.json();
+      const data = (await response.json()) as HealthCheckResponse;
 
       // Assert
       expect(response.status).toBe(200);
@@ -165,7 +166,7 @@ describe('GET /api/health', () => {
 
       // Act
       const response = await GET();
-      const data: HealthCheckResponse = await response.json();
+      const data = (await response.json()) as HealthCheckResponse;
 
       // Assert
       expect(response.status).toBe(503);
@@ -180,7 +181,7 @@ describe('GET /api/health', () => {
 
       // Act
       const response = await GET();
-      const data: HealthCheckResponse = await response.json();
+      const data = (await response.json()) as HealthCheckResponse;
 
       // Assert
       expect(response.status).toBe(503);
@@ -195,7 +196,7 @@ describe('GET /api/health', () => {
 
       // Act
       const response = await GET();
-      const data: HealthCheckResponse = await response.json();
+      const data = (await response.json()) as HealthCheckResponse;
 
       // Assert
       expect(response.status).toBe(503);
@@ -254,7 +255,7 @@ describe('GET /api/health', () => {
 
       // Act
       const response = await GET();
-      const data: HealthCheckResponse = await response.json();
+      const data = (await response.json()) as HealthCheckResponse;
 
       // Assert
       expect(data.environment).toBe('production');
@@ -269,7 +270,7 @@ describe('GET /api/health', () => {
 
       // Act
       const response = await GET();
-      const data: HealthCheckResponse = await response.json();
+      const data = (await response.json()) as HealthCheckResponse;
 
       // Assert
       expect(data.environment).toBe('preview');
@@ -284,7 +285,7 @@ describe('GET /api/health', () => {
 
       // Act
       const response = await GET();
-      const data: HealthCheckResponse = await response.json();
+      const data = (await response.json()) as HealthCheckResponse;
 
       // Assert
       expect(data.environment).toBe('staging');
@@ -300,7 +301,7 @@ describe('GET /api/health', () => {
 
       // Act
       const response = await GET();
-      const data: HealthCheckResponse = await response.json();
+      const data = (await response.json()) as HealthCheckResponse;
 
       // Assert
       expect(data.environment).toBe('development');
@@ -317,7 +318,7 @@ describe('GET /api/health', () => {
 
       // Act
       const response = await GET();
-      const data: HealthCheckResponse = await response.json();
+      const data = (await response.json()) as HealthCheckResponse;
 
       // Assert
       expect(data.version).toBe('1.2.3');
@@ -332,7 +333,7 @@ describe('GET /api/health', () => {
 
       // Act
       const response = await GET();
-      const data: HealthCheckResponse = await response.json();
+      const data = (await response.json()) as HealthCheckResponse;
 
       // Assert
       expect(data.version).toBe('0.1.0');
@@ -348,7 +349,7 @@ describe('GET /api/health', () => {
 
       // Act
       const response = await GET();
-      const data: HealthCheckResponse = await response.json();
+      const data = (await response.json()) as HealthCheckResponse;
 
       // Assert
       expect(response.status).toBe(503);
@@ -365,7 +366,7 @@ describe('GET /api/health', () => {
 
       // Act
       const response = await GET();
-      const data: HealthCheckResponse = await response.json();
+      const data = (await response.json()) as HealthCheckResponse;
 
       // Assert
       expect(response.status).toBe(503);
@@ -381,7 +382,7 @@ describe('GET /api/health', () => {
 
       // Act
       const response = await GET();
-      const data: HealthCheckResponse = await response.json();
+      const data = (await response.json()) as HealthCheckResponse;
 
       // Assert
       expect(response.status).toBe(503);

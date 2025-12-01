@@ -92,7 +92,7 @@ describe('@repo/testing package integration', () => {
       );
 
       const response = await fetch('/api/test-endpoint');
-      const data = await response.json();
+      const data = (await response.json()) as { message: string };
 
       expect(data.message).toBe('Hello from MSW');
     });
@@ -106,7 +106,7 @@ describe('@repo/testing package integration', () => {
       );
 
       const response1 = await fetch('/api/override-test');
-      const data1 = await response1.json();
+      const data1 = (await response1.json()) as { version: number };
       expect(data1.version).toBe(1);
 
       // Override with a different handler
@@ -117,7 +117,7 @@ describe('@repo/testing package integration', () => {
       );
 
       const response2 = await fetch('/api/override-test');
-      const data2 = await response2.json();
+      const data2 = (await response2.json()) as { version: number };
       expect(data2.version).toBe(2);
 
       // Handlers are reset after each test by setup-msw
