@@ -63,7 +63,7 @@
     "@playwright/test": "^1.57.0",
     "@vitest/coverage-v8": "^4.0.14",
     "@vitest/ui": "^4.0.14",
-    "eslint": "^8.57.1",
+    "eslint": "^9.39.1",
     "husky": "^9.1.7",
     "lint-staged": "^16.2.7",
     "markdown-link-check": "^3.14.2",
