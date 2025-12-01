@@ -6,7 +6,7 @@ This document provides the implementation prompts for each story in the epic, ba
 
 ---
 
-### S1: Create @repo/database Package Structure
+### S1: Create @repo/database Package Structure - DONE
 
 ```markdown
 use @.claude/agents/engineer-backend.md to execute @docs/0-process/references/story-dev-prompt.md for docs/3-epics/2A.2-database-infra/S1-package-structure.md
@@ -14,7 +14,7 @@ use @.claude/agents/engineer-backend.md to execute @docs/0-process/references/st
 
 ---
 
-### S2: Configure Drizzle ORM and Client
+### S2: Configure Drizzle ORM and Client - DONE
 
 ```markdown
 use @.claude/agents/engineer-database.md to execute @docs/0-process/references/story-dev-prompt.md for docs/3-epics/2A.2-database-infra/S2-drizzle-config.md
@@ -22,7 +22,7 @@ use @.claude/agents/engineer-database.md to execute @docs/0-process/references/s
 
 ---
 
-### S3: Implement Connection Utilities
+### S3: Implement Connection Utilities - DONE
 
 ```markdown
 use @.claude/agents/engineer-backend.md to execute @docs/0-process/references/story-dev-prompt.md for docs/3-epics/2A.2-database-infra/S3-connection-utilities.md
@@ -30,7 +30,7 @@ use @.claude/agents/engineer-backend.md to execute @docs/0-process/references/st
 
 ---
 
-### S4: Set Up Migration Infrastructure
+### S4: Set Up Migration Infrastructure - DONE
 
 **Primary (Database):** Implement migration runner, scripts, and database configuration.
 

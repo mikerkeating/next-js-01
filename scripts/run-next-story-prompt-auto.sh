@@ -11,7 +11,8 @@
 #   CLAUDE_MAX_TURNS   - Maximum turns per Claude session (default: 50)
 #
 # This version runs without confirmation prompts - use with caution!
-# Add --dry-run flag to preview without executing
+# Add --dry-run flag to preview all prompts (marks items as DONE to iterate)
+# Add --dry-run-no-mark flag to preview first prompt only (no file modifications)
 #
 # Features:
 # - Loops through epics until MAX_TURNS budget is exhausted
@@ -22,6 +23,7 @@
 
 PROMPTS_FILE=""
 DRY_RUN=false
+DRY_RUN_NO_MARK=false
 MAX_EPICS="${MAX_EPICS:-80}"
 CLAUDE_MAX_TURNS="${CLAUDE_MAX_TURNS:-50}"
 LOG_DIR="logs"
@@ -35,12 +37,13 @@ log() {
 while [[ "$#" -gt 0 ]]; do
     case $1 in
         --dry-run) DRY_RUN=true ;;
+        --dry-run-no-mark) DRY_RUN_NO_MARK=true ;;
         --max-epics) MAX_EPICS="$2"; shift ;;
         --claude-max-turns) CLAUDE_MAX_TURNS="$2"; shift ;;
         --prompts-file) PROMPTS_FILE="$2"; shift ;;
         -*)
             echo "Unknown parameter: $1"
-            echo "Usage: $0 [PROMPTS_FILE] [--prompts-file <file>] [--dry-run] [--max-epics <n>] [--claude-max-turns <n>]"
+            echo "Usage: $0 [PROMPTS_FILE] [--prompts-file <file>] [--dry-run] [--dry-run-no-mark] [--max-epics <n>] [--claude-max-turns <n>]"
             exit 1
             ;;
         *)
@@ -119,10 +122,26 @@ while [ $EPICS_COMPLETED -lt $MAX_EPICS ]; do
     PROMPT_LENGTH=${#PROMPT_CONTENT}
     log "Prompt length: $PROMPT_LENGTH characters" | tee -a "$LOG_FILE"
 
+    if [ "$DRY_RUN_NO_MARK" = true ]; then
+        log "=== DRY RUN (no-mark) - Would execute: ===" | tee -a "$LOG_FILE"
+        echo "$PROMPT_CONTENT" | tee -a "$LOG_FILE"
+        log "================================" | tee -a "$LOG_FILE"
+        # Exit after showing first prompt to avoid infinite loop
+        log "=== DRY RUN (no-mark): Exiting after first prompt preview ===" | tee -a "$LOG_FILE"
+        break
+    fi
+
     if [ "$DRY_RUN" = true ]; then
         log "=== DRY RUN - Would execute: ===" | tee -a "$LOG_FILE"
         echo "$PROMPT_CONTENT" | tee -a "$LOG_FILE"
         log "================================" | tee -a "$LOG_FILE"
+        # Mark as DONE in dry-run mode to prevent infinite loop
+        if [[ "$OSTYPE" == "darwin"* ]]; then
+            sed -i '' "${LINE_NUM}s/$/ - DONE/" "$PROMPTS_FILE"
+        else
+            sed -i "${LINE_NUM}s/$/ - DONE/" "$PROMPTS_FILE"
+        fi
+        log "=== DRY RUN: Marked as DONE ===" | tee -a "$LOG_FILE"
         EPICS_COMPLETED=$((EPICS_COMPLETED + 1))
         continue
     fi
@@ -137,29 +156,20 @@ while [ $EPICS_COMPLETED -lt $MAX_EPICS ]; do
     # Execute the prompt using Claude Code CLI
     # --verbose: Show full turn-by-turn output for visibility
     # --max-turns: Limit iterations to prevent runaway executions
-    # --output-format json: Capture metadata (cost, duration, session ID)
-    # --allowedTools: Pre-authorize specific tools (more surgical than --dangerously-skip-permissions)
+    # --dangerously-skip-permissions: Skip all permission prompts for full automation
     #
-    # The output is piped through awk to detect turn boundaries and log turn numbers.
-    # Claude CLI verbose output includes "assistant" turns which we count.
-    RESPONSE=$(echo "$PROMPT_CONTENT" | claude -p \
+    # Using pipefail to capture claude exit code through the pipe chain
+    # Output streams directly to terminal AND log file via tee
+    set -o pipefail
+
+    echo "$PROMPT_CONTENT" | claude -p \
         --verbose \
         --max-turns "$CLAUDE_MAX_TURNS" \
-        --output-format json \
-        --allowedTools "Read(*) Edit(*) Write(*) Bash(pnpm*) Bash(gh*) Bash(git*) Bash(*) Glob(*) Grep(*) Task(*) TodoWrite(*)" \
-        2>&1 | awk -v max_turns="$CLAUDE_MAX_TURNS" '
-        BEGIN { turn = 0 }
-        /"role"[[:space:]]*:[[:space:]]*"assistant"/ {
-            turn++
-            cmd = "date \"+%Y-%m-%d %H:%M:%S\""
-            cmd | getline timestamp
-            close(cmd)
-            print "[" timestamp "] Turn " turn " of " max_turns
-        }
-        { print }
-        ' | tee -a "$LOG_FILE")
+        --dangerously-skip-permissions \
+        2>&1 | tee -a "$LOG_FILE"
 
-    EXIT_CODE=$?
+    EXIT_CODE=${PIPESTATUS[1]}
+    set +o pipefail
 
     # Record end time and calculate duration
     END_TIME=$(date +%s)
@@ -168,26 +178,6 @@ while [ $EPICS_COMPLETED -lt $MAX_EPICS ]; do
     echo "" | tee -a "$LOG_FILE"
     log "=== Epic Execution Summary ===" | tee -a "$LOG_FILE"
     log "Duration: ${ELAPSED}s" | tee -a "$LOG_FILE"
-
-    # Try to extract JSON metadata if available
-    # The response might have verbose output mixed in, so we try to find the JSON at the end
-    JSON_LINE=$(echo "$RESPONSE" | grep -E '^\{.*"type".*\}$' | tail -1)
-
-    if [ -n "$JSON_LINE" ]; then
-        COST=$(echo "$JSON_LINE" | jq -r '.cost_usd // .cost // "unknown"' 2>/dev/null)
-        SESSION_ID=$(echo "$JSON_LINE" | jq -r '.session_id // "unknown"' 2>/dev/null)
-        DURATION_MS=$(echo "$JSON_LINE" | jq -r '.duration_ms // "unknown"' 2>/dev/null)
-        # Try to extract actual turns used from response
-        TURNS_USED=$(echo "$JSON_LINE" | jq -r '.num_turns // "unknown"' 2>/dev/null)
-
-        log "Cost: \$$COST" | tee -a "$LOG_FILE"
-        log "Session ID: $SESSION_ID" | tee -a "$LOG_FILE"
-        log "API Duration: ${DURATION_MS}ms" | tee -a "$LOG_FILE"
-
-        if [ "$TURNS_USED" != "unknown" ] && [ "$TURNS_USED" != "null" ]; then
-            log "Claude turns used: $TURNS_USED" | tee -a "$LOG_FILE"
-        fi
-    fi
 
     # Check if claude command succeeded
     if [ $EXIT_CODE -eq 0 ]; then
