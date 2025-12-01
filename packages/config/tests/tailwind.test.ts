@@ -9,7 +9,7 @@
  * - Typography tokens are defined
  * - Dark mode support via CSS custom properties
  */
-import { describe, it, expect } from "vitest";
+import { describe, it, expect, beforeAll } from "vitest";
 import { readFileSync, existsSync } from "node:fs";
 import { resolve, dirname } from "node:path";
 import { fileURLToPath } from "node:url";
@@ -216,9 +216,9 @@ describe("theme.ts exports", () => {
     expect(fontFamilies.mono).toBeDefined();
   });
 
-  it("should export type definitions", async () => {
+  it("should export runtime constants for type checking", async () => {
     const theme = await import("../src/tailwind/theme.js");
-    // Check that types are exported (they should be TypeScript types)
+    // Check that runtime constants for type validation are exported
     expect(theme.ColorPalette).toBeDefined();
     expect(theme.SpacingKey).toBeDefined();
   });
