@@ -45,7 +45,8 @@ function validateDatabaseUrl(): string {
 function configureNeonConnection(): void {
   // Enable connection caching in production for better performance
   // This caches the fetch connection to reduce latency for subsequent queries
-  if (process.env.VERCEL_ENV === "production") {
+  // Check both VERCEL_ENV (Vercel deployments) and NODE_ENV (other production deployments)
+  if (process.env.VERCEL_ENV === "production" || process.env.NODE_ENV === "production") {
     neonConfig.fetchConnectionCache = true;
   }
 }

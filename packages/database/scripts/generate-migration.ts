@@ -35,8 +35,17 @@ function parseArgs(): { name?: string; verbose: boolean } {
   const args = process.argv.slice(2);
   const nameIndex = args.indexOf("--name");
 
+  // Only accept the next token as name if it exists and is not another flag
+  let name: string | undefined;
+  if (nameIndex !== -1) {
+    const nextArg = args[nameIndex + 1];
+    if (nextArg && !nextArg.startsWith("-")) {
+      name = nextArg;
+    }
+  }
+
   return {
-    name: nameIndex !== -1 ? args[nameIndex + 1] : undefined,
+    name,
     verbose: args.includes("--verbose") || args.includes("-v"),
   };
 }

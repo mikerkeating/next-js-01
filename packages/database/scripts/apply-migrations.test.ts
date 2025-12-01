@@ -68,18 +68,18 @@ describe("apply-migrations script", () => {
   });
 
   describe("result formatting", () => {
-    it("formats successful result correctly", () => {
-      const formatResult = (result: {
-        success: boolean;
-        durationMs: number;
-        error?: string;
-      }): string => {
-        if (result.success) {
-          return `✓ Migrations applied successfully in ${result.durationMs}ms`;
-        }
-        return `✗ Migration failed: ${result.error}`;
-      };
+    const formatResult = (result: {
+      success: boolean;
+      durationMs: number;
+      error?: string;
+    }): string => {
+      if (result.success) {
+        return `✓ Migrations applied successfully in ${result.durationMs}ms`;
+      }
+      return `✗ Migration failed: ${result.error}`;
+    };
 
+    it("formats successful result correctly", () => {
       const successResult = formatResult({
         success: true,
         durationMs: 100,
@@ -89,17 +89,6 @@ describe("apply-migrations script", () => {
     });
 
     it("formats failure result correctly", () => {
-      const formatResult = (result: {
-        success: boolean;
-        durationMs: number;
-        error?: string;
-      }): string => {
-        if (result.success) {
-          return `✓ Migrations applied successfully in ${result.durationMs}ms`;
-        }
-        return `✗ Migration failed: ${result.error}`;
-      };
-
       const failureResult = formatResult({
         success: false,
         durationMs: 50,

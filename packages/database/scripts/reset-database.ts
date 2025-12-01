@@ -33,6 +33,9 @@ import { sql } from "drizzle-orm";
 import { db } from "../src/client";
 import { runMigrations } from "../src/migrate";
 
+/** Environments where database reset is allowed */
+const ALLOWED_ENVIRONMENTS = ["development", "test", "local"] as const;
+
 /**
  * Environment safety check.
  * Prevents accidental data loss in production.
@@ -40,9 +43,10 @@ import { runMigrations } from "../src/migrate";
 function validateEnvironment(): void {
   const nodeEnv = process.env.NODE_ENV;
 
-  if (nodeEnv === "production") {
-    console.error("✗ ERROR: Database reset is PROHIBITED in production environment.");
-    console.error("  This script is only for development and testing.");
+  if (!nodeEnv || !ALLOWED_ENVIRONMENTS.includes(nodeEnv as (typeof ALLOWED_ENVIRONMENTS)[number])) {
+    console.error("✗ ERROR: Database reset is only allowed in: " + ALLOWED_ENVIRONMENTS.join(", "));
+    console.error(`  Current NODE_ENV: ${nodeEnv ?? "(not set)"}`);
+    console.error("  Set NODE_ENV to an allowed value to proceed.");
     process.exit(1);
   }
 

@@ -13,7 +13,6 @@ import {
   runMigrations,
   getMigrationsPath,
   MigrationError,
-  type MigrationResult,
   type MigrationOptions,
 } from "./migrate";
 
@@ -72,7 +71,8 @@ describe("runMigrations", () => {
     expect(mockMigrate).toHaveBeenCalledWith(
       expect.anything(),
       expect.objectContaining({
-        migrationsFolder: expect.any(String) as unknown as string,
+        // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+        migrationsFolder: expect.any(String),
       })
     );
   });
@@ -212,28 +212,3 @@ describe("MigrationError", () => {
   });
 });
 
-describe("MigrationResult type", () => {
-  it("has correct shape for success result", () => {
-    const successResult: MigrationResult = {
-      success: true,
-      durationMs: 150,
-      migrationsPath: "/path/to/migrations",
-    };
-
-    expect(successResult.success).toBe(true);
-    expect(successResult.durationMs).toBe(150);
-    expect(successResult.error).toBeUndefined();
-  });
-
-  it("has correct shape for failure result", () => {
-    const failureResult: MigrationResult = {
-      success: false,
-      durationMs: 50,
-      migrationsPath: "/path/to/migrations",
-      error: "Migration failed",
-    };
-
-    expect(failureResult.success).toBe(false);
-    expect(failureResult.error).toBe("Migration failed");
-  });
-});
