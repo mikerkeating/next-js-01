@@ -5,7 +5,7 @@
  * - TypeScript (base, Next.js, React presets)
  * - ESLint (base, Next.js, React rules)
  * - Prettier (formatting rules)
- * - Tailwind CSS (base config and presets)
+ * - Tailwind CSS (base config, theme tokens, and presets)
  * - Vitest (test configuration)
  *
  * Configuration exports are accessed via subpath exports:
@@ -20,15 +20,50 @@
  * // In prettier.config.js
  * export { default } from "@repo/config/prettier";
  *
- * // In tailwind.config.ts
- * import baseConfig from "@repo/config/tailwind";
+ * // For Tailwind CSS theme tokens (TypeScript)
+ * import { colorPalettes, spacingScale, fontFamilies } from "@repo/config/tailwind";
+ *
+ * // For Tailwind CSS base styles (CSS)
+ * // @import "@repo/config/tailwind/base.css";
  * ```
  *
  * @packageDocumentation
  */
 
-// This file serves as a placeholder entry point.
-// Actual configurations are exported via subpath exports in package.json.
-// See the exports field in package.json for available configuration paths.
+// Re-export Tailwind theme utilities from the main entry point
+// for convenient access to theme tokens programmatically
+export {
+  // Color utilities
+  colorPalettes,
+  colorShades,
+  getCssColorVar,
+  isColorPalette,
+  isColorShade,
+  // Spacing utilities
+  spacingScale,
+  spacingToPx,
+  isSpacingKey,
+  // Typography utilities
+  fontFamilies,
+  fontSizes,
+  fontWeights,
+  lineHeights,
+  // Layout utilities
+  borderRadius,
+  zIndex,
+  // CSS path constant
+  TAILWIND_BASE_CSS_PATH,
+} from "./tailwind/index.js";
 
-export {};
+// Re-export types
+export type {
+  ColorPaletteType,
+  ColorShade,
+  SpacingKeyType,
+  FontFamily,
+  FontSize,
+  FontWeight,
+  LineHeight,
+  BorderRadius,
+  ZIndex,
+} from "./tailwind/index.js";

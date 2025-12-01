@@ -1,0 +1,457 @@
+/**
+ * @repo/config Tailwind CSS v4 Base Configuration
+ *
+ * This CSS file defines the design system theme tokens using Tailwind CSS v4's
+ * CSS-first configuration approach. All theme tokens are defined as CSS custom
+ * properties for runtime theming support.
+ *
+ * Design System Features:
+ * - Color palettes: primary, secondary, accent, neutral, success, warning, error
+ * - Spacing scale: 4px base unit system
+ * - Typography: Font families, sizes, weights, and line heights
+ * - Dark mode: Via prefers-color-scheme and manual .dark class toggle
+ *
+ * @see https://tailwindcss.com/docs/v4
+ */
+
+@import "tailwindcss";
+
+/**
+ * Theme Configuration
+ *
+ * Using @theme directive for CSS-first configuration in Tailwind v4.
+ * All tokens are defined as CSS custom properties for:
+ * - Runtime theming without rebuild
+ * - Better design tool integration
+ * - Easy theme customization per-consumer
+ */
+@theme {
+  /* ==========================================================================
+     Color Tokens
+     ========================================================================== */
+
+  /**
+   * Primary Palette
+   * Main brand color used for primary actions, links, and emphasis.
+   * Based on a vibrant blue spectrum.
+   */
+  --color-primary-50: oklch(0.97 0.01 250);
+  --color-primary-100: oklch(0.93 0.03 250);
+  --color-primary-200: oklch(0.86 0.06 250);
+  --color-primary-300: oklch(0.76 0.1 250);
+  --color-primary-400: oklch(0.64 0.15 250);
+  --color-primary-500: oklch(0.55 0.2 250);
+  --color-primary-600: oklch(0.48 0.2 250);
+  --color-primary-700: oklch(0.42 0.18 250);
+  --color-primary-800: oklch(0.35 0.15 250);
+  --color-primary-900: oklch(0.28 0.12 250);
+  --color-primary-950: oklch(0.2 0.08 250);
+
+  /**
+   * Secondary Palette
+   * Supporting color for secondary actions and accents.
+   * Based on a purple spectrum.
+   */
+  --color-secondary-50: oklch(0.97 0.01 290);
+  --color-secondary-100: oklch(0.93 0.03 290);
+  --color-secondary-200: oklch(0.86 0.06 290);
+  --color-secondary-300: oklch(0.76 0.1 290);
+  --color-secondary-400: oklch(0.64 0.15 290);
+  --color-secondary-500: oklch(0.55 0.18 290);
+  --color-secondary-600: oklch(0.48 0.18 290);
+  --color-secondary-700: oklch(0.42 0.16 290);
+  --color-secondary-800: oklch(0.35 0.13 290);
+  --color-secondary-900: oklch(0.28 0.1 290);
+  --color-secondary-950: oklch(0.2 0.07 290);
+
+  /**
+   * Accent Palette
+   * Used for highlighting, badges, and visual interest.
+   * Based on a teal/cyan spectrum.
+   */
+  --color-accent-50: oklch(0.97 0.02 180);
+  --color-accent-100: oklch(0.93 0.04 180);
+  --color-accent-200: oklch(0.86 0.08 180);
+  --color-accent-300: oklch(0.76 0.12 180);
+  --color-accent-400: oklch(0.64 0.15 180);
+  --color-accent-500: oklch(0.55 0.15 180);
+  --color-accent-600: oklch(0.48 0.14 180);
+  --color-accent-700: oklch(0.42 0.12 180);
+  --color-accent-800: oklch(0.35 0.1 180);
+  --color-accent-900: oklch(0.28 0.08 180);
+  --color-accent-950: oklch(0.2 0.05 180);
+
+  /**
+   * Neutral Palette
+   * Gray tones for text, backgrounds, borders, and UI elements.
+   * Slightly cool-tinted for modern feel.
+   */
+  --color-neutral-50: oklch(0.98 0.002 250);
+  --color-neutral-100: oklch(0.96 0.003 250);
+  --color-neutral-200: oklch(0.92 0.004 250);
+  --color-neutral-300: oklch(0.87 0.005 250);
+  --color-neutral-400: oklch(0.7 0.006 250);
+  --color-neutral-500: oklch(0.55 0.007 250);
+  --color-neutral-600: oklch(0.45 0.006 250);
+  --color-neutral-700: oklch(0.37 0.005 250);
+  --color-neutral-800: oklch(0.27 0.004 250);
+  --color-neutral-900: oklch(0.2 0.003 250);
+  --color-neutral-950: oklch(0.13 0.002 250);
+
+  /**
+   * Success Palette
+   * Used for success states, confirmations, and positive feedback.
+   * Based on a green spectrum.
+   */
+  --color-success-50: oklch(0.97 0.02 145);
+  --color-success-100: oklch(0.93 0.05 145);
+  --color-success-200: oklch(0.86 0.1 145);
+  --color-success-300: oklch(0.76 0.14 145);
+  --color-success-400: oklch(0.64 0.17 145);
+  --color-success-500: oklch(0.55 0.18 145);
+  --color-success-600: oklch(0.48 0.16 145);
+  --color-success-700: oklch(0.42 0.14 145);
+  --color-success-800: oklch(0.35 0.11 145);
+  --color-success-900: oklch(0.28 0.09 145);
+  --color-success-950: oklch(0.2 0.06 145);
+
+  /**
+   * Warning Palette
+   * Used for warning states, alerts, and caution indicators.
+   * Based on an amber/yellow spectrum.
+   */
+  --color-warning-50: oklch(0.98 0.02 85);
+  --color-warning-100: oklch(0.95 0.05 85);
+  --color-warning-200: oklch(0.9 0.1 85);
+  --color-warning-300: oklch(0.83 0.15 85);
+  --color-warning-400: oklch(0.75 0.18 85);
+  --color-warning-500: oklch(0.68 0.18 85);
+  --color-warning-600: oklch(0.6 0.16 85);
+  --color-warning-700: oklch(0.5 0.14 85);
+  --color-warning-800: oklch(0.42 0.11 85);
+  --color-warning-900: oklch(0.35 0.08 85);
+  --color-warning-950: oklch(0.25 0.05 85);
+
+  /**
+   * Error Palette
+   * Used for error states, destructive actions, and alerts.
+   * Based on a red spectrum.
+   */
+  --color-error-50: oklch(0.97 0.01 25);
+  --color-error-100: oklch(0.93 0.04 25);
+  --color-error-200: oklch(0.86 0.08 25);
+  --color-error-300: oklch(0.76 0.13 25);
+  --color-error-400: oklch(0.64 0.18 25);
+  --color-error-500: oklch(0.55 0.2 25);
+  --color-error-600: oklch(0.48 0.2 25);
+  --color-error-700: oklch(0.42 0.17 25);
+  --color-error-800: oklch(0.35 0.14 25);
+  --color-error-900: oklch(0.28 0.1 25);
+  --color-error-950: oklch(0.2 0.07 25);
+
+  /* ==========================================================================
+     Spacing Scale
+     ========================================================================== */
+
+  /**
+   * Spacing Scale (4px base unit)
+   *
+   * Based on a 4px grid system for consistent spacing.
+   * - 0.25rem = 4px at 16px base font
+   * - Each step is a multiple of the base unit
+   */
+  --spacing-0: 0;
+  --spacing-px: 1px;
+  --spacing-0\.5: 0.125rem;
+  --spacing-1: 0.25rem;
+  --spacing-1\.5: 0.375rem;
+  --spacing-2: 0.5rem;
+  --spacing-2\.5: 0.625rem;
+  --spacing-3: 0.75rem;
+  --spacing-3\.5: 0.875rem;
+  --spacing-4: 1rem;
+  --spacing-5: 1.25rem;
+  --spacing-6: 1.5rem;
+  --spacing-7: 1.75rem;
+  --spacing-8: 2rem;
+  --spacing-9: 2.25rem;
+  --spacing-10: 2.5rem;
+  --spacing-11: 2.75rem;
+  --spacing-12: 3rem;
+  --spacing-14: 3.5rem;
+  --spacing-16: 4rem;
+  --spacing-20: 5rem;
+  --spacing-24: 6rem;
+  --spacing-28: 7rem;
+  --spacing-32: 8rem;
+  --spacing-36: 9rem;
+  --spacing-40: 10rem;
+  --spacing-44: 11rem;
+  --spacing-48: 12rem;
+  --spacing-52: 13rem;
+  --spacing-56: 14rem;
+  --spacing-60: 15rem;
+  --spacing-64: 16rem;
+  --spacing-72: 18rem;
+  --spacing-80: 20rem;
+  --spacing-96: 24rem;
+
+  /* ==========================================================================
+     Typography
+     ========================================================================== */
+
+  /**
+   * Font Families
+   *
+   * System font stack for optimal performance and native feel.
+   * Falls back through common system fonts.
+   */
+  --font-family-sans: ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji",
+    "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+  --font-family-serif: ui-serif, Georgia, Cambria, "Times New Roman", Times,
+    serif;
+  --font-family-mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas,
+    "Liberation Mono", "Courier New", monospace;
+
+  /**
+   * Font Sizes
+   *
+   * Modular scale based on 1rem (16px) base.
+   * Uses a ~1.25 ratio for harmonious scaling.
+   */
+  --font-size-xs: 0.75rem;
+  --font-size-sm: 0.875rem;
+  --font-size-base: 1rem;
+  --font-size-lg: 1.125rem;
+  --font-size-xl: 1.25rem;
+  --font-size-2xl: 1.5rem;
+  --font-size-3xl: 1.875rem;
+  --font-size-4xl: 2.25rem;
+  --font-size-5xl: 3rem;
+  --font-size-6xl: 3.75rem;
+  --font-size-7xl: 4.5rem;
+  --font-size-8xl: 6rem;
+  --font-size-9xl: 8rem;
+
+  /**
+   * Font Weights
+   */
+  --font-weight-thin: 100;
+  --font-weight-extralight: 200;
+  --font-weight-light: 300;
+  --font-weight-normal: 400;
+  --font-weight-medium: 500;
+  --font-weight-semibold: 600;
+  --font-weight-bold: 700;
+  --font-weight-extrabold: 800;
+  --font-weight-black: 900;
+
+  /**
+   * Line Heights
+   *
+   * For optimal readability across different text sizes.
+   */
+  --line-height-none: 1;
+  --line-height-tight: 1.25;
+  --line-height-snug: 1.375;
+  --line-height-normal: 1.5;
+  --line-height-relaxed: 1.625;
+  --line-height-loose: 2;
+
+  /**
+   * Letter Spacing
+   */
+  --letter-spacing-tighter: -0.05em;
+  --letter-spacing-tight: -0.025em;
+  --letter-spacing-normal: 0em;
+  --letter-spacing-wide: 0.025em;
+  --letter-spacing-wider: 0.05em;
+  --letter-spacing-widest: 0.1em;
+
+  /* ==========================================================================
+     Border Radius
+     ========================================================================== */
+
+  --radius-none: 0;
+  --radius-sm: 0.125rem;
+  --radius-default: 0.25rem;
+  --radius-md: 0.375rem;
+  --radius-lg: 0.5rem;
+  --radius-xl: 0.75rem;
+  --radius-2xl: 1rem;
+  --radius-3xl: 1.5rem;
+  --radius-full: 9999px;
+
+  /* ==========================================================================
+     Shadows
+     ========================================================================== */
+
+  --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+  --shadow-default: 0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1);
+  --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+  --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1),
+    0 4px 6px -4px rgb(0 0 0 / 0.1);
+  --shadow-xl: 0 20px 25px -5px rgb(0 0 0 / 0.1),
+    0 8px 10px -6px rgb(0 0 0 / 0.1);
+  --shadow-2xl: 0 25px 50px -12px rgb(0 0 0 / 0.25);
+  --shadow-inner: inset 0 2px 4px 0 rgb(0 0 0 / 0.05);
+  --shadow-none: 0 0 #0000;
+
+  /* ==========================================================================
+     Animations
+     ========================================================================== */
+
+  --animate-spin: spin 1s linear infinite;
+  --animate-ping: ping 1s cubic-bezier(0, 0, 0.2, 1) infinite;
+  --animate-pulse: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+  --animate-bounce: bounce 1s infinite;
+
+  /* ==========================================================================
+     Z-Index Scale
+     ========================================================================== */
+
+  --z-0: 0;
+  --z-10: 10;
+  --z-20: 20;
+  --z-30: 30;
+  --z-40: 40;
+  --z-50: 50;
+  --z-auto: auto;
+
+  /* ==========================================================================
+     Container Queries (Tailwind v4)
+     ========================================================================== */
+
+  --container-3xs: 16rem;
+  --container-2xs: 18rem;
+  --container-xs: 20rem;
+  --container-sm: 24rem;
+  --container-md: 28rem;
+  --container-lg: 32rem;
+  --container-xl: 36rem;
+  --container-2xl: 42rem;
+  --container-3xl: 48rem;
+  --container-4xl: 56rem;
+  --container-5xl: 64rem;
+  --container-6xl: 72rem;
+  --container-7xl: 80rem;
+}
+
+/* ==========================================================================
+   Semantic Color Tokens
+
+   These map design system colors to semantic use cases for consistent
+   application across the UI. These change between light and dark modes.
+   ========================================================================== */
+
+:root {
+  /* Background colors */
+  --color-background: var(--color-neutral-50);
+  --color-background-alt: var(--color-neutral-100);
+  --color-background-muted: var(--color-neutral-200);
+
+  /* Foreground/text colors */
+  --color-foreground: var(--color-neutral-900);
+  --color-foreground-muted: var(--color-neutral-600);
+  --color-foreground-subtle: var(--color-neutral-500);
+
+  /* Border colors */
+  --color-border: var(--color-neutral-200);
+  --color-border-muted: var(--color-neutral-100);
+
+  /* Interactive states */
+  --color-ring: var(--color-primary-500);
+  --color-ring-offset: var(--color-background);
+}
+
+/* ==========================================================================
+   Dark Mode Support
+
+   Dark mode is supported via:
+   1. prefers-color-scheme media query (automatic)
+   2. .dark class on root element (manual toggle)
+   ========================================================================== */
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    /* Background colors - inverted */
+    --color-background: var(--color-neutral-950);
+    --color-background-alt: var(--color-neutral-900);
+    --color-background-muted: var(--color-neutral-800);
+
+    /* Foreground/text colors - inverted */
+    --color-foreground: var(--color-neutral-50);
+    --color-foreground-muted: var(--color-neutral-400);
+    --color-foreground-subtle: var(--color-neutral-500);
+
+    /* Border colors - inverted */
+    --color-border: var(--color-neutral-800);
+    --color-border-muted: var(--color-neutral-900);
+
+    /* Interactive states */
+    --color-ring: var(--color-primary-400);
+    --color-ring-offset: var(--color-background);
+  }
+}
+
+/**
+ * Manual dark mode toggle via .dark class
+ *
+ * This allows JavaScript-based dark mode toggling independent of
+ * system preferences. Apply .dark class to <html> or <body> element.
+ */
+.dark {
+  /* Background colors - inverted */
+  --color-background: var(--color-neutral-950);
+  --color-background-alt: var(--color-neutral-900);
+  --color-background-muted: var(--color-neutral-800);
+
+  /* Foreground/text colors - inverted */
+  --color-foreground: var(--color-neutral-50);
+  --color-foreground-muted: var(--color-neutral-400);
+  --color-foreground-subtle: var(--color-neutral-500);
+
+  /* Border colors - inverted */
+  --color-border: var(--color-neutral-800);
+  --color-border-muted: var(--color-neutral-900);
+
+  /* Interactive states */
+  --color-ring: var(--color-primary-400);
+  --color-ring-offset: var(--color-background);
+}
+
+/* ==========================================================================
+   Animation Keyframes
+   ========================================================================== */
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes ping {
+  75%,
+  100% {
+    transform: scale(2);
+    opacity: 0;
+  }
+}
+
+@keyframes pulse {
+  50% {
+    opacity: 0.5;
+  }
+}
+
+@keyframes bounce {
+  0%,
+  100% {
+    transform: translateY(-25%);
+    animation-timing-function: cubic-bezier(0.8, 0, 1, 1);
+  }
+  50% {
+    transform: translateY(0);
+    animation-timing-function: cubic-bezier(0, 0, 0.2, 1);
+  }
+}
