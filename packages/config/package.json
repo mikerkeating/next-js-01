@@ -4,11 +4,44 @@
   "private": true,
   "type": "module",
   "description": "Shared configuration files for the monorepo",
+  "scripts": {
+    "test": "vitest run",
+    "test:watch": "vitest watch",
+    "test:coverage": "vitest run --coverage",
+    "type-check": "tsc --noEmit"
+  },
   "exports": {
+    ".": "./src/index.ts",
+    "./typescript/base": "./src/typescript/base.json",
+    "./typescript/nextjs": "./src/typescript/nextjs.json",
+    "./eslint/base": "./src/eslint/base.js",
+    "./eslint/nextjs": "./src/eslint/nextjs.js",
+    "./prettier": "./src/prettier/index.js",
+    "./tailwind": "./src/tailwind/base.js",
     "./vitest/base": "./vitest/base.ts",
     "./vitest/coverage": "./vitest/coverage.ts",
     "./vitest/setup-react": "./vitest/setup-react.ts",
     "./vitest/setup-msw": "./vitest/setup-msw.ts"
+  },
+  "peerDependencies": {
+    "typescript": "^5.7.0",
+    "eslint": "^9.39.0",
+    "prettier": "^3.2.0",
+    "tailwindcss": "^4.0.0"
+  },
+  "peerDependenciesMeta": {
+    "typescript": {
+      "optional": true
+    },
+    "eslint": {
+      "optional": true
+    },
+    "prettier": {
+      "optional": true
+    },
+    "tailwindcss": {
+      "optional": true
+    }
   },
   "dependencies": {
     "@repo/testing": "workspace:*"

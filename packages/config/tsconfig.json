@@ -10,8 +10,9 @@
     "allowImportingTsExtensions": true,
     "noEmit": true,
     "types": ["vitest/globals"],
-    "declaration": false
+    "declaration": false,
+    "resolveJsonModule": true
   },
-  "include": ["vitest/**/*.ts"],
+  "include": ["src/**/*.ts", "vitest/**/*.ts", "tests/**/*.ts"],
   "exclude": ["node_modules"]
 }
