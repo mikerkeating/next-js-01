@@ -1,0 +1,50 @@
+{
+  "name": "@repo/database",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "Database schema, client, and utilities for the monorepo",
+  "scripts": {
+    "build": "tsc",
+    "type-check": "tsc --noEmit",
+    "clean": "rm -rf dist",
+    "lint": "eslint . --max-warnings 0",
+    "lint:fix": "eslint . --fix",
+    "test": "vitest run",
+    "test:watch": "vitest watch",
+    "test:coverage": "vitest run --coverage",
+    "db:generate": "drizzle-kit generate",
+    "db:migrate": "drizzle-kit migrate",
+    "db:push": "drizzle-kit push",
+    "db:studio": "drizzle-kit studio"
+  },
+  "main": "./dist/index.js",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    },
+    "./schema": {
+      "types": "./dist/schema/index.d.ts",
+      "import": "./dist/schema/index.js"
+    }
+  },
+  "files": [
+    "dist",
+    "src"
+  ],
+  "dependencies": {
+    "drizzle-orm": "^0.29.0",
+    "@neondatabase/serverless": "^0.10.0"
+  },
+  "devDependencies": {
+    "@repo/config": "workspace:*",
+    "@vitest/coverage-v8": "^4.0.14",
+    "drizzle-kit": "^0.29.0",
+    "eslint": "^9.39.0",
+    "typescript": "^5.7.0",
+    "vitest": "^4.0.14"
+  }
+}
