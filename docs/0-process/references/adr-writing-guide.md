@@ -4,33 +4,33 @@ This guide provides practical advice for writing effective Architecture Decision
 
 ## Quick Reference
 
-| Resource | Location |
-|----------|----------|
-| ADR Template | [adr-template.md](./adr-template.md) |
-| ADR Catalog | [docs/2-technical/adr/README.md](/docs/2-technical/adr/README.md) |
+| Resource        | Location                                                                                           |
+| --------------- | -------------------------------------------------------------------------------------------------- |
+| ADR Template    | [adr-template.md](./adr-template.md)                                                               |
+| ADR Catalog     | [docs/2-technical/adr/README.md](/docs/2-technical/adr/README.md)                                  |
 | TAD ADR Section | [2-tad.md#architecture-decision-records](/docs/2-technical/2-tad.md#architecture-decision-records) |
 
 ## When to Write an ADR
 
 ### Create an ADR For
 
-| Category | Examples |
-|----------|----------|
-| **Major technology choices** | Frameworks, languages, databases, ORMs, hosting platforms |
-| **Architectural patterns** | Monorepo vs polyrepo, microservices, event-driven architecture |
-| **Cross-cutting concerns** | Authentication, logging, error handling, caching strategies |
-| **Infrastructure decisions** | CI/CD pipelines, CDN, monitoring, deployment strategies |
-| **Security/compliance** | Data encryption, access control, privacy compliance |
+| Category                     | Examples                                                       |
+| ---------------------------- | -------------------------------------------------------------- |
+| **Major technology choices** | Frameworks, languages, databases, ORMs, hosting platforms      |
+| **Architectural patterns**   | Monorepo vs polyrepo, microservices, event-driven architecture |
+| **Cross-cutting concerns**   | Authentication, logging, error handling, caching strategies    |
+| **Infrastructure decisions** | CI/CD pipelines, CDN, monitoring, deployment strategies        |
+| **Security/compliance**      | Data encryption, access control, privacy compliance            |
 
 ### Use Story-Level Decisions Instead For
 
 Story-level decisions use the format `AD-{EpicID}.S{N}.{DecisionNumber}` and are documented inline in story files:
 
-| Scenario | Example |
-|----------|---------|
-| **Story-specific choices** | Which React component pattern to use for a specific feature |
-| **Isolated implementations** | Specific API endpoint design that doesn't set a precedent |
-| **Tactical decisions** | Choices within the boundaries of an existing ADR |
+| Scenario                     | Example                                                     |
+| ---------------------------- | ----------------------------------------------------------- |
+| **Story-specific choices**   | Which React component pattern to use for a specific feature |
+| **Isolated implementations** | Specific API endpoint design that doesn't set a precedent   |
+| **Tactical decisions**       | Choices within the boundaries of an existing ADR            |
 
 **Rule of Thumb**: If the decision affects multiple stories, epics, or packages, it's an ADR. If it's contained within a single story, it's a story-level decision.
 
@@ -50,18 +50,19 @@ The status section captures the current state of the decision:
 **Epic Context**: {Epic ID or "N/A"}
 ```
 
-| Status | When to Use |
-|--------|-------------|
-| **Proposed** | Initial state; decision under discussion |
-| **Accepted** | Decision approved and in effect |
-| **Deprecated** | No longer recommended; may still be in use |
-| **Superseded by ADR-XXX** | Replaced by a newer decision |
+| Status                    | When to Use                                |
+| ------------------------- | ------------------------------------------ |
+| **Proposed**              | Initial state; decision under discussion   |
+| **Accepted**              | Decision approved and in effect            |
+| **Deprecated**            | No longer recommended; may still be in use |
+| **Superseded by ADR-XXX** | Replaced by a newer decision               |
 
 ### Context
 
 The context section explains **why** a decision is needed:
 
 **Good Context**:
+
 - States the problem clearly
 - Lists specific requirements
 - Identifies constraints
@@ -95,6 +96,7 @@ that supports SSO, MFA, and organization-level access control.
 The decision section states **what** was decided:
 
 **Good Decision**:
+
 - Clear and unambiguous
 - States the specific choice made
 - Includes key configuration details
@@ -118,6 +120,7 @@ We will use **Clerk** (latest version) as our authentication provider.
 The rationale section explains **why** this option was chosen:
 
 **Structure**:
+
 1. List the key reasons grouped by category
 2. Connect reasons to requirements from Context
 3. Be specific about what makes this option superior
@@ -150,10 +153,12 @@ Document **all** options you evaluated, even briefly:
 ### Option 1: {Name}
 
 **Pros:**
+
 - Pro 1
 - Pro 2
 
 **Cons:**
+
 - Con 1
 - Con 2
 
@@ -161,6 +166,7 @@ Document **all** options you evaluated, even briefly:
 ```
 
 **Tips**:
+
 - Be fair to rejected options
 - Explain specifically why each was rejected
 - Future readers may revisit these if circumstances change
@@ -195,6 +201,7 @@ Document the **outcomes** of the decision:
 ```
 
 **Tips**:
+
 - Be honest about trade-offs
 - Don't oversell positives
 - Every decision has negatives; document them
@@ -205,22 +212,24 @@ Document the **outcomes** of the decision:
 ### Be Concise
 
 ADRs should be read quickly. Aim for:
+
 - 1-2 page summary (Status through Consequences)
 - Extended sections (Implementation, Examples) as needed
 
 ### Write for Future Readers
 
 Consider someone reading this ADR in 2 years:
+
 - Will they understand the context?
 - Will the decision make sense?
 - Will they know what constraints have changed?
 
 ### Use Specific Language
 
-| Avoid | Prefer |
-|-------|--------|
-| "We chose the best option" | "We chose Option A because it meets requirements X, Y, Z" |
-| "This is faster" | "This reduces API latency by 50ms (p95)" |
+| Avoid                         | Prefer                                                         |
+| ----------------------------- | -------------------------------------------------------------- |
+| "We chose the best option"    | "We chose Option A because it meets requirements X, Y, Z"      |
+| "This is faster"              | "This reduces API latency by 50ms (p95)"                       |
 | "Better developer experience" | "Reduces authentication implementation from 2 weeks to 2 days" |
 
 ### Document Trade-offs Honestly
@@ -275,6 +284,7 @@ Consider someone reading this ADR in 2 years:
 > "Which ORM should we use across all packages?"
 
 This affects:
+
 - Multiple packages (@repo/database, @repo/auth, etc.)
 - All applications
 - Team-wide conventions
@@ -286,6 +296,7 @@ This affects:
 > "Which Drizzle query pattern should we use for this specific API endpoint?"
 
 This affects:
+
 - One story
 - One endpoint
 - Follows patterns established by ADR-005
@@ -315,6 +326,7 @@ This affects:
 ---
 
 **See Also**:
+
 - [ADR Template](./adr-template.md)
 - [ADR Catalog](/docs/2-technical/adr/README.md)
 - [Michael Nygard's Original Article](https://cognitect.com/blog/2011/11/15/documenting-architecture-decisions)

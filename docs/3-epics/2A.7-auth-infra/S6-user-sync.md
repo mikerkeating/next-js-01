@@ -30,23 +30,23 @@
 
 ### Files to Create
 
-| Path                                                  | Purpose                                      |
-| ----------------------------------------------------- | -------------------------------------------- |
-| `packages/database/src/schema/users.ts`               | User table schema definition                 |
-| `packages/database/src/queries/user-sync.ts`          | User sync database queries                   |
-| `packages/auth/src/webhooks/handlers/user-events.ts`  | User event handlers (created, updated, deleted) |
-| `packages/auth/src/webhooks/handlers/index.ts`        | Handler registry exports                     |
-| `packages/database/migrations/0001_create_users.sql`  | User table migration                         |
-| `packages/auth/src/webhooks/handlers/user-events.test.ts` | Unit tests for user event handlers       |
+| Path                                                      | Purpose                                         |
+| --------------------------------------------------------- | ----------------------------------------------- |
+| `packages/database/src/schema/users.ts`                   | User table schema definition                    |
+| `packages/database/src/queries/user-sync.ts`              | User sync database queries                      |
+| `packages/auth/src/webhooks/handlers/user-events.ts`      | User event handlers (created, updated, deleted) |
+| `packages/auth/src/webhooks/handlers/index.ts`            | Handler registry exports                        |
+| `packages/database/migrations/0001_create_users.sql`      | User table migration                            |
+| `packages/auth/src/webhooks/handlers/user-events.test.ts` | Unit tests for user event handlers              |
 
 ### Files to Modify
 
-| Path                                       | Changes                                                          |
-| ------------------------------------------ | ---------------------------------------------------------------- |
-| `packages/auth/src/webhooks/handler.ts`    | Wire up user event handlers to webhook dispatcher               |
-| `packages/database/src/schema/index.ts`    | Export users schema                                              |
-| `packages/database/src/queries/index.ts`   | Export user sync queries                                         |
-| `apps/web/app/api/webhooks/clerk/route.ts` | Import and call user event handlers                              |
+| Path                                       | Changes                                           |
+| ------------------------------------------ | ------------------------------------------------- |
+| `packages/auth/src/webhooks/handler.ts`    | Wire up user event handlers to webhook dispatcher |
+| `packages/database/src/schema/index.ts`    | Export users schema                               |
+| `packages/database/src/queries/index.ts`   | Export user sync queries                          |
+| `apps/web/app/api/webhooks/clerk/route.ts` | Import and call user event handlers               |
 
 ### Dependencies
 
@@ -59,12 +59,12 @@ User sync implementation uses existing dependencies from S5 (Webhook Handler Fra
 > **Note**: For complete configuration file templates, reference the TAD.
 > This section describes configuration REQUIREMENTS, not full file contents.
 
-| Setting               | Requirement                                              | TAD Reference                                                                 |
-| --------------------- | -------------------------------------------------------- | ----------------------------------------------------------------------------- |
-| Database schema       | User table with clerkId unique constraint                | [ADR-006: Webhook Handler](/docs/2-technical/adr/006-clerk-authentication.md#webhook-handler) |
-| Transaction handling  | All sync operations in database transactions             | [ADR-005: Drizzle ORM](/docs/2-technical/adr/005-drizzle-orm.md)             |
-| Idempotency pattern   | Upsert pattern for user.created/updated events           | [ADR-006: Webhook Handler](/docs/2-technical/adr/006-clerk-authentication.md#webhook-handler) |
-| Soft delete strategy  | Set deletedAt timestamp instead of hard delete           | [TAD: Security Architecture](/docs/2-technical/2-tad-security-architecture.md#right-to-deletion) |
+| Setting              | Requirement                                    | TAD Reference                                                                                    |
+| -------------------- | ---------------------------------------------- | ------------------------------------------------------------------------------------------------ |
+| Database schema      | User table with clerkId unique constraint      | [ADR-006: Webhook Handler](/docs/2-technical/adr/006-clerk-authentication.md#webhook-handler)    |
+| Transaction handling | All sync operations in database transactions   | [ADR-005: Drizzle ORM](/docs/2-technical/adr/005-drizzle-orm.md)                                 |
+| Idempotency pattern  | Upsert pattern for user.created/updated events | [ADR-006: Webhook Handler](/docs/2-technical/adr/006-clerk-authentication.md#webhook-handler)    |
+| Soft delete strategy | Set deletedAt timestamp instead of hard delete | [TAD: Security Architecture](/docs/2-technical/2-tad-security-architecture.md#right-to-deletion) |
 
 **Configuration Rationale**:
 
@@ -206,14 +206,14 @@ Key pattern notes for this story:
 
 ### Troubleshooting
 
-| Issue                                      | Cause                                     | Solution                                                          |
-| ------------------------------------------ | ----------------------------------------- | ----------------------------------------------------------------- |
-| Duplicate user error on webhook replay     | Not using upsert pattern                  | Use `.onConflictDoUpdate()` instead of `.insert()`                |
-| User not found after creation              | Query not filtering out soft deletes      | Add `WHERE deleted_at IS NULL` to all user queries                |
-| Webhook timeouts on user sync              | Slow database connection or missing index | Ensure clerkId has unique index, optimize query                   |
-| Transaction deadlocks on concurrent syncs  | Multiple webhooks processing same user    | Drizzle handles row-level locking; verify transaction isolation   |
-| Missing user fields in database            | Clerk payload structure changed           | Add null checks when extracting fields from webhook payload       |
-| Hard delete instead of soft delete         | Using DELETE instead of UPDATE            | User `.update().set({ deletedAt: new Date() })` pattern           |
+| Issue                                     | Cause                                     | Solution                                                        |
+| ----------------------------------------- | ----------------------------------------- | --------------------------------------------------------------- |
+| Duplicate user error on webhook replay    | Not using upsert pattern                  | Use `.onConflictDoUpdate()` instead of `.insert()`              |
+| User not found after creation             | Query not filtering out soft deletes      | Add `WHERE deleted_at IS NULL` to all user queries              |
+| Webhook timeouts on user sync             | Slow database connection or missing index | Ensure clerkId has unique index, optimize query                 |
+| Transaction deadlocks on concurrent syncs | Multiple webhooks processing same user    | Drizzle handles row-level locking; verify transaction isolation |
+| Missing user fields in database           | Clerk payload structure changed           | Add null checks when extracting fields from webhook payload     |
+| Hard delete instead of soft delete        | Using DELETE instead of UPDATE            | User `.update().set({ deletedAt: new Date() })` pattern         |
 
 ### Reference Materials
 

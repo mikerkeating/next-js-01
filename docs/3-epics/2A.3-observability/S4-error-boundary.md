@@ -32,18 +32,18 @@
 
 ### Files to Create
 
-| Path                                                    | Purpose                                      |
-| ------------------------------------------------------- | -------------------------------------------- |
-| `packages/observability/src/error-boundary.tsx`         | Error Boundary React component               |
-| `packages/observability/src/error-boundary-types.ts`    | TypeScript type definitions for Error Boundary |
-| `packages/observability/__tests__/error-boundary.test.tsx` | Unit tests for Error Boundary component   |
+| Path                                                       | Purpose                                        |
+| ---------------------------------------------------------- | ---------------------------------------------- |
+| `packages/observability/src/error-boundary.tsx`            | Error Boundary React component                 |
+| `packages/observability/src/error-boundary-types.ts`       | TypeScript type definitions for Error Boundary |
+| `packages/observability/__tests__/error-boundary.test.tsx` | Unit tests for Error Boundary component        |
 
 ### Files to Modify
 
-| Path                                     | Changes                                                          |
-| ---------------------------------------- | ---------------------------------------------------------------- |
-| `packages/observability/src/index.ts`    | Export `ErrorBoundary`, `ErrorBoundaryProps`, `ErrorBoundaryState` |
-| `packages/observability/package.json`    | Add `react` and `react-dom` as peer dependencies                 |
+| Path                                  | Changes                                                            |
+| ------------------------------------- | ------------------------------------------------------------------ |
+| `packages/observability/src/index.ts` | Export `ErrorBoundary`, `ErrorBoundaryProps`, `ErrorBoundaryState` |
+| `packages/observability/package.json` | Add `react` and `react-dom` as peer dependencies                   |
 
 ### Dependencies
 
@@ -67,13 +67,13 @@ pnpm add -D @testing-library/react @testing-library/jest-dom @vitejs/plugin-reac
 > **Note**: For complete configuration file templates, reference the TAD.
 > This section describes configuration REQUIREMENTS, not full file contents.
 
-| Setting                      | Requirement                                              | TAD Reference                                                                  |
-| ---------------------------- | -------------------------------------------------------- | ------------------------------------------------------------------------------ |
-| Component type               | Must be class component (Error Boundaries require class) | [TAD: React Error Boundary](/docs/2-technical/2-tad-observability.md#react-error-boundary) |
-| Client directive             | Must include `'use client'` for Next.js App Router       | [TAD: React Error Boundary](/docs/2-technical/2-tad-observability.md#react-error-boundary) |
-| Error logging                | Use structured logger with component stack metadata      | [TAD: React Error Boundary](/docs/2-technical/2-tad-observability.md#react-error-boundary) |
-| Sentry integration           | Send errors to Sentry with React context                 | [TAD: React Error Boundary](/docs/2-technical/2-tad-observability.md#react-error-boundary) |
-| Fallback UI                  | Default fallback with refresh button; customizable via prop | [TAD: React Error Boundary](/docs/2-technical/2-tad-observability.md#react-error-boundary) |
+| Setting            | Requirement                                                 | TAD Reference                                                                              |
+| ------------------ | ----------------------------------------------------------- | ------------------------------------------------------------------------------------------ |
+| Component type     | Must be class component (Error Boundaries require class)    | [TAD: React Error Boundary](/docs/2-technical/2-tad-observability.md#react-error-boundary) |
+| Client directive   | Must include `'use client'` for Next.js App Router          | [TAD: React Error Boundary](/docs/2-technical/2-tad-observability.md#react-error-boundary) |
+| Error logging      | Use structured logger with component stack metadata         | [TAD: React Error Boundary](/docs/2-technical/2-tad-observability.md#react-error-boundary) |
+| Sentry integration | Send errors to Sentry with React context                    | [TAD: React Error Boundary](/docs/2-technical/2-tad-observability.md#react-error-boundary) |
+| Fallback UI        | Default fallback with refresh button; customizable via prop | [TAD: React Error Boundary](/docs/2-technical/2-tad-observability.md#react-error-boundary) |
 
 **Configuration Rationale**: Error Boundaries are a React pattern for catching JavaScript errors in component trees. They must be class components because React requires the lifecycle methods `getDerivedStateFromError` and `componentDidCatch`. The `'use client'` directive is required for Next.js App Router because Error Boundaries cannot be server components. Automatic Sentry integration ensures all React errors are tracked for debugging. Customizable fallback UI allows different error experiences per application while providing a sensible default.
 
@@ -184,14 +184,14 @@ Key pattern notes for this story:
 
 ### Troubleshooting
 
-| Issue                                      | Cause                                        | Solution                                                         |
-| ------------------------------------------ | -------------------------------------------- | ---------------------------------------------------------------- |
-| "Error Boundaries must be class components" | Implemented as functional component       | Convert to class component extending React.Component            |
-| Error Boundary not catching errors         | Error thrown in event handler, not render    | Error Boundaries only catch rendering errors, not event handlers |
-| "use client" directive not working         | Directive not on first line                  | Ensure `'use client'` is the very first line of the file         |
-| Tests fail with Sentry import error        | Sentry not mocked in tests                   | Mock `@sentry/nextjs` module in test setup                       |
-| TypeScript errors on Component import      | Wrong React import                           | Use `import { Component } from 'react'`, not default import      |
-| Fallback UI not styled correctly           | Tailwind classes not available               | Use inline styles or plain CSS for maximum compatibility         |
+| Issue                                       | Cause                                     | Solution                                                         |
+| ------------------------------------------- | ----------------------------------------- | ---------------------------------------------------------------- |
+| "Error Boundaries must be class components" | Implemented as functional component       | Convert to class component extending React.Component             |
+| Error Boundary not catching errors          | Error thrown in event handler, not render | Error Boundaries only catch rendering errors, not event handlers |
+| "use client" directive not working          | Directive not on first line               | Ensure `'use client'` is the very first line of the file         |
+| Tests fail with Sentry import error         | Sentry not mocked in tests                | Mock `@sentry/nextjs` module in test setup                       |
+| TypeScript errors on Component import       | Wrong React import                        | Use `import { Component } from 'react'`, not default import      |
+| Fallback UI not styled correctly            | Tailwind classes not available            | Use inline styles or plain CSS for maximum compatibility         |
 
 ### Reference Materials
 
@@ -230,17 +230,20 @@ Key pattern notes for this story:
 **Decision**: Provide a simple, unstyled default fallback UI with heading, message, and refresh button using minimal inline styles.
 
 **Rationale**:
+
 - Default fallback must work without external dependencies (CSS frameworks, component libraries)
 - Inline styles ensure fallback renders correctly even if CSS fails to load
 - Simple design works in all contexts (light/dark mode, mobile/desktop)
 - Applications can override with custom fallback for brand consistency
 
 **Consequences**:
+
 - Default fallback is functional but visually basic
 - Applications should provide custom fallback for production use
 - No dependency on Tailwind, component libraries, or external CSS
 
 **Alternatives Considered**:
+
 - **Tailwind classes**: Rejected because Tailwind may not be available in all consuming apps
 - **No default fallback**: Rejected because developers need a working fallback out of the box
 - **Headless (no UI)**: Rejected because Error Boundaries require fallback UI to function
@@ -252,17 +255,20 @@ Key pattern notes for this story:
 **Decision**: Use `window.location.reload()` for error reset instead of React state reset.
 
 **Rationale**:
+
 - Full page reload ensures complete application state reset (Redux, context, refs)
 - Simpler implementation; no need to manage reset key or forceUpdate
 - Prevents cascading errors from partially reset state
 - Matches user expectation (refresh button = reload page)
 
 **Consequences**:
+
 - User loses unsaved form data on error
 - Page reload may be slower than state-only reset
 - Network request required to re-fetch page
 
 **Alternatives Considered**:
+
 - **React state reset**: Rejected because partial state reset can cause new errors
 - **Reset key prop**: Rejected due to complexity and potential for stale state
 - **Router navigation**: Rejected because navigation may not clear all state
@@ -293,6 +299,7 @@ The following items are explicitly NOT part of this story:
 ## References
 
 **Internal**:
+
 - [EPIC.md: Overview](./EPIC.md#overview), [Technical Constraints](./EPIC.md#technical-constraints)
 - [TAD: Observability Architecture](/docs/2-technical/2-tad-observability.md)
 - [TAD: React Error Boundary](/docs/2-technical/2-tad-observability.md#react-error-boundary)
@@ -300,6 +307,7 @@ The following items are explicitly NOT part of this story:
 - [Canonical Versions](/docs/2-technical/references/canonical-versions.md)
 
 **External**:
+
 - [React Error Boundaries](https://react.dev/reference/react/Component#catching-rendering-errors-with-an-error-boundary)
 - [Next.js Error Handling](https://nextjs.org/docs/app/building-your-application/routing/error-handling)
 - [Sentry React Error Boundaries](https://docs.sentry.io/platforms/javascript/guides/react/features/error-boundary/)
@@ -308,12 +316,14 @@ The following items are explicitly NOT part of this story:
 ## Verification Checklist
 
 **Pre-Verification**:
+
 - [ ] S2 (Structured Logger) complete
 - [ ] S3 (Sentry Integration) complete
 - [ ] Local environment matches [canonical versions](/docs/2-technical/references/canonical-versions.md)
 - [ ] `@repo/observability` package builds successfully
 
 **Implementation Quality**:
+
 - [ ] All acceptance criteria met
 - [ ] [Coding standards](/docs/2-technical/references/coding-standards.md) followed
 - [ ] No lint errors (`pnpm lint`)
@@ -322,11 +332,13 @@ The following items are explicitly NOT part of this story:
 - [ ] Coverage > 80% for Error Boundary code
 
 **Documentation**:
+
 - [ ] JSDoc comments on Error Boundary component and props
 - [ ] Type definitions include documentation comments
 - [ ] Usage example in component documentation (if applicable)
 
 **Git Hygiene**:
+
 - [ ] Conventional commit message (e.g., `feat(observability): create React Error Boundary component`)
 - [ ] No unrelated changes included
 - [ ] PR references Epic 2A.3.S4

@@ -30,23 +30,23 @@
 
 ### Files to Create
 
-| Path                                          | Purpose                                  |
-| --------------------------------------------- | ---------------------------------------- |
-| `packages/middleware/package.json`            | Package configuration                    |
-| `packages/middleware/tsconfig.json`           | TypeScript configuration                 |
-| `packages/middleware/src/index.ts`            | Package entry point with re-exports      |
-| `packages/middleware/src/composer.ts`         | Middleware composition utilities         |
-| `packages/middleware/src/types.ts`            | Shared TypeScript types                  |
-| `packages/middleware/tests/composer.test.ts`  | Unit tests for composition               |
-| `packages/middleware/README.md`               | Package documentation                    |
-| `packages/middleware/.eslintrc.js`            | ESLint configuration                     |
-| `packages/middleware/tsup.config.ts`          | Build configuration                      |
+| Path                                         | Purpose                             |
+| -------------------------------------------- | ----------------------------------- |
+| `packages/middleware/package.json`           | Package configuration               |
+| `packages/middleware/tsconfig.json`          | TypeScript configuration            |
+| `packages/middleware/src/index.ts`           | Package entry point with re-exports |
+| `packages/middleware/src/composer.ts`        | Middleware composition utilities    |
+| `packages/middleware/src/types.ts`           | Shared TypeScript types             |
+| `packages/middleware/tests/composer.test.ts` | Unit tests for composition          |
+| `packages/middleware/README.md`              | Package documentation               |
+| `packages/middleware/.eslintrc.js`           | ESLint configuration                |
+| `packages/middleware/tsup.config.ts`         | Build configuration                 |
 
 ### Files to Modify
 
-| Path          | Changes                                        |
-| ------------- | ---------------------------------------------- |
-| `turbo.json`  | Add middleware package to pipeline             |
+| Path                  | Changes                                |
+| --------------------- | -------------------------------------- |
+| `turbo.json`          | Add middleware package to pipeline     |
 | `pnpm-workspace.yaml` | Ensure packages/middleware is included |
 
 ### Dependencies
@@ -71,12 +71,12 @@ pnpm add -D typescript @types/node vitest @vitest/coverage-v8 tsup
 > **Note**: For complete configuration file templates, reference the TAD.
 > This section describes configuration REQUIREMENTS, not full file contents.
 
-| Setting | Requirement | TAD Reference |
-| ------- | ----------- | ------------- |
-| TypeScript `compilerOptions.target` | ES2022 | [TAD: TypeScript Configuration](/docs/2-technical/2-tad.md#typescript-configuration) |
-| TypeScript `compilerOptions.module` | ESNext | [TAD: TypeScript Configuration](/docs/2-technical/2-tad.md#typescript-configuration) |
-| TypeScript `compilerOptions.strict` | true | [TAD: TypeScript Configuration](/docs/2-technical/2-tad.md#typescript-configuration) |
-| Turborepo build task | `pnpm build` | [TAD: Monorepo Build Pipeline](/docs/2-technical/2-tad.md#turborepo-configuration) |
+| Setting                             | Requirement  | TAD Reference                                                                        |
+| ----------------------------------- | ------------ | ------------------------------------------------------------------------------------ |
+| TypeScript `compilerOptions.target` | ES2022       | [TAD: TypeScript Configuration](/docs/2-technical/2-tad.md#typescript-configuration) |
+| TypeScript `compilerOptions.module` | ESNext       | [TAD: TypeScript Configuration](/docs/2-technical/2-tad.md#typescript-configuration) |
+| TypeScript `compilerOptions.strict` | true         | [TAD: TypeScript Configuration](/docs/2-technical/2-tad.md#typescript-configuration) |
+| Turborepo build task                | `pnpm build` | [TAD: Monorepo Build Pipeline](/docs/2-technical/2-tad.md#turborepo-configuration)   |
 
 **Configuration Rationale**: Edge middleware requires strict TypeScript configuration to catch runtime errors early. ES2022 target ensures compatibility with Vercel Edge runtime. Turborepo integration enables incremental builds across the monorepo.
 
@@ -187,13 +187,13 @@ Key pattern notes for this story:
 
 ### Troubleshooting
 
-| Issue | Cause | Solution |
-| ----- | ----- | -------- |
-| "Cannot find module '@repo/middleware'" | Package not built or Turborepo cache stale | Run `pnpm build` in middleware package, then `turbo build --force` |
-| TypeScript errors about NextRequest/NextResponse | Missing or incorrect Next.js types | Ensure `next` is installed as dependency (not devDependency) |
-| Middleware not executing in expected order | Middleware returning response instead of void | Verify middleware returns `undefined` (or nothing) to continue chain |
-| Context not passing between middleware | Context object being replaced instead of mutated | Ensure middleware mutates context properties, not reassigns context |
-| Headers not forwarding to application | Using wrong NextResponse method | Use `NextResponse.next({ request: { headers } })` not `NextResponse.json()` |
+| Issue                                            | Cause                                            | Solution                                                                    |
+| ------------------------------------------------ | ------------------------------------------------ | --------------------------------------------------------------------------- |
+| "Cannot find module '@repo/middleware'"          | Package not built or Turborepo cache stale       | Run `pnpm build` in middleware package, then `turbo build --force`          |
+| TypeScript errors about NextRequest/NextResponse | Missing or incorrect Next.js types               | Ensure `next` is installed as dependency (not devDependency)                |
+| Middleware not executing in expected order       | Middleware returning response instead of void    | Verify middleware returns `undefined` (or nothing) to continue chain        |
+| Context not passing between middleware           | Context object being replaced instead of mutated | Ensure middleware mutates context properties, not reassigns context         |
+| Headers not forwarding to application            | Using wrong NextResponse method                  | Use `NextResponse.next({ request: { headers } })` not `NextResponse.json()` |
 
 ### Reference Materials
 

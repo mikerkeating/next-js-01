@@ -1,5 +1,5 @@
-import { createEnv } from "@t3-oss/env-nextjs";
-import { z } from "zod";
+import { createEnv } from '@t3-oss/env-nextjs';
+import { z } from 'zod';
 
 export const env = createEnv({
   /**
@@ -7,9 +7,7 @@ export const env = createEnv({
    * These are only available on the server and are never exposed to the client.
    */
   server: {
-    NODE_ENV: z
-      .enum(["development", "test", "production"])
-      .default("development"),
+    NODE_ENV: z.enum(['development', 'test', 'production']).default('development'),
 
     // Database (optional for steel thread, required in future)
     DATABASE_URL: z.string().url().optional(),
@@ -32,11 +30,7 @@ export const env = createEnv({
     BASIC_AUTH_PASSWORD: z.string().min(1).optional(),
 
     // Encryption (optional for steel thread)
-    ENCRYPTION_KEY: z
-      .string()
-      .length(44)
-      .describe("Base64 encoded 32 bytes")
-      .optional(),
+    ENCRYPTION_KEY: z.string().length(44).describe('Base64 encoded 32 bytes').optional(),
   },
 
   /**
@@ -75,8 +69,7 @@ export const env = createEnv({
 
     // Client
     NEXT_PUBLIC_APP_URL: process.env.NEXT_PUBLIC_APP_URL,
-    NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY:
-      process.env.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY,
+    NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY: process.env.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY,
     NEXT_PUBLIC_POSTHOG_KEY: process.env.NEXT_PUBLIC_POSTHOG_KEY,
     NEXT_PUBLIC_POSTHOG_HOST: process.env.NEXT_PUBLIC_POSTHOG_HOST,
   },

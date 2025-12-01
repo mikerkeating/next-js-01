@@ -14,6 +14,7 @@
 import { NextResponse } from 'next/server';
 
 import { checkAuth, checkCache, checkDatabase } from '@/lib/health/checks';
+
 import type {
   Environment,
   HealthCheckDetail,
@@ -29,7 +30,8 @@ const serverStartTime = Date.now();
  * Determine overall health status based on individual checks
  */
 function determineOverallStatus(checks: HealthChecks): OverallHealthStatus {
-  const statuses = Object.values(checks).map((check) => check.status);
+  const checkValues: HealthCheckDetail[] = [checks.database, checks.auth, checks.cache];
+  const statuses = checkValues.map((check) => check.status);
 
   if (statuses.some((status) => status === 'error')) {
     return 'unhealthy';
@@ -77,9 +79,7 @@ function getVersion(): string {
 /**
  * Process a Promise.allSettled result into a HealthCheckDetail
  */
-function processCheckResult(
-  result: PromiseSettledResult<HealthCheckDetail>
-): HealthCheckDetail {
+function processCheckResult(result: PromiseSettledResult<HealthCheckDetail>): HealthCheckDetail {
   if (result.status === 'fulfilled') {
     return result.value;
   }
@@ -88,20 +88,14 @@ function processCheckResult(
   return {
     status: 'error',
     message:
-      result.reason instanceof Error
-        ? result.reason.message
-        : 'Check failed with unknown error',
+      result.reason instanceof Error ? result.reason.message : 'Check failed with unknown error',
     lastChecked: new Date().toISOString(),
   };
 }
 
 export async function GET(): Promise<NextResponse<HealthCheckResponse>> {
   // Run all checks in parallel
-  const checkResults = await Promise.allSettled([
-    checkDatabase(),
-    checkAuth(),
-    checkCache(),
-  ]);
+  const checkResults = await Promise.allSettled([checkDatabase(), checkAuth(), checkCache()]);
 
   // Process results
   const checks: HealthChecks = {

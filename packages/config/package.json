@@ -4,19 +4,101 @@
   "private": true,
   "type": "module",
   "description": "Shared configuration files for the monorepo",
+  "scripts": {
+    "test": "vitest run",
+    "test:watch": "vitest watch",
+    "test:coverage": "vitest run --coverage",
+    "type-check": "tsc --noEmit"
+  },
   "exports": {
+    ".": "./src/index.ts",
+    "./typescript/base": "./src/typescript/base.json",
+    "./typescript/nextjs": "./src/typescript/nextjs.json",
+    "./typescript/react-library": "./src/typescript/react-library.json",
+    "./eslint/base": "./src/eslint/base.js",
+    "./eslint/nextjs": "./src/eslint/nextjs.js",
+    "./eslint/react-library": "./src/eslint/react-library.js",
+    "./prettier": "./src/prettier/index.js",
+    "./tailwind": "./src/tailwind/index.ts",
+    "./tailwind/base.css": "./src/tailwind/base.css",
+    "./tailwind/theme": "./src/tailwind/theme.ts",
     "./vitest/base": "./vitest/base.ts",
     "./vitest/coverage": "./vitest/coverage.ts",
     "./vitest/setup-react": "./vitest/setup-react.ts",
     "./vitest/setup-msw": "./vitest/setup-msw.ts"
   },
+  "peerDependencies": {
+    "typescript": "^5.7.0",
+    "eslint": "^9.39.0",
+    "prettier": "^3.2.0",
+    "prettier-plugin-tailwindcss": "^0.6.0",
+    "tailwindcss": "^4.0.0",
+    "@eslint/js": "^9.0.0",
+    "typescript-eslint": "^8.0.0",
+    "eslint-plugin-import": "^2.29.0",
+    "eslint-plugin-react": "^7.34.0",
+    "eslint-plugin-react-hooks": "^5.0.0",
+    "eslint-plugin-jsx-a11y": "^6.8.0",
+    "@next/eslint-plugin-next": "^15.0.0",
+    "globals": "^16.0.0"
+  },
+  "peerDependenciesMeta": {
+    "typescript": {
+      "optional": true
+    },
+    "eslint": {
+      "optional": true
+    },
+    "prettier": {
+      "optional": true
+    },
+    "prettier-plugin-tailwindcss": {
+      "optional": true
+    },
+    "tailwindcss": {
+      "optional": true
+    },
+    "@eslint/js": {
+      "optional": true
+    },
+    "typescript-eslint": {
+      "optional": true
+    },
+    "eslint-plugin-import": {
+      "optional": true
+    },
+    "eslint-plugin-react": {
+      "optional": true
+    },
+    "eslint-plugin-react-hooks": {
+      "optional": true
+    },
+    "eslint-plugin-jsx-a11y": {
+      "optional": true
+    },
+    "@next/eslint-plugin-next": {
+      "optional": true
+    },
+    "globals": {
+      "optional": true
+    }
+  },
   "dependencies": {
     "@repo/testing": "workspace:*"
   },
   "devDependencies": {
-    "@testing-library/jest-dom": "^6.1.0",
-    "@testing-library/react": "^16.0.0",
+    "@eslint/js": "^9.28.0",
+    "@next/eslint-plugin-next": "^15.3.4",
+    "@testing-library/jest-dom": "^6.8.0",
+    "@testing-library/react": "^16.3.0",
     "@vitest/coverage-v8": "^4.0.14",
+    "eslint": "^9.28.0",
+    "eslint-plugin-import": "^2.31.0",
+    "eslint-plugin-jsx-a11y": "^6.10.2",
+    "eslint-plugin-react": "^7.37.5",
+    "eslint-plugin-react-hooks": "^5.2.0",
+    "globals": "^16.2.0",
+    "typescript-eslint": "^8.34.0",
     "vitest": "^4.0.14"
   }
 }

@@ -30,17 +30,17 @@
 
 ### Files to Create
 
-| Path                                       | Purpose                                        |
-| ------------------------------------------ | ---------------------------------------------- |
-| `packages/database/src/connection.ts`      | Connection health check and retry utilities    |
-| `packages/database/src/connection.test.ts` | Unit tests for connection utilities            |
+| Path                                       | Purpose                                     |
+| ------------------------------------------ | ------------------------------------------- |
+| `packages/database/src/connection.ts`      | Connection health check and retry utilities |
+| `packages/database/src/connection.test.ts` | Unit tests for connection utilities         |
 
 ### Files to Modify
 
-| Path                              | Changes                                      |
-| --------------------------------- | -------------------------------------------- |
-| `packages/database/src/index.ts`  | Export connection utilities                  |
-| `packages/database/package.json`  | Add testing scripts if not already present   |
+| Path                             | Changes                                    |
+| -------------------------------- | ------------------------------------------ |
+| `packages/database/src/index.ts` | Export connection utilities                |
+| `packages/database/package.json` | Add testing scripts if not already present |
 
 ### Dependencies
 
@@ -55,12 +55,12 @@ pnpm add -D vitest @vitest/ui
 
 ### Configuration Details
 
-| Setting | Requirement | TAD Reference |
-| ------- | ----------- | ------------- |
-| Connection timeout | Default 5000ms, configurable | [ADR-005: Drizzle ORM](/docs/2-technical/adr/005-drizzle-orm.md) |
-| Retry attempts | Default 3 attempts with exponential backoff | Epic acceptance criteria (<100ms connection times) |
-| Health check query | Simple `SELECT 1` for minimal overhead | [TAD: Database & ORM](/docs/2-technical/2-tad.md#database--orm) |
-| Error handling | Typed errors with specific failure reasons | [TAD: Observability](/docs/2-technical/2-tad-observability.md) |
+| Setting            | Requirement                                 | TAD Reference                                                    |
+| ------------------ | ------------------------------------------- | ---------------------------------------------------------------- |
+| Connection timeout | Default 5000ms, configurable                | [ADR-005: Drizzle ORM](/docs/2-technical/adr/005-drizzle-orm.md) |
+| Retry attempts     | Default 3 attempts with exponential backoff | Epic acceptance criteria (<100ms connection times)               |
+| Health check query | Simple `SELECT 1` for minimal overhead      | [TAD: Database & ORM](/docs/2-technical/2-tad.md#database--orm)  |
+| Error handling     | Typed errors with specific failure reasons  | [TAD: Observability](/docs/2-technical/2-tad-observability.md)   |
 
 **Configuration Rationale**: Connection utilities provide resilient database access patterns required for serverless environments where connections can fail or timeout. Health checks enable observability endpoints to verify database availability per Epic acceptance criteria.
 
@@ -164,13 +164,13 @@ Key pattern notes for this story:
 
 ### Troubleshooting
 
-| Issue                                | Cause                              | Solution                                              |
-| ------------------------------------ | ---------------------------------- | ----------------------------------------------------- |
-| Health check always returns timeout  | DATABASE_URL points to wrong host  | Verify connection string format and host accessibility |
-| Retry logic loops indefinitely       | No max retry limit configured      | Ensure retry attempts default to 3                     |
-| Edge runtime compatibility errors    | Using Node.js-specific APIs        | Use only fetch-compatible APIs (per Neon HTTP driver) |
-| Connection succeeds but query fails  | Database exists but permissions wrong | Check database user permissions                      |
-| Test failures in CI                  | No test database configured        | Use mocked client for unit tests (deferred to S7)     |
+| Issue                               | Cause                                 | Solution                                               |
+| ----------------------------------- | ------------------------------------- | ------------------------------------------------------ |
+| Health check always returns timeout | DATABASE_URL points to wrong host     | Verify connection string format and host accessibility |
+| Retry logic loops indefinitely      | No max retry limit configured         | Ensure retry attempts default to 3                     |
+| Edge runtime compatibility errors   | Using Node.js-specific APIs           | Use only fetch-compatible APIs (per Neon HTTP driver)  |
+| Connection succeeds but query fails | Database exists but permissions wrong | Check database user permissions                        |
+| Test failures in CI                 | No test database configured           | Use mocked client for unit tests (deferred to S7)      |
 
 ### Reference Materials
 
@@ -208,17 +208,20 @@ Link to decisions documented elsewhere that apply to this story:
 **Decision**: Use `SELECT 1` query instead of querying actual tables for health check
 
 **Rationale**:
+
 - Minimal overhead - fastest possible query
 - No dependency on product schemas (which don't exist yet)
 - Standard health check pattern across databases
 - Sufficient to verify connection and database accessibility
 
 **Consequences**:
+
 - Health check works even with empty database (no schemas required)
 - Cannot detect schema-level issues (acceptable for infrastructure story)
 - May need enhanced health checks in future for schema validation
 
 **Alternatives Considered**:
+
 - **Query system tables** - Rejected because adds unnecessary complexity and overhead
 - **Query product tables** - Rejected because product schemas don't exist until Epic 2B.1
 
@@ -229,17 +232,20 @@ Link to decisions documented elsewhere that apply to this story:
 **Decision**: Default to 3 retry attempts with exponential backoff starting at 100ms
 
 **Rationale**:
+
 - Balances resilience with responsiveness (total <1s for all retries)
 - Exponential backoff reduces load during outages (100ms, 200ms, 400ms)
 - Industry standard pattern for transient failures
 - Configurable for future tuning based on metrics
 
 **Consequences**:
+
 - Transient failures auto-recover without user impact
 - Total retry time ~700ms worst case (acceptable for serverless)
 - May need adjustment based on production metrics
 
 **Alternatives Considered**:
+
 - **Fixed delay** - Rejected because doesn't reduce load during sustained outages
 - **More retries** - Rejected because increases latency beyond acceptable limits
 
@@ -284,11 +290,13 @@ The following items are explicitly NOT part of this story:
 ## Verification Checklist
 
 **Pre-Verification:**
+
 - [ ] S1 and S2 completed
 - [ ] Local environment matches [canonical versions](/docs/2-technical/references/canonical-versions.md)
 - [ ] DATABASE_URL environment variable configured
 
 **Implementation Quality:**
+
 - [ ] All acceptance criteria met
 - [ ] [Coding standards](/docs/2-technical/references/coding-standards.md) followed
 - [ ] No lint errors
@@ -297,6 +305,7 @@ The following items are explicitly NOT part of this story:
 - [ ] Coverage > 80% for connection utilities
 
 **Documentation & Git:**
+
 - [ ] Code comments for health check and retry logic
 - [ ] README.md updated with connection utilities usage
 - [ ] Commit: `feat(2A.2.S3): implement connection utilities with health checks and retry logic`

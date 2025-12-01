@@ -32,29 +32,29 @@
 
 ### Files to Create
 
-| Path | Purpose |
-|------|---------|
-| `packages/auth/__tests__/hooks/use-auth.test.tsx` | Unit tests for useAuth hook |
-| `packages/auth/__tests__/hooks/use-user.test.tsx` | Unit tests for useUser hook |
-| `packages/auth/__tests__/components/clerk-provider.test.tsx` | Unit tests for ClerkProvider wrapper |
-| `packages/auth/__tests__/components/auth-error-boundary.test.tsx` | Unit tests for auth error boundary |
-| `packages/auth/__tests__/components/protected-route.test.tsx` | Unit tests for protected route HOC |
-| `packages/auth/__tests__/webhooks/user-events.test.ts` | Unit tests for webhook user event handlers |
+| Path                                                              | Purpose                                       |
+| ----------------------------------------------------------------- | --------------------------------------------- |
+| `packages/auth/__tests__/hooks/use-auth.test.tsx`                 | Unit tests for useAuth hook                   |
+| `packages/auth/__tests__/hooks/use-user.test.tsx`                 | Unit tests for useUser hook                   |
+| `packages/auth/__tests__/components/clerk-provider.test.tsx`      | Unit tests for ClerkProvider wrapper          |
+| `packages/auth/__tests__/components/auth-error-boundary.test.tsx` | Unit tests for auth error boundary            |
+| `packages/auth/__tests__/components/protected-route.test.tsx`     | Unit tests for protected route HOC            |
+| `packages/auth/__tests__/webhooks/user-events.test.ts`            | Unit tests for webhook user event handlers    |
 | `packages/auth/__tests__/webhooks/signature-verification.test.ts` | Unit tests for webhook signature verification |
-| `packages/auth/__tests__/integration/auth-flow.test.tsx` | Integration tests for complete auth flow |
-| `packages/auth/__tests__/integration/webhook-sync.test.ts` | Integration tests for webhook database sync |
-| `packages/auth/__tests__/integration/edge-runtime.test.ts` | Edge runtime compatibility tests |
-| `packages/auth/USAGE.md` | Detailed usage guide with examples |
-| `packages/auth/MIGRATION.md` | Integration guide for Next.js apps |
+| `packages/auth/__tests__/integration/auth-flow.test.tsx`          | Integration tests for complete auth flow      |
+| `packages/auth/__tests__/integration/webhook-sync.test.ts`        | Integration tests for webhook database sync   |
+| `packages/auth/__tests__/integration/edge-runtime.test.ts`        | Edge runtime compatibility tests              |
+| `packages/auth/USAGE.md`                                          | Detailed usage guide with examples            |
+| `packages/auth/MIGRATION.md`                                      | Integration guide for Next.js apps            |
 
 ### Files to Modify
 
-| Path | Changes |
-|------|---------|
-| `packages/auth/README.md` | Add comprehensive documentation with API reference, quick start, examples |
-| `packages/auth/src/**/*.ts` | Add JSDoc comments to all exported functions, hooks, and components |
-| `packages/auth/package.json` | Add test scripts: `test`, `test:watch`, `test:coverage`, `test:edge` |
-| `packages/auth/vitest.config.ts` | Configure Vitest for unit and integration tests |
+| Path                             | Changes                                                                   |
+| -------------------------------- | ------------------------------------------------------------------------- |
+| `packages/auth/README.md`        | Add comprehensive documentation with API reference, quick start, examples |
+| `packages/auth/src/**/*.ts`      | Add JSDoc comments to all exported functions, hooks, and components       |
+| `packages/auth/package.json`     | Add test scripts: `test`, `test:watch`, `test:coverage`, `test:edge`      |
+| `packages/auth/vitest.config.ts` | Configure Vitest for unit and integration tests                           |
 
 ### Dependencies
 
@@ -78,15 +78,15 @@ pnpm add -D @edge-runtime/vm
 > **Note**: For complete configuration file templates, reference the TAD.
 > This section describes configuration REQUIREMENTS, not full file contents.
 
-| Setting | Requirement | TAD Reference |
-|---------|-------------|---------------|
-| Test coverage threshold | Minimum 80% for statements, branches, functions, lines | [TAD: Testing Strategy](/docs/2-technical/2-tad.md#testing-strategy) |
-| Test isolation | Each test file should run independently; no shared state | [TAD: Testing Strategy](/docs/2-technical/2-tad.md#testing-strategy) |
-| Mocking strategy | Mock Clerk SDK and database connections using Vitest mocks; mock webhook requests with MSW | [TAD: Testing Strategy](/docs/2-technical/2-tad.md#testing-strategy) |
-| Edge runtime validation | Tests must verify edge compatibility (no Node.js APIs like fs, crypto.randomBytes) | [ADR-006: Clerk Best Practices](/docs/2-technical/adr/006-clerk-authentication.md#best-practices) |
-| React testing | Use Testing Library for component/hook tests; avoid implementation details | [Coding Standards: Testing](/docs/2-technical/references/coding-standards.md#testing) |
-| Database testing | Use real database connection for integration tests; reset database between tests | [TAD: Testing Strategy](/docs/2-technical/2-tad.md#testing-strategy) |
-| Documentation standards | JSDoc for all exported functions; README with quick start and API reference | [Coding Standards: Documentation](/docs/2-technical/references/coding-standards.md#documentation) |
+| Setting                 | Requirement                                                                                | TAD Reference                                                                                     |
+| ----------------------- | ------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------- |
+| Test coverage threshold | Minimum 80% for statements, branches, functions, lines                                     | [TAD: Testing Strategy](/docs/2-technical/2-tad.md#testing-strategy)                              |
+| Test isolation          | Each test file should run independently; no shared state                                   | [TAD: Testing Strategy](/docs/2-technical/2-tad.md#testing-strategy)                              |
+| Mocking strategy        | Mock Clerk SDK and database connections using Vitest mocks; mock webhook requests with MSW | [TAD: Testing Strategy](/docs/2-technical/2-tad.md#testing-strategy)                              |
+| Edge runtime validation | Tests must verify edge compatibility (no Node.js APIs like fs, crypto.randomBytes)         | [ADR-006: Clerk Best Practices](/docs/2-technical/adr/006-clerk-authentication.md#best-practices) |
+| React testing           | Use Testing Library for component/hook tests; avoid implementation details                 | [Coding Standards: Testing](/docs/2-technical/references/coding-standards.md#testing)             |
+| Database testing        | Use real database connection for integration tests; reset database between tests           | [TAD: Testing Strategy](/docs/2-technical/2-tad.md#testing-strategy)                              |
+| Documentation standards | JSDoc for all exported functions; README with quick start and API reference                | [Coding Standards: Documentation](/docs/2-technical/references/coding-standards.md#documentation) |
 
 **Configuration Rationale**: High test coverage (>80%) ensures authentication infrastructure remains secure and stable as the platform evolves. Integration tests verify complete auth flows (sign-in → session → webhook sync) work correctly, preventing authentication failures in production. Edge runtime tests confirm auth middleware works in Vercel Edge environment. Database integration tests ensure webhook sync is reliable and idempotent. Comprehensive documentation reduces developer onboarding friction and prevents security misconfigurations.
 
@@ -321,16 +321,16 @@ Key pattern notes for this story:
 
 ### Troubleshooting
 
-| Issue | Cause | Solution |
-|-------|-------|----------|
-| Tests fail with "Clerk SDK not initialized" | ClerkProvider not wrapping test component | Wrap test components with ClerkProvider or mock useAuth hook |
-| Tests fail with "localStorage is not defined" | happy-dom environment not configured | Add `environment: 'happy-dom'` to vitest.config.ts |
-| Coverage report shows <80% | Missing tests for edge cases or error handling | Review uncovered lines in coverage report; add tests for missing branches |
-| Edge runtime tests fail with "process is not defined" | Auth code uses Node.js-specific API | Remove Node.js APIs; use Web APIs only (fetch, crypto.subtle, etc.) |
-| React hook tests fail with "not wrapped in act()" | State updates not wrapped in React Testing Library utilities | Use `renderHook`, `waitFor` from @testing-library/react |
-| Integration tests fail intermittently (flaky) | Tests have race conditions or shared database state | Ensure test isolation; reset database in `beforeEach`; avoid shared mocks |
-| Webhook signature verification fails in tests | Incorrect test signature generation | Use Svix library to generate valid test signatures or mock verification |
-| Database tests fail with connection errors | Database not running or env vars not set | Verify DATABASE_URL is set; start local database with `pnpm db:start` |
+| Issue                                                 | Cause                                                        | Solution                                                                  |
+| ----------------------------------------------------- | ------------------------------------------------------------ | ------------------------------------------------------------------------- |
+| Tests fail with "Clerk SDK not initialized"           | ClerkProvider not wrapping test component                    | Wrap test components with ClerkProvider or mock useAuth hook              |
+| Tests fail with "localStorage is not defined"         | happy-dom environment not configured                         | Add `environment: 'happy-dom'` to vitest.config.ts                        |
+| Coverage report shows <80%                            | Missing tests for edge cases or error handling               | Review uncovered lines in coverage report; add tests for missing branches |
+| Edge runtime tests fail with "process is not defined" | Auth code uses Node.js-specific API                          | Remove Node.js APIs; use Web APIs only (fetch, crypto.subtle, etc.)       |
+| React hook tests fail with "not wrapped in act()"     | State updates not wrapped in React Testing Library utilities | Use `renderHook`, `waitFor` from @testing-library/react                   |
+| Integration tests fail intermittently (flaky)         | Tests have race conditions or shared database state          | Ensure test isolation; reset database in `beforeEach`; avoid shared mocks |
+| Webhook signature verification fails in tests         | Incorrect test signature generation                          | Use Svix library to generate valid test signatures or mock verification   |
+| Database tests fail with connection errors            | Database not running or env vars not set                     | Verify DATABASE_URL is set; start local database with `pnpm db:start`     |
 
 ### Reference Materials
 

@@ -75,6 +75,14 @@ export const coverageConfig: CoverageOptions<"v8"> = {
     // Type declarations (no runtime code)
     "**/*.d.ts",
 
+    // Type-only files (no runtime code, only TypeScript types/interfaces)
+    "**/types.ts",
+    "**/types/*.ts",
+
+    // Next.js boilerplate files (minimal logic, framework conventions)
+    "**/app/layout.tsx",
+    "**/app/page.tsx",
+
     // Configuration files (infrastructure, not business logic)
     "**/vitest.config.*",
     "**/vitest.setup.*",

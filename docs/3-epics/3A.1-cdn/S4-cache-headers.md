@@ -32,22 +32,22 @@
 
 ### Files to Create
 
-| Path                                          | Purpose                                 |
-| --------------------------------------------- | --------------------------------------- |
-| `apps/cdn/lib/content-hash.ts`                | Content-hash generation utility         |
-| `apps/cdn/lib/cache-headers.ts`               | Cache header constants and utilities    |
-| `apps/cdn/app/api/assets/[hash]/route.ts`     | Asset delivery endpoint with headers    |
-| `apps/cdn/lib/__tests__/content-hash.test.ts` | Unit tests for hash generation          |
-| `apps/cdn/lib/__tests__/cache-headers.test.ts`| Unit tests for header utilities         |
-| `apps/cdn/app/api/assets/[hash]/route.test.ts`| Integration tests for asset delivery    |
+| Path                                           | Purpose                              |
+| ---------------------------------------------- | ------------------------------------ |
+| `apps/cdn/lib/content-hash.ts`                 | Content-hash generation utility      |
+| `apps/cdn/lib/cache-headers.ts`                | Cache header constants and utilities |
+| `apps/cdn/app/api/assets/[hash]/route.ts`      | Asset delivery endpoint with headers |
+| `apps/cdn/lib/__tests__/content-hash.test.ts`  | Unit tests for hash generation       |
+| `apps/cdn/lib/__tests__/cache-headers.test.ts` | Unit tests for header utilities      |
+| `apps/cdn/app/api/assets/[hash]/route.test.ts` | Integration tests for asset delivery |
 
 ### Files to Modify
 
-| Path                      | Changes                                              |
-| ------------------------- | ---------------------------------------------------- |
-| `apps/cdn/next.config.js` | Add cache header configurations for static paths     |
-| `apps/cdn/README.md`      | Document content-hash strategy and cache headers     |
-| `apps/cdn/lib/types.ts`   | Add types for content-hash and cache configurations  |
+| Path                      | Changes                                             |
+| ------------------------- | --------------------------------------------------- |
+| `apps/cdn/next.config.js` | Add cache header configurations for static paths    |
+| `apps/cdn/README.md`      | Document content-hash strategy and cache headers    |
+| `apps/cdn/lib/types.ts`   | Add types for content-hash and cache configurations |
 
 ### Dependencies
 
@@ -67,15 +67,16 @@ cd apps/cdn
 > **Note**: For complete configuration file templates, reference the TAD.
 > This section describes configuration REQUIREMENTS, not full file contents.
 
-| Setting                       | Requirement                                | TAD Reference                                                                             |
-| ----------------------------- | ------------------------------------------ | ----------------------------------------------------------------------------------------- |
-| Static Asset Cache TTL        | 1 year (31536000 seconds)                  | [TAD: Caching Rules](/docs/2-technical/2-tad-cdn.md#caching-rules-by-content-type)       |
-| Immutable Directive           | Must include `immutable` for static assets | [TAD: Immutable Assets](/docs/2-technical/2-tad-cdn.md#2-immutable-assets)               |
-| Hash Algorithm                | SHA-256 for content-hash generation        | [TAD: Asset Optimization](/docs/2-technical/2-tad-cdn.md#asset-optimization)             |
-| Cache-Control Scope           | `public` for all static assets             | [TAD: Caching Strategy](/docs/2-technical/2-tad-cdn.md#caching-rules-by-content-type)    |
-| Content-Hash Filename Format  | `{name}-{hash}.{ext}` (e.g., `logo-abc123.png`) | [TAD: Cache Key Strategy](/docs/2-technical/2-tad-cdn.md#cache-key-strategy)        |
+| Setting                      | Requirement                                     | TAD Reference                                                                         |
+| ---------------------------- | ----------------------------------------------- | ------------------------------------------------------------------------------------- |
+| Static Asset Cache TTL       | 1 year (31536000 seconds)                       | [TAD: Caching Rules](/docs/2-technical/2-tad-cdn.md#caching-rules-by-content-type)    |
+| Immutable Directive          | Must include `immutable` for static assets      | [TAD: Immutable Assets](/docs/2-technical/2-tad-cdn.md#2-immutable-assets)            |
+| Hash Algorithm               | SHA-256 for content-hash generation             | [TAD: Asset Optimization](/docs/2-technical/2-tad-cdn.md#asset-optimization)          |
+| Cache-Control Scope          | `public` for all static assets                  | [TAD: Caching Strategy](/docs/2-technical/2-tad-cdn.md#caching-rules-by-content-type) |
+| Content-Hash Filename Format | `{name}-{hash}.{ext}` (e.g., `logo-abc123.png`) | [TAD: Cache Key Strategy](/docs/2-technical/2-tad-cdn.md#cache-key-strategy)          |
 
 **Configuration Rationale**:
+
 - 1-year cache TTL maximizes browser and edge cache hit ratio
 - Immutable directive tells browsers never to revalidate cached assets
 - Content-hash URLs enable cache busting without invalidation
@@ -219,14 +220,14 @@ Key pattern notes for this story:
 
 ### Troubleshooting
 
-| Issue                                  | Cause                                | Solution                                          |
-| -------------------------------------- | ------------------------------------ | ------------------------------------------------- |
-| Cache headers not applied              | Next.js config not loaded            | Restart dev server; verify config syntax          |
-| Different hashes for same file         | Inconsistent hash algorithm or input | Use consistent SHA-256 implementation             |
-| Browser revalidates immutable assets   | Missing `immutable` directive        | Add `immutable` to Cache-Control header           |
-| Assets not cached at edge              | Missing `s-maxage` or wrong scope    | Use `public` scope and `s-maxage=31536000`        |
-| Old asset served after update          | Old hash still in use                | Deploy with new hash; update references           |
-| Hash collisions                        | Insufficient hash length             | Use at least 8 characters from SHA-256 hash       |
+| Issue                                | Cause                                | Solution                                    |
+| ------------------------------------ | ------------------------------------ | ------------------------------------------- |
+| Cache headers not applied            | Next.js config not loaded            | Restart dev server; verify config syntax    |
+| Different hashes for same file       | Inconsistent hash algorithm or input | Use consistent SHA-256 implementation       |
+| Browser revalidates immutable assets | Missing `immutable` directive        | Add `immutable` to Cache-Control header     |
+| Assets not cached at edge            | Missing `s-maxage` or wrong scope    | Use `public` scope and `s-maxage=31536000`  |
+| Old asset served after update        | Old hash still in use                | Deploy with new hash; update references     |
+| Hash collisions                      | Insufficient hash length             | Use at least 8 characters from SHA-256 hash |
 
 ### Reference Materials
 
@@ -266,6 +267,7 @@ Link to decisions documented elsewhere that apply to this story:
 **Decision**: Use SHA-256 hash algorithm with 8-character hex truncation for content-hash filenames
 
 **Rationale**:
+
 - SHA-256 provides strong collision resistance
 - 8 characters (32 bits of entropy) sufficient for asset library size (2^32 = 4.3 billion unique hashes)
 - Shorter filenames improve readability and debugging
@@ -273,12 +275,14 @@ Link to decisions documented elsewhere that apply to this story:
 - Matches industry conventions (Webpack, Vite use similar truncation)
 
 **Consequences**:
+
 - Extremely low collision probability (1 in 4.3 billion for random files)
 - Filenames remain readable: `logo-a1b2c3d4.png` vs `logo-a1b2c3d4e5f6g7h8i9j0k1l2m3n4o5p6.png`
 - Hash length consistent across all assets
 - Easy to extract and validate hash from filename
 
 **Alternatives Considered**:
+
 - **Full SHA-256 (64 characters)**: Rejected due to excessively long filenames with no practical benefit
 - **MD5 hash**: Rejected due to known collision vulnerabilities
 - **4-character truncation**: Rejected due to higher collision probability (1 in 65,536)
@@ -291,6 +295,7 @@ Link to decisions documented elsewhere that apply to this story:
 **Decision**: Use format `{name}-{hash}.{extension}` (e.g., `logo-abc12345.png`) instead of `{hash}.{ext}` or `{name}.{hash}.{ext}`
 
 **Rationale**:
+
 - Preserves original filename for developer clarity
 - Single hyphen separator is clean and conventional
 - Extension preserved for MIME type detection
@@ -298,12 +303,14 @@ Link to decisions documented elsewhere that apply to this story:
 - Matches Webpack/Vite conventions
 
 **Consequences**:
+
 - Filenames include both semantic name and hash for debugging
 - Developers can identify asset purpose from filename
 - Hash extraction requires parsing hyphen-separated segments
 - Original filename spaces must be normalized (replace with hyphens or underscores)
 
 **Alternatives Considered**:
+
 - **`{hash}.{ext}` only**: Rejected because loses filename context (hard to identify asset)
 - **`{name}.{hash}.{ext}` (dot separator)**: Rejected due to confusion with extension (e.g., `logo.abc.png` vs `logo.abc.tar.gz`)
 - **`{hash}-{name}.{ext}` (hash first)**: Rejected because less readable when alphabetically sorted

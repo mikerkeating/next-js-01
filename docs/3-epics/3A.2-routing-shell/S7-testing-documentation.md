@@ -31,31 +31,31 @@
 
 ### Files to Create
 
-| Path                                                      | Purpose                                          |
-| --------------------------------------------------------- | ------------------------------------------------ |
-| `apps/routing/tests/integration/shell-layout.test.tsx`    | Integration tests for complete shell layout      |
-| `apps/routing/tests/integration/navigation.test.tsx`      | Navigation integration with rewrite framework    |
-| `apps/routing/tests/integration/seo-analytics.test.tsx`   | SEO and analytics integration tests              |
-| `apps/routing/tests/integration/cdn-assets.test.tsx`      | CDN asset integration tests                      |
-| `apps/routing/tests/e2e/smoke-tests.spec.ts`              | Critical user journey E2E tests                  |
-| `.github/workflows/lighthouse-ci.yml`                     | Lighthouse CI workflow for quality gates         |
-| `apps/routing/lighthouserc.js`                            | Lighthouse CI configuration                      |
-| `apps/routing/README.md`                                  | Routing application documentation                |
-| `apps/routing/docs/DEVELOPMENT.md`                        | Developer setup and workflow guide               |
-| `apps/routing/docs/ARCHITECTURE.md`                       | Architecture overview and component relationships |
-| `apps/routing/tests/setup/test-utils.tsx`                 | Shared test utilities and helpers                |
-| `apps/routing/tests/setup/mocks.ts`                       | Mock data and factories for tests                |
+| Path                                                    | Purpose                                           |
+| ------------------------------------------------------- | ------------------------------------------------- |
+| `apps/routing/tests/integration/shell-layout.test.tsx`  | Integration tests for complete shell layout       |
+| `apps/routing/tests/integration/navigation.test.tsx`    | Navigation integration with rewrite framework     |
+| `apps/routing/tests/integration/seo-analytics.test.tsx` | SEO and analytics integration tests               |
+| `apps/routing/tests/integration/cdn-assets.test.tsx`    | CDN asset integration tests                       |
+| `apps/routing/tests/e2e/smoke-tests.spec.ts`            | Critical user journey E2E tests                   |
+| `.github/workflows/lighthouse-ci.yml`                   | Lighthouse CI workflow for quality gates          |
+| `apps/routing/lighthouserc.js`                          | Lighthouse CI configuration                       |
+| `apps/routing/README.md`                                | Routing application documentation                 |
+| `apps/routing/docs/DEVELOPMENT.md`                      | Developer setup and workflow guide                |
+| `apps/routing/docs/ARCHITECTURE.md`                     | Architecture overview and component relationships |
+| `apps/routing/tests/setup/test-utils.tsx`               | Shared test utilities and helpers                 |
+| `apps/routing/tests/setup/mocks.ts`                     | Mock data and factories for tests                 |
 
 ### Files to Modify
 
-| Path                                          | Changes                                              |
-| --------------------------------------------- | ---------------------------------------------------- |
-| `apps/routing/package.json`                   | Add test scripts and Lighthouse CI dependencies      |
-| `apps/routing/vitest.config.ts`               | Configure integration test environment               |
-| `apps/routing/playwright.config.ts`           | Configure E2E test settings                          |
-| `docs/3-epics/3A.2-routing-shell/EPIC.md`     | Update status, consolidate architecture decisions    |
-| `.github/workflows/ci.yml`                    | Add routing shell test jobs                          |
-| `turbo.json`                                  | Add test and lighthouse tasks                        |
+| Path                                      | Changes                                           |
+| ----------------------------------------- | ------------------------------------------------- |
+| `apps/routing/package.json`               | Add test scripts and Lighthouse CI dependencies   |
+| `apps/routing/vitest.config.ts`           | Configure integration test environment            |
+| `apps/routing/playwright.config.ts`       | Configure E2E test settings                       |
+| `docs/3-epics/3A.2-routing-shell/EPIC.md` | Update status, consolidate architecture decisions |
+| `.github/workflows/ci.yml`                | Add routing shell test jobs                       |
+| `turbo.json`                              | Add test and lighthouse tasks                     |
 
 ### Dependencies
 
@@ -83,16 +83,17 @@ pnpm add -D @lhci/cli -w
 > **Note**: For complete configuration file templates, reference the TAD.
 > This section describes configuration REQUIREMENTS, not full file contents.
 
-| Setting                      | Requirement                                                  | TAD Reference                                                                 |
-| ---------------------------- | ------------------------------------------------------------ | ----------------------------------------------------------------------------- |
-| Lighthouse SEO threshold     | Assert score > 90                                            | [TAD: Testing - E2E](/docs/2-technical/2-tad-testing.md#e2e-tests)            |
-| Lighthouse Accessibility     | Assert score = 100 (WCAG 2.1 Level AA)                       | [TAD: Testing - Accessibility](/docs/2-technical/2-tad-testing.md#accessibility-testing) |
-| Lighthouse Performance       | Assert score > 90 for production builds                      | [TAD: Performance Targets](/docs/2-technical/2-tad.md#performance-targets)    |
-| Test coverage threshold      | Minimum 80% for statements, branches, functions, lines       | [TAD: Testing - Unit Tests](/docs/2-technical/2-tad-testing.md#unit-tests)    |
-| E2E test timeout             | 30 seconds per test, 60 seconds for navigation-heavy tests   | [TAD: Testing - E2E](/docs/2-technical/2-tad-testing.md#e2e-tests)            |
-| Integration test environment | Use test database, mock external services (analytics, auth)  | [TAD: Testing - Integration](/docs/2-technical/2-tad-testing.md#integration-tests) |
+| Setting                      | Requirement                                                 | TAD Reference                                                                            |
+| ---------------------------- | ----------------------------------------------------------- | ---------------------------------------------------------------------------------------- |
+| Lighthouse SEO threshold     | Assert score > 90                                           | [TAD: Testing - E2E](/docs/2-technical/2-tad-testing.md#e2e-tests)                       |
+| Lighthouse Accessibility     | Assert score = 100 (WCAG 2.1 Level AA)                      | [TAD: Testing - Accessibility](/docs/2-technical/2-tad-testing.md#accessibility-testing) |
+| Lighthouse Performance       | Assert score > 90 for production builds                     | [TAD: Performance Targets](/docs/2-technical/2-tad.md#performance-targets)               |
+| Test coverage threshold      | Minimum 80% for statements, branches, functions, lines      | [TAD: Testing - Unit Tests](/docs/2-technical/2-tad-testing.md#unit-tests)               |
+| E2E test timeout             | 30 seconds per test, 60 seconds for navigation-heavy tests  | [TAD: Testing - E2E](/docs/2-technical/2-tad-testing.md#e2e-tests)                       |
+| Integration test environment | Use test database, mock external services (analytics, auth) | [TAD: Testing - Integration](/docs/2-technical/2-tad-testing.md#integration-tests)       |
 
 **Configuration Rationale**:
+
 - Lighthouse CI ensures quality gates are enforced automatically on every PR
 - High accessibility score (100) demonstrates WCAG 2.1 Level AA compliance commitment
 - Performance threshold ensures responsive user experience across devices
@@ -251,15 +252,15 @@ Key pattern notes for this story:
 
 ### Troubleshooting
 
-| Issue                                      | Cause                                      | Solution                                                        |
-| ------------------------------------------ | ------------------------------------------ | --------------------------------------------------------------- |
-| Integration tests fail with fetch errors   | API routes not properly mocked             | Use MSW (Mock Service Worker) or vitest.mock() for API mocks    |
-| E2E tests flaky or timeout                 | Race conditions, slow page loads           | Use `page.waitForLoadState()` and explicit waits                |
-| Lighthouse CI fails with low scores        | Production build not optimized             | Run `pnpm build` before Lighthouse, test production server      |
-| Coverage below 80% threshold               | Missing tests for components/utilities     | Identify untested files with coverage report, add tests         |
-| CI pipeline Lighthouse job fails           | Missing dependencies or build artifacts    | Ensure build step runs before Lighthouse, install @lhci/cli     |
-| Tests pass locally but fail in CI          | Environment differences                    | Check Node version, env vars, dependencies match CI environment |
-| Documentation links broken                 | Incorrect relative paths                   | Use absolute paths from repo root, verify links with markdown linter |
+| Issue                                    | Cause                                   | Solution                                                             |
+| ---------------------------------------- | --------------------------------------- | -------------------------------------------------------------------- |
+| Integration tests fail with fetch errors | API routes not properly mocked          | Use MSW (Mock Service Worker) or vitest.mock() for API mocks         |
+| E2E tests flaky or timeout               | Race conditions, slow page loads        | Use `page.waitForLoadState()` and explicit waits                     |
+| Lighthouse CI fails with low scores      | Production build not optimized          | Run `pnpm build` before Lighthouse, test production server           |
+| Coverage below 80% threshold             | Missing tests for components/utilities  | Identify untested files with coverage report, add tests              |
+| CI pipeline Lighthouse job fails         | Missing dependencies or build artifacts | Ensure build step runs before Lighthouse, install @lhci/cli          |
+| Tests pass locally but fail in CI        | Environment differences                 | Check Node version, env vars, dependencies match CI environment      |
+| Documentation links broken               | Incorrect relative paths                | Use absolute paths from repo root, verify links with markdown linter |
 
 ### Reference Materials
 
@@ -301,6 +302,7 @@ Link to decisions documented elsewhere that apply to this story:
 **Decision**: Enforce Lighthouse quality gates (SEO > 90, Accessibility = 100, Performance > 90) via GitHub Actions CI workflow that blocks merging if thresholds not met.
 
 **Rationale**:
+
 - Automated quality enforcement prevents regressions
 - Lighthouse is industry-standard tool for web quality measurement
 - GitHub Actions integration provides clear PR feedback
@@ -308,6 +310,7 @@ Link to decisions documented elsewhere that apply to this story:
 - SEO and performance thresholds ensure good user experience
 
 **Consequences**:
+
 - PRs cannot merge if Lighthouse scores fall below thresholds
 - Developers receive immediate feedback on quality regressions
 - Quality gates are consistent and objective
@@ -315,6 +318,7 @@ Link to decisions documented elsewhere that apply to this story:
 - Ensures production-ready quality from the start
 
 **Alternatives Considered**:
+
 - **Option 1**: Manual Lighthouse audits - Rejected due to inconsistency and human error
 - **Option 2**: Lighthouse checks without blocking - Rejected because non-blocking checks are often ignored
 - **Option 3**: Different tool (e.g., Sitespeed.io) - Rejected because Lighthouse is more widely adopted and has better CI integration
@@ -326,6 +330,7 @@ Link to decisions documented elsewhere that apply to this story:
 **Decision**: Integration tests mock external services (analytics, authentication, CDN) rather than testing against live services.
 
 **Rationale**:
+
 - Eliminates flakiness from external service downtime or rate limits
 - Tests run faster without network latency
 - No need for test credentials or API keys in CI
@@ -333,6 +338,7 @@ Link to decisions documented elsewhere that apply to this story:
 - Isolates testing to routing shell behavior
 
 **Consequences**:
+
 - Integration tests verify routing shell logic, not external service integration
 - Separate E2E tests validate real service integration in staging environment
 - Mocks must be kept in sync with real service behavior
@@ -340,6 +346,7 @@ Link to decisions documented elsewhere that apply to this story:
 - Faster feedback loop for developers
 
 **Alternatives Considered**:
+
 - **Option 1**: Test against live services - Rejected due to flakiness and reliance on external availability
 - **Option 2**: Use staging/sandbox environments - Rejected due to complexity and still introduces network dependency
 - **Option 3**: No integration tests, only unit and E2E - Rejected because integration tests catch component interaction bugs
@@ -351,6 +358,7 @@ Link to decisions documented elsewhere that apply to this story:
 **Decision**: Implement minimal E2E smoke tests (3-5 critical paths) rather than comprehensive E2E test suite.
 
 **Rationale**:
+
 - E2E tests are slow and expensive to maintain
 - Smoke tests catch critical failures without long CI times
 - Test pyramid emphasizes more unit/integration tests, fewer E2E tests
@@ -358,6 +366,7 @@ Link to decisions documented elsewhere that apply to this story:
 - Comprehensive E2E testing deferred to dedicated testing epic (4A.2)
 
 **Consequences**:
+
 - E2E test suite runs in < 2 minutes
 - Critical functionality verified in real browser
 - Non-critical paths covered by unit and integration tests
@@ -365,6 +374,7 @@ Link to decisions documented elsewhere that apply to this story:
 - May miss edge cases that would be caught by comprehensive E2E
 
 **Alternatives Considered**:
+
 - **Option 1**: Comprehensive E2E test suite - Rejected due to long CI times and maintenance burden
 - **Option 2**: No E2E tests in routing shell - Rejected because E2E provides valuable real-world validation
 - **Option 3**: Visual regression tests - Deferred to future epic (4A.3); smoke tests sufficient for initial quality gate
@@ -471,22 +481,22 @@ The following items are explicitly NOT part of this story:
 module.exports = {
   ci: {
     collect: {
-      startServerCommand: 'pnpm start',
-      startServerReadyPattern: 'ready',
-      url: ['http://localhost:3000'],
+      startServerCommand: "pnpm start",
+      startServerReadyPattern: "ready",
+      url: ["http://localhost:3000"],
       numberOfRuns: 3,
     },
     assert: {
-      preset: 'lighthouse:recommended',
+      preset: "lighthouse:recommended",
       assertions: {
-        'categories:performance': ['error', { minScore: 0.9 }],
-        'categories:accessibility': ['error', { minScore: 1.0 }],
-        'categories:best-practices': ['error', { minScore: 0.9 }],
-        'categories:seo': ['error', { minScore: 0.9 }],
+        "categories:performance": ["error", { minScore: 0.9 }],
+        "categories:accessibility": ["error", { minScore: 1.0 }],
+        "categories:best-practices": ["error", { minScore: 0.9 }],
+        "categories:seo": ["error", { minScore: 0.9 }],
       },
     },
     upload: {
-      target: 'temporary-public-storage',
+      target: "temporary-public-storage",
     },
   },
 };
@@ -534,45 +544,45 @@ describe('Shell Layout Integration', () => {
 
 ```typescript
 // apps/routing/tests/e2e/smoke-tests.spec.ts
-import { test, expect } from '@playwright/test';
+import { test, expect } from "@playwright/test";
 
-test.describe('Routing Shell Smoke Tests', () => {
-  test('home page loads and renders correctly', async ({ page }) => {
-    await page.goto('/');
+test.describe("Routing Shell Smoke Tests", () => {
+  test("home page loads and renders correctly", async ({ page }) => {
+    await page.goto("/");
 
     // Verify page loaded
     await expect(page).toHaveTitle(/Home/);
 
     // Verify shell components visible
-    await expect(page.getByRole('banner')).toBeVisible(); // Header
-    await expect(page.getByRole('navigation')).toBeVisible(); // Nav
-    await expect(page.getByRole('main')).toBeVisible(); // Main content
-    await expect(page.getByRole('contentinfo')).toBeVisible(); // Footer
+    await expect(page.getByRole("banner")).toBeVisible(); // Header
+    await expect(page.getByRole("navigation")).toBeVisible(); // Nav
+    await expect(page.getByRole("main")).toBeVisible(); // Main content
+    await expect(page.getByRole("contentinfo")).toBeVisible(); // Footer
   });
 
-  test('navigation works across pages', async ({ page }) => {
-    await page.goto('/');
+  test("navigation works across pages", async ({ page }) => {
+    await page.goto("/");
 
     // Click navigation link
-    await page.getByRole('link', { name: 'About' }).click();
+    await page.getByRole("link", { name: "About" }).click();
 
     // Verify navigation occurred
     await expect(page).toHaveURL(/\/about/);
-    await expect(page.getByRole('main')).toBeVisible();
+    await expect(page.getByRole("main")).toBeVisible();
   });
 
-  test('responsive layout adapts on mobile', async ({ page }) => {
+  test("responsive layout adapts on mobile", async ({ page }) => {
     // Set mobile viewport
     await page.setViewportSize({ width: 375, height: 667 });
-    await page.goto('/');
+    await page.goto("/");
 
     // Verify mobile navigation visible
-    const hamburger = page.getByRole('button', { name: /menu/i });
+    const hamburger = page.getByRole("button", { name: /menu/i });
     await expect(hamburger).toBeVisible();
 
     // Open mobile menu
     await hamburger.click();
-    await expect(page.getByRole('dialog')).toBeVisible();
+    await expect(page.getByRole("dialog")).toBeVisible();
   });
 });
 ```

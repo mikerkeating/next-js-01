@@ -33,22 +33,22 @@
 
 ### Files to Create
 
-| Path | Purpose |
-|------|---------|
-| `packages/analytics/src/providers/posthog.ts` | PostHog provider integration |
-| `packages/analytics/src/providers/ga4.ts` | Google Analytics 4 provider integration |
-| `packages/analytics/src/providers/vercel.ts` | Vercel Analytics provider integration |
-| `packages/analytics/src/providers/index.ts` | Provider registry and routing logic |
-| `packages/analytics/src/providers/types.ts` | Provider interface definitions |
-| `packages/analytics/src/config.ts` | Provider configuration and environment variables |
+| Path                                          | Purpose                                          |
+| --------------------------------------------- | ------------------------------------------------ |
+| `packages/analytics/src/providers/posthog.ts` | PostHog provider integration                     |
+| `packages/analytics/src/providers/ga4.ts`     | Google Analytics 4 provider integration          |
+| `packages/analytics/src/providers/vercel.ts`  | Vercel Analytics provider integration            |
+| `packages/analytics/src/providers/index.ts`   | Provider registry and routing logic              |
+| `packages/analytics/src/providers/types.ts`   | Provider interface definitions                   |
+| `packages/analytics/src/config.ts`            | Provider configuration and environment variables |
 
 ### Files to Modify
 
-| Path | Changes |
-|------|---------|
-| `packages/analytics/src/index.ts` | Export provider configuration utilities |
+| Path                                     | Changes                                          |
+| ---------------------------------------- | ------------------------------------------------ |
+| `packages/analytics/src/index.ts`        | Export provider configuration utilities          |
 | `packages/analytics/src/core/tracker.ts` | Integrate provider routing into event dispatcher |
-| `packages/analytics/package.json` | Add provider SDK dependencies |
+| `packages/analytics/package.json`        | Add provider SDK dependencies                    |
 
 ### Dependencies
 
@@ -72,15 +72,16 @@ pnpm add @vercel/analytics @vercel/speed-insights
 > **Note**: For complete configuration file templates, reference the TAD.
 > This section describes configuration REQUIREMENTS, not full file contents.
 
-| Setting | Requirement | TAD Reference |
-|---------|-------------|---------------|
-| `NEXT_PUBLIC_POSTHOG_KEY` | PostHog project API key | [TAD: Analytics & Observability](/docs/2-technical/2-tad.md#analytics--observability) |
-| `NEXT_PUBLIC_POSTHOG_HOST` | PostHog instance URL (defaults to PostHog Cloud EU) | [TAD: Analytics & Observability](/docs/2-technical/2-tad.md#analytics--observability) |
-| `NEXT_PUBLIC_GA4_MEASUREMENT_ID` | GA4 measurement ID (G-XXXXXXXXXX) | [TAD: Analytics & Observability](/docs/2-technical/2-tad.md#analytics--observability) |
-| `GA4_API_SECRET` | GA4 Measurement Protocol secret (server-side only) | [TAD: Analytics & Observability](/docs/2-technical/2-tad.md#analytics--observability) |
-| `VERCEL_ANALYTICS_ID` | Auto-configured by Vercel (optional override) | [TAD: Analytics & Observability](/docs/2-technical/2-tad.md#analytics--observability) |
+| Setting                          | Requirement                                         | TAD Reference                                                                         |
+| -------------------------------- | --------------------------------------------------- | ------------------------------------------------------------------------------------- |
+| `NEXT_PUBLIC_POSTHOG_KEY`        | PostHog project API key                             | [TAD: Analytics & Observability](/docs/2-technical/2-tad.md#analytics--observability) |
+| `NEXT_PUBLIC_POSTHOG_HOST`       | PostHog instance URL (defaults to PostHog Cloud EU) | [TAD: Analytics & Observability](/docs/2-technical/2-tad.md#analytics--observability) |
+| `NEXT_PUBLIC_GA4_MEASUREMENT_ID` | GA4 measurement ID (G-XXXXXXXXXX)                   | [TAD: Analytics & Observability](/docs/2-technical/2-tad.md#analytics--observability) |
+| `GA4_API_SECRET`                 | GA4 Measurement Protocol secret (server-side only)  | [TAD: Analytics & Observability](/docs/2-technical/2-tad.md#analytics--observability) |
+| `VERCEL_ANALYTICS_ID`            | Auto-configured by Vercel (optional override)       | [TAD: Analytics & Observability](/docs/2-technical/2-tad.md#analytics--observability) |
 
 **Configuration Rationale**:
+
 - PostHog requires EU region hosting for GDPR compliance per [TAD: Security Architecture](/docs/2-technical/2-tad.md#security-architecture)
 - GA4 Advanced Consent Mode ensures accurate conversion modeling while respecting user privacy
 - Vercel Analytics auto-configures when deployed to Vercel platform
@@ -192,14 +193,14 @@ Key pattern notes for this story:
 
 ### Troubleshooting
 
-| Issue | Cause | Solution |
-|-------|-------|----------|
-| PostHog events not appearing | EU region not configured | Set `NEXT_PUBLIC_POSTHOG_HOST=https://eu.posthog.com` |
-| GA4 DebugView empty | Debug mode not enabled | Add `?debug_mode=true` to URL or set via gtag config |
-| Vercel Analytics missing | Not deployed to Vercel | Analytics only active in Vercel deployments (staging/prod) |
-| Large bundle size | All providers bundled | Verify tree-shaking config; use conditional exports |
-| "Consent not granted" errors | Consent checked before initialization | Ensure consent obtained before calling provider methods |
-| GA4 consent mode errors | Advanced mode not configured | Set consent mode defaults in gtag initialization |
+| Issue                        | Cause                                 | Solution                                                   |
+| ---------------------------- | ------------------------------------- | ---------------------------------------------------------- |
+| PostHog events not appearing | EU region not configured              | Set `NEXT_PUBLIC_POSTHOG_HOST=https://eu.posthog.com`      |
+| GA4 DebugView empty          | Debug mode not enabled                | Add `?debug_mode=true` to URL or set via gtag config       |
+| Vercel Analytics missing     | Not deployed to Vercel                | Analytics only active in Vercel deployments (staging/prod) |
+| Large bundle size            | All providers bundled                 | Verify tree-shaking config; use conditional exports        |
+| "Consent not granted" errors | Consent checked before initialization | Ensure consent obtained before calling provider methods    |
+| GA4 consent mode errors      | Advanced mode not configured          | Set consent mode defaults in gtag initialization           |
 
 ### Reference Materials
 
@@ -245,16 +246,19 @@ Link to decisions documented elsewhere that apply to this story:
 **Decision**: Use PostHog Cloud EU region (`https://eu.posthog.com`) as default host
 
 **Rationale**:
+
 - GDPR compliance requires data residency in EU for European users
 - PostHog Cloud EU provides same features as US region with EU data storage
 - Simpler than self-hosting PostHog instance for MVP
 
 **Consequences**:
+
 - Positive: GDPR-compliant by default
 - Positive: No infrastructure overhead for PostHog hosting
 - Negative: Slight latency increase for non-EU users (acceptable for analytics)
 
 **Alternatives Considered**:
+
 - **Self-hosted PostHog**: Rejected due to operational complexity and maintenance overhead
 - **PostHog Cloud US**: Rejected due to GDPR data residency requirements
 
@@ -265,16 +269,19 @@ Link to decisions documented elsewhere that apply to this story:
 **Decision**: Use GA4 Measurement Protocol (HTTP API) instead of server-side SDK
 
 **Rationale**:
+
 - No official Node.js SDK for GA4 (only Firebase SDK, which is overkill)
 - Measurement Protocol is lightweight HTTP API, no dependencies
 - Consistent with Google's recommendation for server-side tracking
 
 **Consequences**:
+
 - Positive: Zero dependencies for server-side GA4 tracking
 - Positive: Simple HTTP requests, easy to test and debug
 - Negative: Manual event schema mapping (vs SDK abstraction)
 
 **Alternatives Considered**:
+
 - **gtag.js in Server Components**: Rejected because gtag.js is client-side only
 - **Firebase SDK**: Rejected due to excessive dependencies and complexity
 
@@ -285,16 +292,19 @@ Link to decisions documented elsewhere that apply to this story:
 **Decision**: Use `Promise.allSettled()` instead of `Promise.all()` for provider event dispatch
 
 **Rationale**:
+
 - Provider failures should not block other providers from receiving events
 - `allSettled` continues execution even if one provider rejects
 - Allows logging individual provider failures while maintaining system resilience
 
 **Consequences**:
+
 - Positive: Provider failures isolated (PostHog down doesn't affect GA4/Vercel)
 - Positive: Comprehensive error logging (know which provider failed)
 - Negative: Slightly more complex error handling logic
 
 **Alternatives Considered**:
+
 - **Promise.all()**: Rejected because one provider failure would abort all dispatches
 - **Sequential dispatch**: Rejected due to performance impact (serial vs parallel)
 
@@ -445,17 +455,19 @@ track("button_clicked", { label: "Submit", page: "/contact" });
 ```typescript
 // Initialize gtag with consent mode defaults
 window.dataLayer = window.dataLayer || [];
-function gtag() { dataLayer.push(arguments); }
+function gtag() {
+  dataLayer.push(arguments);
+}
 
-gtag('consent', 'default', {
-  'analytics_storage': 'denied',
-  'ad_storage': 'denied',
-  'ad_user_data': 'denied',
-  'ad_personalization': 'denied'
+gtag("consent", "default", {
+  analytics_storage: "denied",
+  ad_storage: "denied",
+  ad_user_data: "denied",
+  ad_personalization: "denied",
 });
 
 // Update consent on user opt-in
-gtag('consent', 'update', {
-  'analytics_storage': 'granted'
+gtag("consent", "update", {
+  analytics_storage: "granted",
 });
 ```

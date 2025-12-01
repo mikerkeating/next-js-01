@@ -28,20 +28,20 @@
 
 ### Files to Create
 
-| Path                                  | Purpose                                |
-| ------------------------------------- | -------------------------------------- |
-| `packages/database/package.json`      | Package manifest with dependencies     |
-| `packages/database/tsconfig.json`     | TypeScript configuration               |
-| `packages/database/src/index.ts`      | Package entry point (barrel export)    |
+| Path                                    | Purpose                                |
+| --------------------------------------- | -------------------------------------- |
+| `packages/database/package.json`        | Package manifest with dependencies     |
+| `packages/database/tsconfig.json`       | TypeScript configuration               |
+| `packages/database/src/index.ts`        | Package entry point (barrel export)    |
 | `packages/database/src/schema/index.ts` | Schema barrel export (initially empty) |
-| `packages/database/README.md`         | Package documentation                  |
+| `packages/database/README.md`           | Package documentation                  |
 
 ### Files to Modify
 
-| Path                        | Changes                                      |
-| --------------------------- | -------------------------------------------- |
-| `turbo.json` (root)         | Add database package to build pipeline       |
-| `pnpm-workspace.yaml` (if needed) | Ensure packages/database is in workspace     |
+| Path                              | Changes                                  |
+| --------------------------------- | ---------------------------------------- |
+| `turbo.json` (root)               | Add database package to build pipeline   |
+| `pnpm-workspace.yaml` (if needed) | Ensure packages/database is in workspace |
 
 ### Dependencies
 
@@ -59,11 +59,11 @@ pnpm add -D drizzle-kit typescript
 
 > **Note**: For complete configuration file templates, reference the TAD.
 
-| Setting | Requirement | TAD Reference |
-| ------- | ----------- | ------------- |
-| Package name | `@repo/database` | [ADR-001: Monorepo Naming](/docs/2-technical/adr/001-monorepo-turborepo.md) |
+| Setting           | Requirement                             | TAD Reference                                                                |
+| ----------------- | --------------------------------------- | ---------------------------------------------------------------------------- |
+| Package name      | `@repo/database`                        | [ADR-001: Monorepo Naming](/docs/2-technical/adr/001-monorepo-turborepo.md)  |
 | TypeScript config | Extends workspace root with strict mode | [TAD: Package Architecture](/docs/2-technical/2-tad.md#package-architecture) |
-| Build output | ESM format with type declarations | [TAD: Package Architecture](/docs/2-technical/2-tad.md#package-architecture) |
+| Build output      | ESM format with type declarations       | [TAD: Package Architecture](/docs/2-technical/2-tad.md#package-architecture) |
 
 **Configuration Rationale**: This package structure follows monorepo best practices from ADR-001, ensuring consistency with other workspace packages while maintaining database-specific configuration needs.
 
@@ -151,11 +151,11 @@ Key pattern notes for this story:
 
 ### Troubleshooting
 
-| Issue | Cause | Solution |
-| ----- | ----- | -------- |
-| Package not found by other workspace packages | Not listed in pnpm-workspace.yaml | Add `packages/database` to workspace config |
-| TypeScript errors during build | Missing or incorrect tsconfig.json | Ensure extends workspace root config and includes proper paths |
-| Dependency resolution errors | Incorrect workspace protocol usage | Use `workspace:*` for local package references |
+| Issue                                         | Cause                              | Solution                                                       |
+| --------------------------------------------- | ---------------------------------- | -------------------------------------------------------------- |
+| Package not found by other workspace packages | Not listed in pnpm-workspace.yaml  | Add `packages/database` to workspace config                    |
+| TypeScript errors during build                | Missing or incorrect tsconfig.json | Ensure extends workspace root config and includes proper paths |
+| Dependency resolution errors                  | Incorrect workspace protocol usage | Use `workspace:*` for local package references                 |
 
 ### Reference Materials
 

@@ -29,26 +29,26 @@
 
 ### Files to Create
 
-| Path                                    | Purpose                                  |
-| --------------------------------------- | ---------------------------------------- |
-| `apps/cdn/package.json`                 | Application dependencies and scripts     |
-| `apps/cdn/next.config.js`               | Next.js configuration for CDN            |
-| `apps/cdn/tsconfig.json`                | TypeScript configuration                 |
-| `apps/cdn/app/layout.tsx`               | Root layout component                    |
-| `apps/cdn/app/page.tsx`                 | Home page (minimal landing)              |
-| `apps/cdn/app/api/health/route.ts`      | Health check endpoint                    |
-| `apps/cdn/.env.local.example`           | Environment variable template            |
-| `apps/cdn/README.md`                    | Application documentation                |
-| `apps/cdn/public/.gitkeep`              | Public directory placeholder             |
-| `apps/cdn/.eslintrc.js`                 | ESLint configuration                     |
-| `apps/cdn/vercel.json`                  | Vercel deployment configuration          |
+| Path                               | Purpose                              |
+| ---------------------------------- | ------------------------------------ |
+| `apps/cdn/package.json`            | Application dependencies and scripts |
+| `apps/cdn/next.config.js`          | Next.js configuration for CDN        |
+| `apps/cdn/tsconfig.json`           | TypeScript configuration             |
+| `apps/cdn/app/layout.tsx`          | Root layout component                |
+| `apps/cdn/app/page.tsx`            | Home page (minimal landing)          |
+| `apps/cdn/app/api/health/route.ts` | Health check endpoint                |
+| `apps/cdn/.env.local.example`      | Environment variable template        |
+| `apps/cdn/README.md`               | Application documentation            |
+| `apps/cdn/public/.gitkeep`         | Public directory placeholder         |
+| `apps/cdn/.eslintrc.js`            | ESLint configuration                 |
+| `apps/cdn/vercel.json`             | Vercel deployment configuration      |
 
 ### Files to Modify
 
-| Path                     | Changes                                |
-| ------------------------ | -------------------------------------- |
-| `turbo.json`             | Add `@repo/apps/cdn#build` task        |
-| `pnpm-workspace.yaml`    | Already includes `apps/*` (verify)     |
+| Path                       | Changes                                    |
+| -------------------------- | ------------------------------------------ |
+| `turbo.json`               | Add `@repo/apps/cdn#build` task            |
+| `pnpm-workspace.yaml`      | Already includes `apps/*` (verify)         |
 | `.github/workflows/ci.yml` | Add CDN build to CI workflow (if separate) |
 
 ### Dependencies
@@ -73,16 +73,17 @@ pnpm add -D @repo/typescript-config @repo/eslint-config typescript @types/react 
 > **Note**: For complete configuration file templates, reference the TAD.
 > This section describes configuration REQUIREMENTS, not full file contents.
 
-| Setting              | Requirement                                   | TAD Reference                                                                              |
-| -------------------- | --------------------------------------------- | ------------------------------------------------------------------------------------------ |
-| Next.js App Router   | Must use App Router (not Pages Router)        | [TAD: CDN Architecture](/docs/2-technical/2-tad-cdn.md#next-js-configuration)              |
-| Image Optimization   | Enable built-in Next.js image optimization    | [TAD: Asset Optimization](/docs/2-technical/2-tad-cdn.md#image-optimization)               |
-| Compression          | Enable Gzip/Brotli compression                | [TAD: Performance Optimization](/docs/2-technical/2-tad-cdn.md#minification--compression) |
-| Vercel Region        | Deploy to `iad1` (US East) as origin          | [TAD: Vercel Edge Network](/docs/2-technical/2-tad-cdn.md#network-topology)                |
-| Edge Network         | Enable global edge distribution               | [TAD: Vercel Edge Network](/docs/2-technical/2-tad-cdn.md#vercel-edge-network)             |
-| Security Headers     | X-Content-Type-Options, X-Frame-Options, etc. | [TAD: Security Considerations](/docs/2-technical/2-tad-cdn.md#security-considerations)     |
+| Setting            | Requirement                                   | TAD Reference                                                                             |
+| ------------------ | --------------------------------------------- | ----------------------------------------------------------------------------------------- |
+| Next.js App Router | Must use App Router (not Pages Router)        | [TAD: CDN Architecture](/docs/2-technical/2-tad-cdn.md#next-js-configuration)             |
+| Image Optimization | Enable built-in Next.js image optimization    | [TAD: Asset Optimization](/docs/2-technical/2-tad-cdn.md#image-optimization)              |
+| Compression        | Enable Gzip/Brotli compression                | [TAD: Performance Optimization](/docs/2-technical/2-tad-cdn.md#minification--compression) |
+| Vercel Region      | Deploy to `iad1` (US East) as origin          | [TAD: Vercel Edge Network](/docs/2-technical/2-tad-cdn.md#network-topology)               |
+| Edge Network       | Enable global edge distribution               | [TAD: Vercel Edge Network](/docs/2-technical/2-tad-cdn.md#vercel-edge-network)            |
+| Security Headers   | X-Content-Type-Options, X-Frame-Options, etc. | [TAD: Security Considerations](/docs/2-technical/2-tad-cdn.md#security-considerations)    |
 
 **Configuration Rationale**:
+
 - App Router provides better performance with Server Components and streaming
 - Image optimization reduces bandwidth costs by 40-60%
 - Edge distribution ensures <100ms latency globally
@@ -183,13 +184,13 @@ Key pattern notes for this story:
 
 ### Troubleshooting
 
-| Issue                              | Cause                                     | Solution                                  |
-| ---------------------------------- | ----------------------------------------- | ----------------------------------------- |
-| Build fails with module not found  | Missing dependency in `package.json`      | Run `pnpm install` and verify imports     |
-| TypeScript errors on build         | Config mismatch with monorepo             | Extend `@repo/typescript-config/nextjs.json` |
-| Health endpoint returns 404        | Route file not in `app/api/health/`       | Verify file is `route.ts` not `index.ts`  |
-| Deployment fails on Vercel         | Invalid `vercel.json` configuration       | Check JSON syntax and required fields     |
-| Slow response times                | Not using edge network                    | Verify `vercel.json` has correct region   |
+| Issue                             | Cause                                | Solution                                     |
+| --------------------------------- | ------------------------------------ | -------------------------------------------- |
+| Build fails with module not found | Missing dependency in `package.json` | Run `pnpm install` and verify imports        |
+| TypeScript errors on build        | Config mismatch with monorepo        | Extend `@repo/typescript-config/nextjs.json` |
+| Health endpoint returns 404       | Route file not in `app/api/health/`  | Verify file is `route.ts` not `index.ts`     |
+| Deployment fails on Vercel        | Invalid `vercel.json` configuration  | Check JSON syntax and required fields        |
+| Slow response times               | Not using edge network               | Verify `vercel.json` has correct region      |
 
 ### Reference Materials
 
@@ -227,17 +228,20 @@ Link to decisions documented elsewhere that apply to this story:
 **Decision**: Health endpoint returns a simple JSON object with `{status, timestamp, service}` fields rather than a comprehensive health check with dependency status.
 
 **Rationale**:
+
 - S1 establishes foundation only; comprehensive health checks not yet needed
 - No external dependencies (database, cache, auth) exist at this stage
 - Keeps implementation simple and fast (<100ms response)
 - Can be enhanced later when dependencies are added
 
 **Consequences**:
+
 - Health endpoint is functional but minimal
 - Later stories may need to extend health check with dependency status
 - Current implementation meets monitoring requirements for basic uptime checks
 
 **Alternatives Considered**:
+
 - **Comprehensive health check**: Include database, cache, and auth status - Rejected because these dependencies don't exist yet in S1
 - **Static JSON file**: Serve health status from static file - Rejected because dynamic endpoint allows future enhancements
 

@@ -29,21 +29,21 @@
 
 ### Files to Create
 
-| Path                                               | Purpose                                      |
-| -------------------------------------------------- | -------------------------------------------- |
-| `apps/routing/src/config/rewrites.ts`              | Rewrite rule configuration                   |
-| `apps/routing/src/config/rewrites.schema.ts`       | Type definitions for rewrite rules           |
-| `apps/routing/src/lib/validate-rewrites.ts`        | Build-time validation of rewrite config      |
-| `apps/routing/tests/rewrites.test.ts`              | Unit tests for rewrite configuration         |
-| `apps/routing/docs/REWRITES.md`                    | Documentation for adding application rewrites |
+| Path                                         | Purpose                                       |
+| -------------------------------------------- | --------------------------------------------- |
+| `apps/routing/src/config/rewrites.ts`        | Rewrite rule configuration                    |
+| `apps/routing/src/config/rewrites.schema.ts` | Type definitions for rewrite rules            |
+| `apps/routing/src/lib/validate-rewrites.ts`  | Build-time validation of rewrite config       |
+| `apps/routing/tests/rewrites.test.ts`        | Unit tests for rewrite configuration          |
+| `apps/routing/docs/REWRITES.md`              | Documentation for adding application rewrites |
 
 ### Files to Modify
 
-| Path                          | Changes                                                            |
-| ----------------------------- | ------------------------------------------------------------------ |
+| Path                          | Changes                                                              |
+| ----------------------------- | -------------------------------------------------------------------- |
 | `apps/routing/next.config.js` | Add rewrites configuration using rules from `src/config/rewrites.ts` |
-| `apps/routing/middleware.ts`  | Add request logging for rewrite debugging                          |
-| `apps/routing/README.md`      | Add section linking to REWRITES.md                                 |
+| `apps/routing/middleware.ts`  | Add request logging for rewrite debugging                            |
+| `apps/routing/README.md`      | Add section linking to REWRITES.md                                   |
 
 ### Dependencies
 
@@ -64,14 +64,15 @@ pnpm add -D zod
 > **Note**: For complete configuration file templates, reference the TAD.
 > This section describes configuration REQUIREMENTS, not full file contents.
 
-| Setting                       | Requirement                                    | TAD Reference                                                                      |
-| ----------------------------- | ---------------------------------------------- | ---------------------------------------------------------------------------------- |
-| Rewrite Rule Structure        | Source pattern, destination URL, conditions    | [TAD: Edge Middleware](/docs/2-technical/2-tad-edge-middleware.md)                |
-| Path Prefix Matching          | Support wildcard patterns for app delegation   | [TAD: System Architecture](/docs/2-technical/2-tad.md#system-architecture)        |
-| Type Safety                   | Zod schema validation at build time            | [Coding Standards](/docs/2-technical/references/coding-standards.md)              |
-| Application Mapping           | Map URL prefixes to application base URLs      | [EPIC: Technical Constraints](./EPIC.md#technical-constraints)                     |
+| Setting                | Requirement                                  | TAD Reference                                                              |
+| ---------------------- | -------------------------------------------- | -------------------------------------------------------------------------- |
+| Rewrite Rule Structure | Source pattern, destination URL, conditions  | [TAD: Edge Middleware](/docs/2-technical/2-tad-edge-middleware.md)         |
+| Path Prefix Matching   | Support wildcard patterns for app delegation | [TAD: System Architecture](/docs/2-technical/2-tad.md#system-architecture) |
+| Type Safety            | Zod schema validation at build time          | [Coding Standards](/docs/2-technical/references/coding-standards.md)       |
+| Application Mapping    | Map URL prefixes to application base URLs    | [EPIC: Technical Constraints](./EPIC.md#technical-constraints)             |
 
 **Configuration Rationale**:
+
 - Rewrite framework enables adding new applications without modifying core routing code
 - Type-safe configuration prevents misconfiguration that could break routing
 - Centralized configuration improves maintainability and discoverability
@@ -194,14 +195,14 @@ Key pattern notes for this story:
 
 ### Troubleshooting
 
-| Issue                                     | Cause                                         | Solution                                                   |
-| ----------------------------------------- | --------------------------------------------- | ---------------------------------------------------------- |
-| Rewrites not working                      | Next.js config syntax error                   | Check `next.config.js` exports async rewrites() function   |
-| Build fails with schema error             | Invalid rewrite configuration                 | Run `pnpm validate:rewrites` to see detailed error         |
-| Rewrite loops                             | Source pattern matches destination            | Ensure destination paths don't match source patterns       |
-| Path parameters not captured              | Incorrect wildcard syntax                     | Use `:path*` for catch-all, `:slug` for single segment     |
-| TypeScript errors in config               | Schema mismatch                               | Verify configuration matches RewriteRule type definition   |
-| Rewrites conflict with existing routes    | Overlapping path patterns                     | Order rewrites by specificity (most specific first)        |
+| Issue                                  | Cause                              | Solution                                                 |
+| -------------------------------------- | ---------------------------------- | -------------------------------------------------------- |
+| Rewrites not working                   | Next.js config syntax error        | Check `next.config.js` exports async rewrites() function |
+| Build fails with schema error          | Invalid rewrite configuration      | Run `pnpm validate:rewrites` to see detailed error       |
+| Rewrite loops                          | Source pattern matches destination | Ensure destination paths don't match source patterns     |
+| Path parameters not captured           | Incorrect wildcard syntax          | Use `:path*` for catch-all, `:slug` for single segment   |
+| TypeScript errors in config            | Schema mismatch                    | Verify configuration matches RewriteRule type definition |
+| Rewrites conflict with existing routes | Overlapping path patterns          | Order rewrites by specificity (most specific first)      |
 
 ### Reference Materials
 
@@ -242,6 +243,7 @@ Link to decisions documented elsewhere that apply to this story:
 **Decision**: Implement rewrites as a pure configuration file in `src/config/rewrites.ts` rather than embedding logic directly in `next.config.js`.
 
 **Rationale**:
+
 - Separates configuration data from Next.js build configuration
 - Enables build-time validation using Zod schemas
 - Makes rewrite rules easier to discover and modify
@@ -249,12 +251,14 @@ Link to decisions documented elsewhere that apply to this story:
 - Improves testability of rewrite logic
 
 **Consequences**:
+
 - Configuration must be imported into `next.config.js`
 - Adds one level of indirection
 - Enables better type safety and validation
 - Clear separation between "what to rewrite" (config) and "how to apply rewrites" (Next.js)
 
 **Alternatives Considered**:
+
 - **Option 1**: Define rewrites directly in `next.config.js` - Rejected because it mixes configuration with build logic
 - **Option 2**: Use JSON configuration file - Rejected because it lacks type safety and requires runtime validation
 
@@ -265,18 +269,21 @@ Link to decisions documented elsewhere that apply to this story:
 **Decision**: Configure rewrites to placeholder destinations (e.g., `/api/placeholder/:app`) for applications not yet deployed.
 
 **Rationale**:
+
 - Allows rewrite framework to be tested without requiring all apps to be deployed
 - Establishes URL namespace early to prevent conflicts
 - Provides clear feedback when accessing unimplemented routes
 - Simplifies incremental deployment of applications
 
 **Consequences**:
+
 - Placeholder responses need to be implemented in routing app
 - Documentation must explain that some routes are placeholders
 - Future stories will replace placeholders with actual app deployments
 - Clear migration path from placeholder to production
 
 **Alternatives Considered**:
+
 - **Option 1**: Only add rewrites when apps are deployed - Rejected because it delays establishing URL structure
 - **Option 2**: Return 404 for unimplemented apps - Rejected because it provides poor developer experience
 
@@ -287,6 +294,7 @@ Link to decisions documented elsewhere that apply to this story:
 **Decision**: Use Zod for runtime schema validation of rewrite configuration at build time.
 
 **Rationale**:
+
 - Zod provides TypeScript type inference from schemas
 - Single source of truth for both runtime validation and types
 - Excellent error messages for invalid configuration
@@ -294,12 +302,14 @@ Link to decisions documented elsewhere that apply to this story:
 - Minimal bundle size impact (validation only at build time)
 
 **Consequences**:
+
 - Adds Zod as development dependency
 - Configuration validation happens at build time, not runtime
 - Clear error messages guide developers to fix configuration issues
 - Type safety ensures configuration correctness
 
 **Alternatives Considered**:
+
 - **Option 1**: TypeScript types only (no runtime validation) - Rejected because it doesn't catch configuration errors at build time
 - **Option 2**: JSON Schema - Rejected because Zod has better TypeScript integration
 
@@ -454,15 +464,15 @@ Example placeholder endpoint structure:
 
 ```typescript
 // apps/routing/app/api/placeholder/[app]/route.ts
-export async function GET(
-  request: Request,
-  { params }: { params: { app: string } }
-) {
-  return Response.json({
-    status: "placeholder",
-    app: params.app,
-    message: `The ${params.app} application is not yet deployed.`,
-    requestedPath: new URL(request.url).pathname,
-  }, { status: 503 });
+export async function GET(request: Request, { params }: { params: { app: string } }) {
+  return Response.json(
+    {
+      status: "placeholder",
+      app: params.app,
+      message: `The ${params.app} application is not yet deployed.`,
+      requestedPath: new URL(request.url).pathname,
+    },
+    { status: 503 }
+  );
 }
 ```

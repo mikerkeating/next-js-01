@@ -31,21 +31,21 @@
 
 ### Files to Create
 
-| Path                                           | Purpose                                    |
-| ---------------------------------------------- | ------------------------------------------ |
-| `packages/observability/src/logger.ts`         | Logger class implementation                |
-| `packages/observability/src/logger-types.ts`   | TypeScript type definitions for logger     |
-| `packages/observability/src/utils/privacy.ts`  | PII filtering utilities (user ID hashing)  |
-| `packages/observability/src/utils/format.ts`   | Log formatting utilities (pretty-print)    |
-| `packages/observability/__tests__/logger.test.ts` | Unit tests for logger functionality     |
+| Path                                              | Purpose                                   |
+| ------------------------------------------------- | ----------------------------------------- |
+| `packages/observability/src/logger.ts`            | Logger class implementation               |
+| `packages/observability/src/logger-types.ts`      | TypeScript type definitions for logger    |
+| `packages/observability/src/utils/privacy.ts`     | PII filtering utilities (user ID hashing) |
+| `packages/observability/src/utils/format.ts`      | Log formatting utilities (pretty-print)   |
+| `packages/observability/__tests__/logger.test.ts` | Unit tests for logger functionality       |
 
 ### Files to Modify
 
-| Path                                     | Changes                                                          |
-| ---------------------------------------- | ---------------------------------------------------------------- |
-| `packages/observability/src/index.ts`    | Export `Logger`, `LogEntry`, `LogLevel`, `LogMetadata` types     |
-| `packages/observability/src/types.ts`    | Import and re-export logger types for centralized type access    |
-| `packages/observability/package.json`    | Add peer dependency on `@repo/config` for environment variables  |
+| Path                                  | Changes                                                         |
+| ------------------------------------- | --------------------------------------------------------------- |
+| `packages/observability/src/index.ts` | Export `Logger`, `LogEntry`, `LogLevel`, `LogMetadata` types    |
+| `packages/observability/src/types.ts` | Import and re-export logger types for centralized type access   |
+| `packages/observability/package.json` | Add peer dependency on `@repo/config` for environment variables |
 
 ### Dependencies
 
@@ -69,13 +69,13 @@ pnpm add -D vitest @vitest/coverage-v8
 > **Note**: For complete configuration file templates, reference the TAD.
 > This section describes configuration REQUIREMENTS, not full file contents.
 
-| Setting                       | Requirement                                                   | TAD Reference                                                                |
-| ----------------------------- | ------------------------------------------------------------- | ---------------------------------------------------------------------------- |
-| Log entry schema              | Must include all required fields per `LogEntry` interface    | [TAD: Structured Logging Schema](/docs/2-technical/2-tad-observability.md#structured-logging-schema) |
-| Log levels                    | Support debug, info, warn, error, fatal with correct semantics | [TAD: Log Levels](/docs/2-technical/2-tad-observability.md#log-levels) |
-| Environment detection         | Use `VERCEL_ENV` or `NODE_ENV` to determine environment      | [TAD: Observability Architecture](/docs/2-technical/2-tad-observability.md#logger-implementation) |
-| User ID privacy               | Hash user IDs using SHA-256 or equivalent                     | [TAD: Privacy-First Logging](/docs/2-technical/2-tad-observability.md#overview) |
-| Output format                 | JSON in production, pretty-print in development               | [TAD: Logger Implementation](/docs/2-technical/2-tad-observability.md#logger-implementation) |
+| Setting               | Requirement                                                    | TAD Reference                                                                                        |
+| --------------------- | -------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------- |
+| Log entry schema      | Must include all required fields per `LogEntry` interface      | [TAD: Structured Logging Schema](/docs/2-technical/2-tad-observability.md#structured-logging-schema) |
+| Log levels            | Support debug, info, warn, error, fatal with correct semantics | [TAD: Log Levels](/docs/2-technical/2-tad-observability.md#log-levels)                               |
+| Environment detection | Use `VERCEL_ENV` or `NODE_ENV` to determine environment        | [TAD: Observability Architecture](/docs/2-technical/2-tad-observability.md#logger-implementation)    |
+| User ID privacy       | Hash user IDs using SHA-256 or equivalent                      | [TAD: Privacy-First Logging](/docs/2-technical/2-tad-observability.md#overview)                      |
+| Output format         | JSON in production, pretty-print in development                | [TAD: Logger Implementation](/docs/2-technical/2-tad-observability.md#logger-implementation)         |
 
 **Configuration Rationale**: The structured logger provides queryable logs in production while maintaining developer-friendly output locally. User ID hashing ensures compliance with privacy regulations (GDPR, CCPA). Environment-based formatting allows Vercel to ingest JSON logs while developers see readable output. The five log levels align with industry standards and enable log retention policies (defined in Epic EPIC.md).
 
@@ -198,14 +198,14 @@ Key pattern notes for this story:
 
 ### Troubleshooting
 
-| Issue                                  | Cause                                       | Solution                                                       |
-| -------------------------------------- | ------------------------------------------- | -------------------------------------------------------------- |
-| Logger outputs undefined for metadata  | Metadata parameter not passed correctly     | Ensure metadata is optional and handle undefined gracefully    |
-| Pretty-print colors don't show         | Terminal doesn't support ANSI codes         | Detect TTY support or add environment flag to disable colors   |
-| User ID hash is not consistent         | Hashing algorithm uses random salt          | Use deterministic hashing without random elements              |
-| Error stack traces missing in logs     | Error object not serialized correctly       | Ensure error serialization extracts `stack` property           |
-| TypeScript errors importing Logger     | Package exports not configured correctly    | Verify `package.json` exports and build output matches types   |
-| Tests fail with "Logger is not a constructor" | ES module import mismatch          | Use `import { Logger }` syntax, ensure package is built        |
+| Issue                                         | Cause                                    | Solution                                                     |
+| --------------------------------------------- | ---------------------------------------- | ------------------------------------------------------------ |
+| Logger outputs undefined for metadata         | Metadata parameter not passed correctly  | Ensure metadata is optional and handle undefined gracefully  |
+| Pretty-print colors don't show                | Terminal doesn't support ANSI codes      | Detect TTY support or add environment flag to disable colors |
+| User ID hash is not consistent                | Hashing algorithm uses random salt       | Use deterministic hashing without random elements            |
+| Error stack traces missing in logs            | Error object not serialized correctly    | Ensure error serialization extracts `stack` property         |
+| TypeScript errors importing Logger            | Package exports not configured correctly | Verify `package.json` exports and build output matches types |
+| Tests fail with "Logger is not a constructor" | ES module import mismatch                | Use `import { Logger }` syntax, ensure package is built      |
 
 ### Reference Materials
 
@@ -245,17 +245,20 @@ Key pattern notes for this story:
 **Decision**: Use SHA-256 hashing with first 8 characters + ellipsis format (`usr_abc12345...`) for user IDs in logs.
 
 **Rationale**:
+
 - Balances privacy (irreversible hash) with debuggability (deterministic for correlation)
 - Prefix `usr_` clearly indicates it's a user identifier
 - 8 characters provides ~2^32 unique values, sufficient for collision-free correlation
 - Shorter than full hash, reduces log size
 
 **Consequences**:
+
 - User IDs cannot be reverse-engineered from logs
 - Same user ID produces same hash for log correlation
 - Support staff cannot identify users from logs alone (requires separate lookup)
 
 **Alternatives Considered**:
+
 - **Full SHA-256 hash**: Too long (64 chars), increases log size unnecessarily
 - **No hashing**: Rejected due to PII compliance requirements
 - **Random IDs**: Rejected because correlation across logs would be impossible
@@ -267,17 +270,20 @@ Key pattern notes for this story:
 **Decision**: Use environment variable `VERCEL_ENV` (if present) or `NODE_ENV` to determine output format. Development outputs pretty-printed logs, production outputs JSON.
 
 **Rationale**:
+
 - Vercel deployments set `VERCEL_ENV` (development/preview/production)
 - Local development uses `NODE_ENV=development`
 - Developers need readable logs; production systems need parsable JSON
 - Single logger implementation handles both use cases
 
 **Consequences**:
+
 - Logs are human-readable in local development
 - Logs are machine-parsable in Vercel production
 - Developers don't need to configure output format manually
 
 **Alternatives Considered**:
+
 - **Always JSON**: Rejected because local development debugging is harder
 - **Separate logger instances**: Rejected because it complicates usage
 
@@ -309,6 +315,7 @@ The following items are explicitly NOT part of this story:
 ## References
 
 **Internal**:
+
 - [EPIC.md: Overview](./EPIC.md#overview), [Technical Constraints](./EPIC.md#technical-constraints)
 - [TAD: Observability Architecture](/docs/2-technical/2-tad-observability.md)
 - [TAD: Structured Logging Schema](/docs/2-technical/2-tad-observability.md#structured-logging-schema)
@@ -317,6 +324,7 @@ The following items are explicitly NOT part of this story:
 - [Coding Standards](/docs/2-technical/references/coding-standards.md)
 
 **External**:
+
 - [Structured Logging Best Practices](https://www.honeycomb.io/blog/structured-logging-and-your-team)
 - [OWASP Logging Cheat Sheet](https://cheatsheetseries.owasp.org/cheatsheets/Logging_Cheat_Sheet.html)
 - [Winston Logger](https://github.com/winstonjs/winston)
@@ -325,11 +333,13 @@ The following items are explicitly NOT part of this story:
 ## Verification Checklist
 
 **Pre-Verification**:
+
 - [ ] S1 (Package Structure) complete
 - [ ] Local environment matches [canonical versions](/docs/2-technical/references/canonical-versions.md)
 - [ ] `@repo/observability` package builds successfully
 
 **Implementation Quality**:
+
 - [ ] All acceptance criteria met
 - [ ] [Coding standards](/docs/2-technical/references/coding-standards.md) followed
 - [ ] No lint errors (`pnpm lint`)
@@ -338,11 +348,13 @@ The following items are explicitly NOT part of this story:
 - [ ] Coverage > 80% for logger code
 
 **Documentation**:
+
 - [ ] JSDoc comments on public Logger methods
 - [ ] Type definitions include documentation comments
 - [ ] README.md updated with logger usage example (if applicable)
 
 **Git Hygiene**:
+
 - [ ] Conventional commit message (e.g., `feat(observability): implement structured logger`)
 - [ ] No unrelated changes included
 - [ ] PR references Epic 2A.3.S2

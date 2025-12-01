@@ -30,24 +30,24 @@
 
 ### Files to Create
 
-| Path                                      | Purpose                                     |
-| ----------------------------------------- | ------------------------------------------- |
-| `packages/auth/package.json`              | Package manifest and dependencies           |
-| `packages/auth/tsconfig.json`             | TypeScript configuration                    |
-| `packages/auth/src/index.ts`              | Package entry point and exports             |
-| `packages/auth/src/env.ts`                | Environment variable validation             |
-| `packages/auth/src/types.ts`              | TypeScript type definitions                 |
-| `packages/auth/README.md`                 | Package documentation                       |
-| `packages/auth/.eslintrc.js`              | ESLint configuration (extends root)         |
-| `packages/auth/vitest.config.ts`          | Vitest configuration for unit tests         |
-| `packages/auth/tsup.config.ts`            | Build configuration for package compilation |
+| Path                             | Purpose                                     |
+| -------------------------------- | ------------------------------------------- |
+| `packages/auth/package.json`     | Package manifest and dependencies           |
+| `packages/auth/tsconfig.json`    | TypeScript configuration                    |
+| `packages/auth/src/index.ts`     | Package entry point and exports             |
+| `packages/auth/src/env.ts`       | Environment variable validation             |
+| `packages/auth/src/types.ts`     | TypeScript type definitions                 |
+| `packages/auth/README.md`        | Package documentation                       |
+| `packages/auth/.eslintrc.js`     | ESLint configuration (extends root)         |
+| `packages/auth/vitest.config.ts` | Vitest configuration for unit tests         |
+| `packages/auth/tsup.config.ts`   | Build configuration for package compilation |
 
 ### Files to Modify
 
-| Path                     | Changes                                                |
-| ------------------------ | ------------------------------------------------------ |
-| `turbo.json`             | Add `@repo/auth#build` and `@repo/auth#test` tasks    |
-| `pnpm-workspace.yaml`    | Verify `packages/*` includes new auth package          |
+| Path                  | Changes                                            |
+| --------------------- | -------------------------------------------------- |
+| `turbo.json`          | Add `@repo/auth#build` and `@repo/auth#test` tasks |
+| `pnpm-workspace.yaml` | Verify `packages/*` includes new auth package      |
 
 ### Dependencies
 
@@ -71,14 +71,14 @@ pnpm add -D typescript @types/node tsup vitest @vitest/ui @vitest/coverage-v8
 > **Note**: For complete configuration file templates, reference the TAD.
 > This section describes configuration REQUIREMENTS, not full file contents.
 
-| Setting                   | Requirement                                                                  | TAD Reference                                                          |
-| ------------------------- | ---------------------------------------------------------------------------- | ---------------------------------------------------------------------- |
-| `package.json` name       | Must be `@repo/auth`                                                         | [ADR-001: Monorepo](/docs/2-technical/adr/001-monorepo-turborepo.md)  |
-| `package.json` exports    | Export `./client`, `./server`, `./types`, `./env` subpaths                   | [TAD: Package Structure](/docs/2-technical/2-tad.md)                   |
-| `tsconfig.json` extends   | Extend from `@repo/typescript-config/base.json`                              | [ADR-001: Monorepo](/docs/2-technical/adr/001-monorepo-turborepo.md)  |
-| Environment validation    | Use `@t3-oss/env-nextjs` with Zod schemas                                    | [TAD: Environment Variables](/docs/2-technical/2-tad.md)               |
-| Build output              | ESM and CJS formats via tsup                                                 | [TAD: Package Build](/docs/2-technical/2-tad.md)                       |
-| Clerk environment vars    | Define types for `NEXT_PUBLIC_CLERK_*` and `CLERK_SECRET_KEY` variables     | [ADR-006: Clerk Auth](/docs/2-technical/adr/006-clerk-authentication.md) |
+| Setting                 | Requirement                                                             | TAD Reference                                                            |
+| ----------------------- | ----------------------------------------------------------------------- | ------------------------------------------------------------------------ |
+| `package.json` name     | Must be `@repo/auth`                                                    | [ADR-001: Monorepo](/docs/2-technical/adr/001-monorepo-turborepo.md)     |
+| `package.json` exports  | Export `./client`, `./server`, `./types`, `./env` subpaths              | [TAD: Package Structure](/docs/2-technical/2-tad.md)                     |
+| `tsconfig.json` extends | Extend from `@repo/typescript-config/base.json`                         | [ADR-001: Monorepo](/docs/2-technical/adr/001-monorepo-turborepo.md)     |
+| Environment validation  | Use `@t3-oss/env-nextjs` with Zod schemas                               | [TAD: Environment Variables](/docs/2-technical/2-tad.md)                 |
+| Build output            | ESM and CJS formats via tsup                                            | [TAD: Package Build](/docs/2-technical/2-tad.md)                         |
+| Clerk environment vars  | Define types for `NEXT_PUBLIC_CLERK_*` and `CLERK_SECRET_KEY` variables | [ADR-006: Clerk Auth](/docs/2-technical/adr/006-clerk-authentication.md) |
 
 **Configuration Rationale**: The package structure follows monorepo conventions for consistent build, test, and lint patterns. Environment variable validation prevents runtime errors from missing configuration. Dual format output (ESM/CJS) ensures compatibility with all consuming applications.
 
@@ -146,12 +146,12 @@ Key pattern notes for this story:
 
 ### Troubleshooting
 
-| Issue                                          | Cause                                          | Solution                                                      |
-| ---------------------------------------------- | ---------------------------------------------- | ------------------------------------------------------------- |
-| Build fails with "Cannot find module"          | Missing dependency or incorrect tsconfig paths | Verify dependencies installed and tsconfig extends base       |
+| Issue                                          | Cause                                          | Solution                                                     |
+| ---------------------------------------------- | ---------------------------------------------- | ------------------------------------------------------------ |
+| Build fails with "Cannot find module"          | Missing dependency or incorrect tsconfig paths | Verify dependencies installed and tsconfig extends base      |
 | Environment validation fails in development    | Missing `.env.local` file                      | Create `.env.local` with Clerk keys from dashboard           |
-| Import error when using package in application | Incorrect package exports configuration        | Check `package.json` exports field matches actual file paths  |
-| Type definitions not found                     | Missing TypeScript declaration files           | Ensure `declaration: true` in tsup config                     |
+| Import error when using package in application | Incorrect package exports configuration        | Check `package.json` exports field matches actual file paths |
+| Type definitions not found                     | Missing TypeScript declaration files           | Ensure `declaration: true` in tsup config                    |
 
 ### Reference Materials
 

@@ -31,25 +31,25 @@
 
 ### Files to Create
 
-| Path                                        | Purpose                                     |
-| ------------------------------------------- | ------------------------------------------- |
-| `packages/ui/components.json`               | shadcn/ui CLI config                        |
-| `packages/ui/src/lib/utils.ts`              | `cn()` utility function                     |
-| `packages/ui/src/styles/globals.css`        | Tailwind directives + theme variables       |
-| `packages/ui/tailwind.config.ts`            | Tailwind v4 config                          |
-| `packages/ui/postcss.config.mjs`            | PostCSS config                              |
-| `packages/ui/src/components/ui/button.tsx`  | Test component (via CLI)                    |
-| `packages/ui/src/components/ui/index.ts`    | Component exports                           |
-| `packages/ui/tsconfig.json`                 | TypeScript config                           |
-| `packages/ui/.eslintrc.js`                  | ESLint config                               |
-| `packages/ui/README.md`                     | Usage documentation                         |
+| Path                                       | Purpose                               |
+| ------------------------------------------ | ------------------------------------- |
+| `packages/ui/components.json`              | shadcn/ui CLI config                  |
+| `packages/ui/src/lib/utils.ts`             | `cn()` utility function               |
+| `packages/ui/src/styles/globals.css`       | Tailwind directives + theme variables |
+| `packages/ui/tailwind.config.ts`           | Tailwind v4 config                    |
+| `packages/ui/postcss.config.mjs`           | PostCSS config                        |
+| `packages/ui/src/components/ui/button.tsx` | Test component (via CLI)              |
+| `packages/ui/src/components/ui/index.ts`   | Component exports                     |
+| `packages/ui/tsconfig.json`                | TypeScript config                     |
+| `packages/ui/.eslintrc.js`                 | ESLint config                         |
+| `packages/ui/README.md`                    | Usage documentation                   |
 
 ### Files to Modify
 
-| Path                       | Changes                              |
-| -------------------------- | ------------------------------------ |
-| `packages/ui/package.json` | Add dependencies, build scripts      |
-| `turbo.json`               | Add `@repo/ui#build` task if needed  |
+| Path                       | Changes                             |
+| -------------------------- | ----------------------------------- |
+| `packages/ui/package.json` | Add dependencies, build scripts     |
+| `turbo.json`               | Add `@repo/ui#build` task if needed |
 
 ### Dependencies
 
@@ -80,15 +80,15 @@ pnpm add -D shadcn
 > **Note**: For complete configuration file templates, reference the TAD.
 > This section describes configuration REQUIREMENTS, not full file contents.
 
-| Setting                   | Requirement                                       | TAD Reference                                                  |
-| ------------------------- | ------------------------------------------------- | -------------------------------------------------------------- |
-| `components.json` style   | "new-york" style                                  | [TAD: UI & Styling](/docs/2-technical/2-tad.md#ui--styling)    |
-| `components.json` color   | "slate" base color                                | [TAD: UI Components](/docs/2-technical/2-tad-ui-components.md) |
-| CSS variables             | Enable for theme customization                    | [TAD: UI & Styling](/docs/2-technical/2-tad.md#ui--styling)    |
-| Theme tokens              | Define primary, secondary, accent, destructive    | [TAD: UI Components](/docs/2-technical/2-tad-ui-components.md) |
-| Dark mode                 | Tailwind v4 `class` strategy                      | [TAD: UI & Styling](/docs/2-technical/2-tad.md#ui--styling)    |
-| Typography                | Type scale (xs to 4xl)                            | [TAD: UI Components](/docs/2-technical/2-tad-ui-components.md) |
-| Border radius             | Radius tokens (sm, md, lg)                        | [TAD: UI Components](/docs/2-technical/2-tad-ui-components.md) |
+| Setting                 | Requirement                                    | TAD Reference                                                  |
+| ----------------------- | ---------------------------------------------- | -------------------------------------------------------------- |
+| `components.json` style | "new-york" style                               | [TAD: UI & Styling](/docs/2-technical/2-tad.md#ui--styling)    |
+| `components.json` color | "slate" base color                             | [TAD: UI Components](/docs/2-technical/2-tad-ui-components.md) |
+| CSS variables           | Enable for theme customization                 | [TAD: UI & Styling](/docs/2-technical/2-tad.md#ui--styling)    |
+| Theme tokens            | Define primary, secondary, accent, destructive | [TAD: UI Components](/docs/2-technical/2-tad-ui-components.md) |
+| Dark mode               | Tailwind v4 `class` strategy                   | [TAD: UI & Styling](/docs/2-technical/2-tad.md#ui--styling)    |
+| Typography              | Type scale (xs to 4xl)                         | [TAD: UI Components](/docs/2-technical/2-tad-ui-components.md) |
+| Border radius           | Radius tokens (sm, md, lg)                     | [TAD: UI Components](/docs/2-technical/2-tad-ui-components.md) |
 
 **Configuration Rationale**: CSS variables enable runtime theme switching. "new-york" style provides refined aesthetics. Tailwind v4 `class` mode allows explicit theme control. See [TAD: UI & Styling](/docs/2-technical/2-tad.md#ui--styling) for complete templates.
 
@@ -161,14 +161,14 @@ Key pattern notes for this story:
 
 ### Troubleshooting
 
-| Issue                                              | Cause                                  | Solution                                                  |
-| -------------------------------------------------- | -------------------------------------- | --------------------------------------------------------- |
-| CLI fails with "components.json not found"         | Running CLI from wrong directory       | Ensure you're in `packages/ui` directory                  |
-| Theme variables not applying in consuming apps     | CSS not imported in app                | Import `@repo/ui/styles/globals.css` in app layout        |
-| Type errors when importing Button                  | TypeScript paths not configured        | Add `@repo/ui` to tsconfig paths in consuming app         |
-| Tailwind classes not resolved in production build  | PostCSS not processing CSS             | Verify `postcss.config.mjs` exists and Tailwind is listed |
-| Dark mode not working                              | Missing `.dark` class on root element  | Add theme toggle that applies `.dark` class to `<html>`   |
-| Component styles conflict with app styles          | CSS specificity issues                 | Ensure UI package styles are imported before app styles   |
+| Issue                                             | Cause                                 | Solution                                                  |
+| ------------------------------------------------- | ------------------------------------- | --------------------------------------------------------- |
+| CLI fails with "components.json not found"        | Running CLI from wrong directory      | Ensure you're in `packages/ui` directory                  |
+| Theme variables not applying in consuming apps    | CSS not imported in app               | Import `@repo/ui/styles/globals.css` in app layout        |
+| Type errors when importing Button                 | TypeScript paths not configured       | Add `@repo/ui` to tsconfig paths in consuming app         |
+| Tailwind classes not resolved in production build | PostCSS not processing CSS            | Verify `postcss.config.mjs` exists and Tailwind is listed |
+| Dark mode not working                             | Missing `.dark` class on root element | Add theme toggle that applies `.dark` class to `<html>`   |
+| Component styles conflict with app styles         | CSS specificity issues                | Ensure UI package styles are imported before app styles   |
 
 ### Reference Materials
 

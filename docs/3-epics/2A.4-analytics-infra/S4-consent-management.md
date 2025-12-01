@@ -32,20 +32,20 @@
 
 ### Files to Create
 
-| Path | Purpose |
-|------|---------|
-| `packages/analytics/src/consent.ts` | Consent management implementation |
-| `packages/analytics/src/consent-storage.ts` | Browser storage utilities for consent preferences |
-| `packages/analytics/__tests__/consent.test.ts` | Unit tests for consent logic |
-| `packages/analytics/__tests__/consent-storage.test.ts` | Unit tests for storage utilities |
+| Path                                                   | Purpose                                           |
+| ------------------------------------------------------ | ------------------------------------------------- |
+| `packages/analytics/src/consent.ts`                    | Consent management implementation                 |
+| `packages/analytics/src/consent-storage.ts`            | Browser storage utilities for consent preferences |
+| `packages/analytics/__tests__/consent.test.ts`         | Unit tests for consent logic                      |
+| `packages/analytics/__tests__/consent-storage.test.ts` | Unit tests for storage utilities                  |
 
 ### Files to Modify
 
-| Path | Changes |
-|------|---------|
-| `packages/analytics/src/index.ts` | Export `checkConsent`, `grantConsent`, `revokeConsent`, `getConsentPreferences` functions |
-| `packages/analytics/src/types.ts` | Add `ConsentType`, `ConsentPreferences`, `ConsentMetadata` types |
-| `packages/analytics/src/tracking.ts` | Integrate consent checking before dispatching events (preparation for S5) |
+| Path                                 | Changes                                                                                   |
+| ------------------------------------ | ----------------------------------------------------------------------------------------- |
+| `packages/analytics/src/index.ts`    | Export `checkConsent`, `grantConsent`, `revokeConsent`, `getConsentPreferences` functions |
+| `packages/analytics/src/types.ts`    | Add `ConsentType`, `ConsentPreferences`, `ConsentMetadata` types                          |
+| `packages/analytics/src/tracking.ts` | Integrate consent checking before dispatching events (preparation for S5)                 |
 
 ### Dependencies
 
@@ -58,13 +58,13 @@
 > **Note**: For complete configuration file templates, reference the TAD.
 > This section describes configuration REQUIREMENTS, not full file contents.
 
-| Setting | Requirement | TAD Reference |
-|---------|-------------|---------------|
-| Consent types | Three tiers: essential (always true), analytics (PostHog/Vercel), marketing (GA4) | [TAD: Security Architecture](/docs/2-technical/2-tad-security-architecture.md#consent-management-system) |
-| Consent storage | Browser-based (cookies or localStorage); server-side reading via cookie headers | [TAD: Security Architecture](/docs/2-technical/2-tad-security-architecture.md#consent-management-system) |
-| Consent version tracking | Include consent version string (e.g., "1.0") to track policy changes | [TAD: Security Architecture](/docs/2-technical/2-tad-security-architecture.md#consent-management-system) |
-| Event queue integration | Call `flushQueue()` for granted consent types; call `clearQueue()` for denied types | [TAD: Analytics & Observability](/docs/2-technical/2-tad.md#analytics--observability) |
-| Consent metadata | Capture timestamp, user agent, and session ID with each consent decision | [TAD: Security Architecture](/docs/2-technical/2-tad-security-architecture.md#consent-management-system) |
+| Setting                  | Requirement                                                                         | TAD Reference                                                                                            |
+| ------------------------ | ----------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------- |
+| Consent types            | Three tiers: essential (always true), analytics (PostHog/Vercel), marketing (GA4)   | [TAD: Security Architecture](/docs/2-technical/2-tad-security-architecture.md#consent-management-system) |
+| Consent storage          | Browser-based (cookies or localStorage); server-side reading via cookie headers     | [TAD: Security Architecture](/docs/2-technical/2-tad-security-architecture.md#consent-management-system) |
+| Consent version tracking | Include consent version string (e.g., "1.0") to track policy changes                | [TAD: Security Architecture](/docs/2-technical/2-tad-security-architecture.md#consent-management-system) |
+| Event queue integration  | Call `flushQueue()` for granted consent types; call `clearQueue()` for denied types | [TAD: Analytics & Observability](/docs/2-technical/2-tad.md#analytics--observability)                    |
+| Consent metadata         | Capture timestamp, user agent, and session ID with each consent decision            | [TAD: Security Architecture](/docs/2-technical/2-tad-security-architecture.md#consent-management-system) |
 
 **Configuration Rationale**: The three-tier consent model aligns with GDPR/CCPA requirements by separating essential functionality (always required) from analytics tracking (performance monitoring) and marketing attribution (advertising). Browser storage enables consent preferences to persist across sessions without requiring authentication. Consent version tracking ensures users can be re-prompted when privacy policies change. Integration with the event queue (S2) enables privacy-first analytics where events are only dispatched after explicit consent.
 
@@ -193,13 +193,13 @@ Key pattern notes for this story:
 
 ### Troubleshooting
 
-| Issue | Cause | Solution |
-|-------|-------|----------|
-| Consent preferences not persisting | Browser storage blocked by privacy settings | Gracefully degrade; use in-memory state with warning logged |
-| Server-side consent check failing | Cookie not sent in request headers | Verify cookie attributes (SameSite, Secure, Path) |
-| Consent state out of sync | Multiple tabs updating storage simultaneously | Use storage events to synchronize state across tabs |
-| TypeScript error on consent type | Invalid consent type string passed | Use `ConsentType` enum for type safety |
-| Events still queued after consent denied | Queue not cleared on consent denial | Ensure `clearQueue()` called in `grantConsent()` when `false` |
+| Issue                                    | Cause                                         | Solution                                                      |
+| ---------------------------------------- | --------------------------------------------- | ------------------------------------------------------------- |
+| Consent preferences not persisting       | Browser storage blocked by privacy settings   | Gracefully degrade; use in-memory state with warning logged   |
+| Server-side consent check failing        | Cookie not sent in request headers            | Verify cookie attributes (SameSite, Secure, Path)             |
+| Consent state out of sync                | Multiple tabs updating storage simultaneously | Use storage events to synchronize state across tabs           |
+| TypeScript error on consent type         | Invalid consent type string passed            | Use `ConsentType` enum for type safety                        |
+| Events still queued after consent denied | Queue not cleared on consent denial           | Ensure `clearQueue()` called in `grantConsent()` when `false` |
 
 ### Reference Materials
 
@@ -237,6 +237,7 @@ Key pattern notes for this story:
 **Decision**: Store consent preferences in localStorage instead of cookies for MVP
 
 **Rationale**:
+
 - Simpler implementation: no cookie parsing, domain/path/expiry configuration
 - No GDPR cookie consent paradox: consent banner doesn't set tracking cookies itself
 - localStorage has higher storage quota (5-10MB vs 4KB for cookies)
@@ -244,12 +245,14 @@ Key pattern notes for this story:
 - Client-side consent checking sufficient for event queue management
 
 **Consequences**:
+
 - Consent preferences not accessible in server-side middleware (Edge Functions, API routes)
 - Cannot implement server-side analytics event blocking in this story
 - Consent state limited to browser context (doesn't sync across devices)
 - Server-side consent checking will require cookies to be added in future story if needed
 
 **Alternatives Considered**:
+
 - **Cookies**: Rejected for MVP due to added complexity (cookie parsing, attributes, GDPR consent paradox); can be added in S5 if provider integration requires server-side consent
 - **Database storage**: Rejected because consent must work for anonymous users before authentication
 
@@ -260,17 +263,20 @@ Key pattern notes for this story:
 **Decision**: Maintain consent state in memory (singleton) and synchronize with localStorage; do not read from storage on every `checkConsent()` call
 
 **Rationale**:
+
 - Performance: `checkConsent()` called frequently (on every `trackEvent()`); reading from storage is slow
 - Consistency: in-memory state is single source of truth for current session
 - Storage as backup: persist preferences across sessions, but prioritize in-memory for runtime
 - Simpler testing: can mock in-memory state without storage API mocking
 
 **Consequences**:
+
 - State changes in one tab don't automatically sync to other tabs (can be added with storage events later)
 - Consent state lost on page refresh unless loaded from storage on initialization
 - Slightly more complex initialization logic (load from storage → initialize in-memory state)
 
 **Alternatives Considered**:
+
 - **Read from storage on every check**: Rejected due to performance overhead; localStorage access is synchronous but slow
 - **Storage-only (no in-memory state)**: Rejected because frequent storage access degrades performance
 
@@ -281,17 +287,20 @@ Key pattern notes for this story:
 **Decision**: `grantConsent(preferences)` accepts partial `ConsentPreferences` and merges with existing state; does not require all three consent types to be specified
 
 **Rationale**:
+
 - UX flexibility: users can grant/revoke individual consent types without re-specifying all preferences
 - Matches consent banner patterns: "Accept Analytics Only" button grants only analytics consent
 - Simpler API: `grantConsent({ analytics: true })` more intuitive than requiring full object
 - Prevents accidental consent removal: specifying only analytics doesn't reset marketing consent
 
 **Consequences**:
+
 - Merge logic required in `grantConsent()` implementation
 - Essential consent cannot be revoked (always `true` in merge logic)
 - More test cases needed to verify partial update behavior
 
 **Alternatives Considered**:
+
 - **Require full preferences object**: Rejected because it forces callers to retrieve existing state before making partial updates
 - **Separate functions per consent type**: Rejected because three separate functions (`grantAnalytics`, `grantMarketing`, etc.) adds API surface area
 
@@ -322,6 +331,7 @@ The following items are explicitly NOT part of this story:
 ## References
 
 **Internal**:
+
 - [EPIC.md: Overview](./EPIC.md#overview), [Technical Constraints](./EPIC.md#technical-constraints)
 - [TAD: Security Architecture - Consent Management System](/docs/2-technical/2-tad-security-architecture.md#consent-management-system)
 - [TAD: Security Architecture - GDPR Compliance](/docs/2-technical/2-tad-security-architecture.md#gdpr-compliance)
@@ -333,6 +343,7 @@ The following items are explicitly NOT part of this story:
 - [Coding Standards](/docs/2-technical/references/coding-standards.md)
 
 **External**:
+
 - [GDPR Cookie Consent Requirements](https://gdpr.eu/cookies/)
 - [Google Consent Mode v2 Documentation](https://developers.google.com/tag-platform/security/guides/consent)
 - [MDN: Document.cookie](https://developer.mozilla.org/en-US/docs/Web/API/Document/cookie)

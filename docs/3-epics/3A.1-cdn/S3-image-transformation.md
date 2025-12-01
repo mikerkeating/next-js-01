@@ -32,22 +32,22 @@
 
 ### Files to Create
 
-| Path                                               | Purpose                                     |
-| -------------------------------------------------- | ------------------------------------------- |
-| `apps/cdn/lib/transform-params.ts`                 | Query parameter parsing and validation      |
-| `apps/cdn/lib/image-transformer.ts`                | Core transformation logic                   |
-| `apps/cdn/app/api/transform/route.ts`              | Transformation API endpoint (Edge runtime)  |
-| `apps/cdn/lib/__tests__/transform-params.test.ts`  | Unit tests for parameter validation         |
-| `apps/cdn/lib/__tests__/image-transformer.test.ts` | Unit tests for transformation logic         |
-| `apps/cdn/app/api/transform/route.test.ts`         | Integration tests for API endpoint          |
+| Path                                               | Purpose                                    |
+| -------------------------------------------------- | ------------------------------------------ |
+| `apps/cdn/lib/transform-params.ts`                 | Query parameter parsing and validation     |
+| `apps/cdn/lib/image-transformer.ts`                | Core transformation logic                  |
+| `apps/cdn/app/api/transform/route.ts`              | Transformation API endpoint (Edge runtime) |
+| `apps/cdn/lib/__tests__/transform-params.test.ts`  | Unit tests for parameter validation        |
+| `apps/cdn/lib/__tests__/image-transformer.test.ts` | Unit tests for transformation logic        |
+| `apps/cdn/app/api/transform/route.test.ts`         | Integration tests for API endpoint         |
 
 ### Files to Modify
 
-| Path                          | Changes                                           |
-| ----------------------------- | ------------------------------------------------- |
-| `apps/cdn/next.config.js`     | Add edge runtime configuration for API routes    |
-| `apps/cdn/README.md`          | Document transformation API usage and parameters |
-| `apps/cdn/lib/types.ts`       | Add transformation parameter types                |
+| Path                      | Changes                                          |
+| ------------------------- | ------------------------------------------------ |
+| `apps/cdn/next.config.js` | Add edge runtime configuration for API routes    |
+| `apps/cdn/README.md`      | Document transformation API usage and parameters |
+| `apps/cdn/lib/types.ts`   | Add transformation parameter types               |
 
 ### Dependencies
 
@@ -67,16 +67,17 @@ cd apps/cdn
 > **Note**: For complete configuration file templates, reference the TAD.
 > This section describes configuration REQUIREMENTS, not full file contents.
 
-| Setting                    | Requirement                                      | TAD Reference                                                                        |
-| -------------------------- | ------------------------------------------------ | ------------------------------------------------------------------------------------ |
-| Edge Runtime               | Transformation API must run on Edge runtime      | [TAD: Edge Capabilities](/docs/2-technical/2-tad-cdn.md#edge-capabilities)          |
-| Maximum Dimensions         | Enforce 4096x4096 pixel limit                    | [TAD: Constraints](/docs/2-technical/2-tad-cdn.md#constraints)                      |
-| Supported Formats          | JPEG, PNG, WebP, AVIF                            | [TAD: Image Formats](/docs/2-technical/2-tad-cdn.md#image-formats)                  |
-| Quality Range              | 1-100, default 85                                | [TAD: Image Optimization](/docs/2-technical/2-tad-cdn.md#image-optimization)        |
-| Fit Modes                  | cover, contain, fill, inside, outside            | [TAD: Image Transformation](/docs/2-technical/2-tad-cdn.md#image-optimization)      |
-| Cache Control              | Public, s-maxage=31536000 for transformed images | [TAD: Caching Strategy](/docs/2-technical/2-tad-cdn.md#caching-rules-by-content-type) |
+| Setting            | Requirement                                      | TAD Reference                                                                         |
+| ------------------ | ------------------------------------------------ | ------------------------------------------------------------------------------------- |
+| Edge Runtime       | Transformation API must run on Edge runtime      | [TAD: Edge Capabilities](/docs/2-technical/2-tad-cdn.md#edge-capabilities)            |
+| Maximum Dimensions | Enforce 4096x4096 pixel limit                    | [TAD: Constraints](/docs/2-technical/2-tad-cdn.md#constraints)                        |
+| Supported Formats  | JPEG, PNG, WebP, AVIF                            | [TAD: Image Formats](/docs/2-technical/2-tad-cdn.md#image-formats)                    |
+| Quality Range      | 1-100, default 85                                | [TAD: Image Optimization](/docs/2-technical/2-tad-cdn.md#image-optimization)          |
+| Fit Modes          | cover, contain, fill, inside, outside            | [TAD: Image Transformation](/docs/2-technical/2-tad-cdn.md#image-optimization)        |
+| Cache Control      | Public, s-maxage=31536000 for transformed images | [TAD: Caching Strategy](/docs/2-technical/2-tad-cdn.md#caching-rules-by-content-type) |
 
 **Configuration Rationale**:
+
 - Edge runtime provides low-latency transformations globally (<50ms)
 - 4096x4096 limit prevents memory exhaustion and abuse
 - Multiple fit modes support different UI layout requirements
@@ -209,14 +210,14 @@ Key pattern notes for this story:
 
 ### Troubleshooting
 
-| Issue                                 | Cause                                    | Solution                                               |
-| ------------------------------------- | ---------------------------------------- | ------------------------------------------------------ |
-| Transformation fails with memory error | Image dimensions exceed runtime limits   | Enforce 4096x4096 limit in validation                  |
-| Edge runtime timeout                  | Transformation too complex for edge      | Reduce image size or use Node.js runtime for large ops |
-| Wrong aspect ratio                    | Both width and height specified          | Use fit mode to control aspect ratio behavior          |
-| Cache not working                     | Query params not in cache key            | Ensure cache key includes all transformation params    |
-| Poor quality results                  | Quality setting too low                  | Adjust default quality or document quality param usage |
-| 400 errors for valid requests         | Overly strict validation                 | Review validation rules and error messages             |
+| Issue                                  | Cause                                  | Solution                                               |
+| -------------------------------------- | -------------------------------------- | ------------------------------------------------------ |
+| Transformation fails with memory error | Image dimensions exceed runtime limits | Enforce 4096x4096 limit in validation                  |
+| Edge runtime timeout                   | Transformation too complex for edge    | Reduce image size or use Node.js runtime for large ops |
+| Wrong aspect ratio                     | Both width and height specified        | Use fit mode to control aspect ratio behavior          |
+| Cache not working                      | Query params not in cache key          | Ensure cache key includes all transformation params    |
+| Poor quality results                   | Quality setting too low                | Adjust default quality or document quality param usage |
+| 400 errors for valid requests          | Overly strict validation               | Review validation rules and error messages             |
 
 ### Reference Materials
 
@@ -256,6 +257,7 @@ Link to decisions documented elsewhere that apply to this story:
 **Decision**: Use "cover" as the default fit mode when both width and height are specified
 
 **Rationale**:
+
 - Cover mode crops to fill dimensions, most common use case for responsive images
 - Prevents letterboxing/pillarboxing which creates awkward whitespace
 - Matches CSS `object-fit: cover` behavior, familiar to developers
@@ -263,12 +265,14 @@ Link to decisions documented elsewhere that apply to this story:
 - Can override with `?fit=contain` for cases where full image must be visible
 
 **Consequences**:
+
 - Images may be cropped when aspect ratios don't match
 - Developers must explicitly request `?fit=contain` for letterboxed images
 - Consistent behavior across all transformation requests
 - Aligns with Next.js Image component default behavior
 
 **Alternatives Considered**:
+
 - **Contain as default**: Rejected because letterboxing creates visual inconsistency in most UIs
 - **Preserve aspect ratio (ignore one dimension)**: Rejected because developers expect both w and h to be honored
 - **No default (require fit parameter)**: Rejected because adds unnecessary complexity for common case
@@ -280,18 +284,21 @@ Link to decisions documented elsewhere that apply to this story:
 **Decision**: When `?q={quality}` is specified, it overrides format-specific quality defaults
 
 **Rationale**:
+
 - Provides explicit control for performance-critical scenarios
 - Allows developers to optimize for specific use cases (thumbnails vs hero images)
 - Predictable behavior: explicit parameter always wins
 - Simplifies API documentation and testing
 
 **Consequences**:
+
 - Quality parameter applies uniformly regardless of format
 - Developers can create very low quality images if desired (e.g., `?q=10`)
 - No automatic quality adjustment based on format characteristics
 - May result in suboptimal quality if developers don't understand format differences
 
 **Alternatives Considered**:
+
 - **Format-specific quality ranges**: Rejected because adds complexity and reduces predictability
 - **Ignore quality for certain formats**: Rejected because limits developer control
 

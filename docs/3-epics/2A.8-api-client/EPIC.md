@@ -14,26 +14,26 @@
 
 ### Requires (Must Complete First)
 
-| Epic | Title | Reason |
-|------|-------|--------|
-| 2A.6 | [Middleware Package](../2A.6-middleware/EPIC.md) | Provides request interceptor patterns and error handling utilities used by API client |
-| 2A.7 | [Auth Infrastructure](../2A.7-auth-infra/EPIC.md) | Provides authentication token injection for authenticated API requests |
+| Epic | Title                                             | Reason                                                                                |
+| ---- | ------------------------------------------------- | ------------------------------------------------------------------------------------- |
+| 2A.6 | [Middleware Package](../2A.6-middleware/EPIC.md)  | Provides request interceptor patterns and error handling utilities used by API client |
+| 2A.7 | [Auth Infrastructure](../2A.7-auth-infra/EPIC.md) | Provides authentication token injection for authenticated API requests                |
 
 ### Blocks (Enables These Epics)
 
-| Epic | Title | What This Provides |
-|------|-------|-------------------|
-| 3A.1 | CDN & Asset Management Application | Type-safe client for CDN API interactions |
-| 3A.2 | Routing Application Shell | API client for route configuration and data fetching |
+| Epic | Title                               | What This Provides                                        |
+| ---- | ----------------------------------- | --------------------------------------------------------- |
+| 3A.1 | CDN & Asset Management Application  | Type-safe client for CDN API interactions                 |
+| 3A.2 | Routing Application Shell           | API client for route configuration and data fetching      |
 | 3B.1 | API Application (Product Endpoints) | Base client infrastructure that product API endpoints use |
 
 ### Can Run in Parallel With
 
-| Epic | Title | Notes |
-|------|-------|-------|
-| 2A.3 | [Observability Package](../2A.3-observability/EPIC.md) | Independent package with no shared dependencies |
+| Epic | Title                                                       | Notes                                           |
+| ---- | ----------------------------------------------------------- | ----------------------------------------------- |
+| 2A.3 | [Observability Package](../2A.3-observability/EPIC.md)      | Independent package with no shared dependencies |
 | 2A.4 | [Analytics Infrastructure](../2A.4-analytics-infra/EPIC.md) | Independent package with no shared dependencies |
-| 2A.5 | [UI Component Library](../2A.5-ui-components/EPIC.md) | Independent package with no shared dependencies |
+| 2A.5 | [UI Component Library](../2A.5-ui-components/EPIC.md)       | Independent package with no shared dependencies |
 
 ## Overview
 
@@ -70,15 +70,15 @@ Create the `@repo/api-client` package providing a type-safe, feature-rich API co
 
 ## Stories
 
-| ID | Title | Size | Status | Depends On | Blocks |
-|----|-------|------|--------|------------|--------|
-| S1 | [Package Setup and Base Client](./S1-package-setup.md) | M | ⬜ | - | S2, S3, S4, S5, S6 |
-| S2 | [Request Interceptors and Auth Integration](./S2-request-interceptors.md) | M | ⬜ | S1 | S7 |
-| S3 | [Response Interceptors and Error Handling](./S3-response-interceptors.md) | M | ⬜ | S1 | S7 |
-| S4 | [Retry Logic with Exponential Backoff](./S4-retry-logic.md) | S | ⬜ | S1 | S7 |
-| S5 | [Request Caching Utilities](./S5-request-caching.md) | M | ⬜ | S1 | S7 |
-| S6 | [File Upload Support](./S6-file-upload.md) | S | ⬜ | S1 | S7 |
-| S7 | [Integration Tests and Documentation](./S7-integration-tests.md) | M | ⬜ | S2, S3, S4, S5, S6 | - |
+| ID  | Title                                                                     | Size | Status | Depends On         | Blocks             |
+| --- | ------------------------------------------------------------------------- | ---- | ------ | ------------------ | ------------------ |
+| S1  | [Package Setup and Base Client](./S1-package-setup.md)                    | M    | ⬜     | -                  | S2, S3, S4, S5, S6 |
+| S2  | [Request Interceptors and Auth Integration](./S2-request-interceptors.md) | M    | ⬜     | S1                 | S7                 |
+| S3  | [Response Interceptors and Error Handling](./S3-response-interceptors.md) | M    | ⬜     | S1                 | S7                 |
+| S4  | [Retry Logic with Exponential Backoff](./S4-retry-logic.md)               | S    | ⬜     | S1                 | S7                 |
+| S5  | [Request Caching Utilities](./S5-request-caching.md)                      | M    | ⬜     | S1                 | S7                 |
+| S6  | [File Upload Support](./S6-file-upload.md)                                | S    | ⬜     | S1                 | S7                 |
+| S7  | [Integration Tests and Documentation](./S7-integration-tests.md)          | M    | ⬜     | S2, S3, S4, S5, S6 | -                  |
 
 **Status Legend**: ⬜ Not Started | 🟡 In Progress | ✅ Complete | ❌ Blocked
 
@@ -111,12 +111,12 @@ S1 (Package setup & base client)
 
 ### Technology Decisions
 
-| Decision | Choice | Reference |
-|----------|--------|-----------|
-| HTTP Client | Native fetch (wrapped) | [TAD: Package Architecture](/docs/2-technical/2-tad-package-architecture.md) |
-| Auth Provider | Clerk via @repo/auth | [ADR-006: Clerk for Authentication](/docs/2-technical/adr/006-clerk-authentication.md) |
-| Type System | TypeScript generics | [TAD: API Design](/docs/2-technical/2-tad.md#api-design) |
-| Monorepo Tool | Turborepo | [ADR-001: Monorepo with Turborepo](/docs/2-technical/adr/001-monorepo-turborepo.md) |
+| Decision      | Choice                 | Reference                                                                              |
+| ------------- | ---------------------- | -------------------------------------------------------------------------------------- |
+| HTTP Client   | Native fetch (wrapped) | [TAD: Package Architecture](/docs/2-technical/2-tad-package-architecture.md)           |
+| Auth Provider | Clerk via @repo/auth   | [ADR-006: Clerk for Authentication](/docs/2-technical/adr/006-clerk-authentication.md) |
+| Type System   | TypeScript generics    | [TAD: API Design](/docs/2-technical/2-tad.md#api-design)                               |
+| Monorepo Tool | Turborepo              | [ADR-001: Monorepo with Turborepo](/docs/2-technical/adr/001-monorepo-turborepo.md)    |
 
 ### Constraints
 
@@ -143,38 +143,38 @@ The following items are explicitly NOT part of this epic:
 
 > **Note**: Flag decisions that need resolution before or during implementation.
 
-| Decision | Options | Impact | Status |
-|----------|---------|--------|--------|
-| Cache storage backend | In-memory Map vs external cache (Vercel KV) | Affects cache persistence and memory usage | ✅ Resolved: In-memory for client, server uses Next.js cache |
-| Retry trigger conditions | Network errors only vs include 5xx | Affects retry behaviour and server load | ⬜ Open |
-| Token refresh handling | Client refreshes vs delegate to @repo/auth | Affects token lifecycle management | ✅ Resolved: Delegate to @repo/auth per ADR-006 |
+| Decision                 | Options                                     | Impact                                     | Status                                                       |
+| ------------------------ | ------------------------------------------- | ------------------------------------------ | ------------------------------------------------------------ |
+| Cache storage backend    | In-memory Map vs external cache (Vercel KV) | Affects cache persistence and memory usage | ✅ Resolved: In-memory for client, server uses Next.js cache |
+| Retry trigger conditions | Network errors only vs include 5xx          | Affects retry behaviour and server load    | ⬜ Open                                                      |
+| Token refresh handling   | Client refreshes vs delegate to @repo/auth  | Affects token lifecycle management         | ✅ Resolved: Delegate to @repo/auth per ADR-006              |
 
 ## Risks and Mitigations
 
-| Risk | Likelihood | Impact | Mitigation |
-|------|------------|--------|------------|
-| Server/client component incompatibility | Medium | High | Test all methods in both environments during development |
-| Memory leaks from unbounded cache | Low | Medium | Implement LRU eviction with configurable max size |
-| Auth token timing issues | Low | Medium | Use Clerk's built-in token management via @repo/auth |
-| Large file upload failures | Low | Medium | Implement chunked uploads for files >50MB, progress callbacks for UX |
+| Risk                                    | Likelihood | Impact | Mitigation                                                           |
+| --------------------------------------- | ---------- | ------ | -------------------------------------------------------------------- |
+| Server/client component incompatibility | Medium     | High   | Test all methods in both environments during development             |
+| Memory leaks from unbounded cache       | Low        | Medium | Implement LRU eviction with configurable max size                    |
+| Auth token timing issues                | Low        | Medium | Use Clerk's built-in token management via @repo/auth                 |
+| Large file upload failures              | Low        | Medium | Implement chunked uploads for files >50MB, progress callbacks for UX |
 
 ## Estimated Effort
 
-| Metric | Value |
-|--------|-------|
-| Total Stories | 7 |
-| Total Hours | 34h |
-| Calendar Days | 3-4 days |
+| Metric          | Value                         |
+| --------------- | ----------------------------- |
+| Total Stories   | 7                             |
+| Total Hours     | 34h                           |
+| Calendar Days   | 3-4 days                      |
 | Parallel Tracks | 5 (S2-S6 can run in parallel) |
 
 ### Story Breakdown
 
-| Size | Count | Hours |
-|------|-------|-------|
-| XS (1-2h) | 0 | 0h |
-| S (2-4h) | 2 | 8h |
-| M (4-8h) | 5 | 26h |
-| L (8-16h) | 0 | 0h |
+| Size      | Count | Hours |
+| --------- | ----- | ----- |
+| XS (1-2h) | 0     | 0h    |
+| S (2-4h)  | 2     | 8h    |
+| M (4-8h)  | 5     | 26h   |
+| L (8-16h) | 0     | 0h    |
 
 ## References
 

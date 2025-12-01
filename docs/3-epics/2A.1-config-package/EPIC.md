@@ -21,21 +21,21 @@
 
 ### Blocks (Enables These Epics)
 
-| Epic | Title                                                              | What This Provides                                                                     |
-| ---- | ------------------------------------------------------------------ | -------------------------------------------------------------------------------------- |
-| 2A.2 | [Database Infrastructure](../2A.2-database-infrastructure/EPIC.md) | Shared TypeScript config, ESLint rules, and Tailwind theme tokens for database package |
-| 2A.3 | [Observability Package](../2A.3-observability/EPIC.md)             | TypeScript and ESLint configurations for consistent logging and error handling code    |
-| 2A.4 | [Analytics Infrastructure](../2A.4-analytics-infra/EPIC.md)        | Shared configurations for analytics package development                                |
-| 2A.5 | [UI Component Library](../2A.5-ui-components/EPIC.md)              | Tailwind CSS v4 base configuration with theme tokens for component styling             |
-| 2A.6 | [Middleware Package](../2A.6-middleware/EPIC.md)                   | TypeScript strict mode and ESLint rules for middleware utilities                       |
-| 2A.7 | [Auth Infrastructure](../2A.7-auth-infra/EPIC.md)                  | Shared configurations for authentication package                                       |
-| 2A.8 | [API Client Package](../2A.8-api-client/EPIC.md)                   | TypeScript configuration for type-safe API client development                          |
+| Epic | Title                                                       | What This Provides                                                                     |
+| ---- | ----------------------------------------------------------- | -------------------------------------------------------------------------------------- |
+| 2A.2 | [Database Infrastructure](../2A.2-database-infra/EPIC.md)   | Shared TypeScript config, ESLint rules, and Tailwind theme tokens for database package |
+| 2A.3 | [Observability Package](../2A.3-observability/EPIC.md)      | TypeScript and ESLint configurations for consistent logging and error handling code    |
+| 2A.4 | [Analytics Infrastructure](../2A.4-analytics-infra/EPIC.md) | Shared configurations for analytics package development                                |
+| 2A.5 | [UI Component Library](../2A.5-ui-components/EPIC.md)       | Tailwind CSS v4 base configuration with theme tokens for component styling             |
+| 2A.6 | [Middleware Package](../2A.6-middleware/EPIC.md)            | TypeScript strict mode and ESLint rules for middleware utilities                       |
+| 2A.7 | [Auth Infrastructure](../2A.7-auth-infra/EPIC.md)           | Shared configurations for authentication package                                       |
+| 2A.8 | [API Client Package](../2A.8-api-client/EPIC.md)            | TypeScript configuration for type-safe API client development                          |
 
 ### Can Run in Parallel With
 
-| Epic | Title                                                              | Notes                                                                                           |
-| ---- | ------------------------------------------------------------------ | ----------------------------------------------------------------------------------------------- |
-| 2A.2 | [Database Infrastructure](../2A.2-database-infrastructure/EPIC.md) | Both depend on 1A.5; can start concurrently once config package baseline is established (S1-S3) |
+| Epic | Title                                                     | Notes                                                                                           |
+| ---- | --------------------------------------------------------- | ----------------------------------------------------------------------------------------------- |
+| 2A.2 | [Database Infrastructure](../2A.2-database-infra/EPIC.md) | Both depend on 1A.5; can start concurrently once config package baseline is established (S1-S3) |
 
 ## Overview
 

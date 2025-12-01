@@ -9,25 +9,25 @@
  *
  * @see https://testing-library.com/docs/react-testing-library/intro/
  */
-import { render, screen } from "@testing-library/react";
-import userEvent from "@testing-library/user-event";
-import { describe, it, expect, vi } from "vitest";
+import { render, screen } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
+import { describe, it, expect, vi } from 'vitest';
 
-import { Button } from "./Button";
+import { Button } from './Button';
 
-describe("Button", () => {
-  describe("rendering", () => {
-    it("renders with the correct text", () => {
+describe('Button', () => {
+  describe('rendering', () => {
+    it('renders with the correct text', () => {
       render(<Button>Click me</Button>);
 
       // Use getByRole for accessibility-first queries
-      const button = screen.getByRole("button", { name: "Click me" });
+      const button = screen.getByRole('button', { name: 'Click me' });
 
       // jest-dom matcher - should work without explicit import
       expect(button).toBeInTheDocument();
     });
 
-    it("renders children correctly", () => {
+    it('renders children correctly', () => {
       render(
         <Button>
           <span data-testid="icon">★</span>
@@ -35,31 +35,31 @@ describe("Button", () => {
         </Button>
       );
 
-      expect(screen.getByRole("button", { name: /submit/i })).toBeInTheDocument();
-      expect(screen.getByTestId("icon")).toBeInTheDocument();
+      expect(screen.getByRole('button', { name: /submit/i })).toBeInTheDocument();
+      expect(screen.getByTestId('icon')).toBeInTheDocument();
     });
   });
 
-  describe("user interactions", () => {
-    it("calls onClick handler when clicked", async () => {
+  describe('user interactions', () => {
+    it('calls onClick handler when clicked', async () => {
       const user = userEvent.setup();
       const handleClick = vi.fn();
 
       render(<Button onClick={handleClick}>Click me</Button>);
 
-      const button = screen.getByRole("button", { name: "Click me" });
+      const button = screen.getByRole('button', { name: 'Click me' });
       await user.click(button);
 
       expect(handleClick).toHaveBeenCalledTimes(1);
     });
 
-    it("supports multiple clicks", async () => {
+    it('supports multiple clicks', async () => {
       const user = userEvent.setup();
       const handleClick = vi.fn();
 
       render(<Button onClick={handleClick}>Click me</Button>);
 
-      const button = screen.getByRole("button", { name: "Click me" });
+      const button = screen.getByRole('button', { name: 'Click me' });
       await user.click(button);
       await user.click(button);
       await user.click(button);
@@ -68,8 +68,8 @@ describe("Button", () => {
     });
   });
 
-  describe("disabled state", () => {
-    it("does not call onClick when disabled", async () => {
+  describe('disabled state', () => {
+    it('does not call onClick when disabled', async () => {
       const user = userEvent.setup();
       const handleClick = vi.fn();
 
@@ -79,7 +79,7 @@ describe("Button", () => {
         </Button>
       );
 
-      const button = screen.getByRole("button", { name: "Cannot click" });
+      const button = screen.getByRole('button', { name: 'Cannot click' });
 
       // Verify button is disabled using jest-dom matcher
       expect(button).toBeDisabled();
@@ -91,22 +91,22 @@ describe("Button", () => {
       expect(handleClick).not.toHaveBeenCalled();
     });
 
-    it("has correct disabled styling attributes", () => {
+    it('has correct disabled styling attributes', () => {
       render(<Button disabled>Disabled</Button>);
 
-      const button = screen.getByRole("button", { name: "Disabled" });
+      const button = screen.getByRole('button', { name: 'Disabled' });
 
-      expect(button).toHaveAttribute("disabled");
+      expect(button).toHaveAttribute('disabled');
     });
   });
 
-  describe("accessibility", () => {
-    it("is focusable via keyboard navigation", async () => {
+  describe('accessibility', () => {
+    it('is focusable via keyboard navigation', async () => {
       const user = userEvent.setup();
 
       render(<Button>Focusable</Button>);
 
-      const button = screen.getByRole("button", { name: "Focusable" });
+      const button = screen.getByRole('button', { name: 'Focusable' });
 
       // Tab to focus the button
       await user.tab();
@@ -114,21 +114,21 @@ describe("Button", () => {
       expect(button).toHaveFocus();
     });
 
-    it("can be activated with keyboard (Enter/Space)", async () => {
+    it('can be activated with keyboard (Enter/Space)', async () => {
       const user = userEvent.setup();
       const handleClick = vi.fn();
 
       render(<Button onClick={handleClick}>Press Enter</Button>);
 
-      const button = screen.getByRole("button", { name: "Press Enter" });
+      const button = screen.getByRole('button', { name: 'Press Enter' });
       button.focus();
 
       // Press Enter key
-      await user.keyboard("{Enter}");
+      await user.keyboard('{Enter}');
       expect(handleClick).toHaveBeenCalledTimes(1);
 
       // Press Space key
-      await user.keyboard(" ");
+      await user.keyboard(' ');
       expect(handleClick).toHaveBeenCalledTimes(2);
     });
   });

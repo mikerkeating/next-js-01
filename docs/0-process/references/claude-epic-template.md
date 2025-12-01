@@ -96,11 +96,11 @@ Key sections for this epic:
 
 Relevant ADRs for this epic:
 
-| ADR                                                            | Decision                |
-| -------------------------------------------------------------- | ----------------------- |
-| [ADR-001](/docs/2-technical/adr/001-monorepo-turborepo.md)     | Monorepo with Turborepo |
-| [ADR-002](/docs/2-technical/adr/002-pnpm-package-manager.md)   | pnpm as Package Manager |
-| {Add epic-specific ADRs}                                       | {Decision summary}      |
+| ADR                                                          | Decision                |
+| ------------------------------------------------------------ | ----------------------- |
+| [ADR-001](/docs/2-technical/adr/001-monorepo-turborepo.md)   | Monorepo with Turborepo |
+| [ADR-002](/docs/2-technical/adr/002-pnpm-package-manager.md) | pnpm as Package Manager |
+| {Add epic-specific ADRs}                                     | {Decision summary}      |
 
 ---
 
@@ -121,11 +121,11 @@ Relevant ADRs for this epic:
 
 <!-- Specify where code for this epic should be created/modified -->
 
-| Location              | Purpose                |
-| --------------------- | ---------------------- |
-| `apps/{app}/`         | {What goes here}       |
-| `packages/{package}/` | {What goes here}       |
-| `docs/`               | {What goes here}       |
+| Location              | Purpose          |
+| --------------------- | ---------------- |
+| `apps/{app}/`         | {What goes here} |
+| `packages/{package}/` | {What goes here} |
+| `docs/`               | {What goes here} |
 
 ---
 
@@ -195,9 +195,9 @@ packages/*/src/test/types.ts    # Package-specific test helpers
 
 **Key Dependencies for this Epic**:
 
-| Package            | Version  | Purpose                 |
-| ------------------ | -------- | ----------------------- |
-| {dependency-name}  | {x.y.z}  | {Why needed for epic}   |
+| Package           | Version | Purpose               |
+| ----------------- | ------- | --------------------- |
+| {dependency-name} | {x.y.z} | {Why needed for epic} |
 
 ---
 
@@ -229,4 +229,4 @@ Update this CLAUDE.md when:
 
 ---
 
-*Template Version: 1.0 | Last Updated: {YYYY-MM-DD}*
+_Template Version: 1.0 | Last Updated: {YYYY-MM-DD}_

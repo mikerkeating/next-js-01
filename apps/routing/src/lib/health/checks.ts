@@ -2,7 +2,8 @@
  * Health Check Functions
  *
  * Individual health check implementations for each dependency.
- * For the steel thread phase, these return stub "ok" responses.
+ * For the steel thread phase, these return 'degraded' responses
+ * indicating the checks are stubs awaiting real implementation.
  *
  * TODO: Implement real checks when dependencies are available:
  * - Database: Epic 2A.2 (Database Infrastructure)
@@ -20,17 +21,17 @@ import type { HealthCheckDetail } from './types';
  * - Execute `SELECT 1` query
  * - Return error if connection fails or times out
  */
-export async function checkDatabase(): Promise<HealthCheckDetail> {
+export function checkDatabase(): Promise<HealthCheckDetail> {
   const start = Date.now();
 
   // Stub implementation for steel thread
   // Real implementation will query the database
-  return {
-    status: 'ok',
+  return Promise.resolve({
+    status: 'degraded',
     responseTime: Date.now() - start,
     message: 'Stub: Database check not yet implemented',
     lastChecked: new Date().toISOString(),
-  };
+  });
 }
 
 /**
@@ -41,17 +42,17 @@ export async function checkDatabase(): Promise<HealthCheckDetail> {
  * - Check API key validity
  * - Return degraded if response time > 1s
  */
-export async function checkAuth(): Promise<HealthCheckDetail> {
+export function checkAuth(): Promise<HealthCheckDetail> {
   const start = Date.now();
 
   // Stub implementation for steel thread
   // Real implementation will ping Clerk API
-  return {
-    status: 'ok',
+  return Promise.resolve({
+    status: 'degraded',
     responseTime: Date.now() - start,
     message: 'Stub: Auth check not yet implemented',
     lastChecked: new Date().toISOString(),
-  };
+  });
 }
 
 /**
@@ -62,15 +63,15 @@ export async function checkAuth(): Promise<HealthCheckDetail> {
  * - Execute PING command
  * - Return error if connection fails
  */
-export async function checkCache(): Promise<HealthCheckDetail> {
+export function checkCache(): Promise<HealthCheckDetail> {
   const start = Date.now();
 
   // Stub implementation for steel thread
   // Real implementation will ping cache service
-  return {
-    status: 'ok',
+  return Promise.resolve({
+    status: 'degraded',
     responseTime: Date.now() - start,
     message: 'Stub: Cache check not yet implemented',
     lastChecked: new Date().toISOString(),
-  };
+  });
 }

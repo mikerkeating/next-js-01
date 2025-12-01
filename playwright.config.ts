@@ -6,7 +6,38 @@
  *
  * @see https://playwright.dev/docs/test-configuration
  */
+import { existsSync, readFileSync } from "node:fs";
+import { resolve } from "node:path";
+
 import { defineConfig, devices } from "@playwright/test";
+
+/**
+ * Load environment variables from .env.local if it exists.
+ * Playwright doesn't auto-load .env files like Next.js does.
+ *
+ * Note: This uses a simple custom parser rather than the dotenv package.
+ * It handles KEY=VALUE pairs (including values with = signs) and comments.
+ * This is sufficient for our use case (simple basic auth credentials) and
+ * avoids adding a dependency. For complex .env needs (quoted values,
+ * multiline, escape sequences), consider switching to dotenv.
+ */
+const envLocalPath = resolve(__dirname, ".env.local");
+if (existsSync(envLocalPath)) {
+  const envContent = readFileSync(envLocalPath, "utf-8");
+  for (const line of envContent.split("\n")) {
+    const trimmed = line.trim();
+    // Skip empty lines, comments, and lines without '=' (invalid KEY=VALUE format)
+    if (trimmed && !trimmed.startsWith("#") && trimmed.includes("=")) {
+      const [key, ...valueParts] = trimmed.split("=");
+      const value = valueParts.join("=");
+      const trimmedKey = key?.trim();
+      // Only set if key is non-empty and not already in process.env
+      if (trimmedKey && !(trimmedKey in process.env)) {
+        process.env[trimmedKey] = value;
+      }
+    }
+  }
+}
 
 /**
  * Base URL for tests. Can be overridden via BASE_URL environment variable
@@ -34,6 +65,19 @@ const isCI = !!process.env.CI;
  * WARNING: Never enable in CI or production testing environments.
  */
 const ignoreHTTPSErrors = process.env.PLAYWRIGHT_IGNORE_HTTPS_ERRORS === "true";
+
+/**
+ * HTTP Basic Auth credentials for testing against protected environments.
+ * Set BASIC_AUTH_USERNAME and BASIC_AUTH_PASSWORD environment variables
+ * to authenticate with the basic auth proxy.
+ */
+const httpCredentials =
+  process.env.BASIC_AUTH_USERNAME && process.env.BASIC_AUTH_PASSWORD
+    ? {
+        username: process.env.BASIC_AUTH_USERNAME,
+        password: process.env.BASIC_AUTH_PASSWORD,
+      }
+    : undefined;
 
 export default defineConfig({
   // Test directory containing E2E specs
@@ -77,6 +121,9 @@ export default defineConfig({
   use: {
     // Base URL for navigation - configurable via BASE_URL env var
     baseURL,
+
+    // HTTP Basic Auth credentials for protected environments
+    httpCredentials,
 
     // Capture trace on first retry - helps debug flaky tests
     trace: "on-first-retry",

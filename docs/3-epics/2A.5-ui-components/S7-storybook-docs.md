@@ -35,35 +35,35 @@
 
 ### Files to Create
 
-| Path                                                          | Purpose                                   |
-| ------------------------------------------------------------- | ----------------------------------------- |
-| `packages/ui/.storybook/main.ts`                              | Storybook configuration                   |
-| `packages/ui/.storybook/preview.ts`                           | Global decorators and parameters          |
-| `packages/ui/.storybook/theme.ts`                             | Custom Storybook theme                    |
-| `packages/ui/src/components/button.stories.tsx`               | Button component stories                  |
-| `packages/ui/src/components/input.stories.tsx`                | Input component stories                   |
-| `packages/ui/src/components/select.stories.tsx`               | Select component stories                  |
-| `packages/ui/src/components/card.stories.tsx`                 | Card component stories                    |
-| `packages/ui/src/components/dialog.stories.tsx`               | Dialog component stories                  |
-| `packages/ui/src/components/dropdown-menu.stories.tsx`        | Dropdown Menu component stories           |
-| `packages/ui/src/components/tabs.stories.tsx`                 | Tabs component stories                    |
-| `packages/ui/src/components/toast.stories.tsx`                | Toast component stories                   |
-| `packages/ui/src/components/avatar.stories.tsx`               | Avatar component stories                  |
-| `packages/ui/src/components/badge.stories.tsx`                | Badge component stories                   |
-| `packages/ui/src/components/skeleton.stories.tsx`             | Skeleton component stories                |
-| `packages/ui/src/components/spinner.stories.tsx`              | Spinner component stories                 |
-| `packages/ui/src/components/error-boundary.stories.tsx`       | ErrorBoundary component stories           |
-| `.github/workflows/storybook.yml`                             | CI workflow to build and deploy Storybook |
+| Path                                                    | Purpose                                   |
+| ------------------------------------------------------- | ----------------------------------------- |
+| `packages/ui/.storybook/main.ts`                        | Storybook configuration                   |
+| `packages/ui/.storybook/preview.ts`                     | Global decorators and parameters          |
+| `packages/ui/.storybook/theme.ts`                       | Custom Storybook theme                    |
+| `packages/ui/src/components/button.stories.tsx`         | Button component stories                  |
+| `packages/ui/src/components/input.stories.tsx`          | Input component stories                   |
+| `packages/ui/src/components/select.stories.tsx`         | Select component stories                  |
+| `packages/ui/src/components/card.stories.tsx`           | Card component stories                    |
+| `packages/ui/src/components/dialog.stories.tsx`         | Dialog component stories                  |
+| `packages/ui/src/components/dropdown-menu.stories.tsx`  | Dropdown Menu component stories           |
+| `packages/ui/src/components/tabs.stories.tsx`           | Tabs component stories                    |
+| `packages/ui/src/components/toast.stories.tsx`          | Toast component stories                   |
+| `packages/ui/src/components/avatar.stories.tsx`         | Avatar component stories                  |
+| `packages/ui/src/components/badge.stories.tsx`          | Badge component stories                   |
+| `packages/ui/src/components/skeleton.stories.tsx`       | Skeleton component stories                |
+| `packages/ui/src/components/spinner.stories.tsx`        | Spinner component stories                 |
+| `packages/ui/src/components/error-boundary.stories.tsx` | ErrorBoundary component stories           |
+| `.github/workflows/storybook.yml`                       | CI workflow to build and deploy Storybook |
 
 ### Files to Modify
 
-| Path                                 | Changes                                                       |
-| ------------------------------------ | ------------------------------------------------------------- |
-| `packages/ui/package.json`           | Add Storybook dependencies and scripts                        |
-| `packages/ui/README.md`              | Add Storybook documentation section and deployed URL          |
-| `packages/ui/.gitignore`             | Add `storybook-static/` to gitignore                          |
-| `turbo.json`                         | Add `storybook:build` and `storybook:dev` tasks               |
-| `package.json` (root)                | Add workspace script for running Storybook                    |
+| Path                       | Changes                                              |
+| -------------------------- | ---------------------------------------------------- |
+| `packages/ui/package.json` | Add Storybook dependencies and scripts               |
+| `packages/ui/README.md`    | Add Storybook documentation section and deployed URL |
+| `packages/ui/.gitignore`   | Add `storybook-static/` to gitignore                 |
+| `turbo.json`               | Add `storybook:build` and `storybook:dev` tasks      |
+| `package.json` (root)      | Add workspace script for running Storybook           |
 
 ### Dependencies
 
@@ -88,16 +88,17 @@ pnpm add -D vite@^5.0.0
 
 > **Note**: For complete configuration file templates, reference the TAD.
 
-| Setting                     | Requirement                                                 | TAD Reference                                                                |
-| --------------------------- | ----------------------------------------------------------- | ---------------------------------------------------------------------------- |
-| Storybook builder           | Vite for fast builds and HMR                                | [TAD: Development Tools](/docs/2-technical/2-tad.md#development-tools)       |
-| Story format                | Component Story Format 3 (CSF3) with TypeScript             | [TAD: Documentation Architecture](/docs/2-technical/2-tad-documentation.md)  |
-| Addons                      | Essentials, A11y, Interactions, Links                       | [TAD: UI Components Architecture](/docs/2-technical/2-tad.md#ui-components-architecture) |
-| Theme integration           | Tailwind CSS with dark mode support                         | [TAD: UI & Styling](/docs/2-technical/2-tad.md#ui--styling)                  |
-| Props documentation         | Auto-generated from TypeScript using react-docgen           | [TAD: Documentation Architecture](/docs/2-technical/2-tad-documentation.md)  |
-| Deployment                  | Chromatic for visual regression or Vercel static deployment | [TAD: Documentation Architecture](/docs/2-technical/2-tad-documentation.md)  |
+| Setting             | Requirement                                                 | TAD Reference                                                                            |
+| ------------------- | ----------------------------------------------------------- | ---------------------------------------------------------------------------------------- |
+| Storybook builder   | Vite for fast builds and HMR                                | [TAD: Development Tools](/docs/2-technical/2-tad.md#development-tools)                   |
+| Story format        | Component Story Format 3 (CSF3) with TypeScript             | [TAD: Documentation Architecture](/docs/2-technical/2-tad-documentation.md)              |
+| Addons              | Essentials, A11y, Interactions, Links                       | [TAD: UI Components Architecture](/docs/2-technical/2-tad.md#ui-components-architecture) |
+| Theme integration   | Tailwind CSS with dark mode support                         | [TAD: UI & Styling](/docs/2-technical/2-tad.md#ui--styling)                              |
+| Props documentation | Auto-generated from TypeScript using react-docgen           | [TAD: Documentation Architecture](/docs/2-technical/2-tad-documentation.md)              |
+| Deployment          | Chromatic for visual regression or Vercel static deployment | [TAD: Documentation Architecture](/docs/2-technical/2-tad-documentation.md)              |
 
 **Configuration Rationale**:
+
 - Storybook 8.x provides improved performance, better TypeScript support, and enhanced accessibility testing
 - Vite builder offers faster build times compared to Webpack, improving developer experience
 - A11y addon surfaces accessibility violations directly in component development workflow
@@ -244,15 +245,15 @@ Key pattern notes for this story:
 
 ### Troubleshooting
 
-| Issue                                      | Cause                                        | Solution                                                                      |
-| ------------------------------------------ | -------------------------------------------- | ----------------------------------------------------------------------------- |
-| Tailwind styles not loading in Storybook   | Preview config missing Tailwind CSS import   | Import global Tailwind CSS in `.storybook/preview.ts`                         |
-| Stories show TypeScript errors             | Storybook types not installed                | Install `@storybook/react` and ensure types are in `tsconfig.json`           |
-| Dark mode toggle not working               | Theme decorator not configured               | Add theme decorator in `preview.ts` using `next-themes` or CSS variables     |
-| A11y addon showing false positives         | Component intentionally violates rules       | Disable specific rules for that story using `parameters.a11y.config.rules`   |
-| Component not re-rendering on control change | Args not properly wired to component props | Ensure story uses `args` object and component accepts props                   |
-| Storybook build fails in CI                | Missing dependencies or incorrect Node version | Verify Node version matches canonical versions, check all deps installed     |
-| Props table not showing                    | Missing JSDoc comments on component props    | Add JSDoc comments to TypeScript interface properties                        |
+| Issue                                        | Cause                                          | Solution                                                                   |
+| -------------------------------------------- | ---------------------------------------------- | -------------------------------------------------------------------------- |
+| Tailwind styles not loading in Storybook     | Preview config missing Tailwind CSS import     | Import global Tailwind CSS in `.storybook/preview.ts`                      |
+| Stories show TypeScript errors               | Storybook types not installed                  | Install `@storybook/react` and ensure types are in `tsconfig.json`         |
+| Dark mode toggle not working                 | Theme decorator not configured                 | Add theme decorator in `preview.ts` using `next-themes` or CSS variables   |
+| A11y addon showing false positives           | Component intentionally violates rules         | Disable specific rules for that story using `parameters.a11y.config.rules` |
+| Component not re-rendering on control change | Args not properly wired to component props     | Ensure story uses `args` object and component accepts props                |
+| Storybook build fails in CI                  | Missing dependencies or incorrect Node version | Verify Node version matches canonical versions, check all deps installed   |
+| Props table not showing                      | Missing JSDoc comments on component props      | Add JSDoc comments to TypeScript interface properties                      |
 
 ### Reference Materials
 

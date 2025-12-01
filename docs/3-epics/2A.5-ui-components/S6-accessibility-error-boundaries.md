@@ -34,23 +34,23 @@
 
 ### Files to Create
 
-| Path                                                              | Purpose                                    |
-| ----------------------------------------------------------------- | ------------------------------------------ |
-| `packages/ui/src/components/error-boundary.tsx`                   | React error boundary component             |
-| `packages/ui/src/components/__tests__/error-boundary.test.tsx`    | Error boundary unit tests                  |
-| `packages/ui/src/test-utils/accessibility.ts`                     | Accessibility testing utilities            |
-| `packages/ui/src/test-utils/axe-matchers.ts`                      | Custom axe-core matchers for Vitest        |
-| `.github/workflows/accessibility.yml`                             | CI workflow for accessibility checks       |
+| Path                                                           | Purpose                              |
+| -------------------------------------------------------------- | ------------------------------------ |
+| `packages/ui/src/components/error-boundary.tsx`                | React error boundary component       |
+| `packages/ui/src/components/__tests__/error-boundary.test.tsx` | Error boundary unit tests            |
+| `packages/ui/src/test-utils/accessibility.ts`                  | Accessibility testing utilities      |
+| `packages/ui/src/test-utils/axe-matchers.ts`                   | Custom axe-core matchers for Vitest  |
+| `.github/workflows/accessibility.yml`                          | CI workflow for accessibility checks |
 
 ### Files to Modify
 
-| Path                                                           | Changes                                                    |
-| -------------------------------------------------------------- | ---------------------------------------------------------- |
-| `packages/ui/src/index.ts`                                     | Export ErrorBoundary component                             |
-| `packages/ui/src/components/__tests__/*.test.tsx`              | Add axe-core accessibility tests to all component tests    |
-| `packages/ui/package.json`                                     | Add axe-core and jest-axe dependencies                     |
-| `packages/ui/vitest.config.ts`                                 | Configure axe-core matchers globally                       |
-| `packages/ui/README.md`                                        | Document accessibility features and error boundary usage   |
+| Path                                              | Changes                                                  |
+| ------------------------------------------------- | -------------------------------------------------------- |
+| `packages/ui/src/index.ts`                        | Export ErrorBoundary component                           |
+| `packages/ui/src/components/__tests__/*.test.tsx` | Add axe-core accessibility tests to all component tests  |
+| `packages/ui/package.json`                        | Add axe-core and jest-axe dependencies                   |
+| `packages/ui/vitest.config.ts`                    | Configure axe-core matchers globally                     |
+| `packages/ui/README.md`                           | Document accessibility features and error boundary usage |
 
 ### Dependencies
 
@@ -68,16 +68,17 @@ pnpm add -D axe-core jest-axe @axe-core/react
 
 > **Note**: For complete configuration file templates, reference the TAD.
 
-| Setting                    | Requirement                                           | TAD Reference                                                                                 |
-| -------------------------- | ----------------------------------------------------- | --------------------------------------------------------------------------------------------- |
-| WCAG Compliance Level      | WCAG 2.1 Level AA (allow only minor violations)       | [TAD: UI Components Architecture](/docs/2-technical/2-tad.md#ui-components-architecture)      |
-| Error boundary integration | Wrap interactive components with error boundary       | [TAD: Observability Architecture](/docs/2-technical/2-tad.md#observability-architecture)      |
-| Accessibility testing      | Run axe-core in all component tests                   | [TAD: Testing Architecture](/docs/2-technical/2-tad.md#testing-architecture)                  |
-| Focus management           | Trap focus in modal components, restore on close      | [TAD: UI Components Architecture](/docs/2-technical/2-tad.md#ui-components-architecture)      |
-| Color contrast             | Minimum 4.5:1 for text, 3:1 for UI components         | [TAD: UI Components Architecture](/docs/2-technical/2-tad.md#ui-components-architecture)      |
-| Error reporting            | Report errors to Sentry via `@repo/logger`            | [TAD: Observability Architecture](/docs/2-technical/2-tad-observability.md)                   |
+| Setting                    | Requirement                                      | TAD Reference                                                                            |
+| -------------------------- | ------------------------------------------------ | ---------------------------------------------------------------------------------------- |
+| WCAG Compliance Level      | WCAG 2.1 Level AA (allow only minor violations)  | [TAD: UI Components Architecture](/docs/2-technical/2-tad.md#ui-components-architecture) |
+| Error boundary integration | Wrap interactive components with error boundary  | [TAD: Observability Architecture](/docs/2-technical/2-tad.md#observability-architecture) |
+| Accessibility testing      | Run axe-core in all component tests              | [TAD: Testing Architecture](/docs/2-technical/2-tad.md#testing-architecture)             |
+| Focus management           | Trap focus in modal components, restore on close | [TAD: UI Components Architecture](/docs/2-technical/2-tad.md#ui-components-architecture) |
+| Color contrast             | Minimum 4.5:1 for text, 3:1 for UI components    | [TAD: UI Components Architecture](/docs/2-technical/2-tad.md#ui-components-architecture) |
+| Error reporting            | Report errors to Sentry via `@repo/logger`       | [TAD: Observability Architecture](/docs/2-technical/2-tad-observability.md)              |
 
 **Configuration Rationale**:
+
 - WCAG 2.1 Level AA is the industry standard for web accessibility and required for many compliance frameworks
 - Error boundaries prevent component failures from crashing the entire application
 - axe-core is the industry-standard accessibility testing library, integrated with CI/CD for continuous validation
@@ -218,14 +219,14 @@ Key pattern notes for this story:
 
 ### Troubleshooting
 
-| Issue                                         | Cause                                               | Solution                                                                      |
-| --------------------------------------------- | --------------------------------------------------- | ----------------------------------------------------------------------------- |
-| axe-core reports false positive violations    | Component not fully rendered before axe scan        | Add `await waitFor()` before running axe to ensure component fully renders    |
-| Focus not trapped in Dialog                   | Radix UI Dialog not configured correctly            | Verify Dialog.Root and Dialog.Content structure matches Radix documentation   |
-| Screen reader not announcing toast messages   | Missing ARIA live region or incorrect role          | Ensure Toast component has `role="status"` or `role="alert"` attribute        |
-| Color contrast failures in dark mode          | Theme tokens don't meet contrast ratios             | Adjust Tailwind color tokens in theme config using contrast checker           |
-| Error boundary not catching errors            | Error thrown in event handler, not render           | Event handler errors must be caught with try/catch; boundaries only catch render errors |
-| axe tests slow down test suite significantly  | Running axe on every component variant              | Reduce axe scans to key variants or run accessibility tests separately        |
+| Issue                                        | Cause                                        | Solution                                                                                |
+| -------------------------------------------- | -------------------------------------------- | --------------------------------------------------------------------------------------- |
+| axe-core reports false positive violations   | Component not fully rendered before axe scan | Add `await waitFor()` before running axe to ensure component fully renders              |
+| Focus not trapped in Dialog                  | Radix UI Dialog not configured correctly     | Verify Dialog.Root and Dialog.Content structure matches Radix documentation             |
+| Screen reader not announcing toast messages  | Missing ARIA live region or incorrect role   | Ensure Toast component has `role="status"` or `role="alert"` attribute                  |
+| Color contrast failures in dark mode         | Theme tokens don't meet contrast ratios      | Adjust Tailwind color tokens in theme config using contrast checker                     |
+| Error boundary not catching errors           | Error thrown in event handler, not render    | Event handler errors must be caught with try/catch; boundaries only catch render errors |
+| axe tests slow down test suite significantly | Running axe on every component variant       | Reduce axe scans to key variants or run accessibility tests separately                  |
 
 ### Reference Materials
 

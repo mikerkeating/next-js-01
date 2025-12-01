@@ -31,16 +31,16 @@ cp docs/0-process/references/claude-epic-template.md docs/3-epics/{epic-id}/CLAU
 
 Replace all `{placeholder}` values with actual content:
 
-| Placeholder           | Replace With                                     |
-| --------------------- | ------------------------------------------------ |
-| `{EPIC_ID}`           | Epic identifier (e.g., `1A.4`)                   |
-| `{Epic Title}`        | Human-readable epic name                         |
-| `{Deliverable N}`     | Key outputs from the epic                        |
-| `{Link to TAD...}`    | Relevant TAD section links                       |
-| `{Pattern Name}`      | Epic-specific coding patterns                    |
-| `{Pitfall N}`         | Known issues to avoid                            |
-| `{dependency-name}`   | Epic-specific npm packages                       |
-| `{YYYY-MM-DD}`        | Date of last update                              |
+| Placeholder         | Replace With                   |
+| ------------------- | ------------------------------ |
+| `{EPIC_ID}`         | Epic identifier (e.g., `1A.4`) |
+| `{Epic Title}`      | Human-readable epic name       |
+| `{Deliverable N}`   | Key outputs from the epic      |
+| `{Link to TAD...}`  | Relevant TAD section links     |
+| `{Pattern Name}`    | Epic-specific coding patterns  |
+| `{Pitfall N}`       | Known issues to avoid          |
+| `{dependency-name}` | Epic-specific npm packages     |
+| `{YYYY-MM-DD}`      | Date of last update            |
 
 ### Step 3: Customize as Needed
 
@@ -74,13 +74,13 @@ The template follows a "context funnel" pattern:
 
 Avoid duplicating content that exists elsewhere:
 
-| Don't Duplicate                 | Instead Link To                                        |
-| ------------------------------- | ------------------------------------------------------ |
-| Full coding standards           | `/docs/2-technical/references/coding-standards.md`     |
-| Complete TAD content            | `/docs/2-technical/2-tad.md` + specific sections       |
-| ADR full text                   | `/docs/2-technical/adr/{adr-file}.md`                  |
-| Detailed story requirements     | `./S{N}-{slug}.md`                                     |
-| Package documentation           | `packages/{name}/README.md`                            |
+| Don't Duplicate             | Instead Link To                                    |
+| --------------------------- | -------------------------------------------------- |
+| Full coding standards       | `/docs/2-technical/references/coding-standards.md` |
+| Complete TAD content        | `/docs/2-technical/2-tad.md` + specific sections   |
+| ADR full text               | `/docs/2-technical/adr/{adr-file}.md`              |
+| Detailed story requirements | `./S{N}-{slug}.md`                                 |
+| Package documentation       | `packages/{name}/README.md`                        |
 
 ## When to Update
 

@@ -30,22 +30,22 @@
 
 ### Files to Create
 
-| Path                                               | Purpose                                    |
-| -------------------------------------------------- | ------------------------------------------ |
-| `packages/middleware/src/rate-limit.ts`            | Rate limiting middleware implementation    |
-| `packages/middleware/src/rate-limit-config.ts`     | Rate limit configuration and types         |
-| `packages/middleware/src/rate-limit-storage.ts`    | Vercel KV storage interface for rate limit |
-| `packages/middleware/tests/rate-limit.test.ts`     | Unit tests for rate limiting middleware    |
-| `packages/middleware/tests/rate-limit.edge.test.ts`| Edge runtime compatibility tests           |
+| Path                                                | Purpose                                    |
+| --------------------------------------------------- | ------------------------------------------ |
+| `packages/middleware/src/rate-limit.ts`             | Rate limiting middleware implementation    |
+| `packages/middleware/src/rate-limit-config.ts`      | Rate limit configuration and types         |
+| `packages/middleware/src/rate-limit-storage.ts`     | Vercel KV storage interface for rate limit |
+| `packages/middleware/tests/rate-limit.test.ts`      | Unit tests for rate limiting middleware    |
+| `packages/middleware/tests/rate-limit.edge.test.ts` | Edge runtime compatibility tests           |
 
 ### Files to Modify
 
-| Path                                    | Changes                                           |
-| --------------------------------------- | ------------------------------------------------- |
-| `packages/middleware/src/index.ts`      | Export rate limiting middleware and types         |
-| `packages/middleware/package.json`      | Add @vercel/kv dependency                         |
-| `packages/middleware/README.md`         | Add rate limiting middleware documentation        |
-| `packages/middleware/tsconfig.json`     | Ensure lib includes Web APIs for edge runtime     |
+| Path                                | Changes                                       |
+| ----------------------------------- | --------------------------------------------- |
+| `packages/middleware/src/index.ts`  | Export rate limiting middleware and types     |
+| `packages/middleware/package.json`  | Add @vercel/kv dependency                     |
+| `packages/middleware/README.md`     | Add rate limiting middleware documentation    |
+| `packages/middleware/tsconfig.json` | Ensure lib includes Web APIs for edge runtime |
 
 ### Dependencies
 
@@ -62,16 +62,17 @@ pnpm add @vercel/kv --filter @repo/middleware
 > **Note**: For complete configuration file templates, reference the TAD.
 > This section describes configuration REQUIREMENTS, not full file contents.
 
-| Setting                    | Requirement                                        | TAD Reference                                                                                               |
-| -------------------------- | -------------------------------------------------- | ----------------------------------------------------------------------------------------------------------- |
-| Rate limit thresholds      | Anonymous: 20/min, User: 100/min, Org: 1000/min    | [TAD: Rate Limiting Middleware](/docs/2-technical/2-tad-edge-middleware.md#rate-limiting-middleware)        |
-| Time window                | 60 seconds (1 minute)                              | [TAD: Rate Limiting Middleware](/docs/2-technical/2-tad-edge-middleware.md#rate-limiting-middleware)        |
-| Storage backend            | Vercel KV for distributed rate limiting            | [TAD: Rate Limiting](/docs/2-technical/2-tad-edge-middleware.md#rate-limiting-middleware)                   |
-| Failure mode               | Fail open (allow requests when storage fails)      | [TAD: Rate Limiting Middleware](/docs/2-technical/2-tad-edge-middleware.md#rate-limiting-middleware)        |
-| Identifier priority        | 1) userId, 2) OrganizationId, 3) IP address        | [TAD: Rate Limiting Middleware](/docs/2-technical/2-tad-edge-middleware.md#rate-limiting-middleware)        |
-| Response headers           | X-RateLimit-*, Retry-After                         | [TAD: Rate Limiting Middleware](/docs/2-technical/2-tad-edge-middleware.md#rate-limiting-middleware)        |
+| Setting               | Requirement                                     | TAD Reference                                                                                        |
+| --------------------- | ----------------------------------------------- | ---------------------------------------------------------------------------------------------------- |
+| Rate limit thresholds | Anonymous: 20/min, User: 100/min, Org: 1000/min | [TAD: Rate Limiting Middleware](/docs/2-technical/2-tad-edge-middleware.md#rate-limiting-middleware) |
+| Time window           | 60 seconds (1 minute)                           | [TAD: Rate Limiting Middleware](/docs/2-technical/2-tad-edge-middleware.md#rate-limiting-middleware) |
+| Storage backend       | Vercel KV for distributed rate limiting         | [TAD: Rate Limiting](/docs/2-technical/2-tad-edge-middleware.md#rate-limiting-middleware)            |
+| Failure mode          | Fail open (allow requests when storage fails)   | [TAD: Rate Limiting Middleware](/docs/2-technical/2-tad-edge-middleware.md#rate-limiting-middleware) |
+| Identifier priority   | 1) userId, 2) OrganizationId, 3) IP address     | [TAD: Rate Limiting Middleware](/docs/2-technical/2-tad-edge-middleware.md#rate-limiting-middleware) |
+| Response headers      | X-RateLimit-\*, Retry-After                     | [TAD: Rate Limiting Middleware](/docs/2-technical/2-tad-edge-middleware.md#rate-limiting-middleware) |
 
 **Configuration Rationale**:
+
 - Conservative anonymous limits (20/min) prevent abuse while allowing legitimate exploration
 - Higher authenticated user limits (100/min) support typical application usage patterns
 - Organization-level limits (1000/min) accommodate multi-user team workflows
@@ -93,7 +94,7 @@ For complete rate limiting implementation patterns, see: [TAD: Rate Limiting Mid
 
 - [ ] Unit: `rate-limit.test.ts` - Rate limit calculation logic
 - [ ] Unit: `rate-limit.test.ts` - Identifier selection (userId > OrganizationId > IP)
-- [ ] Unit: `rate-limit.test.ts` - Response header generation (X-RateLimit-*, Retry-After)
+- [ ] Unit: `rate-limit.test.ts` - Response header generation (X-RateLimit-\*, Retry-After)
 - [ ] Unit: `rate-limit.test.ts` - Fail-open behavior when storage throws error
 - [ ] Unit: `rate-limit-config.test.ts` - Configuration validation and threshold selection
 - [ ] Edge: `rate-limit.edge.test.ts` - Edge runtime compatibility (Web APIs only, no Node.js)
@@ -202,13 +203,13 @@ Key pattern notes for this story:
 
 ### Troubleshooting
 
-| Issue                                       | Cause                                      | Solution                                                  |
-| ------------------------------------------- | ------------------------------------------ | --------------------------------------------------------- |
-| Rate limit not working across edge regions  | KV not configured or replication lag       | Verify VERCEL_KV_URL environment variable is set          |
-| All requests getting rate limited           | Identifier extraction failing              | Check context.userId/OrganizationId are set by auth middleware |
-| Cold start times exceed 50ms                | Too many dependencies imported at top      | Use dynamic imports for non-critical paths                |
-| Tests fail with "Node.js API not available" | Using Node.js crypto or other modules      | Switch to Web Crypto API and other Web standard APIs     |
-| Rate limit headers showing incorrect values | Timestamp calculation using Date.now()     | Ensure all timestamps use milliseconds consistently       |
+| Issue                                       | Cause                                  | Solution                                                       |
+| ------------------------------------------- | -------------------------------------- | -------------------------------------------------------------- |
+| Rate limit not working across edge regions  | KV not configured or replication lag   | Verify VERCEL_KV_URL environment variable is set               |
+| All requests getting rate limited           | Identifier extraction failing          | Check context.userId/OrganizationId are set by auth middleware |
+| Cold start times exceed 50ms                | Too many dependencies imported at top  | Use dynamic imports for non-critical paths                     |
+| Tests fail with "Node.js API not available" | Using Node.js crypto or other modules  | Switch to Web Crypto API and other Web standard APIs           |
+| Rate limit headers showing incorrect values | Timestamp calculation using Date.now() | Ensure all timestamps use milliseconds consistently            |
 
 ### Reference Materials
 
@@ -255,17 +256,20 @@ Link to decisions documented elsewhere that apply to this story:
 **Decision**: Use sliding window algorithm instead of fixed window for rate limiting
 
 **Rationale**:
+
 - Sliding window provides smoother rate limiting without burst allowances at window boundaries
 - Fixed window allows 2x burst rate (e.g., 20 requests at end of minute 1, 20 at start of minute 2 = 40 in 1 second)
 - Sliding window complexity is minimal with KV expiration handling most logic
 - Better user experience with more predictable rate limiting behavior
 
 **Consequences**:
+
 - Slightly more complex implementation requiring timestamp tracking
 - More accurate rate limiting without burst edge cases
 - Better protection against abuse patterns
 
 **Alternatives Considered**:
+
 - **Fixed Window**: Simpler to implement but allows burst attacks at window boundaries - Rejected due to security concerns
 - **Token Bucket**: More flexible but significantly more complex for edge runtime - Rejected due to implementation complexity
 

@@ -32,22 +32,22 @@
 
 ### Files to Create
 
-| Path                                               | Purpose                                      |
-| -------------------------------------------------- | -------------------------------------------- |
-| `apps/cdn/app/api/upload/route.ts`                 | File upload API endpoint                     |
-| `apps/cdn/lib/upload/file-validator.ts`            | File type and size validation utilities      |
-| `apps/cdn/lib/upload/content-hash.ts`              | Content-based hash generation for filenames  |
-| `apps/cdn/lib/upload/upload-handler.ts`            | Upload processing logic                      |
-| `apps/cdn/lib/upload/types.ts`                     | TypeScript interfaces for upload operations  |
-| `apps/cdn/__tests__/api/upload.test.ts`            | API endpoint tests                           |
-| `apps/cdn/__tests__/lib/upload/file-validator.test.ts` | File validation tests                        |
-| `apps/cdn/__tests__/lib/upload/content-hash.test.ts`   | Content hash generation tests                |
+| Path                                                   | Purpose                                     |
+| ------------------------------------------------------ | ------------------------------------------- |
+| `apps/cdn/app/api/upload/route.ts`                     | File upload API endpoint                    |
+| `apps/cdn/lib/upload/file-validator.ts`                | File type and size validation utilities     |
+| `apps/cdn/lib/upload/content-hash.ts`                  | Content-based hash generation for filenames |
+| `apps/cdn/lib/upload/upload-handler.ts`                | Upload processing logic                     |
+| `apps/cdn/lib/upload/types.ts`                         | TypeScript interfaces for upload operations |
+| `apps/cdn/__tests__/api/upload.test.ts`                | API endpoint tests                          |
+| `apps/cdn/__tests__/lib/upload/file-validator.test.ts` | File validation tests                       |
+| `apps/cdn/__tests__/lib/upload/content-hash.test.ts`   | Content hash generation tests               |
 
 ### Files to Modify
 
-| Path                        | Changes                                                     |
-| --------------------------- | ----------------------------------------------------------- |
-| `apps/cdn/next.config.ts`   | Configure file upload size limits and allowed MIME types    |
+| Path                         | Changes                                                    |
+| ---------------------------- | ---------------------------------------------------------- |
+| `apps/cdn/next.config.ts`    | Configure file upload size limits and allowed MIME types   |
 | `apps/cdn/public/.gitignore` | Add upload directory to gitignore (if using local storage) |
 
 ### Dependencies
@@ -72,15 +72,16 @@ pnpm add hash-wasm
 > **Note**: For complete configuration file templates, reference the TAD.
 > This section describes configuration REQUIREMENTS, not full file contents.
 
-| Setting                    | Requirement                                  | TAD Reference                                                                              |
-| -------------------------- | -------------------------------------------- | ------------------------------------------------------------------------------------------ |
-| `api.bodyParser.sizeLimit` | Set to 100MB to match Vercel deployment limit | [TAD: CDN Architecture](/docs/2-technical/2-tad-cdn.md#configuration)                      |
-| `allowedMimeTypes`         | Restrict to images, PDFs, and allowed formats | [TAD: CDN Architecture](/docs/2-technical/2-tad-cdn.md#asset-optimization)                 |
-| `maxFileSize`              | 100MB (104857600 bytes)                      | [TAD: CDN Architecture](/docs/2-technical/2-tad-cdn.md#configuration)                      |
-| `contentHashAlgorithm`     | Use SHA-256 for content-based filenames     | [TAD: CDN Architecture](/docs/2-technical/2-tad-cdn.md#caching-strategy)                   |
-| `uploadDirectory`          | `/public/uploads` (or Vercel Blob Storage)  | [TAD: CDN Architecture](/docs/2-technical/2-tad-cdn.md#asset-optimization)                 |
+| Setting                    | Requirement                                   | TAD Reference                                                              |
+| -------------------------- | --------------------------------------------- | -------------------------------------------------------------------------- |
+| `api.bodyParser.sizeLimit` | Set to 100MB to match Vercel deployment limit | [TAD: CDN Architecture](/docs/2-technical/2-tad-cdn.md#configuration)      |
+| `allowedMimeTypes`         | Restrict to images, PDFs, and allowed formats | [TAD: CDN Architecture](/docs/2-technical/2-tad-cdn.md#asset-optimization) |
+| `maxFileSize`              | 100MB (104857600 bytes)                       | [TAD: CDN Architecture](/docs/2-technical/2-tad-cdn.md#configuration)      |
+| `contentHashAlgorithm`     | Use SHA-256 for content-based filenames       | [TAD: CDN Architecture](/docs/2-technical/2-tad-cdn.md#caching-strategy)   |
+| `uploadDirectory`          | `/public/uploads` (or Vercel Blob Storage)    | [TAD: CDN Architecture](/docs/2-technical/2-tad-cdn.md#asset-optimization) |
 
 **Configuration Rationale**:
+
 - The 100MB limit aligns with Vercel's serverless function and deployment constraints
 - Content-hash filenames enable immutable caching (1-year cache TTL) without invalidation concerns
 - SHA-256 ensures collision-resistant filenames while maintaining reasonable performance
@@ -224,12 +225,12 @@ Key pattern notes for this story:
 
 ### Troubleshooting
 
-| Issue                                   | Cause                                  | Solution                                                   |
-| --------------------------------------- | -------------------------------------- | ---------------------------------------------------------- |
-| Upload fails with "Payload Too Large"   | File exceeds 100MB limit               | Verify file size before upload; display size limit in UI   |
-| Upload succeeds but file not accessible | Incorrect public directory path        | Verify upload directory is in `/public` for static serving |
-| Content-hash collision                  | SHA-256 hash truncation too short      | Use at least 16 characters of hash to minimize collisions  |
-| Upload times out                        | Large file processed synchronously     | Implement streaming upload for files >10MB                 |
+| Issue                                   | Cause                                   | Solution                                                   |
+| --------------------------------------- | --------------------------------------- | ---------------------------------------------------------- |
+| Upload fails with "Payload Too Large"   | File exceeds 100MB limit                | Verify file size before upload; display size limit in UI   |
+| Upload succeeds but file not accessible | Incorrect public directory path         | Verify upload directory is in `/public` for static serving |
+| Content-hash collision                  | SHA-256 hash truncation too short       | Use at least 16 characters of hash to minimize collisions  |
+| Upload times out                        | Large file processed synchronously      | Implement streaming upload for files >10MB                 |
 | File type validation bypassed           | Validation based only on file extension | Use `file-type` library to check magic numbers             |
 
 ### Reference Materials

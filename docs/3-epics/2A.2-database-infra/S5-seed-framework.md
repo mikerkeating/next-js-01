@@ -30,12 +30,12 @@
 
 ### Files to Create
 
-| Path                                          | Purpose                                        |
-| --------------------------------------------- | ---------------------------------------------- |
-| `packages/database/src/seed/index.ts`         | Seed script entry point                        |
-| `packages/database/src/seed/factories.ts`     | Generic factory utilities for data generation  |
-| `packages/database/src/seed/utils.ts`         | Helper functions for seeding operations        |
-| `packages/database/src/seed/config.ts`        | Environment-based seed configuration           |
+| Path                                      | Purpose                                       |
+| ----------------------------------------- | --------------------------------------------- |
+| `packages/database/src/seed/index.ts`     | Seed script entry point                       |
+| `packages/database/src/seed/factories.ts` | Generic factory utilities for data generation |
+| `packages/database/src/seed/utils.ts`     | Helper functions for seeding operations       |
+| `packages/database/src/seed/config.ts`    | Environment-based seed configuration          |
 
 ### Files to Modify
 
@@ -60,13 +60,13 @@ pnpm add -D @faker-js/faker --filter @repo/database
 > **Note**: For complete patterns, reference the TAD.
 > This section describes configuration REQUIREMENTS, not full file contents.
 
-| Setting              | Requirement                                                                 | Notes                                            |
-| -------------------- | --------------------------------------------------------------------------- | ------------------------------------------------ |
-| `seed:dev`           | Seeds development data (larger dataset)                                    | Controlled by `NODE_ENV=development`             |
-| `seed:test`          | Seeds minimal test data (fast execution)                                   | Controlled by `NODE_ENV=test`                    |
-| `seed:staging`       | Seeds production-like data                                                 | Controlled by `NODE_ENV=staging`                 |
-| Idempotent seeding   | Clear existing data before seeding to ensure reproducibility               | Use `DELETE` or `TRUNCATE` before insert         |
-| Transaction support  | Allow seeding within transactions for test isolation                       | Support both committed and rolled-back modes     |
+| Setting             | Requirement                                                  | Notes                                        |
+| ------------------- | ------------------------------------------------------------ | -------------------------------------------- |
+| `seed:dev`          | Seeds development data (larger dataset)                      | Controlled by `NODE_ENV=development`         |
+| `seed:test`         | Seeds minimal test data (fast execution)                     | Controlled by `NODE_ENV=test`                |
+| `seed:staging`      | Seeds production-like data                                   | Controlled by `NODE_ENV=staging`             |
+| Idempotent seeding  | Clear existing data before seeding to ensure reproducibility | Use `DELETE` or `TRUNCATE` before insert     |
+| Transaction support | Allow seeding within transactions for test isolation         | Support both committed and rolled-back modes |
 
 **Configuration Rationale**:
 
@@ -164,13 +164,13 @@ Key pattern notes for this story:
 
 ### Troubleshooting
 
-| Issue                                  | Cause                                         | Solution                                                      |
-| -------------------------------------- | --------------------------------------------- | ------------------------------------------------------------- |
-| Duplicate key errors on re-seed        | Data not cleared before seeding               | Implement proper clear/truncate before insert                 |
-| Faker generates invalid data           | Missing constraints in factory                | Add validation to match schema constraints                    |
-| Slow seed performance                  | Too many individual inserts                   | Use batch inserts with Drizzle `.values([])` array            |
-| Foreign key constraint errors          | Seeding tables in wrong order                 | Seed parent tables before child tables                        |
-| Connection timeout during seed         | Too much data or slow connection              | Reduce seed volume for test environment                       |
+| Issue                           | Cause                            | Solution                                           |
+| ------------------------------- | -------------------------------- | -------------------------------------------------- |
+| Duplicate key errors on re-seed | Data not cleared before seeding  | Implement proper clear/truncate before insert      |
+| Faker generates invalid data    | Missing constraints in factory   | Add validation to match schema constraints         |
+| Slow seed performance           | Too many individual inserts      | Use batch inserts with Drizzle `.values([])` array |
+| Foreign key constraint errors   | Seeding tables in wrong order    | Seed parent tables before child tables             |
+| Connection timeout during seed  | Too much data or slow connection | Reduce seed volume for test environment            |
 
 ### Reference Materials
 

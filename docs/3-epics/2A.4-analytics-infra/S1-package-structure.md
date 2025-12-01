@@ -30,22 +30,22 @@
 
 ### Files to Create
 
-| Path                                 | Purpose                                     |
-| ------------------------------------ | ------------------------------------------- |
-| `packages/analytics/package.json`    | Package configuration and dependencies      |
-| `packages/analytics/tsconfig.json`   | TypeScript configuration extending @repo/config |
-| `packages/analytics/.eslintrc.js`    | ESLint configuration extending @repo/config |
-| `packages/analytics/src/index.ts`    | Main package entry point with exports       |
-| `packages/analytics/src/types.ts`    | Shared TypeScript type definitions          |
-| `packages/analytics/README.md`       | Package documentation                       |
-| `packages/analytics/.gitignore`      | Git ignore rules for build artifacts        |
-| `packages/analytics/tsup.config.ts`  | Build configuration for package bundling    |
+| Path                                | Purpose                                         |
+| ----------------------------------- | ----------------------------------------------- |
+| `packages/analytics/package.json`   | Package configuration and dependencies          |
+| `packages/analytics/tsconfig.json`  | TypeScript configuration extending @repo/config |
+| `packages/analytics/.eslintrc.js`   | ESLint configuration extending @repo/config     |
+| `packages/analytics/src/index.ts`   | Main package entry point with exports           |
+| `packages/analytics/src/types.ts`   | Shared TypeScript type definitions              |
+| `packages/analytics/README.md`      | Package documentation                           |
+| `packages/analytics/.gitignore`     | Git ignore rules for build artifacts            |
+| `packages/analytics/tsup.config.ts` | Build configuration for package bundling        |
 
 ### Files to Modify
 
-| Path         | Changes                                                 |
-| ------------ | ------------------------------------------------------- |
-| `turbo.json` | Add `@repo/analytics#build` task to pipeline            |
+| Path                       | Changes                                        |
+| -------------------------- | ---------------------------------------------- |
+| `turbo.json`               | Add `@repo/analytics#build` task to pipeline   |
 | Root `pnpm-workspace.yaml` | Verify `packages/*` pattern includes analytics |
 
 ### Dependencies
@@ -71,13 +71,13 @@ pnpm add -D typescript tsup @repo/config
 > **Note**: For complete configuration file templates, reference the TAD.
 > This section describes configuration REQUIREMENTS, not full file contents.
 
-| Setting                      | Requirement                                              | TAD Reference                                                                  |
-| ---------------------------- | -------------------------------------------------------- | ------------------------------------------------------------------------------ |
-| TypeScript `strict` mode     | Must be enabled for type safety                          | [TAD: Package Architecture](/docs/2-technical/2-tad.md#package-architecture)   |
-| ESLint extends               | Must extend `@repo/config/eslint/base`                   | [TAD: Package Architecture](/docs/2-technical/2-tad.md#package-architecture)   |
-| Package exports              | Use conditional exports for ESM                          | [TAD: Package Architecture](/docs/2-technical/2-tad.md#package-architecture)   |
-| Build output                 | Generate ESM modules in `dist/` directory                | [TAD: Package Architecture](/docs/2-technical/2-tad.md#package-architecture)   |
-| Module type                  | `"type": "module"` for native ESM support                | [TAD: Package Architecture](/docs/2-technical/2-tad.md#package-architecture)   |
+| Setting                  | Requirement                               | TAD Reference                                                                |
+| ------------------------ | ----------------------------------------- | ---------------------------------------------------------------------------- |
+| TypeScript `strict` mode | Must be enabled for type safety           | [TAD: Package Architecture](/docs/2-technical/2-tad.md#package-architecture) |
+| ESLint extends           | Must extend `@repo/config/eslint/base`    | [TAD: Package Architecture](/docs/2-technical/2-tad.md#package-architecture) |
+| Package exports          | Use conditional exports for ESM           | [TAD: Package Architecture](/docs/2-technical/2-tad.md#package-architecture) |
+| Build output             | Generate ESM modules in `dist/` directory | [TAD: Package Architecture](/docs/2-technical/2-tad.md#package-architecture) |
+| Module type              | `"type": "module"` for native ESM support | [TAD: Package Architecture](/docs/2-technical/2-tad.md#package-architecture) |
 
 **Configuration Rationale**: The analytics package must support both server and client environments (Edge, Node.js, browser), requiring ESM modules with proper conditional exports. TypeScript strict mode ensures type safety for event data and provider integrations. Build tooling (tsup) enables tree-shaking for minimal bundle impact, critical for client-side analytics code.
 
@@ -159,12 +159,12 @@ Key pattern notes for this story:
 
 ### Troubleshooting
 
-| Issue                                      | Cause                                        | Solution                                                         |
-| ------------------------------------------ | -------------------------------------------- | ---------------------------------------------------------------- |
-| TypeScript cannot find `@repo/config`      | Config package not built or linked           | Run `pnpm build --filter @repo/config` first                     |
-| Import fails with module not found         | Package exports not configured correctly     | Verify `package.json` exports field matches file structure       |
-| Turborepo doesn't cache build              | Task not defined in `turbo.json`             | Add `@repo/analytics#build` to pipeline with outputs config      |
-| ESLint fails with config not found         | ESLint config package not installed properly | Verify `@repo/config` is in devDependencies and installed        |
+| Issue                                      | Cause                                        | Solution                                                             |
+| ------------------------------------------ | -------------------------------------------- | -------------------------------------------------------------------- |
+| TypeScript cannot find `@repo/config`      | Config package not built or linked           | Run `pnpm build --filter @repo/config` first                         |
+| Import fails with module not found         | Package exports not configured correctly     | Verify `package.json` exports field matches file structure           |
+| Turborepo doesn't cache build              | Task not defined in `turbo.json`             | Add `@repo/analytics#build` to pipeline with outputs config          |
+| ESLint fails with config not found         | ESLint config package not installed properly | Verify `@repo/config` is in devDependencies and installed            |
 | Type checking fails with strict mode error | Source files have type errors                | Fix type errors or add `@ts-expect-error` comments with explanations |
 
 ### Reference Materials
@@ -181,6 +181,7 @@ Key pattern notes for this story:
 ## Architecture Decisions
 
 **Consolidated Decisions** (documented in TAD/ADRs):
+
 - [TAD: Package Architecture](/docs/2-technical/2-tad.md#package-architecture) - Monorepo package structure
 - [ADR-001: Monorepo with Turborepo](/docs/2-technical/adr/001-monorepo-turborepo.md) - Build caching rationale
 - [TAD: Analytics & Observability](/docs/2-technical/2-tad.md#analytics--observability) - Overall analytics strategy
@@ -194,17 +195,20 @@ Key pattern notes for this story:
 **Decision**: Use tsup instead of tsc for building the analytics package
 
 **Rationale**:
+
 - tsup provides zero-config bundling with tree-shaking
 - Generates optimized ESM output with type declarations
 - Faster build times for library packages compared to tsc alone
 - Built-in support for multiple entry points (needed for future sub-exports)
 
 **Consequences**:
+
 - Simpler build configuration
 - Better bundle optimization for client-side code
 - Dependency on tsup package (minimal risk, widely used)
 
 **Alternatives Considered**:
+
 - **tsc only**: Rejected because requires additional bundling configuration and lacks tree-shaking optimization
 - **rollup**: Rejected due to more complex configuration overhead for simple package needs
 
@@ -239,6 +243,7 @@ The following items are explicitly NOT part of this story:
 ## References
 
 **Internal**:
+
 - [EPIC.md: Overview](./EPIC.md#overview), [Technical Constraints](./EPIC.md#technical-constraints)
 - [TAD: Package Architecture](/docs/2-technical/2-tad.md#package-architecture)
 - [TAD: Analytics & Observability](/docs/2-technical/2-tad.md#analytics--observability)
@@ -247,6 +252,7 @@ The following items are explicitly NOT part of this story:
 - [Canonical Technology Versions](/docs/2-technical/references/canonical-versions.md)
 
 **External**:
+
 - [Turborepo Handbook](https://turbo.build/repo/docs/core-concepts/monorepos/structuring-a-repository)
 - [pnpm Workspaces](https://pnpm.io/workspaces)
 - [TypeScript Package Exports](https://www.typescriptlang.org/docs/handbook/esm-node.html)

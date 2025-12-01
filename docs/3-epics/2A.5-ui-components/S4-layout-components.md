@@ -35,29 +35,29 @@
 
 ### Files to Create
 
-| Path                                                       | Purpose                                    |
-| ---------------------------------------------------------- | ------------------------------------------ |
-| `packages/ui/src/components/ui/card.tsx`                   | Card layout component with composition     |
-| `packages/ui/src/components/ui/dialog.tsx`                 | Modal dialog component with overlay        |
-| `packages/ui/src/components/ui/dropdown-menu.tsx`          | Dropdown menu with submenus                |
-| `packages/ui/src/components/ui/tabs.tsx`                   | Tab navigation component                   |
-| `packages/ui/src/components/ui/popover.tsx`                | Popover positioning component              |
-| `packages/ui/src/components/ui/sheet.tsx`                  | Slide-in sheet/drawer component            |
-| `packages/ui/src/components/ui/separator.tsx`              | Visual divider component                   |
-| `packages/ui/src/components/__tests__/card.test.tsx`       | Card component tests                       |
-| `packages/ui/src/components/__tests__/dialog.test.tsx`     | Dialog component tests                     |
-| `packages/ui/src/components/__tests__/dropdown-menu.test.tsx` | Dropdown menu tests                     |
-| `packages/ui/src/components/__tests__/tabs.test.tsx`       | Tabs component tests                       |
-| `packages/ui/src/components/__tests__/popover.test.tsx`    | Popover component tests                    |
-| `packages/ui/src/components/__tests__/sheet.test.tsx`      | Sheet component tests                      |
+| Path                                                          | Purpose                                |
+| ------------------------------------------------------------- | -------------------------------------- |
+| `packages/ui/src/components/ui/card.tsx`                      | Card layout component with composition |
+| `packages/ui/src/components/ui/dialog.tsx`                    | Modal dialog component with overlay    |
+| `packages/ui/src/components/ui/dropdown-menu.tsx`             | Dropdown menu with submenus            |
+| `packages/ui/src/components/ui/tabs.tsx`                      | Tab navigation component               |
+| `packages/ui/src/components/ui/popover.tsx`                   | Popover positioning component          |
+| `packages/ui/src/components/ui/sheet.tsx`                     | Slide-in sheet/drawer component        |
+| `packages/ui/src/components/ui/separator.tsx`                 | Visual divider component               |
+| `packages/ui/src/components/__tests__/card.test.tsx`          | Card component tests                   |
+| `packages/ui/src/components/__tests__/dialog.test.tsx`        | Dialog component tests                 |
+| `packages/ui/src/components/__tests__/dropdown-menu.test.tsx` | Dropdown menu tests                    |
+| `packages/ui/src/components/__tests__/tabs.test.tsx`          | Tabs component tests                   |
+| `packages/ui/src/components/__tests__/popover.test.tsx`       | Popover component tests                |
+| `packages/ui/src/components/__tests__/sheet.test.tsx`         | Sheet component tests                  |
 
 ### Files to Modify
 
-| Path                       | Changes                                      |
-| -------------------------- | -------------------------------------------- |
-| `packages/ui/src/index.ts` | Export all layout components                 |
-| `packages/ui/package.json` | Add Radix UI overlay/menu dependencies       |
-| `packages/ui/README.md`    | Add layout components usage documentation    |
+| Path                       | Changes                                   |
+| -------------------------- | ----------------------------------------- |
+| `packages/ui/src/index.ts` | Export all layout components              |
+| `packages/ui/package.json` | Add Radix UI overlay/menu dependencies    |
+| `packages/ui/README.md`    | Add layout components usage documentation |
 
 ### Dependencies
 
@@ -75,14 +75,14 @@ pnpm add -D @testing-library/react @testing-library/user-event @testing-library/
 
 > **Note**: For complete configuration file templates, reference the TAD.
 
-| Setting                    | Requirement                                           | TAD Reference                                                                      |
-| -------------------------- | ----------------------------------------------------- | ---------------------------------------------------------------------------------- |
-| Component variants         | Use `class-variance-authority` for variant logic      | [TAD: UI & Styling](/docs/2-technical/2-tad.md#ui--styling)                        |
-| Overlay positioning        | Use Radix UI Popper for dropdown/popover positioning  | [TAD: UI Components Architecture](/docs/2-technical/2-tad.md#ui-components-architecture) |
-| Focus management           | All overlay components must trap focus                | [TAD: UI Components Architecture](/docs/2-technical/2-tad.md#ui-components-architecture) |
-| Analytics tracking         | All components accept `data-component-id` prop        | [TAD: Analytics Infrastructure](/docs/2-technical/2-tad.md#analytics--observability) |
-| Animations                 | Use Tailwind CSS transitions for enter/exit           | [TAD: UI & Styling](/docs/2-technical/2-tad.md#ui--styling)                        |
-| Portal rendering           | Use Radix UI Portal for overlay components            | [TAD: UI Components Architecture](/docs/2-technical/2-tad.md#ui-components-architecture) |
+| Setting             | Requirement                                          | TAD Reference                                                                            |
+| ------------------- | ---------------------------------------------------- | ---------------------------------------------------------------------------------------- |
+| Component variants  | Use `class-variance-authority` for variant logic     | [TAD: UI & Styling](/docs/2-technical/2-tad.md#ui--styling)                              |
+| Overlay positioning | Use Radix UI Popper for dropdown/popover positioning | [TAD: UI Components Architecture](/docs/2-technical/2-tad.md#ui-components-architecture) |
+| Focus management    | All overlay components must trap focus               | [TAD: UI Components Architecture](/docs/2-technical/2-tad.md#ui-components-architecture) |
+| Analytics tracking  | All components accept `data-component-id` prop       | [TAD: Analytics Infrastructure](/docs/2-technical/2-tad.md#analytics--observability)     |
+| Animations          | Use Tailwind CSS transitions for enter/exit          | [TAD: UI & Styling](/docs/2-technical/2-tad.md#ui--styling)                              |
+| Portal rendering    | Use Radix UI Portal for overlay components           | [TAD: UI Components Architecture](/docs/2-technical/2-tad.md#ui-components-architecture) |
 
 **Configuration Rationale**: Radix UI provides accessible primitives with built-in overlay management, focus trapping, and keyboard navigation. Portal rendering ensures overlays render above all other content regardless of DOM hierarchy. See [TAD: UI Components Architecture](/docs/2-technical/2-tad.md#ui-components-architecture) for complete integration patterns.
 
@@ -231,16 +231,16 @@ Key pattern notes for this story:
 
 ### Troubleshooting
 
-| Issue                                          | Cause                                   | Solution                                              |
-| ---------------------------------------------- | --------------------------------------- | ----------------------------------------------------- |
-| Dialog not closing on outside click            | Missing onInteractOutside handler       | Verify DialogContent has proper Radix props          |
-| Dropdown menu not positioning correctly        | z-index conflict or portal issue        | Ensure DropdownMenuContent uses Portal, check z-index |
-| Focus not trapped in Dialog                    | Missing Radix Dialog primitive features | Use @radix-ui/react-dialog, not custom implementation |
-| Tabs keyboard navigation not working           | Missing ARIA attributes or event handlers | Verify using Radix Tabs primitive correctly         |
-| Sheet animation stuttering                     | CSS transition conflicts                | Use Tailwind animate classes, avoid conflicting transitions |
-| Popover appears off-screen                     | Missing collision detection config      | Configure Radix Popover collisionPadding and side    |
-| Card spacing inconsistent                      | Missing padding or gap utilities        | Use consistent Tailwind spacing (p-6, gap-4)         |
-| Analytics `data-component-id` not appearing    | Prop not spread onto root element       | Add explicit data attribute spread to compound root  |
+| Issue                                       | Cause                                     | Solution                                                    |
+| ------------------------------------------- | ----------------------------------------- | ----------------------------------------------------------- |
+| Dialog not closing on outside click         | Missing onInteractOutside handler         | Verify DialogContent has proper Radix props                 |
+| Dropdown menu not positioning correctly     | z-index conflict or portal issue          | Ensure DropdownMenuContent uses Portal, check z-index       |
+| Focus not trapped in Dialog                 | Missing Radix Dialog primitive features   | Use @radix-ui/react-dialog, not custom implementation       |
+| Tabs keyboard navigation not working        | Missing ARIA attributes or event handlers | Verify using Radix Tabs primitive correctly                 |
+| Sheet animation stuttering                  | CSS transition conflicts                  | Use Tailwind animate classes, avoid conflicting transitions |
+| Popover appears off-screen                  | Missing collision detection config        | Configure Radix Popover collisionPadding and side           |
+| Card spacing inconsistent                   | Missing padding or gap utilities          | Use consistent Tailwind spacing (p-6, gap-4)                |
+| Analytics `data-component-id` not appearing | Prop not spread onto root element         | Add explicit data attribute spread to compound root         |
 
 ### Reference Materials
 

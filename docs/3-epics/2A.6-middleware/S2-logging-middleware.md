@@ -30,17 +30,17 @@
 
 ### Files to Create
 
-| Path                                           | Purpose                             |
-| ---------------------------------------------- | ----------------------------------- |
-| `packages/middleware/src/logging.ts`           | Logging middleware implementation   |
-| `packages/middleware/tests/logging.test.ts`    | Unit tests for logging middleware   |
+| Path                                        | Purpose                           |
+| ------------------------------------------- | --------------------------------- |
+| `packages/middleware/src/logging.ts`        | Logging middleware implementation |
+| `packages/middleware/tests/logging.test.ts` | Unit tests for logging middleware |
 
 ### Files to Modify
 
-| Path                                   | Changes                                  |
-| -------------------------------------- | ---------------------------------------- |
-| `packages/middleware/src/index.ts`     | Export `loggingMiddleware`               |
-| `packages/middleware/README.md`        | Add logging middleware documentation     |
+| Path                               | Changes                              |
+| ---------------------------------- | ------------------------------------ |
+| `packages/middleware/src/index.ts` | Export `loggingMiddleware`           |
+| `packages/middleware/README.md`    | Add logging middleware documentation |
 
 ### Dependencies
 
@@ -53,11 +53,11 @@ No additional dependencies required beyond those installed in S1 (Next.js types 
 > **Note**: For complete configuration file templates, reference the TAD.
 > This section describes configuration REQUIREMENTS, not full file contents.
 
-| Setting | Requirement | TAD Reference |
-| ------- | ----------- | ------------- |
-| Log format | Structured JSON with timestamp, level, message, service, data fields | [TAD: Observability Architecture](/docs/2-technical/2-tad-observability.md) |
-| Request ID generation | Use Web Crypto API `crypto.randomUUID()` (edge-compatible) | [TAD: Edge Middleware Architecture](/docs/2-technical/2-tad-edge-middleware.md#logging-middleware) |
-| Context enrichment | Add requestId to `context.metadata.requestId` | [TAD: Middleware Chain Composition](/docs/2-technical/2-tad-edge-middleware.md#middleware-chain-composition) |
+| Setting               | Requirement                                                          | TAD Reference                                                                                                |
+| --------------------- | -------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------ |
+| Log format            | Structured JSON with timestamp, level, message, service, data fields | [TAD: Observability Architecture](/docs/2-technical/2-tad-observability.md)                                  |
+| Request ID generation | Use Web Crypto API `crypto.randomUUID()` (edge-compatible)           | [TAD: Edge Middleware Architecture](/docs/2-technical/2-tad-edge-middleware.md#logging-middleware)           |
+| Context enrichment    | Add requestId to `context.metadata.requestId`                        | [TAD: Middleware Chain Composition](/docs/2-technical/2-tad-edge-middleware.md#middleware-chain-composition) |
 
 **Configuration Rationale**: Structured JSON logs enable log aggregation and analysis in Vercel logs. Using crypto.randomUUID() ensures edge runtime compatibility (no Node.js crypto dependency). Storing requestId in context allows downstream middleware and application code to correlate logs.
 
@@ -157,12 +157,12 @@ Key pattern notes for this story:
 
 ### Troubleshooting
 
-| Issue | Cause | Solution |
-| ----- | ----- | -------- |
-| "crypto is not defined" | Using Node.js crypto instead of Web Crypto | Use global `crypto.randomUUID()` not `require('crypto')` |
-| Request ID not available in downstream middleware | Not adding to context.metadata | Ensure `context.metadata.requestId = requestId` is set |
-| Logs not appearing in Vercel | Using console.error or other log level | Use `console.log()` for edge middleware (Vercel captures stdout) |
-| IP address always null | Wrong header name or missing header | Check both `request.ip` and `x-forwarded-for` header |
+| Issue                                             | Cause                                      | Solution                                                         |
+| ------------------------------------------------- | ------------------------------------------ | ---------------------------------------------------------------- |
+| "crypto is not defined"                           | Using Node.js crypto instead of Web Crypto | Use global `crypto.randomUUID()` not `require('crypto')`         |
+| Request ID not available in downstream middleware | Not adding to context.metadata             | Ensure `context.metadata.requestId = requestId` is set           |
+| Logs not appearing in Vercel                      | Using console.error or other log level     | Use `console.log()` for edge middleware (Vercel captures stdout) |
+| IP address always null                            | Wrong header name or missing header        | Check both `request.ip` and `x-forwarded-for` header             |
 
 ### Reference Materials
 

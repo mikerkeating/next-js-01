@@ -32,17 +32,17 @@
 
 ### Files to Create
 
-| Path                                              | Purpose                               |
-| ------------------------------------------------- | ------------------------------------- |
-| `packages/middleware/src/matchers.ts`             | Route matcher utilities               |
-| `packages/middleware/tests/matchers.test.ts`      | Unit tests for matchers               |
+| Path                                         | Purpose                 |
+| -------------------------------------------- | ----------------------- |
+| `packages/middleware/src/matchers.ts`        | Route matcher utilities |
+| `packages/middleware/tests/matchers.test.ts` | Unit tests for matchers |
 
 ### Files to Modify
 
-| Path                                  | Changes                                          |
-| ------------------------------------- | ------------------------------------------------ |
-| `packages/middleware/src/index.ts`    | Export matcher utilities                         |
-| `packages/middleware/README.md`       | Add matcher utilities usage documentation        |
+| Path                               | Changes                                   |
+| ---------------------------------- | ----------------------------------------- |
+| `packages/middleware/src/index.ts` | Export matcher utilities                  |
+| `packages/middleware/README.md`    | Add matcher utilities usage documentation |
 
 ### Dependencies
 
@@ -57,11 +57,11 @@ All dependencies already installed in S1. No additional dependencies required.
 
 Route matchers are utility functions and do not require configuration files. However, they must follow these requirements:
 
-| Requirement                | Rationale                                                      | TAD Reference                                                           |
-| -------------------------- | -------------------------------------------------------------- | ----------------------------------------------------------------------- |
-| Pure functions only        | Edge runtime compatibility; predictable behavior               | [TAD: Edge Middleware Architecture](/docs/2-technical/2-tad-edge-middleware.md) |
-| No regex compilation cache | Avoid stateful behavior; regex compilation is fast enough      | [TAD: Edge Runtime Constraints](/docs/2-technical/2-tad-edge-middleware.md) |
-| Type-safe matcher API      | Prevent runtime errors from incorrect matcher usage            | [TAD: TypeScript Configuration](/docs/2-technical/2-tad.md#typescript-configuration) |
+| Requirement                | Rationale                                                 | TAD Reference                                                                        |
+| -------------------------- | --------------------------------------------------------- | ------------------------------------------------------------------------------------ |
+| Pure functions only        | Edge runtime compatibility; predictable behavior          | [TAD: Edge Middleware Architecture](/docs/2-technical/2-tad-edge-middleware.md)      |
+| No regex compilation cache | Avoid stateful behavior; regex compilation is fast enough | [TAD: Edge Runtime Constraints](/docs/2-technical/2-tad-edge-middleware.md)          |
+| Type-safe matcher API      | Prevent runtime errors from incorrect matcher usage       | [TAD: TypeScript Configuration](/docs/2-technical/2-tad.md#typescript-configuration) |
 
 **Configuration Rationale**: Route matchers execute on every request in middleware chain, so they must be fast (< 1ms) and stateless. Pure functions ensure predictable behavior and enable edge runtime compatibility. Type safety prevents common errors like passing wrong pathname format.
 
@@ -175,13 +175,13 @@ Key pattern notes for this story:
 
 ### Troubleshooting
 
-| Issue                                  | Cause                                     | Solution                                                     |
-| -------------------------------------- | ----------------------------------------- | ------------------------------------------------------------ |
-| Matcher not matching expected paths    | Trailing slash inconsistency              | Normalize paths by removing trailing slashes before matching |
-| Wildcard pattern matches too broadly   | Incorrect regex conversion                | Ensure `*` converts to `[^/]+` (not `.*`) to match single segment only |
-| Performance degradation                | Regex compiled on every request           | Compile regex once when matcher is created (closure)        |
-| Matcher matches query parameters       | Not stripping query string from pathname  | Ensure pathname is extracted without query string            |
-| Type errors with combinator nesting    | Incorrect return type inference           | Explicitly type combinator return as `PathMatcher`           |
+| Issue                                | Cause                                    | Solution                                                               |
+| ------------------------------------ | ---------------------------------------- | ---------------------------------------------------------------------- |
+| Matcher not matching expected paths  | Trailing slash inconsistency             | Normalize paths by removing trailing slashes before matching           |
+| Wildcard pattern matches too broadly | Incorrect regex conversion               | Ensure `*` converts to `[^/]+` (not `.*`) to match single segment only |
+| Performance degradation              | Regex compiled on every request          | Compile regex once when matcher is created (closure)                   |
+| Matcher matches query parameters     | Not stripping query string from pathname | Ensure pathname is extracted without query string                      |
+| Type errors with combinator nesting  | Incorrect return type inference          | Explicitly type combinator return as `PathMatcher`                     |
 
 ### Reference Materials
 

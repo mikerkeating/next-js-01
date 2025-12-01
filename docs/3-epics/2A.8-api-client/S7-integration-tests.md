@@ -32,29 +32,30 @@
 
 ### Files to Create
 
-| Path | Purpose |
-|------|---------|
-| `packages/api-client/README.md` | Package documentation with usage examples |
+| Path                                                           | Purpose                                                    |
+| -------------------------------------------------------------- | ---------------------------------------------------------- |
+| `packages/api-client/README.md`                                | Package documentation with usage examples                  |
 | `packages/api-client/tests/integration/full-lifecycle.test.ts` | End-to-end integration test for complete request lifecycle |
-| `packages/api-client/tests/integration/auth-cache.test.ts` | Integration test for auth + cache interaction |
-| `packages/api-client/tests/integration/retry-error.test.ts` | Integration test for retry + error handling |
-| `packages/api-client/tests/integration/upload-auth.test.ts` | Integration test for file upload + auth |
-| `packages/api-client/docs/TROUBLESHOOTING.md` | Common issues and solutions |
-| `packages/api-client/docs/EXAMPLES.md` | Extended usage examples |
+| `packages/api-client/tests/integration/auth-cache.test.ts`     | Integration test for auth + cache interaction              |
+| `packages/api-client/tests/integration/retry-error.test.ts`    | Integration test for retry + error handling                |
+| `packages/api-client/tests/integration/upload-auth.test.ts`    | Integration test for file upload + auth                    |
+| `packages/api-client/docs/TROUBLESHOOTING.md`                  | Common issues and solutions                                |
+| `packages/api-client/docs/EXAMPLES.md`                         | Extended usage examples                                    |
 
 ### Files to Modify
 
-| Path | Changes |
-|------|---------|
-| `packages/api-client/src/**/*.ts` | Add comprehensive JSDoc comments to all public APIs |
-| `packages/api-client/package.json` | Add test scripts for integration tests |
-| `packages/api-client/vitest.config.ts` | Configure integration test patterns |
+| Path                                   | Changes                                             |
+| -------------------------------------- | --------------------------------------------------- |
+| `packages/api-client/src/**/*.ts`      | Add comprehensive JSDoc comments to all public APIs |
+| `packages/api-client/package.json`     | Add test scripts for integration tests              |
+| `packages/api-client/vitest.config.ts` | Configure integration test patterns                 |
 
 ### Dependencies
 
 > **Version Reference**: Use exact versions from [canonical-versions.md](/docs/2-technical/references/canonical-versions.md)
 
 **Test dependencies (already installed in S1):**
+
 - `vitest` - Test runner
 - `@testing-library/react` - React component testing utilities
 - `msw` - Mock Service Worker for API mocking
@@ -66,13 +67,14 @@
 > **Note**: For complete configuration file templates, reference the TAD.
 > This section describes configuration REQUIREMENTS, not full file contents.
 
-| Setting | Requirement | TAD Reference |
-|---------|-------------|---------------|
-| Test coverage threshold | ≥80% coverage required for statements, branches, functions, lines | [TAD: Testing Architecture](/docs/2-technical/2-tad-testing.md) |
+| Setting                  | Requirement                                                           | TAD Reference                                                   |
+| ------------------------ | --------------------------------------------------------------------- | --------------------------------------------------------------- |
+| Test coverage threshold  | ≥80% coverage required for statements, branches, functions, lines     | [TAD: Testing Architecture](/docs/2-technical/2-tad-testing.md) |
 | Integration test pattern | Files matching `*.integration.test.ts` run separately from unit tests | [TAD: Testing Architecture](/docs/2-technical/2-tad-testing.md) |
-| JSDoc coverage | All exported functions, classes, and types require JSDoc | [TAD: Documentation](/docs/2-technical/2-tad-documentation.md) |
+| JSDoc coverage           | All exported functions, classes, and types require JSDoc              | [TAD: Documentation](/docs/2-technical/2-tad-documentation.md)  |
 
 **Configuration Rationale**:
+
 - 80% coverage ensures critical functionality is tested while allowing flexibility for edge cases
 - Separate integration test pattern enables running fast unit tests in development, full suite in CI
 - JSDoc on all exports provides IntelliSense support in consuming applications
@@ -195,13 +197,13 @@ Key pattern notes for this story:
 
 ### Troubleshooting
 
-| Issue | Cause | Solution |
-|-------|-------|----------|
-| Integration tests flaky | Race conditions in concurrent tests | Use `beforeEach` to reset client state, ensure tests are isolated |
-| Coverage below 80% | Edge cases not tested | Identify uncovered lines with coverage report, add targeted tests |
-| JSDoc not appearing in IDE | Type declarations not exported | Verify exports in `src/index.ts` and `package.json` exports field |
-| Examples fail to run | Outdated code in docs | Run examples as part of CI to ensure they stay current |
-| MSW not intercepting requests | MSW server not started in test setup | Initialize MSW server in `vitest.setup.ts` |
+| Issue                         | Cause                                | Solution                                                          |
+| ----------------------------- | ------------------------------------ | ----------------------------------------------------------------- |
+| Integration tests flaky       | Race conditions in concurrent tests  | Use `beforeEach` to reset client state, ensure tests are isolated |
+| Coverage below 80%            | Edge cases not tested                | Identify uncovered lines with coverage report, add targeted tests |
+| JSDoc not appearing in IDE    | Type declarations not exported       | Verify exports in `src/index.ts` and `package.json` exports field |
+| Examples fail to run          | Outdated code in docs                | Run examples as part of CI to ensure they stay current            |
+| MSW not intercepting requests | MSW server not started in test setup | Initialize MSW server in `vitest.setup.ts`                        |
 
 ### Reference Materials
 

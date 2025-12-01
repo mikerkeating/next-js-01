@@ -30,25 +30,25 @@
 
 ### Files to Create
 
-| Path | Purpose |
-| ---- | ------- |
-| `packages/database/src/utils/ids.test.ts` | Unit tests for ID generation |
-| `packages/database/src/utils/timestamps.test.ts` | Unit tests for timestamp helpers |
-| `packages/database/src/utils/soft-delete.test.ts` | Unit tests for soft delete utilities |
-| `packages/database/src/utils/org-context.test.ts` | Unit tests for organization context |
-| `packages/database/src/connection.test.ts` | Integration tests for connection utilities |
-| `packages/database/src/seed/index.test.ts` | Integration tests for seed framework |
-| `packages/database/src/__tests__/setup.ts` | Test environment setup and teardown |
-| `packages/database/src/__tests__/helpers.ts` | Shared test utilities and fixtures |
-| `packages/database/vitest.config.ts` | Vitest configuration for database package |
+| Path                                              | Purpose                                    |
+| ------------------------------------------------- | ------------------------------------------ |
+| `packages/database/src/utils/ids.test.ts`         | Unit tests for ID generation               |
+| `packages/database/src/utils/timestamps.test.ts`  | Unit tests for timestamp helpers           |
+| `packages/database/src/utils/soft-delete.test.ts` | Unit tests for soft delete utilities       |
+| `packages/database/src/utils/org-context.test.ts` | Unit tests for organization context        |
+| `packages/database/src/connection.test.ts`        | Integration tests for connection utilities |
+| `packages/database/src/seed/index.test.ts`        | Integration tests for seed framework       |
+| `packages/database/src/__tests__/setup.ts`        | Test environment setup and teardown        |
+| `packages/database/src/__tests__/helpers.ts`      | Shared test utilities and fixtures         |
+| `packages/database/vitest.config.ts`              | Vitest configuration for database package  |
 
 ### Files to Modify
 
-| Path | Changes |
-| ---- | ------- |
+| Path                             | Changes                                 |
+| -------------------------------- | --------------------------------------- |
 | `packages/database/package.json` | Add test script and Vitest dependencies |
-| `packages/database/.env.test` | Test database connection string |
-| `.github/workflows/ci.yml` | Add database tests to CI workflow |
+| `packages/database/.env.test`    | Test database connection string         |
+| `.github/workflows/ci.yml`       | Add database tests to CI workflow       |
 
 ### Dependencies
 
@@ -63,13 +63,13 @@ pnpm add -D vitest @vitest/coverage-v8 @vitest/ui --filter @repo/database
 
 ### Configuration Details
 
-| Setting | Requirement | Notes |
-| ------- | ----------- | ----- |
-| Test database | Separate test database or schema | Use `DATABASE_URL_TEST` environment variable |
-| Test isolation | Transaction rollback after each test | Prevents test pollution |
-| Parallel execution | Tests can run concurrently | Use separate test database connections |
-| Coverage threshold | 80% minimum for utility functions | Enforced in vitest.config.ts |
-| Test timeout | 10s for integration tests, 5s for unit tests | Allow time for database operations |
+| Setting            | Requirement                                  | Notes                                        |
+| ------------------ | -------------------------------------------- | -------------------------------------------- |
+| Test database      | Separate test database or schema             | Use `DATABASE_URL_TEST` environment variable |
+| Test isolation     | Transaction rollback after each test         | Prevents test pollution                      |
+| Parallel execution | Tests can run concurrently                   | Use separate test database connections       |
+| Coverage threshold | 80% minimum for utility functions            | Enforced in vitest.config.ts                 |
+| Test timeout       | 10s for integration tests, 5s for unit tests | Allow time for database operations           |
 
 **Configuration Rationale**:
 
@@ -198,13 +198,13 @@ Key pattern notes for this story:
 
 ### Troubleshooting
 
-| Issue | Cause | Solution |
-| ----- | ----- | -------- |
-| Tests fail intermittently | Race conditions in parallel execution | Use transaction isolation or test.sequential |
-| Test database connection errors | Missing DATABASE_URL_TEST env var | Add test database URL to .env.test |
-| Coverage below threshold | Missing tests for edge cases | Add tests for error paths and boundary conditions |
-| Slow test execution | Too many database round-trips | Use batch operations and seed data efficiently |
-| Tests fail in CI but pass locally | Environment differences | Ensure CI uses same Node.js/pnpm versions as local |
+| Issue                             | Cause                                 | Solution                                           |
+| --------------------------------- | ------------------------------------- | -------------------------------------------------- |
+| Tests fail intermittently         | Race conditions in parallel execution | Use transaction isolation or test.sequential       |
+| Test database connection errors   | Missing DATABASE_URL_TEST env var     | Add test database URL to .env.test                 |
+| Coverage below threshold          | Missing tests for edge cases          | Add tests for error paths and boundary conditions  |
+| Slow test execution               | Too many database round-trips         | Use batch operations and seed data efficiently     |
+| Tests fail in CI but pass locally | Environment differences               | Ensure CI uses same Node.js/pnpm versions as local |
 
 ### Reference Materials
 

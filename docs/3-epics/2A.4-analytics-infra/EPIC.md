@@ -13,28 +13,28 @@
 
 ### Requires (Must Complete First)
 
-| Epic | Title | Reason |
-|------|-------|--------|
+| Epic | Title                                                   | Reason                                                            |
+| ---- | ------------------------------------------------------- | ----------------------------------------------------------------- |
 | 2A.1 | [Configuration Package](../2A.1-config-package/EPIC.md) | Shared TypeScript and ESLint configs needed for analytics package |
-| 2A.3 | [Observability Package](../2A.3-observability/EPIC.md) | Logging utilities for analytics debugging and error tracking |
+| 2A.3 | [Observability Package](../2A.3-observability/EPIC.md)  | Logging utilities for analytics debugging and error tracking      |
 
 ### Blocks (Enables These Epics)
 
-| Epic | Title | What This Provides |
-|------|-------|-------------------|
-| 2A.5 | [UI Component Library](../2A.5-ui-components/EPIC.md) | Component tracking utilities and `data-component-id` patterns |
-| 2A.6 | [Middleware Package](../2A.6-middleware/EPIC.md) | Analytics middleware for request tracking |
+| Epic | Title                                                                 | What This Provides                                                |
+| ---- | --------------------------------------------------------------------- | ----------------------------------------------------------------- |
+| 2A.5 | [UI Component Library](../2A.5-ui-components/EPIC.md)                 | Component tracking utilities and `data-component-id` patterns     |
+| 2A.6 | [Middleware Package](../2A.6-middleware/EPIC.md)                      | Analytics middleware for request tracking                         |
 | 2B.3 | [Product Analytics Events & Taxonomy](../2B.3-product-events/EPIC.md) | Generic event tracking infrastructure for product-specific events |
-| 3A.2 | [Routing Application Shell](../3A.2-routing-shell/EPIC.md) | Page view tracking and analytics integration |
-| 3B.5 | [Demo & Marketing Application](../3B.5-demo-marketing/EPIC.md) | Lead capture and conversion tracking |
-| 3B.7 | [Landing Page Builder Application](../3B.7-landing-builder/EPIC.md) | A/B testing and traffic splitting utilities |
+| 3A.2 | [Routing Application Shell](../3A.2-routing-shell/EPIC.md)            | Page view tracking and analytics integration                      |
+| 3B.5 | [Demo & Marketing Application](../3B.5-demo-marketing/EPIC.md)        | Lead capture and conversion tracking                              |
+| 3B.7 | [Landing Page Builder Application](../3B.7-landing-builder/EPIC.md)   | A/B testing and traffic splitting utilities                       |
 
 ### Can Run in Parallel With
 
-| Epic | Title | Notes |
-|------|-------|-------|
-| 2A.2 | [Database Infrastructure](../2A.2-database-infra/EPIC.md) | Independent infrastructure; no data dependencies |
-| 2A.5 | [UI Component Library](../2A.5-ui-components/EPIC.md) | Independent frontend concerns; component tracking can be integrated later |
+| Epic | Title                                                     | Notes                                                                     |
+| ---- | --------------------------------------------------------- | ------------------------------------------------------------------------- |
+| 2A.2 | [Database Infrastructure](../2A.2-database-infra/EPIC.md) | Independent infrastructure; no data dependencies                          |
+| 2A.5 | [UI Component Library](../2A.5-ui-components/EPIC.md)     | Independent frontend concerns; component tracking can be integrated later |
 
 ## Overview
 
@@ -71,16 +71,16 @@ This epic establishes the analytics infrastructure layer for the platform, provi
 
 ## Stories
 
-| ID | Title | Size | Status | Depends On | Blocks |
-|----|-------|------|--------|------------|--------|
-| S1 | [Create @repo/analytics Package Structure](./S1-package-structure.md) | S | ⬜ | - | S2, S3, S4, S5, S6 |
-| S2 | [Implement Core Event Tracking](./S2-core-event-tracking.md) | M | ⬜ | S1 | S3, S4, S5, S7 |
-| S3 | [Create Event Validation with Zod](./S3-event-validation.md) | S | ⬜ | S1, S2 | S7 |
-| S4 | [Implement Consent Management System](./S4-consent-management.md) | M | ⬜ | S2 | S5, S7 |
-| S5 | [Integrate Analytics Providers](./S5-provider-integration.md) | L | ⬜ | S2, S4 | S6, S7 |
-| S6 | [Create Component Tracking Utilities](./S6-component-tracking.md) | M | ⬜ | S1, S5 | S7 |
-| S7 | [Implement Feature Flag Utilities](./S7-feature-flags.md) | M | ⬜ | S2 | S8 |
-| S8 | [Write Tests and Documentation](./S8-tests-docs.md) | M | ⬜ | S3, S4, S5, S6, S7 | - |
+| ID  | Title                                                                 | Size | Status | Depends On         | Blocks             |
+| --- | --------------------------------------------------------------------- | ---- | ------ | ------------------ | ------------------ |
+| S1  | [Create @repo/analytics Package Structure](./S1-package-structure.md) | S    | ⬜     | -                  | S2, S3, S4, S5, S6 |
+| S2  | [Implement Core Event Tracking](./S2-core-event-tracking.md)          | M    | ⬜     | S1                 | S3, S4, S5, S7     |
+| S3  | [Create Event Validation with Zod](./S3-event-validation.md)          | S    | ⬜     | S1, S2             | S7                 |
+| S4  | [Implement Consent Management System](./S4-consent-management.md)     | M    | ⬜     | S2                 | S5, S7             |
+| S5  | [Integrate Analytics Providers](./S5-provider-integration.md)         | L    | ⬜     | S2, S4             | S6, S7             |
+| S6  | [Create Component Tracking Utilities](./S6-component-tracking.md)     | M    | ⬜     | S1, S5             | S7                 |
+| S7  | [Implement Feature Flag Utilities](./S7-feature-flags.md)             | M    | ⬜     | S2                 | S8                 |
+| S8  | [Write Tests and Documentation](./S8-tests-docs.md)                   | M    | ⬜     | S3, S4, S5, S6, S7 | -                  |
 
 **Status Legend**: ⬜ Not Started | 🟡 In Progress | ✅ Complete | ❌ Blocked
 
@@ -123,13 +123,13 @@ S1 (Package structure)
 
 ### Technology Decisions
 
-| Decision | Choice | Reference |
-|----------|--------|-----------|
-| Product Analytics | PostHog | [TAD: Analytics & Observability](/docs/2-technical/2-tad.md#analytics--observability) |
-| Web Analytics | Google Analytics 4 | [TAD: Analytics & Observability](/docs/2-technical/2-tad.md#analytics--observability) |
-| Performance Analytics | Vercel Analytics | [TAD: Analytics & Observability](/docs/2-technical/2-tad.md#analytics--observability) |
-| Event Validation | Zod | [TAD: Package Architecture](/docs/2-technical/2-tad.md#package-architecture) |
-| Feature Flags | Edge Config + PostHog | [TAD: Integration Points](/docs/2-technical/2-tad.md#integration-points) |
+| Decision              | Choice                | Reference                                                                             |
+| --------------------- | --------------------- | ------------------------------------------------------------------------------------- |
+| Product Analytics     | PostHog               | [TAD: Analytics & Observability](/docs/2-technical/2-tad.md#analytics--observability) |
+| Web Analytics         | Google Analytics 4    | [TAD: Analytics & Observability](/docs/2-technical/2-tad.md#analytics--observability) |
+| Performance Analytics | Vercel Analytics      | [TAD: Analytics & Observability](/docs/2-technical/2-tad.md#analytics--observability) |
+| Event Validation      | Zod                   | [TAD: Package Architecture](/docs/2-technical/2-tad.md#package-architecture)          |
+| Feature Flags         | Edge Config + PostHog | [TAD: Integration Points](/docs/2-technical/2-tad.md#integration-points)              |
 
 ### Constraints
 
@@ -156,41 +156,41 @@ The following items are explicitly NOT part of this epic:
 
 > **Note**: Flag decisions that need resolution before or during implementation.
 
-| Decision | Options | Impact | Status |
-|----------|---------|--------|--------|
-| PostHog hosting | Cloud vs Self-hosted | Data residency, costs, maintenance | ✅ Resolved: Cloud (EU region for GDPR) |
-| Consent storage | Cookies vs localStorage vs DB | Persistence, cross-device sync | ⬜ Open |
-| Feature flag source | PostHog flags vs Edge Config vs LaunchDarkly | Performance, cost, complexity | ⬜ Open |
-| GA4 consent mode | Basic vs Advanced | Conversion modelling accuracy | ✅ Resolved: Advanced consent mode per TAD |
+| Decision            | Options                                      | Impact                             | Status                                     |
+| ------------------- | -------------------------------------------- | ---------------------------------- | ------------------------------------------ |
+| PostHog hosting     | Cloud vs Self-hosted                         | Data residency, costs, maintenance | ✅ Resolved: Cloud (EU region for GDPR)    |
+| Consent storage     | Cookies vs localStorage vs DB                | Persistence, cross-device sync     | ⬜ Open                                    |
+| Feature flag source | PostHog flags vs Edge Config vs LaunchDarkly | Performance, cost, complexity      | ⬜ Open                                    |
+| GA4 consent mode    | Basic vs Advanced                            | Conversion modelling accuracy      | ✅ Resolved: Advanced consent mode per TAD |
 
 ## Risks and Mitigations
 
-| Risk | Likelihood | Impact | Mitigation |
-|------|------------|--------|------------|
-| PostHog SDK bundle size | Medium | Medium | Use selective imports; implement lazy loading |
-| GA4 consent mode complexity | Medium | Low | Follow Google's official implementation guide |
-| Event validation overhead | Low | Low | Validate in development, skip in production hot paths |
-| Consent banner UX impact | Medium | Medium | Minimise banner footprint; provide clear choices |
-| Feature flag latency | Low | Medium | Cache flags in Edge Config; use stale-while-revalidate |
-| Provider SDK conflicts | Low | Medium | Isolate provider SDKs; test in combination |
+| Risk                        | Likelihood | Impact | Mitigation                                             |
+| --------------------------- | ---------- | ------ | ------------------------------------------------------ |
+| PostHog SDK bundle size     | Medium     | Medium | Use selective imports; implement lazy loading          |
+| GA4 consent mode complexity | Medium     | Low    | Follow Google's official implementation guide          |
+| Event validation overhead   | Low        | Low    | Validate in development, skip in production hot paths  |
+| Consent banner UX impact    | Medium     | Medium | Minimise banner footprint; provide clear choices       |
+| Feature flag latency        | Low        | Medium | Cache flags in Edge Config; use stale-while-revalidate |
+| Provider SDK conflicts      | Low        | Medium | Isolate provider SDKs; test in combination             |
 
 ## Estimated Effort
 
-| Metric | Value |
-|--------|-------|
-| Total Stories | 8 |
-| Total Hours | 38-56h |
-| Calendar Days | 4-6 days |
-| Parallel Tracks | 2 |
+| Metric          | Value    |
+| --------------- | -------- |
+| Total Stories   | 8        |
+| Total Hours     | 38-56h   |
+| Calendar Days   | 4-6 days |
+| Parallel Tracks | 2        |
 
 ### Story Breakdown
 
-| Size | Count | Hours |
-|------|-------|-------|
-| XS (1-2h) | 0 | 0h |
-| S (2-4h) | 2 | 4-8h |
-| M (4-8h) | 5 | 20-40h |
-| L (8-16h) | 1 | 8-16h |
+| Size      | Count | Hours  |
+| --------- | ----- | ------ |
+| XS (1-2h) | 0     | 0h     |
+| S (2-4h)  | 2     | 4-8h   |
+| M (4-8h)  | 5     | 20-40h |
+| L (8-16h) | 1     | 8-16h  |
 
 ## References
 

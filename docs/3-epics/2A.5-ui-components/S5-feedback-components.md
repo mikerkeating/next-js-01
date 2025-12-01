@@ -35,28 +35,28 @@
 
 ### Files to Create
 
-| Path                                                          | Purpose                                   |
-| ------------------------------------------------------------- | ----------------------------------------- |
-| `packages/ui/src/components/ui/toast.tsx`                     | Toast notification component              |
-| `packages/ui/src/components/ui/toaster.tsx`                   | Toast container/manager component         |
-| `packages/ui/src/components/ui/use-toast.ts`                  | Toast hook for programmatic notifications |
-| `packages/ui/src/components/ui/avatar.tsx`                    | Avatar component with fallback            |
-| `packages/ui/src/components/ui/badge.tsx`                     | Badge component with variants             |
-| `packages/ui/src/components/ui/skeleton.tsx`                  | Skeleton loading placeholder              |
-| `packages/ui/src/components/ui/spinner.tsx`                   | Spinner loading indicator                 |
-| `packages/ui/src/components/__tests__/toast.test.tsx`         | Toast component tests                     |
-| `packages/ui/src/components/__tests__/avatar.test.tsx`        | Avatar component tests                    |
-| `packages/ui/src/components/__tests__/badge.test.tsx`         | Badge component tests                     |
-| `packages/ui/src/components/__tests__/skeleton.test.tsx`      | Skeleton component tests                  |
-| `packages/ui/src/components/__tests__/spinner.test.tsx`       | Spinner component tests                   |
+| Path                                                     | Purpose                                   |
+| -------------------------------------------------------- | ----------------------------------------- |
+| `packages/ui/src/components/ui/toast.tsx`                | Toast notification component              |
+| `packages/ui/src/components/ui/toaster.tsx`              | Toast container/manager component         |
+| `packages/ui/src/components/ui/use-toast.ts`             | Toast hook for programmatic notifications |
+| `packages/ui/src/components/ui/avatar.tsx`               | Avatar component with fallback            |
+| `packages/ui/src/components/ui/badge.tsx`                | Badge component with variants             |
+| `packages/ui/src/components/ui/skeleton.tsx`             | Skeleton loading placeholder              |
+| `packages/ui/src/components/ui/spinner.tsx`              | Spinner loading indicator                 |
+| `packages/ui/src/components/__tests__/toast.test.tsx`    | Toast component tests                     |
+| `packages/ui/src/components/__tests__/avatar.test.tsx`   | Avatar component tests                    |
+| `packages/ui/src/components/__tests__/badge.test.tsx`    | Badge component tests                     |
+| `packages/ui/src/components/__tests__/skeleton.test.tsx` | Skeleton component tests                  |
+| `packages/ui/src/components/__tests__/spinner.test.tsx`  | Spinner component tests                   |
 
 ### Files to Modify
 
-| Path                       | Changes                                      |
-| -------------------------- | -------------------------------------------- |
-| `packages/ui/src/index.ts` | Export all feedback components and hooks     |
-| `packages/ui/package.json` | Add Radix UI toast dependencies              |
-| `packages/ui/README.md`    | Add feedback components usage documentation  |
+| Path                       | Changes                                     |
+| -------------------------- | ------------------------------------------- |
+| `packages/ui/src/index.ts` | Export all feedback components and hooks    |
+| `packages/ui/package.json` | Add Radix UI toast dependencies             |
+| `packages/ui/README.md`    | Add feedback components usage documentation |
 
 ### Dependencies
 
@@ -74,14 +74,15 @@ pnpm add -D @testing-library/react @testing-library/user-event @testing-library/
 
 > **Note**: For complete configuration file templates, reference the TAD.
 
-| Setting                    | Requirement                                           | TAD Reference                                                                      |
-| -------------------------- | ----------------------------------------------------- | ---------------------------------------------------------------------------------- |
-| Component variants         | Use `class-variance-authority` for variant logic      | [TAD: UI & Styling](/docs/2-technical/2-tad.md#ui--styling)                        |
-| Accessibility compliance   | WCAG 2.1 Level AA with ARIA live regions             | [TAD: UI Components Architecture](/docs/2-technical/2-tad.md#ui-components-architecture) |
-| Analytics tracking         | All components accept `data-component-id` prop        | [TAD: Analytics Infrastructure](/docs/2-technical/2-tad.md#analytics--observability) |
-| Component styling          | Tailwind CSS v4 with theme tokens                     | [TAD: UI & Styling](/docs/2-technical/2-tad.md#ui--styling)                        |
+| Setting                  | Requirement                                      | TAD Reference                                                                            |
+| ------------------------ | ------------------------------------------------ | ---------------------------------------------------------------------------------------- |
+| Component variants       | Use `class-variance-authority` for variant logic | [TAD: UI & Styling](/docs/2-technical/2-tad.md#ui--styling)                              |
+| Accessibility compliance | WCAG 2.1 Level AA with ARIA live regions         | [TAD: UI Components Architecture](/docs/2-technical/2-tad.md#ui-components-architecture) |
+| Analytics tracking       | All components accept `data-component-id` prop   | [TAD: Analytics Infrastructure](/docs/2-technical/2-tad.md#analytics--observability)     |
+| Component styling        | Tailwind CSS v4 with theme tokens                | [TAD: UI & Styling](/docs/2-technical/2-tad.md#ui--styling)                              |
 
 **Configuration Rationale**:
+
 - `class-variance-authority` enables type-safe variant management with automatic class merging
 - ARIA live regions ensure screen readers announce toast notifications and loading state changes
 - The `data-component-id` prop enables consistent analytics tracking across all applications
@@ -204,14 +205,14 @@ Key pattern notes for this story:
 
 ### Troubleshooting
 
-| Issue                                              | Cause                                          | Solution                                                              |
-| -------------------------------------------------- | ---------------------------------------------- | --------------------------------------------------------------------- |
-| Toasts not announcing to screen reader             | Missing ARIA live region or incorrect role     | Ensure Toast.Root has `role="status"` or `role="alert"` attribute     |
-| Avatar images not loading                          | CORS issues or missing error handling          | Add `crossOrigin` prop and implement onError handler for fallback     |
-| Skeleton animation causing motion sickness         | Animation runs regardless of user preference   | Wrap animation CSS in `@media (prefers-reduced-motion: no-preference)` query |
-| Badge colors don't meet contrast requirements      | Insufficient contrast between bg and text      | Use contrast checker; adjust Tailwind color tokens in theme config    |
-| Multiple toasts overlap or exceed viewport         | No queue limit enforcement                     | Implement max toast limit (e.g., 5) with FIFO removal logic           |
-| Spinner not visible on certain backgrounds         | Fixed color doesn't work on all backgrounds    | Accept color prop and use currentColor for automatic inheritance      |
+| Issue                                         | Cause                                        | Solution                                                                     |
+| --------------------------------------------- | -------------------------------------------- | ---------------------------------------------------------------------------- |
+| Toasts not announcing to screen reader        | Missing ARIA live region or incorrect role   | Ensure Toast.Root has `role="status"` or `role="alert"` attribute            |
+| Avatar images not loading                     | CORS issues or missing error handling        | Add `crossOrigin` prop and implement onError handler for fallback            |
+| Skeleton animation causing motion sickness    | Animation runs regardless of user preference | Wrap animation CSS in `@media (prefers-reduced-motion: no-preference)` query |
+| Badge colors don't meet contrast requirements | Insufficient contrast between bg and text    | Use contrast checker; adjust Tailwind color tokens in theme config           |
+| Multiple toasts overlap or exceed viewport    | No queue limit enforcement                   | Implement max toast limit (e.g., 5) with FIFO removal logic                  |
+| Spinner not visible on certain backgrounds    | Fixed color doesn't work on all backgrounds  | Accept color prop and use currentColor for automatic inheritance             |
 
 ### Reference Materials
 

@@ -9,17 +9,17 @@
 
     // MD003: Heading style - use ATX (#) format
     "MD003": {
-      "style": "atx"
+      "style": "atx",
     },
 
     // MD004: Unordered list style - use dashes
     "MD004": {
-      "style": "dash"
+      "style": "dash",
     },
 
     // MD007: Unordered list indentation - 2 spaces
     "MD007": {
-      "indent": 2
+      "indent": 2,
     },
 
     // MD013: Line length - DISABLED
@@ -29,7 +29,7 @@
 
     // MD024: Multiple headings with same content - allow in siblings
     "MD024": {
-      "siblings_only": true
+      "siblings_only": true,
     },
 
     // MD033: Inline HTML - allow specific elements
@@ -69,8 +69,8 @@
         "name",
         "output",
         "good-example",
-        "bad-example"
-      ]
+        "bad-example",
+      ],
     },
 
     // MD001: Heading increment - DISABLED (allows skipping levels for flexibility)
@@ -97,23 +97,18 @@
 
     // MD048: Code fence style - use backticks
     "MD048": {
-      "style": "backtick"
+      "style": "backtick",
     },
 
     // MD051: Link fragments - DISABLED (anchor validation handled by link checker)
     "MD051": false,
 
     // MD060: Deprecated config - DISABLED
-    "MD060": false
+    "MD060": false,
   },
 
   // Glob patterns for files to lint
-  "globs": [
-    "docs/**/*.md",
-    "packages/**/README.md",
-    "apps/**/README.md",
-    "*.md"
-  ],
+  "globs": ["docs/**/*.md", "packages/**/README.md", "apps/**/README.md", "*.md"],
 
   // Patterns to ignore
   "ignores": [
@@ -126,9 +121,9 @@
     "**/vendor/**",
     "testing/**",
     "CHANGELOG.md",
-    "pnpm-lock.yaml"
+    "pnpm-lock.yaml",
   ],
 
   // Fix errors automatically when --fix is used
-  "fix": false
+  "fix": false,
 }

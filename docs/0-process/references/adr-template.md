@@ -77,10 +77,12 @@
 ### Option 2: {Alternative Name}
 
 **Pros:**
+
 - Pro 1
 - Pro 2
 
 **Cons:**
+
 - Con 1
 - Con 2
 
@@ -198,11 +200,11 @@ Proposed → Accepted → [Deprecated | Superseded by ADR-XXX]
 
 ### Naming Convention
 
-| Element     | Format                 | Example                    |
-| ----------- | ---------------------- | -------------------------- |
-| File naming | `{NNN}-{slug}.md`      | `008-graphql-api.md`       |
-| Numbering   | Sequential (001-999)   | 001, 002, 003...           |
-| Slug format | Lowercase with dashes  | `graphql-api`, `redis-cache` |
+| Element     | Format                | Example                      |
+| ----------- | --------------------- | ---------------------------- |
+| File naming | `{NNN}-{slug}.md`     | `008-graphql-api.md`         |
+| Numbering   | Sequential (001-999)  | 001, 002, 003...             |
+| Slug format | Lowercase with dashes | `graphql-api`, `redis-cache` |
 
 ### Best Practices
 
@@ -221,4 +223,4 @@ Proposed → Accepted → [Deprecated | Superseded by ADR-XXX]
 
 ---
 
-*Delete this "Template Usage Guide" section after copying the template to create your ADR.*
+_Delete this "Template Usage Guide" section after copying the template to create your ADR._

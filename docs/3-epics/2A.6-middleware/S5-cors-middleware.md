@@ -32,17 +32,17 @@
 
 ### Files to Create
 
-| Path                                        | Purpose                           |
-| ------------------------------------------- | --------------------------------- |
-| `packages/middleware/src/cors.ts`           | CORS middleware implementation    |
-| `packages/middleware/tests/cors.test.ts`    | Unit tests for CORS middleware    |
+| Path                                     | Purpose                        |
+| ---------------------------------------- | ------------------------------ |
+| `packages/middleware/src/cors.ts`        | CORS middleware implementation |
+| `packages/middleware/tests/cors.test.ts` | Unit tests for CORS middleware |
 
 ### Files to Modify
 
-| Path                                  | Changes                                  |
-| ------------------------------------- | ---------------------------------------- |
-| `packages/middleware/src/index.ts`    | Export CORS middleware and config types  |
-| `packages/middleware/README.md`       | Add CORS middleware usage documentation  |
+| Path                               | Changes                                 |
+| ---------------------------------- | --------------------------------------- |
+| `packages/middleware/src/index.ts` | Export CORS middleware and config types |
+| `packages/middleware/README.md`    | Add CORS middleware usage documentation |
 
 ### Dependencies
 
@@ -55,14 +55,14 @@ All dependencies already installed in S1. No additional dependencies required.
 > **Note**: For complete configuration file templates, reference the TAD.
 > This section describes configuration REQUIREMENTS, not full file contents.
 
-| Setting                    | Requirement                                       | TAD Reference                                                           |
-| -------------------------- | ------------------------------------------------- | ----------------------------------------------------------------------- |
-| `allowedOrigins`           | String array or `"*"` wildcard                    | [TAD: CORS Configuration](/docs/2-technical/2-tad-edge-middleware.md)   |
-| `allowedMethods`           | HTTP method array (GET, POST, PUT, DELETE, PATCH) | [TAD: CORS Configuration](/docs/2-technical/2-tad-edge-middleware.md)   |
-| `allowedHeaders`           | Header name array or `"*"` wildcard               | [TAD: CORS Configuration](/docs/2-technical/2-tad-edge-middleware.md)   |
-| `allowCredentials`         | Boolean (enables Access-Control-Allow-Credentials)| [TAD: CORS Configuration](/docs/2-technical/2-tad-edge-middleware.md)   |
-| `maxAge`                   | Number in seconds (preflight cache duration)      | [TAD: CORS Configuration](/docs/2-technical/2-tad-edge-middleware.md)   |
-| `exposeHeaders`            | Header name array (accessible to client)          | [TAD: CORS Configuration](/docs/2-technical/2-tad-edge-middleware.md)   |
+| Setting            | Requirement                                        | TAD Reference                                                         |
+| ------------------ | -------------------------------------------------- | --------------------------------------------------------------------- |
+| `allowedOrigins`   | String array or `"*"` wildcard                     | [TAD: CORS Configuration](/docs/2-technical/2-tad-edge-middleware.md) |
+| `allowedMethods`   | HTTP method array (GET, POST, PUT, DELETE, PATCH)  | [TAD: CORS Configuration](/docs/2-technical/2-tad-edge-middleware.md) |
+| `allowedHeaders`   | Header name array or `"*"` wildcard                | [TAD: CORS Configuration](/docs/2-technical/2-tad-edge-middleware.md) |
+| `allowCredentials` | Boolean (enables Access-Control-Allow-Credentials) | [TAD: CORS Configuration](/docs/2-technical/2-tad-edge-middleware.md) |
+| `maxAge`           | Number in seconds (preflight cache duration)       | [TAD: CORS Configuration](/docs/2-technical/2-tad-edge-middleware.md) |
+| `exposeHeaders`    | Header name array (accessible to client)           | [TAD: CORS Configuration](/docs/2-technical/2-tad-edge-middleware.md) |
 
 **Configuration Rationale**: CORS middleware must be highly configurable to support different API security requirements. Public APIs may use wildcard origins, while authenticated APIs should restrict origins to known domains. Preflight caching (maxAge) reduces OPTIONS request overhead. The middleware follows CORS specification (RFC 6454) for cross-origin security.
 
@@ -70,7 +70,7 @@ All dependencies already installed in S1. No additional dependencies required.
 
 ### Manual Verification
 
-- [ ] **Preflight Request**: Send OPTIONS request to API endpoint and verify Access-Control-* headers are present
+- [ ] **Preflight Request**: Send OPTIONS request to API endpoint and verify Access-Control-\* headers are present
 - [ ] **Cross-Origin Request**: Make request from browser console on different origin and verify CORS headers allow access
 - [ ] **Unauthorized Origin**: Make request from origin not in allowed list and verify CORS blocks access
 
@@ -141,14 +141,14 @@ Key pattern notes for this story:
 
 ### Troubleshooting
 
-| Issue                                  | Cause                                     | Solution                                                     |
-| -------------------------------------- | ----------------------------------------- | ------------------------------------------------------------ |
-| Browser blocks cross-origin request    | Origin not in allowed list                | Add origin to `allowedOrigins` configuration                 |
-| Preflight request fails                | Missing Access-Control-Allow-* headers    | Ensure OPTIONS handler returns CORS headers                  |
-| Credentials not sent with request      | Missing Access-Control-Allow-Credentials  | Set `allowCredentials: true` in configuration                |
-| Custom headers blocked                 | Header not in allowed list                | Add header to `allowedHeaders` configuration                 |
-| CORS with credentials + wildcard fails | Spec prohibits wildcard with credentials  | Specify explicit origins instead of `*` when using credentials |
-| Preflight cache not working            | maxAge not set or too low                 | Set `maxAge` to 3600 or higher (1 hour+)                     |
+| Issue                                  | Cause                                    | Solution                                                       |
+| -------------------------------------- | ---------------------------------------- | -------------------------------------------------------------- |
+| Browser blocks cross-origin request    | Origin not in allowed list               | Add origin to `allowedOrigins` configuration                   |
+| Preflight request fails                | Missing Access-Control-Allow-\* headers  | Ensure OPTIONS handler returns CORS headers                    |
+| Credentials not sent with request      | Missing Access-Control-Allow-Credentials | Set `allowCredentials: true` in configuration                  |
+| Custom headers blocked                 | Header not in allowed list               | Add header to `allowedHeaders` configuration                   |
+| CORS with credentials + wildcard fails | Spec prohibits wildcard with credentials | Specify explicit origins instead of `*` when using credentials |
+| Preflight cache not working            | maxAge not set or too low                | Set `maxAge` to 3600 or higher (1 hour+)                       |
 
 ### Reference Materials
 

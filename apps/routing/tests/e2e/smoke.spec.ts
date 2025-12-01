@@ -1,5 +1,19 @@
 import { expect, test } from '@playwright/test';
 
+/** Health check response shape for type safety in e2e tests */
+interface HealthCheckResponse {
+  status: 'healthy' | 'degraded' | 'unhealthy';
+  timestamp: string;
+  version: string;
+  environment: string;
+  checks: {
+    database: { status: string };
+    auth: { status: string };
+    cache: { status: string };
+  };
+  uptime: number;
+}
+
 /**
  * Deployment Smoke Tests
  *
@@ -15,14 +29,12 @@ import { expect, test } from '@playwright/test';
 
 test.describe('Deployment Smoke Tests', () => {
   test.describe('Health Check', () => {
-    test('health endpoint returns 200 OK with healthy status', async ({
-      request,
-    }) => {
+    test('health endpoint returns 200 OK with healthy status', async ({ request }) => {
       const response = await request.get('/api/health');
 
       expect(response.status()).toBe(200);
 
-      const body = await response.json();
+      const body = (await response.json()) as HealthCheckResponse;
       expect(['healthy', 'degraded']).toContain(body.status);
       expect(body).toHaveProperty('timestamp');
       expect(body).toHaveProperty('version');
@@ -31,11 +43,9 @@ test.describe('Deployment Smoke Tests', () => {
       expect(body).toHaveProperty('uptime');
     });
 
-    test('health check includes all required service checks', async ({
-      request,
-    }) => {
+    test('health check includes all required service checks', async ({ request }) => {
       const response = await request.get('/api/health');
-      const body = await response.json();
+      const body = (await response.json()) as HealthCheckResponse;
 
       expect(body.checks).toHaveProperty('database');
       expect(body.checks).toHaveProperty('auth');

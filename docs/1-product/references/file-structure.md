@@ -6,12 +6,12 @@ This document describes the complete documentation directory structure for the m
 
 The documentation is organized into four layers following the Documentation Pyramid pattern:
 
-| Layer | Purpose | Primary Audience |
-|-------|---------|------------------|
-| **WHY** (Strategic) | Strategic decisions, architecture vision | Tech leads, architects |
-| **WHAT** (Product) | Product requirements, features | Product managers, stakeholders |
-| **HOW** (Implementation) | Technical guides, API reference | Developers (maintainers & consumers) |
-| **CONTEXT** (Development) | Epic/story specs, onboarding | New team members, contributors |
+| Layer                     | Purpose                                  | Primary Audience                     |
+| ------------------------- | ---------------------------------------- | ------------------------------------ |
+| **WHY** (Strategic)       | Strategic decisions, architecture vision | Tech leads, architects               |
+| **WHAT** (Product)        | Product requirements, features           | Product managers, stakeholders       |
+| **HOW** (Implementation)  | Technical guides, API reference          | Developers (maintainers & consumers) |
+| **CONTEXT** (Development) | Epic/story specs, onboarding             | New team members, contributors       |
 
 ## Complete Directory Structure
 

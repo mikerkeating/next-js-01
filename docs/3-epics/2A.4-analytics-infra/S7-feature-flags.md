@@ -32,19 +32,19 @@
 
 ### Files to Create
 
-| Path | Purpose |
-|------|---------|
-| `packages/analytics/src/feature-flags.ts` | Core feature flag evaluation logic |
-| `packages/analytics/src/feature-flags-client.ts` | Client-side feature flag hook and utilities |
-| `packages/analytics/src/feature-flags-server.ts` | Server-side feature flag utilities |
-| `packages/analytics/src/providers/posthog-flags.ts` | PostHog feature flags provider interface |
-| `packages/analytics/__tests__/feature-flags.test.ts` | Unit tests for feature flag utilities |
+| Path                                                 | Purpose                                     |
+| ---------------------------------------------------- | ------------------------------------------- |
+| `packages/analytics/src/feature-flags.ts`            | Core feature flag evaluation logic          |
+| `packages/analytics/src/feature-flags-client.ts`     | Client-side feature flag hook and utilities |
+| `packages/analytics/src/feature-flags-server.ts`     | Server-side feature flag utilities          |
+| `packages/analytics/src/providers/posthog-flags.ts`  | PostHog feature flags provider interface    |
+| `packages/analytics/__tests__/feature-flags.test.ts` | Unit tests for feature flag utilities       |
 
 ### Files to Modify
 
-| Path | Changes |
-|------|---------|
-| `packages/analytics/src/index.ts` | Export `useFeatureFlag`, `getFeatureFlag`, `FeatureFlagProvider` |
+| Path                              | Changes                                                                  |
+| --------------------------------- | ------------------------------------------------------------------------ |
+| `packages/analytics/src/index.ts` | Export `useFeatureFlag`, `getFeatureFlag`, `FeatureFlagProvider`         |
 | `packages/analytics/src/types.ts` | Add `FeatureFlagValue`, `FeatureFlagConfig`, `FeatureFlagProvider` types |
 
 ### Dependencies
@@ -66,12 +66,12 @@ pnpm add @vercel/edge-config
 > **Note**: For complete configuration file templates, reference the TAD.
 > This section describes configuration REQUIREMENTS, not full file contents.
 
-| Setting | Requirement | TAD Reference |
-|---------|-------------|---------------|
-| Edge compatibility | Must work in Vercel Edge runtime (no Node.js-specific APIs) | [TAD: Integration Points](/docs/2-technical/2-tad.md#integration-points) |
-| Flag value types | Support boolean, string, number, and JSON object values | [TAD: Analytics & Observability](/docs/2-technical/2-tad.md#analytics--observability) |
-| Default values | Provide safe defaults when flag evaluation fails or flag not found | [TAD: Analytics & Observability](/docs/2-technical/2-tad.md#analytics--observability) |
-| Performance target | <5ms evaluation time using cached or edge-stored values | [TAD: Integration Points](/docs/2-technical/2-tad.md#integration-points) |
+| Setting            | Requirement                                                                  | TAD Reference                                                                         |
+| ------------------ | ---------------------------------------------------------------------------- | ------------------------------------------------------------------------------------- |
+| Edge compatibility | Must work in Vercel Edge runtime (no Node.js-specific APIs)                  | [TAD: Integration Points](/docs/2-technical/2-tad.md#integration-points)              |
+| Flag value types   | Support boolean, string, number, and JSON object values                      | [TAD: Analytics & Observability](/docs/2-technical/2-tad.md#analytics--observability) |
+| Default values     | Provide safe defaults when flag evaluation fails or flag not found           | [TAD: Analytics & Observability](/docs/2-technical/2-tad.md#analytics--observability) |
+| Performance target | <5ms evaluation time using cached or edge-stored values                      | [TAD: Integration Points](/docs/2-technical/2-tad.md#integration-points)              |
 | Provider interface | Abstract provider interface allows swapping PostHog/Edge Config/LaunchDarkly | [TAD: Analytics & Observability](/docs/2-technical/2-tad.md#analytics--observability) |
 
 **Configuration Rationale**: Feature flags must work across all Next.js execution contexts (client components, server components, API routes, middleware, Edge Functions) to enable full-stack feature control. Edge Config integration provides fast, globally distributed flag evaluation without database queries. TypeScript generics enable type-safe flag values while supporting different data types. Provider abstraction allows flexibility to use PostHog flags (product analytics integration) or Edge Config (performance) based on use case.
@@ -202,14 +202,14 @@ Key pattern notes for this story:
 
 ### Troubleshooting
 
-| Issue | Cause | Solution |
-|-------|-------|----------|
-| Edge runtime error "Module not found" | Using Node.js-specific API | Use only Edge-compatible APIs; check Vercel Edge runtime docs |
-| Client hook returns stale flag value | PostHog SDK not updating hook state | Implement PostHog onFeatureFlags callback to update React state |
-| Server function slow (>100ms) | Hitting PostHog API on every call | Implement request-scoped cache; use Edge Config for faster lookups |
-| TypeScript error on flag value access | Incorrect generic type parameter | Ensure type parameter matches expected flag value type |
+| Issue                                                 | Cause                                  | Solution                                                                            |
+| ----------------------------------------------------- | -------------------------------------- | ----------------------------------------------------------------------------------- |
+| Edge runtime error "Module not found"                 | Using Node.js-specific API             | Use only Edge-compatible APIs; check Vercel Edge runtime docs                       |
+| Client hook returns stale flag value                  | PostHog SDK not updating hook state    | Implement PostHog onFeatureFlags callback to update React state                     |
+| Server function slow (>100ms)                         | Hitting PostHog API on every call      | Implement request-scoped cache; use Edge Config for faster lookups                  |
+| TypeScript error on flag value access                 | Incorrect generic type parameter       | Ensure type parameter matches expected flag value type                              |
 | Flag evaluation returns default despite flag existing | Provider not configured or initialized | Verify environment variables for PostHog/Edge Config; check provider initialization |
-| Tests fail in Edge runtime environment | Test using Node.js APIs | Use Vercel Edge runtime test utilities or mock edge-compatible APIs |
+| Tests fail in Edge runtime environment                | Test using Node.js APIs                | Use Vercel Edge runtime test utilities or mock edge-compatible APIs                 |
 
 ### Reference Materials
 
@@ -249,6 +249,7 @@ Key pattern notes for this story:
 **Decision**: Create `FeatureFlagProvider` interface to abstract flag source (PostHog, Edge Config, LaunchDarkly)
 
 **Rationale**:
+
 - Flexibility to use different flag sources based on performance requirements
 - PostHog flags integrate with product analytics but may have higher latency
 - Edge Config provides fast (<5ms) lookups for critical flags in middleware
@@ -256,12 +257,14 @@ Key pattern notes for this story:
 - Future-proof: can add LaunchDarkly or other providers without breaking changes
 
 **Consequences**:
+
 - Slightly more complex implementation (interface + multiple providers)
 - More flexible and testable architecture
 - Can optimize flag evaluation based on use case (PostHog for product flags, Edge Config for infrastructure flags)
 - Easier to mock in tests
 
 **Alternatives Considered**:
+
 - **PostHog only**: Rejected because PostHog API latency may be too high for middleware/edge contexts; limits flexibility
 - **Edge Config only**: Rejected because Edge Config requires manual flag updates via API; PostHog provides better UX for product teams
 
@@ -272,18 +275,21 @@ Key pattern notes for this story:
 **Decision**: Use TypeScript generics for type-safe flag value access: `getFeatureFlag<T>(key, defaultValue: T): Promise<T>`
 
 **Rationale**:
+
 - Type safety ensures developers access flag values correctly (no runtime type errors)
 - Default value constrains return type: `getFeatureFlag('limit', 10)` infers `number` type
 - Better developer experience with IDE autocomplete and type checking
 - Prevents common bugs like treating boolean flag as string
 
 **Consequences**:
+
 - Cleaner API with better type inference
 - Requires developers to provide default value (good practice anyway)
 - Slightly more complex type definitions but much better DX
 - May need type assertions when flag type is dynamic
 
 **Alternatives Considered**:
+
 - **Untyped values (any)**: Rejected because loses type safety; error-prone
 - **Separate functions per type**: (`getBooleanFlag`, `getStringFlag`) - Rejected due to verbose API and code duplication
 
@@ -294,18 +300,21 @@ Key pattern notes for this story:
 **Decision**: Implement `useFeatureFlag()` hook that automatically updates when PostHog flag values change (without page refresh)
 
 **Rationale**:
+
 - PostHog SDK supports real-time flag updates via `onFeatureFlags` callback
 - Better UX: users see feature changes immediately without refresh
 - Useful for gradual rollouts and A/B test reassignments
 - Matches PostHog SDK capabilities
 
 **Consequences**:
+
 - More React state management complexity in hook implementation
 - Better UX for dynamic feature rollouts
 - Need to handle rapid flag changes gracefully (debouncing may be needed)
 - Requires PostHog SDK to be properly initialized on client
 
 **Alternatives Considered**:
+
 - **Static flag values (no updates)**: Rejected because PostHog supports real-time updates; would miss valuable capability
 - **Manual refresh function**: Rejected because automatic updates provide better UX
 
@@ -336,6 +345,7 @@ The following items are explicitly NOT part of this story:
 ## References
 
 **Internal**:
+
 - [EPIC.md: Overview](./EPIC.md#overview), [Technical Constraints](./EPIC.md#technical-constraints)
 - [TAD: Analytics & Observability](/docs/2-technical/2-tad.md#analytics--observability)
 - [TAD: Integration Points](/docs/2-technical/2-tad.md#integration-points)
@@ -344,6 +354,7 @@ The following items are explicitly NOT part of this story:
 - [Coding Standards](/docs/2-technical/references/coding-standards.md)
 
 **External**:
+
 - [PostHog Feature Flags](https://posthog.com/docs/feature-flags)
 - [PostHog JavaScript SDK](https://posthog.com/docs/libraries/js#feature-flags)
 - [PostHog React SDK](https://posthog.com/docs/libraries/react)

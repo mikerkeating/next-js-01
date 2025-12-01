@@ -65,6 +65,10 @@ export function createTestWrapper(
   options?: ProviderOptions
 ): ({ children }: { children: ReactNode }) => ReactElement {
   return function TestWrapper({ children }: { children: ReactNode }): ReactElement {
-    return <TestProviders options={options}>{children}</TestProviders>;
+    // Only pass options if defined to satisfy exactOptionalPropertyTypes
+    if (options !== undefined) {
+      return <TestProviders options={options}>{children}</TestProviders>;
+    }
+    return <TestProviders>{children}</TestProviders>;
   };
 }

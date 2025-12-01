@@ -1,4 +1,4 @@
-import { defineConfig, devices } from "@playwright/test";
+import { defineConfig, devices } from '@playwright/test';
 
 /**
  * Playwright configuration for E2E tests.
@@ -6,7 +6,7 @@ import { defineConfig, devices } from "@playwright/test";
  * @see https://playwright.dev/docs/test-configuration
  */
 export default defineConfig({
-  testDir: "./tests/e2e",
+  testDir: './tests/e2e',
 
   /* Run tests in files in parallel */
   fullyParallel: true,
@@ -18,26 +18,28 @@ export default defineConfig({
   retries: process.env.CI ? 2 : 0,
 
   /* Opt out of parallel tests on CI for more consistent results */
-  workers: process.env.CI ? 1 : undefined,
+  ...(process.env.CI && { workers: 1 }),
 
   /* Reporter to use */
-  reporter: [["html", { outputFolder: "playwright-report" }], ["list"]],
+  reporter: [['html', { outputFolder: 'playwright-report' }], ['list']],
 
   /* Shared settings for all the projects below */
   use: {
     /* Base URL from environment variable with localhost fallback */
-    baseURL: process.env.BASE_URL || "http://localhost:3000",
+    baseURL: process.env.BASE_URL || 'http://localhost:3000',
 
     /* Collect trace when retrying the failed test */
-    trace: "on-first-retry",
+    trace: 'on-first-retry',
 
     /* Screenshot on failure */
-    screenshot: "only-on-failure",
+    screenshot: 'only-on-failure',
 
     /* Vercel deployment protection bypass header */
-    extraHTTPHeaders: process.env.VERCEL_AUTOMATION_BYPASS_SECRET
-      ? { "x-vercel-protection-bypass": process.env.VERCEL_AUTOMATION_BYPASS_SECRET }
-      : undefined,
+    ...(process.env.VERCEL_AUTOMATION_BYPASS_SECRET && {
+      extraHTTPHeaders: {
+        'x-vercel-protection-bypass': process.env.VERCEL_AUTOMATION_BYPASS_SECRET,
+      },
+    }),
   },
 
   /* Global timeout for the entire test suite (60 seconds) */
@@ -49,13 +51,13 @@ export default defineConfig({
   /* Configure projects for smoke tests - Chromium only for speed */
   projects: [
     {
-      name: "chromium",
-      use: { ...devices["Desktop Chrome"] },
+      name: 'chromium',
+      use: { ...devices['Desktop Chrome'] },
     },
   ],
 
   /* Output directory for test artifacts */
-  outputDir: "testing/e2e/results/",
+  outputDir: 'testing/e2e/results/',
 
   /* Alternative: Run local dev server (uncomment if not using Vercel previews)
   webServer: process.env.BASE_URL

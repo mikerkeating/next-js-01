@@ -29,22 +29,22 @@
 
 ### Files to Create
 
-| Path | Purpose |
-|------|---------|
-| `packages/api-client/src/retry/retry-handler.ts` | Core retry logic with exponential backoff |
-| `packages/api-client/src/retry/retry-config.ts` | Retry configuration types and defaults |
-| `packages/api-client/src/retry/backoff.ts` | Backoff calculation with jitter |
-| `packages/api-client/src/retry/index.ts` | Public exports for retry utilities |
-| `packages/api-client/tests/unit/retry-handler.test.ts` | Unit tests for retry logic |
-| `packages/api-client/tests/unit/backoff.test.ts` | Unit tests for backoff calculations |
+| Path                                                   | Purpose                                   |
+| ------------------------------------------------------ | ----------------------------------------- |
+| `packages/api-client/src/retry/retry-handler.ts`       | Core retry logic with exponential backoff |
+| `packages/api-client/src/retry/retry-config.ts`        | Retry configuration types and defaults    |
+| `packages/api-client/src/retry/backoff.ts`             | Backoff calculation with jitter           |
+| `packages/api-client/src/retry/index.ts`               | Public exports for retry utilities        |
+| `packages/api-client/tests/unit/retry-handler.test.ts` | Unit tests for retry logic                |
+| `packages/api-client/tests/unit/backoff.test.ts`       | Unit tests for backoff calculations       |
 
 ### Files to Modify
 
-| Path | Changes |
-|------|---------|
-| `packages/api-client/src/client.ts` | Integrate retry handler into request lifecycle |
-| `packages/api-client/src/types.ts` | Add retry configuration to `RequestOptions` type |
-| `packages/api-client/src/index.ts` | Export retry configuration types |
+| Path                                | Changes                                          |
+| ----------------------------------- | ------------------------------------------------ |
+| `packages/api-client/src/client.ts` | Integrate retry handler into request lifecycle   |
+| `packages/api-client/src/types.ts`  | Add retry configuration to `RequestOptions` type |
+| `packages/api-client/src/index.ts`  | Export retry configuration types                 |
 
 ### Dependencies
 
@@ -57,16 +57,17 @@ No new external dependencies required - built using native TypeScript and existi
 > **Note**: For complete configuration file templates, reference the TAD.
 > This section describes configuration REQUIREMENTS, not full file contents.
 
-| Setting | Requirement | TAD Reference |
-|---------|-------------|---------------|
-| `maxRetries` | Default: 3 retries maximum | [TAD: Integration Points](/docs/2-technical/2-tad.md#integration-points) |
+| Setting             | Requirement                               | TAD Reference                                                            |
+| ------------------- | ----------------------------------------- | ------------------------------------------------------------------------ |
+| `maxRetries`        | Default: 3 retries maximum                | [TAD: Integration Points](/docs/2-technical/2-tad.md#integration-points) |
 | `retryableStatuses` | Default: `[408, 429, 500, 502, 503, 504]` | [TAD: Integration Points](/docs/2-technical/2-tad.md#integration-points) |
-| `retryableMethods` | Default: `['GET', 'PUT', 'DELETE']` | [TAD: Integration Points](/docs/2-technical/2-tad.md#integration-points) |
-| `baseDelay` | Default: 1000ms (1 second) | [TAD: Integration Points](/docs/2-technical/2-tad.md#integration-points) |
-| `maxDelay` | Default: 30000ms (30 seconds) | [TAD: Integration Points](/docs/2-technical/2-tad.md#integration-points) |
-| `jitterFactor` | Default: 0.1 (10% jitter) | [TAD: Integration Points](/docs/2-technical/2-tad.md#integration-points) |
+| `retryableMethods`  | Default: `['GET', 'PUT', 'DELETE']`       | [TAD: Integration Points](/docs/2-technical/2-tad.md#integration-points) |
+| `baseDelay`         | Default: 1000ms (1 second)                | [TAD: Integration Points](/docs/2-technical/2-tad.md#integration-points) |
+| `maxDelay`          | Default: 30000ms (30 seconds)             | [TAD: Integration Points](/docs/2-technical/2-tad.md#integration-points) |
+| `jitterFactor`      | Default: 0.1 (10% jitter)                 | [TAD: Integration Points](/docs/2-technical/2-tad.md#integration-points) |
 
 **Configuration Rationale**:
+
 - Maximum 3 retries balances reliability with request timeout constraints (prevents excessively long waits)
 - Exponential backoff with jitter prevents thundering herd when many clients retry simultaneously
 - Only idempotent methods retry by default to prevent duplicate side effects (POST excluded unless explicitly enabled)
@@ -167,13 +168,13 @@ Key pattern notes for this story:
 
 ### Troubleshooting
 
-| Issue | Cause | Solution |
-|-------|-------|----------|
-| Retry delays too long | Exponential backoff without max delay cap | Set `maxDelay` to reasonable limit (30s default) |
-| Thundering herd on retry | No jitter in backoff calculation | Add jitter to randomize retry timing |
-| POST requests duplicated | Retry enabled for non-idempotent methods | Only retry GET/PUT/DELETE by default |
-| Request body consumed | fetch() consumes body on first attempt | Clone request before each retry |
-| Infinite retry loop | No max retry limit | Enforce maxRetries config (default: 3) |
+| Issue                    | Cause                                     | Solution                                         |
+| ------------------------ | ----------------------------------------- | ------------------------------------------------ |
+| Retry delays too long    | Exponential backoff without max delay cap | Set `maxDelay` to reasonable limit (30s default) |
+| Thundering herd on retry | No jitter in backoff calculation          | Add jitter to randomize retry timing             |
+| POST requests duplicated | Retry enabled for non-idempotent methods  | Only retry GET/PUT/DELETE by default             |
+| Request body consumed    | fetch() consumes body on first attempt    | Clone request before each retry                  |
+| Infinite retry loop      | No max retry limit                        | Enforce maxRetries config (default: 3)           |
 
 ### Reference Materials
 

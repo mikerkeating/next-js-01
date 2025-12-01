@@ -32,19 +32,19 @@
 
 ### Files to Create
 
-| Path                                              | Purpose                                    |
-| ------------------------------------------------- | ------------------------------------------ |
-| `packages/observability/src/health-checks.ts`     | Health check utility functions             |
-| `packages/observability/src/types/health.ts`      | Health check TypeScript interfaces         |
-| `packages/observability/__tests__/health.test.ts` | Unit tests for health check utilities      |
+| Path                                              | Purpose                               |
+| ------------------------------------------------- | ------------------------------------- |
+| `packages/observability/src/health-checks.ts`     | Health check utility functions        |
+| `packages/observability/src/types/health.ts`      | Health check TypeScript interfaces    |
+| `packages/observability/__tests__/health.test.ts` | Unit tests for health check utilities |
 
 ### Files to Modify
 
-| Path                                  | Changes                                                        |
-| ------------------------------------- | -------------------------------------------------------------- |
-| `packages/observability/src/index.ts` | Export health check utilities and types                        |
-| `packages/observability/package.json` | Add peer dependencies for database and environment config      |
-| `packages/observability/README.md`    | Document health check utilities with usage examples            |
+| Path                                  | Changes                                                   |
+| ------------------------------------- | --------------------------------------------------------- |
+| `packages/observability/src/index.ts` | Export health check utilities and types                   |
+| `packages/observability/package.json` | Add peer dependencies for database and environment config |
+| `packages/observability/README.md`    | Document health check utilities with usage examples       |
 
 ### Dependencies
 
@@ -65,13 +65,13 @@ cd packages/observability
 > **Note**: For complete configuration file templates, reference the TAD.
 > This section describes configuration REQUIREMENTS, not full file contents.
 
-| Setting                   | Requirement                                              | TAD Reference                                                                                 |
-| ------------------------- | -------------------------------------------------------- | --------------------------------------------------------------------------------------------- |
-| `HealthCheckResult` type  | Interface with status, responseTime, message, lastChecked | [TAD: Health Check Utilities](/docs/2-technical/2-tad-observability.md#health-check-utilities) |
-| Response time thresholds  | Database: 1000ms (degraded), Auth: 500ms (degraded)      | [TAD: Health Check Utilities](/docs/2-technical/2-tad-observability.md#health-check-utilities) |
-| Status values             | "ok" \| "degraded" \| "error"                            | [TAD: Health Check Utilities](/docs/2-technical/2-tad-observability.md#health-check-utilities) |
-| Overall status            | "healthy" \| "degraded" \| "unhealthy"                   | [TAD: Health Check Utilities](/docs/2-technical/2-tad-observability.md#health-check-utilities) |
-| Error handling            | Try-catch with logger integration                        | [TAD: Health Check Utilities](/docs/2-technical/2-tad-observability.md#health-check-utilities) |
+| Setting                  | Requirement                                               | TAD Reference                                                                                  |
+| ------------------------ | --------------------------------------------------------- | ---------------------------------------------------------------------------------------------- |
+| `HealthCheckResult` type | Interface with status, responseTime, message, lastChecked | [TAD: Health Check Utilities](/docs/2-technical/2-tad-observability.md#health-check-utilities) |
+| Response time thresholds | Database: 1000ms (degraded), Auth: 500ms (degraded)       | [TAD: Health Check Utilities](/docs/2-technical/2-tad-observability.md#health-check-utilities) |
+| Status values            | "ok" \| "degraded" \| "error"                             | [TAD: Health Check Utilities](/docs/2-technical/2-tad-observability.md#health-check-utilities) |
+| Overall status           | "healthy" \| "degraded" \| "unhealthy"                    | [TAD: Health Check Utilities](/docs/2-technical/2-tad-observability.md#health-check-utilities) |
+| Error handling           | Try-catch with logger integration                         | [TAD: Health Check Utilities](/docs/2-technical/2-tad-observability.md#health-check-utilities) |
 
 **Configuration Rationale**: Health check utilities provide reusable service monitoring across applications. Performance thresholds (database: 1000ms, auth: 500ms) balance responsiveness expectations with reliability. The three-tier status system (ok/degraded/error) enables nuanced monitoring without false alarms. Using `Promise.allSettled` ensures all checks complete even if one fails, providing comprehensive health visibility.
 
@@ -192,14 +192,14 @@ Key pattern notes for this story:
 
 ### Troubleshooting
 
-| Issue                                          | Cause                                             | Solution                                                     |
-| ---------------------------------------------- | ------------------------------------------------- | ------------------------------------------------------------ |
-| Cannot import from `@repo/database`            | Database package not built or story dependency    | Verify Epic 2A.2 complete; run `pnpm build --filter @repo/database` |
-| TypeScript error on db.execute()               | Database types not exported correctly             | Check database package exports include type definitions      |
-| Auth check fails with CORS error               | Invalid fetch configuration for Clerk API         | Use HEAD request with proper Authorization header            |
-| Cache check always returns error               | Missing graceful handling for unconfigured cache  | Check for `REDIS_URL` first, return "ok" with message if absent |
-| Overall status always "unhealthy"              | Logic error in status aggregation                 | Review status determination: hasError → unhealthy, hasDegraded → degraded |
-| Tests fail due to missing environment vars     | Test environment not configured                   | Mock environment variables in test setup                     |
+| Issue                                      | Cause                                            | Solution                                                                  |
+| ------------------------------------------ | ------------------------------------------------ | ------------------------------------------------------------------------- |
+| Cannot import from `@repo/database`        | Database package not built or story dependency   | Verify Epic 2A.2 complete; run `pnpm build --filter @repo/database`       |
+| TypeScript error on db.execute()           | Database types not exported correctly            | Check database package exports include type definitions                   |
+| Auth check fails with CORS error           | Invalid fetch configuration for Clerk API        | Use HEAD request with proper Authorization header                         |
+| Cache check always returns error           | Missing graceful handling for unconfigured cache | Check for `REDIS_URL` first, return "ok" with message if absent           |
+| Overall status always "unhealthy"          | Logic error in status aggregation                | Review status determination: hasError → unhealthy, hasDegraded → degraded |
+| Tests fail due to missing environment vars | Test environment not configured                  | Mock environment variables in test setup                                  |
 
 ### Reference Materials
 

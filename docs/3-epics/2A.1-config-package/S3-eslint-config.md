@@ -17,16 +17,16 @@
 
 ## Acceptance Criteria
 
-- [ ] Base ESLint configuration exists at `packages/config/src/eslint/base.js`
-- [ ] Next.js-specific configuration exists at `packages/config/src/eslint/nextjs.js`
-- [ ] React library configuration exists at `packages/config/src/eslint/react-library.js`
-- [ ] ESLint uses flat config format (eslint.config.js style)
-- [ ] TypeScript-ESLint integration is properly configured with type-aware rules
-- [ ] React accessibility rules (eslint-plugin-jsx-a11y) are included
-- [ ] Import ordering rules are enforced per coding standards
-- [ ] Package exports are updated to expose ESLint configs via `@repo/config/eslint/*`
-- [ ] A consuming package can extend the config via ESLint flat config spread
-- [ ] Running `pnpm lint` in the config package passes with zero errors
+- [x] Base ESLint configuration exists at `packages/config/src/eslint/base.js`
+- [x] Next.js-specific configuration exists at `packages/config/src/eslint/nextjs.js`
+- [x] React library configuration exists at `packages/config/src/eslint/react-library.js`
+- [x] ESLint uses flat config format (eslint.config.js style)
+- [x] TypeScript-ESLint integration is properly configured with type-aware rules
+- [x] React accessibility rules (eslint-plugin-jsx-a11y) are included
+- [x] Import ordering rules are enforced per coding standards
+- [x] Package exports are updated to expose ESLint configs via `@repo/config/eslint/*`
+- [x] A consuming package can extend the config via ESLint flat config spread
+- [x] Running `pnpm lint` in the config package passes with zero errors
 
 ## Technical Requirements
 
@@ -106,6 +106,143 @@ cd apps/routing && pnpm lint --print-config src/app/page.tsx | head -20
 # Validate exports resolve correctly
 pnpm --filter @repo/config exec node -e "console.log(require.resolve('@repo/config/eslint/base'))"
 ```
+
+## ESLint 9 Migration (Prerequisite)
+
+> **Reference**: [S0-canonical-versions-plan.md](./S0-canonical-versions-plan.md) Phase 3C
+
+This story requires ESLint 9 with flat config. If the monorepo is still on ESLint 8, complete this migration first.
+
+### Current State Assessment
+
+| Package              | Current | Target | Location                |
+| -------------------- | ------- | ------ | ----------------------- |
+| `eslint`             | ^8.57.1 | ^9.x   | root                    |
+| `eslint`             | ^8.56.0 | ^9.x   | apps/docs, apps/routing |
+| `eslint-config-next` | ^15.0.0 | ^16.x  | apps/docs, apps/routing |
+
+### Migration Strategy
+
+ESLint 9 uses **flat config** (`eslint.config.js`) instead of `.eslintrc.*`. Since no legacy configs exist in this monorepo, you need to:
+
+1. Create `eslint.config.js` at root and in each app
+2. Update all ESLint packages
+3. Add `"type": "module"` to root `package.json` (enables ESM syntax in config files)
+
+### Step 1: Add ESM Module Type to Root
+
+```json
+// package.json (root)
+{
+  "type": "module"
+  // ... rest of config
+}
+```
+
+This enables `export default` syntax in `.js` config files. Without this, you'd need to use `.mjs` extensions.
+
+### Step 2: Create Root ESLint Config
+
+Create `eslint.config.js` at root:
+
+```javascript
+import js from "@eslint/js";
+import tsPlugin from "@typescript-eslint/eslint-plugin";
+import tsParser from "@typescript-eslint/parser";
+
+export default [
+  js.configs.recommended,
+  {
+    files: ["**/*.ts", "**/*.tsx"],
+    languageOptions: {
+      parser: tsParser,
+      parserOptions: {
+        ecmaVersion: "latest",
+        sourceType: "module",
+      },
+    },
+    plugins: {
+      "@typescript-eslint": tsPlugin,
+    },
+    rules: {
+      // Add your rules here
+    },
+  },
+  {
+    ignores: ["node_modules/", ".next/", "dist/", ".turbo/"],
+  },
+];
+```
+
+### Step 3: Create App-Level ESLint Configs
+
+For Next.js apps, create `apps/routing/eslint.config.js`:
+
+```javascript
+import nextPlugin from "@next/eslint-plugin-next";
+import reactPlugin from "eslint-plugin-react";
+import hooksPlugin from "eslint-plugin-react-hooks";
+import tsPlugin from "@typescript-eslint/eslint-plugin";
+import tsParser from "@typescript-eslint/parser";
+
+export default [
+  {
+    files: ["**/*.ts", "**/*.tsx"],
+    languageOptions: {
+      parser: tsParser,
+    },
+    plugins: {
+      "@typescript-eslint": tsPlugin,
+      react: reactPlugin,
+      "react-hooks": hooksPlugin,
+      "@next/next": nextPlugin,
+    },
+    rules: {
+      ...nextPlugin.configs.recommended.rules,
+      ...nextPlugin.configs["core-web-vitals"].rules,
+    },
+  },
+  {
+    ignores: [".next/"],
+  },
+];
+```
+
+### Step 4: Install New Dependencies
+
+```bash
+# Root
+pnpm add -D @eslint/js @typescript-eslint/eslint-plugin @typescript-eslint/parser
+
+# Apps
+pnpm --filter @repo/routing add -D @next/eslint-plugin-next eslint-plugin-react eslint-plugin-react-hooks
+pnpm --filter docs add -D @next/eslint-plugin-next eslint-plugin-react eslint-plugin-react-hooks
+```
+
+### Step 5: Update ESLint Packages
+
+```bash
+pnpm up -r eslint eslint-config-next
+```
+
+### Step 6: Migrate Other Config Files to ESM
+
+When adding `"type": "module"`, other CommonJS config files need migration:
+
+| File                   | Current                  | Migration              |
+| ---------------------- | ------------------------ | ---------------------- |
+| `commitlint.config.js` | `module.exports = {...}` | `export default {...}` |
+
+### Migration Verification Checklist
+
+- [ ] `pnpm lint` passes at root
+- [ ] `pnpm lint` passes in apps/routing
+- [ ] `pnpm lint` passes in apps/docs
+- [ ] `pnpm lint:fix` works correctly
+- [ ] lint-staged still works with ESLint
+- [ ] CI lint job passes
+
+---
 
 ## Implementation Notes
 
@@ -241,17 +378,52 @@ Key pattern notes for this story:
 
 ## Verification Checklist
 
-- [ ] S1 (Package Structure) completed
-- [ ] Local environment matches [canonical versions](/docs/2-technical/references/canonical-versions.md)
-- [ ] All acceptance criteria met
-- [ ] [Coding standards](/docs/2-technical/references/coding-standards.md) followed
-- [ ] No lint errors, types compile successfully
-- [ ] Tests written and passing
-- [ ] Package README updated with ESLint config usage
-- [ ] Conventional commit message used
+- [x] S1 (Package Structure) completed
+- [x] Local environment matches [canonical versions](/docs/2-technical/references/canonical-versions.md)
+- [x] All acceptance criteria met
+- [x] [Coding standards](/docs/2-technical/references/coding-standards.md) followed
+- [x] No lint errors, types compile successfully
+- [x] Tests written and passing
+- [ ] Package README updated with ESLint config usage - deferred to S6
+- [x] Conventional commit message used
 
 ## Status
 
-- **State**: Not Started
+- **State**: Complete
+- **Completed**: 2025-12-01
 - **PR**: -
-- **Completed**: -
+
+## Completion Notes
+
+### Summary
+
+Implemented three-tier ESLint flat configuration system for the monorepo: base config with TypeScript/import rules, Next.js config with React/Next.js plugins, and React library config with jsx-a11y accessibility rules. All configurations use ESLint 9 flat config format and are exported via `@repo/config/eslint/*`.
+
+### Test Results
+
+| Test       | Command           | Result          |
+| ---------- | ----------------- | --------------- |
+| Lint       | `pnpm lint`       | Pass            |
+| Types      | `pnpm type-check` | Pass            |
+| Unit Tests | `pnpm test`       | Pass (80 tests) |
+| Build      | `pnpm build`      | N/A (network)   |
+
+### Files Changed
+
+Beyond planned files, the following additional files were created:
+
+- `packages/config/src/eslint/base.d.ts` - TypeScript declaration for base config
+- `packages/config/src/eslint/nextjs.d.ts` - TypeScript declaration for Next.js config
+- `packages/config/src/eslint/react-library.d.ts` - TypeScript declaration for React library config
+- `packages/config/tests/eslint.test.ts` - Unit tests for ESLint configurations
+
+### Known Issues
+
+- **Issue**: ESLint 9 migration not yet applied to consuming apps - **Status**: Deferred - **Tracking**: S6-integration.md
+- **Issue**: Package README not updated with ESLint usage docs - **Status**: Deferred - **Tracking**: S6-integration.md
+
+### Lessons Learned
+
+- ESLint flat config requires explicit plugin registration in each config object that uses the rules
+- TypeScript declaration files (`.d.ts`) are needed alongside JavaScript config files to satisfy TypeScript type-checking
+- The `typescript-eslint` package provides a unified API for parser, plugin, and configs in ESLint 9

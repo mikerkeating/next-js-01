@@ -30,24 +30,24 @@
 
 ### Files to Create
 
-| Path | Purpose |
-|------|---------|
-| `packages/api-client/package.json` | Package metadata and dependencies |
-| `packages/api-client/tsconfig.json` | TypeScript configuration |
-| `packages/api-client/src/index.ts` | Public API exports |
-| `packages/api-client/src/client.ts` | Base API client implementation |
-| `packages/api-client/src/types.ts` | Type definitions for requests/responses |
-| `packages/api-client/src/errors.ts` | Error classes for API exceptions |
-| `packages/api-client/src/config.ts` | Client configuration interface |
-| `packages/api-client/tests/client.test.ts` | Unit tests for base client |
-| `packages/api-client/README.md` | Package documentation |
+| Path                                       | Purpose                                 |
+| ------------------------------------------ | --------------------------------------- |
+| `packages/api-client/package.json`         | Package metadata and dependencies       |
+| `packages/api-client/tsconfig.json`        | TypeScript configuration                |
+| `packages/api-client/src/index.ts`         | Public API exports                      |
+| `packages/api-client/src/client.ts`        | Base API client implementation          |
+| `packages/api-client/src/types.ts`         | Type definitions for requests/responses |
+| `packages/api-client/src/errors.ts`        | Error classes for API exceptions        |
+| `packages/api-client/src/config.ts`        | Client configuration interface          |
+| `packages/api-client/tests/client.test.ts` | Unit tests for base client              |
+| `packages/api-client/README.md`            | Package documentation                   |
 
 ### Files to Modify
 
-| Path | Changes |
-|------|---------|
+| Path                  | Changes                                                                   |
+| --------------------- | ------------------------------------------------------------------------- |
 | `pnpm-workspace.yaml` | Add `packages/api-client` to workspace (if not already included via glob) |
-| `turbo.json` | Add `@repo/api-client#build` task configuration |
+| `turbo.json`          | Add `@repo/api-client#build` task configuration                           |
 
 ### Dependencies
 
@@ -85,14 +85,15 @@ pnpm add -D typescript vitest @vitest/coverage-v8 --filter @repo/api-client
 > **Note**: For complete configuration file templates, reference the TAD.
 > This section describes configuration REQUIREMENTS, not full file contents.
 
-| Setting | Requirement | TAD Reference |
-|---------|-------------|---------------|
+| Setting   | Requirement                                                          | TAD Reference                                                                     |
+| --------- | -------------------------------------------------------------------- | --------------------------------------------------------------------------------- |
 | `baseURL` | Configurable API base URL (default: process.env.NEXT_PUBLIC_API_URL) | [TAD: API Client](/docs/2-technical/2-tad-package-architecture.md#repoapi-client) |
-| `headers` | Default headers including Content-Type (default: application/json) | [TAD: API Client](/docs/2-technical/2-tad-package-architecture.md#repoapi-client) |
-| `timeout` | Optional request timeout in milliseconds (default: 30000) | [TAD: API Client](/docs/2-technical/2-tad-package-architecture.md#repoapi-client) |
-| `fetch` | Configurable fetch implementation (default: global fetch) | [TAD: API Client](/docs/2-technical/2-tad-package-architecture.md#repoapi-client) |
+| `headers` | Default headers including Content-Type (default: application/json)   | [TAD: API Client](/docs/2-technical/2-tad-package-architecture.md#repoapi-client) |
+| `timeout` | Optional request timeout in milliseconds (default: 30000)            | [TAD: API Client](/docs/2-technical/2-tad-package-architecture.md#repoapi-client) |
+| `fetch`   | Configurable fetch implementation (default: global fetch)            | [TAD: API Client](/docs/2-technical/2-tad-package-architecture.md#repoapi-client) |
 
 **Configuration Rationale**:
+
 - Base URL and headers enable environment-specific configuration (dev/staging/prod)
 - Timeout prevents hung requests in production
 - Configurable fetch enables testing with mocked implementations
@@ -211,13 +212,13 @@ Key pattern notes for this story:
 
 ### Troubleshooting
 
-| Issue | Cause | Solution |
-|-------|-------|----------|
-| "Cannot find module '@repo/api-client'" | Package not built or not in pnpm workspace | Run `pnpm install` at root to link workspace packages, then `pnpm build --filter @repo/api-client` |
-| Type inference not working for response | Generic type not specified or inferred | Explicitly specify response type: `client.get<UserResponse>('/users')` |
-| Headers not being applied | Header merging order incorrect | Ensure request headers are spread after default headers: `{ ...defaultHeaders, ...requestHeaders }` |
-| Timeout not working | Native fetch doesn't support timeout directly | Will be implemented via AbortController in future enhancement; for now, document limitation |
-| Client not working in Edge runtime | Using Node.js-specific APIs | Ensure only Web APIs are used (fetch, Headers, URL, AbortController) |
+| Issue                                   | Cause                                         | Solution                                                                                            |
+| --------------------------------------- | --------------------------------------------- | --------------------------------------------------------------------------------------------------- |
+| "Cannot find module '@repo/api-client'" | Package not built or not in pnpm workspace    | Run `pnpm install` at root to link workspace packages, then `pnpm build --filter @repo/api-client`  |
+| Type inference not working for response | Generic type not specified or inferred        | Explicitly specify response type: `client.get<UserResponse>('/users')`                              |
+| Headers not being applied               | Header merging order incorrect                | Ensure request headers are spread after default headers: `{ ...defaultHeaders, ...requestHeaders }` |
+| Timeout not working                     | Native fetch doesn't support timeout directly | Will be implemented via AbortController in future enhancement; for now, document limitation         |
+| Client not working in Edge runtime      | Using Node.js-specific APIs                   | Ensure only Web APIs are used (fetch, Headers, URL, AbortController)                                |
 
 ### Reference Materials
 

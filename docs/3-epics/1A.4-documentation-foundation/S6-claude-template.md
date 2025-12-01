@@ -30,7 +30,7 @@
 
 | Path                                                      | Purpose                                                |
 | --------------------------------------------------------- | ------------------------------------------------------ |
-| `docs/0-process/references/claude-epic-template.md`       | Template for epic-level CLAUDE.md files               |
+| `docs/0-process/references/claude-epic-template.md`       | Template for epic-level CLAUDE.md files                |
 | `docs/0-process/references/claude-epic-template-usage.md` | Usage guide for CLAUDE.md template (optional guidance) |
 
 ### Files to Modify
@@ -128,12 +128,12 @@ Key pattern notes for this story:
 
 ### Troubleshooting
 
-| Issue                                      | Cause                                | Solution                                                       |
-| ------------------------------------------ | ------------------------------------ | -------------------------------------------------------------- |
-| Template too verbose (>300 lines)         | Too much duplicated content          | Replace detailed sections with links to TAD/ADRs               |
-| Missing essential context for AI           | Template too minimal                 | Add critical patterns that aren't easily found in linked docs  |
-| Template doesn't match actual epic needs   | Generic template without customization | Add notes on which sections to expand per epic type           |
-| Broken links to TAD sections               | TAD structure changed                | Update links; consider using stable anchors in TAD             |
+| Issue                                    | Cause                                  | Solution                                                      |
+| ---------------------------------------- | -------------------------------------- | ------------------------------------------------------------- |
+| Template too verbose (>300 lines)        | Too much duplicated content            | Replace detailed sections with links to TAD/ADRs              |
+| Missing essential context for AI         | Template too minimal                   | Add critical patterns that aren't easily found in linked docs |
+| Template doesn't match actual epic needs | Generic template without customization | Add notes on which sections to expand per epic type           |
+| Broken links to TAD sections             | TAD structure changed                  | Update links; consider using stable anchors in TAD            |
 
 ### Reference Materials
 
@@ -299,17 +299,17 @@ Created a CLAUDE.md epic template (232 lines) and accompanying usage guide that 
 
 ### Test Results
 
-| Test       | Command                                           | Result |
-| ---------- | ------------------------------------------------- | ------ |
+| Test       | Command                                                                    | Result |
+| ---------- | -------------------------------------------------------------------------- | ------ |
 | Lint       | `pnpm markdownlint-cli2 docs/0-process/references/claude-epic-template.md` | Pass   |
-| Link Check | Manual verification (all linked files exist)      | Pass   |
+| Link Check | Manual verification (all linked files exist)                               | Pass   |
 
 ### Files Changed
 
-| File                                                      | Action  | Description                             |
-| --------------------------------------------------------- | ------- | --------------------------------------- |
-| `docs/0-process/references/claude-epic-template.md`       | Created | CLAUDE.md template (232 lines)          |
-| `docs/0-process/references/claude-epic-template-usage.md` | Created | Usage guide for template (113 lines)    |
+| File                                                      | Action  | Description                          |
+| --------------------------------------------------------- | ------- | ------------------------------------ |
+| `docs/0-process/references/claude-epic-template.md`       | Created | CLAUDE.md template (232 lines)       |
+| `docs/0-process/references/claude-epic-template-usage.md` | Created | Usage guide for template (113 lines) |
 
 ### Known Issues
 

@@ -15,20 +15,20 @@ on:
   pull_request:
     branches: [development, main]
     paths:
-      - 'docs/**'
-      - 'packages/**/README.md'
-      - 'packages/**/src/**/*.ts'
-      - 'packages/**/src/**/*.tsx'
-      - 'apps/**/README.md'
-      - '*.md'
-      - '.markdownlint*'
-      - '.markdown-link-check.json'
+      - "docs/**"
+      - "packages/**/README.md"
+      - "packages/**/src/**/*.ts"
+      - "packages/**/src/**/*.tsx"
+      - "apps/**/README.md"
+      - "*.md"
+      - ".markdownlint*"
+      - ".markdown-link-check.json"
   push:
     branches: [development]
     paths:
-      - 'docs/**'
-      - 'packages/**/README.md'
-      - '*.md'
+      - "docs/**"
+      - "packages/**/README.md"
+      - "*.md"
 
 concurrency:
   group: docs-${{ github.workflow }}-${{ github.ref }}
@@ -48,8 +48,8 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: '24'
-          cache: 'pnpm'
+          node-version: "24"
+          cache: "pnpm"
 
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
@@ -70,8 +70,8 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: '24'
-          cache: 'pnpm'
+          node-version: "24"
+          cache: "pnpm"
 
       - name: Install dependencies
         run: pnpm install --frozen-lockfile

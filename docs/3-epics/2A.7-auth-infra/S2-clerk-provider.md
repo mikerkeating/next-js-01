@@ -30,25 +30,26 @@
 
 ### Files to Create
 
-| Path | Purpose |
-|------|---------|
-| `packages/auth/src/provider.tsx` | ClerkProvider wrapper component |
-| `packages/auth/src/context.tsx` | Auth context and provider logic |
-| `packages/auth/src/types.ts` | TypeScript types for auth context |
-| `packages/auth/src/config.ts` | Default Clerk configuration |
+| Path                             | Purpose                           |
+| -------------------------------- | --------------------------------- |
+| `packages/auth/src/provider.tsx` | ClerkProvider wrapper component   |
+| `packages/auth/src/context.tsx`  | Auth context and provider logic   |
+| `packages/auth/src/types.ts`     | TypeScript types for auth context |
+| `packages/auth/src/config.ts`    | Default Clerk configuration       |
 
 ### Files to Modify
 
-| Path | Changes |
-|------|---------|
+| Path                         | Changes                             |
+| ---------------------------- | ----------------------------------- |
 | `packages/auth/src/index.ts` | Export provider component and types |
-| `packages/auth/package.json` | Add peer dependencies for React |
+| `packages/auth/package.json` | Add peer dependencies for React     |
 
 ### Dependencies
 
 > **Version Reference**: Use exact versions from [canonical-versions.md](/docs/2-technical/references/canonical-versions.md)
 
 **Required dependencies** (already installed in S1):
+
 - `@clerk/nextjs` - Clerk SDK for Next.js
 - `@clerk/themes` - Clerk UI theming
 
@@ -64,13 +65,13 @@ pnpm add react react-dom --save-peer
 > **Note**: For complete Clerk configuration examples, reference [ADR-006: Clerk Authentication](/docs/2-technical/adr/006-clerk-authentication.md#configuration).
 > This section describes configuration REQUIREMENTS for the provider wrapper.
 
-| Setting | Requirement | TAD Reference |
-|---------|-------------|---------------|
-| `publishableKey` | Read from `NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY` env var | [ADR-006: Configuration](/docs/2-technical/adr/006-clerk-authentication.md#configuration) |
-| `appearance` | Support custom theme via prop, default to base theme | [ADR-006: Configuration](/docs/2-technical/adr/006-clerk-authentication.md#configuration) |
-| `localization` | Optional prop for internationalization | [ADR-006: Clerk Documentation](https://clerk.com/docs) |
-| `signInUrl` | Read from `NEXT_PUBLIC_CLERK_SIGN_IN_URL` with fallback `/sign-in` | [ADR-006: Configuration](/docs/2-technical/adr/006-clerk-authentication.md#configuration) |
-| `signUpUrl` | Read from `NEXT_PUBLIC_CLERK_SIGN_UP_URL` with fallback `/sign-up` | [ADR-006: Configuration](/docs/2-technical/adr/006-clerk-authentication.md#configuration) |
+| Setting          | Requirement                                                        | TAD Reference                                                                             |
+| ---------------- | ------------------------------------------------------------------ | ----------------------------------------------------------------------------------------- |
+| `publishableKey` | Read from `NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY` env var              | [ADR-006: Configuration](/docs/2-technical/adr/006-clerk-authentication.md#configuration) |
+| `appearance`     | Support custom theme via prop, default to base theme               | [ADR-006: Configuration](/docs/2-technical/adr/006-clerk-authentication.md#configuration) |
+| `localization`   | Optional prop for internationalization                             | [ADR-006: Clerk Documentation](https://clerk.com/docs)                                    |
+| `signInUrl`      | Read from `NEXT_PUBLIC_CLERK_SIGN_IN_URL` with fallback `/sign-in` | [ADR-006: Configuration](/docs/2-technical/adr/006-clerk-authentication.md#configuration) |
+| `signUpUrl`      | Read from `NEXT_PUBLIC_CLERK_SIGN_UP_URL` with fallback `/sign-up` | [ADR-006: Configuration](/docs/2-technical/adr/006-clerk-authentication.md#configuration) |
 
 **Configuration Rationale**: The wrapper component centralizes Clerk configuration to ensure consistent behavior across all applications. Environment variables are used for sensitive/environment-specific settings, while props allow per-application customization of appearance and behavior.
 
@@ -177,12 +178,12 @@ Key pattern notes for this story:
 
 ### Troubleshooting
 
-| Issue | Cause | Solution |
-|-------|-------|----------|
-| "Missing publishableKey" error | Environment variable not set | Ensure `NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY` is in `.env.local` |
-| Auth state always shows `isLoaded: false` | Clerk SDK not initialized | Verify ClerkProvider is at root of app, check browser console for errors |
-| TypeScript errors on auth context | Incorrect types imported | Import types from `@clerk/nextjs` for Clerk-provided values |
-| Provider not rendering children | Missing children prop passthrough | Ensure wrapper component renders `{children}` inside ClerkProvider |
+| Issue                                     | Cause                             | Solution                                                                 |
+| ----------------------------------------- | --------------------------------- | ------------------------------------------------------------------------ |
+| "Missing publishableKey" error            | Environment variable not set      | Ensure `NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY` is in `.env.local`            |
+| Auth state always shows `isLoaded: false` | Clerk SDK not initialized         | Verify ClerkProvider is at root of app, check browser console for errors |
+| TypeScript errors on auth context         | Incorrect types imported          | Import types from `@clerk/nextjs` for Clerk-provided values              |
+| Provider not rendering children           | Missing children prop passthrough | Ensure wrapper component renders `{children}` inside ClerkProvider       |
 
 ### Reference Materials
 

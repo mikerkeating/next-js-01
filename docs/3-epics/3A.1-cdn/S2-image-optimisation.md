@@ -32,23 +32,23 @@
 
 ### Files to Create
 
-| Path                                                 | Purpose                                      |
-| ---------------------------------------------------- | -------------------------------------------- |
-| `apps/cdn/lib/image-optimizer.ts`                    | Core image optimization utilities            |
-| `apps/cdn/lib/format-selector.ts`                    | Browser capability detection and selection   |
-| `apps/cdn/components/OptimizedImage.tsx`             | Wrapper component for Next.js Image          |
-| `apps/cdn/app/api/image/route.ts`                    | Image optimization API endpoint              |
-| `apps/cdn/lib/__tests__/image-optimizer.test.ts`     | Unit tests for optimizer                     |
-| `apps/cdn/lib/__tests__/format-selector.test.ts`     | Unit tests for format selector               |
-| `apps/cdn/components/__tests__/OptimizedImage.test.tsx` | Component tests                          |
+| Path                                                    | Purpose                                    |
+| ------------------------------------------------------- | ------------------------------------------ |
+| `apps/cdn/lib/image-optimizer.ts`                       | Core image optimization utilities          |
+| `apps/cdn/lib/format-selector.ts`                       | Browser capability detection and selection |
+| `apps/cdn/components/OptimizedImage.tsx`                | Wrapper component for Next.js Image        |
+| `apps/cdn/app/api/image/route.ts`                       | Image optimization API endpoint            |
+| `apps/cdn/lib/__tests__/image-optimizer.test.ts`        | Unit tests for optimizer                   |
+| `apps/cdn/lib/__tests__/format-selector.test.ts`        | Unit tests for format selector             |
+| `apps/cdn/components/__tests__/OptimizedImage.test.tsx` | Component tests                            |
 
 ### Files to Modify
 
-| Path                            | Changes                                     |
-| ------------------------------- | ------------------------------------------- |
-| `apps/cdn/next.config.js`       | Add image optimization configuration        |
-| `apps/cdn/app/page.tsx`         | Add example usage of OptimizedImage         |
-| `apps/cdn/package.json`         | Add sharp dependency for image processing   |
+| Path                      | Changes                                   |
+| ------------------------- | ----------------------------------------- |
+| `apps/cdn/next.config.js` | Add image optimization configuration      |
+| `apps/cdn/app/page.tsx`   | Add example usage of OptimizedImage       |
+| `apps/cdn/package.json`   | Add sharp dependency for image processing |
 
 ### Dependencies
 
@@ -71,17 +71,18 @@ pnpm add -D @testing-library/react @testing-library/jest-dom
 > **Note**: For complete configuration file templates, reference the TAD.
 > This section describes configuration REQUIREMENTS, not full file contents.
 
-| Setting                    | Requirement                                                  | TAD Reference                                                                  |
-| -------------------------- | ------------------------------------------------------------ | ------------------------------------------------------------------------------ |
-| Image Formats              | Enable AVIF and WebP with JPEG/PNG fallback                  | [TAD: Image Formats](/docs/2-technical/2-tad-cdn.md#image-formats)            |
-| Device Sizes               | Support 640, 750, 828, 1080, 1200, 1920, 2048, 3840 widths   | [TAD: Responsive Images](/docs/2-technical/2-tad-cdn.md#responsive-images)    |
-| Image Sizes                | Support 16, 32, 48, 64, 96, 128, 256, 384 for small images   | [TAD: Image Configuration](/docs/2-technical/2-tad-cdn.md#image-optimization) |
-| Minimum Cache TTL          | Set to 31536000 seconds (1 year)                             | [TAD: Caching Rules](/docs/2-technical/2-tad-cdn.md#caching-rules-by-content-type) |
-| Quality                    | Default 85 for good balance of size vs quality               | [TAD: Image Optimization](/docs/2-technical/2-tad-cdn.md#image-optimization)  |
-| Dangerous Allow SVG        | Disabled for security (prevent XSS)                          | [TAD: Security](/docs/2-technical/2-tad-cdn.md#security-considerations)       |
-| Content Security Policy    | Restrict SVG execution with sandbox                          | [TAD: Security Headers](/docs/2-technical/2-tad-cdn.md#security-considerations) |
+| Setting                 | Requirement                                                | TAD Reference                                                                      |
+| ----------------------- | ---------------------------------------------------------- | ---------------------------------------------------------------------------------- |
+| Image Formats           | Enable AVIF and WebP with JPEG/PNG fallback                | [TAD: Image Formats](/docs/2-technical/2-tad-cdn.md#image-formats)                 |
+| Device Sizes            | Support 640, 750, 828, 1080, 1200, 1920, 2048, 3840 widths | [TAD: Responsive Images](/docs/2-technical/2-tad-cdn.md#responsive-images)         |
+| Image Sizes             | Support 16, 32, 48, 64, 96, 128, 256, 384 for small images | [TAD: Image Configuration](/docs/2-technical/2-tad-cdn.md#image-optimization)      |
+| Minimum Cache TTL       | Set to 31536000 seconds (1 year)                           | [TAD: Caching Rules](/docs/2-technical/2-tad-cdn.md#caching-rules-by-content-type) |
+| Quality                 | Default 85 for good balance of size vs quality             | [TAD: Image Optimization](/docs/2-technical/2-tad-cdn.md#image-optimization)       |
+| Dangerous Allow SVG     | Disabled for security (prevent XSS)                        | [TAD: Security](/docs/2-technical/2-tad-cdn.md#security-considerations)            |
+| Content Security Policy | Restrict SVG execution with sandbox                        | [TAD: Security Headers](/docs/2-technical/2-tad-cdn.md#security-considerations)    |
 
 **Configuration Rationale**:
+
 - AVIF provides 50-60% smaller files than JPEG with same quality
 - WebP provides 25-35% smaller files as fallback
 - Multiple device sizes ensure optimal image for each viewport
@@ -207,14 +208,14 @@ Key pattern notes for this story:
 
 ### Troubleshooting
 
-| Issue                               | Cause                                      | Solution                                           |
-| ----------------------------------- | ------------------------------------------ | -------------------------------------------------- |
-| Images not converting to AVIF/WebP  | Missing `formats` config in next.config.js | Add `formats: ['image/avif', 'image/webp']`        |
-| Sharp dependency installation fails | Missing system libraries                   | Install libvips: `brew install vips` (macOS)       |
-| Images not lazy loading             | `priority` prop set on all images          | Only use `priority` for above-fold images          |
-| Large file sizes                    | Quality too high                           | Reduce quality to 75-85 range                      |
-| Blur placeholder not working        | Missing blur data URL                      | Use `placeholder="blur"` with `blurDataURL` prop   |
-| Cache headers incorrect             | `minimumCacheTTL` not set                  | Set `minimumCacheTTL: 31536000` in image config    |
+| Issue                               | Cause                                      | Solution                                         |
+| ----------------------------------- | ------------------------------------------ | ------------------------------------------------ |
+| Images not converting to AVIF/WebP  | Missing `formats` config in next.config.js | Add `formats: ['image/avif', 'image/webp']`      |
+| Sharp dependency installation fails | Missing system libraries                   | Install libvips: `brew install vips` (macOS)     |
+| Images not lazy loading             | `priority` prop set on all images          | Only use `priority` for above-fold images        |
+| Large file sizes                    | Quality too high                           | Reduce quality to 75-85 range                    |
+| Blur placeholder not working        | Missing blur data URL                      | Use `placeholder="blur"` with `blurDataURL` prop |
+| Cache headers incorrect             | `minimumCacheTTL` not set                  | Set `minimumCacheTTL: 31536000` in image config  |
 
 ### Reference Materials
 
@@ -254,6 +255,7 @@ Link to decisions documented elsewhere that apply to this story:
 **Decision**: Set default image quality to 85 instead of Next.js default (75) or maximum quality (100)
 
 **Rationale**:
+
 - Quality 85 provides imperceptible quality loss for most images
 - 40-60% file size reduction compared to original JPEG
 - Balances visual fidelity with bandwidth optimization
@@ -261,12 +263,14 @@ Link to decisions documented elsewhere that apply to this story:
 - Industry best practice for web delivery (Google PageSpeed recommends 85)
 
 **Consequences**:
+
 - Smaller file sizes improve page load performance
 - Reduced bandwidth costs for both origin and edge delivery
 - Quality adequate for transformation framework images and general web use
 - High-resolution product photography may need quality override (e.g., `?q=95`)
 
 **Alternatives Considered**:
+
 - **Quality 75 (Next.js default)**: Rejected because slightly more visible compression artifacts for important client-facing content
 - **Quality 95**: Rejected because file sizes 2-3x larger with minimal perceptible quality improvement
 - **Adaptive quality based on image type**: Deferred to future optimization; adds complexity without clear ROI
@@ -278,18 +282,21 @@ Link to decisions documented elsewhere that apply to this story:
 **Decision**: Set `dangerouslyAllowSVG: false` in Next.js image configuration
 
 **Rationale**:
+
 - SVG files can contain embedded JavaScript (XSS vulnerability)
 - CDN should serve raster images primarily (photos, screenshots)
 - Icons and illustrations should use dedicated icon library or inlined SVGs
 - Security-first approach prevents accidental SVG uploads with malicious code
 
 **Consequences**:
+
 - SVG uploads via image optimizer will be rejected
 - Icons must be handled separately (e.g., via icon library like Lucide)
 - Reduces attack surface for XSS vulnerabilities
 - May require separate workflow for legitimate SVG assets
 
 **Alternatives Considered**:
+
 - **Enable SVG with sanitization**: Rejected because sanitization is complex and error-prone; prefer defense-in-depth
 - **Enable SVG with strict CSP**: Rejected because CSP can be bypassed; better to disable entirely
 

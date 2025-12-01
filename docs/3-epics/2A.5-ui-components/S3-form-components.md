@@ -34,31 +34,31 @@
 
 ### Files to Create
 
-| Path                                              | Purpose                                      |
-| ------------------------------------------------- | -------------------------------------------- |
-| `packages/ui/src/components/ui/button.tsx`        | Button component with variants               |
-| `packages/ui/src/components/ui/input.tsx`         | Input field component                        |
-| `packages/ui/src/components/ui/select.tsx`        | Select dropdown component                    |
-| `packages/ui/src/components/ui/checkbox.tsx`      | Checkbox component                           |
-| `packages/ui/src/components/ui/radio-group.tsx`   | Radio button group component                 |
-| `packages/ui/src/components/ui/label.tsx`         | Form label component                         |
-| `packages/ui/src/components/ui/form.tsx`          | Form wrapper with React Hook Form integration|
-| `packages/ui/src/components/ui/textarea.tsx`      | Textarea component                           |
-| `packages/ui/src/components/ui/switch.tsx`        | Toggle switch component                      |
-| `packages/ui/src/hooks/use-form.ts`               | Type-safe form hook wrapper                  |
-| `packages/ui/src/components/__tests__/button.test.tsx`     | Button component tests          |
-| `packages/ui/src/components/__tests__/input.test.tsx`      | Input component tests           |
-| `packages/ui/src/components/__tests__/select.test.tsx`     | Select component tests          |
-| `packages/ui/src/components/__tests__/checkbox.test.tsx`   | Checkbox component tests        |
-| `packages/ui/src/components/__tests__/form.test.tsx`       | Form integration tests          |
+| Path                                                     | Purpose                                       |
+| -------------------------------------------------------- | --------------------------------------------- |
+| `packages/ui/src/components/ui/button.tsx`               | Button component with variants                |
+| `packages/ui/src/components/ui/input.tsx`                | Input field component                         |
+| `packages/ui/src/components/ui/select.tsx`               | Select dropdown component                     |
+| `packages/ui/src/components/ui/checkbox.tsx`             | Checkbox component                            |
+| `packages/ui/src/components/ui/radio-group.tsx`          | Radio button group component                  |
+| `packages/ui/src/components/ui/label.tsx`                | Form label component                          |
+| `packages/ui/src/components/ui/form.tsx`                 | Form wrapper with React Hook Form integration |
+| `packages/ui/src/components/ui/textarea.tsx`             | Textarea component                            |
+| `packages/ui/src/components/ui/switch.tsx`               | Toggle switch component                       |
+| `packages/ui/src/hooks/use-form.ts`                      | Type-safe form hook wrapper                   |
+| `packages/ui/src/components/__tests__/button.test.tsx`   | Button component tests                        |
+| `packages/ui/src/components/__tests__/input.test.tsx`    | Input component tests                         |
+| `packages/ui/src/components/__tests__/select.test.tsx`   | Select component tests                        |
+| `packages/ui/src/components/__tests__/checkbox.test.tsx` | Checkbox component tests                      |
+| `packages/ui/src/components/__tests__/form.test.tsx`     | Form integration tests                        |
 
 ### Files to Modify
 
-| Path                            | Changes                                         |
-| ------------------------------- | ----------------------------------------------- |
-| `packages/ui/src/index.ts`      | Export all form components                      |
-| `packages/ui/package.json`      | Add React Hook Form and validation dependencies |
-| `packages/ui/README.md`         | Add form components usage documentation         |
+| Path                       | Changes                                         |
+| -------------------------- | ----------------------------------------------- |
+| `packages/ui/src/index.ts` | Export all form components                      |
+| `packages/ui/package.json` | Add React Hook Form and validation dependencies |
+| `packages/ui/README.md`    | Add form components usage documentation         |
 
 ### Dependencies
 
@@ -77,13 +77,13 @@ pnpm add -D @testing-library/react @testing-library/user-event @testing-library/
 
 > **Note**: For complete configuration file templates, reference the TAD.
 
-| Setting                  | Requirement                                      | TAD Reference                                                                      |
-| ------------------------ | ------------------------------------------------ | ---------------------------------------------------------------------------------- |
-| Component variants       | Use `class-variance-authority` for variant logic | [TAD: UI & Styling](/docs/2-technical/2-tad.md#ui--styling)                        |
-| Form validation          | Integrate with React Hook Form + Zod            | [TAD: UI Components Architecture](/docs/2-technical/2-tad.md#ui-components-architecture) |
-| Analytics tracking       | All components accept `data-component-id` prop  | [TAD: Analytics Infrastructure](/docs/2-technical/2-tad.md#analytics--observability) |
-| Accessibility            | All components use Radix UI primitives          | [TAD: UI Components Architecture](/docs/2-technical/2-tad.md#ui-components-architecture) |
-| Error state styling      | Use destructive variant tokens                  | [TAD: UI & Styling](/docs/2-technical/2-tad.md#ui--styling)                        |
+| Setting             | Requirement                                      | TAD Reference                                                                            |
+| ------------------- | ------------------------------------------------ | ---------------------------------------------------------------------------------------- |
+| Component variants  | Use `class-variance-authority` for variant logic | [TAD: UI & Styling](/docs/2-technical/2-tad.md#ui--styling)                              |
+| Form validation     | Integrate with React Hook Form + Zod             | [TAD: UI Components Architecture](/docs/2-technical/2-tad.md#ui-components-architecture) |
+| Analytics tracking  | All components accept `data-component-id` prop   | [TAD: Analytics Infrastructure](/docs/2-technical/2-tad.md#analytics--observability)     |
+| Accessibility       | All components use Radix UI primitives           | [TAD: UI Components Architecture](/docs/2-technical/2-tad.md#ui-components-architecture) |
+| Error state styling | Use destructive variant tokens                   | [TAD: UI & Styling](/docs/2-technical/2-tad.md#ui--styling)                              |
 
 **Configuration Rationale**: Radix UI provides unstyled, accessible primitives. React Hook Form offers performant form state management. Zod enables type-safe validation schemas. See [TAD: UI Components Architecture](/docs/2-technical/2-tad.md#ui-components-architecture) for complete integration patterns.
 
@@ -220,14 +220,14 @@ Key pattern notes for this story:
 
 ### Troubleshooting
 
-| Issue                                          | Cause                                   | Solution                                              |
-| ---------------------------------------------- | --------------------------------------- | ----------------------------------------------------- |
-| Select dropdown not positioning correctly      | Missing @radix-ui/react-popper          | Verify Radix Select includes Popper, check z-index   |
-| Form validation not triggering                 | Field not registered with React Hook Form | Ensure FormField wraps input with proper name prop |
-| TypeScript errors on ref forwarding            | Incorrect generic types                 | Use `React.forwardRef<HTMLButtonElement, ButtonProps>` pattern |
-| Checkbox indeterminate state not visible       | CSS not applied                         | Verify indeterminate styling in checkbox.tsx         |
-| Analytics `data-component-id` not appearing    | Prop not spread onto root element       | Add `{...props}` or explicit data attribute spread   |
-| Keyboard navigation not working in Select      | Missing Radix UI keyboard handlers      | Ensure using Radix Select, not native `<select>`    |
+| Issue                                       | Cause                                     | Solution                                                       |
+| ------------------------------------------- | ----------------------------------------- | -------------------------------------------------------------- |
+| Select dropdown not positioning correctly   | Missing @radix-ui/react-popper            | Verify Radix Select includes Popper, check z-index             |
+| Form validation not triggering              | Field not registered with React Hook Form | Ensure FormField wraps input with proper name prop             |
+| TypeScript errors on ref forwarding         | Incorrect generic types                   | Use `React.forwardRef<HTMLButtonElement, ButtonProps>` pattern |
+| Checkbox indeterminate state not visible    | CSS not applied                           | Verify indeterminate styling in checkbox.tsx                   |
+| Analytics `data-component-id` not appearing | Prop not spread onto root element         | Add `{...props}` or explicit data attribute spread             |
+| Keyboard navigation not working in Select   | Missing Radix UI keyboard handlers        | Ensure using Radix Select, not native `<select>`               |
 
 ### Reference Materials
 

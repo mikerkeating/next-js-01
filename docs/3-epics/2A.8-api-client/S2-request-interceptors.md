@@ -30,23 +30,23 @@
 
 ### Files to Create
 
-| Path | Purpose |
-|------|---------|
-| `packages/api-client/src/interceptors/types.ts` | Interceptor type definitions |
-| `packages/api-client/src/interceptors/request.ts` | Request interceptor chain implementation |
-| `packages/api-client/src/interceptors/auth.ts` | Authentication token injection interceptor |
-| `packages/api-client/tests/interceptors/request.test.ts` | Unit tests for request interceptor chain |
-| `packages/api-client/tests/interceptors/auth.test.ts` | Unit tests for auth interceptor |
-| `packages/api-client/tests/integration/auth.test.ts` | Integration tests with @repo/auth |
+| Path                                                     | Purpose                                    |
+| -------------------------------------------------------- | ------------------------------------------ |
+| `packages/api-client/src/interceptors/types.ts`          | Interceptor type definitions               |
+| `packages/api-client/src/interceptors/request.ts`        | Request interceptor chain implementation   |
+| `packages/api-client/src/interceptors/auth.ts`           | Authentication token injection interceptor |
+| `packages/api-client/tests/interceptors/request.test.ts` | Unit tests for request interceptor chain   |
+| `packages/api-client/tests/interceptors/auth.test.ts`    | Unit tests for auth interceptor            |
+| `packages/api-client/tests/integration/auth.test.ts`     | Integration tests with @repo/auth          |
 
 ### Files to Modify
 
-| Path | Changes |
-|------|---------|
-| `packages/api-client/src/client.ts` | Add interceptor registration and execution to base client |
+| Path                                | Changes                                                    |
+| ----------------------------------- | ---------------------------------------------------------- |
+| `packages/api-client/src/client.ts` | Add interceptor registration and execution to base client  |
 | `packages/api-client/src/config.ts` | Add `interceptors` and `requireAuth` configuration options |
-| `packages/api-client/src/index.ts` | Export interceptor types and auth interceptor |
-| `packages/api-client/package.json` | Add `@repo/auth` workspace dependency |
+| `packages/api-client/src/index.ts`  | Export interceptor types and auth interceptor              |
+| `packages/api-client/package.json`  | Add `@repo/auth` workspace dependency                      |
 
 ### Dependencies
 
@@ -76,13 +76,14 @@ pnpm add @repo/auth --filter @repo/api-client --workspace
 > **Note**: For complete configuration file templates, reference the TAD.
 > This section describes configuration REQUIREMENTS, not full file contents.
 
-| Setting | Requirement | TAD Reference |
-|---------|-------------|---------------|
-| `interceptors` | Optional array of request interceptor functions | [TAD: API Client](/docs/2-technical/2-tad-package-architecture.md#repoapi-client) |
-| `requireAuth` | Boolean flag to enable automatic token injection (default: true) | [TAD: API Client](/docs/2-technical/2-tad-package-architecture.md#repoapi-client) |
+| Setting           | Requirement                                                                | TAD Reference                                                                     |
+| ----------------- | -------------------------------------------------------------------------- | --------------------------------------------------------------------------------- |
+| `interceptors`    | Optional array of request interceptor functions                            | [TAD: API Client](/docs/2-technical/2-tad-package-architecture.md#repoapi-client) |
+| `requireAuth`     | Boolean flag to enable automatic token injection (default: true)           | [TAD: API Client](/docs/2-technical/2-tad-package-architecture.md#repoapi-client) |
 | `authTokenGetter` | Optional custom function to retrieve auth token (default: uses @repo/auth) | [TAD: API Client](/docs/2-technical/2-tad-package-architecture.md#repoapi-client) |
 
 **Configuration Rationale**:
+
 - Interceptors array enables extensible request modification (logging, headers, transformation)
 - `requireAuth` flag allows opt-in/opt-out authentication per client instance
 - Custom `authTokenGetter` enables testing with mocked tokens and alternative auth providers
@@ -206,13 +207,13 @@ Key pattern notes for this story:
 
 ### Troubleshooting
 
-| Issue | Cause | Solution |
-|-------|-------|----------|
-| "Cannot read property 'getToken' from undefined" | @repo/auth not properly imported or mocked | Ensure @repo/auth is installed as workspace dependency and properly mocked in tests |
-| Authorization header not present in requests | requireAuth is false or auth interceptor not registered | Verify client is instantiated with `requireAuth: true` |
-| Token is null or undefined | User not authenticated in Clerk | Check Clerk session state; ensure user is signed in before making authenticated requests |
-| Interceptor order incorrect | Interceptors registered in wrong order | Review interceptor array order in config; auth interceptor should typically run early |
-| Type errors on interceptor function | Incorrect interceptor signature | Ensure interceptor matches `RequestInterceptor` type: `(config: RequestConfig) => Promise<RequestConfig>` |
+| Issue                                            | Cause                                                   | Solution                                                                                                  |
+| ------------------------------------------------ | ------------------------------------------------------- | --------------------------------------------------------------------------------------------------------- |
+| "Cannot read property 'getToken' from undefined" | @repo/auth not properly imported or mocked              | Ensure @repo/auth is installed as workspace dependency and properly mocked in tests                       |
+| Authorization header not present in requests     | requireAuth is false or auth interceptor not registered | Verify client is instantiated with `requireAuth: true`                                                    |
+| Token is null or undefined                       | User not authenticated in Clerk                         | Check Clerk session state; ensure user is signed in before making authenticated requests                  |
+| Interceptor order incorrect                      | Interceptors registered in wrong order                  | Review interceptor array order in config; auth interceptor should typically run early                     |
+| Type errors on interceptor function              | Incorrect interceptor signature                         | Ensure interceptor matches `RequestInterceptor` type: `(config: RequestConfig) => Promise<RequestConfig>` |
 
 ### Reference Materials
 

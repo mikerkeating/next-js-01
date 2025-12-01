@@ -34,33 +34,34 @@
 
 ### Files to Create
 
-| Path                                                          | Purpose                                               |
-| ------------------------------------------------------------- | ----------------------------------------------------- |
-| `apps/cdn/README.md`                                          | Application documentation with deployment and usage   |
-| `apps/cdn/tests/integration/asset-delivery.test.ts`           | End-to-end asset delivery pipeline test               |
-| `apps/cdn/tests/integration/image-transformation.test.ts`     | Image transformation chain integration test           |
-| `apps/cdn/tests/integration/cache-invalidation.test.ts`       | Cache invalidation and purging integration test       |
-| `apps/cdn/tests/integration/edge-delivery.test.ts`            | Global edge delivery and cache headers test           |
-| `apps/cdn/tests/integration/file-upload.test.ts`              | File upload with validation integration test          |
-| `apps/cdn/docs/TROUBLESHOOTING.md`                            | Common CDN issues and solutions                       |
-| `apps/cdn/docs/DEPLOYMENT.md`                                 | Vercel deployment guide and configuration             |
-| `apps/cdn/docs/API.md`                                        | API endpoint reference documentation                  |
-| `apps/cdn/tests/e2e/global-delivery.spec.ts`                  | Playwright E2E test for global edge delivery          |
+| Path                                                      | Purpose                                             |
+| --------------------------------------------------------- | --------------------------------------------------- |
+| `apps/cdn/README.md`                                      | Application documentation with deployment and usage |
+| `apps/cdn/tests/integration/asset-delivery.test.ts`       | End-to-end asset delivery pipeline test             |
+| `apps/cdn/tests/integration/image-transformation.test.ts` | Image transformation chain integration test         |
+| `apps/cdn/tests/integration/cache-invalidation.test.ts`   | Cache invalidation and purging integration test     |
+| `apps/cdn/tests/integration/edge-delivery.test.ts`        | Global edge delivery and cache headers test         |
+| `apps/cdn/tests/integration/file-upload.test.ts`          | File upload with validation integration test        |
+| `apps/cdn/docs/TROUBLESHOOTING.md`                        | Common CDN issues and solutions                     |
+| `apps/cdn/docs/DEPLOYMENT.md`                             | Vercel deployment guide and configuration           |
+| `apps/cdn/docs/API.md`                                    | API endpoint reference documentation                |
+| `apps/cdn/tests/e2e/global-delivery.spec.ts`              | Playwright E2E test for global edge delivery        |
 
 ### Files to Modify
 
-| Path                             | Changes                                             |
-| -------------------------------- | --------------------------------------------------- |
-| `apps/cdn/package.json`          | Add test scripts for integration and E2E tests      |
-| `apps/cdn/vitest.config.ts`      | Configure integration test patterns and coverage    |
-| `apps/cdn/playwright.config.ts`  | Configure E2E tests for edge delivery validation    |
-| `turbo.json`                     | Add test tasks to CDN build pipeline                |
+| Path                            | Changes                                          |
+| ------------------------------- | ------------------------------------------------ |
+| `apps/cdn/package.json`         | Add test scripts for integration and E2E tests   |
+| `apps/cdn/vitest.config.ts`     | Configure integration test patterns and coverage |
+| `apps/cdn/playwright.config.ts` | Configure E2E tests for edge delivery validation |
+| `turbo.json`                    | Add test tasks to CDN build pipeline             |
 
 ### Dependencies
 
 > **Version Reference**: Use exact versions from [canonical-versions.md](/docs/2-technical/references/canonical-versions.md)
 
 **Test dependencies (from Epic 1A.3 - Testing Foundation):**
+
 - `vitest` - Test runner for unit and integration tests
 - `@testing-library/react` - React component testing utilities
 - `playwright` - E2E testing for edge delivery validation
@@ -81,14 +82,15 @@ pnpm add -D @vercel/edge-config-mock
 > **Note**: For complete configuration file templates, reference the TAD.
 > This section describes configuration REQUIREMENTS, not full file contents.
 
-| Setting                     | Requirement                                                      | TAD Reference                                                     |
-| --------------------------- | ---------------------------------------------------------------- | ----------------------------------------------------------------- |
-| Test coverage threshold     | ≥80% coverage required for statements, branches, functions       | [TAD: Testing Architecture](/docs/2-technical/2-tad-testing.md)  |
-| Integration test pattern    | Files matching `*.integration.test.ts` in `tests/integration/`   | [TAD: Testing Architecture](/docs/2-technical/2-tad-testing.md)  |
-| E2E test configuration      | Playwright tests validate edge delivery from multiple regions    | [TAD: Testing Architecture](/docs/2-technical/2-tad-testing.md)  |
-| Image test fixtures         | Sample images (JPEG, PNG, WebP) in `tests/fixtures/` directory   | [TAD: CDN Architecture](/docs/2-technical/2-tad-cdn.md)          |
+| Setting                  | Requirement                                                    | TAD Reference                                                   |
+| ------------------------ | -------------------------------------------------------------- | --------------------------------------------------------------- |
+| Test coverage threshold  | ≥80% coverage required for statements, branches, functions     | [TAD: Testing Architecture](/docs/2-technical/2-tad-testing.md) |
+| Integration test pattern | Files matching `*.integration.test.ts` in `tests/integration/` | [TAD: Testing Architecture](/docs/2-technical/2-tad-testing.md) |
+| E2E test configuration   | Playwright tests validate edge delivery from multiple regions  | [TAD: Testing Architecture](/docs/2-technical/2-tad-testing.md) |
+| Image test fixtures      | Sample images (JPEG, PNG, WebP) in `tests/fixtures/` directory | [TAD: CDN Architecture](/docs/2-technical/2-tad-cdn.md)         |
 
 **Configuration Rationale**:
+
 - 80% coverage ensures critical CDN functionality (image optimization, cache headers, transformations) is tested
 - Separate integration test pattern enables fast unit tests in development, full suite in CI
 - Playwright E2E tests validate actual edge delivery from multiple geographic regions
@@ -236,14 +238,14 @@ Key pattern notes for this story:
 
 ### Troubleshooting
 
-| Issue                                | Cause                                     | Solution                                                  |
-| ------------------------------------ | ----------------------------------------- | --------------------------------------------------------- |
-| Integration tests fail with 404      | Next.js dev server not running            | Start dev server before tests: `pnpm dev`                 |
-| Image transformation test timeout    | Large image taking too long to process    | Use smaller test fixtures (<1MB), increase test timeout   |
-| E2E tests fail with network error    | Application not deployed to staging       | Deploy to staging before running E2E: `vercel --env=staging` |
-| Coverage below 80%                   | API routes and components not tested      | Add integration tests for uncovered API routes            |
-| Cache invalidation test flaky        | Cache purge propagation delay             | Add 2-second wait after purge before verification         |
-| Playwright tests fail with timeout   | Edge delivery slower than expected        | Increase Playwright timeout, check Vercel Analytics       |
+| Issue                              | Cause                                  | Solution                                                     |
+| ---------------------------------- | -------------------------------------- | ------------------------------------------------------------ |
+| Integration tests fail with 404    | Next.js dev server not running         | Start dev server before tests: `pnpm dev`                    |
+| Image transformation test timeout  | Large image taking too long to process | Use smaller test fixtures (<1MB), increase test timeout      |
+| E2E tests fail with network error  | Application not deployed to staging    | Deploy to staging before running E2E: `vercel --env=staging` |
+| Coverage below 80%                 | API routes and components not tested   | Add integration tests for uncovered API routes               |
+| Cache invalidation test flaky      | Cache purge propagation delay          | Add 2-second wait after purge before verification            |
+| Playwright tests fail with timeout | Edge delivery slower than expected     | Increase Playwright timeout, check Vercel Analytics          |
 
 ### Reference Materials
 
