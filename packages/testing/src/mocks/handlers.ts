@@ -98,8 +98,8 @@ export const handlers = [
       success: true,
       data: {
         id: String(id),
-        email: `user-${id}@example.com`,
-        name: `Test User ${id}`,
+        email: `user-${String(id)}@example.com`,
+        name: `Test User ${String(id)}`,
         createdAt: "2024-01-01T00:00:00.000Z",
       },
     };
@@ -200,8 +200,8 @@ export const handlers = [
       success: true,
       data: {
         id: String(id),
-        name: `Test Organization ${id}`,
-        slug: `test-org-${id}`,
+        name: `Test Organization ${String(id)}`,
+        slug: `test-org-${String(id)}`,
         createdAt: "2024-01-01T00:00:00.000Z",
       },
     };

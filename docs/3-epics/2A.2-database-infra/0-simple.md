@@ -41,3 +41,5 @@ For the stories listed in `## Resourcing Table` of `docs/3-epics/2A.2-database-i
 ## Check the stories deliver the epic
 
 `execute @docs/0-process/references/epic-story-check-prompt-template.md for Epic 2A.2`
+
+review each item in testing/code-review/code-rabbit-2025-12-01-20.txt and determine if valid. Where valid, make a plan and implement the fixes. Mark items as done or ignored.

@@ -2,6 +2,7 @@
   "name": "docs",
   "version": "0.1.0",
   "private": true,
+  "type": "module",
   "scripts": {
     "dev": "next dev --port 3001",
     "build": "next build",
@@ -22,11 +23,19 @@
     "react-dom": "^19.2.0"
   },
   "devDependencies": {
+    "@eslint/js": "^9.28.0",
+    "@next/eslint-plugin-next": "^15.3.4",
+    "@repo/config": "workspace:*",
     "@types/node": "^24.10.1",
     "@types/react": "^19.2.7",
     "@types/react-dom": "^19.2.3",
-    "eslint": "^8.56.0",
-    "eslint-config-next": "^15.0.0",
-    "typescript": "^5.9.3"
+    "eslint": "^9.39.0",
+    "eslint-import-resolver-typescript": "^4.3.4",
+    "eslint-plugin-import": "^2.31.0",
+    "eslint-plugin-react": "^7.37.5",
+    "eslint-plugin-react-hooks": "^5.2.0",
+    "globals": "^16.2.0",
+    "typescript": "^5.9.3",
+    "typescript-eslint": "^8.34.0"
   }
 }

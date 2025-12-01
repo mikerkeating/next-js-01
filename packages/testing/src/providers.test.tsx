@@ -4,9 +4,9 @@
  * Verifies that the provider wrapper correctly wraps children
  * and supports custom wrapper components.
  */
+import { render, screen } from "@testing-library/react";
 import React from "react";
 import { describe, it, expect } from "vitest";
-import { render, screen } from "@testing-library/react";
 
 import { TestProviders, createTestWrapper } from "./providers";
 

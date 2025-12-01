@@ -8,9 +8,8 @@
  * @module providers
  */
 
-import type { ReactElement, ReactNode } from "react";
-
 import type { ProviderOptions, TestProvidersProps } from "./types";
+import type { ReactElement, ReactNode } from "react";
 
 /**
  * Test providers wrapper component.
