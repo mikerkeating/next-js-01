@@ -6,7 +6,7 @@
  *
  * @example
  * ```typescript
- * import { db, Database, checkDatabaseHealth, withRetry } from '@repo/database';
+ * import { db, Database, checkDatabaseHealth, withRetry, runMigrations } from '@repo/database';
  * import { eq } from 'drizzle-orm';
  *
  * // Health check
@@ -20,6 +20,12 @@
  *   () => db.query.users.findFirst({ where: eq(users.email, 'user@example.com') }),
  *   { maxAttempts: 3, baseDelayMs: 100 }
  * );
+ *
+ * // Run migrations programmatically
+ * const result = await runMigrations({ verbose: true });
+ * if (result.success) {
+ *   console.log(`Migrations completed in ${result.durationMs}ms`);
+ * }
  * ```
  *
  * @packageDocumentation
@@ -42,3 +48,13 @@ export {
   type RetryOptions,
   type ConnectionErrorCode,
 } from "./connection";
+
+// Export migration utilities
+export {
+  runMigrations,
+  getMigrationsPath,
+  MigrationError,
+  type MigrationResult,
+  type MigrationOptions,
+  type MigrationErrorCode,
+} from "./migrate";

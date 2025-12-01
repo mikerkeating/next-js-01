@@ -27,6 +27,7 @@ vi.mock("./client", () => {
 // Helper to get the mocked db.execute function
 async function getMockedExecute(): Promise<ReturnType<typeof vi.fn>> {
   const { db } = await import("./client");
+  // eslint-disable-next-line @typescript-eslint/unbound-method
   return vi.mocked(db.execute);
 }
 
@@ -102,6 +103,7 @@ describe("checkDatabaseHealth", () => {
   it("respects custom timeout option", async () => {
     const mockExecute = await getMockedExecute();
     // Simulate a slow query that exceeds timeout
+    // eslint-disable-next-line @typescript-eslint/no-misused-promises
     mockExecute.mockImplementation(
       () =>
         new Promise((resolve) => {
