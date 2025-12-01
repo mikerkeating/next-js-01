@@ -10,6 +10,12 @@ import base from "@repo/config/eslint/base";
 export default [
   ...base,
   {
-    ignores: ["dist/**", "node_modules/**", "coverage/**"],
+    ignores: [
+      "dist/**",
+      "node_modules/**",
+      "coverage/**",
+      "*.config.ts", // Drizzle config is outside src and tsconfig project
+      "*.config.js", // ESLint config itself
+    ],
   },
 ];
