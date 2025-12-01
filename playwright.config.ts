@@ -6,7 +6,29 @@
  *
  * @see https://playwright.dev/docs/test-configuration
  */
+import { existsSync, readFileSync } from "node:fs";
+import { resolve } from "node:path";
+
 import { defineConfig, devices } from "@playwright/test";
+
+/**
+ * Load environment variables from .env.local if it exists.
+ * Playwright doesn't auto-load .env files like Next.js does.
+ */
+const envLocalPath = resolve(__dirname, ".env.local");
+if (existsSync(envLocalPath)) {
+  const envContent = readFileSync(envLocalPath, "utf-8");
+  for (const line of envContent.split("\n")) {
+    const trimmed = line.trim();
+    if (trimmed && !trimmed.startsWith("#")) {
+      const [key, ...valueParts] = trimmed.split("=");
+      const value = valueParts.join("=");
+      if (key && value !== undefined && !process.env[key]) {
+        process.env[key] = value;
+      }
+    }
+  }
+}
 
 /**
  * Base URL for tests. Can be overridden via BASE_URL environment variable
@@ -34,6 +56,19 @@ const isCI = !!process.env.CI;
  * WARNING: Never enable in CI or production testing environments.
  */
 const ignoreHTTPSErrors = process.env.PLAYWRIGHT_IGNORE_HTTPS_ERRORS === "true";
+
+/**
+ * HTTP Basic Auth credentials for testing against protected environments.
+ * Set BASIC_AUTH_USERNAME and BASIC_AUTH_PASSWORD environment variables
+ * to authenticate with the basic auth proxy.
+ */
+const httpCredentials =
+  process.env.BASIC_AUTH_USERNAME && process.env.BASIC_AUTH_PASSWORD
+    ? {
+        username: process.env.BASIC_AUTH_USERNAME,
+        password: process.env.BASIC_AUTH_PASSWORD,
+      }
+    : undefined;
 
 export default defineConfig({
   // Test directory containing E2E specs
@@ -77,6 +112,9 @@ export default defineConfig({
   use: {
     // Base URL for navigation - configurable via BASE_URL env var
     baseURL,
+
+    // HTTP Basic Auth credentials for protected environments
+    httpCredentials,
 
     // Capture trace on first retry - helps debug flaky tests
     trace: "on-first-retry",
