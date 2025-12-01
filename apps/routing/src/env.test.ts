@@ -20,12 +20,6 @@ describe('Environment Configuration', () => {
   describe('Module Structure', () => {
     it('exports an env object', () => {
       expect(env).toBeDefined();
-      expect(typeof env).toBe('object');
-    });
-
-    it('env object exists and is an object (T3 Env implementation)', () => {
-      // T3 Env returns an object for environment access control
-      // The proxy behavior is verified by the server variable protection tests below
       expect(env).not.toBeNull();
       expect(typeof env).toBe('object');
     });
