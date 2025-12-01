@@ -309,6 +309,18 @@ export function isSpacingKey(value: string): value is SpacingKey {
    ========================================================================== */
 
 /**
+ * Runtime constants that intentionally share names with their corresponding types.
+ *
+ * TypeScript treats types and values in separate namespaces, so `ColorPalette` the type
+ * and `ColorPalette` the constant can coexist. This pattern enables:
+ * - Runtime access to valid palette/spacing values for validation and iteration
+ * - Type-safe usage via the corresponding type definitions above
+ *
+ * The public API re-exports the types under different names (ColorPaletteType, SpacingKeyType)
+ * to avoid consumer confusion when both the type and value are imported together.
+ */
+
+/**
  * Exported constant for ColorPalette type checking in runtime.
  * Used in tests to verify type exports.
  */

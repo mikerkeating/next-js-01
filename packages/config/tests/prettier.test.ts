@@ -7,97 +7,91 @@
  * 3. Includes Tailwind CSS class sorting plugin
  * 4. Is properly exported via package.json
  */
-import { describe, it, expect } from "vitest";
+import { describe, it, expect, beforeAll } from "vitest";
 import { existsSync } from "node:fs";
 import { resolve, dirname } from "node:path";
 import { fileURLToPath } from "node:url";
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const packageRoot = resolve(__dirname, "..");
-const prettierConfig = resolve(packageRoot, "src/prettier/index.js");
+const prettierConfigPath = resolve(packageRoot, "src/prettier/index.js");
+
+/**
+ * Shared type for Prettier configuration
+ */
+type PrettierConfig = {
+  semi?: boolean;
+  singleQuote?: boolean;
+  trailingComma?: "none" | "es5" | "all";
+  tabWidth?: number;
+  printWidth?: number;
+  plugins?: string[];
+};
+
+/**
+ * Shared Prettier config loaded once for all tests
+ */
+let prettierConfig: PrettierConfig;
+
+beforeAll(async () => {
+  const imported = (await import("@repo/config/prettier")) as { default: PrettierConfig };
+  prettierConfig = imported.default;
+});
 
 describe("Prettier configuration file", () => {
   describe("file existence", () => {
     it("should have src/prettier/index.js", () => {
-      expect(existsSync(prettierConfig)).toBe(true);
+      expect(existsSync(prettierConfigPath)).toBe(true);
     });
   });
 
   describe("valid Prettier config", () => {
-    it("should export a valid configuration object", async () => {
-      const config = await import("@repo/config/prettier");
-      expect(config.default).toBeDefined();
-      expect(typeof config.default).toBe("object");
+    it("should export a valid configuration object", () => {
+      expect(prettierConfig).toBeDefined();
+      expect(typeof prettierConfig).toBe("object");
     });
   });
 });
 
 describe("Prettier formatting rules", () => {
-  type PrettierConfig = {
-    semi?: boolean;
-    singleQuote?: boolean;
-    trailingComma?: "none" | "es5" | "all";
-    tabWidth?: number;
-    printWidth?: number;
-    plugins?: string[];
-  };
-
-  let config: PrettierConfig;
-
-  beforeAll(async () => {
-    const imported = (await import("@repo/config/prettier")) as { default: PrettierConfig };
-    config = imported.default;
-  });
-
   describe("semicolons", () => {
     it("should enforce semicolons (semi: true)", () => {
-      expect(config.semi).toBe(true);
+      expect(prettierConfig.semi).toBe(true);
     });
   });
 
   describe("quotes", () => {
     it("should use single quotes (singleQuote: true)", () => {
-      expect(config.singleQuote).toBe(true);
+      expect(prettierConfig.singleQuote).toBe(true);
     });
   });
 
   describe("trailing commas", () => {
     it('should use ES5 trailing commas (trailingComma: "es5")', () => {
-      expect(config.trailingComma).toBe("es5");
+      expect(prettierConfig.trailingComma).toBe("es5");
     });
   });
 
   describe("indentation", () => {
     it("should use 2-space indentation (tabWidth: 2)", () => {
-      expect(config.tabWidth).toBe(2);
+      expect(prettierConfig.tabWidth).toBe(2);
     });
   });
 
   describe("line width", () => {
     it("should set print width to 100 (printWidth: 100)", () => {
-      expect(config.printWidth).toBe(100);
+      expect(prettierConfig.printWidth).toBe(100);
     });
   });
 });
 
 describe("Tailwind CSS plugin", () => {
-  type PrettierConfig = {
-    plugins?: string[];
-  };
-
-  let config: PrettierConfig;
-
-  beforeAll(async () => {
-    const imported = (await import("@repo/config/prettier")) as { default: PrettierConfig };
-    config = imported.default;
-  });
-
   it("should include plugins array", () => {
-    expect(Array.isArray(config.plugins)).toBe(true);
+    expect(Array.isArray(prettierConfig.plugins)).toBe(true);
   });
 
   it("should include prettier-plugin-tailwindcss", () => {
-    expect(config.plugins).toContain("prettier-plugin-tailwindcss");
+    expect(prettierConfig.plugins).toContain("prettier-plugin-tailwindcss");
   });
 });
 

@@ -26,11 +26,14 @@ if (existsSync(envLocalPath)) {
   const envContent = readFileSync(envLocalPath, "utf-8");
   for (const line of envContent.split("\n")) {
     const trimmed = line.trim();
-    if (trimmed && !trimmed.startsWith("#")) {
+    // Skip empty lines, comments, and lines without '=' (invalid KEY=VALUE format)
+    if (trimmed && !trimmed.startsWith("#") && trimmed.includes("=")) {
       const [key, ...valueParts] = trimmed.split("=");
       const value = valueParts.join("=");
-      if (key && value !== undefined && !(key in process.env)) {
-        process.env[key] = value;
+      const trimmedKey = key?.trim();
+      // Only set if key is non-empty and not already in process.env
+      if (trimmedKey && !(trimmedKey in process.env)) {
+        process.env[trimmedKey] = value;
       }
     }
   }

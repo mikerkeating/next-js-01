@@ -23,10 +23,11 @@ describe('Environment Configuration', () => {
       expect(typeof env).toBe('object');
     });
 
-    it('env object is a proxy (T3 Env implementation)', () => {
-      // T3 Env returns a Proxy object for environment access control
-      // We verify it exists and is an object
+    it('env object exists and is an object (T3 Env implementation)', () => {
+      // T3 Env returns an object for environment access control
+      // The proxy behavior is verified by the server variable protection tests below
       expect(env).not.toBeNull();
+      expect(typeof env).toBe('object');
     });
   });
 

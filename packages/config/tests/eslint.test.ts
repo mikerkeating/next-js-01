@@ -17,6 +17,35 @@ const packageRoot = resolve(__dirname, "..");
 const eslintDir = resolve(packageRoot, "src/eslint");
 
 /**
+ * Shared type definitions for ESLint configuration objects
+ */
+type LanguageOptions = {
+  parser?: unknown;
+  parserOptions?: {
+    project?: boolean;
+    tsconfigRootDir?: string;
+  };
+  ecmaVersion?: number | string;
+  sourceType?: string;
+};
+
+type ConfigObject = {
+  files?: string[];
+  ignores?: string[];
+  languageOptions?: LanguageOptions;
+  plugins?: Record<string, unknown>;
+  rules?: Record<string, unknown>;
+  settings?: Record<string, unknown>;
+};
+
+/**
+ * Package.json exports type
+ */
+type PackageJsonExports = {
+  exports: Record<string, string>;
+};
+
+/**
  * Helper to check if a file exists
  */
 function configExists(filename: string): boolean {
@@ -60,25 +89,6 @@ describe("ESLint configuration files", () => {
 });
 
 describe("base.js configuration", () => {
-  type LanguageOptions = {
-    parser?: unknown;
-    parserOptions?: {
-      project?: boolean;
-      tsconfigRootDir?: string;
-    };
-    ecmaVersion?: number | string;
-    sourceType?: string;
-  };
-
-  type ConfigObject = {
-    files?: string[];
-    ignores?: string[];
-    languageOptions?: LanguageOptions;
-    plugins?: Record<string, unknown>;
-    rules?: Record<string, unknown>;
-    settings?: Record<string, unknown>;
-  };
-
   let configArray: ConfigObject[];
 
   beforeAll(async () => {
@@ -148,15 +158,6 @@ describe("base.js configuration", () => {
 });
 
 describe("nextjs.js configuration", () => {
-  type ConfigObject = {
-    files?: string[];
-    ignores?: string[];
-    languageOptions?: Record<string, unknown>;
-    plugins?: Record<string, unknown>;
-    rules?: Record<string, unknown>;
-    settings?: Record<string, unknown>;
-  };
-
   let configArray: ConfigObject[];
 
   beforeAll(async () => {
@@ -190,15 +191,6 @@ describe("nextjs.js configuration", () => {
 });
 
 describe("react-library.js configuration", () => {
-  type ConfigObject = {
-    files?: string[];
-    ignores?: string[];
-    languageOptions?: Record<string, unknown>;
-    plugins?: Record<string, unknown>;
-    rules?: Record<string, unknown>;
-    settings?: Record<string, unknown>;
-  };
-
   let configArray: ConfigObject[];
 
   beforeAll(async () => {
@@ -234,24 +226,21 @@ describe("react-library.js configuration", () => {
 });
 
 describe("package.json exports", () => {
-  it("should export eslint/base", async () => {
-    const packageJson = (await import("../package.json")) as {
-      exports: Record<string, string>;
-    };
+  let packageJson: PackageJsonExports;
+
+  beforeAll(async () => {
+    packageJson = (await import("../package.json")) as PackageJsonExports;
+  });
+
+  it("should export eslint/base", () => {
     expect(packageJson.exports["./eslint/base"]).toBe("./src/eslint/base.js");
   });
 
-  it("should export eslint/nextjs", async () => {
-    const packageJson = (await import("../package.json")) as {
-      exports: Record<string, string>;
-    };
+  it("should export eslint/nextjs", () => {
     expect(packageJson.exports["./eslint/nextjs"]).toBe("./src/eslint/nextjs.js");
   });
 
-  it("should export eslint/react-library", async () => {
-    const packageJson = (await import("../package.json")) as {
-      exports: Record<string, string>;
-    };
+  it("should export eslint/react-library", () => {
     expect(packageJson.exports["./eslint/react-library"]).toBe("./src/eslint/react-library.js");
   });
 });
