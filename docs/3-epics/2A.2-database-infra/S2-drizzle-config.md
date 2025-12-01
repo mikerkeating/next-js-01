@@ -30,12 +30,12 @@
 
 ### Files to Create
 
-| Path                                      | Purpose                                        |
-| ----------------------------------------- | ---------------------------------------------- |
-| `packages/database/drizzle.config.ts`     | Drizzle Kit configuration for migrations       |
-| `packages/database/src/client.ts`         | Database client instance with Neon HTTP driver |
-| `packages/database/src/schema/index.ts`   | Schema barrel export (initially empty)         |
-| `packages/database/src/index.ts`          | Package entry point with client and schema     |
+| Path                                    | Purpose                                        |
+| --------------------------------------- | ---------------------------------------------- |
+| `packages/database/drizzle.config.ts`   | Drizzle Kit configuration for migrations       |
+| `packages/database/src/client.ts`       | Database client instance with Neon HTTP driver |
+| `packages/database/src/schema/index.ts` | Schema barrel export (initially empty)         |
+| `packages/database/src/index.ts`        | Package entry point with client and schema     |
 
 ### Files to Modify
 
@@ -59,14 +59,14 @@ pnpm add -D drizzle-kit
 
 > **Note**: For complete configuration file templates, reference the TAD.
 
-| Setting              | Requirement                                             | TAD Reference                                                                |
-| -------------------- | ------------------------------------------------------- | ---------------------------------------------------------------------------- |
-| Database dialect     | `postgresql` with Neon HTTP driver                      | [ADR-005: Drizzle ORM](/docs/2-technical/adr/005-drizzle-orm.md)            |
-| Schema location      | `./src/schema/index.ts`                                 | [ADR-005: Configuration](/docs/2-technical/adr/005-drizzle-orm.md)          |
-| Migration output     | `./src/migrations`                                      | [ADR-005: Configuration](/docs/2-technical/adr/005-drizzle-orm.md)          |
-| Connection pooling   | Neon serverless with fetch connection cache             | [TAD: Database & ORM](/docs/2-technical/2-tad.md#database--orm)             |
-| Environment variable | `DATABASE_URL` with validation                          | [TAD: Database & ORM](/docs/2-technical/2-tad.md#database--orm)             |
-| Edge compatibility   | Use `drizzle-orm/neon-http` for Vercel Edge runtime    | [ADR-005: Edge Runtime](/docs/2-technical/adr/005-drizzle-orm.md)           |
+| Setting              | Requirement                                             | TAD Reference                                                              |
+| -------------------- | ------------------------------------------------------- | -------------------------------------------------------------------------- |
+| Database dialect     | `postgresql` with Neon HTTP driver                      | [ADR-005: Drizzle ORM](/docs/2-technical/adr/005-drizzle-orm.md)           |
+| Schema location      | `./src/schema/index.ts`                                 | [ADR-005: Configuration](/docs/2-technical/adr/005-drizzle-orm.md)         |
+| Migration output     | `./src/migrations`                                      | [ADR-005: Configuration](/docs/2-technical/adr/005-drizzle-orm.md)         |
+| Connection pooling   | Neon serverless with fetch connection cache             | [TAD: Database & ORM](/docs/2-technical/2-tad.md#database--orm)            |
+| Environment variable | `DATABASE_URL` with validation                          | [TAD: Database & ORM](/docs/2-technical/2-tad.md#database--orm)            |
+| Edge compatibility   | Use `drizzle-orm/neon-http` for Vercel Edge runtime     | [ADR-005: Edge Runtime](/docs/2-technical/adr/005-drizzle-orm.md)          |
 | Type inference       | Enable `$inferSelect` and `$inferInsert` type utilities | [ADR-005: Type Safety](/docs/2-technical/adr/005-drizzle-orm.md#rationale) |
 
 **Configuration Rationale**: Drizzle ORM with Neon HTTP driver provides type-safe database access while maintaining edge runtime compatibility. The configuration enables automatic migration generation and supports both local development and production serverless environments per ADR-005.
@@ -138,11 +138,13 @@ cd packages/database && pnpm tsc --noEmit
 > **Note**: For implementation code examples, reference [ADR-005: Drizzle Configuration](/docs/2-technical/adr/005-drizzle-orm.md#configuration)
 
 **Key Concepts:**
+
 - **Drizzle Kit**: CLI tool for migrations from schema changes
 - **Neon HTTP Driver**: Serverless PostgreSQL driver for edge runtimes
 - **Type Inference**: `$inferSelect` and `$inferInsert` generate TypeScript types from schema
 
 **Implementation Requirements:**
+
 - Use `drizzle-orm/neon-http` for edge compatibility
 - Configure `fetchConnectionCache` in production only
 - Pass schema object to `drizzle()` for relational query API
@@ -150,13 +152,13 @@ cd packages/database && pnpm tsc --noEmit
 
 ### Troubleshooting
 
-| Issue                               | Solution                                                       |
-| ----------------------------------- | -------------------------------------------------------------- |
-| "Cannot find module 'drizzle-orm'"  | Run `pnpm install` in packages/database                        |
-| "DATABASE_URL is not defined"       | Add DATABASE_URL to .env.local                                 |
-| Edge runtime error                  | Use `drizzle-orm/neon-http` not `drizzle-orm/postgres`         |
-| TypeScript errors on db queries     | Add `{ schema }` parameter when calling drizzle()              |
-| Migration commands not found        | Run `pnpm add -D drizzle-kit`                                  |
+| Issue                              | Solution                                               |
+| ---------------------------------- | ------------------------------------------------------ |
+| "Cannot find module 'drizzle-orm'" | Run `pnpm install` in packages/database                |
+| "DATABASE_URL is not defined"      | Add DATABASE_URL to .env.local                         |
+| Edge runtime error                 | Use `drizzle-orm/neon-http` not `drizzle-orm/postgres` |
+| TypeScript errors on db queries    | Add `{ schema }` parameter when calling drizzle()      |
+| Migration commands not found       | Run `pnpm add -D drizzle-kit`                          |
 
 ## Estimated Effort
 
@@ -226,14 +228,17 @@ Link to decisions documented elsewhere that apply to this story:
 ## Verification Checklist
 
 **Pre-Verification:**
+
 - [ ] S1 completed, environment matches [canonical versions](/docs/2-technical/references/canonical-versions.md), DATABASE_URL available
 
 **Implementation Quality:**
+
 - [ ] All acceptance criteria met, [coding standards](/docs/2-technical/references/coding-standards.md) followed
 - [ ] No lint errors, types compile, package builds successfully
 - [ ] Database client importable by other packages, Drizzle Kit commands work
 
 **Documentation & Git:**
+
 - [ ] Configuration comments in client.ts and drizzle.config.ts
 - [ ] Commit: `feat(2A.2.S2): configure drizzle orm and database client`
 

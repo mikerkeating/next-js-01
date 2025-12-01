@@ -32,23 +32,23 @@
 
 ### Files to Create
 
-| Path                                                | Purpose                                  |
-| --------------------------------------------------- | ---------------------------------------- |
-| `apps/cdn/app/api/purge/route.ts`                   | Cache purge endpoint                     |
-| `apps/cdn/lib/cache-purge.ts`                       | Vercel API integration for purging       |
-| `apps/cdn/lib/purge-validator.ts`                   | Request validation for purge operations  |
-| `apps/cdn/middleware/purge-auth.ts`                 | Authentication middleware for purge API  |
-| `apps/cdn/lib/__tests__/cache-purge.test.ts`        | Unit tests for purge utilities           |
-| `apps/cdn/lib/__tests__/purge-validator.test.ts`    | Unit tests for validation                |
-| `apps/cdn/app/api/purge/route.test.ts`              | Integration tests for purge endpoint     |
+| Path                                             | Purpose                                 |
+| ------------------------------------------------ | --------------------------------------- |
+| `apps/cdn/app/api/purge/route.ts`                | Cache purge endpoint                    |
+| `apps/cdn/lib/cache-purge.ts`                    | Vercel API integration for purging      |
+| `apps/cdn/lib/purge-validator.ts`                | Request validation for purge operations |
+| `apps/cdn/middleware/purge-auth.ts`              | Authentication middleware for purge API |
+| `apps/cdn/lib/__tests__/cache-purge.test.ts`     | Unit tests for purge utilities          |
+| `apps/cdn/lib/__tests__/purge-validator.test.ts` | Unit tests for validation               |
+| `apps/cdn/app/api/purge/route.test.ts`           | Integration tests for purge endpoint    |
 
 ### Files to Modify
 
-| Path                      | Changes                                         |
-| ------------------------- | ----------------------------------------------- |
+| Path                          | Changes                                       |
+| ----------------------------- | --------------------------------------------- |
 | `apps/cdn/.env.local.example` | Add `VERCEL_PURGE_TOKEN` environment variable |
-| `apps/cdn/README.md`      | Document cache invalidation API usage           |
-| `apps/cdn/lib/types.ts`   | Add types for purge requests and responses      |
+| `apps/cdn/README.md`          | Document cache invalidation API usage         |
+| `apps/cdn/lib/types.ts`       | Add types for purge requests and responses    |
 
 ### Dependencies
 
@@ -69,15 +69,16 @@ cd apps/cdn
 > **Note**: For complete configuration file templates, reference the TAD.
 > This section describes configuration REQUIREMENTS, not full file contents.
 
-| Setting                    | Requirement                                    | TAD Reference                                                                           |
-| -------------------------- | ---------------------------------------------- | --------------------------------------------------------------------------------------- |
-| Authentication             | API token required for all purge requests      | [TAD: Security Considerations](/docs/2-technical/2-tad-cdn.md#security-considerations)  |
-| Rate Limiting              | Max 100 purge requests per hour per token      | [TAD: Cache Invalidation](/docs/2-technical/2-tad-cdn.md#cache-invalidation)            |
-| Purge API Integration      | Vercel Purge API v1 for cache invalidation     | [TAD: Invalidation API](/docs/2-technical/2-tad-cdn.md#invalidation-api)                |
-| Propagation Time           | 60 seconds max for global edge propagation     | [TAD: Tag-Based Invalidation](/docs/2-technical/2-tad-cdn.md#2-tag-based-invalidation) |
-| Supported Purge Strategies | Tag-based, path-based, and full purge          | [TAD: Invalidation Strategies](/docs/2-technical/2-tad-cdn.md#invalidation-strategies)  |
+| Setting                    | Requirement                                | TAD Reference                                                                          |
+| -------------------------- | ------------------------------------------ | -------------------------------------------------------------------------------------- |
+| Authentication             | API token required for all purge requests  | [TAD: Security Considerations](/docs/2-technical/2-tad-cdn.md#security-considerations) |
+| Rate Limiting              | Max 100 purge requests per hour per token  | [TAD: Cache Invalidation](/docs/2-technical/2-tad-cdn.md#cache-invalidation)           |
+| Purge API Integration      | Vercel Purge API v1 for cache invalidation | [TAD: Invalidation API](/docs/2-technical/2-tad-cdn.md#invalidation-api)               |
+| Propagation Time           | 60 seconds max for global edge propagation | [TAD: Tag-Based Invalidation](/docs/2-technical/2-tad-cdn.md#2-tag-based-invalidation) |
+| Supported Purge Strategies | Tag-based, path-based, and full purge      | [TAD: Invalidation Strategies](/docs/2-technical/2-tad-cdn.md#invalidation-strategies) |
 
 **Configuration Rationale**:
+
 - API token authentication prevents unauthorized cache purging
 - Rate limiting prevents abuse and accidental mass cache clearing
 - Vercel API integration provides reliable edge cache invalidation
@@ -214,14 +215,14 @@ Key pattern notes for this story:
 
 ### Troubleshooting
 
-| Issue                                | Cause                                  | Solution                                         |
-| ------------------------------------ | -------------------------------------- | ------------------------------------------------ |
-| Purge requests return 401            | Invalid or missing API token           | Verify `VERCEL_PURGE_TOKEN` environment variable |
-| Cache not invalidated after purge    | Purge propagation delay                | Wait 60 seconds for global propagation           |
-| Tag-based purge doesn't work         | Cache tags not set on responses        | Add `Cache-Tag` header when serving content      |
-| Rate limit hit unexpectedly          | Multiple clients using same token      | Use separate tokens per client/service           |
-| Full purge fails                     | Missing confirmation token             | Include `confirm: "PURGE_ALL"` in request        |
-| 403 Forbidden from Vercel API        | Invalid Vercel API token permissions   | Regenerate token with purge permissions          |
+| Issue                             | Cause                                | Solution                                         |
+| --------------------------------- | ------------------------------------ | ------------------------------------------------ |
+| Purge requests return 401         | Invalid or missing API token         | Verify `VERCEL_PURGE_TOKEN` environment variable |
+| Cache not invalidated after purge | Purge propagation delay              | Wait 60 seconds for global propagation           |
+| Tag-based purge doesn't work      | Cache tags not set on responses      | Add `Cache-Tag` header when serving content      |
+| Rate limit hit unexpectedly       | Multiple clients using same token    | Use separate tokens per client/service           |
+| Full purge fails                  | Missing confirmation token           | Include `confirm: "PURGE_ALL"` in request        |
+| 403 Forbidden from Vercel API     | Invalid Vercel API token permissions | Regenerate token with purge permissions          |
 
 ### Reference Materials
 
@@ -262,6 +263,7 @@ Link to decisions documented elsewhere that apply to this story:
 **Decision**: Use API token authentication (Bearer token) instead of signed URLs for purge requests
 
 **Rationale**:
+
 - API tokens simpler to implement and manage
 - Purge API is server-to-server (not user-facing), so token auth sufficient
 - Easier to rotate and revoke tokens
@@ -269,12 +271,14 @@ Link to decisions documented elsewhere that apply to this story:
 - Signed URLs add unnecessary complexity for internal API
 
 **Consequences**:
+
 - Tokens must be securely stored (environment variables)
 - Token rotation requires deployment to update
 - Single token compromise could allow unauthorized purges
 - Rate limiting by token is straightforward
 
 **Alternatives Considered**:
+
 - **Signed URLs with expiration**: Rejected due to complexity; overkill for server-to-server API
 - **IP whitelist**: Rejected because IPs may change (cloud functions, CI/CD)
 - **OAuth 2.0**: Rejected as too complex for internal administrative API
@@ -287,6 +291,7 @@ Link to decisions documented elsewhere that apply to this story:
 **Decision**: Set rate limit at 100 purge requests per hour per API token
 
 **Rationale**:
+
 - Prevents accidental mass cache clearing from misconfigured scripts
 - Allows reasonable operational use (1-2 purges per minute)
 - Protects edge network from excessive invalidation load
@@ -294,12 +299,14 @@ Link to decisions documented elsewhere that apply to this story:
 - Industry standard for similar APIs (Cloudflare: 30/min, Fastly: 200/sec burst)
 
 **Consequences**:
+
 - Legitimate high-frequency purge scenarios may be blocked
 - Developers must implement retry logic with exponential backoff
 - Rate limit enforced per token (multiple tokens = multiple limits)
 - Audit logs will capture rate limit violations
 
 **Alternatives Considered**:
+
 - **No rate limit**: Rejected due to abuse risk (runaway scripts, DoS)
 - **10 requests/hour**: Rejected as too restrictive for normal operations
 - **1000 requests/hour**: Rejected as too permissive (allows abuse)

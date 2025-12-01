@@ -30,18 +30,18 @@
 
 ### Files to Create
 
-| Path | Purpose |
-|------|---------|
-| `packages/api-client/src/upload.ts` | File upload implementation with progress tracking |
-| `packages/api-client/src/upload.test.ts` | Unit tests for file upload functionality |
+| Path                                     | Purpose                                           |
+| ---------------------------------------- | ------------------------------------------------- |
+| `packages/api-client/src/upload.ts`      | File upload implementation with progress tracking |
+| `packages/api-client/src/upload.test.ts` | Unit tests for file upload functionality          |
 
 ### Files to Modify
 
-| Path | Changes |
-|------|---------|
-| `packages/api-client/src/client.ts` | Add `uploadFile()` method to APIClient class |
-| `packages/api-client/src/types.ts` | Add `UploadOptions`, `UploadProgressCallback`, and `UploadResponse` types |
-| `packages/api-client/src/index.ts` | Export file upload types and utilities |
+| Path                                | Changes                                                                   |
+| ----------------------------------- | ------------------------------------------------------------------------- |
+| `packages/api-client/src/client.ts` | Add `uploadFile()` method to APIClient class                              |
+| `packages/api-client/src/types.ts`  | Add `UploadOptions`, `UploadProgressCallback`, and `UploadResponse` types |
+| `packages/api-client/src/index.ts`  | Export file upload types and utilities                                    |
 
 ### Dependencies
 
@@ -54,13 +54,14 @@
 > **Note**: For complete configuration file templates, reference the TAD.
 > This section describes configuration REQUIREMENTS, not full file contents.
 
-| Setting | Requirement | TAD Reference |
-|---------|-------------|---------------|
+| Setting             | Requirement                                                            | TAD Reference                                                                    |
+| ------------------- | ---------------------------------------------------------------------- | -------------------------------------------------------------------------------- |
 | Content-Type header | Must NOT be set manually for file uploads (browser sets with boundary) | [TAD: API Client](docs/2-technical/2-tad-package-architecture.md#repoapi-client) |
-| Request size limit | Support files up to 100MB (Vercel body size limit) | [EPIC: Constraints](./EPIC.md#constraints) |
-| Progress callback | Optional callback receiving percentage (0-100) during upload | Story-specific requirement |
+| Request size limit  | Support files up to 100MB (Vercel body size limit)                     | [EPIC: Constraints](./EPIC.md#constraints)                                       |
+| Progress callback   | Optional callback receiving percentage (0-100) during upload           | Story-specific requirement                                                       |
 
 **Configuration Rationale**:
+
 - Content-Type must be omitted for multipart uploads so the browser automatically adds the correct boundary parameter
 - The 100MB limit aligns with Vercel's payload size constraints
 - Progress callbacks enable UX features like upload progress bars
@@ -155,12 +156,12 @@ Key pattern notes for this story:
 
 ### Troubleshooting
 
-| Issue | Cause | Solution |
-|-------|-------|----------|
-| Upload fails with "Content-Type boundary missing" | Manually setting Content-Type header | Remove Content-Type from headers; let browser set it automatically with FormData |
-| Progress callback never fires | Server-side upload or unsupported environment | Progress callbacks only work client-side; conditionally enable based on environment |
-| 413 Payload Too Large error | File exceeds 100MB limit | Validate file size before upload and return user-friendly error |
-| Auth token not included | Request interceptor not applied | Ensure upload requests go through same interceptor chain as other requests |
+| Issue                                             | Cause                                         | Solution                                                                            |
+| ------------------------------------------------- | --------------------------------------------- | ----------------------------------------------------------------------------------- |
+| Upload fails with "Content-Type boundary missing" | Manually setting Content-Type header          | Remove Content-Type from headers; let browser set it automatically with FormData    |
+| Progress callback never fires                     | Server-side upload or unsupported environment | Progress callbacks only work client-side; conditionally enable based on environment |
+| 413 Payload Too Large error                       | File exceeds 100MB limit                      | Validate file size before upload and return user-friendly error                     |
+| Auth token not included                           | Request interceptor not applied               | Ensure upload requests go through same interceptor chain as other requests          |
 
 ### Reference Materials
 

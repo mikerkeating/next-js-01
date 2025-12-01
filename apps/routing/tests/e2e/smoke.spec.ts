@@ -15,9 +15,7 @@ import { expect, test } from '@playwright/test';
 
 test.describe('Deployment Smoke Tests', () => {
   test.describe('Health Check', () => {
-    test('health endpoint returns 200 OK with healthy status', async ({
-      request,
-    }) => {
+    test('health endpoint returns 200 OK with healthy status', async ({ request }) => {
       const response = await request.get('/api/health');
 
       expect(response.status()).toBe(200);
@@ -31,9 +29,7 @@ test.describe('Deployment Smoke Tests', () => {
       expect(body).toHaveProperty('uptime');
     });
 
-    test('health check includes all required service checks', async ({
-      request,
-    }) => {
+    test('health check includes all required service checks', async ({ request }) => {
       const response = await request.get('/api/health');
       const body = await response.json();
 

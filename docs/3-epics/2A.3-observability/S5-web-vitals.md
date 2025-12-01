@@ -31,18 +31,18 @@
 
 ### Files to Create
 
-| Path                                                    | Purpose                                      |
-| ------------------------------------------------------- | -------------------------------------------- |
-| `packages/observability/src/web-vitals.ts`              | Web Vitals tracking implementation           |
-| `packages/observability/src/web-vitals-types.ts`        | TypeScript type definitions for Web Vitals   |
-| `packages/observability/__tests__/web-vitals.test.ts`   | Unit tests for Web Vitals tracking           |
+| Path                                                  | Purpose                                    |
+| ----------------------------------------------------- | ------------------------------------------ |
+| `packages/observability/src/web-vitals.ts`            | Web Vitals tracking implementation         |
+| `packages/observability/src/web-vitals-types.ts`      | TypeScript type definitions for Web Vitals |
+| `packages/observability/__tests__/web-vitals.test.ts` | Unit tests for Web Vitals tracking         |
 
 ### Files to Modify
 
-| Path                                     | Changes                                                          |
-| ---------------------------------------- | ---------------------------------------------------------------- |
-| `packages/observability/src/index.ts`    | Export `reportWebVitals` function and related types              |
-| `packages/observability/package.json`    | Add `web-vitals` dependency                                      |
+| Path                                  | Changes                                             |
+| ------------------------------------- | --------------------------------------------------- |
+| `packages/observability/src/index.ts` | Export `reportWebVitals` function and related types |
+| `packages/observability/package.json` | Add `web-vitals` dependency                         |
 
 ### Dependencies
 
@@ -63,13 +63,13 @@ pnpm add web-vitals
 > **Note**: For complete configuration file templates, reference the TAD.
 > This section describes configuration REQUIREMENTS, not full file contents.
 
-| Setting                      | Requirement                                              | TAD Reference                                                                  |
-| ---------------------------- | -------------------------------------------------------- | ------------------------------------------------------------------------------ |
-| Core Web Vitals              | Must track LCP, FID, CLS per web.dev standards           | [TAD: Web Vitals Tracking](/docs/2-technical/2-tad-observability.md#web-vitals-tracking) |
-| Additional metrics           | Must track FCP and TTFB for comprehensive monitoring     | [TAD: Web Vitals Tracking](/docs/2-technical/2-tad-observability.md#web-vitals-tracking) |
-| Metric logging               | Log each metric with name, value, rating, delta, and ID  | [TAD: Web Vitals Tracking](/docs/2-technical/2-tad-observability.md#web-vitals-tracking) |
-| Sentry integration           | Send metrics to Sentry as measurements                   | [TAD: Web Vitals Tracking](/docs/2-technical/2-tad-observability.md#web-vitals-tracking) |
-| PostHog integration          | Optional integration; degrade gracefully if not configured | [TAD: Web Vitals Tracking](/docs/2-technical/2-tad-observability.md#web-vitals-tracking) |
+| Setting             | Requirement                                                | TAD Reference                                                                            |
+| ------------------- | ---------------------------------------------------------- | ---------------------------------------------------------------------------------------- |
+| Core Web Vitals     | Must track LCP, FID, CLS per web.dev standards             | [TAD: Web Vitals Tracking](/docs/2-technical/2-tad-observability.md#web-vitals-tracking) |
+| Additional metrics  | Must track FCP and TTFB for comprehensive monitoring       | [TAD: Web Vitals Tracking](/docs/2-technical/2-tad-observability.md#web-vitals-tracking) |
+| Metric logging      | Log each metric with name, value, rating, delta, and ID    | [TAD: Web Vitals Tracking](/docs/2-technical/2-tad-observability.md#web-vitals-tracking) |
+| Sentry integration  | Send metrics to Sentry as measurements                     | [TAD: Web Vitals Tracking](/docs/2-technical/2-tad-observability.md#web-vitals-tracking) |
+| PostHog integration | Optional integration; degrade gracefully if not configured | [TAD: Web Vitals Tracking](/docs/2-technical/2-tad-observability.md#web-vitals-tracking) |
 
 **Configuration Rationale**: Core Web Vitals (LCP, FID, CLS) are Google's standardized metrics for measuring user experience. Tracking these metrics enables performance monitoring, identification of slow pages, and correlation with business metrics. FCP and TTFB provide additional diagnostic context for performance issues. Logging to structured logger enables querying and analysis, while Sentry integration provides performance trends and alerting. PostHog integration enables correlation between performance and user behavior analytics.
 
@@ -177,14 +177,14 @@ Key pattern notes for this story:
 
 ### Troubleshooting
 
-| Issue                                  | Cause                                       | Solution                                                       |
-| -------------------------------------- | ------------------------------------------- | -------------------------------------------------------------- |
-| Metrics not appearing in logs          | `reportWebVitals()` not called in client component | Ensure called in `'use client'` component with `useEffect`    |
-| CLS metric never fires                 | CLS only fires on page unload/navigation    | Test by navigating to another page or closing tab             |
-| FID not available                      | FID deprecated in favor of INP (not in library yet) | FID still tracked for compatibility; will migrate to INP      |
-| Sentry measurements missing            | Sentry not initialized before reportWebVitals | Ensure `initSentry()` called before `reportWebVitals()`        |
-| PostHog errors in console              | PostHog not configured, code doesn't check  | Add conditional check for `window.posthog` before calling      |
-| TypeScript errors importing Metric type | Type not exported from package            | Ensure `web-vitals-types.ts` exports Metric type               |
+| Issue                                   | Cause                                               | Solution                                                   |
+| --------------------------------------- | --------------------------------------------------- | ---------------------------------------------------------- |
+| Metrics not appearing in logs           | `reportWebVitals()` not called in client component  | Ensure called in `'use client'` component with `useEffect` |
+| CLS metric never fires                  | CLS only fires on page unload/navigation            | Test by navigating to another page or closing tab          |
+| FID not available                       | FID deprecated in favor of INP (not in library yet) | FID still tracked for compatibility; will migrate to INP   |
+| Sentry measurements missing             | Sentry not initialized before reportWebVitals       | Ensure `initSentry()` called before `reportWebVitals()`    |
+| PostHog errors in console               | PostHog not configured, code doesn't check          | Add conditional check for `window.posthog` before calling  |
+| TypeScript errors importing Metric type | Type not exported from package                      | Ensure `web-vitals-types.ts` exports Metric type           |
 
 ### Reference Materials
 
@@ -225,6 +225,7 @@ Key pattern notes for this story:
 **Decision**: Track FCP (First Contentful Paint) and TTFB (Time to First Byte) in addition to Core Web Vitals (LCP, FID, CLS).
 
 **Rationale**:
+
 - Core Web Vitals (LCP, FID, CLS) measure user experience, but don't provide diagnostic context
 - FCP indicates when users first see content (useful for debugging slow initial renders)
 - TTFB measures server response time (useful for debugging API/database performance)
@@ -232,11 +233,13 @@ Key pattern notes for this story:
 - Provides comprehensive performance picture for debugging
 
 **Consequences**:
+
 - Additional log volume (5 metrics per page instead of 3)
 - More comprehensive performance data for debugging
 - FCP and TTFB not part of Google's Core Web Vitals but still valuable
 
 **Alternatives Considered**:
+
 - **Only Core Web Vitals**: Rejected because diagnostic context is valuable for debugging
 - **Track all available metrics**: Rejected due to noise and limited value of other metrics
 
@@ -247,17 +250,20 @@ Key pattern notes for this story:
 **Decision**: Support PostHog integration for Web Vitals but make it optional with graceful degradation if not configured.
 
 **Rationale**:
+
 - PostHog setup is in Epic 2A.4 (Analytics Infrastructure), not yet available
 - Web Vitals tracking should work independently of analytics provider
 - Checking for `window.posthog` before calling prevents errors
 - Enables local development without PostHog credentials
 
 **Consequences**:
+
 - Web Vitals work without PostHog (logged and sent to Sentry)
 - Applications can add PostHog later without modifying Web Vitals code
 - No errors in console if PostHog not configured
 
 **Alternatives Considered**:
+
 - **Require PostHog**: Rejected because it creates dependency on Epic 2A.4
 - **No PostHog integration**: Rejected because correlation with user analytics is valuable
 
@@ -286,6 +292,7 @@ The following items are explicitly NOT part of this story:
 ## References
 
 **Internal**:
+
 - [EPIC.md: Overview](./EPIC.md#overview), [Technical Constraints](./EPIC.md#technical-constraints)
 - [TAD: Observability Architecture](/docs/2-technical/2-tad-observability.md)
 - [TAD: Web Vitals Tracking](/docs/2-technical/2-tad-observability.md#web-vitals-tracking)
@@ -293,6 +300,7 @@ The following items are explicitly NOT part of this story:
 - [Canonical Versions](/docs/2-technical/references/canonical-versions.md)
 
 **External**:
+
 - [web-vitals Library](https://github.com/GoogleChrome/web-vitals)
 - [Core Web Vitals](https://web.dev/vitals/)
 - [LCP Documentation](https://web.dev/lcp/)
@@ -303,11 +311,13 @@ The following items are explicitly NOT part of this story:
 ## Verification Checklist
 
 **Pre-Verification**:
+
 - [ ] S2 (Structured Logger) complete
 - [ ] Local environment matches [canonical versions](/docs/2-technical/references/canonical-versions.md)
 - [ ] `@repo/observability` package builds successfully
 
 **Implementation Quality**:
+
 - [ ] All acceptance criteria met
 - [ ] [Coding standards](/docs/2-technical/references/coding-standards.md) followed
 - [ ] No lint errors (`pnpm lint`)
@@ -316,11 +326,13 @@ The following items are explicitly NOT part of this story:
 - [ ] Coverage > 80% for Web Vitals code
 
 **Documentation**:
+
 - [ ] JSDoc comments on `reportWebVitals` function
 - [ ] Type definitions include documentation comments
 - [ ] Usage example documented (if applicable)
 
 **Git Hygiene**:
+
 - [ ] Conventional commit message (e.g., `feat(observability): implement Web Vitals tracking`)
 - [ ] No unrelated changes included
 - [ ] PR references Epic 2A.3.S5

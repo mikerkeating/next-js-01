@@ -10,11 +10,11 @@
  * - Static file extensions (.svg, .png, .jpg, etc.)
  */
 
-import { createBasicAuthProxy } from "@repo/middleware/basic-auth";
+import { createBasicAuthProxy } from '@repo/middleware/basic-auth';
 
 const { proxy, shouldBypassAuth } = createBasicAuthProxy({
-  realm: "Secure Area",
-  bypassPaths: ["/api/health", "/_next/*", "/favicon.ico"],
+  realm: 'Secure Area',
+  bypassPaths: ['/api/health', '/_next/*', '/favicon.ico'],
   bypassStaticFiles: true,
 });
 

@@ -32,20 +32,20 @@
 
 ### Files to Create
 
-| Path | Purpose |
-|------|---------|
+| Path                                            | Purpose                            |
+| ----------------------------------------------- | ---------------------------------- |
 | `packages/api-client/src/cache/memory-cache.ts` | In-memory LRU cache implementation |
-| `packages/api-client/src/cache/cache-key.ts` | Cache key generation utilities |
-| `packages/api-client/src/cache/types.ts` | Cache-related TypeScript types |
-| `packages/api-client/src/cache/index.ts` | Cache module exports |
+| `packages/api-client/src/cache/cache-key.ts`    | Cache key generation utilities     |
+| `packages/api-client/src/cache/types.ts`        | Cache-related TypeScript types     |
+| `packages/api-client/src/cache/index.ts`        | Cache module exports               |
 
 ### Files to Modify
 
-| Path | Changes |
-|------|---------|
+| Path                                | Changes                           |
+| ----------------------------------- | --------------------------------- |
 | `packages/api-client/src/client.ts` | Integrate cache into request flow |
-| `packages/api-client/src/types.ts` | Add cache configuration options |
-| `packages/api-client/src/index.ts` | Export cache utilities |
+| `packages/api-client/src/types.ts`  | Add cache configuration options   |
+| `packages/api-client/src/index.ts`  | Export cache utilities            |
 
 ### Dependencies
 
@@ -58,12 +58,12 @@ No additional dependencies required - uses native JavaScript Map for LRU cache i
 > **Note**: For complete configuration file templates, reference the TAD.
 > This section describes configuration REQUIREMENTS, not full file contents.
 
-| Setting | Requirement | TAD Reference |
-|---------|-------------|---------------|
-| `cache.enabled` | Boolean flag to enable/disable caching (default: true) | [TAD: API Client](/docs/2-technical/2-tad-package-architecture.md#repoapi-client) |
-| `cache.maxSize` | Maximum cache entries before LRU eviction (default: 100) | [TAD: API Client](/docs/2-technical/2-tad-package-architecture.md#repoapi-client) |
-| `cache.defaultTTL` | Default time-to-live in milliseconds (default: 300000 = 5 min) | [TAD: API Client](/docs/2-technical/2-tad-package-architecture.md#repoapi-client) |
-| `cache.respectCacheHeaders` | Honor HTTP Cache-Control headers (default: true) | [TAD: API Client](/docs/2-technical/2-tad-package-architecture.md#repoapi-client) |
+| Setting                     | Requirement                                                    | TAD Reference                                                                     |
+| --------------------------- | -------------------------------------------------------------- | --------------------------------------------------------------------------------- |
+| `cache.enabled`             | Boolean flag to enable/disable caching (default: true)         | [TAD: API Client](/docs/2-technical/2-tad-package-architecture.md#repoapi-client) |
+| `cache.maxSize`             | Maximum cache entries before LRU eviction (default: 100)       | [TAD: API Client](/docs/2-technical/2-tad-package-architecture.md#repoapi-client) |
+| `cache.defaultTTL`          | Default time-to-live in milliseconds (default: 300000 = 5 min) | [TAD: API Client](/docs/2-technical/2-tad-package-architecture.md#repoapi-client) |
+| `cache.respectCacheHeaders` | Honor HTTP Cache-Control headers (default: true)               | [TAD: API Client](/docs/2-technical/2-tad-package-architecture.md#repoapi-client) |
 
 **Configuration Rationale**: These settings provide reasonable defaults while allowing developers to tune cache behavior for specific use cases. The default TTL of 5 minutes balances data freshness with performance gains. LRU eviction prevents unbounded memory growth.
 
@@ -178,20 +178,20 @@ Key pattern notes for this story:
 
 ### Troubleshooting
 
-| Issue | Cause | Solution |
-|-------|-------|----------|
-| Cache not working in server components | Next.js has built-in fetch cache | Use Next.js cache API via `fetch` options instead of custom cache |
-| Memory leak from unbounded cache growth | No LRU eviction implemented | Implement maxSize limit with LRU eviction |
-| Cache returning stale data | TTL not being checked on get | Check entry.expiry timestamp in `get()` method |
-| Different cache keys for same request | URL parameter order varies | Normalize URL parameters by sorting before hashing |
-| Concurrent requests creating duplicate fetches | No request deduplication | Track in-flight requests and return existing Promise |
+| Issue                                          | Cause                            | Solution                                                          |
+| ---------------------------------------------- | -------------------------------- | ----------------------------------------------------------------- |
+| Cache not working in server components         | Next.js has built-in fetch cache | Use Next.js cache API via `fetch` options instead of custom cache |
+| Memory leak from unbounded cache growth        | No LRU eviction implemented      | Implement maxSize limit with LRU eviction                         |
+| Cache returning stale data                     | TTL not being checked on get     | Check entry.expiry timestamp in `get()` method                    |
+| Different cache keys for same request          | URL parameter order varies       | Normalize URL parameters by sorting before hashing                |
+| Concurrent requests creating duplicate fetches | No request deduplication         | Track in-flight requests and return existing Promise              |
 
 ### Reference Materials
 
 - [HTTP Caching - MDN](https://developer.mozilla.org/en-US/docs/Web/HTTP/Caching)
 - [Cache-Control Header - MDN](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Cache-Control)
 - [Next.js Data Fetching and Caching](https://nextjs.org/docs/app/building-your-application/data-fetching/caching)
-- [LRU Cache Algorithm](https://en.wikipedia.org/wiki/Cache_replacement_policies#Least_recently_used_(LRU))
+- [LRU Cache Algorithm](<https://en.wikipedia.org/wiki/Cache_replacement_policies#Least_recently_used_(LRU)>)
 
 ## Estimated Effort
 

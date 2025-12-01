@@ -30,25 +30,26 @@
 
 ### Files to Create
 
-| Path                                     | Purpose                                          |
-| ---------------------------------------- | ------------------------------------------------ |
-| `packages/auth/src/hoc/with-auth.tsx`    | Client-side HOC for protecting client components |
-| `packages/auth/src/hoc/with-auth-server.tsx` | Server-side helper for protecting server components |
-| `packages/auth/src/hoc/types.ts`         | TypeScript types for HOC configuration          |
-| `packages/auth/src/components/auth-loading.tsx` | Default loading component                        |
+| Path                                            | Purpose                                             |
+| ----------------------------------------------- | --------------------------------------------------- |
+| `packages/auth/src/hoc/with-auth.tsx`           | Client-side HOC for protecting client components    |
+| `packages/auth/src/hoc/with-auth-server.tsx`    | Server-side helper for protecting server components |
+| `packages/auth/src/hoc/types.ts`                | TypeScript types for HOC configuration              |
+| `packages/auth/src/components/auth-loading.tsx` | Default loading component                           |
 
 ### Files to Modify
 
-| Path                             | Changes                                |
-| -------------------------------- | -------------------------------------- |
-| `packages/auth/src/index.ts`     | Export `withAuth`, `withAuthServer`, and related types |
-| `packages/auth/README.md`        | Add usage examples for route protection |
+| Path                         | Changes                                                |
+| ---------------------------- | ------------------------------------------------------ |
+| `packages/auth/src/index.ts` | Export `withAuth`, `withAuthServer`, and related types |
+| `packages/auth/README.md`    | Add usage examples for route protection                |
 
 ### Dependencies
 
 > **Version Reference**: Use exact versions from [canonical-versions.md](/docs/2-technical/references/canonical-versions.md)
 
 **Required dependencies** (already installed in S1):
+
 - `@clerk/nextjs` - For `useAuth()`, `auth()`, and `redirect()`
 - `react` - For HOC implementation
 
@@ -59,12 +60,12 @@ No additional dependencies required.
 > **Note**: For complete authentication patterns, reference [ADR-006: Clerk Authentication](/docs/2-technical/adr/006-clerk-authentication.md).
 > This section describes configuration REQUIREMENTS for route protection.
 
-| Setting              | Requirement                                                     | TAD Reference                                                                |
-| -------------------- | --------------------------------------------------------------- | ---------------------------------------------------------------------------- |
-| `redirectUrl`        | Default to `/sign-in` from env var `NEXT_PUBLIC_CLERK_SIGN_IN_URL` | [ADR-006: Configuration](/docs/2-technical/adr/006-clerk-authentication.md) |
-| `returnUrl`          | Capture current path and pass as query param to sign-in page    | [ADR-006: Usage Examples](/docs/2-technical/adr/006-clerk-authentication.md#protecting-routes) |
-| `LoadingComponent`   | Accept optional custom component, fallback to built-in spinner | -                                                                            |
-| Type preservation    | HOC must preserve all props and types of wrapped component      | [TAD: TypeScript Standards](/docs/2-technical/references/coding-standards.md) |
+| Setting            | Requirement                                                        | TAD Reference                                                                                  |
+| ------------------ | ------------------------------------------------------------------ | ---------------------------------------------------------------------------------------------- |
+| `redirectUrl`      | Default to `/sign-in` from env var `NEXT_PUBLIC_CLERK_SIGN_IN_URL` | [ADR-006: Configuration](/docs/2-technical/adr/006-clerk-authentication.md)                    |
+| `returnUrl`        | Capture current path and pass as query param to sign-in page       | [ADR-006: Usage Examples](/docs/2-technical/adr/006-clerk-authentication.md#protecting-routes) |
+| `LoadingComponent` | Accept optional custom component, fallback to built-in spinner     | -                                                                                              |
+| Type preservation  | HOC must preserve all props and types of wrapped component         | [TAD: TypeScript Standards](/docs/2-technical/references/coding-standards.md)                  |
 
 **Configuration Rationale**: The HOC provides a declarative way to protect routes, ensuring consistent authentication enforcement across the application. Separate implementations for client and server components respect Next.js App Router patterns while maintaining a unified API. The return URL mechanism ensures users are redirected back to their intended destination after authentication.
 
@@ -169,12 +170,12 @@ Key pattern notes for this story:
 
 ### Troubleshooting
 
-| Issue                                      | Cause                                      | Solution                                         |
-| ------------------------------------------ | ------------------------------------------ | ------------------------------------------------ |
-| Flash of unauthenticated content           | Not checking `isLoaded` before rendering   | Show loading state while `isLoaded === false`    |
-| Type errors on wrapped component           | Generic types not properly propagated      | Use `ComponentType<P>` and preserve props        |
-| Redirect loop between protected route and sign-in | Sign-in page is also protected           | Ensure sign-in route is public in middleware     |
-| Return URL not working after sign-in       | Query param not passed or not consumed     | Verify redirect URL includes query param and Clerk config uses `afterSignInUrl` |
+| Issue                                             | Cause                                    | Solution                                                                        |
+| ------------------------------------------------- | ---------------------------------------- | ------------------------------------------------------------------------------- |
+| Flash of unauthenticated content                  | Not checking `isLoaded` before rendering | Show loading state while `isLoaded === false`                                   |
+| Type errors on wrapped component                  | Generic types not properly propagated    | Use `ComponentType<P>` and preserve props                                       |
+| Redirect loop between protected route and sign-in | Sign-in page is also protected           | Ensure sign-in route is public in middleware                                    |
+| Return URL not working after sign-in              | Query param not passed or not consumed   | Verify redirect URL includes query param and Clerk config uses `afterSignInUrl` |
 
 ### Reference Materials
 

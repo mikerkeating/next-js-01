@@ -31,24 +31,24 @@
 
 ### Files to Create
 
-| Path | Purpose |
-|------|---------|
-| `apps/docs/package.json` | Documentation app package configuration |
-| `apps/docs/next.config.mjs` | Next.js configuration for docs site (if using Nextra) |
-| `apps/docs/theme.config.tsx` | Theme configuration (if using Nextra) |
-| `apps/docs/docusaurus.config.js` | Docusaurus configuration (if using Docusaurus) |
-| `apps/docs/app/layout.tsx` | Root layout for docs app (if using Nextra) |
-| `apps/docs/app/page.mdx` | Landing page for documentation site |
-| `apps/docs/.gitignore` | Ignore build artifacts |
-| `apps/docs/tsconfig.json` | TypeScript configuration for docs app |
+| Path                             | Purpose                                               |
+| -------------------------------- | ----------------------------------------------------- |
+| `apps/docs/package.json`         | Documentation app package configuration               |
+| `apps/docs/next.config.mjs`      | Next.js configuration for docs site (if using Nextra) |
+| `apps/docs/theme.config.tsx`     | Theme configuration (if using Nextra)                 |
+| `apps/docs/docusaurus.config.js` | Docusaurus configuration (if using Docusaurus)        |
+| `apps/docs/app/layout.tsx`       | Root layout for docs app (if using Nextra)            |
+| `apps/docs/app/page.mdx`         | Landing page for documentation site                   |
+| `apps/docs/.gitignore`           | Ignore build artifacts                                |
+| `apps/docs/tsconfig.json`        | TypeScript configuration for docs app                 |
 
 ### Files to Modify
 
-| Path | Changes |
-|------|---------|
-| `turbo.json` | Add `build:docs` task configuration |
+| Path                  | Changes                                     |
+| --------------------- | ------------------------------------------- |
+| `turbo.json`          | Add `build:docs` task configuration         |
 | `pnpm-workspace.yaml` | Verify `apps/docs` is included in workspace |
-| `package.json` (root) | Add scripts for docs development and build |
+| `package.json` (root) | Add scripts for docs development and build  |
 
 ### Dependencies
 
@@ -78,35 +78,35 @@ npx create-docusaurus@latest docs classic --typescript
 
 Choose **one** of the following based on project needs:
 
-| Framework | Best For | TAD Reference |
-|-----------|----------|---------------|
-| **Nextra** | Next.js integration, simpler setup, TypeScript-first | [TAD: Delivery Formats](/docs/2-technical/2-tad-documentation.md#delivery-formats) |
-| **Docusaurus** | Versioning, i18n, larger doc sites | [TAD: Delivery Formats](/docs/2-technical/2-tad-documentation.md#delivery-formats) |
+| Framework      | Best For                                             | TAD Reference                                                                      |
+| -------------- | ---------------------------------------------------- | ---------------------------------------------------------------------------------- |
+| **Nextra**     | Next.js integration, simpler setup, TypeScript-first | [TAD: Delivery Formats](/docs/2-technical/2-tad-documentation.md#delivery-formats) |
+| **Docusaurus** | Versioning, i18n, larger doc sites                   | [TAD: Delivery Formats](/docs/2-technical/2-tad-documentation.md#delivery-formats) |
 
 **Recommendation**: Start with **Nextra** for faster iteration and native Next.js integration with the monorepo.
 
 #### Required Configuration (Nextra)
 
-| Setting | Requirement | Rationale |
-|---------|-------------|-----------|
-| `theme` | `nextra-theme-docs` | Standard documentation theme |
-| `search` | Enable with Flexsearch | Full-text search requirement |
-| `darkMode` | Enable toggle | Accessibility and developer preference |
-| `sidebar` | Auto-generate from file structure | Match documentation pyramid |
-| `navigation` | Breadcrumbs enabled | Orientation within hierarchy |
-| `footer` | Project metadata and links | Navigation and attribution |
+| Setting      | Requirement                       | Rationale                              |
+| ------------ | --------------------------------- | -------------------------------------- |
+| `theme`      | `nextra-theme-docs`               | Standard documentation theme           |
+| `search`     | Enable with Flexsearch            | Full-text search requirement           |
+| `darkMode`   | Enable toggle                     | Accessibility and developer preference |
+| `sidebar`    | Auto-generate from file structure | Match documentation pyramid            |
+| `navigation` | Breadcrumbs enabled               | Orientation within hierarchy           |
+| `footer`     | Project metadata and links        | Navigation and attribution             |
 
 For complete Nextra configuration examples, see: [Nextra Documentation](https://nextra.site/docs/guide)
 
 #### Required Configuration (Docusaurus)
 
-| Setting | Requirement | Rationale |
-|---------|-------------|-----------|
-| `themeConfig.navbar` | Links to main sections | Top-level navigation |
-| `themeConfig.footer` | Project links | Standard footer navigation |
-| `themeConfig.colorMode` | Dark mode enabled | Developer preference |
-| `themeConfig.algolia` or local search | Search enabled | Full-text search requirement |
-| `docs.sidebar` | Auto-generated from directories | Match documentation pyramid |
+| Setting                               | Requirement                     | Rationale                    |
+| ------------------------------------- | ------------------------------- | ---------------------------- |
+| `themeConfig.navbar`                  | Links to main sections          | Top-level navigation         |
+| `themeConfig.footer`                  | Project links                   | Standard footer navigation   |
+| `themeConfig.colorMode`               | Dark mode enabled               | Developer preference         |
+| `themeConfig.algolia` or local search | Search enabled                  | Full-text search requirement |
+| `docs.sidebar`                        | Auto-generated from directories | Match documentation pyramid  |
 
 For complete Docusaurus configuration examples, see: [Docusaurus Documentation](https://docusaurus.io/docs)
 
@@ -219,14 +219,14 @@ Key pattern notes for this story:
 
 ### Troubleshooting
 
-| Issue | Cause | Solution |
-|-------|-------|----------|
-| Build fails with module not found | Missing framework dependencies | Run `pnpm install` from root and verify `apps/docs/package.json` |
-| Search doesn't work | Search plugin not configured | Enable Flexsearch (Nextra) or Algolia/local search (Docusaurus) in theme config |
-| Dark mode doesn't persist | No storage configuration | Configure theme to use localStorage for preference persistence |
-| Internal links broken | Incorrect relative paths | Use absolute paths from `/docs` root (e.g., `/guides/getting-started`) |
-| Preview deployment fails | Vercel build configuration missing | Add `apps/docs/vercel.json` with correct build commands |
-| Mobile navigation broken | Responsive theme not configured | Ensure theme config enables mobile hamburger menu |
+| Issue                             | Cause                              | Solution                                                                        |
+| --------------------------------- | ---------------------------------- | ------------------------------------------------------------------------------- |
+| Build fails with module not found | Missing framework dependencies     | Run `pnpm install` from root and verify `apps/docs/package.json`                |
+| Search doesn't work               | Search plugin not configured       | Enable Flexsearch (Nextra) or Algolia/local search (Docusaurus) in theme config |
+| Dark mode doesn't persist         | No storage configuration           | Configure theme to use localStorage for preference persistence                  |
+| Internal links broken             | Incorrect relative paths           | Use absolute paths from `/docs` root (e.g., `/guides/getting-started`)          |
+| Preview deployment fails          | Vercel build configuration missing | Add `apps/docs/vercel.json` with correct build commands                         |
+| Mobile navigation broken          | Responsive theme not configured    | Ensure theme config enables mobile hamburger menu                               |
 
 ### Reference Materials
 
@@ -372,12 +372,12 @@ Configured Nextra 4.6.0 documentation site framework with full-text search, dark
 
 ### Test Results
 
-| Test       | Command           | Result             |
-| ---------- | ----------------- | ------------------ |
-| Lint       | `pnpm lint`       | Pass               |
-| Types      | `pnpm type-check` | Pass               |
-| Build      | `pnpm build`      | Pass (122 pages)   |
-| Turbo      | `turbo build`     | Pass               |
+| Test  | Command           | Result           |
+| ----- | ----------------- | ---------------- |
+| Lint  | `pnpm lint`       | Pass             |
+| Types | `pnpm type-check` | Pass             |
+| Build | `pnpm build`      | Pass (122 pages) |
+| Turbo | `turbo build`     | Pass             |
 
 ### Files Changed
 

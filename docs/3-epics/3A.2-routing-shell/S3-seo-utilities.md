@@ -29,28 +29,28 @@
 
 ### Files to Create
 
-| Path                                              | Purpose                                      |
-| ------------------------------------------------- | -------------------------------------------- |
-| `apps/routing/src/lib/seo/meta-tags.ts`           | Meta tag generation utilities                |
-| `apps/routing/src/lib/seo/structured-data.ts`     | JSON-LD structured data generation           |
-| `apps/routing/src/lib/seo/sitemap-config.ts`      | Sitemap route configuration                  |
-| `apps/routing/app/sitemap.ts`                     | Dynamic sitemap generation                   |
-| `apps/routing/app/robots.ts`                      | Dynamic robots.txt generation                |
-| `apps/routing/src/config/seo-config.ts`           | SEO configuration (defaults, site info)      |
-| `apps/routing/tests/seo/meta-tags.test.ts`        | Unit tests for meta tag utilities            |
-| `apps/routing/tests/seo/structured-data.test.ts`  | Unit tests for structured data               |
-| `apps/routing/tests/seo/sitemap.test.ts`          | Unit tests for sitemap generation            |
-| `apps/routing/docs/SEO.md`                        | Documentation for SEO utilities              |
+| Path                                             | Purpose                                 |
+| ------------------------------------------------ | --------------------------------------- |
+| `apps/routing/src/lib/seo/meta-tags.ts`          | Meta tag generation utilities           |
+| `apps/routing/src/lib/seo/structured-data.ts`    | JSON-LD structured data generation      |
+| `apps/routing/src/lib/seo/sitemap-config.ts`     | Sitemap route configuration             |
+| `apps/routing/app/sitemap.ts`                    | Dynamic sitemap generation              |
+| `apps/routing/app/robots.ts`                     | Dynamic robots.txt generation           |
+| `apps/routing/src/config/seo-config.ts`          | SEO configuration (defaults, site info) |
+| `apps/routing/tests/seo/meta-tags.test.ts`       | Unit tests for meta tag utilities       |
+| `apps/routing/tests/seo/structured-data.test.ts` | Unit tests for structured data          |
+| `apps/routing/tests/seo/sitemap.test.ts`         | Unit tests for sitemap generation       |
+| `apps/routing/docs/SEO.md`                       | Documentation for SEO utilities         |
 
 ### Files to Modify
 
-| Path                              | Changes                                                   |
-| --------------------------------- | --------------------------------------------------------- |
-| `apps/routing/app/layout.tsx`     | Add default metadata export and viewport configuration    |
-| `apps/routing/app/page.tsx`       | Add generateMetadata function for home page               |
-| `apps/routing/next.config.js`     | Configure metadata base URL from environment variables    |
-| `apps/routing/.env.local.example` | Add SEO-related environment variables (NEXT_PUBLIC_URL)   |
-| `apps/routing/README.md`          | Add section linking to SEO.md                             |
+| Path                              | Changes                                                 |
+| --------------------------------- | ------------------------------------------------------- |
+| `apps/routing/app/layout.tsx`     | Add default metadata export and viewport configuration  |
+| `apps/routing/app/page.tsx`       | Add generateMetadata function for home page             |
+| `apps/routing/next.config.js`     | Configure metadata base URL from environment variables  |
+| `apps/routing/.env.local.example` | Add SEO-related environment variables (NEXT_PUBLIC_URL) |
+| `apps/routing/README.md`          | Add section linking to SEO.md                           |
 
 ### Dependencies
 
@@ -71,16 +71,17 @@ cd apps/routing
 > **Note**: For complete configuration file templates, reference the TAD.
 > This section describes configuration REQUIREMENTS, not full file contents.
 
-| Setting                 | Requirement                                       | TAD Reference                                                               |
-| ----------------------- | ------------------------------------------------- | --------------------------------------------------------------------------- |
-| Metadata Base URL       | Environment-specific base URL for absolute links  | [TAD: System Architecture](/docs/2-technical/2-tad.md#system-architecture) |
-| Open Graph Images       | Default og:image, Twitter Card image              | [TAD: CDN Architecture](/docs/2-technical/2-tad-cdn.md)                     |
-| Sitemap Priority        | Route-specific priority values (0.0 - 1.0)        | [EPIC: Technical Constraints](./EPIC.md#technical-constraints)              |
-| Sitemap Change Frequency| Route-specific update frequency                   | [EPIC: Technical Constraints](./EPIC.md#technical-constraints)              |
-| Robots.txt Rules        | Environment-specific crawl permissions            | [TAD: Security Architecture](/docs/2-technical/2-tad-security-architecture.md) |
-| Structured Data         | Organization, WebSite, WebPage schemas            | [TAD: System Architecture](/docs/2-technical/2-tad.md#system-architecture) |
+| Setting                  | Requirement                                      | TAD Reference                                                                  |
+| ------------------------ | ------------------------------------------------ | ------------------------------------------------------------------------------ |
+| Metadata Base URL        | Environment-specific base URL for absolute links | [TAD: System Architecture](/docs/2-technical/2-tad.md#system-architecture)     |
+| Open Graph Images        | Default og:image, Twitter Card image             | [TAD: CDN Architecture](/docs/2-technical/2-tad-cdn.md)                        |
+| Sitemap Priority         | Route-specific priority values (0.0 - 1.0)       | [EPIC: Technical Constraints](./EPIC.md#technical-constraints)                 |
+| Sitemap Change Frequency | Route-specific update frequency                  | [EPIC: Technical Constraints](./EPIC.md#technical-constraints)                 |
+| Robots.txt Rules         | Environment-specific crawl permissions           | [TAD: Security Architecture](/docs/2-technical/2-tad-security-architecture.md) |
+| Structured Data          | Organization, WebSite, WebPage schemas           | [TAD: System Architecture](/docs/2-technical/2-tad.md#system-architecture)     |
 
 **Configuration Rationale**:
+
 - Next.js 16 Metadata API provides type-safe, built-in SEO support
 - Environment-specific URLs prevent staging content from being indexed
 - Structured data improves search engine understanding and rich snippets
@@ -233,16 +234,16 @@ Key pattern notes for this story:
 
 ### Troubleshooting
 
-| Issue                                      | Cause                                          | Solution                                                     |
-| ------------------------------------------ | ---------------------------------------------- | ------------------------------------------------------------ |
-| Meta tags not appearing in HTML            | Missing metadata export from layout or page    | Ensure metadata or generateMetadata is exported              |
-| Open Graph images show relative URLs       | metadataBase not configured                    | Set metadataBase in next.config.js using NEXT_PUBLIC_URL     |
-| Sitemap.xml returns 404                    | File not in app directory root                 | Ensure sitemap.ts is at apps/routing/app/sitemap.ts          |
-| Robots.txt returns 404                     | File not in app directory root                 | Ensure robots.ts is at apps/routing/app/robots.ts            |
-| Lighthouse SEO score < 90                  | Missing meta description or title tags         | Verify all pages have title and description metadata         |
-| Structured data validation fails           | Invalid JSON-LD syntax or missing required fields | Validate against schema.org and use Google Rich Results Test |
-| Staging site appears in Google search      | Robots.txt allows crawling on staging          | Ensure robots.ts blocks crawlers when not in production      |
-| Sitemap shows incorrect URLs               | Wrong base URL in environment variable         | Verify NEXT_PUBLIC_URL matches deployment domain             |
+| Issue                                 | Cause                                             | Solution                                                     |
+| ------------------------------------- | ------------------------------------------------- | ------------------------------------------------------------ |
+| Meta tags not appearing in HTML       | Missing metadata export from layout or page       | Ensure metadata or generateMetadata is exported              |
+| Open Graph images show relative URLs  | metadataBase not configured                       | Set metadataBase in next.config.js using NEXT_PUBLIC_URL     |
+| Sitemap.xml returns 404               | File not in app directory root                    | Ensure sitemap.ts is at apps/routing/app/sitemap.ts          |
+| Robots.txt returns 404                | File not in app directory root                    | Ensure robots.ts is at apps/routing/app/robots.ts            |
+| Lighthouse SEO score < 90             | Missing meta description or title tags            | Verify all pages have title and description metadata         |
+| Structured data validation fails      | Invalid JSON-LD syntax or missing required fields | Validate against schema.org and use Google Rich Results Test |
+| Staging site appears in Google search | Robots.txt allows crawling on staging             | Ensure robots.ts blocks crawlers when not in production      |
+| Sitemap shows incorrect URLs          | Wrong base URL in environment variable            | Verify NEXT_PUBLIC_URL matches deployment domain             |
 
 ### Reference Materials
 
@@ -285,6 +286,7 @@ Link to decisions documented elsewhere that apply to this story:
 **Decision**: Implement dynamic robots.txt that blocks all crawlers on non-production environments using environment detection.
 
 **Rationale**:
+
 - Prevents staging and preview environments from being indexed by search engines
 - Avoids duplicate content penalties from search engines
 - Protects unreleased features from public discovery
@@ -292,12 +294,14 @@ Link to decisions documented elsewhere that apply to this story:
 - Simple environment variable check (production vs. non-production)
 
 **Consequences**:
+
 - Production environment must set environment variable correctly
 - Staging deployments are protected from search engine indexing
 - Preview deployments on Vercel are automatically protected
 - Developers must test SEO on production or production-like environments
 
 **Alternatives Considered**:
+
 - **Option 1**: Static robots.txt file - Rejected because it can't adapt to environment
 - **Option 2**: Manual robots.txt per environment - Rejected because it's error-prone and requires manual deployment steps
 
@@ -308,6 +312,7 @@ Link to decisions documented elsewhere that apply to this story:
 **Decision**: Use static sitemap generation with manually configured routes rather than dynamic route discovery.
 
 **Rationale**:
+
 - Routing shell has minimal routes (home, health endpoint, placeholder pages)
 - Product-specific routes are added in Epic 3B.3, which can extend sitemap config
 - Static configuration provides explicit control over which routes appear
@@ -315,12 +320,14 @@ Link to decisions documented elsewhere that apply to this story:
 - Clear extension path for future dynamic route additions
 
 **Consequences**:
+
 - New routes must be manually added to sitemap configuration
 - Documentation must explain how to add routes to sitemap
 - Sitemap config becomes source of truth for public routes
 - Future epics will extend sitemap config with their routes
 
 **Alternatives Considered**:
+
 - **Option 1**: Dynamic route discovery via file system - Rejected because it would include API routes and internal pages
 - **Option 2**: Database-driven sitemap - Rejected because routing shell doesn't have content database
 
@@ -331,6 +338,7 @@ Link to decisions documented elsewhere that apply to this story:
 **Decision**: Implement Organization and WebSite structured data only; defer page-specific schemas (Article, BreadcrumbList) to content epics.
 
 **Rationale**:
+
 - Routing shell is generic infrastructure without specific content
 - Organization and WebSite schemas apply site-wide and belong in shell
 - Content-specific schemas (Article, Product, etc.) belong with content apps
@@ -338,12 +346,14 @@ Link to decisions documented elsewhere that apply to this story:
 - Clear separation between infrastructure and content concerns
 
 **Consequences**:
+
 - Basic structured data available immediately for organization branding
 - Content apps will add their own schema markup in future epics
 - No schema duplication between shell and content apps
 - Each app owns its content-specific structured data
 
 **Alternatives Considered**:
+
 - **Option 1**: Implement all schema types in shell - Rejected because shell doesn't have content to describe
 - **Option 2**: No structured data in shell - Rejected because Organization schema is fundamental and site-wide
 
@@ -487,11 +497,11 @@ export function generateOrganizationSchema(config: SEOConfig) {
   return {
     "@context": "https://schema.org",
     "@type": "Organization",
-    "name": config.organization.name,
-    "legalName": config.organization.legalName,
-    "url": config.organization.url,
-    "logo": config.organization.logo,
-    "description": config.siteDescription,
+    name: config.organization.name,
+    legalName: config.organization.legalName,
+    url: config.organization.url,
+    logo: config.organization.logo,
+    description: config.siteDescription,
   };
 }
 ```

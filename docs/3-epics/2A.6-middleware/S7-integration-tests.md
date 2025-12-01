@@ -32,20 +32,20 @@
 
 ### Files to Create
 
-| Path                                                  | Purpose                                  |
-| ----------------------------------------------------- | ---------------------------------------- |
-| `packages/middleware/tests/integration/chain.test.ts` | Middleware chain integration tests       |
-| `packages/middleware/tests/integration/perf.test.ts`  | Performance benchmark tests              |
-| `packages/middleware/examples/middleware.ts`          | Example middleware composition           |
-| `packages/middleware/CHANGELOG.md`                    | Package changelog                        |
+| Path                                                  | Purpose                            |
+| ----------------------------------------------------- | ---------------------------------- |
+| `packages/middleware/tests/integration/chain.test.ts` | Middleware chain integration tests |
+| `packages/middleware/tests/integration/perf.test.ts`  | Performance benchmark tests        |
+| `packages/middleware/examples/middleware.ts`          | Example middleware composition     |
+| `packages/middleware/CHANGELOG.md`                    | Package changelog                  |
 
 ### Files to Modify
 
-| Path                                   | Changes                                            |
-| -------------------------------------- | -------------------------------------------------- |
-| `packages/middleware/README.md`        | Complete documentation with all middleware usage   |
-| `packages/middleware/package.json`     | Add example scripts, verify exports                |
-| `packages/middleware/src/*.ts`         | Add comprehensive JSDoc to all exports             |
+| Path                               | Changes                                          |
+| ---------------------------------- | ------------------------------------------------ |
+| `packages/middleware/README.md`    | Complete documentation with all middleware usage |
+| `packages/middleware/package.json` | Add example scripts, verify exports              |
+| `packages/middleware/src/*.ts`     | Add comprehensive JSDoc to all exports           |
 
 ### Dependencies
 
@@ -58,11 +58,11 @@ No additional dependencies required beyond those installed in S1-S6.
 > **Note**: For complete configuration file templates, reference the TAD.
 > This section describes configuration REQUIREMENTS, not full file contents.
 
-| Setting | Requirement | TAD Reference |
-| ------- | ----------- | ------------- |
-| Test timeout | 30s maximum for integration tests (edge runtime constraint) | [TAD: Edge Middleware Architecture](/docs/2-technical/2-tad-edge-middleware.md) |
-| Performance targets | Cold start < 50ms, warm execution < 10ms | [TAD: Performance Optimization](/docs/2-technical/2-tad-edge-middleware.md#performance-optimization) |
-| Coverage threshold | ≥80% statement, branch, function, line coverage | [TAD: Testing Standards](/docs/2-technical/2-tad.md#testing-standards) |
+| Setting             | Requirement                                                 | TAD Reference                                                                                        |
+| ------------------- | ----------------------------------------------------------- | ---------------------------------------------------------------------------------------------------- |
+| Test timeout        | 30s maximum for integration tests (edge runtime constraint) | [TAD: Edge Middleware Architecture](/docs/2-technical/2-tad-edge-middleware.md)                      |
+| Performance targets | Cold start < 50ms, warm execution < 10ms                    | [TAD: Performance Optimization](/docs/2-technical/2-tad-edge-middleware.md#performance-optimization) |
+| Coverage threshold  | ≥80% statement, branch, function, line coverage             | [TAD: Testing Standards](/docs/2-technical/2-tad.md#testing-standards)                               |
 
 **Configuration Rationale**: Integration tests must respect edge runtime constraints (30s timeout). Performance benchmarks ensure middleware meets production requirements. Coverage thresholds ensure comprehensive testing of all middleware combinations.
 
@@ -201,12 +201,12 @@ Key pattern notes for this story:
 
 ### Troubleshooting
 
-| Issue | Cause | Solution |
-| ----- | ----- | -------- |
-| Integration tests timeout | Middleware making real network calls | Mock all external dependencies (Vercel KV, API calls) |
-| Performance benchmarks fail | Including network latency in measurements | Mock external calls, measure only middleware logic |
-| Example doesn't compile | Missing types or incorrect imports | Verify all middleware are exported from index.ts |
-| Coverage below 80% | Missing test cases for error paths | Add tests for error scenarios and edge cases |
+| Issue                       | Cause                                     | Solution                                              |
+| --------------------------- | ----------------------------------------- | ----------------------------------------------------- |
+| Integration tests timeout   | Middleware making real network calls      | Mock all external dependencies (Vercel KV, API calls) |
+| Performance benchmarks fail | Including network latency in measurements | Mock external calls, measure only middleware logic    |
+| Example doesn't compile     | Missing types or incorrect imports        | Verify all middleware are exported from index.ts      |
+| Coverage below 80%          | Missing test cases for error paths        | Add tests for error scenarios and edge cases          |
 
 ### Reference Materials
 
@@ -350,22 +350,26 @@ None - This is the final story in Epic 2A.6
 The integration test suite should cover these scenarios:
 
 **Middleware Chain Composition**:
+
 - Execute middleware in order
 - Short-circuit on response
 - Pass context between middleware
 - Handle empty middleware array
 
 **Error Handling**:
+
 - Catch errors and return 500 response
 - Preserve error details in logs
 - Continue chain after non-error middleware
 
 **Complete Chain Scenarios**:
+
 - Logging → Security → Rate Limiting → CORS
 - Conditional middleware skips when route doesn't match
 - Context enrichment flows through chain
 
 **Performance Benchmarks**:
+
 - Cold start time measurement
 - Warm execution time measurement
 - Complete chain timing

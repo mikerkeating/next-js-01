@@ -31,19 +31,19 @@
 
 ### Files to Create
 
-| Path                                                    | Purpose                                        |
-| ------------------------------------------------------- | ---------------------------------------------- |
-| `packages/observability/src/sentry.ts`                  | Sentry SDK initialization and configuration    |
-| `packages/observability/src/sentry-types.ts`            | TypeScript type definitions for Sentry utils   |
-| `packages/observability/__tests__/sentry.test.ts`       | Unit tests for Sentry integration              |
+| Path                                              | Purpose                                      |
+| ------------------------------------------------- | -------------------------------------------- |
+| `packages/observability/src/sentry.ts`            | Sentry SDK initialization and configuration  |
+| `packages/observability/src/sentry-types.ts`      | TypeScript type definitions for Sentry utils |
+| `packages/observability/__tests__/sentry.test.ts` | Unit tests for Sentry integration            |
 
 ### Files to Modify
 
-| Path                                     | Changes                                                          |
-| ---------------------------------------- | ---------------------------------------------------------------- |
-| `packages/observability/src/index.ts`    | Export Sentry utilities: `initSentry`, `setSentryUser`, `clearSentryUser`, `captureError`, `captureMessage` |
-| `packages/observability/src/logger.ts`   | Integrate `sendToSentry()` method to route error/fatal logs to Sentry |
-| `packages/observability/package.json`    | Add `@sentry/nextjs` dependency                                  |
+| Path                                   | Changes                                                                                                     |
+| -------------------------------------- | ----------------------------------------------------------------------------------------------------------- |
+| `packages/observability/src/index.ts`  | Export Sentry utilities: `initSentry`, `setSentryUser`, `clearSentryUser`, `captureError`, `captureMessage` |
+| `packages/observability/src/logger.ts` | Integrate `sendToSentry()` method to route error/fatal logs to Sentry                                       |
+| `packages/observability/package.json`  | Add `@sentry/nextjs` dependency                                                                             |
 
 ### Dependencies
 
@@ -64,14 +64,14 @@ pnpm add @sentry/nextjs
 > **Note**: For complete configuration file templates, reference the TAD.
 > This section describes configuration REQUIREMENTS, not full file contents.
 
-| Setting                      | Requirement                                              | TAD Reference                                                                  |
-| ---------------------------- | -------------------------------------------------------- | ------------------------------------------------------------------------------ |
-| Sentry DSN                   | Must be optional; gracefully degrade if missing          | [TAD: Error Tracking Integration](/docs/2-technical/2-tad-observability.md#error-tracking-integration) |
-| Performance sampling         | Production: 0.1 (10%), Development: 1.0 (100%)           | [TAD: Sentry SDK Configuration](/docs/2-technical/2-tad-observability.md#sentry-sdk-configuration) |
-| Session replay sampling      | Production errors only: 1.0 (100%), All sessions: 0.01 (1%) | [TAD: Sentry SDK Configuration](/docs/2-technical/2-tad-observability.md#sentry-sdk-configuration) |
-| PII filtering                | Remove cookies, headers, console breadcrumbs             | [TAD: Sentry SDK Configuration](/docs/2-technical/2-tad-observability.md#sentry-sdk-configuration) |
-| Error filtering              | Filter AbortError and NetworkError                       | [TAD: Sentry SDK Configuration](/docs/2-technical/2-tad-observability.md#sentry-sdk-configuration) |
-| Trace propagation targets    | Include localhost, Vercel domains, API URL               | [TAD: Sentry SDK Configuration](/docs/2-technical/2-tad-observability.md#sentry-sdk-configuration) |
+| Setting                   | Requirement                                                 | TAD Reference                                                                                          |
+| ------------------------- | ----------------------------------------------------------- | ------------------------------------------------------------------------------------------------------ |
+| Sentry DSN                | Must be optional; gracefully degrade if missing             | [TAD: Error Tracking Integration](/docs/2-technical/2-tad-observability.md#error-tracking-integration) |
+| Performance sampling      | Production: 0.1 (10%), Development: 1.0 (100%)              | [TAD: Sentry SDK Configuration](/docs/2-technical/2-tad-observability.md#sentry-sdk-configuration)     |
+| Session replay sampling   | Production errors only: 1.0 (100%), All sessions: 0.01 (1%) | [TAD: Sentry SDK Configuration](/docs/2-technical/2-tad-observability.md#sentry-sdk-configuration)     |
+| PII filtering             | Remove cookies, headers, console breadcrumbs                | [TAD: Sentry SDK Configuration](/docs/2-technical/2-tad-observability.md#sentry-sdk-configuration)     |
+| Error filtering           | Filter AbortError and NetworkError                          | [TAD: Sentry SDK Configuration](/docs/2-technical/2-tad-observability.md#sentry-sdk-configuration)     |
+| Trace propagation targets | Include localhost, Vercel domains, API URL                  | [TAD: Sentry SDK Configuration](/docs/2-technical/2-tad-observability.md#sentry-sdk-configuration)     |
 
 **Configuration Rationale**: Sentry provides centralized error tracking and performance monitoring across all applications. Optional DSN ensures the application functions during local development without Sentry credentials. Environment-based sampling rates balance monitoring coverage with cost (production uses 10% performance tracing to reduce quota usage). Session replay only captures errors to protect user privacy while enabling debugging. PII filtering ensures compliance with GDPR/CCPA regulations.
 
@@ -199,14 +199,14 @@ Key pattern notes for this story:
 
 ### Troubleshooting
 
-| Issue                                      | Cause                                        | Solution                                                         |
-| ------------------------------------------ | -------------------------------------------- | ---------------------------------------------------------------- |
-| Sentry errors not appearing in dashboard   | DSN not configured or incorrect              | Verify `SENTRY_DSN` environment variable is set correctly        |
-| Application crashes without DSN            | Sentry initialization not checking for DSN   | Add conditional check before `Sentry.init()`                     |
-| PII appears in Sentry events               | `beforeSend` hook not removing PII           | Verify `beforeSend` deletes cookies and headers                  |
-| Too many Sentry events (quota exceeded)    | Sampling rates too high                      | Reduce `tracesSampleRate` to 0.1 or lower in production          |
-| Session replay not working                 | Replay integration not configured            | Verify `Replay` integration is added with correct sampling rates |
-| TypeScript errors importing Sentry utils   | Types not exported correctly                 | Ensure `sentry-types.ts` is exported from `src/index.ts`         |
+| Issue                                    | Cause                                      | Solution                                                         |
+| ---------------------------------------- | ------------------------------------------ | ---------------------------------------------------------------- |
+| Sentry errors not appearing in dashboard | DSN not configured or incorrect            | Verify `SENTRY_DSN` environment variable is set correctly        |
+| Application crashes without DSN          | Sentry initialization not checking for DSN | Add conditional check before `Sentry.init()`                     |
+| PII appears in Sentry events             | `beforeSend` hook not removing PII         | Verify `beforeSend` deletes cookies and headers                  |
+| Too many Sentry events (quota exceeded)  | Sampling rates too high                    | Reduce `tracesSampleRate` to 0.1 or lower in production          |
+| Session replay not working               | Replay integration not configured          | Verify `Replay` integration is added with correct sampling rates |
+| TypeScript errors importing Sentry utils | Types not exported correctly               | Ensure `sentry-types.ts` is exported from `src/index.ts`         |
 
 ### Reference Materials
 
@@ -247,17 +247,20 @@ Key pattern notes for this story:
 **Decision**: Enable session replay only for errors (1.0 sample rate) in production; disable for all regular sessions (0.01 sample rate for exceptions only).
 
 **Rationale**:
+
 - Balances debugging capability with user privacy
 - Reduces Sentry quota usage (replays consume significant storage)
 - Captures sufficient context for debugging errors (100% of errors)
 - Minimizes surveillance concerns (1% of normal sessions)
 
 **Consequences**:
+
 - Errors have full session replay for debugging
 - Non-error sessions rarely recorded (reduces privacy concerns)
 - May miss context for issues that don't trigger errors
 
 **Alternatives Considered**:
+
 - **Replay all sessions**: Rejected due to privacy concerns and quota cost
 - **No session replay**: Rejected because debugging UI errors is difficult without visual context
 - **Higher sample rate (10%)**: Rejected due to privacy and cost concerns
@@ -269,16 +272,19 @@ Key pattern notes for this story:
 **Decision**: Filter out `AbortError` and `NetworkError` in `beforeSend` hook to prevent noise in Sentry.
 
 **Rationale**:
+
 - `AbortError` occurs when users cancel requests (e.g., navigating away) - not an application error
 - `NetworkError` is often intermittent connectivity (handled by retry logic) - not actionable
 - Reduces Sentry noise, improves signal-to-noise ratio for actionable errors
 
 **Consequences**:
+
 - Sentry won't track cancelled requests or network failures
 - Reduces quota usage and improves error dashboard clarity
 - May miss patterns of network issues (acceptable trade-off)
 
 **Alternatives Considered**:
+
 - **Track all errors**: Rejected due to noise from benign errors
 - **Filter more aggressively**: Considered but deferred; may add more filters based on production patterns
 
@@ -310,6 +316,7 @@ The following items are explicitly NOT part of this story:
 ## References
 
 **Internal**:
+
 - [EPIC.md: Overview](./EPIC.md#overview), [Technical Constraints](./EPIC.md#technical-constraints)
 - [TAD: Observability Architecture](/docs/2-technical/2-tad-observability.md)
 - [TAD: Error Tracking Integration](/docs/2-technical/2-tad-observability.md#error-tracking-integration)
@@ -319,6 +326,7 @@ The following items are explicitly NOT part of this story:
 - [Canonical Versions](/docs/2-technical/references/canonical-versions.md)
 
 **External**:
+
 - [Sentry Next.js SDK](https://docs.sentry.io/platforms/javascript/guides/nextjs/)
 - [Sentry Performance Monitoring](https://docs.sentry.io/product/performance/)
 - [Sentry Session Replay](https://docs.sentry.io/product/session-replay/)
@@ -327,12 +335,14 @@ The following items are explicitly NOT part of this story:
 ## Verification Checklist
 
 **Pre-Verification**:
+
 - [ ] S1 (Package Structure) complete
 - [ ] S2 (Structured Logger) complete
 - [ ] Local environment matches [canonical versions](/docs/2-technical/references/canonical-versions.md)
 - [ ] `@repo/observability` package builds successfully
 
 **Implementation Quality**:
+
 - [ ] All acceptance criteria met
 - [ ] [Coding standards](/docs/2-technical/references/coding-standards.md) followed
 - [ ] No lint errors (`pnpm lint`)
@@ -341,11 +351,13 @@ The following items are explicitly NOT part of this story:
 - [ ] Coverage > 80% for Sentry integration code
 
 **Documentation**:
+
 - [ ] JSDoc comments on public Sentry utility functions
 - [ ] Type definitions include documentation comments
 - [ ] Environment variable `SENTRY_DSN` documented in README (if applicable)
 
 **Git Hygiene**:
+
 - [ ] Conventional commit message (e.g., `feat(observability): integrate Sentry SDK`)
 - [ ] No unrelated changes included
 - [ ] PR references Epic 2A.3.S3

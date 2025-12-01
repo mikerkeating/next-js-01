@@ -12,14 +12,17 @@ This document contains prompts for generating story details files for all storie
 Use the .claude/agents/tech-lead.md subagent to create the story details file for Story `S1` within Epic `1A.1`.
 
 Refer to
+
 - docs/3-epics/1A.1-monorepo/EPIC.md for details of the epic
 - Product Requirements Document and Technical Architecture Document files referenced in the EPIC.md file
 
 Constraints
+
 - If architecture decisions are required, define these in the story.md but do not make them in this process.
 - Do not generate code in the process
 
 Use the
+
 - docs/3-references/story-details-template.md as a template for story.md
 - /docs/1-product/references/file-structure.md to specify file locations
 - docs/3-references/coding-standards.md for coding standards
@@ -33,14 +36,17 @@ When complete, validate the story.md file created against docs/3-references/stor
 Use the .claude/agents/tech-lead.md subagent to create the story details file for Story `S2` within Epic `1A.1`.
 
 Refer to
+
 - docs/3-epics/1A.1-monorepo/EPIC.md for details of the epic
 - Product Requirements Document and Technical Architecture Document files referenced in the EPIC.md file
 
 Constraints
+
 - If architecture decisions are required, define these in the story.md but do not make them in this process.
 - Do not generate code in the process
 
 Use the
+
 - docs/3-references/story-details-template.md as a template for story.md
 - /docs/1-product/references/file-structure.md to specify file locations
 - docs/3-references/coding-standards.md for coding standards
@@ -54,14 +60,17 @@ When complete, validate the story.md file created against docs/3-references/stor
 Use the .claude/agents/tech-lead.md subagent to create the story details file for Story `S3` within Epic `1A.1`.
 
 Refer to
+
 - docs/3-epics/1A.1-monorepo/EPIC.md for details of the epic
 - Product Requirements Document and Technical Architecture Document files referenced in the EPIC.md file
 
 Constraints
+
 - If architecture decisions are required, define these in the story.md but do not make them in this process.
 - Do not generate code in the process
 
 Use the
+
 - docs/3-references/story-details-template.md as a template for story.md
 - /docs/1-product/references/file-structure.md to specify file locations
 - docs/3-references/coding-standards.md for coding standards
@@ -75,14 +84,17 @@ When complete, validate the story.md file created against docs/3-references/stor
 Use the .claude/agents/tech-lead.md subagent to create the story details file for Story `S4` within Epic `1A.1`.
 
 Refer to
+
 - docs/3-epics/1A.1-monorepo/EPIC.md for details of the epic
 - Product Requirements Document and Technical Architecture Document files referenced in the EPIC.md file
 
 Constraints
+
 - If architecture decisions are required, define these in the story.md but do not make them in this process.
 - Do not generate code in the process
 
 Use the
+
 - docs/3-references/story-details-template.md as a template for story.md
 - /docs/1-product/references/file-structure.md to specify file locations
 - docs/3-references/coding-standards.md for coding standards
@@ -96,14 +108,17 @@ When complete, validate the story.md file created against docs/3-references/stor
 Use the .claude/agents/tech-lead.md subagent to create the story details file for Story `S5` within Epic `1A.1`.
 
 Refer to
+
 - docs/3-epics/1A.1-monorepo/EPIC.md for details of the epic
 - Product Requirements Document and Technical Architecture Document files referenced in the EPIC.md file
 
 Constraints
+
 - If architecture decisions are required, define these in the story.md but do not make them in this process.
 - Do not generate code in the process
 
 Use the
+
 - docs/3-references/story-details-template.md as a template for story.md
 - /docs/1-product/references/file-structure.md to specify file locations
 - docs/3-references/coding-standards.md for coding standards
@@ -117,14 +132,17 @@ When complete, validate the story.md file created against docs/3-references/stor
 Use the .claude/agents/tech-lead.md subagent to create the story details file for Story `S6` within Epic `1A.1`.
 
 Refer to
+
 - docs/3-epics/1A.1-monorepo/EPIC.md for details of the epic
 - Product Requirements Document and Technical Architecture Document files referenced in the EPIC.md file
 
 Constraints
+
 - If architecture decisions are required, define these in the story.md but do not make them in this process.
 - Do not generate code in the process
 
 Use the
+
 - docs/3-references/story-details-template.md as a template for story.md
 - /docs/1-product/references/file-structure.md to specify file locations
 - docs/3-references/coding-standards.md for coding standards
@@ -138,14 +156,17 @@ When complete, validate the story.md file created against docs/3-references/stor
 Use the .claude/agents/tech-lead.md subagent to create the story details file for Story `S7` within Epic `1A.1`.
 
 Refer to
+
 - docs/3-epics/1A.1-monorepo/EPIC.md for details of the epic
 - Product Requirements Document and Technical Architecture Document files referenced in the EPIC.md file
 
 Constraints
+
 - If architecture decisions are required, define these in the story.md but do not make them in this process.
 - Do not generate code in the process
 
 Use the
+
 - docs/3-references/story-details-template.md as a template for story.md
 - /docs/1-product/references/file-structure.md to specify file locations
 - docs/3-references/coding-standards.md for coding standards
@@ -159,14 +180,17 @@ When complete, validate the story.md file created against docs/3-references/stor
 Use the .claude/agents/tech-lead.md subagent to create the story details file for Story `S8` within Epic `1A.1`.
 
 Refer to
+
 - docs/3-epics/1A.1-monorepo/EPIC.md for details of the epic
 - Product Requirements Document and Technical Architecture Document files referenced in the EPIC.md file
 
 Constraints
+
 - If architecture decisions are required, define these in the story.md but do not make them in this process.
 - Do not generate code in the process
 
 Use the
+
 - docs/3-references/story-details-template.md as a template for story.md
 - /docs/1-product/references/file-structure.md to specify file locations
 - docs/3-references/coding-standards.md for coding standards
@@ -180,14 +204,17 @@ When complete, validate the story.md file created against docs/3-references/stor
 Use the .claude/agents/tech-lead.md subagent to create the story details file for Story `S9` within Epic `1A.1`.
 
 Refer to
+
 - docs/3-epics/1A.1-monorepo/EPIC.md for details of the epic
 - Product Requirements Document and Technical Architecture Document files referenced in the EPIC.md file
 
 Constraints
+
 - If architecture decisions are required, define these in the story.md but do not make them in this process.
 - Do not generate code in the process
 
 Use the
+
 - docs/3-references/story-details-template.md as a template for story.md
 - /docs/1-product/references/file-structure.md to specify file locations
 - docs/3-references/coding-standards.md for coding standards
@@ -205,14 +232,17 @@ When complete, validate the story.md file created against docs/3-references/stor
 Use the .claude/agents/tech-lead.md subagent to create the story details file for Story `S1` within Epic `1A.2`.
 
 Refer to
+
 - docs/3-epics/1A.2-package-management/EPIC.md for details of the epic
 - Product Requirements Document and Technical Architecture Document files referenced in the EPIC.md file
 
 Constraints
+
 - If architecture decisions are required, define these in the story.md but do not make them in this process.
 - Do not generate code in the process
 
 Use the
+
 - docs/3-references/story-details-template.md as a template for story.md
 - /docs/1-product/references/file-structure.md to specify file locations
 - docs/3-references/coding-standards.md for coding standards
@@ -226,14 +256,17 @@ When complete, validate the story.md file created against docs/3-references/stor
 Use the .claude/agents/tech-lead.md subagent to create the story details file for Story `S2` within Epic `1A.2`.
 
 Refer to
+
 - docs/3-epics/1A.2-package-management/EPIC.md for details of the epic
 - Product Requirements Document and Technical Architecture Document files referenced in the EPIC.md file
 
 Constraints
+
 - If architecture decisions are required, define these in the story.md but do not make them in this process.
 - Do not generate code in the process
 
 Use the
+
 - docs/3-references/story-details-template.md as a template for story.md
 - /docs/1-product/references/file-structure.md to specify file locations
 - docs/3-references/coding-standards.md for coding standards
@@ -247,14 +280,17 @@ When complete, validate the story.md file created against docs/3-references/stor
 Use the .claude/agents/tech-lead.md subagent to create the story details file for Story `S3` within Epic `1A.2`.
 
 Refer to
+
 - docs/3-epics/1A.2-package-management/EPIC.md for details of the epic
 - Product Requirements Document and Technical Architecture Document files referenced in the EPIC.md file
 
 Constraints
+
 - If architecture decisions are required, define these in the story.md but do not make them in this process.
 - Do not generate code in the process
 
 Use the
+
 - docs/3-references/story-details-template.md as a template for story.md
 - /docs/1-product/references/file-structure.md to specify file locations
 - docs/3-references/coding-standards.md for coding standards
@@ -268,14 +304,17 @@ When complete, validate the story.md file created against docs/3-references/stor
 Use the .claude/agents/tech-lead.md subagent to create the story details file for Story `S4` within Epic `1A.2`.
 
 Refer to
+
 - docs/3-epics/1A.2-package-management/EPIC.md for details of the epic
 - Product Requirements Document and Technical Architecture Document files referenced in the EPIC.md file
 
 Constraints
+
 - If architecture decisions are required, define these in the story.md but do not make them in this process.
 - Do not generate code in the process
 
 Use the
+
 - docs/3-references/story-details-template.md as a template for story.md
 - /docs/1-product/references/file-structure.md to specify file locations
 - docs/3-references/coding-standards.md for coding standards
@@ -289,14 +328,17 @@ When complete, validate the story.md file created against docs/3-references/stor
 Use the .claude/agents/tech-lead.md subagent to create the story details file for Story `S5` within Epic `1A.2`.
 
 Refer to
+
 - docs/3-epics/1A.2-package-management/EPIC.md for details of the epic
 - Product Requirements Document and Technical Architecture Document files referenced in the EPIC.md file
 
 Constraints
+
 - If architecture decisions are required, define these in the story.md but do not make them in this process.
 - Do not generate code in the process
 
 Use the
+
 - docs/3-references/story-details-template.md as a template for story.md
 - /docs/1-product/references/file-structure.md to specify file locations
 - docs/3-references/coding-standards.md for coding standards
@@ -310,14 +352,17 @@ When complete, validate the story.md file created against docs/3-references/stor
 Use the .claude/agents/tech-lead.md subagent to create the story details file for Story `S6` within Epic `1A.2`.
 
 Refer to
+
 - docs/3-epics/1A.2-package-management/EPIC.md for details of the epic
 - Product Requirements Document and Technical Architecture Document files referenced in the EPIC.md file
 
 Constraints
+
 - If architecture decisions are required, define these in the story.md but do not make them in this process.
 - Do not generate code in the process
 
 Use the
+
 - docs/3-references/story-details-template.md as a template for story.md
 - /docs/1-product/references/file-structure.md to specify file locations
 - docs/3-references/coding-standards.md for coding standards
@@ -331,14 +376,17 @@ When complete, validate the story.md file created against docs/3-references/stor
 Use the .claude/agents/tech-lead.md subagent to create the story details file for Story `S7` within Epic `1A.2`.
 
 Refer to
+
 - docs/3-epics/1A.2-package-management/EPIC.md for details of the epic
 - Product Requirements Document and Technical Architecture Document files referenced in the EPIC.md file
 
 Constraints
+
 - If architecture decisions are required, define these in the story.md but do not make them in this process.
 - Do not generate code in the process
 
 Use the
+
 - docs/3-references/story-details-template.md as a template for story.md
 - /docs/1-product/references/file-structure.md to specify file locations
 - docs/3-references/coding-standards.md for coding standards
@@ -356,14 +404,17 @@ When complete, validate the story.md file created against docs/3-references/stor
 Use the .claude/agents/tech-lead.md subagent to create the story details file for Story `S1` within Epic `1A.3`.
 
 Refer to
+
 - docs/3-epics/1A.3-testing-foundation/EPIC.md for details of the epic
 - Product Requirements Document and Technical Architecture Document files referenced in the EPIC.md file
 
 Constraints
+
 - If architecture decisions are required, define these in the story.md but do not make them in this process.
 - Do not generate code in the process
 
 Use the
+
 - docs/3-references/story-details-template.md as a template for story.md
 - /docs/1-product/references/file-structure.md to specify file locations
 - docs/3-references/coding-standards.md for coding standards
@@ -377,14 +428,17 @@ When complete, validate the story.md file created against docs/3-references/stor
 Use the .claude/agents/tech-lead.md subagent to create the story details file for Story `S2` within Epic `1A.3`.
 
 Refer to
+
 - docs/3-epics/1A.3-testing-foundation/EPIC.md for details of the epic
 - Product Requirements Document and Technical Architecture Document files referenced in the EPIC.md file
 
 Constraints
+
 - If architecture decisions are required, define these in the story.md but do not make them in this process.
 - Do not generate code in the process
 
 Use the
+
 - docs/3-references/story-details-template.md as a template for story.md
 - /docs/1-product/references/file-structure.md to specify file locations
 - docs/3-references/coding-standards.md for coding standards
@@ -398,14 +452,17 @@ When complete, validate the story.md file created against docs/3-references/stor
 Use the .claude/agents/tech-lead.md subagent to create the story details file for Story `S3` within Epic `1A.3`.
 
 Refer to
+
 - docs/3-epics/1A.3-testing-foundation/EPIC.md for details of the epic
 - Product Requirements Document and Technical Architecture Document files referenced in the EPIC.md file
 
 Constraints
+
 - If architecture decisions are required, define these in the story.md but do not make them in this process.
 - Do not generate code in the process
 
 Use the
+
 - docs/3-references/story-details-template.md as a template for story.md
 - /docs/1-product/references/file-structure.md to specify file locations
 - docs/3-references/coding-standards.md for coding standards
@@ -419,14 +476,17 @@ When complete, validate the story.md file created against docs/3-references/stor
 Use the .claude/agents/tech-lead.md subagent to create the story details file for Story `S4` within Epic `1A.3`.
 
 Refer to
+
 - docs/3-epics/1A.3-testing-foundation/EPIC.md for details of the epic
 - Product Requirements Document and Technical Architecture Document files referenced in the EPIC.md file
 
 Constraints
+
 - If architecture decisions are required, define these in the story.md but do not make them in this process.
 - Do not generate code in the process
 
 Use the
+
 - docs/3-references/story-details-template.md as a template for story.md
 - /docs/1-product/references/file-structure.md to specify file locations
 - docs/3-references/coding-standards.md for coding standards
@@ -440,14 +500,17 @@ When complete, validate the story.md file created against docs/3-references/stor
 Use the .claude/agents/tech-lead.md subagent to create the story details file for Story `S5` within Epic `1A.3`.
 
 Refer to
+
 - docs/3-epics/1A.3-testing-foundation/EPIC.md for details of the epic
 - Product Requirements Document and Technical Architecture Document files referenced in the EPIC.md file
 
 Constraints
+
 - If architecture decisions are required, define these in the story.md but do not make them in this process.
 - Do not generate code in the process
 
 Use the
+
 - docs/3-references/story-details-template.md as a template for story.md
 - /docs/1-product/references/file-structure.md to specify file locations
 - docs/3-references/coding-standards.md for coding standards
@@ -461,14 +524,17 @@ When complete, validate the story.md file created against docs/3-references/stor
 Use the .claude/agents/tech-lead.md subagent to create the story details file for Story `S6` within Epic `1A.3`.
 
 Refer to
+
 - docs/3-epics/1A.3-testing-foundation/EPIC.md for details of the epic
 - Product Requirements Document and Technical Architecture Document files referenced in the EPIC.md file
 
 Constraints
+
 - If architecture decisions are required, define these in the story.md but do not make them in this process.
 - Do not generate code in the process
 
 Use the
+
 - docs/3-references/story-details-template.md as a template for story.md
 - /docs/1-product/references/file-structure.md to specify file locations
 - docs/3-references/coding-standards.md for coding standards
@@ -482,14 +548,17 @@ When complete, validate the story.md file created against docs/3-references/stor
 Use the .claude/agents/tech-lead.md subagent to create the story details file for Story `S7` within Epic `1A.3`.
 
 Refer to
+
 - docs/3-epics/1A.3-testing-foundation/EPIC.md for details of the epic
 - Product Requirements Document and Technical Architecture Document files referenced in the EPIC.md file
 
 Constraints
+
 - If architecture decisions are required, define these in the story.md but do not make them in this process.
 - Do not generate code in the process
 
 Use the
+
 - docs/3-references/story-details-template.md as a template for story.md
 - /docs/1-product/references/file-structure.md to specify file locations
 - docs/3-references/coding-standards.md for coding standards
@@ -503,14 +572,17 @@ When complete, validate the story.md file created against docs/3-references/stor
 Use the .claude/agents/tech-lead.md subagent to create the story details file for Story `S8` within Epic `1A.3`.
 
 Refer to
+
 - docs/3-epics/1A.3-testing-foundation/EPIC.md for details of the epic
 - Product Requirements Document and Technical Architecture Document files referenced in the EPIC.md file
 
 Constraints
+
 - If architecture decisions are required, define these in the story.md but do not make them in this process.
 - Do not generate code in the process
 
 Use the
+
 - docs/3-references/story-details-template.md as a template for story.md
 - /docs/1-product/references/file-structure.md to specify file locations
 - docs/3-references/coding-standards.md for coding standards
@@ -524,14 +596,17 @@ When complete, validate the story.md file created against docs/3-references/stor
 Use the .claude/agents/tech-lead.md subagent to create the story details file for Story `S9` within Epic `1A.3`.
 
 Refer to
+
 - docs/3-epics/1A.3-testing-foundation/EPIC.md for details of the epic
 - Product Requirements Document and Technical Architecture Document files referenced in the EPIC.md file
 
 Constraints
+
 - If architecture decisions are required, define these in the story.md but do not make them in this process.
 - Do not generate code in the process
 
 Use the
+
 - docs/3-references/story-details-template.md as a template for story.md
 - /docs/1-product/references/file-structure.md to specify file locations
 - docs/3-references/coding-standards.md for coding standards
@@ -545,14 +620,17 @@ When complete, validate the story.md file created against docs/3-references/stor
 Use the .claude/agents/tech-lead.md subagent to create the story details file for Story `S10` within Epic `1A.3`.
 
 Refer to
+
 - docs/3-epics/1A.3-testing-foundation/EPIC.md for details of the epic
 - Product Requirements Document and Technical Architecture Document files referenced in the EPIC.md file
 
 Constraints
+
 - If architecture decisions are required, define these in the story.md but do not make them in this process.
 - Do not generate code in the process
 
 Use the
+
 - docs/3-references/story-details-template.md as a template for story.md
 - /docs/1-product/references/file-structure.md to specify file locations
 - docs/3-references/coding-standards.md for coding standards
@@ -570,14 +648,17 @@ When complete, validate the story.md file created against docs/3-references/stor
 Use the .claude/agents/tech-lead.md subagent to create the story details file for Story `S1` within Epic `1A.4`.
 
 Refer to
+
 - docs/3-epics/1A.4-documentation-foundation/EPIC.md for details of the epic
 - Product Requirements Document and Technical Architecture Document files referenced in the EPIC.md file
 
 Constraints
+
 - If architecture decisions are required, define these in the story.md but do not make them in this process.
 - Do not generate code in the process
 
 Use the
+
 - docs/3-references/story-details-template.md as a template for story.md
 - /docs/1-product/references/file-structure.md to specify file locations
 - docs/3-references/coding-standards.md for coding standards
@@ -591,14 +672,17 @@ When complete, validate the story.md file created against docs/3-references/stor
 Use the .claude/agents/tech-lead.md subagent to create the story details file for Story `S2` within Epic `1A.4`.
 
 Refer to
+
 - docs/3-epics/1A.4-documentation-foundation/EPIC.md for details of the epic
 - Product Requirements Document and Technical Architecture Document files referenced in the EPIC.md file
 
 Constraints
+
 - If architecture decisions are required, define these in the story.md but do not make them in this process.
 - Do not generate code in the process
 
 Use the
+
 - docs/3-references/story-details-template.md as a template for story.md
 - /docs/1-product/references/file-structure.md to specify file locations
 - docs/3-references/coding-standards.md for coding standards
@@ -612,14 +696,17 @@ When complete, validate the story.md file created against docs/3-references/stor
 Use the .claude/agents/tech-lead.md subagent to create the story details file for Story `S3` within Epic `1A.4`.
 
 Refer to
+
 - docs/3-epics/1A.4-documentation-foundation/EPIC.md for details of the epic
 - Product Requirements Document and Technical Architecture Document files referenced in the EPIC.md file
 
 Constraints
+
 - If architecture decisions are required, define these in the story.md but do not make them in this process.
 - Do not generate code in the process
 
 Use the
+
 - docs/3-references/story-details-template.md as a template for story.md
 - /docs/1-product/references/file-structure.md to specify file locations
 - docs/3-references/coding-standards.md for coding standards
@@ -633,14 +720,17 @@ When complete, validate the story.md file created against docs/3-references/stor
 Use the .claude/agents/tech-lead.md subagent to create the story details file for Story `S4` within Epic `1A.4`.
 
 Refer to
+
 - docs/3-epics/1A.4-documentation-foundation/EPIC.md for details of the epic
 - Product Requirements Document and Technical Architecture Document files referenced in the EPIC.md file
 
 Constraints
+
 - If architecture decisions are required, define these in the story.md but do not make them in this process.
 - Do not generate code in the process
 
 Use the
+
 - docs/3-references/story-details-template.md as a template for story.md
 - /docs/1-product/references/file-structure.md to specify file locations
 - docs/3-references/coding-standards.md for coding standards
@@ -654,14 +744,17 @@ When complete, validate the story.md file created against docs/3-references/stor
 Use the .claude/agents/tech-lead.md subagent to create the story details file for Story `S5` within Epic `1A.4`.
 
 Refer to
+
 - docs/3-epics/1A.4-documentation-foundation/EPIC.md for details of the epic
 - Product Requirements Document and Technical Architecture Document files referenced in the EPIC.md file
 
 Constraints
+
 - If architecture decisions are required, define these in the story.md but do not make them in this process.
 - Do not generate code in the process
 
 Use the
+
 - docs/3-references/story-details-template.md as a template for story.md
 - /docs/1-product/references/file-structure.md to specify file locations
 - docs/3-references/coding-standards.md for coding standards
@@ -675,14 +768,17 @@ When complete, validate the story.md file created against docs/3-references/stor
 Use the .claude/agents/tech-lead.md subagent to create the story details file for Story `S6` within Epic `1A.4`.
 
 Refer to
+
 - docs/3-epics/1A.4-documentation-foundation/EPIC.md for details of the epic
 - Product Requirements Document and Technical Architecture Document files referenced in the EPIC.md file
 
 Constraints
+
 - If architecture decisions are required, define these in the story.md but do not make them in this process.
 - Do not generate code in the process
 
 Use the
+
 - docs/3-references/story-details-template.md as a template for story.md
 - /docs/1-product/references/file-structure.md to specify file locations
 - docs/3-references/coding-standards.md for coding standards
@@ -696,14 +792,17 @@ When complete, validate the story.md file created against docs/3-references/stor
 Use the .claude/agents/tech-lead.md subagent to create the story details file for Story `S7` within Epic `1A.4`.
 
 Refer to
+
 - docs/3-epics/1A.4-documentation-foundation/EPIC.md for details of the epic
 - Product Requirements Document and Technical Architecture Document files referenced in the EPIC.md file
 
 Constraints
+
 - If architecture decisions are required, define these in the story.md but do not make them in this process.
 - Do not generate code in the process
 
 Use the
+
 - docs/3-references/story-details-template.md as a template for story.md
 - /docs/1-product/references/file-structure.md to specify file locations
 - docs/3-references/coding-standards.md for coding standards
@@ -721,14 +820,17 @@ When complete, validate the story.md file created against docs/3-references/stor
 Use the .claude/agents/tech-lead.md subagent to create the story details file for Story `S1` within Epic `1A.5`.
 
 Refer to
+
 - docs/3-epics/1A.5-basic-cicd/EPIC.md for details of the epic
 - Product Requirements Document and Technical Architecture Document files referenced in the EPIC.md file
 
 Constraints
+
 - If architecture decisions are required, define these in the story.md but do not make them in this process.
 - Do not generate code in the process
 
 Use the
+
 - docs/3-references/story-details-template.md as a template for story.md
 - /docs/1-product/references/file-structure.md to specify file locations
 - docs/3-references/coding-standards.md for coding standards
@@ -742,14 +844,17 @@ When complete, validate the story.md file created against docs/3-references/stor
 Use the .claude/agents/tech-lead.md subagent to create the story details file for Story `S2` within Epic `1A.5`.
 
 Refer to
+
 - docs/3-epics/1A.5-basic-cicd/EPIC.md for details of the epic
 - Product Requirements Document and Technical Architecture Document files referenced in the EPIC.md file
 
 Constraints
+
 - If architecture decisions are required, define these in the story.md but do not make them in this process.
 - Do not generate code in the process
 
 Use the
+
 - docs/3-references/story-details-template.md as a template for story.md
 - /docs/1-product/references/file-structure.md to specify file locations
 - docs/3-references/coding-standards.md for coding standards
@@ -763,14 +868,17 @@ When complete, validate the story.md file created against docs/3-references/stor
 Use the .claude/agents/tech-lead.md subagent to create the story details file for Story `S3` within Epic `1A.5`.
 
 Refer to
+
 - docs/3-epics/1A.5-basic-cicd/EPIC.md for details of the epic
 - Product Requirements Document and Technical Architecture Document files referenced in the EPIC.md file
 
 Constraints
+
 - If architecture decisions are required, define these in the story.md but do not make them in this process.
 - Do not generate code in the process
 
 Use the
+
 - docs/3-references/story-details-template.md as a template for story.md
 - /docs/1-product/references/file-structure.md to specify file locations
 - docs/3-references/coding-standards.md for coding standards
@@ -784,14 +892,17 @@ When complete, validate the story.md file created against docs/3-references/stor
 Use the .claude/agents/tech-lead.md subagent to create the story details file for Story `S4` within Epic `1A.5`.
 
 Refer to
+
 - docs/3-epics/1A.5-basic-cicd/EPIC.md for details of the epic
 - Product Requirements Document and Technical Architecture Document files referenced in the EPIC.md file
 
 Constraints
+
 - If architecture decisions are required, define these in the story.md but do not make them in this process.
 - Do not generate code in the process
 
 Use the
+
 - docs/3-references/story-details-template.md as a template for story.md
 - /docs/1-product/references/file-structure.md to specify file locations
 - docs/3-references/coding-standards.md for coding standards
@@ -805,14 +916,17 @@ When complete, validate the story.md file created against docs/3-references/stor
 Use the .claude/agents/tech-lead.md subagent to create the story details file for Story `S5` within Epic `1A.5`.
 
 Refer to
+
 - docs/3-epics/1A.5-basic-cicd/EPIC.md for details of the epic
 - Product Requirements Document and Technical Architecture Document files referenced in the EPIC.md file
 
 Constraints
+
 - If architecture decisions are required, define these in the story.md but do not make them in this process.
 - Do not generate code in the process
 
 Use the
+
 - docs/3-references/story-details-template.md as a template for story.md
 - /docs/1-product/references/file-structure.md to specify file locations
 - docs/3-references/coding-standards.md for coding standards
@@ -826,14 +940,17 @@ When complete, validate the story.md file created against docs/3-references/stor
 Use the .claude/agents/tech-lead.md subagent to create the story details file for Story `S6` within Epic `1A.5`.
 
 Refer to
+
 - docs/3-epics/1A.5-basic-cicd/EPIC.md for details of the epic
 - Product Requirements Document and Technical Architecture Document files referenced in the EPIC.md file
 
 Constraints
+
 - If architecture decisions are required, define these in the story.md but do not make them in this process.
 - Do not generate code in the process
 
 Use the
+
 - docs/3-references/story-details-template.md as a template for story.md
 - /docs/1-product/references/file-structure.md to specify file locations
 - docs/3-references/coding-standards.md for coding standards
@@ -847,14 +964,17 @@ When complete, validate the story.md file created against docs/3-references/stor
 Use the .claude/agents/tech-lead.md subagent to create the story details file for Story `S7` within Epic `1A.5`.
 
 Refer to
+
 - docs/3-epics/1A.5-basic-cicd/EPIC.md for details of the epic
 - Product Requirements Document and Technical Architecture Document files referenced in the EPIC.md file
 
 Constraints
+
 - If architecture decisions are required, define these in the story.md but do not make them in this process.
 - Do not generate code in the process
 
 Use the
+
 - docs/3-references/story-details-template.md as a template for story.md
 - /docs/1-product/references/file-structure.md to specify file locations
 - docs/3-references/coding-standards.md for coding standards
@@ -868,14 +988,17 @@ When complete, validate the story.md file created against docs/3-references/stor
 Use the .claude/agents/tech-lead.md subagent to create the story details file for Story `S8` within Epic `1A.5`.
 
 Refer to
+
 - docs/3-epics/1A.5-basic-cicd/EPIC.md for details of the epic
 - Product Requirements Document and Technical Architecture Document files referenced in the EPIC.md file
 
 Constraints
+
 - If architecture decisions are required, define these in the story.md but do not make them in this process.
 - Do not generate code in the process
 
 Use the
+
 - docs/3-references/story-details-template.md as a template for story.md
 - /docs/1-product/references/file-structure.md to specify file locations
 - docs/3-references/coding-standards.md for coding standards
@@ -893,14 +1016,17 @@ When complete, validate the story.md file created against docs/3-references/stor
 Use the .claude/agents/tech-lead.md subagent to create the story details file for Story `S1` within Epic `2A.1`.
 
 Refer to
+
 - docs/3-epics/2A.1-config-package/EPIC.md for details of the epic
 - Product Requirements Document and Technical Architecture Document files referenced in the EPIC.md file
 
 Constraints
+
 - If architecture decisions are required, define these in the story.md but do not make them in this process.
 - Do not generate code in the process
 
 Use the
+
 - docs/3-references/story-details-template.md as a template for story.md
 - /docs/1-product/references/file-structure.md to specify file locations
 - docs/3-references/coding-standards.md for coding standards
@@ -914,14 +1040,17 @@ When complete, validate the story.md file created against docs/3-references/stor
 Use the .claude/agents/tech-lead.md subagent to create the story details file for Story `S2` within Epic `2A.1`.
 
 Refer to
+
 - docs/3-epics/2A.1-config-package/EPIC.md for details of the epic
 - Product Requirements Document and Technical Architecture Document files referenced in the EPIC.md file
 
 Constraints
+
 - If architecture decisions are required, define these in the story.md but do not make them in this process.
 - Do not generate code in the process
 
 Use the
+
 - docs/3-references/story-details-template.md as a template for story.md
 - /docs/1-product/references/file-structure.md to specify file locations
 - docs/3-references/coding-standards.md for coding standards
@@ -935,14 +1064,17 @@ When complete, validate the story.md file created against docs/3-references/stor
 Use the .claude/agents/tech-lead.md subagent to create the story details file for Story `S3` within Epic `2A.1`.
 
 Refer to
+
 - docs/3-epics/2A.1-config-package/EPIC.md for details of the epic
 - Product Requirements Document and Technical Architecture Document files referenced in the EPIC.md file
 
 Constraints
+
 - If architecture decisions are required, define these in the story.md but do not make them in this process.
 - Do not generate code in the process
 
 Use the
+
 - docs/3-references/story-details-template.md as a template for story.md
 - /docs/1-product/references/file-structure.md to specify file locations
 - docs/3-references/coding-standards.md for coding standards
@@ -956,14 +1088,17 @@ When complete, validate the story.md file created against docs/3-references/stor
 Use the .claude/agents/tech-lead.md subagent to create the story details file for Story `S4` within Epic `2A.1`.
 
 Refer to
+
 - docs/3-epics/2A.1-config-package/EPIC.md for details of the epic
 - Product Requirements Document and Technical Architecture Document files referenced in the EPIC.md file
 
 Constraints
+
 - If architecture decisions are required, define these in the story.md but do not make them in this process.
 - Do not generate code in the process
 
 Use the
+
 - docs/3-references/story-details-template.md as a template for story.md
 - /docs/1-product/references/file-structure.md to specify file locations
 - docs/3-references/coding-standards.md for coding standards
@@ -977,14 +1112,17 @@ When complete, validate the story.md file created against docs/3-references/stor
 Use the .claude/agents/tech-lead.md subagent to create the story details file for Story `S5` within Epic `2A.1`.
 
 Refer to
+
 - docs/3-epics/2A.1-config-package/EPIC.md for details of the epic
 - Product Requirements Document and Technical Architecture Document files referenced in the EPIC.md file
 
 Constraints
+
 - If architecture decisions are required, define these in the story.md but do not make them in this process.
 - Do not generate code in the process
 
 Use the
+
 - docs/3-references/story-details-template.md as a template for story.md
 - /docs/1-product/references/file-structure.md to specify file locations
 - docs/3-references/coding-standards.md for coding standards
@@ -998,14 +1136,17 @@ When complete, validate the story.md file created against docs/3-references/stor
 Use the .claude/agents/tech-lead.md subagent to create the story details file for Story `S6` within Epic `2A.1`.
 
 Refer to
+
 - docs/3-epics/2A.1-config-package/EPIC.md for details of the epic
 - Product Requirements Document and Technical Architecture Document files referenced in the EPIC.md file
 
 Constraints
+
 - If architecture decisions are required, define these in the story.md but do not make them in this process.
 - Do not generate code in the process
 
 Use the
+
 - docs/3-references/story-details-template.md as a template for story.md
 - /docs/1-product/references/file-structure.md to specify file locations
 - docs/3-references/coding-standards.md for coding standards
@@ -1023,14 +1164,17 @@ When complete, validate the story.md file created against docs/3-references/stor
 Use the .claude/agents/tech-lead.md subagent to create the story details file for Story `S1` within Epic `2A.2`.
 
 Refer to
+
 - docs/3-epics/2A.2-database-infra/EPIC.md for details of the epic
 - Product Requirements Document and Technical Architecture Document files referenced in the EPIC.md file
 
 Constraints
+
 - If architecture decisions are required, define these in the story.md but do not make them in this process.
 - Do not generate code in the process
 
 Use the
+
 - docs/3-references/story-details-template.md as a template for story.md
 - /docs/1-product/references/file-structure.md to specify file locations
 - docs/3-references/coding-standards.md for coding standards
@@ -1044,14 +1188,17 @@ When complete, validate the story.md file created against docs/3-references/stor
 Use the .claude/agents/tech-lead.md subagent to create the story details file for Story `S2` within Epic `2A.2`.
 
 Refer to
+
 - docs/3-epics/2A.2-database-infra/EPIC.md for details of the epic
 - Product Requirements Document and Technical Architecture Document files referenced in the EPIC.md file
 
 Constraints
+
 - If architecture decisions are required, define these in the story.md but do not make them in this process.
 - Do not generate code in the process
 
 Use the
+
 - docs/3-references/story-details-template.md as a template for story.md
 - /docs/1-product/references/file-structure.md to specify file locations
 - docs/3-references/coding-standards.md for coding standards
@@ -1065,14 +1212,17 @@ When complete, validate the story.md file created against docs/3-references/stor
 Use the .claude/agents/tech-lead.md subagent to create the story details file for Story `S3` within Epic `2A.2`.
 
 Refer to
+
 - docs/3-epics/2A.2-database-infra/EPIC.md for details of the epic
 - Product Requirements Document and Technical Architecture Document files referenced in the EPIC.md file
 
 Constraints
+
 - If architecture decisions are required, define these in the story.md but do not make them in this process.
 - Do not generate code in the process
 
 Use the
+
 - docs/3-references/story-details-template.md as a template for story.md
 - /docs/1-product/references/file-structure.md to specify file locations
 - docs/3-references/coding-standards.md for coding standards
@@ -1086,14 +1236,17 @@ When complete, validate the story.md file created against docs/3-references/stor
 Use the .claude/agents/tech-lead.md subagent to create the story details file for Story `S4` within Epic `2A.2`.
 
 Refer to
+
 - docs/3-epics/2A.2-database-infra/EPIC.md for details of the epic
 - Product Requirements Document and Technical Architecture Document files referenced in the EPIC.md file
 
 Constraints
+
 - If architecture decisions are required, define these in the story.md but do not make them in this process.
 - Do not generate code in the process
 
 Use the
+
 - docs/3-references/story-details-template.md as a template for story.md
 - /docs/1-product/references/file-structure.md to specify file locations
 - docs/3-references/coding-standards.md for coding standards
@@ -1107,14 +1260,17 @@ When complete, validate the story.md file created against docs/3-references/stor
 Use the .claude/agents/tech-lead.md subagent to create the story details file for Story `S5` within Epic `2A.2`.
 
 Refer to
+
 - docs/3-epics/2A.2-database-infra/EPIC.md for details of the epic
 - Product Requirements Document and Technical Architecture Document files referenced in the EPIC.md file
 
 Constraints
+
 - If architecture decisions are required, define these in the story.md but do not make them in this process.
 - Do not generate code in the process
 
 Use the
+
 - docs/3-references/story-details-template.md as a template for story.md
 - /docs/1-product/references/file-structure.md to specify file locations
 - docs/3-references/coding-standards.md for coding standards
@@ -1128,14 +1284,17 @@ When complete, validate the story.md file created against docs/3-references/stor
 Use the .claude/agents/tech-lead.md subagent to create the story details file for Story `S6` within Epic `2A.2`.
 
 Refer to
+
 - docs/3-epics/2A.2-database-infra/EPIC.md for details of the epic
 - Product Requirements Document and Technical Architecture Document files referenced in the EPIC.md file
 
 Constraints
+
 - If architecture decisions are required, define these in the story.md but do not make them in this process.
 - Do not generate code in the process
 
 Use the
+
 - docs/3-references/story-details-template.md as a template for story.md
 - /docs/1-product/references/file-structure.md to specify file locations
 - docs/3-references/coding-standards.md for coding standards
@@ -1149,14 +1308,17 @@ When complete, validate the story.md file created against docs/3-references/stor
 Use the .claude/agents/tech-lead.md subagent to create the story details file for Story `S7` within Epic `2A.2`.
 
 Refer to
+
 - docs/3-epics/2A.2-database-infra/EPIC.md for details of the epic
 - Product Requirements Document and Technical Architecture Document files referenced in the EPIC.md file
 
 Constraints
+
 - If architecture decisions are required, define these in the story.md but do not make them in this process.
 - Do not generate code in the process
 
 Use the
+
 - docs/3-references/story-details-template.md as a template for story.md
 - /docs/1-product/references/file-structure.md to specify file locations
 - docs/3-references/coding-standards.md for coding standards
@@ -1170,14 +1332,17 @@ When complete, validate the story.md file created against docs/3-references/stor
 Use the .claude/agents/tech-lead.md subagent to create the story details file for Story `S8` within Epic `2A.2`.
 
 Refer to
+
 - docs/3-epics/2A.2-database-infra/EPIC.md for details of the epic
 - Product Requirements Document and Technical Architecture Document files referenced in the EPIC.md file
 
 Constraints
+
 - If architecture decisions are required, define these in the story.md but do not make them in this process.
 - Do not generate code in the process
 
 Use the
+
 - docs/3-references/story-details-template.md as a template for story.md
 - /docs/1-product/references/file-structure.md to specify file locations
 - docs/3-references/coding-standards.md for coding standards
@@ -1195,14 +1360,17 @@ When complete, validate the story.md file created against docs/3-references/stor
 Use the .claude/agents/tech-lead.md subagent to create the story details file for Story `S1` within Epic `2A.3`.
 
 Refer to
+
 - docs/3-epics/2A.3-observability/EPIC.md for details of the epic
 - Product Requirements Document and Technical Architecture Document files referenced in the EPIC.md file
 
 Constraints
+
 - If architecture decisions are required, define these in the story.md but do not make them in this process.
 - Do not generate code in the process
 
 Use the
+
 - docs/3-references/story-details-template.md as a template for story.md
 - /docs/1-product/references/file-structure.md to specify file locations
 - docs/3-references/coding-standards.md for coding standards
@@ -1216,14 +1384,17 @@ When complete, validate the story.md file created against docs/3-references/stor
 Use the .claude/agents/tech-lead.md subagent to create the story details file for Story `S2` within Epic `2A.3`.
 
 Refer to
+
 - docs/3-epics/2A.3-observability/EPIC.md for details of the epic
 - Product Requirements Document and Technical Architecture Document files referenced in the EPIC.md file
 
 Constraints
+
 - If architecture decisions are required, define these in the story.md but do not make them in this process.
 - Do not generate code in the process
 
 Use the
+
 - docs/3-references/story-details-template.md as a template for story.md
 - /docs/1-product/references/file-structure.md to specify file locations
 - docs/3-references/coding-standards.md for coding standards
@@ -1237,14 +1408,17 @@ When complete, validate the story.md file created against docs/3-references/stor
 Use the .claude/agents/tech-lead.md subagent to create the story details file for Story `S3` within Epic `2A.3`.
 
 Refer to
+
 - docs/3-epics/2A.3-observability/EPIC.md for details of the epic
 - Product Requirements Document and Technical Architecture Document files referenced in the EPIC.md file
 
 Constraints
+
 - If architecture decisions are required, define these in the story.md but do not make them in this process.
 - Do not generate code in the process
 
 Use the
+
 - docs/3-references/story-details-template.md as a template for story.md
 - /docs/1-product/references/file-structure.md to specify file locations
 - docs/3-references/coding-standards.md for coding standards
@@ -1258,14 +1432,17 @@ When complete, validate the story.md file created against docs/3-references/stor
 Use the .claude/agents/tech-lead.md subagent to create the story details file for Story `S4` within Epic `2A.3`.
 
 Refer to
+
 - docs/3-epics/2A.3-observability/EPIC.md for details of the epic
 - Product Requirements Document and Technical Architecture Document files referenced in the EPIC.md file
 
 Constraints
+
 - If architecture decisions are required, define these in the story.md but do not make them in this process.
 - Do not generate code in the process
 
 Use the
+
 - docs/3-references/story-details-template.md as a template for story.md
 - /docs/1-product/references/file-structure.md to specify file locations
 - docs/3-references/coding-standards.md for coding standards
@@ -1279,14 +1456,17 @@ When complete, validate the story.md file created against docs/3-references/stor
 Use the .claude/agents/tech-lead.md subagent to create the story details file for Story `S5` within Epic `2A.3`.
 
 Refer to
+
 - docs/3-epics/2A.3-observability/EPIC.md for details of the epic
 - Product Requirements Document and Technical Architecture Document files referenced in the EPIC.md file
 
 Constraints
+
 - If architecture decisions are required, define these in the story.md but do not make them in this process.
 - Do not generate code in the process
 
 Use the
+
 - docs/3-references/story-details-template.md as a template for story.md
 - /docs/1-product/references/file-structure.md to specify file locations
 - docs/3-references/coding-standards.md for coding standards
@@ -1300,14 +1480,17 @@ When complete, validate the story.md file created against docs/3-references/stor
 Use the .claude/agents/tech-lead.md subagent to create the story details file for Story `S6` within Epic `2A.3`.
 
 Refer to
+
 - docs/3-epics/2A.3-observability/EPIC.md for details of the epic
 - Product Requirements Document and Technical Architecture Document files referenced in the EPIC.md file
 
 Constraints
+
 - If architecture decisions are required, define these in the story.md but do not make them in this process.
 - Do not generate code in the process
 
 Use the
+
 - docs/3-references/story-details-template.md as a template for story.md
 - /docs/1-product/references/file-structure.md to specify file locations
 - docs/3-references/coding-standards.md for coding standards
@@ -1321,14 +1504,17 @@ When complete, validate the story.md file created against docs/3-references/stor
 Use the .claude/agents/tech-lead.md subagent to create the story details file for Story `S7` within Epic `2A.3`.
 
 Refer to
+
 - docs/3-epics/2A.3-observability/EPIC.md for details of the epic
 - Product Requirements Document and Technical Architecture Document files referenced in the EPIC.md file
 
 Constraints
+
 - If architecture decisions are required, define these in the story.md but do not make them in this process.
 - Do not generate code in the process
 
 Use the
+
 - docs/3-references/story-details-template.md as a template for story.md
 - /docs/1-product/references/file-structure.md to specify file locations
 - docs/3-references/coding-standards.md for coding standards
@@ -1342,14 +1528,17 @@ When complete, validate the story.md file created against docs/3-references/stor
 Use the .claude/agents/tech-lead.md subagent to create the story details file for Story `S8` within Epic `2A.3`.
 
 Refer to
+
 - docs/3-epics/2A.3-observability/EPIC.md for details of the epic
 - Product Requirements Document and Technical Architecture Document files referenced in the EPIC.md file
 
 Constraints
+
 - If architecture decisions are required, define these in the story.md but do not make them in this process.
 - Do not generate code in the process
 
 Use the
+
 - docs/3-references/story-details-template.md as a template for story.md
 - /docs/1-product/references/file-structure.md to specify file locations
 - docs/3-references/coding-standards.md for coding standards
@@ -1367,14 +1556,17 @@ When complete, validate the story.md file created against docs/3-references/stor
 Use the .claude/agents/tech-lead.md subagent to create the story details file for Story `S1` within Epic `2A.4`.
 
 Refer to
+
 - docs/3-epics/2A.4-analytics-infra/EPIC.md for details of the epic
 - Product Requirements Document and Technical Architecture Document files referenced in the EPIC.md file
 
 Constraints
+
 - If architecture decisions are required, define these in the story.md but do not make them in this process.
 - Do not generate code in the process
 
 Use the
+
 - docs/3-references/story-details-template.md as a template for story.md
 - /docs/1-product/references/file-structure.md to specify file locations
 - docs/3-references/coding-standards.md for coding standards
@@ -1388,14 +1580,17 @@ When complete, validate the story.md file created against docs/3-references/stor
 Use the .claude/agents/tech-lead.md subagent to create the story details file for Story `S2` within Epic `2A.4`.
 
 Refer to
+
 - docs/3-epics/2A.4-analytics-infra/EPIC.md for details of the epic
 - Product Requirements Document and Technical Architecture Document files referenced in the EPIC.md file
 
 Constraints
+
 - If architecture decisions are required, define these in the story.md but do not make them in this process.
 - Do not generate code in the process
 
 Use the
+
 - docs/3-references/story-details-template.md as a template for story.md
 - /docs/1-product/references/file-structure.md to specify file locations
 - docs/3-references/coding-standards.md for coding standards
@@ -1409,14 +1604,17 @@ When complete, validate the story.md file created against docs/3-references/stor
 Use the .claude/agents/tech-lead.md subagent to create the story details file for Story `S3` within Epic `2A.4`.
 
 Refer to
+
 - docs/3-epics/2A.4-analytics-infra/EPIC.md for details of the epic
 - Product Requirements Document and Technical Architecture Document files referenced in the EPIC.md file
 
 Constraints
+
 - If architecture decisions are required, define these in the story.md but do not make them in this process.
 - Do not generate code in the process
 
 Use the
+
 - docs/3-references/story-details-template.md as a template for story.md
 - /docs/1-product/references/file-structure.md to specify file locations
 - docs/3-references/coding-standards.md for coding standards
@@ -1430,14 +1628,17 @@ When complete, validate the story.md file created against docs/3-references/stor
 Use the .claude/agents/tech-lead.md subagent to create the story details file for Story `S4` within Epic `2A.4`.
 
 Refer to
+
 - docs/3-epics/2A.4-analytics-infra/EPIC.md for details of the epic
 - Product Requirements Document and Technical Architecture Document files referenced in the EPIC.md file
 
 Constraints
+
 - If architecture decisions are required, define these in the story.md but do not make them in this process.
 - Do not generate code in the process
 
 Use the
+
 - docs/3-references/story-details-template.md as a template for story.md
 - /docs/1-product/references/file-structure.md to specify file locations
 - docs/3-references/coding-standards.md for coding standards
@@ -1451,14 +1652,17 @@ When complete, validate the story.md file created against docs/3-references/stor
 Use the .claude/agents/tech-lead.md subagent to create the story details file for Story `S5` within Epic `2A.4`.
 
 Refer to
+
 - docs/3-epics/2A.4-analytics-infra/EPIC.md for details of the epic
 - Product Requirements Document and Technical Architecture Document files referenced in the EPIC.md file
 
 Constraints
+
 - If architecture decisions are required, define these in the story.md but do not make them in this process.
 - Do not generate code in the process
 
 Use the
+
 - docs/3-references/story-details-template.md as a template for story.md
 - /docs/1-product/references/file-structure.md to specify file locations
 - docs/3-references/coding-standards.md for coding standards
@@ -1472,14 +1676,17 @@ When complete, validate the story.md file created against docs/3-references/stor
 Use the .claude/agents/tech-lead.md subagent to create the story details file for Story `S6` within Epic `2A.4`.
 
 Refer to
+
 - docs/3-epics/2A.4-analytics-infra/EPIC.md for details of the epic
 - Product Requirements Document and Technical Architecture Document files referenced in the EPIC.md file
 
 Constraints
+
 - If architecture decisions are required, define these in the story.md but do not make them in this process.
 - Do not generate code in the process
 
 Use the
+
 - docs/3-references/story-details-template.md as a template for story.md
 - /docs/1-product/references/file-structure.md to specify file locations
 - docs/3-references/coding-standards.md for coding standards
@@ -1493,14 +1700,17 @@ When complete, validate the story.md file created against docs/3-references/stor
 Use the .claude/agents/tech-lead.md subagent to create the story details file for Story `S7` within Epic `2A.4`.
 
 Refer to
+
 - docs/3-epics/2A.4-analytics-infra/EPIC.md for details of the epic
 - Product Requirements Document and Technical Architecture Document files referenced in the EPIC.md file
 
 Constraints
+
 - If architecture decisions are required, define these in the story.md but do not make them in this process.
 - Do not generate code in the process
 
 Use the
+
 - docs/3-references/story-details-template.md as a template for story.md
 - /docs/1-product/references/file-structure.md to specify file locations
 - docs/3-references/coding-standards.md for coding standards
@@ -1514,14 +1724,17 @@ When complete, validate the story.md file created against docs/3-references/stor
 Use the .claude/agents/tech-lead.md subagent to create the story details file for Story `S8` within Epic `2A.4`.
 
 Refer to
+
 - docs/3-epics/2A.4-analytics-infra/EPIC.md for details of the epic
 - Product Requirements Document and Technical Architecture Document files referenced in the EPIC.md file
 
 Constraints
+
 - If architecture decisions are required, define these in the story.md but do not make them in this process.
 - Do not generate code in the process
 
 Use the
+
 - docs/3-references/story-details-template.md as a template for story.md
 - /docs/1-product/references/file-structure.md to specify file locations
 - docs/3-references/coding-standards.md for coding standards
@@ -1539,14 +1752,17 @@ When complete, validate the story.md file created against docs/3-references/stor
 Use the .claude/agents/tech-lead.md subagent to create the story details file for Story `S1` within Epic `2A.5`.
 
 Refer to
+
 - docs/3-epics/2A.5-ui-components/EPIC.md for details of the epic
 - Product Requirements Document and Technical Architecture Document files referenced in the EPIC.md file
 
 Constraints
+
 - If architecture decisions are required, define these in the story.md but do not make them in this process.
 - Do not generate code in the process
 
 Use the
+
 - docs/3-references/story-details-template.md as a template for story.md
 - /docs/1-product/references/file-structure.md to specify file locations
 - docs/3-references/coding-standards.md for coding standards
@@ -1560,14 +1776,17 @@ When complete, validate the story.md file created against docs/3-references/stor
 Use the .claude/agents/tech-lead.md subagent to create the story details file for Story `S2` within Epic `2A.5`.
 
 Refer to
+
 - docs/3-epics/2A.5-ui-components/EPIC.md for details of the epic
 - Product Requirements Document and Technical Architecture Document files referenced in the EPIC.md file
 
 Constraints
+
 - If architecture decisions are required, define these in the story.md but do not make them in this process.
 - Do not generate code in the process
 
 Use the
+
 - docs/3-references/story-details-template.md as a template for story.md
 - /docs/1-product/references/file-structure.md to specify file locations
 - docs/3-references/coding-standards.md for coding standards
@@ -1581,14 +1800,17 @@ When complete, validate the story.md file created against docs/3-references/stor
 Use the .claude/agents/tech-lead.md subagent to create the story details file for Story `S3` within Epic `2A.5`.
 
 Refer to
+
 - docs/3-epics/2A.5-ui-components/EPIC.md for details of the epic
 - Product Requirements Document and Technical Architecture Document files referenced in the EPIC.md file
 
 Constraints
+
 - If architecture decisions are required, define these in the story.md but do not make them in this process.
 - Do not generate code in the process
 
 Use the
+
 - docs/3-references/story-details-template.md as a template for story.md
 - /docs/1-product/references/file-structure.md to specify file locations
 - docs/3-references/coding-standards.md for coding standards
@@ -1602,14 +1824,17 @@ When complete, validate the story.md file created against docs/3-references/stor
 Use the .claude/agents/tech-lead.md subagent to create the story details file for Story `S4` within Epic `2A.5`.
 
 Refer to
+
 - docs/3-epics/2A.5-ui-components/EPIC.md for details of the epic
 - Product Requirements Document and Technical Architecture Document files referenced in the EPIC.md file
 
 Constraints
+
 - If architecture decisions are required, define these in the story.md but do not make them in this process.
 - Do not generate code in the process
 
 Use the
+
 - docs/3-references/story-details-template.md as a template for story.md
 - /docs/1-product/references/file-structure.md to specify file locations
 - docs/3-references/coding-standards.md for coding standards
@@ -1623,14 +1848,17 @@ When complete, validate the story.md file created against docs/3-references/stor
 Use the .claude/agents/tech-lead.md subagent to create the story details file for Story `S5` within Epic `2A.5`.
 
 Refer to
+
 - docs/3-epics/2A.5-ui-components/EPIC.md for details of the epic
 - Product Requirements Document and Technical Architecture Document files referenced in the EPIC.md file
 
 Constraints
+
 - If architecture decisions are required, define these in the story.md but do not make them in this process.
 - Do not generate code in the process
 
 Use the
+
 - docs/3-references/story-details-template.md as a template for story.md
 - /docs/1-product/references/file-structure.md to specify file locations
 - docs/3-references/coding-standards.md for coding standards
@@ -1644,14 +1872,17 @@ When complete, validate the story.md file created against docs/3-references/stor
 Use the .claude/agents/tech-lead.md subagent to create the story details file for Story `S6` within Epic `2A.5`.
 
 Refer to
+
 - docs/3-epics/2A.5-ui-components/EPIC.md for details of the epic
 - Product Requirements Document and Technical Architecture Document files referenced in the EPIC.md file
 
 Constraints
+
 - If architecture decisions are required, define these in the story.md but do not make them in this process.
 - Do not generate code in the process
 
 Use the
+
 - docs/3-references/story-details-template.md as a template for story.md
 - /docs/1-product/references/file-structure.md to specify file locations
 - docs/3-references/coding-standards.md for coding standards
@@ -1665,14 +1896,17 @@ When complete, validate the story.md file created against docs/3-references/stor
 Use the .claude/agents/tech-lead.md subagent to create the story details file for Story `S7` within Epic `2A.5`.
 
 Refer to
+
 - docs/3-epics/2A.5-ui-components/EPIC.md for details of the epic
 - Product Requirements Document and Technical Architecture Document files referenced in the EPIC.md file
 
 Constraints
+
 - If architecture decisions are required, define these in the story.md but do not make them in this process.
 - Do not generate code in the process
 
 Use the
+
 - docs/3-references/story-details-template.md as a template for story.md
 - /docs/1-product/references/file-structure.md to specify file locations
 - docs/3-references/coding-standards.md for coding standards
@@ -1686,14 +1920,17 @@ When complete, validate the story.md file created against docs/3-references/stor
 Use the .claude/agents/tech-lead.md subagent to create the story details file for Story `S8` within Epic `2A.5`.
 
 Refer to
+
 - docs/3-epics/2A.5-ui-components/EPIC.md for details of the epic
 - Product Requirements Document and Technical Architecture Document files referenced in the EPIC.md file
 
 Constraints
+
 - If architecture decisions are required, define these in the story.md but do not make them in this process.
 - Do not generate code in the process
 
 Use the
+
 - docs/3-references/story-details-template.md as a template for story.md
 - /docs/1-product/references/file-structure.md to specify file locations
 - docs/3-references/coding-standards.md for coding standards
@@ -1707,14 +1944,17 @@ When complete, validate the story.md file created against docs/3-references/stor
 Use the .claude/agents/tech-lead.md subagent to create the story details file for Story `S9` within Epic `2A.5`.
 
 Refer to
+
 - docs/3-epics/2A.5-ui-components/EPIC.md for details of the epic
 - Product Requirements Document and Technical Architecture Document files referenced in the EPIC.md file
 
 Constraints
+
 - If architecture decisions are required, define these in the story.md but do not make them in this process.
 - Do not generate code in the process
 
 Use the
+
 - docs/3-references/story-details-template.md as a template for story.md
 - /docs/1-product/references/file-structure.md to specify file locations
 - docs/3-references/coding-standards.md for coding standards
@@ -1728,14 +1968,17 @@ When complete, validate the story.md file created against docs/3-references/stor
 Use the .claude/agents/tech-lead.md subagent to create the story details file for Story `S10` within Epic `2A.5`.
 
 Refer to
+
 - docs/3-epics/2A.5-ui-components/EPIC.md for details of the epic
 - Product Requirements Document and Technical Architecture Document files referenced in the EPIC.md file
 
 Constraints
+
 - If architecture decisions are required, define these in the story.md but do not make them in this process.
 - Do not generate code in the process
 
 Use the
+
 - docs/3-references/story-details-template.md as a template for story.md
 - /docs/1-product/references/file-structure.md to specify file locations
 - docs/3-references/coding-standards.md for coding standards
@@ -1749,14 +1992,17 @@ When complete, validate the story.md file created against docs/3-references/stor
 Use the .claude/agents/tech-lead.md subagent to create the story details file for Story `S11` within Epic `2A.5`.
 
 Refer to
+
 - docs/3-epics/2A.5-ui-components/EPIC.md for details of the epic
 - Product Requirements Document and Technical Architecture Document files referenced in the EPIC.md file
 
 Constraints
+
 - If architecture decisions are required, define these in the story.md but do not make them in this process.
 - Do not generate code in the process
 
 Use the
+
 - docs/3-references/story-details-template.md as a template for story.md
 - /docs/1-product/references/file-structure.md to specify file locations
 - docs/3-references/coding-standards.md for coding standards
@@ -1770,14 +2016,17 @@ When complete, validate the story.md file created against docs/3-references/stor
 Use the .claude/agents/tech-lead.md subagent to create the story details file for Story `S12` within Epic `2A.5`.
 
 Refer to
+
 - docs/3-epics/2A.5-ui-components/EPIC.md for details of the epic
 - Product Requirements Document and Technical Architecture Document files referenced in the EPIC.md file
 
 Constraints
+
 - If architecture decisions are required, define these in the story.md but do not make them in this process.
 - Do not generate code in the process
 
 Use the
+
 - docs/3-references/story-details-template.md as a template for story.md
 - /docs/1-product/references/file-structure.md to specify file locations
 - docs/3-references/coding-standards.md for coding standards
@@ -1795,14 +2044,17 @@ When complete, validate the story.md file created against docs/3-references/stor
 Use the .claude/agents/tech-lead.md subagent to create the story details file for Story `S1` within Epic `2A.6`.
 
 Refer to
+
 - docs/3-epics/2A.6-middleware/EPIC.md for details of the epic
 - Product Requirements Document and Technical Architecture Document files referenced in the EPIC.md file
 
 Constraints
+
 - If architecture decisions are required, define these in the story.md but do not make them in this process.
 - Do not generate code in the process
 
 Use the
+
 - docs/3-references/story-details-template.md as a template for story.md
 - /docs/1-product/references/file-structure.md to specify file locations
 - docs/3-references/coding-standards.md for coding standards
@@ -1816,14 +2068,17 @@ When complete, validate the story.md file created against docs/3-references/stor
 Use the .claude/agents/tech-lead.md subagent to create the story details file for Story `S2` within Epic `2A.6`.
 
 Refer to
+
 - docs/3-epics/2A.6-middleware/EPIC.md for details of the epic
 - Product Requirements Document and Technical Architecture Document files referenced in the EPIC.md file
 
 Constraints
+
 - If architecture decisions are required, define these in the story.md but do not make them in this process.
 - Do not generate code in the process
 
 Use the
+
 - docs/3-references/story-details-template.md as a template for story.md
 - /docs/1-product/references/file-structure.md to specify file locations
 - docs/3-references/coding-standards.md for coding standards
@@ -1837,14 +2092,17 @@ When complete, validate the story.md file created against docs/3-references/stor
 Use the .claude/agents/tech-lead.md subagent to create the story details file for Story `S3` within Epic `2A.6`.
 
 Refer to
+
 - docs/3-epics/2A.6-middleware/EPIC.md for details of the epic
 - Product Requirements Document and Technical Architecture Document files referenced in the EPIC.md file
 
 Constraints
+
 - If architecture decisions are required, define these in the story.md but do not make them in this process.
 - Do not generate code in the process
 
 Use the
+
 - docs/3-references/story-details-template.md as a template for story.md
 - /docs/1-product/references/file-structure.md to specify file locations
 - docs/3-references/coding-standards.md for coding standards
@@ -1858,14 +2116,17 @@ When complete, validate the story.md file created against docs/3-references/stor
 Use the .claude/agents/tech-lead.md subagent to create the story details file for Story `S4` within Epic `2A.6`.
 
 Refer to
+
 - docs/3-epics/2A.6-middleware/EPIC.md for details of the epic
 - Product Requirements Document and Technical Architecture Document files referenced in the EPIC.md file
 
 Constraints
+
 - If architecture decisions are required, define these in the story.md but do not make them in this process.
 - Do not generate code in the process
 
 Use the
+
 - docs/3-references/story-details-template.md as a template for story.md
 - /docs/1-product/references/file-structure.md to specify file locations
 - docs/3-references/coding-standards.md for coding standards
@@ -1879,14 +2140,17 @@ When complete, validate the story.md file created against docs/3-references/stor
 Use the .claude/agents/tech-lead.md subagent to create the story details file for Story `S5` within Epic `2A.6`.
 
 Refer to
+
 - docs/3-epics/2A.6-middleware/EPIC.md for details of the epic
 - Product Requirements Document and Technical Architecture Document files referenced in the EPIC.md file
 
 Constraints
+
 - If architecture decisions are required, define these in the story.md but do not make them in this process.
 - Do not generate code in the process
 
 Use the
+
 - docs/3-references/story-details-template.md as a template for story.md
 - /docs/1-product/references/file-structure.md to specify file locations
 - docs/3-references/coding-standards.md for coding standards
@@ -1900,14 +2164,17 @@ When complete, validate the story.md file created against docs/3-references/stor
 Use the .claude/agents/tech-lead.md subagent to create the story details file for Story `S6` within Epic `2A.6`.
 
 Refer to
+
 - docs/3-epics/2A.6-middleware/EPIC.md for details of the epic
 - Product Requirements Document and Technical Architecture Document files referenced in the EPIC.md file
 
 Constraints
+
 - If architecture decisions are required, define these in the story.md but do not make them in this process.
 - Do not generate code in the process
 
 Use the
+
 - docs/3-references/story-details-template.md as a template for story.md
 - /docs/1-product/references/file-structure.md to specify file locations
 - docs/3-references/coding-standards.md for coding standards
@@ -1921,14 +2188,17 @@ When complete, validate the story.md file created against docs/3-references/stor
 Use the .claude/agents/tech-lead.md subagent to create the story details file for Story `S7` within Epic `2A.6`.
 
 Refer to
+
 - docs/3-epics/2A.6-middleware/EPIC.md for details of the epic
 - Product Requirements Document and Technical Architecture Document files referenced in the EPIC.md file
 
 Constraints
+
 - If architecture decisions are required, define these in the story.md but do not make them in this process.
 - Do not generate code in the process
 
 Use the
+
 - docs/3-references/story-details-template.md as a template for story.md
 - /docs/1-product/references/file-structure.md to specify file locations
 - docs/3-references/coding-standards.md for coding standards
@@ -1942,14 +2212,17 @@ When complete, validate the story.md file created against docs/3-references/stor
 Use the .claude/agents/tech-lead.md subagent to create the story details file for Story `S8` within Epic `2A.6`.
 
 Refer to
+
 - docs/3-epics/2A.6-middleware/EPIC.md for details of the epic
 - Product Requirements Document and Technical Architecture Document files referenced in the EPIC.md file
 
 Constraints
+
 - If architecture decisions are required, define these in the story.md but do not make them in this process.
 - Do not generate code in the process
 
 Use the
+
 - docs/3-references/story-details-template.md as a template for story.md
 - /docs/1-product/references/file-structure.md to specify file locations
 - docs/3-references/coding-standards.md for coding standards
@@ -1961,20 +2234,23 @@ When complete, validate the story.md file created against docs/3-references/stor
 
 ## Epic 2A.7: Auth Infrastructure
 
-### 2A.7.S1 - Setup Clerk SDK and package structure  - DONE
+### 2A.7.S1 - Setup Clerk SDK and package structure - DONE
 
 ```markdown
 Use the .claude/agents/tech-lead.md subagent to create the story details file for Story `S1` within Epic `2A.7`.
 
 Refer to
+
 - docs/3-epics/2A.7-auth-infra/EPIC.md for details of the epic
 - Product Requirements Document and Technical Architecture Document files referenced in the EPIC.md file
 
 Constraints
+
 - If architecture decisions are required, define these in the story.md but do not make them in this process.
 - Do not generate code in the process
 
 Use the
+
 - docs/3-references/story-details-template.md as a template for story.md
 - /docs/1-product/references/file-structure.md to specify file locations
 - docs/3-references/coding-standards.md for coding standards
@@ -1982,20 +2258,23 @@ Use the
 When complete, validate the story.md file created against docs/3-references/story-acceptance-criteria.md
 ```
 
-### 2A.7.S2 - Create generic auth context and hooks  - DONE
+### 2A.7.S2 - Create generic auth context and hooks - DONE
 
 ```markdown
 Use the .claude/agents/tech-lead.md subagent to create the story details file for Story `S2` within Epic `2A.7`.
 
 Refer to
+
 - docs/3-epics/2A.7-auth-infra/EPIC.md for details of the epic
 - Product Requirements Document and Technical Architecture Document files referenced in the EPIC.md file
 
 Constraints
+
 - If architecture decisions are required, define these in the story.md but do not make them in this process.
 - Do not generate code in the process
 
 Use the
+
 - docs/3-references/story-details-template.md as a template for story.md
 - /docs/1-product/references/file-structure.md to specify file locations
 - docs/3-references/coding-standards.md for coding standards
@@ -2003,20 +2282,23 @@ Use the
 When complete, validate the story.md file created against docs/3-references/story-acceptance-criteria.md
 ```
 
-### 2A.7.S3 - Build protected route patterns  - DONE
+### 2A.7.S3 - Build protected route patterns - DONE
 
 ```markdown
 Use the .claude/agents/tech-lead.md subagent to create the story details file for Story `S3` within Epic `2A.7`.
 
 Refer to
+
 - docs/3-epics/2A.7-auth-infra/EPIC.md for details of the epic
 - Product Requirements Document and Technical Architecture Document files referenced in the EPIC.md file
 
 Constraints
+
 - If architecture decisions are required, define these in the story.md but do not make them in this process.
 - Do not generate code in the process
 
 Use the
+
 - docs/3-references/story-details-template.md as a template for story.md
 - /docs/1-product/references/file-structure.md to specify file locations
 - docs/3-references/coding-standards.md for coding standards
@@ -2024,20 +2306,23 @@ Use the
 When complete, validate the story.md file created against docs/3-references/story-acceptance-criteria.md
 ```
 
-### 2A.7.S4 - Implement webhook handler framework  - DONE
+### 2A.7.S4 - Implement webhook handler framework - DONE
 
 ```markdown
 Use the .claude/agents/tech-lead.md subagent to create the story details file for Story `S4` within Epic `2A.7`.
 
 Refer to
+
 - docs/3-epics/2A.7-auth-infra/EPIC.md for details of the epic
 - Product Requirements Document and Technical Architecture Document files referenced in the EPIC.md file
 
 Constraints
+
 - If architecture decisions are required, define these in the story.md but do not make them in this process.
 - Do not generate code in the process
 
 Use the
+
 - docs/3-references/story-details-template.md as a template for story.md
 - /docs/1-product/references/file-structure.md to specify file locations
 - docs/3-references/coding-standards.md for coding standards
@@ -2045,20 +2330,23 @@ Use the
 When complete, validate the story.md file created against docs/3-references/story-acceptance-criteria.md
 ```
 
-### 2A.7.S5 - Create user sync to database  - DONE
+### 2A.7.S5 - Create user sync to database - DONE
 
 ```markdown
 Use the .claude/agents/tech-lead.md subagent to create the story details file for Story `S5` within Epic `2A.7`.
 
 Refer to
+
 - docs/3-epics/2A.7-auth-infra/EPIC.md for details of the epic
 - Product Requirements Document and Technical Architecture Document files referenced in the EPIC.md file
 
 Constraints
+
 - If architecture decisions are required, define these in the story.md but do not make them in this process.
 - Do not generate code in the process
 
 Use the
+
 - docs/3-references/story-details-template.md as a template for story.md
 - /docs/1-product/references/file-structure.md to specify file locations
 - docs/3-references/coding-standards.md for coding standards
@@ -2066,20 +2354,23 @@ Use the
 When complete, validate the story.md file created against docs/3-references/story-acceptance-criteria.md
 ```
 
-### 2A.7.S6 - Add token management utilities  - DONE
+### 2A.7.S6 - Add token management utilities - DONE
 
 ```markdown
 Use the .claude/agents/tech-lead.md subagent to create the story details file for Story `S6` within Epic `2A.7`.
 
 Refer to
+
 - docs/3-epics/2A.7-auth-infra/EPIC.md for details of the epic
 - Product Requirements Document and Technical Architecture Document files referenced in the EPIC.md file
 
 Constraints
+
 - If architecture decisions are required, define these in the story.md but do not make them in this process.
 - Do not generate code in the process
 
 Use the
+
 - docs/3-references/story-details-template.md as a template for story.md
 - /docs/1-product/references/file-structure.md to specify file locations
 - docs/3-references/coding-standards.md for coding standards
@@ -2087,20 +2378,23 @@ Use the
 When complete, validate the story.md file created against docs/3-references/story-acceptance-criteria.md
 ```
 
-### 2A.7.S7 - Build authentication error boundaries  - DONE
+### 2A.7.S7 - Build authentication error boundaries - DONE
 
 ```markdown
 Use the .claude/agents/tech-lead.md subagent to create the story details file for Story `S7` within Epic `2A.7`.
 
 Refer to
+
 - docs/3-epics/2A.7-auth-infra/EPIC.md for details of the epic
 - Product Requirements Document and Technical Architecture Document files referenced in the EPIC.md file
 
 Constraints
+
 - If architecture decisions are required, define these in the story.md but do not make them in this process.
 - Do not generate code in the process
 
 Use the
+
 - docs/3-references/story-details-template.md as a template for story.md
 - /docs/1-product/references/file-structure.md to specify file locations
 - docs/3-references/coding-standards.md for coding standards
@@ -2108,20 +2402,23 @@ Use the
 When complete, validate the story.md file created against docs/3-references/story-acceptance-criteria.md
 ```
 
-### 2A.7.S8 - Write tests and documentation  - DONE
+### 2A.7.S8 - Write tests and documentation - DONE
 
 ```markdown
 Use the .claude/agents/tech-lead.md subagent to create the story details file for Story `S8` within Epic `2A.7`.
 
 Refer to
+
 - docs/3-epics/2A.7-auth-infra/EPIC.md for details of the epic
 - Product Requirements Document and Technical Architecture Document files referenced in the EPIC.md file
 
 Constraints
+
 - If architecture decisions are required, define these in the story.md but do not make them in this process.
 - Do not generate code in the process
 
 Use the
+
 - docs/3-references/story-details-template.md as a template for story.md
 - /docs/1-product/references/file-structure.md to specify file locations
 - docs/3-references/coding-standards.md for coding standards
@@ -2133,20 +2430,23 @@ When complete, validate the story.md file created against docs/3-references/stor
 
 ## Epic 2A.8: API Client Package
 
-### 2A.8.S1 - Setup package structure and base client  - DONE
+### 2A.8.S1 - Setup package structure and base client - DONE
 
 ```markdown
 Use the .claude/agents/tech-lead.md subagent to create the story details file for Story `S1` within Epic `2A.8`.
 
 Refer to
+
 - docs/3-epics/2A.8-api-client/EPIC.md for details of the epic
 - Product Requirements Document and Technical Architecture Document files referenced in the EPIC.md file
 
 Constraints
+
 - If architecture decisions are required, define these in the story.md but do not make them in this process.
 - Do not generate code in the process
 
 Use the
+
 - docs/3-references/story-details-template.md as a template for story.md
 - /docs/1-product/references/file-structure.md to specify file locations
 - docs/3-references/coding-standards.md for coding standards
@@ -2154,20 +2454,23 @@ Use the
 When complete, validate the story.md file created against docs/3-references/story-acceptance-criteria.md
 ```
 
-### 2A.8.S2 - Implement request/response interceptors  - DONE
+### 2A.8.S2 - Implement request/response interceptors - DONE
 
 ```markdown
 Use the .claude/agents/tech-lead.md subagent to create the story details file for Story `S2` within Epic `2A.8`.
 
 Refer to
+
 - docs/3-epics/2A.8-api-client/EPIC.md for details of the epic
 - Product Requirements Document and Technical Architecture Document files referenced in the EPIC.md file
 
 Constraints
+
 - If architecture decisions are required, define these in the story.md but do not make them in this process.
 - Do not generate code in the process
 
 Use the
+
 - docs/3-references/story-details-template.md as a template for story.md
 - /docs/1-product/references/file-structure.md to specify file locations
 - docs/3-references/coding-standards.md for coding standards
@@ -2175,20 +2478,23 @@ Use the
 When complete, validate the story.md file created against docs/3-references/story-acceptance-criteria.md
 ```
 
-### 2A.8.S3 - Add retry logic with exponential backoff  - DONE
+### 2A.8.S3 - Add retry logic with exponential backoff - DONE
 
 ```markdown
 Use the .claude/agents/tech-lead.md subagent to create the story details file for Story `S3` within Epic `2A.8`.
 
 Refer to
+
 - docs/3-epics/2A.8-api-client/EPIC.md for details of the epic
 - Product Requirements Document and Technical Architecture Document files referenced in the EPIC.md file
 
 Constraints
+
 - If architecture decisions are required, define these in the story.md but do not make them in this process.
 - Do not generate code in the process
 
 Use the
+
 - docs/3-references/story-details-template.md as a template for story.md
 - /docs/1-product/references/file-structure.md to specify file locations
 - docs/3-references/coding-standards.md for coding standards
@@ -2196,20 +2502,23 @@ Use the
 When complete, validate the story.md file created against docs/3-references/story-acceptance-criteria.md
 ```
 
-### 2A.8.S4 - Build request caching utilities  - DONE
+### 2A.8.S4 - Build request caching utilities - DONE
 
 ```markdown
 Use the .claude/agents/tech-lead.md subagent to create the story details file for Story `S4` within Epic `2A.8`.
 
 Refer to
+
 - docs/3-epics/2A.8-api-client/EPIC.md for details of the epic
 - Product Requirements Document and Technical Architecture Document files referenced in the EPIC.md file
 
 Constraints
+
 - If architecture decisions are required, define these in the story.md but do not make them in this process.
 - Do not generate code in the process
 
 Use the
+
 - docs/3-references/story-details-template.md as a template for story.md
 - /docs/1-product/references/file-structure.md to specify file locations
 - docs/3-references/coding-standards.md for coding standards
@@ -2217,20 +2526,23 @@ Use the
 When complete, validate the story.md file created against docs/3-references/story-acceptance-criteria.md
 ```
 
-### 2A.8.S5 - Create TypeScript generic types and utilities  - DONE
+### 2A.8.S5 - Create TypeScript generic types and utilities - DONE
 
 ```markdown
 Use the .claude/agents/tech-lead.md subagent to create the story details file for Story `S5` within Epic `2A.8`.
 
 Refer to
+
 - docs/3-epics/2A.8-api-client/EPIC.md for details of the epic
 - Product Requirements Document and Technical Architecture Document files referenced in the EPIC.md file
 
 Constraints
+
 - If architecture decisions are required, define these in the story.md but do not make them in this process.
 - Do not generate code in the process
 
 Use the
+
 - docs/3-references/story-details-template.md as a template for story.md
 - /docs/1-product/references/file-structure.md to specify file locations
 - docs/3-references/coding-standards.md for coding standards
@@ -2238,20 +2550,23 @@ Use the
 When complete, validate the story.md file created against docs/3-references/story-acceptance-criteria.md
 ```
 
-### 2A.8.S6 - Implement file upload support  - DONE
+### 2A.8.S6 - Implement file upload support - DONE
 
 ```markdown
 Use the .claude/agents/tech-lead.md subagent to create the story details file for Story `S6` within Epic `2A.8`.
 
 Refer to
+
 - docs/3-epics/2A.8-api-client/EPIC.md for details of the epic
 - Product Requirements Document and Technical Architecture Document files referenced in the EPIC.md file
 
 Constraints
+
 - If architecture decisions are required, define these in the story.md but do not make them in this process.
 - Do not generate code in the process
 
 Use the
+
 - docs/3-references/story-details-template.md as a template for story.md
 - /docs/1-product/references/file-structure.md to specify file locations
 - docs/3-references/coding-standards.md for coding standards
@@ -2259,20 +2574,23 @@ Use the
 When complete, validate the story.md file created against docs/3-references/story-acceptance-criteria.md
 ```
 
-### 2A.8.S7 - Add server and client component support  - DONE
+### 2A.8.S7 - Add server and client component support - DONE
 
 ```markdown
 Use the .claude/agents/tech-lead.md subagent to create the story details file for Story `S7` within Epic `2A.8`.
 
 Refer to
+
 - docs/3-epics/2A.8-api-client/EPIC.md for details of the epic
 - Product Requirements Document and Technical Architecture Document files referenced in the EPIC.md file
 
 Constraints
+
 - If architecture decisions are required, define these in the story.md but do not make them in this process.
 - Do not generate code in the process
 
 Use the
+
 - docs/3-references/story-details-template.md as a template for story.md
 - /docs/1-product/references/file-structure.md to specify file locations
 - docs/3-references/coding-standards.md for coding standards
@@ -2280,20 +2598,23 @@ Use the
 When complete, validate the story.md file created against docs/3-references/story-acceptance-criteria.md
 ```
 
-### 2A.8.S8 - Write tests and documentation  - DONE
+### 2A.8.S8 - Write tests and documentation - DONE
 
 ```markdown
 Use the .claude/agents/tech-lead.md subagent to create the story details file for Story `S8` within Epic `2A.8`.
 
 Refer to
+
 - docs/3-epics/2A.8-api-client/EPIC.md for details of the epic
 - Product Requirements Document and Technical Architecture Document files referenced in the EPIC.md file
 
 Constraints
+
 - If architecture decisions are required, define these in the story.md but do not make them in this process.
 - Do not generate code in the process
 
 Use the
+
 - docs/3-references/story-details-template.md as a template for story.md
 - /docs/1-product/references/file-structure.md to specify file locations
 - docs/3-references/coding-standards.md for coding standards
@@ -2305,20 +2626,23 @@ When complete, validate the story.md file created against docs/3-references/stor
 
 ## Epic 3A.1: CDN & Asset Management Application
 
-### 3A.1.S1 - Setup CDN app structure  - DONE
+### 3A.1.S1 - Setup CDN app structure - DONE
 
 ```markdown
 Use the .claude/agents/tech-lead.md subagent to create the story details file for Story `S1` within Epic `3A.1`.
 
 Refer to
+
 - docs/3-epics/3A.1-cdn/EPIC.md for details of the epic
 - Product Requirements Document and Technical Architecture Document files referenced in the EPIC.md file
 
 Constraints
+
 - If architecture decisions are required, define these in the story.md but do not make them in this process.
 - Do not generate code in the process
 
 Use the
+
 - docs/3-references/story-details-template.md as a template for story.md
 - /docs/1-product/references/file-structure.md to specify file locations
 - docs/3-references/coding-standards.md for coding standards
@@ -2326,20 +2650,23 @@ Use the
 When complete, validate the story.md file created against docs/3-references/story-acceptance-criteria.md
 ```
 
-### 3A.1.S2 - Configure Next.js Image optimization  - DONE
+### 3A.1.S2 - Configure Next.js Image optimization - DONE
 
 ```markdown
 Use the .claude/agents/tech-lead.md subagent to create the story details file for Story `S2` within Epic `3A.1`.
 
 Refer to
+
 - docs/3-epics/3A.1-cdn/EPIC.md for details of the epic
 - Product Requirements Document and Technical Architecture Document files referenced in the EPIC.md file
 
 Constraints
+
 - If architecture decisions are required, define these in the story.md but do not make them in this process.
 - Do not generate code in the process
 
 Use the
+
 - docs/3-references/story-details-template.md as a template for story.md
 - /docs/1-product/references/file-structure.md to specify file locations
 - docs/3-references/coding-standards.md for coding standards
@@ -2347,20 +2674,23 @@ Use the
 When complete, validate the story.md file created against docs/3-references/story-acceptance-criteria.md
 ```
 
-### 3A.1.S3 - Implement caching strategy  - DONE
+### 3A.1.S3 - Implement caching strategy - DONE
 
 ```markdown
 Use the .claude/agents/tech-lead.md subagent to create the story details file for Story `S3` within Epic `3A.1`.
 
 Refer to
+
 - docs/3-epics/3A.1-cdn/EPIC.md for details of the epic
 - Product Requirements Document and Technical Architecture Document files referenced in the EPIC.md file
 
 Constraints
+
 - If architecture decisions are required, define these in the story.md but do not make them in this process.
 - Do not generate code in the process
 
 Use the
+
 - docs/3-references/story-details-template.md as a template for story.md
 - /docs/1-product/references/file-structure.md to specify file locations
 - docs/3-references/coding-standards.md for coding standards
@@ -2368,20 +2698,23 @@ Use the
 When complete, validate the story.md file created against docs/3-references/story-acceptance-criteria.md
 ```
 
-### 3A.1.S4 - Build file upload API  - DONE
+### 3A.1.S4 - Build file upload API - DONE
 
 ```markdown
 Use the .claude/agents/tech-lead.md subagent to create the story details file for Story `S4` within Epic `3A.1`.
 
 Refer to
+
 - docs/3-epics/3A.1-cdn/EPIC.md for details of the epic
 - Product Requirements Document and Technical Architecture Document files referenced in the EPIC.md file
 
 Constraints
+
 - If architecture decisions are required, define these in the story.md but do not make them in this process.
 - Do not generate code in the process
 
 Use the
+
 - docs/3-references/story-details-template.md as a template for story.md
 - /docs/1-product/references/file-structure.md to specify file locations
 - docs/3-references/coding-standards.md for coding standards
@@ -2389,20 +2722,23 @@ Use the
 When complete, validate the story.md file created against docs/3-references/story-acceptance-criteria.md
 ```
 
-### 3A.1.S5 - Create asset metadata storage  - DONE
+### 3A.1.S5 - Create asset metadata storage - DONE
 
 ```markdown
 Use the .claude/agents/tech-lead.md subagent to create the story details file for Story `S5` within Epic `3A.1`.
 
 Refer to
+
 - docs/3-epics/3A.1-cdn/EPIC.md for details of the epic
 - Product Requirements Document and Technical Architecture Document files referenced in the EPIC.md file
 
 Constraints
+
 - If architecture decisions are required, define these in the story.md but do not make them in this process.
 - Do not generate code in the process
 
 Use the
+
 - docs/3-references/story-details-template.md as a template for story.md
 - /docs/1-product/references/file-structure.md to specify file locations
 - docs/3-references/coding-standards.md for coding standards
@@ -2410,20 +2746,23 @@ Use the
 When complete, validate the story.md file created against docs/3-references/story-acceptance-criteria.md
 ```
 
-### 3A.1.S6 - Implement cache invalidation  - DONE
+### 3A.1.S6 - Implement cache invalidation - DONE
 
 ```markdown
 Use the .claude/agents/tech-lead.md subagent to create the story details file for Story `S6` within Epic `3A.1`.
 
 Refer to
+
 - docs/3-epics/3A.1-cdn/EPIC.md for details of the epic
 - Product Requirements Document and Technical Architecture Document files referenced in the EPIC.md file
 
 Constraints
+
 - If architecture decisions are required, define these in the story.md but do not make them in this process.
 - Do not generate code in the process
 
 Use the
+
 - docs/3-references/story-details-template.md as a template for story.md
 - /docs/1-product/references/file-structure.md to specify file locations
 - docs/3-references/coding-standards.md for coding standards
@@ -2431,20 +2770,23 @@ Use the
 When complete, validate the story.md file created against docs/3-references/story-acceptance-criteria.md
 ```
 
-### 3A.1.S7 - Add security and validation  - DONE
+### 3A.1.S7 - Add security and validation - DONE
 
 ```markdown
 Use the .claude/agents/tech-lead.md subagent to create the story details file for Story `S7` within Epic `3A.1`.
 
 Refer to
+
 - docs/3-epics/3A.1-cdn/EPIC.md for details of the epic
 - Product Requirements Document and Technical Architecture Document files referenced in the EPIC.md file
 
 Constraints
+
 - If architecture decisions are required, define these in the story.md but do not make them in this process.
 - Do not generate code in the process
 
 Use the
+
 - docs/3-references/story-details-template.md as a template for story.md
 - /docs/1-product/references/file-structure.md to specify file locations
 - docs/3-references/coding-standards.md for coding standards
@@ -2452,20 +2794,23 @@ Use the
 When complete, validate the story.md file created against docs/3-references/story-acceptance-criteria.md
 ```
 
-### 3A.1.S8 - Build asset library API  - DONE
+### 3A.1.S8 - Build asset library API - DONE
 
 ```markdown
 Use the .claude/agents/tech-lead.md subagent to create the story details file for Story `S8` within Epic `3A.1`.
 
 Refer to
+
 - docs/3-epics/3A.1-cdn/EPIC.md for details of the epic
 - Product Requirements Document and Technical Architecture Document files referenced in the EPIC.md file
 
 Constraints
+
 - If architecture decisions are required, define these in the story.md but do not make them in this process.
 - Do not generate code in the process
 
 Use the
+
 - docs/3-references/story-details-template.md as a template for story.md
 - /docs/1-product/references/file-structure.md to specify file locations
 - docs/3-references/coding-standards.md for coding standards
@@ -2473,20 +2818,23 @@ Use the
 When complete, validate the story.md file created against docs/3-references/story-acceptance-criteria.md
 ```
 
-### 3A.1.S9 - Configure monitoring and analytics  - DONE
+### 3A.1.S9 - Configure monitoring and analytics - DONE
 
 ```markdown
 Use the .claude/agents/tech-lead.md subagent to create the story details file for Story `S9` within Epic `3A.1`.
 
 Refer to
+
 - docs/3-epics/3A.1-cdn/EPIC.md for details of the epic
 - Product Requirements Document and Technical Architecture Document files referenced in the EPIC.md file
 
 Constraints
+
 - If architecture decisions are required, define these in the story.md but do not make them in this process.
 - Do not generate code in the process
 
 Use the
+
 - docs/3-references/story-details-template.md as a template for story.md
 - /docs/1-product/references/file-structure.md to specify file locations
 - docs/3-references/coding-standards.md for coding standards
@@ -2494,20 +2842,23 @@ Use the
 When complete, validate the story.md file created against docs/3-references/story-acceptance-criteria.md
 ```
 
-### 3A.1.S10 - Write tests and documentation  - DONE
+### 3A.1.S10 - Write tests and documentation - DONE
 
 ```markdown
 Use the .claude/agents/tech-lead.md subagent to create the story details file for Story `S10` within Epic `3A.1`.
 
 Refer to
+
 - docs/3-epics/3A.1-cdn/EPIC.md for details of the epic
 - Product Requirements Document and Technical Architecture Document files referenced in the EPIC.md file
 
 Constraints
+
 - If architecture decisions are required, define these in the story.md but do not make them in this process.
 - Do not generate code in the process
 
 Use the
+
 - docs/3-references/story-details-template.md as a template for story.md
 - /docs/1-product/references/file-structure.md to specify file locations
 - docs/3-references/coding-standards.md for coding standards
@@ -2519,20 +2870,23 @@ When complete, validate the story.md file created against docs/3-references/stor
 
 ## Epic 3A.2: Routing Application Shell
 
-### 3A.2.S1 - Create Next.js routing app  - DONE
+### 3A.2.S1 - Create Next.js routing app - DONE
 
 ```markdown
 Use the .claude/agents/tech-lead.md subagent to create the story details file for Story `S1` within Epic `3A.2`.
 
 Refer to
+
 - docs/3-epics/3A.2-routing-shell/EPIC.md for details of the epic
 - Product Requirements Document and Technical Architecture Document files referenced in the EPIC.md file
 
 Constraints
+
 - If architecture decisions are required, define these in the story.md but do not make them in this process.
 - Do not generate code in the process
 
 Use the
+
 - docs/3-references/story-details-template.md as a template for story.md
 - /docs/1-product/references/file-structure.md to specify file locations
 - docs/3-references/coding-standards.md for coding standards
@@ -2540,20 +2894,23 @@ Use the
 When complete, validate the story.md file created against docs/3-references/story-acceptance-criteria.md
 ```
 
-### 3A.2.S2 - Configure rewrite framework  - DONE
+### 3A.2.S2 - Configure rewrite framework - DONE
 
 ```markdown
 Use the .claude/agents/tech-lead.md subagent to create the story details file for Story `S2` within Epic `3A.2`.
 
 Refer to
+
 - docs/3-epics/3A.2-routing-shell/EPIC.md for details of the epic
 - Product Requirements Document and Technical Architecture Document files referenced in the EPIC.md file
 
 Constraints
+
 - If architecture decisions are required, define these in the story.md but do not make them in this process.
 - Do not generate code in the process
 
 Use the
+
 - docs/3-references/story-details-template.md as a template for story.md
 - /docs/1-product/references/file-structure.md to specify file locations
 - docs/3-references/coding-standards.md for coding standards
@@ -2561,20 +2918,23 @@ Use the
 When complete, validate the story.md file created against docs/3-references/story-acceptance-criteria.md
 ```
 
-### 3A.2.S3 - Build SEO utilities package  - DONE
+### 3A.2.S3 - Build SEO utilities package - DONE
 
 ```markdown
 Use the .claude/agents/tech-lead.md subagent to create the story details file for Story `S3` within Epic `3A.2`.
 
 Refer to
+
 - docs/3-epics/3A.2-routing-shell/EPIC.md for details of the epic
 - Product Requirements Document and Technical Architecture Document files referenced in the EPIC.md file
 
 Constraints
+
 - If architecture decisions are required, define these in the story.md but do not make them in this process.
 - Do not generate code in the process
 
 Use the
+
 - docs/3-references/story-details-template.md as a template for story.md
 - /docs/1-product/references/file-structure.md to specify file locations
 - docs/3-references/coding-standards.md for coding standards
@@ -2582,20 +2942,23 @@ Use the
 When complete, validate the story.md file created against docs/3-references/story-acceptance-criteria.md
 ```
 
-### 3A.2.S4 - Integrate analytics services  - DONE
+### 3A.2.S4 - Integrate analytics services - DONE
 
 ```markdown
 Use the .claude/agents/tech-lead.md subagent to create the story details file for Story `S4` within Epic `3A.2`.
 
 Refer to
+
 - docs/3-epics/3A.2-routing-shell/EPIC.md for details of the epic
 - Product Requirements Document and Technical Architecture Document files referenced in the EPIC.md file
 
 Constraints
+
 - If architecture decisions are required, define these in the story.md but do not make them in this process.
 - Do not generate code in the process
 
 Use the
+
 - docs/3-references/story-details-template.md as a template for story.md
 - /docs/1-product/references/file-structure.md to specify file locations
 - docs/3-references/coding-standards.md for coding standards
@@ -2603,20 +2966,23 @@ Use the
 When complete, validate the story.md file created against docs/3-references/story-acceptance-criteria.md
 ```
 
-### 3A.2.S5 - Configure CDN asset references  - DONE
+### 3A.2.S5 - Configure CDN asset references - DONE
 
 ```markdown
 Use the .claude/agents/tech-lead.md subagent to create the story details file for Story `S5` within Epic `3A.2`.
 
 Refer to
+
 - docs/3-epics/3A.2-routing-shell/EPIC.md for details of the epic
 - Product Requirements Document and Technical Architecture Document files referenced in the EPIC.md file
 
 Constraints
+
 - If architecture decisions are required, define these in the story.md but do not make them in this process.
 - Do not generate code in the process
 
 Use the
+
 - docs/3-references/story-details-template.md as a template for story.md
 - /docs/1-product/references/file-structure.md to specify file locations
 - docs/3-references/coding-standards.md for coding standards
@@ -2624,20 +2990,23 @@ Use the
 When complete, validate the story.md file created against docs/3-references/story-acceptance-criteria.md
 ```
 
-### 3A.2.S6 - Implement mobile responsive shell  - DONE
+### 3A.2.S6 - Implement mobile responsive shell - DONE
 
 ```markdown
 Use the .claude/agents/tech-lead.md subagent to create the story details file for Story `S6` within Epic `3A.2`.
 
 Refer to
+
 - docs/3-epics/3A.2-routing-shell/EPIC.md for details of the epic
 - Product Requirements Document and Technical Architecture Document files referenced in the EPIC.md file
 
 Constraints
+
 - If architecture decisions are required, define these in the story.md but do not make them in this process.
 - Do not generate code in the process
 
 Use the
+
 - docs/3-references/story-details-template.md as a template for story.md
 - /docs/1-product/references/file-structure.md to specify file locations
 - docs/3-references/coding-standards.md for coding standards
@@ -2645,20 +3014,23 @@ Use the
 When complete, validate the story.md file created against docs/3-references/story-acceptance-criteria.md
 ```
 
-### 3A.2.S7 - Deploy and validate performance  - DONE
+### 3A.2.S7 - Deploy and validate performance - DONE
 
 ```markdown
 Use the .claude/agents/tech-lead.md subagent to create the story details file for Story `S7` within Epic `3A.2`.
 
 Refer to
+
 - docs/3-epics/3A.2-routing-shell/EPIC.md for details of the epic
 - Product Requirements Document and Technical Architecture Document files referenced in the EPIC.md file
 
 Constraints
+
 - If architecture decisions are required, define these in the story.md but do not make them in this process.
 - Do not generate code in the process
 
 Use the
+
 - docs/3-references/story-details-template.md as a template for story.md
 - /docs/1-product/references/file-structure.md to specify file locations
 - docs/3-references/coding-standards.md for coding standards
@@ -2670,21 +3042,21 @@ When complete, validate the story.md file created against docs/3-references/stor
 
 ## Summary
 
-| Epic | Stories | Total Hours |
-|------|---------|-------------|
-| 1A.1: Monorepo Foundation | 9 | 24h |
-| 1A.2: Package Management & Quality Gates | 7 | 21h |
-| 1A.3: Testing Foundation | 10 | 36h |
-| 1A.4: Documentation Foundation | 7 | 26h |
-| 1A.5: Basic CI/CD Pipeline | 8 | 39h |
-| 2A.1: Configuration Package | 6 | 18h |
-| 2A.2: Database Infrastructure | 8 | 26h |
-| 2A.3: Observability Package | 8 | 27h |
-| 2A.4: Analytics Infrastructure | 8 | 38h |
-| 2A.5: UI Component Library | 12 | 51h |
-| 2A.6: Middleware Package | 8 | 28h |
-| 2A.7: Auth Infrastructure | 8 | 32h |
-| 2A.8: API Client Package | 8 | 35h |
-| 3A.1: CDN & Asset Management | 10 | 50h |
-| 3A.2: Routing Application Shell | 7 | 32h |
-| **Total** | **124** | **483h** |
+| Epic                                     | Stories | Total Hours |
+| ---------------------------------------- | ------- | ----------- |
+| 1A.1: Monorepo Foundation                | 9       | 24h         |
+| 1A.2: Package Management & Quality Gates | 7       | 21h         |
+| 1A.3: Testing Foundation                 | 10      | 36h         |
+| 1A.4: Documentation Foundation           | 7       | 26h         |
+| 1A.5: Basic CI/CD Pipeline               | 8       | 39h         |
+| 2A.1: Configuration Package              | 6       | 18h         |
+| 2A.2: Database Infrastructure            | 8       | 26h         |
+| 2A.3: Observability Package              | 8       | 27h         |
+| 2A.4: Analytics Infrastructure           | 8       | 38h         |
+| 2A.5: UI Component Library               | 12      | 51h         |
+| 2A.6: Middleware Package                 | 8       | 28h         |
+| 2A.7: Auth Infrastructure                | 8       | 32h         |
+| 2A.8: API Client Package                 | 8       | 35h         |
+| 3A.1: CDN & Asset Management             | 10      | 50h         |
+| 3A.2: Routing Application Shell          | 7       | 32h         |
+| **Total**                                | **124** | **483h**    |

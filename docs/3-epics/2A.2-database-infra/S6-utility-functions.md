@@ -30,20 +30,20 @@
 
 ### Files to Create
 
-| Path                                     | Purpose                                               |
-| ---------------------------------------- | ----------------------------------------------------- |
-| `packages/database/src/utils/ids.ts`     | ID generation utilities using cuid2                   |
-| `packages/database/src/utils/timestamps.ts` | Timestamp column helpers for createdAt/updatedAt   |
-| `packages/database/src/utils/soft-delete.ts` | Soft delete column and query helpers              |
-| `packages/database/src/utils/org-context.ts` | Organization-scoped query utilities               |
-| `packages/database/src/utils/index.ts`   | Exports all utility functions                         |
+| Path                                         | Purpose                                          |
+| -------------------------------------------- | ------------------------------------------------ |
+| `packages/database/src/utils/ids.ts`         | ID generation utilities using cuid2              |
+| `packages/database/src/utils/timestamps.ts`  | Timestamp column helpers for createdAt/updatedAt |
+| `packages/database/src/utils/soft-delete.ts` | Soft delete column and query helpers             |
+| `packages/database/src/utils/org-context.ts` | Organization-scoped query utilities              |
+| `packages/database/src/utils/index.ts`       | Exports all utility functions                    |
 
 ### Files to Modify
 
-| Path                             | Changes                                 |
-| -------------------------------- | --------------------------------------- |
-| `packages/database/src/index.ts` | Export utility functions from utils/    |
-| `packages/database/package.json` | Add cuid2 dependency                    |
+| Path                             | Changes                              |
+| -------------------------------- | ------------------------------------ |
+| `packages/database/src/index.ts` | Export utility functions from utils/ |
+| `packages/database/package.json` | Add cuid2 dependency                 |
 
 ### Dependencies
 
@@ -58,12 +58,12 @@ pnpm add @paralleldrive/cuid2 --filter @repo/database
 
 ### Configuration Details
 
-| Setting | Requirement | Notes |
-| ------- | ----------- | ----- |
-| ID format | cuid2 format (URL-safe, sortable, globally unique) | Use `@paralleldrive/cuid2` per [ADR-005](/docs/2-technical/adr/005-drizzle-orm.md) |
-| Timestamp precision | Millisecond precision with `defaultNow()` | Use Drizzle's `timestamp()` with `.defaultNow().notNull()` |
-| Soft delete column | `deletedAt` timestamp (nullable) | NULL = not deleted, timestamp = deleted at that time |
-| Organization filtering | Filter by `organizationId` or `orgId` column | Support multi-tenant patterns per [ADR-007](/docs/2-technical/adr/007-multi-tenant-model.md) |
+| Setting                | Requirement                                        | Notes                                                                                        |
+| ---------------------- | -------------------------------------------------- | -------------------------------------------------------------------------------------------- |
+| ID format              | cuid2 format (URL-safe, sortable, globally unique) | Use `@paralleldrive/cuid2` per [ADR-005](/docs/2-technical/adr/005-drizzle-orm.md)           |
+| Timestamp precision    | Millisecond precision with `defaultNow()`          | Use Drizzle's `timestamp()` with `.defaultNow().notNull()`                                   |
+| Soft delete column     | `deletedAt` timestamp (nullable)                   | NULL = not deleted, timestamp = deleted at that time                                         |
+| Organization filtering | Filter by `organizationId` or `orgId` column       | Support multi-tenant patterns per [ADR-007](/docs/2-technical/adr/007-multi-tenant-model.md) |
 
 **Configuration Rationale**:
 
@@ -191,20 +191,26 @@ Key pattern notes for this story:
 ```typescript
 // ID generation in schema
 export const users = pgTable("users", {
-  id: text("id").primaryKey().$defaultFn(() => createId()),
+  id: text("id")
+    .primaryKey()
+    .$defaultFn(() => createId()),
   // ...
 });
 
 // Timestamps in schema
 export const content = pgTable("content", {
-  id: text("id").primaryKey().$defaultFn(() => createId()),
+  id: text("id")
+    .primaryKey()
+    .$defaultFn(() => createId()),
   // ... other columns
   ...timestamps(),
 });
 
 // Soft delete in schema
 export const posts = pgTable("posts", {
-  id: text("id").primaryKey().$defaultFn(() => createId()),
+  id: text("id")
+    .primaryKey()
+    .$defaultFn(() => createId()),
   // ... other columns
   ...timestamps(),
   ...softDelete(),
@@ -219,13 +225,13 @@ const orgContent = await withOrgContext(db, orgId)
 
 ### Troubleshooting
 
-| Issue                           | Cause                                | Solution                                         |
-| ------------------------------- | ------------------------------------ | ------------------------------------------------ |
-| IDs not unique in tests         | Rapid sequential generation          | cuid2 handles this; verify using Set comparison  |
-| Timestamps not auto-populating  | Missing `.defaultNow()` in definition| Add `.defaultNow().notNull()` to column          |
-| Soft delete returns all records | Query not using isNotDeleted() helper| Apply helper function in where clause            |
-| Cross-org data leakage          | Missing withOrgContext() wrapper     | Always use org context for multi-tenant queries  |
-| Type errors with utilities      | Incorrect Drizzle imports            | Import from 'drizzle-orm/pg-core' for columns    |
+| Issue                           | Cause                                 | Solution                                        |
+| ------------------------------- | ------------------------------------- | ----------------------------------------------- |
+| IDs not unique in tests         | Rapid sequential generation           | cuid2 handles this; verify using Set comparison |
+| Timestamps not auto-populating  | Missing `.defaultNow()` in definition | Add `.defaultNow().notNull()` to column         |
+| Soft delete returns all records | Query not using isNotDeleted() helper | Apply helper function in where clause           |
+| Cross-org data leakage          | Missing withOrgContext() wrapper      | Always use org context for multi-tenant queries |
+| Type errors with utilities      | Incorrect Drizzle imports             | Import from 'drizzle-orm/pg-core' for columns   |
 
 ### Reference Materials
 

@@ -8,15 +8,15 @@ ADRs are part of Level 1 (WHY) of our [Documentation Pyramid](/docs/2-technical/
 
 ## ADR Index
 
-| ADR | Title | Status | Date | Epic |
-|-----|-------|--------|------|------|
-| [001](./001-monorepo-turborepo.md) | Monorepo with Turborepo | Accepted | 2025-11-24 | 1A.1 |
-| [002](./002-pnpm-package-manager.md) | pnpm as Package Manager | Accepted | 2025-11-24 | 1A.1 |
-| [003](./003-nextjs-framework.md) | Next.js 16 as Framework | Accepted | 2025-11-24 | 1A.1 |
-| [004](./004-vercel-hosting.md) | Vercel as Hosting Platform | Accepted | 2025-11-24 | 1A.1 |
-| [005](./005-drizzle-orm.md) | Drizzle as ORM | Accepted | 2025-11-24 | 1A.1 |
-| [006](./006-clerk-authentication.md) | Clerk for Authentication | Accepted | 2025-11-24 | 1A.1 |
-| [007](./007-multi-tenant-model.md) | Multi-tenant Data Model | Accepted | 2025-11-24 | 1A.1 |
+| ADR                                  | Title                      | Status   | Date       | Epic |
+| ------------------------------------ | -------------------------- | -------- | ---------- | ---- |
+| [001](./001-monorepo-turborepo.md)   | Monorepo with Turborepo    | Accepted | 2025-11-24 | 1A.1 |
+| [002](./002-pnpm-package-manager.md) | pnpm as Package Manager    | Accepted | 2025-11-24 | 1A.1 |
+| [003](./003-nextjs-framework.md)     | Next.js 16 as Framework    | Accepted | 2025-11-24 | 1A.1 |
+| [004](./004-vercel-hosting.md)       | Vercel as Hosting Platform | Accepted | 2025-11-24 | 1A.1 |
+| [005](./005-drizzle-orm.md)          | Drizzle as ORM             | Accepted | 2025-11-24 | 1A.1 |
+| [006](./006-clerk-authentication.md) | Clerk for Authentication   | Accepted | 2025-11-24 | 1A.1 |
+| [007](./007-multi-tenant-model.md)   | Multi-tenant Data Model    | Accepted | 2025-11-24 | 1A.1 |
 
 ## Creating a New ADR
 
@@ -63,10 +63,10 @@ Create a PR with your ADR. Include relevant stakeholders as reviewers.
 
 ## ADR Naming Convention
 
-| Element | Format | Example |
-|---------|--------|---------|
-| File naming | `{NNN}-{slug}.md` | `008-graphql-api.md` |
-| Numbering | Sequential (001-999) | 001, 002, 003... |
+| Element     | Format                | Example                      |
+| ----------- | --------------------- | ---------------------------- |
+| File naming | `{NNN}-{slug}.md`     | `008-graphql-api.md`         |
+| Numbering   | Sequential (001-999)  | 001, 002, 003...             |
 | Slug format | Lowercase with dashes | `graphql-api`, `redis-cache` |
 
 ## ADR Status Lifecycle
@@ -79,11 +79,11 @@ Proposed  ──────►  Accepted  ──────►  Deprecated
                             by ADR-XXX
 ```
 
-| Status | Description |
-|--------|-------------|
-| **Proposed** | Under discussion, not yet approved |
-| **Accepted** | Approved and in effect |
-| **Deprecated** | No longer recommended, may still be in use |
+| Status         | Description                                   |
+| -------------- | --------------------------------------------- |
+| **Proposed**   | Under discussion, not yet approved            |
+| **Accepted**   | Approved and in effect                        |
+| **Deprecated** | No longer recommended, may still be in use    |
 | **Superseded** | Replaced by a newer ADR (link to replacement) |
 
 ## When to Create an ADR
@@ -121,13 +121,13 @@ This preserves the decision history and makes it clear when and why changes occu
 
 ## Quick Reference
 
-| Task | Command/Action |
-|------|----------------|
-| Find next ADR number | Check index table above |
-| Create new ADR | `cp docs/0-process/references/adr-template.md docs/2-technical/adr/{NNN}-{slug}.md` |
-| View template | [ADR Template](/docs/0-process/references/adr-template.md) |
-| View writing guide | [ADR Writing Guide](/docs/0-process/references/adr-writing-guide.md) |
-| View in TAD | [TAD ADR Section](/docs/2-technical/2-tad.md#architecture-decision-records) |
+| Task                 | Command/Action                                                                      |
+| -------------------- | ----------------------------------------------------------------------------------- |
+| Find next ADR number | Check index table above                                                             |
+| Create new ADR       | `cp docs/0-process/references/adr-template.md docs/2-technical/adr/{NNN}-{slug}.md` |
+| View template        | [ADR Template](/docs/0-process/references/adr-template.md)                          |
+| View writing guide   | [ADR Writing Guide](/docs/0-process/references/adr-writing-guide.md)                |
+| View in TAD          | [TAD ADR Section](/docs/2-technical/2-tad.md#architecture-decision-records)         |
 
 ## Related Documentation
 

@@ -32,20 +32,20 @@
 
 ### Files to Create
 
-| Path                                              | Purpose                               |
-| ------------------------------------------------- | ------------------------------------- |
-| `packages/api-client/src/interceptors/response.ts` | Response interceptor implementation   |
-| `packages/api-client/src/errors.ts`               | Error class definitions               |
-| `packages/api-client/src/types/error.ts`          | Error type definitions                |
-| `packages/api-client/tests/interceptors/response.test.ts` | Response interceptor unit tests |
-| `packages/api-client/tests/errors.test.ts`        | Error class unit tests                |
+| Path                                                      | Purpose                             |
+| --------------------------------------------------------- | ----------------------------------- |
+| `packages/api-client/src/interceptors/response.ts`        | Response interceptor implementation |
+| `packages/api-client/src/errors.ts`                       | Error class definitions             |
+| `packages/api-client/src/types/error.ts`                  | Error type definitions              |
+| `packages/api-client/tests/interceptors/response.test.ts` | Response interceptor unit tests     |
+| `packages/api-client/tests/errors.test.ts`                | Error class unit tests              |
 
 ### Files to Modify
 
-| Path                                    | Changes                                    |
-| --------------------------------------- | ------------------------------------------ |
-| `packages/api-client/src/client.ts`     | Integrate response interceptor into client |
-| `packages/api-client/src/index.ts`      | Export error classes and types             |
+| Path                                     | Changes                                    |
+| ---------------------------------------- | ------------------------------------------ |
+| `packages/api-client/src/client.ts`      | Integrate response interceptor into client |
+| `packages/api-client/src/index.ts`       | Export error classes and types             |
 | `packages/api-client/src/types/index.ts` | Export error types                         |
 
 ### Dependencies
@@ -53,6 +53,7 @@
 > **Version Reference**: Use exact versions from [canonical-versions.md](/docs/2-technical/references/canonical-versions.md)
 
 **No additional dependencies required** - uses existing dependencies from S1:
+
 - `zod` - For error response validation
 - Built-in `fetch` API types
 
@@ -61,11 +62,11 @@
 > **Note**: For complete configuration file templates, reference the TAD.
 > This section describes configuration REQUIREMENTS, not full file contents.
 
-| Setting | Requirement | TAD Reference |
-| --- | --- | --- |
-| Error Structure | All errors must follow `APIError` class pattern with `statusCode`, `message`, `code`, and optional `details` | [TAD: API Design](/docs/2-technical/2-tad.md#api-design) |
-| Status Code Mapping | Map HTTP status codes to error codes (401→UNAUTHORIZED, 403→FORBIDDEN, 404→NOT_FOUND, 5xx→SERVER_ERROR) | [TAD: API Design](/docs/2-technical/2-tad.md#error-format) |
-| Environment Detection | Use `typeof window !== 'undefined'` to detect client vs server component context | [TAD: Package Architecture](/docs/2-technical/2-tad-package-architecture.md) |
+| Setting               | Requirement                                                                                                  | TAD Reference                                                                |
+| --------------------- | ------------------------------------------------------------------------------------------------------------ | ---------------------------------------------------------------------------- |
+| Error Structure       | All errors must follow `APIError` class pattern with `statusCode`, `message`, `code`, and optional `details` | [TAD: API Design](/docs/2-technical/2-tad.md#api-design)                     |
+| Status Code Mapping   | Map HTTP status codes to error codes (401→UNAUTHORIZED, 403→FORBIDDEN, 404→NOT_FOUND, 5xx→SERVER_ERROR)      | [TAD: API Design](/docs/2-technical/2-tad.md#error-format)                   |
+| Environment Detection | Use `typeof window !== 'undefined'` to detect client vs server component context                             | [TAD: Package Architecture](/docs/2-technical/2-tad-package-architecture.md) |
 
 **Configuration Rationale**: Consistent error structure enables predictable error handling across all API consumers. Environment detection ensures appropriate error handling in both server and client components (redirect vs error return).
 
@@ -171,13 +172,13 @@ Key pattern notes for this story:
 
 ### Troubleshooting
 
-| Issue | Cause | Solution |
-| --- | --- | --- |
-| 401 redirect not triggering in client component | Environment detection failing | Verify `typeof window !== 'undefined'` check executes before redirect |
-| Error details not populated | Response body not parsed | Ensure response body is read and parsed before creating error object |
-| TypeScript errors on error types | Error types not exported | Add error type exports to `src/types/index.ts` and `src/index.ts` |
-| Custom error handlers not invoked | Handler registered after interceptor setup | Register custom handlers before making API calls |
-| Server component triggering redirect | Environment detection incorrect | Check that server component has `window === undefined` |
+| Issue                                           | Cause                                      | Solution                                                              |
+| ----------------------------------------------- | ------------------------------------------ | --------------------------------------------------------------------- |
+| 401 redirect not triggering in client component | Environment detection failing              | Verify `typeof window !== 'undefined'` check executes before redirect |
+| Error details not populated                     | Response body not parsed                   | Ensure response body is read and parsed before creating error object  |
+| TypeScript errors on error types                | Error types not exported                   | Add error type exports to `src/types/index.ts` and `src/index.ts`     |
+| Custom error handlers not invoked               | Handler registered after interceptor setup | Register custom handlers before making API calls                      |
+| Server component triggering redirect            | Environment detection incorrect            | Check that server component has `window === undefined`                |
 
 ### Reference Materials
 
@@ -220,17 +221,20 @@ Link to decisions documented elsewhere that apply to this story:
 **Decision**: Implement response interceptor as a separate module (`src/interceptors/response.ts`) rather than inline in the base client
 
 **Rationale**:
+
 - Separation of concerns - keeps client.ts focused on core fetch logic
 - Easier testing - response interceptor can be unit tested independently
 - Reusability - response interceptor can be composed with other interceptors
 - Maintainability - error handling logic is centralized in one module
 
 **Consequences**:
+
 - Positive: Cleaner code organization and easier maintenance
 - Positive: Better testability with isolated unit tests
 - Negative: Slight increase in module complexity (one additional file)
 
 **Alternatives Considered**:
+
 - **Inline in client.ts**: All logic in one file - Rejected because it would make the client file too complex and harder to test
 
 #### AD-2A.8.S3.2: Error Class Hierarchy vs Error Codes Only
@@ -240,17 +244,20 @@ Link to decisions documented elsewhere that apply to this story:
 **Decision**: Use error class hierarchy (`UnauthorizedError`, `ForbiddenError`, etc.) in addition to error codes
 
 **Rationale**:
+
 - Type safety - TypeScript can narrow error types with `instanceof` checks
 - Semantic meaning - Error class name provides immediate context
 - Extensibility - Easy to add error-specific methods or properties later
 - Developer experience - IDE autocomplete works better with classes
 
 **Consequences**:
+
 - Positive: Better TypeScript IntelliSense and type narrowing
 - Positive: More semantic error handling code
 - Negative: Slightly larger bundle size (minimal impact)
 
 **Alternatives Considered**:
+
 - **Error codes only**: Single error class with code property - Rejected because it provides less type safety and worse DX
 
 ## Out of Scope

@@ -30,20 +30,20 @@
 
 ### Files to Create
 
-| Path                                          | Purpose                                  |
-| --------------------------------------------- | ---------------------------------------- |
-| `apps/routing/lib/cdn.ts`                     | CDN URL utilities and helpers            |
-| `apps/routing/components/OptimizedImage.tsx`  | Wrapper component for Next.js Image      |
-| `apps/routing/public/fonts/.gitkeep`          | Font directory placeholder               |
+| Path                                         | Purpose                             |
+| -------------------------------------------- | ----------------------------------- |
+| `apps/routing/lib/cdn.ts`                    | CDN URL utilities and helpers       |
+| `apps/routing/components/OptimizedImage.tsx` | Wrapper component for Next.js Image |
+| `apps/routing/public/fonts/.gitkeep`         | Font directory placeholder          |
 
 ### Files to Modify
 
-| Path                            | Changes                                               |
-| ------------------------------- | ----------------------------------------------------- |
-| `apps/routing/next.config.js`   | Add image domain configuration, asset prefix          |
-| `apps/routing/app/layout.tsx`   | Add font preload links, configure font loading        |
-| `apps/routing/package.json`     | Add @vercel/analytics dependency for CDN metrics      |
-| `apps/routing/.env.local.example` | Add CDN_DOMAIN environment variable example         |
+| Path                              | Changes                                          |
+| --------------------------------- | ------------------------------------------------ |
+| `apps/routing/next.config.js`     | Add image domain configuration, asset prefix     |
+| `apps/routing/app/layout.tsx`     | Add font preload links, configure font loading   |
+| `apps/routing/package.json`       | Add @vercel/analytics dependency for CDN metrics |
+| `apps/routing/.env.local.example` | Add CDN_DOMAIN environment variable example      |
 
 ### Dependencies
 
@@ -62,15 +62,16 @@ pnpm add next-fonts
 > **Note**: For complete configuration file templates, reference the TAD.
 > This section describes configuration REQUIREMENTS, not full file contents.
 
-| Setting                 | Requirement                                           | TAD Reference                                                                         |
-| ----------------------- | ----------------------------------------------------- | ------------------------------------------------------------------------------------- |
-| Image Domains           | Configure allowed CDN domains for image optimization  | [TAD: CDN Architecture](/docs/2-technical/2-tad-cdn.md#configuration)                 |
-| Image Formats           | Enable AVIF and WebP with JPEG/PNG fallback           | [TAD: CDN Architecture](/docs/2-technical/2-tad-cdn.md#image-formats)                 |
-| Image Sizes             | Configure responsive breakpoints (640-3840px)         | [TAD: CDN Architecture](/docs/2-technical/2-tad-cdn.md#responsive-images)             |
-| Cache Control Headers   | Set 1-year max-age with immutable for static assets   | [TAD: CDN Architecture](/docs/2-technical/2-tad-cdn.md#caching-rules-by-content-type) |
-| Font Loading Strategy   | Use font-display: swap with preload for critical fonts| [TAD: CDN Architecture](/docs/2-technical/2-tad-cdn.md#font-loading-strategy)         |
+| Setting               | Requirement                                            | TAD Reference                                                                         |
+| --------------------- | ------------------------------------------------------ | ------------------------------------------------------------------------------------- |
+| Image Domains         | Configure allowed CDN domains for image optimization   | [TAD: CDN Architecture](/docs/2-technical/2-tad-cdn.md#configuration)                 |
+| Image Formats         | Enable AVIF and WebP with JPEG/PNG fallback            | [TAD: CDN Architecture](/docs/2-technical/2-tad-cdn.md#image-formats)                 |
+| Image Sizes           | Configure responsive breakpoints (640-3840px)          | [TAD: CDN Architecture](/docs/2-technical/2-tad-cdn.md#responsive-images)             |
+| Cache Control Headers | Set 1-year max-age with immutable for static assets    | [TAD: CDN Architecture](/docs/2-technical/2-tad-cdn.md#caching-rules-by-content-type) |
+| Font Loading Strategy | Use font-display: swap with preload for critical fonts | [TAD: CDN Architecture](/docs/2-technical/2-tad-cdn.md#font-loading-strategy)         |
 
 **Configuration Rationale**:
+
 - Image domain configuration is required for Next.js Image Optimization to work with external CDN
 - Modern image formats (AVIF/WebP) reduce bandwidth by 40-60% compared to JPEG/PNG
 - Responsive image sizes ensure appropriate images are served for each viewport
@@ -192,14 +193,14 @@ Key pattern notes for this story:
 
 ### Troubleshooting
 
-| Issue                                  | Cause                                      | Solution                                                              |
-| -------------------------------------- | ------------------------------------------ | --------------------------------------------------------------------- |
-| Images not loading from CDN            | CDN domain not in image domains config     | Add CDN domain to `next.config.js` images.domains or remotePatterns  |
-| Images served in JPEG instead of WebP  | Browser doesn't support WebP/AVIF          | Verify `formats: ['image/avif', 'image/webp']` in next.config.js     |
-| Font flash of unstyled text (FOUT)     | Font not preloaded                         | Add `<link rel="preload">` for critical fonts in layout              |
-| Image transformation errors            | Invalid image dimensions or format         | Validate image dimensions are within Vercel limits (4096x4096)       |
-| Cache headers not applied              | Headers configuration missing              | Add headers configuration to next.config.js for static assets        |
-| CORS errors on CDN assets              | Missing CORS headers                       | Configure CORS headers in Vercel CDN settings or next.config.js      |
+| Issue                                 | Cause                                  | Solution                                                            |
+| ------------------------------------- | -------------------------------------- | ------------------------------------------------------------------- |
+| Images not loading from CDN           | CDN domain not in image domains config | Add CDN domain to `next.config.js` images.domains or remotePatterns |
+| Images served in JPEG instead of WebP | Browser doesn't support WebP/AVIF      | Verify `formats: ['image/avif', 'image/webp']` in next.config.js    |
+| Font flash of unstyled text (FOUT)    | Font not preloaded                     | Add `<link rel="preload">` for critical fonts in layout             |
+| Image transformation errors           | Invalid image dimensions or format     | Validate image dimensions are within Vercel limits (4096x4096)      |
+| Cache headers not applied             | Headers configuration missing          | Add headers configuration to next.config.js for static assets       |
+| CORS errors on CDN assets             | Missing CORS headers                   | Configure CORS headers in Vercel CDN settings or next.config.js     |
 
 ### Reference Materials
 
@@ -240,6 +241,7 @@ Link to decisions documented elsewhere that apply to this story:
 **Decision**: Use Next.js `next/font/google` to self-host Google Fonts rather than loading from Google's CDN.
 
 **Rationale**:
+
 - Eliminates external request to Google Fonts CDN, reducing latency
 - Improves privacy by not sending user data to Google
 - Enables better caching control (same-origin assets)
@@ -247,12 +249,14 @@ Link to decisions documented elsewhere that apply to this story:
 - Prevents layout shift with automatic font-display configuration
 
 **Consequences**:
+
 - Font files are bundled with application deployment
 - Slightly larger deployment size (fonts included)
 - Better performance and privacy for end users
 - No external dependencies for font loading
 
 **Alternatives Considered**:
+
 - **Option 1**: Use Google Fonts CDN directly - Rejected due to privacy concerns and external dependency
 - **Option 2**: Manually self-host font files - Rejected because next/font provides automatic optimization and subsetting
 
@@ -263,6 +267,7 @@ Link to decisions documented elsewhere that apply to this story:
 **Decision**: Create an `OptimizedImage` wrapper component around Next.js Image rather than using `next/image` directly throughout the app.
 
 **Rationale**:
+
 - Provides consistent default props (quality, loading strategy)
 - Enables project-wide image optimization standards
 - Simplifies developer experience with sensible defaults
@@ -270,12 +275,14 @@ Link to decisions documented elsewhere that apply to this story:
 - Easier to update image optimization strategy in future
 
 **Consequences**:
+
 - Developers use `<OptimizedImage>` instead of `<Image>` from next/image
 - Additional abstraction layer (minimal overhead)
 - Consistent image behavior across entire application
 - Easier to enforce accessibility requirements (alt text validation)
 
 **Alternatives Considered**:
+
 - **Option 1**: Use next/image directly everywhere - Rejected due to lack of consistent defaults and harder to enforce standards
 - **Option 2**: ESLint rule to enforce image props - Rejected because wrapper component provides better DX and flexibility
 
@@ -369,15 +376,15 @@ The following items are explicitly NOT part of this story:
 // apps/routing/next.config.js
 const config = {
   images: {
-    formats: ['image/avif', 'image/webp'],
+    formats: ["image/avif", "image/webp"],
     deviceSizes: [640, 750, 828, 1080, 1200, 1920, 2048, 3840],
     imageSizes: [16, 32, 48, 64, 96, 128, 256, 384],
     minimumCacheTTL: 31536000, // 1 year
     remotePatterns: [
       {
-        protocol: 'https',
-        hostname: process.env.CDN_DOMAIN || 'cdn.example.com',
-        pathname: '/**',
+        protocol: "https",
+        hostname: process.env.CDN_DOMAIN || "cdn.example.com",
+        pathname: "/**",
       },
     ],
   },

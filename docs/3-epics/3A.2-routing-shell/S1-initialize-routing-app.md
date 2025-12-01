@@ -29,28 +29,28 @@
 
 ### Files to Create
 
-| Path                                        | Purpose                                   |
-| ------------------------------------------- | ----------------------------------------- |
-| `apps/routing/package.json`                 | Application dependencies and scripts      |
-| `apps/routing/next.config.js`               | Next.js configuration for routing app     |
-| `apps/routing/tsconfig.json`                | TypeScript configuration                  |
-| `apps/routing/app/layout.tsx`               | Root layout component                     |
-| `apps/routing/app/page.tsx`                 | Home page (minimal landing)               |
-| `apps/routing/app/api/health/route.ts`      | Health check endpoint                     |
-| `apps/routing/.env.local.example`           | Environment variable template             |
-| `apps/routing/README.md`                    | Application documentation                 |
-| `apps/routing/public/.gitkeep`              | Public directory placeholder              |
-| `apps/routing/.eslintrc.js`                 | ESLint configuration                      |
-| `apps/routing/vercel.json`                  | Vercel deployment configuration           |
-| `apps/routing/middleware.ts`                | Edge middleware entry point (placeholder) |
+| Path                                   | Purpose                                   |
+| -------------------------------------- | ----------------------------------------- |
+| `apps/routing/package.json`            | Application dependencies and scripts      |
+| `apps/routing/next.config.js`          | Next.js configuration for routing app     |
+| `apps/routing/tsconfig.json`           | TypeScript configuration                  |
+| `apps/routing/app/layout.tsx`          | Root layout component                     |
+| `apps/routing/app/page.tsx`            | Home page (minimal landing)               |
+| `apps/routing/app/api/health/route.ts` | Health check endpoint                     |
+| `apps/routing/.env.local.example`      | Environment variable template             |
+| `apps/routing/README.md`               | Application documentation                 |
+| `apps/routing/public/.gitkeep`         | Public directory placeholder              |
+| `apps/routing/.eslintrc.js`            | ESLint configuration                      |
+| `apps/routing/vercel.json`             | Vercel deployment configuration           |
+| `apps/routing/middleware.ts`           | Edge middleware entry point (placeholder) |
 
 ### Files to Modify
 
-| Path                       | Changes                                         |
-| -------------------------- | ----------------------------------------------- |
-| `turbo.json`               | Add `@repo/apps/routing#build` task             |
-| `pnpm-workspace.yaml`      | Already includes `apps/*` (verify)              |
-| `.github/workflows/ci.yml` | Add routing build to CI workflow (if separate)  |
+| Path                       | Changes                                        |
+| -------------------------- | ---------------------------------------------- |
+| `turbo.json`               | Add `@repo/apps/routing#build` task            |
+| `pnpm-workspace.yaml`      | Already includes `apps/*` (verify)             |
+| `.github/workflows/ci.yml` | Add routing build to CI workflow (if separate) |
 
 ### Dependencies
 
@@ -74,16 +74,17 @@ pnpm add -D @repo/typescript-config @repo/eslint-config typescript @types/react 
 > **Note**: For complete configuration file templates, reference the TAD.
 > This section describes configuration REQUIREMENTS, not full file contents.
 
-| Setting               | Requirement                                    | TAD Reference                                                                  |
-| --------------------- | ---------------------------------------------- | ------------------------------------------------------------------------------ |
-| Next.js App Router    | Must use App Router (not Pages Router)         | [TAD: System Architecture](/docs/2-technical/2-tad.md#system-architecture)    |
-| Server Components     | Default to Server Components                   | [TAD: Package Architecture](/docs/2-technical/2-tad-package-architecture.md)  |
-| TypeScript Strict     | Enable strict mode                             | [TAD: Technology Stack](/docs/2-technical/2-tad.md#technology-stack)          |
-| ESLint Configuration  | Extend `@repo/eslint-config`                   | [Coding Standards](/docs/2-technical/references/coding-standards.md)          |
-| Vercel Edge Network   | Enable global edge distribution                | [ADR-004: Vercel Hosting](/docs/2-technical/adr/004-vercel-hosting.md)        |
-| Security Headers      | X-Content-Type-Options, X-Frame-Options, etc.  | [TAD: Security Architecture](/docs/2-technical/2-tad.md#security-architecture)|
+| Setting              | Requirement                                   | TAD Reference                                                                  |
+| -------------------- | --------------------------------------------- | ------------------------------------------------------------------------------ |
+| Next.js App Router   | Must use App Router (not Pages Router)        | [TAD: System Architecture](/docs/2-technical/2-tad.md#system-architecture)     |
+| Server Components    | Default to Server Components                  | [TAD: Package Architecture](/docs/2-technical/2-tad-package-architecture.md)   |
+| TypeScript Strict    | Enable strict mode                            | [TAD: Technology Stack](/docs/2-technical/2-tad.md#technology-stack)           |
+| ESLint Configuration | Extend `@repo/eslint-config`                  | [Coding Standards](/docs/2-technical/references/coding-standards.md)           |
+| Vercel Edge Network  | Enable global edge distribution               | [ADR-004: Vercel Hosting](/docs/2-technical/adr/004-vercel-hosting.md)         |
+| Security Headers     | X-Content-Type-Options, X-Frame-Options, etc. | [TAD: Security Architecture](/docs/2-technical/2-tad.md#security-architecture) |
 
 **Configuration Rationale**:
+
 - App Router provides better performance with Server Components and streaming SSR
 - Server Components reduce client bundle size and improve initial page load
 - Strict TypeScript mode catches more errors at compile time
@@ -205,14 +206,14 @@ Key pattern notes for this story:
 
 ### Troubleshooting
 
-| Issue                                  | Cause                                     | Solution                                                 |
-| -------------------------------------- | ----------------------------------------- | -------------------------------------------------------- |
-| Build fails with module not found      | Missing workspace dependencies            | Run `pnpm install` from workspace root                   |
-| TypeScript errors in Next.js config    | Using .ts instead of .js for config       | Use `next.config.js` (JavaScript file)                   |
-| App Router routes not working          | Using Pages Router structure              | Ensure using `app/` directory, not `pages/`              |
-| Vercel deployment fails                | Missing vercel.json or invalid config     | Validate vercel.json syntax and deployment settings      |
-| Health endpoint returns 404            | Route handler not in correct location     | Ensure file is at `app/api/health/route.ts`              |
-| Middleware not executing               | middleware.ts not in root or invalid      | Place middleware.ts in app root, export config object    |
+| Issue                               | Cause                                 | Solution                                              |
+| ----------------------------------- | ------------------------------------- | ----------------------------------------------------- |
+| Build fails with module not found   | Missing workspace dependencies        | Run `pnpm install` from workspace root                |
+| TypeScript errors in Next.js config | Using .ts instead of .js for config   | Use `next.config.js` (JavaScript file)                |
+| App Router routes not working       | Using Pages Router structure          | Ensure using `app/` directory, not `pages/`           |
+| Vercel deployment fails             | Missing vercel.json or invalid config | Validate vercel.json syntax and deployment settings   |
+| Health endpoint returns 404         | Route handler not in correct location | Ensure file is at `app/api/health/route.ts`           |
+| Middleware not executing            | middleware.ts not in root or invalid  | Place middleware.ts in app root, export config object |
 
 ### Reference Materials
 
@@ -253,17 +254,20 @@ Link to decisions documented elsewhere that apply to this story:
 **Decision**: The initial home page will contain only a minimal "Coming Soon" message without product-specific content or navigation.
 
 **Rationale**:
+
 - This is a foundation story focused on infrastructure setup
 - Product-specific routes and content are handled in Epic 3B.3 (Routing Configuration)
 - Separation of concerns: routing shell infrastructure vs. product routes
 - Prevents scope creep and keeps story focused
 
 **Consequences**:
+
 - Home page will need to be updated in Epic 3B.3 with actual product routing logic
 - Initial deployment will have a basic landing page
 - Clear separation between infrastructure setup and product implementation
 
 **Alternatives Considered**:
+
 - **Option 1**: Include basic navigation and product links - Rejected because product routes are out of scope for this epic
 - **Option 2**: Empty page with no content - Rejected because it would fail accessibility and SEO requirements
 
@@ -274,17 +278,20 @@ Link to decisions documented elsewhere that apply to this story:
 **Decision**: Create `middleware.ts` with minimal placeholder structure rather than implementing full middleware logic in this story.
 
 **Rationale**:
+
 - Middleware configuration framework is the responsibility of S2
 - This story focuses on application initialization and deployment
 - Placeholder allows file structure to be complete while deferring implementation
 - Prevents premature implementation of features belonging to dependent stories
 
 **Consequences**:
+
 - Middleware file exists but doesn't perform any routing logic until S2
 - S2 will add rewrite configuration logic to the placeholder
 - Clear dependency: S1 creates structure, S2 implements functionality
 
 **Alternatives Considered**:
+
 - **Option 1**: No middleware file in S1 - Rejected because S2 would need to modify file structure, creating confusion
 - **Option 2**: Implement basic rewrites in S1 - Rejected because it violates story boundaries and S2 scope
 

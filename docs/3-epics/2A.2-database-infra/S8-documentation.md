@@ -30,26 +30,26 @@
 
 ### Files to Create
 
-| Path | Purpose |
-| ---- | ------- |
-| `packages/database/README.md` | Primary package documentation with quick start and API reference |
-| `packages/database/docs/migrations.md` | Migration workflow and best practices guide |
-| `packages/database/docs/connections.md` | Connection setup, pooling, and edge runtime configuration |
-| `packages/database/docs/utilities.md` | Utility function reference with usage examples |
-| `packages/database/docs/seeding.md` | Seed framework documentation and custom seed creation |
-| `packages/database/docs/troubleshooting.md` | Common issues and solutions |
-| `packages/database/examples/basic-query.ts` | Example of basic type-safe queries |
-| `packages/database/examples/organization-scoped.ts` | Example of organization-scoped queries |
-| `packages/database/examples/migration-workflow.ts` | Example migration workflow script |
+| Path                                                | Purpose                                                          |
+| --------------------------------------------------- | ---------------------------------------------------------------- |
+| `packages/database/README.md`                       | Primary package documentation with quick start and API reference |
+| `packages/database/docs/migrations.md`              | Migration workflow and best practices guide                      |
+| `packages/database/docs/connections.md`             | Connection setup, pooling, and edge runtime configuration        |
+| `packages/database/docs/utilities.md`               | Utility function reference with usage examples                   |
+| `packages/database/docs/seeding.md`                 | Seed framework documentation and custom seed creation            |
+| `packages/database/docs/troubleshooting.md`         | Common issues and solutions                                      |
+| `packages/database/examples/basic-query.ts`         | Example of basic type-safe queries                               |
+| `packages/database/examples/organization-scoped.ts` | Example of organization-scoped queries                           |
+| `packages/database/examples/migration-workflow.ts`  | Example migration workflow script                                |
 
 ### Files to Modify
 
-| Path | Changes |
-| ---- | ------- |
-| `packages/database/src/client.ts` | Add JSDoc comments to exported client |
-| `packages/database/src/utils/*.ts` | Add comprehensive JSDoc documentation |
+| Path                                  | Changes                                   |
+| ------------------------------------- | ----------------------------------------- |
+| `packages/database/src/client.ts`     | Add JSDoc comments to exported client     |
+| `packages/database/src/utils/*.ts`    | Add comprehensive JSDoc documentation     |
 | `packages/database/src/seed/index.ts` | Add JSDoc comments for seed framework API |
-| `packages/database/src/index.ts` | Add JSDoc comments to public exports |
+| `packages/database/src/index.ts`      | Add JSDoc comments to public exports      |
 
 ### Dependencies
 
@@ -57,12 +57,12 @@ No new dependencies required - this story focuses on documentation.
 
 ### Configuration Details
 
-| Setting | Requirement | Notes |
-| ------- | ----------- | ----- |
-| README structure | Follow standard package README format | Installation, usage, API, contributing, license |
-| Code examples | All examples must be runnable | Include necessary imports and type annotations |
-| JSDoc format | Use TypeScript JSDoc conventions | `@param`, `@returns`, `@example`, `@throws` |
-| Documentation links | Reference TAD and ADRs | Link to [TAD: Database & ORM](/docs/2-technical/2-tad.md#database--orm) and relevant ADRs |
+| Setting             | Requirement                           | Notes                                                                                     |
+| ------------------- | ------------------------------------- | ----------------------------------------------------------------------------------------- |
+| README structure    | Follow standard package README format | Installation, usage, API, contributing, license                                           |
+| Code examples       | All examples must be runnable         | Include necessary imports and type annotations                                            |
+| JSDoc format        | Use TypeScript JSDoc conventions      | `@param`, `@returns`, `@example`, `@throws`                                               |
+| Documentation links | Reference TAD and ADRs                | Link to [TAD: Database & ORM](/docs/2-technical/2-tad.md#database--orm) and relevant ADRs |
 
 **Configuration Rationale**:
 

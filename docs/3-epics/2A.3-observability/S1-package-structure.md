@@ -30,22 +30,22 @@
 
 ### Files to Create
 
-| Path                                    | Purpose                                     |
-| --------------------------------------- | ------------------------------------------- |
-| `packages/observability/package.json`   | Package configuration and dependencies      |
+| Path                                    | Purpose                                         |
+| --------------------------------------- | ----------------------------------------------- |
+| `packages/observability/package.json`   | Package configuration and dependencies          |
 | `packages/observability/tsconfig.json`  | TypeScript configuration extending @repo/config |
-| `packages/observability/.eslintrc.js`   | ESLint configuration extending @repo/config |
-| `packages/observability/src/index.ts`   | Main package entry point with exports       |
-| `packages/observability/src/types.ts`   | Shared TypeScript type definitions          |
-| `packages/observability/README.md`      | Package documentation                       |
-| `packages/observability/.gitignore`     | Git ignore rules for build artifacts        |
-| `packages/observability/tsup.config.ts` | Build configuration for package bundling    |
+| `packages/observability/.eslintrc.js`   | ESLint configuration extending @repo/config     |
+| `packages/observability/src/index.ts`   | Main package entry point with exports           |
+| `packages/observability/src/types.ts`   | Shared TypeScript type definitions              |
+| `packages/observability/README.md`      | Package documentation                           |
+| `packages/observability/.gitignore`     | Git ignore rules for build artifacts            |
+| `packages/observability/tsup.config.ts` | Build configuration for package bundling        |
 
 ### Files to Modify
 
-| Path         | Changes                                                 |
-| ------------ | ------------------------------------------------------- |
-| `turbo.json` | Add `@repo/observability#build` task to pipeline        |
+| Path                       | Changes                                            |
+| -------------------------- | -------------------------------------------------- |
+| `turbo.json`               | Add `@repo/observability#build` task to pipeline   |
 | Root `pnpm-workspace.yaml` | Verify `packages/*` pattern includes observability |
 
 ### Dependencies
@@ -71,13 +71,13 @@ pnpm add -D typescript tsup @repo/config
 > **Note**: For complete configuration file templates, reference the TAD.
 > This section describes configuration REQUIREMENTS, not full file contents.
 
-| Setting                      | Requirement                                              | TAD Reference                                                                  |
-| ---------------------------- | -------------------------------------------------------- | ------------------------------------------------------------------------------ |
-| TypeScript `strict` mode     | Must be enabled for type safety                          | [TAD: Package Architecture](/docs/2-technical/2-tad-package-architecture.md)   |
-| ESLint extends               | Must extend `@repo/config/eslint/base`                   | [TAD: Package Architecture](/docs/2-technical/2-tad-package-architecture.md)   |
-| Package exports              | Use conditional exports for ESM                          | [TAD: Package Architecture](/docs/2-technical/2-tad-package-architecture.md)   |
-| Build output                 | Generate ESM modules in `dist/` directory                | [TAD: Package Architecture](/docs/2-technical/2-tad-package-architecture.md)   |
-| Module type                  | `"type": "module"` for native ESM support                | [TAD: Package Architecture](/docs/2-technical/2-tad-package-architecture.md)   |
+| Setting                  | Requirement                               | TAD Reference                                                                |
+| ------------------------ | ----------------------------------------- | ---------------------------------------------------------------------------- |
+| TypeScript `strict` mode | Must be enabled for type safety           | [TAD: Package Architecture](/docs/2-technical/2-tad-package-architecture.md) |
+| ESLint extends           | Must extend `@repo/config/eslint/base`    | [TAD: Package Architecture](/docs/2-technical/2-tad-package-architecture.md) |
+| Package exports          | Use conditional exports for ESM           | [TAD: Package Architecture](/docs/2-technical/2-tad-package-architecture.md) |
+| Build output             | Generate ESM modules in `dist/` directory | [TAD: Package Architecture](/docs/2-technical/2-tad-package-architecture.md) |
+| Module type              | `"type": "module"` for native ESM support | [TAD: Package Architecture](/docs/2-technical/2-tad-package-architecture.md) |
 
 **Configuration Rationale**: The observability package must support both server and client environments (Edge, Node.js, browser), requiring ESM modules with proper conditional exports. TypeScript strict mode ensures type safety for logging metadata and error handling. Build tooling (tsup) enables tree-shaking for minimal bundle impact on client-side applications.
 
@@ -157,12 +157,12 @@ Key pattern notes for this story:
 
 ### Troubleshooting
 
-| Issue                                      | Cause                                        | Solution                                                         |
-| ------------------------------------------ | -------------------------------------------- | ---------------------------------------------------------------- |
-| TypeScript cannot find `@repo/config`      | Config package not built or linked           | Run `pnpm build --filter @repo/config` first                     |
-| Import fails with module not found         | Package exports not configured correctly     | Verify `package.json` exports field matches file structure       |
-| Turborepo doesn't cache build              | Task not defined in `turbo.json`             | Add `@repo/observability#build` to pipeline with outputs config  |
-| ESLint fails with config not found         | ESLint config package not installed properly | Verify `@repo/config` is in devDependencies and installed        |
+| Issue                                      | Cause                                        | Solution                                                             |
+| ------------------------------------------ | -------------------------------------------- | -------------------------------------------------------------------- |
+| TypeScript cannot find `@repo/config`      | Config package not built or linked           | Run `pnpm build --filter @repo/config` first                         |
+| Import fails with module not found         | Package exports not configured correctly     | Verify `package.json` exports field matches file structure           |
+| Turborepo doesn't cache build              | Task not defined in `turbo.json`             | Add `@repo/observability#build` to pipeline with outputs config      |
+| ESLint fails with config not found         | ESLint config package not installed properly | Verify `@repo/config` is in devDependencies and installed            |
 | Type checking fails with strict mode error | Source files have type errors                | Fix type errors or add `@ts-expect-error` comments with explanations |
 
 ### Reference Materials
@@ -179,6 +179,7 @@ Key pattern notes for this story:
 ## Architecture Decisions
 
 **Consolidated Decisions** (documented in TAD/ADRs):
+
 - [TAD: Package Architecture](/docs/2-technical/2-tad-package-architecture.md) - Monorepo package structure
 - [ADR-001: Monorepo with Turborepo](/docs/2-technical/adr/001-monorepo-turborepo.md) - Build caching rationale
 - [TAD: Observability Architecture](/docs/2-technical/2-tad-observability.md) - Overall observability strategy
@@ -216,6 +217,7 @@ The following items are explicitly NOT part of this story:
 ## References
 
 **Internal**:
+
 - [EPIC.md: Overview](./EPIC.md#overview), [Technical Constraints](./EPIC.md#technical-constraints)
 - [TAD: Package Architecture](/docs/2-technical/2-tad-package-architecture.md)
 - [TAD: Observability Architecture](/docs/2-technical/2-tad-observability.md)
@@ -223,6 +225,7 @@ The following items are explicitly NOT part of this story:
 - [ADR-002: pnpm as Package Manager](/docs/2-technical/adr/002-pnpm-package-manager.md)
 
 **External**:
+
 - [Turborepo Handbook](https://turbo.build/repo/docs/core-concepts/monorepos/structuring-a-repository)
 - [pnpm Workspaces](https://pnpm.io/workspaces)
 - [TypeScript Package Exports](https://www.typescriptlang.org/docs/handbook/esm-node.html)

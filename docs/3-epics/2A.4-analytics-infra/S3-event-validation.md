@@ -31,19 +31,19 @@
 
 ### Files to Create
 
-| Path | Purpose |
-|------|---------|
-| `packages/analytics/src/validation.ts` | Zod schema definitions and validation logic |
-| `packages/analytics/__tests__/validation.test.ts` | Unit tests for event validation |
+| Path                                              | Purpose                                     |
+| ------------------------------------------------- | ------------------------------------------- |
+| `packages/analytics/src/validation.ts`            | Zod schema definitions and validation logic |
+| `packages/analytics/__tests__/validation.test.ts` | Unit tests for event validation             |
 
 ### Files to Modify
 
-| Path | Changes |
-|------|---------|
+| Path                                 | Changes                                           |
+| ------------------------------------ | ------------------------------------------------- |
 | `packages/analytics/src/tracking.ts` | Integrate validation into `trackEvent()` function |
-| `packages/analytics/src/types.ts` | Add inferred types from Zod schemas |
-| `packages/analytics/src/index.ts` | Export validation schemas and utility functions |
-| `packages/analytics/package.json` | Add `zod` dependency |
+| `packages/analytics/src/types.ts`    | Add inferred types from Zod schemas               |
+| `packages/analytics/src/index.ts`    | Export validation schemas and utility functions   |
+| `packages/analytics/package.json`    | Add `zod` dependency                              |
 
 ### Dependencies
 
@@ -67,11 +67,11 @@ pnpm add @repo/observability
 > **Note**: For complete configuration file templates, reference the TAD.
 > This section describes configuration REQUIREMENTS, not full file contents.
 
-| Setting | Requirement | TAD Reference |
-|---------|-------------|---------------|
-| Schema validation mode | Strict mode with `.strict()` to prevent unknown properties | [TAD: Package Architecture](/docs/2-technical/2-tad.md#package-architecture) |
-| Error handling | Log validation errors, don't throw exceptions | [TAD: Analytics & Observability](/docs/2-technical/2-tad.md#analytics--observability) |
-| Type inference | Use `z.infer<typeof Schema>` for compile-time types | [TAD: Package Architecture](/docs/2-technical/2-tad.md#package-architecture) |
+| Setting                 | Requirement                                                   | TAD Reference                                                                         |
+| ----------------------- | ------------------------------------------------------------- | ------------------------------------------------------------------------------------- |
+| Schema validation mode  | Strict mode with `.strict()` to prevent unknown properties    | [TAD: Package Architecture](/docs/2-technical/2-tad.md#package-architecture)          |
+| Error handling          | Log validation errors, don't throw exceptions                 | [TAD: Analytics & Observability](/docs/2-technical/2-tad.md#analytics--observability) |
+| Type inference          | Use `z.infer<typeof Schema>` for compile-time types           | [TAD: Package Architecture](/docs/2-technical/2-tad.md#package-architecture)          |
 | JSON-serializable check | Prevent functions, symbols, circular references in properties | [TAD: Analytics & Observability](/docs/2-technical/2-tad.md#analytics--observability) |
 
 **Configuration Rationale**: Zod schemas provide both runtime validation and TypeScript type inference, ensuring event data is type-safe at compile time and valid at runtime. Strict mode prevents typos in property names and accidental inclusion of invalid data. Fire-and-forget pattern is maintained by logging validation errors without throwing, preventing analytics from breaking application flow. JSON-serializable validation ensures events can be safely transmitted to analytics providers via network requests.
@@ -185,13 +185,13 @@ Key pattern notes for this story:
 
 ### Troubleshooting
 
-| Issue | Cause | Solution |
-|-------|-------|----------|
-| TypeScript error: type mismatch | Zod schema and TypeScript types out of sync | Use `z.infer<typeof Schema>` for all types instead of manual definitions |
-| Validation always fails | Schema too strict or missing required fields | Check schema definition matches event structure from S2 |
-| Functions pass validation | JSON-serializable check not implemented | Add explicit function rejection in schema or pre-validation check |
-| Circular reference crashes | JSON.stringify called on circular object | Add pre-validation check for circular refs before validation |
-| Logger import fails | @repo/observability not built or installed | Run `pnpm build --filter @repo/observability` first |
+| Issue                           | Cause                                        | Solution                                                                 |
+| ------------------------------- | -------------------------------------------- | ------------------------------------------------------------------------ |
+| TypeScript error: type mismatch | Zod schema and TypeScript types out of sync  | Use `z.infer<typeof Schema>` for all types instead of manual definitions |
+| Validation always fails         | Schema too strict or missing required fields | Check schema definition matches event structure from S2                  |
+| Functions pass validation       | JSON-serializable check not implemented      | Add explicit function rejection in schema or pre-validation check        |
+| Circular reference crashes      | JSON.stringify called on circular object     | Add pre-validation check for circular refs before validation             |
+| Logger import fails             | @repo/observability not built or installed   | Run `pnpm build --filter @repo/observability` first                      |
 
 ### Reference Materials
 
@@ -221,18 +221,21 @@ Key pattern notes for this story:
 **Decision**: Use `.strict()` on all event schemas to reject events with unknown properties
 
 **Rationale**:
+
 - Catches typos in property names at runtime (e.g., `trackEvent('click', { buton: 'submit' })`)
 - Prevents accidental inclusion of sensitive data (e.g., full user objects instead of user IDs)
 - Forces developers to explicitly define all tracked properties, improving documentation
 - Aligns with privacy-first approach by preventing unintended data collection
 
 **Consequences**:
+
 - Events with extra properties will be rejected and logged as errors
 - Developers must update schemas when adding new properties (intentional friction)
 - Slightly more restrictive than permissive validation, but catches more bugs
 - May generate false positives if developers accidentally include extra context
 
 **Alternatives Considered**:
+
 - **Permissive validation** (`.passthrough()` or default): Rejected because allows typos and accidental data leakage
 - **Strip unknown properties** (`.strip()`): Rejected because silently discards data, making bugs harder to detect
 
@@ -243,6 +246,7 @@ Key pattern notes for this story:
 **Decision**: Validation failures are logged via `@repo/observability` logger but don't throw exceptions; `trackEvent()` returns void regardless of validation outcome
 
 **Rationale**:
+
 - Maintains fire-and-forget analytics pattern from S2
 - Analytics should never crash or block application code
 - Validation errors indicate developer bugs (bad instrumentation), not user errors
@@ -250,12 +254,14 @@ Key pattern notes for this story:
 - Consistent with industry-standard analytics APIs (PostHog, Segment, GA)
 
 **Consequences**:
+
 - Developers must check logs to detect validation failures
 - Invalid events are silently dropped (with log entry)
 - No runtime feedback to calling code about validation success
 - Simplifies API surface (no error handling needed by callers)
 
 **Alternatives Considered**:
+
 - **Throw exceptions**: Rejected because analytics should never break application flow
 - **Return boolean success flag**: Rejected because encourages callers to handle analytics errors (anti-pattern)
 - **Silent failure (no logging)**: Rejected because makes debugging impossible
@@ -286,6 +292,7 @@ The following items are explicitly NOT part of this story:
 ## References
 
 **Internal**:
+
 - [EPIC.md: Technical Constraints](./EPIC.md#technical-constraints)
 - [TAD: Package Architecture](/docs/2-technical/2-tad.md#package-architecture)
 - [TAD: Analytics & Observability](/docs/2-technical/2-tad.md#analytics--observability)
@@ -294,6 +301,7 @@ The following items are explicitly NOT part of this story:
 - [Coding Standards](/docs/2-technical/references/coding-standards.md)
 
 **External**:
+
 - [Zod Documentation](https://zod.dev/)
 - [Zod Type Inference](https://zod.dev/?id=type-inference)
 - [Zod Error Handling](https://zod.dev/?id=error-handling)

@@ -31,19 +31,19 @@
 
 ### Files to Create
 
-| Path | Purpose |
-|------|---------|
-| `packages/analytics/src/tracking.ts` | Core event tracking implementation |
-| `packages/analytics/src/queue.ts` | Event queue management |
-| `packages/analytics/src/context.ts` | Analytics context detection (client/server) |
-| `packages/analytics/__tests__/tracking.test.ts` | Unit tests for tracking functions |
-| `packages/analytics/__tests__/queue.test.ts` | Unit tests for queue management |
+| Path                                            | Purpose                                     |
+| ----------------------------------------------- | ------------------------------------------- |
+| `packages/analytics/src/tracking.ts`            | Core event tracking implementation          |
+| `packages/analytics/src/queue.ts`               | Event queue management                      |
+| `packages/analytics/src/context.ts`             | Analytics context detection (client/server) |
+| `packages/analytics/__tests__/tracking.test.ts` | Unit tests for tracking functions           |
+| `packages/analytics/__tests__/queue.test.ts`    | Unit tests for queue management             |
 
 ### Files to Modify
 
-| Path | Changes |
-|------|---------|
-| `packages/analytics/src/index.ts` | Export `trackEvent`, `flushQueue`, `clearQueue` functions |
+| Path                              | Changes                                                           |
+| --------------------------------- | ----------------------------------------------------------------- |
+| `packages/analytics/src/index.ts` | Export `trackEvent`, `flushQueue`, `clearQueue` functions         |
 | `packages/analytics/src/types.ts` | Add `AnalyticsEvent`, `EventProperties`, `AnalyticsContext` types |
 
 ### Dependencies
@@ -57,12 +57,12 @@
 > **Note**: For complete configuration file templates, reference the TAD.
 > This section describes configuration REQUIREMENTS, not full file contents.
 
-| Setting | Requirement | TAD Reference |
-|---------|-------------|---------------|
-| Event queue storage | In-memory array for MVP; localStorage support optional | [TAD: Analytics & Observability](/docs/2-technical/2-tad.md#analytics--observability) |
-| Event properties typing | Generic object with string keys and JSON-serializable values | [TAD: Package Architecture](/docs/2-technical/2-tad.md#package-architecture) |
-| Context detection | Detect client vs server environment using runtime checks | [TAD: Analytics & Observability](/docs/2-technical/2-tad.md#analytics--observability) |
-| Queue size limit | Optional max queue size (default: 100 events) to prevent memory issues | [TAD: Analytics & Observability](/docs/2-technical/2-tad.md#analytics--observability) |
+| Setting                 | Requirement                                                            | TAD Reference                                                                         |
+| ----------------------- | ---------------------------------------------------------------------- | ------------------------------------------------------------------------------------- |
+| Event queue storage     | In-memory array for MVP; localStorage support optional                 | [TAD: Analytics & Observability](/docs/2-technical/2-tad.md#analytics--observability) |
+| Event properties typing | Generic object with string keys and JSON-serializable values           | [TAD: Package Architecture](/docs/2-technical/2-tad.md#package-architecture)          |
+| Context detection       | Detect client vs server environment using runtime checks               | [TAD: Analytics & Observability](/docs/2-technical/2-tad.md#analytics--observability) |
+| Queue size limit        | Optional max queue size (default: 100 events) to prevent memory issues | [TAD: Analytics & Observability](/docs/2-technical/2-tad.md#analytics--observability) |
 
 **Configuration Rationale**: The event queue enables privacy-first analytics by allowing events to be collected before consent is obtained, then flushed or discarded based on user consent. In-memory storage is sufficient for MVP since queue lifetime is limited to session duration. TypeScript generics enable type-safe event properties while maintaining flexibility for different event schemas. Context detection ensures the tracking code works correctly in both React Server Components and client-side code.
 
@@ -175,13 +175,13 @@ Key pattern notes for this story:
 
 ### Troubleshooting
 
-| Issue | Cause | Solution |
-|-------|-------|----------|
-| TypeScript error on `trackEvent()` import | Package not built or types not generated | Run `pnpm build --filter @repo/analytics` |
-| Events not queuing in server components | Context detection failing on server | Verify environment detection uses safe checks (typeof window) |
-| Queue growing unbounded | No max size limit implemented | Add optional `maxQueueSize` configuration with FIFO eviction |
-| Missing event metadata | Context function not called | Ensure `getAnalyticsContext()` is called in `trackEvent()` |
-| Tests fail with "window is not defined" | Test environment not configured | Use happy-dom or jsdom for browser API tests |
+| Issue                                     | Cause                                    | Solution                                                      |
+| ----------------------------------------- | ---------------------------------------- | ------------------------------------------------------------- |
+| TypeScript error on `trackEvent()` import | Package not built or types not generated | Run `pnpm build --filter @repo/analytics`                     |
+| Events not queuing in server components   | Context detection failing on server      | Verify environment detection uses safe checks (typeof window) |
+| Queue growing unbounded                   | No max size limit implemented            | Add optional `maxQueueSize` configuration with FIFO eviction  |
+| Missing event metadata                    | Context function not called              | Ensure `getAnalyticsContext()` is called in `trackEvent()`    |
+| Tests fail with "window is not defined"   | Test environment not configured          | Use happy-dom or jsdom for browser API tests                  |
 
 ### Reference Materials
 
@@ -217,6 +217,7 @@ Key pattern notes for this story:
 **Decision**: Use in-memory array for event queue; do not persist to localStorage in this story
 
 **Rationale**:
+
 - Simplifies initial implementation and testing
 - Event queue lifetime is limited to session duration (sufficient for consent flow)
 - localStorage persistence can be added later if needed without breaking changes
@@ -224,12 +225,14 @@ Key pattern notes for this story:
 - Server-side contexts don't have localStorage access
 
 **Consequences**:
+
 - Events are lost on page refresh before consent is obtained
 - Simpler implementation with fewer edge cases
 - No synchronization issues between tabs
 - May need to add localStorage in future story if product requirements demand it
 
 **Alternatives Considered**:
+
 - **localStorage persistence**: Rejected for MVP due to privacy concerns and added complexity; can be added incrementally
 - **sessionStorage**: Rejected because server-side tracking wouldn't have access; in-memory simpler
 
@@ -240,18 +243,21 @@ Key pattern notes for this story:
 **Decision**: `trackEvent()` returns void and handles errors internally; no Promise or callback
 
 **Rationale**:
+
 - Analytics should never block or slow down application code
 - Developers don't need to await or handle analytics failures
 - Simplifies usage: `trackEvent('page_view', { url })` with no error handling required
 - Matches industry-standard analytics APIs (PostHog, GA, Segment)
 
 **Consequences**:
+
 - Callers cannot know if tracking succeeded or failed
 - Errors are logged internally but not surfaced to application
 - Simpler API surface and better DX
 - Consistent with analytics best practices
 
 **Alternatives Considered**:
+
 - **Return Promise**: Rejected because waiting for analytics is anti-pattern; adds unnecessary async complexity
 - **Error callback parameter**: Rejected because analytics errors are rarely actionable by application code
 
@@ -286,6 +292,7 @@ The following items are explicitly NOT part of this story:
 ## References
 
 **Internal**:
+
 - [EPIC.md: Overview](./EPIC.md#overview), [Technical Constraints](./EPIC.md#technical-constraints)
 - [TAD: Analytics & Observability](/docs/2-technical/2-tad.md#analytics--observability)
 - [TAD: Package Architecture](/docs/2-technical/2-tad.md#package-architecture)
@@ -294,6 +301,7 @@ The following items are explicitly NOT part of this story:
 - [Coding Standards](/docs/2-technical/references/coding-standards.md)
 
 **External**:
+
 - [PostHog Event Tracking](https://posthog.com/docs/product-analytics/capture-events)
 - [TypeScript Handbook - Generics](https://www.typescriptlang.org/docs/handbook/2/generics.html)
 - [Vitest Documentation](https://vitest.dev/)

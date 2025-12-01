@@ -29,18 +29,18 @@
 
 ### Files to Create
 
-| Path                                                          | Purpose                                       |
-| ------------------------------------------------------------- | --------------------------------------------- |
-| `docs/0-process/references/adr-template.md`                   | Standard template for all ADRs                |
-| `docs/2-technical/adr/README.md`                              | ADR catalog index with creation instructions  |
-| `docs/0-process/references/adr-writing-guide.md` (optional)   | Guidance on writing effective ADRs            |
+| Path                                                        | Purpose                                      |
+| ----------------------------------------------------------- | -------------------------------------------- |
+| `docs/0-process/references/adr-template.md`                 | Standard template for all ADRs               |
+| `docs/2-technical/adr/README.md`                            | ADR catalog index with creation instructions |
+| `docs/0-process/references/adr-writing-guide.md` (optional) | Guidance on writing effective ADRs           |
 
 ### Files to Verify/Update
 
-| Path                                        | Changes                                                                |
-| ------------------------------------------- | ---------------------------------------------------------------------- |
+| Path                                               | Changes                                                          |
+| -------------------------------------------------- | ---------------------------------------------------------------- |
 | `docs/2-technical/adr/001-*.md` through `007-*.md` | Verify all existing ADRs follow template format and are complete |
-| `docs/2-technical/2-tad.md`                 | Verify ADR index section references all seven ADRs                     |
+| `docs/2-technical/2-tad.md`                        | Verify ADR index section references all seven ADRs               |
 
 ### Dependencies
 
@@ -50,11 +50,11 @@ No external dependencies required. This story uses Markdown files and follows ex
 
 **ADR Naming Convention**:
 
-| Element     | Format               | Example                          |
-| ----------- | -------------------- | -------------------------------- |
-| File naming | `{NNN}-{slug}.md`    | `001-monorepo-turborepo.md`      |
-| Numbering   | Sequential (001-999) | 001, 002, 003...                 |
-| Slug format | Lowercase with dashes| `monorepo-turborepo`, `pnpm-package-manager` |
+| Element     | Format                | Example                                      |
+| ----------- | --------------------- | -------------------------------------------- |
+| File naming | `{NNN}-{slug}.md`     | `001-monorepo-turborepo.md`                  |
+| Numbering   | Sequential (001-999)  | 001, 002, 003...                             |
+| Slug format | Lowercase with dashes | `monorepo-turborepo`, `pnpm-package-manager` |
 
 **ADR Template Structure Requirements**:
 
@@ -155,12 +155,12 @@ Key pattern notes for this story:
 
 ### Troubleshooting
 
-| Issue                                      | Cause                               | Solution                                                             |
-| ------------------------------------------ | ----------------------------------- | -------------------------------------------------------------------- |
-| Unclear when to create ADR vs story decision | Scope confusion                    | Use ADR for cross-cutting/major decisions; story AD for isolated choices |
-| ADR numbering conflicts                    | Multiple people creating ADRs simultaneously | Reserve number in ADR catalog README before creating file        |
-| Existing ADRs missing information          | Created before template existed     | Backfill missing sections using template as guide                    |
-| Difficulty finding relevant ADR            | No searchable index                 | Use ADR catalog README and TAD index for navigation                  |
+| Issue                                        | Cause                                        | Solution                                                                 |
+| -------------------------------------------- | -------------------------------------------- | ------------------------------------------------------------------------ |
+| Unclear when to create ADR vs story decision | Scope confusion                              | Use ADR for cross-cutting/major decisions; story AD for isolated choices |
+| ADR numbering conflicts                      | Multiple people creating ADRs simultaneously | Reserve number in ADR catalog README before creating file                |
+| Existing ADRs missing information            | Created before template existed              | Backfill missing sections using template as guide                        |
+| Difficulty finding relevant ADR              | No searchable index                          | Use ADR catalog README and TAD index for navigation                      |
 
 ### Reference Materials
 
@@ -314,21 +314,21 @@ Created a comprehensive ADR template and catalog system for documenting architec
 
 ### Test Results
 
-| Test | Command | Result |
-|------|---------|--------|
-| Template exists | `test -f docs/0-process/references/adr-template.md` | Pass |
-| Catalog exists | `test -f docs/2-technical/adr/README.md` | Pass |
-| Writing guide exists | `test -f docs/0-process/references/adr-writing-guide.md` | Pass |
-| All ADRs (001-007) exist | `ls docs/2-technical/adr/00*.md` | Pass (7 files) |
+| Test                     | Command                                                  | Result         |
+| ------------------------ | -------------------------------------------------------- | -------------- |
+| Template exists          | `test -f docs/0-process/references/adr-template.md`      | Pass           |
+| Catalog exists           | `test -f docs/2-technical/adr/README.md`                 | Pass           |
+| Writing guide exists     | `test -f docs/0-process/references/adr-writing-guide.md` | Pass           |
+| All ADRs (001-007) exist | `ls docs/2-technical/adr/00*.md`                         | Pass (7 files) |
 
 ### Files Changed
 
-| File | Action | Purpose |
-|------|--------|---------|
-| `docs/0-process/references/adr-template.md` | Created | Standard ADR template with usage guide |
-| `docs/2-technical/adr/README.md` | Created | ADR catalog with index and creation instructions |
-| `docs/0-process/references/adr-writing-guide.md` | Created | Guidance on writing effective ADRs |
-| `docs/2-technical/2-tad.md` | Updated | Fixed ADR template path and added catalog link |
+| File                                             | Action  | Purpose                                          |
+| ------------------------------------------------ | ------- | ------------------------------------------------ |
+| `docs/0-process/references/adr-template.md`      | Created | Standard ADR template with usage guide           |
+| `docs/2-technical/adr/README.md`                 | Created | ADR catalog with index and creation instructions |
+| `docs/0-process/references/adr-writing-guide.md` | Created | Guidance on writing effective ADRs               |
+| `docs/2-technical/2-tad.md`                      | Updated | Fixed ADR template path and added catalog link   |
 
 ### Known Issues
 
@@ -434,10 +434,10 @@ This directory contains Architecture Decision Records documenting significant ar
 
 ## ADR Index
 
-| ADR | Title | Status | Date | Epic |
-|-----|-------|--------|------|------|
+| ADR                                | Title                   | Status   | Date       | Epic |
+| ---------------------------------- | ----------------------- | -------- | ---------- | ---- |
 | [001](./001-monorepo-turborepo.md) | Monorepo with Turborepo | Accepted | 2025-11-24 | 1A.1 |
-| ... | ... | ... | ... | ... |
+| ...                                | ...                     | ...      | ...        | ...  |
 
 ## Creating a New ADR
 
@@ -458,6 +458,7 @@ This directory contains Architecture Decision Records documenting significant ar
 ## When to Create an ADR
 
 Create an ADR for:
+
 - Major technology choices
 - Architectural patterns affecting multiple apps/packages
 - Cross-cutting concerns
@@ -465,6 +466,7 @@ Create an ADR for:
 - Security/compliance decisions
 
 Use story-level decisions (AD-{EpicID}.S{N}.{DecisionNumber}) for:
+
 - Story-specific implementation choices
 - Isolated decisions not affecting other stories
 ```

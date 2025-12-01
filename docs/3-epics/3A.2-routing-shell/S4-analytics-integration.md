@@ -30,23 +30,23 @@
 
 ### Files to Create
 
-| Path                                                  | Purpose                                      |
-| ----------------------------------------------------- | -------------------------------------------- |
-| `apps/routing/src/lib/analytics/posthog.ts`           | PostHog initialization and tracking utilities |
-| `apps/routing/src/lib/analytics/web-vitals.ts`        | Web Vitals tracking and reporting            |
-| `apps/routing/src/lib/analytics/constants.ts`         | Analytics event names and constants          |
-| `apps/routing/src/components/analytics-provider.tsx`  | Client-side analytics provider component     |
-| `apps/routing/tests/analytics/web-vitals.test.ts`     | Unit tests for Web Vitals tracking           |
-| `apps/routing/tests/analytics/posthog.test.ts`        | Unit tests for PostHog utilities             |
-| `apps/routing/docs/ANALYTICS.md`                      | Analytics integration documentation          |
+| Path                                                 | Purpose                                       |
+| ---------------------------------------------------- | --------------------------------------------- |
+| `apps/routing/src/lib/analytics/posthog.ts`          | PostHog initialization and tracking utilities |
+| `apps/routing/src/lib/analytics/web-vitals.ts`       | Web Vitals tracking and reporting             |
+| `apps/routing/src/lib/analytics/constants.ts`        | Analytics event names and constants           |
+| `apps/routing/src/components/analytics-provider.tsx` | Client-side analytics provider component      |
+| `apps/routing/tests/analytics/web-vitals.test.ts`    | Unit tests for Web Vitals tracking            |
+| `apps/routing/tests/analytics/posthog.test.ts`       | Unit tests for PostHog utilities              |
+| `apps/routing/docs/ANALYTICS.md`                     | Analytics integration documentation           |
 
 ### Files to Modify
 
 | Path                              | Changes                                                          |
 | --------------------------------- | ---------------------------------------------------------------- |
-| `apps/routing/app/layout.tsx`     | Add Vercel Analytics, Speed Insights, and analytics provider    |
+| `apps/routing/app/layout.tsx`     | Add Vercel Analytics, Speed Insights, and analytics provider     |
 | `apps/routing/.env.local.example` | Add PostHog environment variables (NEXT_PUBLIC_POSTHOG_KEY, etc) |
-| `apps/routing/README.md`          | Add section linking to ANALYTICS.md                             |
+| `apps/routing/README.md`          | Add section linking to ANALYTICS.md                              |
 | `apps/routing/package.json`       | Add analytics dependencies                                       |
 
 ### Dependencies
@@ -74,16 +74,17 @@ pnpm add web-vitals
 > **Note**: For complete configuration file templates, reference the TAD.
 > This section describes configuration REQUIREMENTS, not full file contents.
 
-| Setting                    | Requirement                                     | TAD Reference                                                               |
-| -------------------------- | ----------------------------------------------- | --------------------------------------------------------------------------- |
-| Environment Detection      | Disable analytics in development environment    | [TAD: System Architecture](/docs/2-technical/2-tad.md#system-architecture) |
-| PostHog API Key            | Optional public API key for PostHog integration | [TAD: Observability](/docs/2-technical/2-tad-observability.md)             |
-| PostHog Host               | Custom PostHog instance URL (optional)          | [TAD: Observability](/docs/2-technical/2-tad-observability.md)             |
-| Consent Management         | Respect user privacy preferences                | [EPIC: Technical Constraints](./EPIC.md#technical-constraints)              |
-| Web Vitals Sampling        | Track all vitals in production                  | [TAD: Observability](/docs/2-technical/2-tad-observability.md)             |
-| Vercel Analytics Mode      | Auto-inject in production via Vercel            | [ADR-004: Vercel Hosting](/docs/2-technical/adr/004-vercel-hosting.md)     |
+| Setting               | Requirement                                     | TAD Reference                                                              |
+| --------------------- | ----------------------------------------------- | -------------------------------------------------------------------------- |
+| Environment Detection | Disable analytics in development environment    | [TAD: System Architecture](/docs/2-technical/2-tad.md#system-architecture) |
+| PostHog API Key       | Optional public API key for PostHog integration | [TAD: Observability](/docs/2-technical/2-tad-observability.md)             |
+| PostHog Host          | Custom PostHog instance URL (optional)          | [TAD: Observability](/docs/2-technical/2-tad-observability.md)             |
+| Consent Management    | Respect user privacy preferences                | [EPIC: Technical Constraints](./EPIC.md#technical-constraints)             |
+| Web Vitals Sampling   | Track all vitals in production                  | [TAD: Observability](/docs/2-technical/2-tad-observability.md)             |
+| Vercel Analytics Mode | Auto-inject in production via Vercel            | [ADR-004: Vercel Hosting](/docs/2-technical/adr/004-vercel-hosting.md)     |
 
 **Configuration Rationale**:
+
 - Vercel Analytics and Speed Insights are built-in and zero-config for Vercel deployments
 - PostHog provides product analytics and feature flags for advanced use cases
 - Web Vitals tracking enables performance monitoring and optimization
@@ -226,15 +227,15 @@ Key pattern notes for this story:
 
 ### Troubleshooting
 
-| Issue                                      | Cause                                          | Solution                                                     |
-| ------------------------------------------ | ---------------------------------------------- | ------------------------------------------------------------ |
-| Analytics not appearing in Vercel dashboard| Vercel Analytics not enabled for project       | Enable Analytics in Vercel project settings                  |
-| PostHog events not tracking                | Missing or incorrect API key                   | Verify NEXT_PUBLIC_POSTHOG_KEY in environment variables      |
-| Analytics running in development           | Environment detection not working              | Ensure VERCEL_ENV or NODE_ENV set correctly                  |
-| Web Vitals metrics missing                 | Web Vitals library not initialized             | Verify web-vitals library installed and tracking initialized |
-| Console errors about analytics             | Analytics SDK version mismatch                 | Update to latest @vercel/analytics and @vercel/speed-insights|
-| Hydration errors with analytics            | Analytics components not client-side           | Ensure 'use client' directive on analytics components        |
-| Speed Insights not showing data            | Preview deployments don't track by default     | Deploy to production or enable in project settings           |
+| Issue                                       | Cause                                      | Solution                                                      |
+| ------------------------------------------- | ------------------------------------------ | ------------------------------------------------------------- |
+| Analytics not appearing in Vercel dashboard | Vercel Analytics not enabled for project   | Enable Analytics in Vercel project settings                   |
+| PostHog events not tracking                 | Missing or incorrect API key               | Verify NEXT_PUBLIC_POSTHOG_KEY in environment variables       |
+| Analytics running in development            | Environment detection not working          | Ensure VERCEL_ENV or NODE_ENV set correctly                   |
+| Web Vitals metrics missing                  | Web Vitals library not initialized         | Verify web-vitals library installed and tracking initialized  |
+| Console errors about analytics              | Analytics SDK version mismatch             | Update to latest @vercel/analytics and @vercel/speed-insights |
+| Hydration errors with analytics             | Analytics components not client-side       | Ensure 'use client' directive on analytics components         |
+| Speed Insights not showing data             | Preview deployments don't track by default | Deploy to production or enable in project settings            |
 
 ### Reference Materials
 
@@ -276,6 +277,7 @@ Link to decisions documented elsewhere that apply to this story:
 **Decision**: Make PostHog integration optional and configurable via environment variables, allowing the routing shell to function with or without advanced analytics.
 
 **Rationale**:
+
 - Routing shell is generic infrastructure that shouldn't require all analytics features
 - PostHog provides advanced features (feature flags, session replay) not needed initially
 - Vercel Analytics provides sufficient basic analytics for shell monitoring
@@ -283,6 +285,7 @@ Link to decisions documented elsewhere that apply to this story:
 - Future product apps can enable PostHog when they need advanced features
 
 **Consequences**:
+
 - PostHog SDK installed but only initialized when NEXT_PUBLIC_POSTHOG_KEY is set
 - Analytics provider checks for PostHog availability before sending events
 - Shell remains functional without PostHog configuration
@@ -290,6 +293,7 @@ Link to decisions documented elsewhere that apply to this story:
 - Future epics can enable PostHog for product-specific tracking needs
 
 **Alternatives Considered**:
+
 - **Option 1**: Require PostHog for all deployments - Rejected because it adds unnecessary complexity for basic shell
 - **Option 2**: Skip PostHog entirely - Rejected because advanced analytics will be needed by product apps
 
@@ -300,6 +304,7 @@ Link to decisions documented elsewhere that apply to this story:
 **Decision**: Send Web Vitals metrics to both Vercel Speed Insights and PostHog (when configured) for redundancy and different analysis capabilities.
 
 **Rationale**:
+
 - Vercel Speed Insights provides excellent RUM dashboard and trend analysis
 - PostHog allows custom queries, segmentation, and correlation with user events
 - Dual tracking provides backup if one provider has issues
@@ -307,12 +312,14 @@ Link to decisions documented elsewhere that apply to this story:
 - Each provider offers unique analysis capabilities
 
 **Consequences**:
+
 - Web Vitals metrics appear in both Vercel and PostHog dashboards
 - Slight increase in network requests (negligible impact)
 - Provides flexibility to choose preferred analytics interface
 - Teams can use different tools for different analysis needs
 
 **Alternatives Considered**:
+
 - **Option 1**: Only Vercel Speed Insights - Rejected because PostHog provides richer querying
 - **Option 2**: Only PostHog - Rejected because Vercel Speed Insights is built-in and excellent for RUM
 
@@ -435,14 +442,14 @@ Example Web Vitals implementation pattern:
 
 ```typescript
 // apps/routing/src/lib/analytics/web-vitals.ts
-import { onCLS, onFID, onLCP, onFCP, onTTFB, type Metric } from 'web-vitals';
+import { onCLS, onFID, onLCP, onFCP, onTTFB, type Metric } from "web-vitals";
 
 export function reportWebVitals(): void {
   function sendToAnalytics(metric: Metric): void {
     // Metrics automatically sent to Vercel Speed Insights
     // Optionally send to PostHog if configured
-    if (typeof window !== 'undefined' && (window as any).posthog) {
-      (window as any).posthog.capture('web_vital', {
+    if (typeof window !== "undefined" && (window as any).posthog) {
+      (window as any).posthog.capture("web_vital", {
         metric_name: metric.name,
         value: metric.value,
         rating: metric.rating,

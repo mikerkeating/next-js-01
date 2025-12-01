@@ -32,27 +32,27 @@
 
 ### Files to Create
 
-| Path | Purpose |
-|------|---------|
-| `packages/analytics/__tests__/track-event.test.ts` | Unit tests for event tracking |
-| `packages/analytics/__tests__/consent.test.ts` | Unit tests for consent management |
-| `packages/analytics/__tests__/validation.test.ts` | Unit tests for event validation |
-| `packages/analytics/__tests__/providers.test.ts` | Unit tests for provider implementations |
-| `packages/analytics/__tests__/component-tracking.test.ts` | React hook and component tracking tests |
-| `packages/analytics/__tests__/feature-flags.test.ts` | Feature flag evaluation tests |
-| `packages/analytics/__tests__/integration/analytics.test.ts` | Integration tests for full analytics workflow |
-| `packages/analytics/__tests__/integration/edge-runtime.test.ts` | Edge runtime compatibility tests |
-| `packages/analytics/USAGE.md` | Detailed usage guide with examples |
-| `packages/analytics/MIGRATION.md` | Integration guide for Next.js apps |
+| Path                                                            | Purpose                                       |
+| --------------------------------------------------------------- | --------------------------------------------- |
+| `packages/analytics/__tests__/track-event.test.ts`              | Unit tests for event tracking                 |
+| `packages/analytics/__tests__/consent.test.ts`                  | Unit tests for consent management             |
+| `packages/analytics/__tests__/validation.test.ts`               | Unit tests for event validation               |
+| `packages/analytics/__tests__/providers.test.ts`                | Unit tests for provider implementations       |
+| `packages/analytics/__tests__/component-tracking.test.ts`       | React hook and component tracking tests       |
+| `packages/analytics/__tests__/feature-flags.test.ts`            | Feature flag evaluation tests                 |
+| `packages/analytics/__tests__/integration/analytics.test.ts`    | Integration tests for full analytics workflow |
+| `packages/analytics/__tests__/integration/edge-runtime.test.ts` | Edge runtime compatibility tests              |
+| `packages/analytics/USAGE.md`                                   | Detailed usage guide with examples            |
+| `packages/analytics/MIGRATION.md`                               | Integration guide for Next.js apps            |
 
 ### Files to Modify
 
-| Path | Changes |
-|------|---------|
-| `packages/analytics/README.md` | Add comprehensive documentation with API reference, quick start, examples |
-| `packages/analytics/src/*.ts` | Add JSDoc comments to all exported functions and types |
-| `packages/analytics/package.json` | Add test scripts: `test`, `test:watch`, `test:coverage`, `test:edge` |
-| `packages/analytics/vitest.config.ts` | Configure Vitest for unit and integration tests |
+| Path                                  | Changes                                                                   |
+| ------------------------------------- | ------------------------------------------------------------------------- |
+| `packages/analytics/README.md`        | Add comprehensive documentation with API reference, quick start, examples |
+| `packages/analytics/src/*.ts`         | Add JSDoc comments to all exported functions and types                    |
+| `packages/analytics/package.json`     | Add test scripts: `test`, `test:watch`, `test:coverage`, `test:edge`      |
+| `packages/analytics/vitest.config.ts` | Configure Vitest for unit and integration tests                           |
 
 ### Dependencies
 
@@ -76,14 +76,14 @@ pnpm add -D @edge-runtime/vm
 > **Note**: For complete configuration file templates, reference the TAD.
 > This section describes configuration REQUIREMENTS, not full file contents.
 
-| Setting | Requirement | TAD Reference |
-|---------|-------------|---------------|
-| Test coverage threshold | Minimum 80% for statements, branches, functions, lines | [TAD: Testing Strategy](/docs/2-technical/2-tad.md#testing-strategy) |
-| Test isolation | Each test file should run independently; no shared state | [TAD: Testing Strategy](/docs/2-technical/2-tad.md#testing-strategy) |
-| Mocking strategy | Mock external providers (PostHog, GA4) using MSW for network requests | [TAD: Testing Strategy](/docs/2-technical/2-tad.md#testing-strategy) |
-| Edge runtime validation | Tests must verify edge compatibility (no Node.js APIs like fs, crypto.randomBytes) | [TAD: Integration Points](/docs/2-technical/2-tad.md#integration-points) |
-| React testing | Use Testing Library for component/hook tests; avoid implementation details | [Coding Standards: Testing](/docs/2-technical/references/coding-standards.md#testing) |
-| Documentation standards | JSDoc for all exported functions; README with quick start and API reference | [Coding Standards: Documentation](/docs/2-technical/references/coding-standards.md#documentation) |
+| Setting                 | Requirement                                                                        | TAD Reference                                                                                     |
+| ----------------------- | ---------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------- |
+| Test coverage threshold | Minimum 80% for statements, branches, functions, lines                             | [TAD: Testing Strategy](/docs/2-technical/2-tad.md#testing-strategy)                              |
+| Test isolation          | Each test file should run independently; no shared state                           | [TAD: Testing Strategy](/docs/2-technical/2-tad.md#testing-strategy)                              |
+| Mocking strategy        | Mock external providers (PostHog, GA4) using MSW for network requests              | [TAD: Testing Strategy](/docs/2-technical/2-tad.md#testing-strategy)                              |
+| Edge runtime validation | Tests must verify edge compatibility (no Node.js APIs like fs, crypto.randomBytes) | [TAD: Integration Points](/docs/2-technical/2-tad.md#integration-points)                          |
+| React testing           | Use Testing Library for component/hook tests; avoid implementation details         | [Coding Standards: Testing](/docs/2-technical/references/coding-standards.md#testing)             |
+| Documentation standards | JSDoc for all exported functions; README with quick start and API reference        | [Coding Standards: Documentation](/docs/2-technical/references/coding-standards.md#documentation) |
 
 **Configuration Rationale**: High test coverage (>80%) ensures analytics infrastructure remains stable as the platform evolves. Integration tests verify multi-provider routing works correctly, preventing silent failures where events are lost. Edge runtime tests confirm analytics work in middleware and Edge Functions, which have restricted APIs. Comprehensive documentation reduces developer onboarding friction and prevents misuse of privacy-sensitive analytics features.
 
@@ -305,14 +305,14 @@ Key pattern notes for this story:
 
 ### Troubleshooting
 
-| Issue | Cause | Solution |
-|-------|-------|----------|
-| Tests fail with "localStorage is not defined" | happy-dom environment not configured | Add `environment: 'happy-dom'` to vitest.config.ts |
-| Coverage report shows <80% | Missing tests for edge cases or error handling | Review uncovered lines in coverage report; add tests for missing branches |
-| Edge runtime tests fail with "fs is not defined" | Analytics code uses Node.js-specific API | Remove Node.js APIs; use Web APIs only (fetch, localStorage, etc.) |
-| React hook tests fail with "not wrapped in act()" | State updates not wrapped in React Testing Library utilities | Use `renderHook`, `waitFor` from @testing-library/react |
-| Integration tests fail intermittently (flaky) | Tests have race conditions or shared state | Ensure test isolation; use `beforeEach` to reset state; avoid shared mocks |
-| Documentation examples don't work when copy-pasted | Examples are outdated or incorrect | Manually test all examples in docs; update based on actual implementation |
+| Issue                                              | Cause                                                        | Solution                                                                   |
+| -------------------------------------------------- | ------------------------------------------------------------ | -------------------------------------------------------------------------- |
+| Tests fail with "localStorage is not defined"      | happy-dom environment not configured                         | Add `environment: 'happy-dom'` to vitest.config.ts                         |
+| Coverage report shows <80%                         | Missing tests for edge cases or error handling               | Review uncovered lines in coverage report; add tests for missing branches  |
+| Edge runtime tests fail with "fs is not defined"   | Analytics code uses Node.js-specific API                     | Remove Node.js APIs; use Web APIs only (fetch, localStorage, etc.)         |
+| React hook tests fail with "not wrapped in act()"  | State updates not wrapped in React Testing Library utilities | Use `renderHook`, `waitFor` from @testing-library/react                    |
+| Integration tests fail intermittently (flaky)      | Tests have race conditions or shared state                   | Ensure test isolation; use `beforeEach` to reset state; avoid shared mocks |
+| Documentation examples don't work when copy-pasted | Examples are outdated or incorrect                           | Manually test all examples in docs; update based on actual implementation  |
 
 ### Reference Materials
 
@@ -355,6 +355,7 @@ Key pattern notes for this story:
 **Decision**: Require minimum 80% test coverage for statements, branches, functions, and lines in the analytics package
 
 **Rationale**:
+
 - Analytics infrastructure is privacy-sensitive; bugs could leak user data or break tracking
 - High coverage ensures consent management works correctly (legal compliance)
 - Provider integrations have many edge cases (network failures, API changes)
@@ -362,6 +363,7 @@ Key pattern notes for this story:
 - Automated coverage checks prevent coverage regression over time
 
 **Consequences**:
+
 - More time spent writing tests (included in effort estimate)
 - Higher confidence in analytics stability across changes
 - Easier to refactor code knowing tests will catch regressions
@@ -369,6 +371,7 @@ Key pattern notes for this story:
 - May need to add tests for code that's hard to test (requires good test design)
 
 **Alternatives Considered**:
+
 - **60% coverage**: Rejected because analytics is too critical; insufficient for privacy-sensitive code
 - **90-100% coverage**: Rejected because diminishing returns; last 10-20% often requires excessive mocking
 
@@ -379,6 +382,7 @@ Key pattern notes for this story:
 **Decision**: Create separate USAGE.md (detailed examples) and MIGRATION.md (integration guide) files instead of putting all documentation in README.md
 
 **Rationale**:
+
 - README.md should be concise for quick reference; detailed docs overwhelm new users
 - USAGE.md provides in-depth examples for developers already using the package
 - MIGRATION.md targets developers integrating analytics into Next.js apps (different audience)
@@ -386,12 +390,14 @@ Key pattern notes for this story:
 - Matches monorepo package documentation patterns (concise README + detailed guides)
 
 **Consequences**:
+
 - More files to maintain, but each is focused on specific audience
 - Better documentation organization and user experience
 - Easier to update migration guide independently from API reference
 - Follows monorepo package documentation best practices
 
 **Alternatives Considered**:
+
 - **Single README.md**: Rejected because would be too long (>500 lines); hard to navigate
 - **Inline JSDoc only**: Rejected because lacks narrative structure; doesn't explain integration patterns
 
@@ -402,6 +408,7 @@ Key pattern notes for this story:
 **Decision**: Use Mock Service Worker (MSW) to mock network requests to analytics providers (PostHog, GA4) in integration tests
 
 **Rationale**:
+
 - MSW intercepts network requests at fetch/XMLHttpRequest level (most realistic mocking)
 - Works in both Node.js (tests) and browser (manual testing) environments
 - Provides clear separation between unit tests (mocked modules) and integration tests (mocked network)
@@ -409,6 +416,7 @@ Key pattern notes for this story:
 - Prevents tests from hitting real provider APIs (faster, no API keys needed)
 
 **Consequences**:
+
 - Additional dependency (MSW) but standard in React ecosystem
 - Integration tests more closely match production behavior
 - Can reuse MSW handlers for manual testing in development
@@ -416,6 +424,7 @@ Key pattern notes for this story:
 - More realistic error simulation (network failures, API errors)
 
 **Alternatives Considered**:
+
 - **Vitest module mocks**: Rejected for integration tests because less realistic (mocks implementation, not network)
 - **Real API calls**: Rejected because slow, requires API keys, and tests fail if provider has outage
 
@@ -450,6 +459,7 @@ The following items are explicitly NOT part of this story:
 ## References
 
 **Internal**:
+
 - [EPIC.md: Overview](./EPIC.md#overview), [Acceptance Criteria](./EPIC.md#acceptance-criteria)
 - [TAD: Testing Strategy](/docs/2-technical/2-tad.md#testing-strategy)
 - [TAD: Analytics & Observability](/docs/2-technical/2-tad.md#analytics--observability)
@@ -459,6 +469,7 @@ The following items are explicitly NOT part of this story:
 - [Canonical Technology Versions](/docs/2-technical/references/canonical-versions.md)
 
 **External**:
+
 - [Vitest Documentation](https://vitest.dev/)
 - [Vitest Coverage](https://vitest.dev/guide/coverage.html)
 - [React Testing Library](https://testing-library.com/docs/react-testing-library/intro/)

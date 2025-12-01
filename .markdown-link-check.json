@@ -60,14 +60,7 @@
   "retryOn429": true,
   "retryCount": 3,
   "fallbackRetryDelay": "2s",
-  "aliveStatusCodes": [
-    200,
-    206,
-    301,
-    302,
-    307,
-    308
-  ],
+  "aliveStatusCodes": [200, 206, 301, 302, 307, 308],
   "httpHeaders": [
     {
       "urls": ["https://github.com"],

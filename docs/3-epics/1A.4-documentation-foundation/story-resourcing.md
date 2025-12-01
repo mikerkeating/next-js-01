@@ -2,15 +2,15 @@
 
 ## Resourcing Table
 
-| Story | Title | Primary Role | Secondary Role | Hand-off Required |
-|-------|-------|--------------|----------------|-------------------|
-| S1 | Create Documentation Directory Structure | engineer-documentation | — | No |
-| S2 | Configure Documentation Site Framework | engineer-frontend | engineer-devops | Yes |
-| S3 | Create ADR Template and Document Initial Decisions | engineer-documentation | — | No |
-| S4 | Create Root Documentation Files | engineer-documentation | — | No |
-| S5 | Create Package Documentation Templates | engineer-documentation | — | No |
-| S6 | Create CLAUDE.md Epic Template | engineer-documentation | — | No |
-| S7 | Integrate Documentation Quality Gates | engineer-devops | engineer-documentation | Yes |
+| Story | Title                                              | Primary Role           | Secondary Role         | Hand-off Required |
+| ----- | -------------------------------------------------- | ---------------------- | ---------------------- | ----------------- |
+| S1    | Create Documentation Directory Structure           | engineer-documentation | —                      | No                |
+| S2    | Configure Documentation Site Framework             | engineer-frontend      | engineer-devops        | Yes               |
+| S3    | Create ADR Template and Document Initial Decisions | engineer-documentation | —                      | No                |
+| S4    | Create Root Documentation Files                    | engineer-documentation | —                      | No                |
+| S5    | Create Package Documentation Templates             | engineer-documentation | —                      | No                |
+| S6    | Create CLAUDE.md Epic Template                     | engineer-documentation | —                      | No                |
+| S7    | Integrate Documentation Quality Gates              | engineer-devops        | engineer-documentation | Yes               |
 
 ## Role Assignments Rationale
 
@@ -25,6 +25,7 @@ The story involves creating directory structure with `.gitkeep` files and updati
 **Primary: engineer-frontend**
 
 Configuring Nextra (Next.js-based documentation framework) requires frontend expertise including:
+
 - React/Next.js configuration
 - Theme customization (TypeScript/TSX)
 - Responsive layout and dark mode implementation
@@ -34,6 +35,7 @@ Configuring Nextra (Next.js-based documentation framework) requires frontend exp
 **Secondary: engineer-devops**
 
 DevOps involvement needed for:
+
 - Turborepo build pipeline integration (`turbo.json` configuration)
 - Vercel preview deployment configuration
 - Workspace configuration in `pnpm-workspace.yaml`
@@ -69,6 +71,7 @@ Creating AI context documentation template requires understanding of documentati
 **Primary: engineer-devops**
 
 Quality gate infrastructure requires DevOps expertise:
+
 - GitHub Actions CI workflow creation
 - Pre-commit hook integration with Husky
 - Shell script creation for validation
@@ -78,6 +81,7 @@ Quality gate infrastructure requires DevOps expertise:
 **Secondary: engineer-documentation**
 
 Documentation updates needed:
+
 - CONTRIBUTING.md updates for bypass procedures
 - Configuration file documentation
 

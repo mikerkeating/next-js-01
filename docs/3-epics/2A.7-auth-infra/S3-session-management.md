@@ -44,12 +44,12 @@
 
 ### Files to Modify
 
-| Path                             | Changes                                             |
-| -------------------------------- | --------------------------------------------------- |
-| `packages/auth/src/index.ts`     | Export hooks, server helpers, and types             |
-| `packages/auth/package.json`     | Verify `@clerk/nextjs` dependency from S1           |
-| `packages/auth/tsconfig.json`    | Ensure proper React types for hooks                 |
-| `packages/auth/vitest.config.ts` | Add test configuration for hooks (if not from S1)   |
+| Path                             | Changes                                           |
+| -------------------------------- | ------------------------------------------------- |
+| `packages/auth/src/index.ts`     | Export hooks, server helpers, and types           |
+| `packages/auth/package.json`     | Verify `@clerk/nextjs` dependency from S1         |
+| `packages/auth/tsconfig.json`    | Ensure proper React types for hooks               |
+| `packages/auth/vitest.config.ts` | Add test configuration for hooks (if not from S1) |
 
 ### Dependencies
 
@@ -68,14 +68,15 @@ pnpm add -D @testing-library/react @testing-library/react-hooks vitest happy-dom
 > **Note**: For complete configuration file templates, reference the TAD.
 > This section describes configuration REQUIREMENTS, not full file contents.
 
-| Setting                         | Requirement                                                        | TAD Reference                                                                 |
-| ------------------------------- | ------------------------------------------------------------------ | ----------------------------------------------------------------------------- |
-| Hook exports                    | Export from `packages/auth/src/hooks/index.ts` for tree-shaking   | [TAD: Package Architecture](/docs/2-technical/2-tad-package-architecture.md)  |
-| Server helpers location         | Must be in `src/server` to enable server-only imports             | [ADR-006: Clerk Authentication](/docs/2-technical/adr/006-clerk-authentication.md) |
-| TypeScript `"use client"`       | Client hooks must include `"use client"` directive                | [ADR-003: Next.js Framework](/docs/2-technical/adr/003-nextjs-framework.md)   |
-| Session cookie name             | Use Clerk's default `__session` cookie for session management     | [ADR-006: Webhook Handler](/docs/2-technical/adr/006-clerk-authentication.md) |
+| Setting                   | Requirement                                                     | TAD Reference                                                                      |
+| ------------------------- | --------------------------------------------------------------- | ---------------------------------------------------------------------------------- |
+| Hook exports              | Export from `packages/auth/src/hooks/index.ts` for tree-shaking | [TAD: Package Architecture](/docs/2-technical/2-tad-package-architecture.md)       |
+| Server helpers location   | Must be in `src/server` to enable server-only imports           | [ADR-006: Clerk Authentication](/docs/2-technical/adr/006-clerk-authentication.md) |
+| TypeScript `"use client"` | Client hooks must include `"use client"` directive              | [ADR-003: Next.js Framework](/docs/2-technical/adr/003-nextjs-framework.md)        |
+| Session cookie name       | Use Clerk's default `__session` cookie for session management   | [ADR-006: Webhook Handler](/docs/2-technical/adr/006-clerk-authentication.md)      |
 
 **Configuration Rationale**:
+
 - Separating client hooks and server helpers enables Next.js to optimize bundle sizes by excluding server-only code from client bundles
 - Using Clerk's standard hooks ensures compatibility with future Clerk SDK updates
 - TypeScript interfaces provide type safety and autocomplete for auth state across the application
@@ -199,13 +200,13 @@ Key pattern notes for this story:
 
 ### Troubleshooting
 
-| Issue                                       | Cause                                          | Solution                                                          |
-| ------------------------------------------- | ---------------------------------------------- | ----------------------------------------------------------------- |
-| Hydration mismatch with userId              | Using userId before isLoaded is true           | Check `isLoaded && userId` before rendering auth-dependent UI     |
-| Server helpers don't work in client         | Imported server-only code in client component  | Import from `@repo/auth/server` only in server components         |
-| Hooks return undefined in server components | Used client hooks in server component          | Use `auth()` and `currentUser()` server helpers instead           |
-| Organization context missing                | User not in organization                       | Check `orgId` existence before using organization-specific logic  |
-| Session state not updating after sign-in    | Missing ClerkProvider wrapper                  | Ensure ClerkProvider wraps app root (from S2)                     |
+| Issue                                       | Cause                                         | Solution                                                         |
+| ------------------------------------------- | --------------------------------------------- | ---------------------------------------------------------------- |
+| Hydration mismatch with userId              | Using userId before isLoaded is true          | Check `isLoaded && userId` before rendering auth-dependent UI    |
+| Server helpers don't work in client         | Imported server-only code in client component | Import from `@repo/auth/server` only in server components        |
+| Hooks return undefined in server components | Used client hooks in server component         | Use `auth()` and `currentUser()` server helpers instead          |
+| Organization context missing                | User not in organization                      | Check `orgId` existence before using organization-specific logic |
+| Session state not updating after sign-in    | Missing ClerkProvider wrapper                 | Ensure ClerkProvider wraps app root (from S2)                    |
 
 ### Reference Materials
 

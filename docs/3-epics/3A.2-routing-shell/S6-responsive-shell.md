@@ -32,28 +32,28 @@
 
 ### Files to Create
 
-| Path                                                | Purpose                                      |
-| --------------------------------------------------- | -------------------------------------------- |
-| `apps/routing/src/components/layout/Header.tsx`     | Header component with navigation             |
-| `apps/routing/src/components/layout/Footer.tsx`     | Footer component with links and branding     |
-| `apps/routing/src/components/layout/MainNav.tsx`    | Main navigation (desktop and mobile)         |
-| `apps/routing/src/components/layout/MobileNav.tsx`  | Mobile hamburger navigation drawer           |
-| `apps/routing/src/components/layout/Container.tsx`  | Responsive container with max-width          |
-| `apps/routing/src/lib/navigation/nav-config.ts`     | Navigation configuration and route definitions |
-| `apps/routing/styles/globals.css`                   | Global styles and Tailwind directives        |
-| `apps/routing/tailwind.config.ts`                   | Tailwind CSS configuration                   |
-| `apps/routing/tests/layout/Header.test.tsx`         | Unit tests for Header component              |
-| `apps/routing/tests/layout/Footer.test.tsx`         | Unit tests for Footer component              |
-| `apps/routing/tests/layout/MainNav.test.tsx`        | Unit tests for navigation components         |
+| Path                                               | Purpose                                        |
+| -------------------------------------------------- | ---------------------------------------------- |
+| `apps/routing/src/components/layout/Header.tsx`    | Header component with navigation               |
+| `apps/routing/src/components/layout/Footer.tsx`    | Footer component with links and branding       |
+| `apps/routing/src/components/layout/MainNav.tsx`   | Main navigation (desktop and mobile)           |
+| `apps/routing/src/components/layout/MobileNav.tsx` | Mobile hamburger navigation drawer             |
+| `apps/routing/src/components/layout/Container.tsx` | Responsive container with max-width            |
+| `apps/routing/src/lib/navigation/nav-config.ts`    | Navigation configuration and route definitions |
+| `apps/routing/styles/globals.css`                  | Global styles and Tailwind directives          |
+| `apps/routing/tailwind.config.ts`                  | Tailwind CSS configuration                     |
+| `apps/routing/tests/layout/Header.test.tsx`        | Unit tests for Header component                |
+| `apps/routing/tests/layout/Footer.test.tsx`        | Unit tests for Footer component                |
+| `apps/routing/tests/layout/MainNav.test.tsx`       | Unit tests for navigation components           |
 
 ### Files to Modify
 
-| Path                            | Changes                                                     |
-| ------------------------------- | ----------------------------------------------------------- |
-| `apps/routing/app/layout.tsx`   | Integrate Header, Footer, and responsive shell structure    |
-| `apps/routing/app/page.tsx`     | Update home page to use Container component                 |
-| `apps/routing/package.json`     | Add Tailwind CSS and UI dependencies                        |
-| `apps/routing/postcss.config.js`| Configure PostCSS for Tailwind CSS                          |
+| Path                             | Changes                                                  |
+| -------------------------------- | -------------------------------------------------------- |
+| `apps/routing/app/layout.tsx`    | Integrate Header, Footer, and responsive shell structure |
+| `apps/routing/app/page.tsx`      | Update home page to use Container component              |
+| `apps/routing/package.json`      | Add Tailwind CSS and UI dependencies                     |
+| `apps/routing/postcss.config.js` | Configure PostCSS for Tailwind CSS                       |
 
 ### Dependencies
 
@@ -83,16 +83,17 @@ pnpm dlx tailwindcss init -p --ts
 > **Note**: For complete configuration file templates, reference the TAD.
 > This section describes configuration REQUIREMENTS, not full file contents.
 
-| Setting                  | Requirement                                       | TAD Reference                                                              |
-| ------------------------ | ------------------------------------------------- | -------------------------------------------------------------------------- |
-| Tailwind Content Paths   | Scan app/, src/, components/ directories          | [TAD: Technology Stack](/docs/2-technical/2-tad.md#ui--styling)           |
-| Breakpoint Strategy      | Mobile-first with sm (640px), md (768px), lg (1024px), xl (1280px), 2xl (1536px) | [TAD: UI Components](/docs/2-technical/2-tad-ui-components.md) |
-| Typography Scale         | Responsive font sizes using clamp() for fluid typography | [Coding Standards](/docs/2-technical/references/coding-standards.md) |
-| Color System             | CSS custom properties for theme consistency       | [TAD: Technology Stack](/docs/2-technical/2-tad.md#ui--styling)           |
-| Container Max Width      | Max 1280px (xl breakpoint) with responsive padding| [TAD: UI Components](/docs/2-technical/2-tad-ui-components.md)            |
-| Accessibility            | ARIA landmarks, keyboard navigation, focus styles | [TAD: Testing](/docs/2-technical/2-tad-testing.md#accessibility-testing)  |
+| Setting                | Requirement                                                                      | TAD Reference                                                            |
+| ---------------------- | -------------------------------------------------------------------------------- | ------------------------------------------------------------------------ |
+| Tailwind Content Paths | Scan app/, src/, components/ directories                                         | [TAD: Technology Stack](/docs/2-technical/2-tad.md#ui--styling)          |
+| Breakpoint Strategy    | Mobile-first with sm (640px), md (768px), lg (1024px), xl (1280px), 2xl (1536px) | [TAD: UI Components](/docs/2-technical/2-tad-ui-components.md)           |
+| Typography Scale       | Responsive font sizes using clamp() for fluid typography                         | [Coding Standards](/docs/2-technical/references/coding-standards.md)     |
+| Color System           | CSS custom properties for theme consistency                                      | [TAD: Technology Stack](/docs/2-technical/2-tad.md#ui--styling)          |
+| Container Max Width    | Max 1280px (xl breakpoint) with responsive padding                               | [TAD: UI Components](/docs/2-technical/2-tad-ui-components.md)           |
+| Accessibility          | ARIA landmarks, keyboard navigation, focus styles                                | [TAD: Testing](/docs/2-technical/2-tad-testing.md#accessibility-testing) |
 
 **Configuration Rationale**:
+
 - Mobile-first approach ensures optimal experience on smaller devices
 - Tailwind CSS v4 provides excellent developer experience with utility-first patterns
 - Radix UI primitives ensure accessible, composable navigation components
@@ -238,15 +239,15 @@ Key pattern notes for this story:
 
 ### Troubleshooting
 
-| Issue                                  | Cause                                      | Solution                                                        |
-| -------------------------------------- | ------------------------------------------ | --------------------------------------------------------------- |
-| Mobile menu not opening                | Missing client component directive         | Add "use client" to MobileNav component                         |
-| Layout shift during page load          | Images missing width/height                | Use Next.js Image component with explicit dimensions            |
-| Navigation not responsive              | Incorrect Tailwind breakpoint usage        | Use mobile-first approach: base = mobile, md:, lg: for larger   |
-| Footer columns not stacking on mobile  | Missing responsive grid classes            | Use grid-cols-1 md:grid-cols-3 pattern                          |
-| Focus indicators not visible           | Default browser outline removed            | Add custom focus-visible:ring-2 focus-visible:ring-blue-500     |
-| Touch targets too small on mobile      | Insufficient padding/height                | Use min-h-[44px] min-w-[44px] or p-3 for adequate sizing        |
-| Tailwind classes not applying          | Content paths misconfigured                | Verify tailwind.config.ts includes all component directories    |
+| Issue                                 | Cause                               | Solution                                                      |
+| ------------------------------------- | ----------------------------------- | ------------------------------------------------------------- |
+| Mobile menu not opening               | Missing client component directive  | Add "use client" to MobileNav component                       |
+| Layout shift during page load         | Images missing width/height         | Use Next.js Image component with explicit dimensions          |
+| Navigation not responsive             | Incorrect Tailwind breakpoint usage | Use mobile-first approach: base = mobile, md:, lg: for larger |
+| Footer columns not stacking on mobile | Missing responsive grid classes     | Use grid-cols-1 md:grid-cols-3 pattern                        |
+| Focus indicators not visible          | Default browser outline removed     | Add custom focus-visible:ring-2 focus-visible:ring-blue-500   |
+| Touch targets too small on mobile     | Insufficient padding/height         | Use min-h-[44px] min-w-[44px] or p-3 for adequate sizing      |
+| Tailwind classes not applying         | Content paths misconfigured         | Verify tailwind.config.ts includes all component directories  |
 
 ### Reference Materials
 
@@ -291,6 +292,7 @@ Link to decisions documented elsewhere that apply to this story:
 **Decision**: Use mobile-first responsive design approach with progressive enhancement for larger viewports.
 
 **Rationale**:
+
 - Mobile traffic represents majority of web usage globally
 - Easier to progressively enhance simple layouts than strip down complex ones
 - Tailwind CSS defaults to mobile-first methodology
@@ -298,6 +300,7 @@ Link to decisions documented elsewhere that apply to this story:
 - Performance benefits from loading minimal CSS for mobile devices
 
 **Consequences**:
+
 - Base styles apply to mobile viewport (320px+)
 - Breakpoint modifiers (md:, lg:, xl:) add features for larger screens
 - Developers must think mobile-first when designing layouts
@@ -305,6 +308,7 @@ Link to decisions documented elsewhere that apply to this story:
 - Consistent with Tailwind CSS best practices
 
 **Alternatives Considered**:
+
 - **Option 1**: Desktop-first with max-width breakpoints - Rejected because it typically results in worse mobile experiences
 - **Option 2**: Separate mobile and desktop templates - Rejected due to maintenance overhead and code duplication
 
@@ -315,6 +319,7 @@ Link to decisions documented elsewhere that apply to this story:
 **Decision**: Use hamburger icon with slide-out drawer navigation for mobile viewports instead of bottom tab bar or dropdown menu.
 
 **Rationale**:
+
 - Hamburger menu is widely recognized pattern, minimal learning curve
 - Preserves vertical screen space (no persistent bottom bar)
 - Allows for more navigation options without cramming into small space
@@ -322,6 +327,7 @@ Link to decisions documented elsewhere that apply to this story:
 - Works well with Radix UI Dialog primitive for accessibility
 
 **Consequences**:
+
 - Navigation requires one extra tap to access on mobile (tap hamburger, then link)
 - Drawer component requires client-side JavaScript
 - Need to manage drawer open/close state
@@ -329,6 +335,7 @@ Link to decisions documented elsewhere that apply to this story:
 - Accessible with proper ARIA labels and keyboard support
 
 **Alternatives Considered**:
+
 - **Option 1**: Bottom tab bar navigation - Rejected because it limits number of navigation items and occupies permanent screen space
 - **Option 2**: Always-visible compact menu - Rejected because it would clutter mobile UI and reduce content area
 - **Option 3**: Dropdown from header - Rejected because it's less intuitive and harder to make accessible
@@ -340,6 +347,7 @@ Link to decisions documented elsewhere that apply to this story:
 **Decision**: Limit main content container to max-width of 1280px (Tailwind's xl breakpoint) centered on screen.
 
 **Rationale**:
+
 - Prevents excessively long line lengths on ultra-wide displays (>70-80 characters optimal)
 - Maintains readable layout without horizontal scrolling
 - Aligns with Tailwind's default xl breakpoint for consistency
@@ -347,12 +355,14 @@ Link to decisions documented elsewhere that apply to this story:
 - Easier to maintain visual hierarchy with constrained width
 
 **Consequences**:
+
 - Content is centered with white space on sides on screens > 1280px
 - Layout remains predictable and readable at all sizes
 - May need full-width breakout for certain content types (images, dashboards)
 - Consistent with most modern web design patterns
 
 **Alternatives Considered**:
+
 - **Option 1**: No max-width, full fluid layout - Rejected due to poor readability on very wide screens
 - **Option 2**: Max-width at 1536px (2xl) - Rejected because line lengths become too long for comfortable reading
 - **Option 3**: Max-width at 1024px (lg) - Rejected because it wastes too much space on modern desktop displays
@@ -457,14 +467,14 @@ The following items are explicitly NOT part of this story:
 
 ## Appendix A: Responsive Breakpoint Reference
 
-| Breakpoint | Min Width | Typical Device        | Layout Changes                          |
-| ---------- | --------- | --------------------- | --------------------------------------- |
-| (base)     | 0px       | Mobile phones         | Single column, hamburger nav            |
-| sm         | 640px     | Large phones          | Slightly wider containers               |
-| md         | 768px     | Tablets               | Horizontal nav, multi-column footer     |
-| lg         | 1024px    | Small laptops         | Wider containers, expanded navigation   |
-| xl         | 1280px    | Desktop               | Max container width, full layout        |
-| 2xl        | 1536px    | Large desktop         | Same as xl (content constrained)        |
+| Breakpoint | Min Width | Typical Device | Layout Changes                        |
+| ---------- | --------- | -------------- | ------------------------------------- |
+| (base)     | 0px       | Mobile phones  | Single column, hamburger nav          |
+| sm         | 640px     | Large phones   | Slightly wider containers             |
+| md         | 768px     | Tablets        | Horizontal nav, multi-column footer   |
+| lg         | 1024px    | Small laptops  | Wider containers, expanded navigation |
+| xl         | 1280px    | Desktop        | Max container width, full layout      |
+| 2xl        | 1536px    | Large desktop  | Same as xl (content constrained)      |
 
 ## Appendix B: Semantic HTML Structure
 
@@ -476,9 +486,7 @@ The following items are explicitly NOT part of this story:
   </head>
   <body>
     <!-- Skip to content link (accessibility) -->
-    <a href="#main-content" class="sr-only focus:not-sr-only">
-      Skip to content
-    </a>
+    <a href="#main-content" class="sr-only focus:not-sr-only"> Skip to content </a>
 
     <!-- Header with navigation -->
     <header role="banner">

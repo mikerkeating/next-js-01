@@ -30,20 +30,20 @@
 
 ### Files to Create
 
-| Path                                                | Purpose                                            |
-| --------------------------------------------------- | -------------------------------------------------- |
-| `packages/auth/src/components/auth-error-boundary.tsx` | Auth-specific error boundary component             |
-| `packages/auth/src/components/auth-error-fallback.tsx` | Default fallback UI for auth errors                |
-| `packages/auth/src/utils/auth-error-handlers.ts`    | Error classification and handling utilities        |
-| `packages/auth/src/utils/token-refresh.ts`          | Token refresh monitoring utilities                 |
-| `packages/auth/src/types/auth-errors.ts`            | TypeScript interfaces for auth error types         |
+| Path                                                   | Purpose                                     |
+| ------------------------------------------------------ | ------------------------------------------- |
+| `packages/auth/src/components/auth-error-boundary.tsx` | Auth-specific error boundary component      |
+| `packages/auth/src/components/auth-error-fallback.tsx` | Default fallback UI for auth errors         |
+| `packages/auth/src/utils/auth-error-handlers.ts`       | Error classification and handling utilities |
+| `packages/auth/src/utils/token-refresh.ts`             | Token refresh monitoring utilities          |
+| `packages/auth/src/types/auth-errors.ts`               | TypeScript interfaces for auth error types  |
 
 ### Files to Modify
 
-| Path                             | Changes                                             |
-| -------------------------------- | --------------------------------------------------- |
-| `packages/auth/src/index.ts`     | Export `AuthErrorBoundary` and error utilities      |
-| `packages/auth/README.md`        | Add error handling and token refresh documentation  |
+| Path                         | Changes                                            |
+| ---------------------------- | -------------------------------------------------- |
+| `packages/auth/src/index.ts` | Export `AuthErrorBoundary` and error utilities     |
+| `packages/auth/README.md`    | Add error handling and token refresh documentation |
 
 ### Dependencies
 
@@ -52,6 +52,7 @@
 Dependencies should already be installed from S1 (Package Setup). No additional dependencies required.
 
 **Required dependencies** (from S1):
+
 - `@clerk/nextjs` - Token refresh is handled automatically by Clerk SDK
 - `react` - Error boundary component implementation
 
@@ -60,14 +61,15 @@ Dependencies should already be installed from S1 (Package Setup). No additional 
 > **Note**: For complete error boundary patterns, reference the TAD.
 > This section describes configuration REQUIREMENTS, not full file contents.
 
-| Setting              | Requirement                                                        | TAD Reference                                                                 |
-| -------------------- | ------------------------------------------------------------------ | ----------------------------------------------------------------------------- |
-| Error classification | Distinguish auth errors from general errors (check error codes)    | [TAD: Observability - React Error Boundary](/docs/2-technical/2-tad-observability.md#react-error-boundary) |
-| Logging integration  | Use `@repo/logger` for error logging with structured metadata      | [TAD: Structured Logging Schema](/docs/2-technical/2-tad-observability.md#structured-logging-schema) |
-| Token refresh        | Rely on Clerk's automatic token refresh; monitor for failures      | [ADR-006: Best Practices - Session Management](/docs/2-technical/adr/006-clerk-authentication.md#best-practices) |
-| Fallback UI          | Provide actionable fallback with "Sign In Again" button            | [TAD: React Error Boundary](/docs/2-technical/2-tad-observability.md#react-error-boundary) |
+| Setting              | Requirement                                                     | TAD Reference                                                                                                    |
+| -------------------- | --------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------- |
+| Error classification | Distinguish auth errors from general errors (check error codes) | [TAD: Observability - React Error Boundary](/docs/2-technical/2-tad-observability.md#react-error-boundary)       |
+| Logging integration  | Use `@repo/logger` for error logging with structured metadata   | [TAD: Structured Logging Schema](/docs/2-technical/2-tad-observability.md#structured-logging-schema)             |
+| Token refresh        | Rely on Clerk's automatic token refresh; monitor for failures   | [ADR-006: Best Practices - Session Management](/docs/2-technical/adr/006-clerk-authentication.md#best-practices) |
+| Fallback UI          | Provide actionable fallback with "Sign In Again" button         | [TAD: React Error Boundary](/docs/2-technical/2-tad-observability.md#react-error-boundary)                       |
 
 **Configuration Rationale**:
+
 - Auth-specific error boundary focuses on authentication failures (session expiry, token issues) while delegating general application errors to broader error boundaries
 - Clerk SDK handles token refresh automatically; our implementation monitors for refresh failures and provides user feedback
 - Logging auth errors with structured metadata enables monitoring authentication reliability and debugging session issues
@@ -194,13 +196,13 @@ Key pattern notes for this story:
 
 ### Troubleshooting
 
-| Issue                                      | Cause                                          | Solution                                                          |
-| ------------------------------------------ | ---------------------------------------------- | ----------------------------------------------------------------- |
-| Error boundary doesn't catch auth errors   | Error boundary placed incorrectly in tree      | Ensure `AuthErrorBoundary` wraps components using auth hooks      |
-| All errors caught as auth errors           | Error classification too broad                 | Use strict error code checking in `isAuthError()`                 |
-| Token refresh not working                  | Clerk SDK not configured correctly             | Verify Clerk environment variables and provider setup (S1, S2)    |
-| Error boundary doesn't reset after sign-in | Missing key prop or reset mechanism            | Use `userId` as key prop on boundary or implement manual reset    |
-| Errors not logged to monitoring            | Logger not imported or configured              | Verify `@repo/logger` dependency and import in error boundary     |
+| Issue                                      | Cause                                     | Solution                                                       |
+| ------------------------------------------ | ----------------------------------------- | -------------------------------------------------------------- |
+| Error boundary doesn't catch auth errors   | Error boundary placed incorrectly in tree | Ensure `AuthErrorBoundary` wraps components using auth hooks   |
+| All errors caught as auth errors           | Error classification too broad            | Use strict error code checking in `isAuthError()`              |
+| Token refresh not working                  | Clerk SDK not configured correctly        | Verify Clerk environment variables and provider setup (S1, S2) |
+| Error boundary doesn't reset after sign-in | Missing key prop or reset mechanism       | Use `userId` as key prop on boundary or implement manual reset |
+| Errors not logged to monitoring            | Logger not imported or configured         | Verify `@repo/logger` dependency and import in error boundary  |
 
 ### Reference Materials
 

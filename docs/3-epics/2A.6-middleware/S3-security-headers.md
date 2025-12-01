@@ -32,16 +32,16 @@
 
 ### Files to Create
 
-| Path                                              | Purpose                                  |
-| ------------------------------------------------- | ---------------------------------------- |
-| `packages/middleware/src/security-headers.ts`     | Security headers middleware              |
-| `packages/middleware/tests/security-headers.test.ts` | Unit tests for security headers       |
+| Path                                                 | Purpose                         |
+| ---------------------------------------------------- | ------------------------------- |
+| `packages/middleware/src/security-headers.ts`        | Security headers middleware     |
+| `packages/middleware/tests/security-headers.test.ts` | Unit tests for security headers |
 
 ### Files to Modify
 
-| Path                               | Changes                                      |
-| ---------------------------------- | -------------------------------------------- |
-| `packages/middleware/src/index.ts` | Export `securityHeadersMiddleware`           |
+| Path                               | Changes                                       |
+| ---------------------------------- | --------------------------------------------- |
+| `packages/middleware/src/index.ts` | Export `securityHeadersMiddleware`            |
 | `packages/middleware/README.md`    | Add security headers middleware documentation |
 
 ### Dependencies
@@ -55,12 +55,12 @@ No additional dependencies required beyond those installed in S1 (Next.js types 
 > **Note**: For complete configuration file templates, reference the TAD.
 > This section describes configuration REQUIREMENTS, not full file contents.
 
-| Setting | Requirement | TAD Reference |
-| ------- | ----------- | ------------- |
+| Setting                            | Requirement                                                                                | TAD Reference                                                                                              |
+| ---------------------------------- | ------------------------------------------------------------------------------------------ | ---------------------------------------------------------------------------------------------------------- |
 | Content-Security-Policy directives | Configurable with secure defaults (default-src 'self', script-src with specific allowlist) | [TAD: Security Headers Middleware](/docs/2-technical/2-tad-edge-middleware.md#security-headers-middleware) |
-| HSTS max-age | 31536000 seconds (1 year) with includeSubDomains and preload | [TAD: Security Headers Middleware](/docs/2-technical/2-tad-edge-middleware.md#security-headers-middleware) |
-| X-Frame-Options | DENY (no framing allowed) | [TAD: Security Headers Middleware](/docs/2-technical/2-tad-edge-middleware.md#security-headers-middleware) |
-| Permissions-Policy | Restrict camera, microphone, geolocation by default | [TAD: Security Headers Middleware](/docs/2-technical/2-tad-edge-middleware.md#security-headers-middleware) |
+| HSTS max-age                       | 31536000 seconds (1 year) with includeSubDomains and preload                               | [TAD: Security Headers Middleware](/docs/2-technical/2-tad-edge-middleware.md#security-headers-middleware) |
+| X-Frame-Options                    | DENY (no framing allowed)                                                                  | [TAD: Security Headers Middleware](/docs/2-technical/2-tad-edge-middleware.md#security-headers-middleware) |
+| Permissions-Policy                 | Restrict camera, microphone, geolocation by default                                        | [TAD: Security Headers Middleware](/docs/2-technical/2-tad-edge-middleware.md#security-headers-middleware) |
 
 **Configuration Rationale**: Security headers protect against common web vulnerabilities. CSP prevents XSS attacks by restricting resource origins. HSTS enforces HTTPS connections. X-Frame-Options prevents clickjacking. X-Content-Type-Options prevents MIME sniffing attacks. Configurable options allow applications to customize policies based on their specific requirements (e.g., allowing specific third-party scripts).
 
@@ -169,13 +169,13 @@ Key pattern notes for this story:
 
 ### Troubleshooting
 
-| Issue | Cause | Solution |
-| ----- | ----- | -------- |
-| CSP blocks legitimate resources | Too restrictive default policy | Customize CSP directives via options to allow specific third-party domains |
-| Headers not appearing in browser | Middleware not returning NextResponse | Ensure middleware returns `NextResponse.next()` with headers set |
-| CSP syntax errors | Incorrect directive formatting | Follow CSP spec: directives separated by `;` with space, sources space-separated |
-| HSTS not working in development | HSTS only applies to HTTPS | Test HSTS behavior in production or with local HTTPS setup |
-| X-Frame-Options conflicts with embedding | X-Frame-Options set to DENY | Change to SAMEORIGIN or remove if legitimate embedding is needed |
+| Issue                                    | Cause                                 | Solution                                                                         |
+| ---------------------------------------- | ------------------------------------- | -------------------------------------------------------------------------------- |
+| CSP blocks legitimate resources          | Too restrictive default policy        | Customize CSP directives via options to allow specific third-party domains       |
+| Headers not appearing in browser         | Middleware not returning NextResponse | Ensure middleware returns `NextResponse.next()` with headers set                 |
+| CSP syntax errors                        | Incorrect directive formatting        | Follow CSP spec: directives separated by `;` with space, sources space-separated |
+| HSTS not working in development          | HSTS only applies to HTTPS            | Test HSTS behavior in production or with local HTTPS setup                       |
+| X-Frame-Options conflicts with embedding | X-Frame-Options set to DENY           | Change to SAMEORIGIN or remove if legitimate embedding is needed                 |
 
 ### Reference Materials
 
@@ -215,7 +215,7 @@ Link to decisions documented elsewhere that apply to this story:
 **Rationale**:
 
 - Next.js development mode requires 'unsafe-eval' for hot module reloading
-- Vercel deployments inject scripts from *.vercel-scripts.com domain
+- Vercel deployments inject scripts from \*.vercel-scripts.com domain
 - Starting with a working default reduces friction for initial adoption
 - Applications can tighten policy via configuration options as needed
 - Balance between security-by-default and developer experience

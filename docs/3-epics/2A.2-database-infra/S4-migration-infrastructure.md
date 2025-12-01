@@ -30,30 +30,31 @@
 
 ### Files to Create
 
-| Path                                               | Purpose                               |
-| -------------------------------------------------- | ------------------------------------- |
-| `packages/database/src/migrate.ts`                 | Programmatic migration runner         |
-| `packages/database/src/migrations/.gitkeep`        | Ensure migrations directory exists    |
-| `packages/database/scripts/generate-migration.ts`  | Script to generate new migrations     |
-| `packages/database/scripts/apply-migrations.ts`    | Script to apply pending migrations    |
-| `packages/database/scripts/rollback-migration.ts`  | Script to rollback last migration     |
-| `packages/database/scripts/reset-database.ts`      | Script to reset database (dev only)   |
-| `packages/database/README.md` (migration section)  | Migration workflow documentation      |
+| Path                                              | Purpose                             |
+| ------------------------------------------------- | ----------------------------------- |
+| `packages/database/src/migrate.ts`                | Programmatic migration runner       |
+| `packages/database/src/migrations/.gitkeep`       | Ensure migrations directory exists  |
+| `packages/database/scripts/generate-migration.ts` | Script to generate new migrations   |
+| `packages/database/scripts/apply-migrations.ts`   | Script to apply pending migrations  |
+| `packages/database/scripts/rollback-migration.ts` | Script to rollback last migration   |
+| `packages/database/scripts/reset-database.ts`     | Script to reset database (dev only) |
+| `packages/database/README.md` (migration section) | Migration workflow documentation    |
 
 ### Files to Modify
 
-| Path                                | Changes                                                  |
-| ----------------------------------- | -------------------------------------------------------- |
-| `packages/database/package.json`    | Add migration-related scripts                            |
-| `packages/database/drizzle.config.ts` | Verify migration output directory configuration        |
-| `packages/database/src/index.ts`    | Export migration utilities                               |
-| `.github/workflows/ci.yml`          | Add migration validation step (if CI workflow exists)    |
+| Path                                  | Changes                                               |
+| ------------------------------------- | ----------------------------------------------------- |
+| `packages/database/package.json`      | Add migration-related scripts                         |
+| `packages/database/drizzle.config.ts` | Verify migration output directory configuration       |
+| `packages/database/src/index.ts`      | Export migration utilities                            |
+| `.github/workflows/ci.yml`            | Add migration validation step (if CI workflow exists) |
 
 ### Dependencies
 
 > **Version Reference**: Use exact versions from [canonical-versions.md](/docs/2-technical/references/canonical-versions.md)
 
 **Already installed** (from S2):
+
 - `drizzle-orm` (^0.29.0)
 - `drizzle-kit` (^0.29.0)
 - `@neondatabase/serverless`
@@ -244,11 +245,13 @@ Key pattern notes for this story:
 ## References
 
 **Epic & TAD:**
+
 - [EPIC.md: Database Infrastructure](./EPIC.md)
 - [ADR-005: Drizzle as ORM](/docs/2-technical/adr/005-drizzle-orm.md)
 - [TAD: Database & ORM](/docs/2-technical/2-tad.md#database--orm)
 
 **External:**
+
 - [Drizzle Kit Documentation](https://orm.drizzle.team/kit-docs/overview)
 - [Drizzle Migrations Guide](https://orm.drizzle.team/docs/migrations)
 

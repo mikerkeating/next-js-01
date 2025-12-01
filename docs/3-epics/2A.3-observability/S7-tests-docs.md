@@ -34,24 +34,24 @@
 
 ### Files to Create
 
-| Path | Purpose |
-|------|---------|
-| `packages/observability/__tests__/logger.test.ts` | Unit tests for structured logger |
-| `packages/observability/__tests__/sentry.test.ts` | Unit tests for Sentry integration |
-| `packages/observability/__tests__/error-boundary.test.tsx` | Component tests for Error Boundary |
-| `packages/observability/__tests__/web-vitals.test.ts` | Unit tests for Web Vitals tracking |
-| `packages/observability/__tests__/health-checks.test.ts` | Unit tests for health check utilities |
-| `packages/observability/__tests__/integration/logger-sentry.test.ts` | Integration test for logger + Sentry |
+| Path                                                                   | Purpose                                           |
+| ---------------------------------------------------------------------- | ------------------------------------------------- |
+| `packages/observability/__tests__/logger.test.ts`                      | Unit tests for structured logger                  |
+| `packages/observability/__tests__/sentry.test.ts`                      | Unit tests for Sentry integration                 |
+| `packages/observability/__tests__/error-boundary.test.tsx`             | Component tests for Error Boundary                |
+| `packages/observability/__tests__/web-vitals.test.ts`                  | Unit tests for Web Vitals tracking                |
+| `packages/observability/__tests__/health-checks.test.ts`               | Unit tests for health check utilities             |
+| `packages/observability/__tests__/integration/logger-sentry.test.ts`   | Integration test for logger + Sentry              |
 | `packages/observability/__tests__/integration/health-endpoint.test.ts` | Integration test for health checks + API endpoint |
-| `packages/observability/vitest.config.ts` | Vitest configuration |
+| `packages/observability/vitest.config.ts`                              | Vitest configuration                              |
 
 ### Files to Modify
 
-| Path | Changes |
-|------|---------|
-| `packages/observability/README.md` | Add comprehensive usage documentation |
+| Path                                  | Changes                                  |
+| ------------------------------------- | ---------------------------------------- |
+| `packages/observability/README.md`    | Add comprehensive usage documentation    |
 | `packages/observability/package.json` | Add test scripts and coverage thresholds |
-| `turbo.json` | Add test task for observability package |
+| `turbo.json`                          | Add test task for observability package  |
 
 ### Dependencies
 
@@ -72,12 +72,12 @@ pnpm add -D vitest @vitest/coverage-v8 @vitest/ui happy-dom @testing-library/rea
 > **Note**: For complete configuration file templates, reference the TAD.
 > This section describes configuration REQUIREMENTS, not full file contents.
 
-| Setting | Requirement | TAD Reference |
-|---------|-------------|---------------|
-| Vitest config | Coverage threshold 80%, happy-dom environment | [TAD: Testing Strategy](/docs/2-technical/2-tad.md#testing-strategy) |
-| Test scripts | `test`, `test:watch`, `test:coverage`, `test:ui` | [TAD: Testing Strategy](/docs/2-technical/2-tad.md#testing-strategy) |
-| Coverage reporters | Text, JSON, HTML formats | [TAD: Testing Strategy](/docs/2-technical/2-tad.md#testing-strategy) |
-| Mock handlers (MSW) | Mock Clerk API, database queries | [TAD: Testing Strategy](/docs/2-technical/2-tad.md#testing-strategy) |
+| Setting             | Requirement                                      | TAD Reference                                                        |
+| ------------------- | ------------------------------------------------ | -------------------------------------------------------------------- |
+| Vitest config       | Coverage threshold 80%, happy-dom environment    | [TAD: Testing Strategy](/docs/2-technical/2-tad.md#testing-strategy) |
+| Test scripts        | `test`, `test:watch`, `test:coverage`, `test:ui` | [TAD: Testing Strategy](/docs/2-technical/2-tad.md#testing-strategy) |
+| Coverage reporters  | Text, JSON, HTML formats                         | [TAD: Testing Strategy](/docs/2-technical/2-tad.md#testing-strategy) |
+| Mock handlers (MSW) | Mock Clerk API, database queries                 | [TAD: Testing Strategy](/docs/2-technical/2-tad.md#testing-strategy) |
 
 **Configuration Rationale**: 80% coverage threshold ensures observability utilities are well-tested and reliable. Using Vitest with happy-dom provides fast test execution for both Node.js and browser-like environments. MSW enables realistic API mocking without complex test fixtures. Integration tests verify utilities work correctly together, preventing regressions when refactoring.
 
@@ -238,14 +238,14 @@ Key pattern notes for this story:
 
 ### Troubleshooting
 
-| Issue | Cause | Solution |
-|-------|-------|----------|
-| Tests fail with "Cannot find module @repo/database" | Database package not built or peer dependency issue | Verify Epic 2A.2 complete; run `pnpm build --filter @repo/database` |
-| Coverage below 80% | Missing test cases for edge cases or error paths | Review coverage HTML report; add tests for uncovered branches |
-| Sentry tests interfere with each other | Sentry SDK maintains global state between tests | Use `vi.clearAllMocks()` in `beforeEach()` hook |
-| Error Boundary tests don't catch errors | React Testing Library swallows errors by default | Wrap component in error-throwing test component; use `console.error` spy |
-| Web Vitals tests timeout | web-vitals library doesn't call callbacks in test | Mock library completely with `vi.mock('web-vitals')` |
-| Health check tests fail with real database | Tests not properly mocked | Ensure `vi.mock('@repo/database')` before imports |
+| Issue                                               | Cause                                               | Solution                                                                 |
+| --------------------------------------------------- | --------------------------------------------------- | ------------------------------------------------------------------------ |
+| Tests fail with "Cannot find module @repo/database" | Database package not built or peer dependency issue | Verify Epic 2A.2 complete; run `pnpm build --filter @repo/database`      |
+| Coverage below 80%                                  | Missing test cases for edge cases or error paths    | Review coverage HTML report; add tests for uncovered branches            |
+| Sentry tests interfere with each other              | Sentry SDK maintains global state between tests     | Use `vi.clearAllMocks()` in `beforeEach()` hook                          |
+| Error Boundary tests don't catch errors             | React Testing Library swallows errors by default    | Wrap component in error-throwing test component; use `console.error` spy |
+| Web Vitals tests timeout                            | web-vitals library doesn't call callbacks in test   | Mock library completely with `vi.mock('web-vitals')`                     |
+| Health check tests fail with real database          | Tests not properly mocked                           | Ensure `vi.mock('@repo/database')` before imports                        |
 
 ### Reference Materials
 
@@ -327,7 +327,7 @@ Key pattern notes for this story:
 **Alternatives Considered**:
 
 - **Single test directory**: Rejected - harder to distinguish unit vs integration tests
-- **Suffix convention (*.integration.test.ts)**: Rejected - less clear than directory separation
+- **Suffix convention (\*.integration.test.ts)**: Rejected - less clear than directory separation
 
 ## Out of Scope
 

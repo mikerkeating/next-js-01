@@ -30,22 +30,22 @@
 
 ### Files to Create
 
-| Path                                                | Purpose                                       |
-| --------------------------------------------------- | --------------------------------------------- |
-| `packages/auth/src/webhooks/types.ts`               | TypeScript types for Clerk webhook events     |
-| `packages/auth/src/webhooks/handler.ts`             | Core webhook handler with signature validation|
-| `packages/auth/src/webhooks/index.ts`               | Public exports for webhook functionality      |
-| `apps/web/app/api/webhooks/clerk/route.ts`          | Next.js API route for Clerk webhooks          |
-| `packages/auth/src/webhooks/handler.test.ts`        | Unit tests for webhook validation logic       |
-| `apps/web/app/api/webhooks/clerk/route.test.ts`     | Integration tests for webhook endpoint        |
+| Path                                            | Purpose                                        |
+| ----------------------------------------------- | ---------------------------------------------- |
+| `packages/auth/src/webhooks/types.ts`           | TypeScript types for Clerk webhook events      |
+| `packages/auth/src/webhooks/handler.ts`         | Core webhook handler with signature validation |
+| `packages/auth/src/webhooks/index.ts`           | Public exports for webhook functionality       |
+| `apps/web/app/api/webhooks/clerk/route.ts`      | Next.js API route for Clerk webhooks           |
+| `packages/auth/src/webhooks/handler.test.ts`    | Unit tests for webhook validation logic        |
+| `apps/web/app/api/webhooks/clerk/route.test.ts` | Integration tests for webhook endpoint         |
 
 ### Files to Modify
 
-| Path                               | Changes                                                                 |
-| ---------------------------------- | ----------------------------------------------------------------------- |
-| `packages/auth/package.json`       | Add `svix` dependency for webhook signature verification               |
-| `apps/web/middleware.ts`           | Add `/api/webhooks/clerk` to ignored routes (public access required)   |
-| `.env.example`                     | Add `CLERK_WEBHOOK_SECRET` environment variable                         |
+| Path                         | Changes                                                              |
+| ---------------------------- | -------------------------------------------------------------------- |
+| `packages/auth/package.json` | Add `svix` dependency for webhook signature verification             |
+| `apps/web/middleware.ts`     | Add `/api/webhooks/clerk` to ignored routes (public access required) |
+| `.env.example`               | Add `CLERK_WEBHOOK_SECRET` environment variable                      |
 
 ### Dependencies
 
@@ -66,12 +66,12 @@ pnpm add -D @clerk/testing
 > **Note**: For complete configuration file templates, reference the TAD.
 > This section describes configuration REQUIREMENTS, not full file contents.
 
-| Setting                 | Requirement                                              | TAD Reference                                                                                     |
-| ----------------------- | -------------------------------------------------------- | ------------------------------------------------------------------------------------------------- |
-| `CLERK_WEBHOOK_SECRET`  | Svix signing secret from Clerk dashboard                 | [ADR-006: Webhook Handler](/docs/2-technical/adr/006-clerk-authentication.md#webhook-handler)    |
-| `publicRoutes`          | Must include `/api/webhooks/clerk` for webhook delivery  | [ADR-006: Middleware](/docs/2-technical/adr/006-clerk-authentication.md)                         |
-| Signature verification  | Use Svix SDK to verify webhook signatures                | [ADR-006: Webhook Handler](/docs/2-technical/adr/006-clerk-authentication.md#webhook-handler)    |
-| Event types             | Support `user.created`, `user.updated`, `user.deleted`   | [TAD: Security Architecture](/docs/2-technical/2-tad-security-architecture.md)                   |
+| Setting                | Requirement                                             | TAD Reference                                                                                 |
+| ---------------------- | ------------------------------------------------------- | --------------------------------------------------------------------------------------------- |
+| `CLERK_WEBHOOK_SECRET` | Svix signing secret from Clerk dashboard                | [ADR-006: Webhook Handler](/docs/2-technical/adr/006-clerk-authentication.md#webhook-handler) |
+| `publicRoutes`         | Must include `/api/webhooks/clerk` for webhook delivery | [ADR-006: Middleware](/docs/2-technical/adr/006-clerk-authentication.md)                      |
+| Signature verification | Use Svix SDK to verify webhook signatures               | [ADR-006: Webhook Handler](/docs/2-technical/adr/006-clerk-authentication.md#webhook-handler) |
+| Event types            | Support `user.created`, `user.updated`, `user.deleted`  | [TAD: Security Architecture](/docs/2-technical/2-tad-security-architecture.md)                |
 
 **Configuration Rationale**:
 
@@ -186,13 +186,13 @@ Key pattern notes for this story:
 
 ### Troubleshooting
 
-| Issue                                          | Cause                                          | Solution                                                |
-| ---------------------------------------------- | ---------------------------------------------- | ------------------------------------------------------- |
-| "Missing CLERK_WEBHOOK_SECRET" error           | Environment variable not set                   | Add secret from Clerk dashboard to `.env.local`         |
-| "Invalid signature" for valid webhooks         | Wrong webhook secret or timestamp tolerance    | Verify secret matches Clerk dashboard; check server time|
-| Webhooks blocked with 401 Unauthorized         | Middleware not excluding webhook endpoint      | Add `/api/webhooks/clerk` to `ignoredRoutes`            |
-| Duplicate user records created                 | Webhook replayed after failure                 | Use database unique constraints on `clerkId` (added S6) |
-| Webhook endpoint timeout                       | Synchronous processing of slow operations      | Move heavy processing to background queue (future)      |
+| Issue                                  | Cause                                       | Solution                                                 |
+| -------------------------------------- | ------------------------------------------- | -------------------------------------------------------- |
+| "Missing CLERK_WEBHOOK_SECRET" error   | Environment variable not set                | Add secret from Clerk dashboard to `.env.local`          |
+| "Invalid signature" for valid webhooks | Wrong webhook secret or timestamp tolerance | Verify secret matches Clerk dashboard; check server time |
+| Webhooks blocked with 401 Unauthorized | Middleware not excluding webhook endpoint   | Add `/api/webhooks/clerk` to `ignoredRoutes`             |
+| Duplicate user records created         | Webhook replayed after failure              | Use database unique constraints on `clerkId` (added S6)  |
+| Webhook endpoint timeout               | Synchronous processing of slow operations   | Move heavy processing to background queue (future)       |
 
 ### Reference Materials
 

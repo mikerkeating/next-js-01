@@ -13,27 +13,27 @@
 
 ### Requires (Must Complete First)
 
-| Epic | Title | Reason |
-|------|-------|--------|
+| Epic | Title                                                   | Reason                                                                |
+| ---- | ------------------------------------------------------- | --------------------------------------------------------------------- |
 | 2A.1 | [Configuration Package](../2A.1-config-package/EPIC.md) | Shared TypeScript and ESLint configs needed for observability package |
 
 ### Blocks (Enables These Epics)
 
-| Epic | Title | What This Provides |
-|------|-------|-------------------|
+| Epic | Title                                                       | What This Provides                                           |
+| ---- | ----------------------------------------------------------- | ------------------------------------------------------------ |
 | 2A.4 | [Analytics Infrastructure](../2A.4-analytics-infra/EPIC.md) | Logging utilities for analytics event tracking and debugging |
-| 2A.5 | [UI Component Library](../2A.5-ui-components/EPIC.md) | Error boundary component for graceful error handling |
-| 2A.6 | [Middleware Package](../2A.6-middleware/EPIC.md) | Request logging middleware and error handling patterns |
-| 3A.1 | [CDN & Asset Management](../3A.1-cdn/EPIC.md) | Health check utilities for CDN monitoring |
-| 3A.2 | [Routing Application Shell](../3A.2-routing-shell/EPIC.md) | Web Vitals tracking and error boundary integration |
+| 2A.5 | [UI Component Library](../2A.5-ui-components/EPIC.md)       | Error boundary component for graceful error handling         |
+| 2A.6 | [Middleware Package](../2A.6-middleware/EPIC.md)            | Request logging middleware and error handling patterns       |
+| 3A.1 | [CDN & Asset Management](../3A.1-cdn/EPIC.md)               | Health check utilities for CDN monitoring                    |
+| 3A.2 | [Routing Application Shell](../3A.2-routing-shell/EPIC.md)  | Web Vitals tracking and error boundary integration           |
 
 ### Can Run in Parallel With
 
-| Epic | Title | Notes |
-|------|-------|-------|
-| 2A.2 | [Database Infrastructure](../2A.2-database-infra/EPIC.md) | No data dependencies; can develop independently once 2A.1 complete |
+| Epic | Title                                                       | Notes                                                                                          |
+| ---- | ----------------------------------------------------------- | ---------------------------------------------------------------------------------------------- |
+| 2A.2 | [Database Infrastructure](../2A.2-database-infra/EPIC.md)   | No data dependencies; can develop independently once 2A.1 complete                             |
 | 2A.4 | [Analytics Infrastructure](../2A.4-analytics-infra/EPIC.md) | Independent infrastructure; analytics uses observability utilities but can develop in parallel |
-| 2A.5 | [UI Component Library](../2A.5-ui-components/EPIC.md) | Independent frontend vs infrastructure concerns; error boundary can be integrated later |
+| 2A.5 | [UI Component Library](../2A.5-ui-components/EPIC.md)       | Independent frontend vs infrastructure concerns; error boundary can be integrated later        |
 
 ## Overview
 
@@ -68,15 +68,15 @@ This epic establishes the observability layer for the platform, providing struct
 
 ## Stories
 
-| ID | Title | Size | Status | Depends On | Blocks |
-|----|-------|------|--------|------------|--------|
-| S1 | [Create @repo/observability Package Structure](./S1-package-structure.md) | S | ⬜ | - | S2, S3, S4, S5, S6 |
-| S2 | [Implement Structured Logger](./S2-structured-logger.md) | M | ⬜ | S1 | S3, S4, S5, S7 |
-| S3 | [Integrate Sentry SDK](./S3-sentry-integration.md) | M | ⬜ | S1, S2 | S4, S7 |
-| S4 | [Create React Error Boundary Component](./S4-error-boundary.md) | M | ⬜ | S2, S3 | S7 |
-| S5 | [Implement Web Vitals Tracking](./S5-web-vitals.md) | S | ⬜ | S2 | S7 |
-| S6 | [Create Health Check Utilities](./S6-health-checks.md) | M | ⬜ | S1 | S7 |
-| S7 | [Write Tests and Documentation](./S7-tests-docs.md) | M | ⬜ | S2, S3, S4, S5, S6 | - |
+| ID  | Title                                                                     | Size | Status | Depends On         | Blocks             |
+| --- | ------------------------------------------------------------------------- | ---- | ------ | ------------------ | ------------------ |
+| S1  | [Create @repo/observability Package Structure](./S1-package-structure.md) | S    | ⬜     | -                  | S2, S3, S4, S5, S6 |
+| S2  | [Implement Structured Logger](./S2-structured-logger.md)                  | M    | ⬜     | S1                 | S3, S4, S5, S7     |
+| S3  | [Integrate Sentry SDK](./S3-sentry-integration.md)                        | M    | ⬜     | S1, S2             | S4, S7             |
+| S4  | [Create React Error Boundary Component](./S4-error-boundary.md)           | M    | ⬜     | S2, S3             | S7                 |
+| S5  | [Implement Web Vitals Tracking](./S5-web-vitals.md)                       | S    | ⬜     | S2                 | S7                 |
+| S6  | [Create Health Check Utilities](./S6-health-checks.md)                    | M    | ⬜     | S1                 | S7                 |
+| S7  | [Write Tests and Documentation](./S7-tests-docs.md)                       | M    | ⬜     | S2, S3, S4, S5, S6 | -                  |
 
 **Status Legend**: ⬜ Not Started | 🟡 In Progress | ✅ Complete | ❌ Blocked
 
@@ -115,12 +115,12 @@ S1 (Package structure)
 
 ### Technology Decisions
 
-| Decision | Choice | Reference |
-|----------|--------|-----------|
-| Error Tracking | Sentry SDK | [TAD: Analytics & Observability](/docs/2-technical/2-tad.md#analytics--observability) |
-| Web Vitals | web-vitals library | [TAD: Observability Architecture](/docs/2-technical/2-tad-observability.md#web-vitals-tracking) |
-| Performance Analytics | Vercel Analytics | [TAD: Analytics & Observability](/docs/2-technical/2-tad.md#analytics--observability) |
-| Log Format | Structured JSON | [TAD: Observability Architecture](/docs/2-technical/2-tad-observability.md#structured-logging-schema) |
+| Decision              | Choice             | Reference                                                                                             |
+| --------------------- | ------------------ | ----------------------------------------------------------------------------------------------------- |
+| Error Tracking        | Sentry SDK         | [TAD: Analytics & Observability](/docs/2-technical/2-tad.md#analytics--observability)                 |
+| Web Vitals            | web-vitals library | [TAD: Observability Architecture](/docs/2-technical/2-tad-observability.md#web-vitals-tracking)       |
+| Performance Analytics | Vercel Analytics   | [TAD: Analytics & Observability](/docs/2-technical/2-tad.md#analytics--observability)                 |
+| Log Format            | Structured JSON    | [TAD: Observability Architecture](/docs/2-technical/2-tad-observability.md#structured-logging-schema) |
 
 ### Constraints
 
@@ -146,39 +146,39 @@ The following items are explicitly NOT part of this epic:
 
 > **Note**: Flag decisions that need resolution before or during implementation.
 
-| Decision | Options | Impact | Status |
-|----------|---------|--------|--------|
-| Sentry replay configuration | Enable session replay for errors only vs all sessions | Privacy vs debugging capability | ✅ Resolved: Errors only (1.0 sample) per TAD |
-| Error boundary fallback design | Generic fallback vs customisable per app | UX consistency vs flexibility | ⬜ Open |
-| Health check endpoint path | `/api/health` vs `/_health` | Discoverability vs convention | ✅ Resolved: `/api/health` per Steel Thread |
+| Decision                       | Options                                               | Impact                          | Status                                        |
+| ------------------------------ | ----------------------------------------------------- | ------------------------------- | --------------------------------------------- |
+| Sentry replay configuration    | Enable session replay for errors only vs all sessions | Privacy vs debugging capability | ✅ Resolved: Errors only (1.0 sample) per TAD |
+| Error boundary fallback design | Generic fallback vs customisable per app              | UX consistency vs flexibility   | ⬜ Open                                       |
+| Health check endpoint path     | `/api/health` vs `/_health`                           | Discoverability vs convention   | ✅ Resolved: `/api/health` per Steel Thread   |
 
 ## Risks and Mitigations
 
-| Risk | Likelihood | Impact | Mitigation |
-|------|------------|--------|------------|
-| Sentry SDK bundle size | Medium | Medium | Use selective imports; tree-shake unused features |
-| Web Vitals library updates | Low | Low | Pin to stable version; test before upgrade |
-| Log volume costs | Medium | Medium | Implement log level filtering; use sampling for debug logs |
-| PII leakage in errors | Low | High | Automated PII scrubbing in Sentry config; code review checklist |
-| Edge runtime compatibility | Low | Medium | Test all utilities in Edge environment early |
+| Risk                       | Likelihood | Impact | Mitigation                                                      |
+| -------------------------- | ---------- | ------ | --------------------------------------------------------------- |
+| Sentry SDK bundle size     | Medium     | Medium | Use selective imports; tree-shake unused features               |
+| Web Vitals library updates | Low        | Low    | Pin to stable version; test before upgrade                      |
+| Log volume costs           | Medium     | Medium | Implement log level filtering; use sampling for debug logs      |
+| PII leakage in errors      | Low        | High   | Automated PII scrubbing in Sentry config; code review checklist |
+| Edge runtime compatibility | Low        | Medium | Test all utilities in Edge environment early                    |
 
 ## Estimated Effort
 
-| Metric | Value |
-|--------|-------|
-| Total Stories | 7 |
-| Total Hours | 30-42h |
-| Calendar Days | 3-4 days |
-| Parallel Tracks | 2 |
+| Metric          | Value    |
+| --------------- | -------- |
+| Total Stories   | 7        |
+| Total Hours     | 30-42h   |
+| Calendar Days   | 3-4 days |
+| Parallel Tracks | 2        |
 
 ### Story Breakdown
 
-| Size | Count | Hours |
-|------|-------|-------|
-| XS (1-2h) | 0 | 0h |
-| S (2-4h) | 2 | 4-8h |
-| M (4-8h) | 5 | 20-40h |
-| L (8-16h) | 0 | 0h |
+| Size      | Count | Hours  |
+| --------- | ----- | ------ |
+| XS (1-2h) | 0     | 0h     |
+| S (2-4h)  | 2     | 4-8h   |
+| M (4-8h)  | 5     | 20-40h |
+| L (8-16h) | 0     | 0h     |
 
 ## References
 

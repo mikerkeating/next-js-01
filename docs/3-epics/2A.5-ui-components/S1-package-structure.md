@@ -29,22 +29,22 @@
 
 ### Files to Create
 
-| Path                                         | Purpose                                    |
-| -------------------------------------------- | ------------------------------------------ |
-| `packages/ui/package.json`                   | Package manifest with dependencies         |
-| `packages/ui/tsconfig.json`                  | TypeScript configuration                   |
-| `packages/ui/src/index.ts`                   | Package entry point (barrel export)        |
-| `packages/ui/src/lib/utils.ts`               | Component utility functions (cn, etc.)     |
-| `packages/ui/src/components/.gitkeep`        | Placeholder for future shadcn/ui components|
-| `packages/ui/README.md`                      | Package documentation for consumers        |
-| `packages/ui/ARCHITECTURE.md`                | Package architecture for maintainers       |
+| Path                                  | Purpose                                     |
+| ------------------------------------- | ------------------------------------------- |
+| `packages/ui/package.json`            | Package manifest with dependencies          |
+| `packages/ui/tsconfig.json`           | TypeScript configuration                    |
+| `packages/ui/src/index.ts`            | Package entry point (barrel export)         |
+| `packages/ui/src/lib/utils.ts`        | Component utility functions (cn, etc.)      |
+| `packages/ui/src/components/.gitkeep` | Placeholder for future shadcn/ui components |
+| `packages/ui/README.md`               | Package documentation for consumers         |
+| `packages/ui/ARCHITECTURE.md`         | Package architecture for maintainers        |
 
 ### Files to Modify
 
-| Path                          | Changes                                  |
-| ----------------------------- | ---------------------------------------- |
-| `turbo.json` (root)           | Add ui package to build pipeline         |
-| `pnpm-workspace.yaml`         | Ensure packages/ui is in workspace       |
+| Path                  | Changes                            |
+| --------------------- | ---------------------------------- |
+| `turbo.json` (root)   | Add ui package to build pipeline   |
+| `pnpm-workspace.yaml` | Ensure packages/ui is in workspace |
 
 ### Dependencies
 
@@ -63,12 +63,12 @@ pnpm add -D typescript @types/react @types/react-dom
 
 > **Note**: For complete configuration file templates, reference the TAD.
 
-| Setting           | Requirement                                  | TAD Reference                                                                    |
-| ----------------- | -------------------------------------------- | -------------------------------------------------------------------------------- |
-| Package name      | `@repo/ui`                                   | [ADR-001: Monorepo Naming](/docs/2-technical/adr/001-monorepo-turborepo.md)     |
-| TypeScript config | Extends workspace root with React support   | [TAD: Package Architecture](/docs/2-technical/2-tad.md#package-architecture)     |
-| Build output      | ESM format with type declarations            | [TAD: Package Architecture](/docs/2-technical/2-tad.md#package-architecture)     |
-| Component exports | Individual component exports for tree-shaking| [TAD: UI Components Architecture](/docs/2-technical/2-tad.md#ui-components-architecture) |
+| Setting           | Requirement                                   | TAD Reference                                                                            |
+| ----------------- | --------------------------------------------- | ---------------------------------------------------------------------------------------- |
+| Package name      | `@repo/ui`                                    | [ADR-001: Monorepo Naming](/docs/2-technical/adr/001-monorepo-turborepo.md)              |
+| TypeScript config | Extends workspace root with React support     | [TAD: Package Architecture](/docs/2-technical/2-tad.md#package-architecture)             |
+| Build output      | ESM format with type declarations             | [TAD: Package Architecture](/docs/2-technical/2-tad.md#package-architecture)             |
+| Component exports | Individual component exports for tree-shaking | [TAD: UI Components Architecture](/docs/2-technical/2-tad.md#ui-components-architecture) |
 
 **Configuration Rationale**: This package structure follows monorepo best practices from ADR-001 while supporting shadcn/ui's copy-paste model. The `src/components/` directory will house shadcn/ui components, while `src/lib/` provides shared utilities needed across components.
 
@@ -168,12 +168,12 @@ Key pattern notes for this story:
 
 ### Troubleshooting
 
-| Issue                                         | Cause                               | Solution                                              |
-| --------------------------------------------- | ----------------------------------- | ----------------------------------------------------- |
-| Package not found by other workspace packages | Not listed in pnpm-workspace.yaml   | Add `packages/ui` to workspace config                 |
-| TypeScript errors during build                | Missing React types or JSX config   | Ensure @types/react installed and jsx set to "react-jsx" |
-| Import errors for subpath exports             | Incorrect package.json exports map  | Add proper exports configuration for components       |
-| Tailwind classes not merging correctly        | Missing tailwind-merge dependency   | Verify tailwind-merge is installed and cn() uses it   |
+| Issue                                         | Cause                              | Solution                                                 |
+| --------------------------------------------- | ---------------------------------- | -------------------------------------------------------- |
+| Package not found by other workspace packages | Not listed in pnpm-workspace.yaml  | Add `packages/ui` to workspace config                    |
+| TypeScript errors during build                | Missing React types or JSX config  | Ensure @types/react installed and jsx set to "react-jsx" |
+| Import errors for subpath exports             | Incorrect package.json exports map | Add proper exports configuration for components          |
+| Tailwind classes not merging correctly        | Missing tailwind-merge dependency  | Verify tailwind-merge is installed and cn() uses it      |
 
 ### Reference Materials
 

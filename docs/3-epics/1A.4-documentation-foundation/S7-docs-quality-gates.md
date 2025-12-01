@@ -30,22 +30,22 @@
 
 ### Files to Create
 
-| Path                                       | Purpose                                    |
-| ------------------------------------------ | ------------------------------------------ |
-| `.github/workflows/docs-quality.yml`       | CI workflow for documentation quality      |
-| `scripts/check-package-readmes.sh`         | Validate all packages have READMEs         |
-| `scripts/check-jsdoc-coverage.sh`          | Check JSDoc coverage for public functions  |
-| `.markdownlint-cli2.jsonc`                 | Markdown linting configuration             |
-| `.markdown-link-check.json`                | Link checking configuration                |
+| Path                                 | Purpose                                   |
+| ------------------------------------ | ----------------------------------------- |
+| `.github/workflows/docs-quality.yml` | CI workflow for documentation quality     |
+| `scripts/check-package-readmes.sh`   | Validate all packages have READMEs        |
+| `scripts/check-jsdoc-coverage.sh`    | Check JSDoc coverage for public functions |
+| `.markdownlint-cli2.jsonc`           | Markdown linting configuration            |
+| `.markdown-link-check.json`          | Link checking configuration               |
 
 ### Files to Modify
 
-| Path                | Changes                                                                        |
-| ------------------- | ------------------------------------------------------------------------------ |
+| Path                | Changes                                                                         |
+| ------------------- | ------------------------------------------------------------------------------- |
 | `package.json`      | Add `markdownlint-cli2`, `markdown-link-check`, and documentation check scripts |
-| `.husky/pre-commit` | Add markdown linting and link checking to pre-commit hook                      |
-| `CONTRIBUTING.md`   | Document quality gate bypass procedure for emergency commits                   |
-| `turbo.json`        | Add `check-jsdoc` task for JSDoc coverage validation                           |
+| `.husky/pre-commit` | Add markdown linting and link checking to pre-commit hook                       |
+| `CONTRIBUTING.md`   | Document quality gate bypass procedure for emergency commits                    |
+| `turbo.json`        | Add `check-jsdoc` task for JSDoc coverage validation                            |
 
 ### Dependencies
 
@@ -64,12 +64,12 @@ pnpm add -D markdownlint-cli2 markdown-link-check
 
 #### Markdown Linting Configuration
 
-| Setting               | Requirement                                                      | TAD Reference                                                                          |
-| --------------------- | ---------------------------------------------------------------- | -------------------------------------------------------------------------------------- |
-| `MD013` (Line length) | Disabled for documentation files (code blocks may exceed limit) | [TAD: Quality Gates](/docs/2-technical/2-tad-documentation.md#quality-gates)           |
-| `MD033` (Inline HTML) | Allowed for complex tables and Mermaid diagrams                  | [TAD: Quality Gates](/docs/2-technical/2-tad-documentation.md#quality-gates)           |
-| `MD041` (First line)  | Enforce H1 as first line in markdown files                       | [TAD: Quality Gates](/docs/2-technical/2-tad-documentation.md#quality-gates)           |
-| File patterns         | Apply to `docs/**/*.md` and `packages/**/README.md`              | [TAD: Documentation Structure](/docs/2-technical/2-tad-documentation.md#documentation-structure) |
+| Setting               | Requirement                                                     | TAD Reference                                                                                    |
+| --------------------- | --------------------------------------------------------------- | ------------------------------------------------------------------------------------------------ |
+| `MD013` (Line length) | Disabled for documentation files (code blocks may exceed limit) | [TAD: Quality Gates](/docs/2-technical/2-tad-documentation.md#quality-gates)                     |
+| `MD033` (Inline HTML) | Allowed for complex tables and Mermaid diagrams                 | [TAD: Quality Gates](/docs/2-technical/2-tad-documentation.md#quality-gates)                     |
+| `MD041` (First line)  | Enforce H1 as first line in markdown files                      | [TAD: Quality Gates](/docs/2-technical/2-tad-documentation.md#quality-gates)                     |
+| File patterns         | Apply to `docs/**/*.md` and `packages/**/README.md`             | [TAD: Documentation Structure](/docs/2-technical/2-tad-documentation.md#documentation-structure) |
 
 **Configuration Rationale**: These rules balance consistency with practical documentation needs. Line length limits are too restrictive for code examples, and HTML is sometimes necessary for complex formatting that Markdown doesn't support.
 
@@ -77,23 +77,23 @@ For complete configuration templates, see: [TAD: Quality Gates](/docs/2-technica
 
 #### Link Checking Configuration
 
-| Setting                  | Requirement                                        | TAD Reference                                                                |
-| ------------------------ | -------------------------------------------------- | ---------------------------------------------------------------------------- |
-| Internal links           | Fail on broken internal links (paths and anchors)  | [TAD: Quality Gates](/docs/2-technical/2-tad-documentation.md#quality-gates) |
-| External links           | Report only (don't fail) on broken external links  | [TAD: Quality Gates](/docs/2-technical/2-tad-documentation.md#quality-gates) |
-| Retry configuration      | 3 retries with 2-second delay for external links   | [TAD: Quality Gates](/docs/2-technical/2-tad-documentation.md#quality-gates) |
-| Ignore patterns          | Ignore `localhost`, `example.com`, and placeholder URLs | [TAD: Quality Gates](/docs/2-technical/2-tad-documentation.md#quality-gates) |
+| Setting             | Requirement                                             | TAD Reference                                                                |
+| ------------------- | ------------------------------------------------------- | ---------------------------------------------------------------------------- |
+| Internal links      | Fail on broken internal links (paths and anchors)       | [TAD: Quality Gates](/docs/2-technical/2-tad-documentation.md#quality-gates) |
+| External links      | Report only (don't fail) on broken external links       | [TAD: Quality Gates](/docs/2-technical/2-tad-documentation.md#quality-gates) |
+| Retry configuration | 3 retries with 2-second delay for external links        | [TAD: Quality Gates](/docs/2-technical/2-tad-documentation.md#quality-gates) |
+| Ignore patterns     | Ignore `localhost`, `example.com`, and placeholder URLs | [TAD: Quality Gates](/docs/2-technical/2-tad-documentation.md#quality-gates) |
 
 **Configuration Rationale**: Internal links must always work (we control them), but external links can go down temporarily. Failing on external links would create false-positive CI failures.
 
 #### JSDoc Coverage Requirements
 
-| Setting                  | Requirement                                     | TAD Reference                                                                |
-| ------------------------ | ----------------------------------------------- | ---------------------------------------------------------------------------- |
-| Coverage threshold       | 80% of public functions must have JSDoc         | [TAD: Quality Gates](/docs/2-technical/2-tad-documentation.md#quality-gates) |
-| Scope                    | Apply to `packages/*/src/**/*.{ts,tsx}` only    | [TAD: Quality Gates](/docs/2-technical/2-tad-documentation.md#quality-gates) |
-| Enforcement level        | Error in CI, warning in pre-commit              | [TAD: Quality Gates](/docs/2-technical/2-tad-documentation.md#quality-gates) |
-| Excluded patterns        | Test files, type definition files, internal utils | [TAD: Quality Gates](/docs/2-technical/2-tad-documentation.md#quality-gates) |
+| Setting            | Requirement                                       | TAD Reference                                                                |
+| ------------------ | ------------------------------------------------- | ---------------------------------------------------------------------------- |
+| Coverage threshold | 80% of public functions must have JSDoc           | [TAD: Quality Gates](/docs/2-technical/2-tad-documentation.md#quality-gates) |
+| Scope              | Apply to `packages/*/src/**/*.{ts,tsx}` only      | [TAD: Quality Gates](/docs/2-technical/2-tad-documentation.md#quality-gates) |
+| Enforcement level  | Error in CI, warning in pre-commit                | [TAD: Quality Gates](/docs/2-technical/2-tad-documentation.md#quality-gates) |
+| Excluded patterns  | Test files, type definition files, internal utils | [TAD: Quality Gates](/docs/2-technical/2-tad-documentation.md#quality-gates) |
 
 **Configuration Rationale**: Public package APIs must be documented for consumers. Private utilities and test files don't need the same documentation rigor.
 
@@ -202,12 +202,12 @@ Key pattern notes for this story:
 
 ### Troubleshooting
 
-| Issue                                      | Cause                                          | Solution                                                            |
-| ------------------------------------------ | ---------------------------------------------- | ------------------------------------------------------------------- |
-| Pre-commit hook too slow (>30s)            | Checking all markdown files in monorepo        | Use `lint-staged` to check only staged files                        |
-| False positive broken link errors          | External links temporarily down                | Configure external link checking as warning-only in pre-commit      |
-| JSDoc coverage check fails for test files  | Test files included in coverage calculation    | Update check script to exclude `**/*.test.ts` and `**/*.spec.ts`    |
-| Markdown linting conflicts with Prettier   | Line length rules conflicting                  | Disable MD013 in `.markdownlint-cli2.jsonc`                         |
+| Issue                                         | Cause                                            | Solution                                                           |
+| --------------------------------------------- | ------------------------------------------------ | ------------------------------------------------------------------ |
+| Pre-commit hook too slow (>30s)               | Checking all markdown files in monorepo          | Use `lint-staged` to check only staged files                       |
+| False positive broken link errors             | External links temporarily down                  | Configure external link checking as warning-only in pre-commit     |
+| JSDoc coverage check fails for test files     | Test files included in coverage calculation      | Update check script to exclude `**/*.test.ts` and `**/*.spec.ts`   |
+| Markdown linting conflicts with Prettier      | Line length rules conflicting                    | Disable MD013 in `.markdownlint-cli2.jsonc`                        |
 | CI workflow fails but local pre-commit passes | CI checks are more comprehensive than pre-commit | Document that CI runs additional checks; pre-commit is subset only |
 
 ### Reference Materials
@@ -375,13 +375,13 @@ Implemented documentation quality gates with pre-commit hooks for markdown linti
 
 ### Test Results
 
-| Test       | Command             | Result                           |
-| ---------- | ------------------- | -------------------------------- |
-| Lint       | `pnpm lint:md`      | Pass (27 pre-existing issues found) |
-| Types      | `pnpm type-check`   | N/A (no TypeScript in this story) |
-| Unit Tests | `pnpm test`         | N/A (infrastructure story)       |
-| Build      | `pnpm build`        | N/A (no build required)          |
-| Scripts    | `./scripts/*.sh`    | Pass (both scripts work correctly) |
+| Test       | Command           | Result                              |
+| ---------- | ----------------- | ----------------------------------- |
+| Lint       | `pnpm lint:md`    | Pass (27 pre-existing issues found) |
+| Types      | `pnpm type-check` | N/A (no TypeScript in this story)   |
+| Unit Tests | `pnpm test`       | N/A (infrastructure story)          |
+| Build      | `pnpm build`      | N/A (no build required)             |
+| Scripts    | `./scripts/*.sh`  | Pass (both scripts work correctly)  |
 
 ### Files Changed
 
