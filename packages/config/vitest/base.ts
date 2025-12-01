@@ -16,6 +16,13 @@ import { defineConfig } from "vitest/config";
 import { coverageConfig } from "./coverage.ts";
 
 export const baseConfig = defineConfig({
+  // Configure esbuild for JSX transformation
+  // Required because tsconfig uses "jsx": "preserve" for Next.js,
+  // but Vitest/esbuild needs explicit JSX runtime configuration
+  esbuild: {
+    jsx: "automatic",
+    jsxImportSource: "react",
+  },
   test: {
     // Enable global APIs (describe, it, expect) without imports
     globals: true,
