@@ -66,7 +66,7 @@ pnpm test:e2e:smoke
 
 ---
 
-## Phase 2A: Commitlint Upgrade (18 → 20)
+## Phase 2A: Commitlint Upgrade (18 → 20) - DONE
 
 **Risk Level:** Low-Medium
 **Estimated PR Size:** Small
@@ -109,7 +109,7 @@ export default {
 
 ---
 
-## Phase 2B: @types/node Alignment
+## Phase 2B: @types/node Alignment - DONE
 
 **Risk Level:** Low-Medium
 **Estimated PR Size:** Small
