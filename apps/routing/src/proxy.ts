@@ -2,10 +2,12 @@
  * Basic Authentication Proxy
  *
  * Uses the shared @repo/middleware package for Basic Auth protection.
- * Auth is disabled when BASIC_AUTH_USERNAME and BASIC_AUTH_PASSWORD are not set.
+ * When BASIC_AUTH_USERNAME or BASIC_AUTH_PASSWORD are not set:
+ * - Returns 500 Internal Server Error (fail-fast security behavior)
+ * - This prevents accidental exposure without authentication
  *
- * Bypasses:
- * - /api/health - Health check endpoint for monitoring
+ * Bypasses (no auth required):
+ * - /api/health - Health check endpoint for monitoring (exact match only)
  * - /_next/* - Next.js static assets and internals
  * - Static file extensions (.svg, .png, .jpg, etc.)
  */

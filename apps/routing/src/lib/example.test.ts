@@ -98,7 +98,8 @@ describe('Path Alias Resolution', () => {
       expect(result).toHaveProperty('status');
       expect(result).toHaveProperty('responseTime');
       expect(result).toHaveProperty('lastChecked');
-      expect(result.status).toBe('ok');
+      // Stubs return 'degraded' to indicate checks are not yet implemented
+      expect(result.status).toBe('degraded');
       expect(typeof result.responseTime).toBe('number');
     });
 
@@ -106,14 +107,16 @@ describe('Path Alias Resolution', () => {
       const result = await checkAuth();
 
       expect(result).toHaveProperty('status');
-      expect(result.status).toBe('ok');
+      // Stubs return 'degraded' to indicate checks are not yet implemented
+      expect(result.status).toBe('degraded');
     });
 
     it('should execute checkCache and return valid response', async () => {
       const result = await checkCache();
 
       expect(result).toHaveProperty('status');
-      expect(result.status).toBe('ok');
+      // Stubs return 'degraded' to indicate checks are not yet implemented
+      expect(result.status).toBe('degraded');
     });
   });
 });

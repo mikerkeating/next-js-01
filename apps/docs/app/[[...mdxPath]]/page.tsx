@@ -15,6 +15,10 @@ export async function generateMetadata(props: PageProps) {
     return metadata;
   } catch (error) {
     unstable_rethrow(error);
+    console.error(
+      `[generateMetadata] Failed to import page metadata for path: ${params.mdxPath?.join("/") ?? "root"}`,
+      error
+    );
     return {};
   }
 }
@@ -35,6 +39,10 @@ export default async function Page(props: PageProps) {
     );
   } catch (error) {
     unstable_rethrow(error);
+    console.error(
+      `[Page] Failed to render MDX page for path: ${params.mdxPath?.join("/") ?? "root"}`,
+      error
+    );
     notFound();
   }
 }

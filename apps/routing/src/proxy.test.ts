@@ -30,7 +30,10 @@ describe('Basic Auth Proxy', () => {
       });
 
       it('does not bypass /api/health with query params (exact match)', () => {
-        // The bypass is configured for exact path match, not with query params
+        // IMPORTANT: Bypass paths use exact pathname matching. Query parameters
+        // cause the path to NOT match, requiring authentication. This is intentional
+        // for security - if you need query params on health checks, add them
+        // explicitly to bypassPaths (e.g., '/api/health?*' if supported).
         expect(shouldBypassAuth('/api/health?verbose=true')).toBe(false);
       });
     });

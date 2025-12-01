@@ -2,7 +2,8 @@
  * Health Check Functions
  *
  * Individual health check implementations for each dependency.
- * For the steel thread phase, these return stub "ok" responses.
+ * For the steel thread phase, these return 'degraded' responses
+ * indicating the checks are stubs awaiting real implementation.
  *
  * TODO: Implement real checks when dependencies are available:
  * - Database: Epic 2A.2 (Database Infrastructure)
@@ -26,7 +27,7 @@ export function checkDatabase(): Promise<HealthCheckDetail> {
   // Stub implementation for steel thread
   // Real implementation will query the database
   return Promise.resolve({
-    status: 'ok',
+    status: 'degraded',
     responseTime: Date.now() - start,
     message: 'Stub: Database check not yet implemented',
     lastChecked: new Date().toISOString(),
@@ -47,7 +48,7 @@ export function checkAuth(): Promise<HealthCheckDetail> {
   // Stub implementation for steel thread
   // Real implementation will ping Clerk API
   return Promise.resolve({
-    status: 'ok',
+    status: 'degraded',
     responseTime: Date.now() - start,
     message: 'Stub: Auth check not yet implemented',
     lastChecked: new Date().toISOString(),
@@ -68,7 +69,7 @@ export function checkCache(): Promise<HealthCheckDetail> {
   // Stub implementation for steel thread
   // Real implementation will ping cache service
   return Promise.resolve({
-    status: 'ok',
+    status: 'degraded',
     responseTime: Date.now() - start,
     message: 'Stub: Cache check not yet implemented',
     lastChecked: new Date().toISOString(),
