@@ -6,14 +6,20 @@
  *
  * @example
  * ```typescript
- * import { db, Database } from '@repo/database';
+ * import { db, Database, checkDatabaseHealth, withRetry } from '@repo/database';
  * import { eq } from 'drizzle-orm';
  *
- * // When schemas are added (S6+):
- * // import { users } from '@repo/database/schema';
- * // const user = await db.query.users.findFirst({
- * //   where: eq(users.email, 'user@example.com')
- * // });
+ * // Health check
+ * const health = await checkDatabaseHealth();
+ * if (health.status === 'healthy') {
+ *   console.log(`Database latency: ${health.latencyMs}ms`);
+ * }
+ *
+ * // Retry wrapper for resilient operations
+ * const user = await withRetry(
+ *   () => db.query.users.findFirst({ where: eq(users.email, 'user@example.com') }),
+ *   { maxAttempts: 3, baseDelayMs: 100 }
+ * );
  * ```
  *
  * @packageDocumentation
@@ -26,6 +32,13 @@ export { db, type Database } from "./client";
 // Consumers can also use '@repo/database/schema' for explicit schema imports
 export * from "./schema/index";
 
-// Note: Additional exports will be added in subsequent stories:
-// - S3: Connection utilities
-// - S6: Schema definitions and types
+// Export connection utilities
+export {
+  checkDatabaseHealth,
+  withRetry,
+  ConnectionError,
+  type HealthCheckResult,
+  type HealthCheckOptions,
+  type RetryOptions,
+  type ConnectionErrorCode,
+} from "./connection";
