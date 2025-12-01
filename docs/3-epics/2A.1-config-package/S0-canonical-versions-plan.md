@@ -147,7 +147,7 @@ pnpm type-check
 
 ---
 
-## Phase 2C: lint-staged Upgrade (15 → 16)
+## Phase 2C: lint-staged Upgrade (15 → 16) - DONE
 
 **Risk Level:** Low-Medium
 **Estimated PR Size:** Small
