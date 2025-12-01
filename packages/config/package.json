@@ -14,6 +14,7 @@
     ".": "./src/index.ts",
     "./typescript/base": "./src/typescript/base.json",
     "./typescript/nextjs": "./src/typescript/nextjs.json",
+    "./typescript/react-library": "./src/typescript/react-library.json",
     "./eslint/base": "./src/eslint/base.js",
     "./eslint/nextjs": "./src/eslint/nextjs.js",
     "./prettier": "./src/prettier/index.js",

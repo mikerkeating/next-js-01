@@ -1,17 +1,13 @@
 {
+  "extends": "./src/typescript/base.json",
   "compilerOptions": {
-    "target": "ES2022",
-    "module": "ESNext",
-    "moduleResolution": "bundler",
     "lib": ["ES2022", "DOM"],
-    "strict": true,
-    "esModuleInterop": true,
-    "skipLibCheck": true,
-    "allowImportingTsExtensions": true,
-    "noEmit": true,
-    "types": ["vitest/globals"],
+    "composite": false,
     "declaration": false,
-    "resolveJsonModule": true
+    "declarationMap": false,
+    "noEmit": true,
+    "allowImportingTsExtensions": true,
+    "types": ["vitest/globals"]
   },
   "include": ["src/**/*.ts", "vitest/**/*.ts", "tests/**/*.ts"],
   "exclude": ["node_modules"]

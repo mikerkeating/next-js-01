@@ -16,9 +16,10 @@ The package uses subpath exports to provide access to individual configurations:
 
 ```
 @repo/config
-├── ./typescript/base     # Base TypeScript configuration
-├── ./typescript/nextjs   # Next.js TypeScript configuration
-├── ./eslint/base         # Base ESLint rules
+├── ./typescript/base          # Base TypeScript configuration
+├── ./typescript/nextjs        # Next.js TypeScript configuration
+├── ./typescript/react-library # React library TypeScript configuration
+├── ./eslint/base              # Base ESLint rules
 ├── ./eslint/nextjs       # Next.js ESLint rules
 ├── ./prettier            # Prettier configuration
 ├── ./tailwind            # Tailwind CSS configuration
@@ -45,6 +46,14 @@ For Next.js applications:
 ```json
 {
   "extends": "@repo/config/typescript/nextjs"
+}
+```
+
+For React library packages:
+
+```json
+{
+  "extends": "@repo/config/typescript/react-library"
 }
 ```
 
