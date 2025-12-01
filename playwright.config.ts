@@ -29,7 +29,7 @@ if (existsSync(envLocalPath)) {
     if (trimmed && !trimmed.startsWith("#")) {
       const [key, ...valueParts] = trimmed.split("=");
       const value = valueParts.join("=");
-      if (key && value !== undefined && !process.env[key]) {
+      if (key && value !== undefined && !(key in process.env)) {
         process.env[key] = value;
       }
     }
