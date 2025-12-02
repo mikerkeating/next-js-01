@@ -9,12 +9,7 @@ import path from "node:path";
 
 import { afterEach, beforeEach, describe, expect, it, vi, type Mock } from "vitest";
 
-import {
-  runMigrations,
-  getMigrationsPath,
-  MigrationError,
-  type MigrationOptions,
-} from "./migrate";
+import { runMigrations, getMigrationsPath, MigrationError, type MigrationOptions } from "./migrate";
 
 // Mock the drizzle-orm neon-http migrator
 vi.mock("drizzle-orm/neon-http/migrator", () => ({
@@ -55,7 +50,7 @@ describe("runMigrations", () => {
   });
 
   afterEach(() => {
-    vi.useRealTimers();
+    // Reset mocks between tests
   });
 
   it("successfully runs migrations and returns result", async () => {
@@ -132,7 +127,7 @@ describe("runMigrations", () => {
     const mockMigrate = await getMockedMigrate();
     mockMigrate.mockResolvedValueOnce(undefined);
 
-    const consoleSpy = vi.spyOn(console, "warn").mockImplementation(() => {});
+    const consoleSpy = vi.spyOn(console, "log").mockImplementation(() => {});
 
     await runMigrations({ verbose: true });
 
@@ -144,7 +139,7 @@ describe("runMigrations", () => {
     const mockMigrate = await getMockedMigrate();
     mockMigrate.mockResolvedValueOnce(undefined);
 
-    const consoleSpy = vi.spyOn(console, "warn").mockImplementation(() => {});
+    const consoleSpy = vi.spyOn(console, "log").mockImplementation(() => {});
 
     await runMigrations({ verbose: true });
 
@@ -168,15 +163,15 @@ describe("runMigrations", () => {
     const mockMigrate = await getMockedMigrate();
     mockMigrate.mockResolvedValueOnce(undefined);
 
-    const consoleWarnSpy = vi.spyOn(console, "warn").mockImplementation(() => {});
+    const consoleLogSpy = vi.spyOn(console, "log").mockImplementation(() => {});
     const consoleErrorSpy = vi.spyOn(console, "error").mockImplementation(() => {});
 
     await runMigrations({ verbose: false });
 
-    expect(consoleWarnSpy).not.toHaveBeenCalled();
+    expect(consoleLogSpy).not.toHaveBeenCalled();
     expect(consoleErrorSpy).not.toHaveBeenCalled();
 
-    consoleWarnSpy.mockRestore();
+    consoleLogSpy.mockRestore();
     consoleErrorSpy.mockRestore();
   });
 });
@@ -211,4 +206,3 @@ describe("MigrationError", () => {
     expect(migrationError).toBeInstanceOf(MigrationError);
   });
 });
-

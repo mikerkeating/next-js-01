@@ -54,6 +54,6 @@ Review each item in docs/3-epics/2A.2-database-infra/epic-cloudrabbit-1.md and d
 
 ### things
 
-Review each item in docs/3-epics/2A.2-database-infra/epic-pr-claude-1.txt and determine if valid. Where valid, make a plan and implement the fixes. Mark items as done or ignored.
+Review each item in docs/3-epics/2A.2-database-infra/epic-cloudrabbit-2.md and determine if valid. Where valid, make a plan and implement the fixes. If not valid, annotate the doc with the rationale. Mark items as done or ignored.
 
 use docs/0-process/references/epic-completion-guide.md and evaluate the completion of docs/3-epics/2A.2-database-infra/EPIC.md. Output your findings into a new doc: docs/3-epics/2A.2-database-infra/epic-completion.md

@@ -25,11 +25,7 @@
 /**
  * Error codes for seed-related failures.
  */
-export type SeedErrorCode =
-  | "SEED_FAILED"
-  | "CLEAR_FAILED"
-  | "INVALID_CONFIG"
-  | "CONNECTION_ERROR";
+export type SeedErrorCode = "SEED_FAILED" | "CLEAR_FAILED" | "INVALID_CONFIG" | "CONNECTION_ERROR";
 
 /**
  * Custom error class for seed failures.
@@ -102,7 +98,7 @@ export function createSeedLogger(options: SeedLoggerOptions = {}): SeedLogger {
   return {
     info(message: string): void {
       if (verbose) {
-        console.warn(formatMessage(message));
+        console.log(formatMessage(message));
       }
     },
 
@@ -112,7 +108,7 @@ export function createSeedLogger(options: SeedLoggerOptions = {}): SeedLogger {
 
     success(message: string): void {
       if (verbose) {
-        console.warn(formatMessage(`✓ ${message}`));
+        console.log(formatMessage(`✓ ${message}`));
       }
     },
 

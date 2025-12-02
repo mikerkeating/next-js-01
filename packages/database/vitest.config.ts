@@ -31,7 +31,7 @@ export default mergeConfig(
       ],
 
       // Test timeouts
-      testTimeout: 10000, // 10s for integration tests
+      testTimeout: 10000, // 10s for unit tests (integration tests are excluded)
       hookTimeout: 10000,
 
       // Coverage configuration with 80% thresholds for utility functions

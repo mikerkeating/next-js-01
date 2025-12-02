@@ -16,6 +16,7 @@ import {
 
 describe("createSeedLogger", () => {
   beforeEach(() => {
+    vi.spyOn(console, "log").mockImplementation(() => {});
     vi.spyOn(console, "warn").mockImplementation(() => {});
     vi.spyOn(console, "error").mockImplementation(() => {});
   });
@@ -28,14 +29,14 @@ describe("createSeedLogger", () => {
     const logger = createSeedLogger({ verbose: true });
     logger.info("Test message");
 
-    expect(console.warn).toHaveBeenCalledWith(expect.stringContaining("Test message"));
+    expect(console.log).toHaveBeenCalledWith(expect.stringContaining("Test message"));
   });
 
   it("does not log info messages when verbose is false", () => {
     const logger = createSeedLogger({ verbose: false });
     logger.info("Test message");
 
-    expect(console.warn).not.toHaveBeenCalled();
+    expect(console.log).not.toHaveBeenCalled();
   });
 
   it("always logs error messages regardless of verbose setting", () => {
@@ -49,14 +50,14 @@ describe("createSeedLogger", () => {
     const logger = createSeedLogger({ verbose: true });
     logger.success("Success message");
 
-    expect(console.warn).toHaveBeenCalledWith(expect.stringContaining("Success message"));
+    expect(console.log).toHaveBeenCalledWith(expect.stringContaining("Success message"));
   });
 
   it("includes prefix in log messages", () => {
     const logger = createSeedLogger({ verbose: true, prefix: "[SEED]" });
     logger.info("Test");
 
-    expect(console.warn).toHaveBeenCalledWith(expect.stringContaining("[SEED]"));
+    expect(console.log).toHaveBeenCalledWith(expect.stringContaining("[SEED]"));
   });
 
   it("logs table name in seeding message", () => {

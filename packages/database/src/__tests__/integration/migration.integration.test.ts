@@ -145,8 +145,8 @@ describeIntegration("Migration Integration Tests", () => {
 
       console.log(`  PostgreSQL version: ${majorVersion}`);
 
-      // Verify PostgreSQL 16+ as per canonical-versions.md
-      expect(majorVersion).toBeGreaterThanOrEqual(14); // Allow 14+ for compatibility
+      // Verify PostgreSQL 14+ for compatibility (16+ preferred per canonical-versions.md)
+      expect(majorVersion).toBeGreaterThanOrEqual(14);
     });
   });
 
