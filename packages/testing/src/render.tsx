@@ -8,10 +8,11 @@
  */
 
 import { render } from "@testing-library/react";
-import type { ReactElement } from "react";
 
 import { createTestWrapper } from "./providers";
+
 import type { RenderWithProvidersOptions, RenderWithProvidersResult } from "./types";
+import type { ReactElement } from "react";
 
 /**
  * Renders a React element with test providers.

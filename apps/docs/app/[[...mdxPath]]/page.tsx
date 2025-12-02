@@ -1,6 +1,6 @@
+import { notFound, unstable_rethrow } from "next/navigation";
 import { generateStaticParamsFor, importPage } from "nextra/pages";
 import { useMDXComponents as getMDXComponents } from "nextra-theme-docs";
-import { notFound, unstable_rethrow } from "next/navigation";
 
 export const generateStaticParams = generateStaticParamsFor("mdxPath");
 
@@ -30,6 +30,7 @@ export default async function Page(props: PageProps) {
     const result = await importPage(params.mdxPath);
     const { default: MDXContent, toc, metadata, ...rest } = result;
     if (!MDXContent) notFound();
+    // eslint-disable-next-line @typescript-eslint/unbound-method -- Nextra component extraction pattern
     const { wrapper: Wrapper } = getMDXComponents();
 
     return (

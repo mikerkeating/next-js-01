@@ -17,11 +17,12 @@
  *
  * @see https://mswjs.io/docs/integrations/node
  */
-import type { SetupServer } from "msw/node";
 import { setupServer } from "msw/node";
 import { beforeAll, afterEach, afterAll } from "vitest";
 
 import { handlers } from "./handlers";
+
+import type { SetupServer } from "msw/node";
 
 /**
  * MSW server instance configured with default handlers.

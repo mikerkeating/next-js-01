@@ -4,10 +4,8 @@
  * @module create-basic-auth-proxy
  */
 
-import type { NextRequest } from "next/server";
 import { NextResponse } from "next/server";
 
-import type { BasicAuthProxyOptions, BasicAuthProxyResult } from "./types";
 import {
   createBypassChecker,
   decodeBase64,
@@ -15,6 +13,9 @@ import {
   timingSafeEqual,
   unauthorizedResponse,
 } from "./utils";
+
+import type { BasicAuthProxyOptions, BasicAuthProxyResult } from "./types";
+import type { NextRequest } from "next/server";
 
 /**
  * Default bypass paths for Next.js applications.

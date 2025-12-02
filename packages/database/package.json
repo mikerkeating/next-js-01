@@ -1,0 +1,73 @@
+{
+  "name": "@repo/database",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "Database schema, client, and utilities for the monorepo",
+  "scripts": {
+    "build": "tsc",
+    "type-check": "tsc --noEmit",
+    "clean": "rm -rf dist",
+    "lint": "eslint . --max-warnings 0",
+    "lint:fix": "eslint . --fix",
+    "test": "vitest run",
+    "test:watch": "vitest watch",
+    "test:coverage": "vitest run --coverage",
+    "test:integration": "vitest run --config vitest.integration.config.ts",
+    "verify-connection": "tsx scripts/verify-connection.ts",
+    "db:generate": "drizzle-kit generate",
+    "db:migrate": "drizzle-kit migrate",
+    "db:push": "drizzle-kit push",
+    "db:studio": "drizzle-kit studio",
+    "db:apply-migrations": "tsx scripts/apply-migrations.ts",
+    "db:rollback": "tsx scripts/rollback-migration.ts",
+    "db:reset": "tsx scripts/reset-database.ts",
+    "db:seed": "tsx src/seed/run.ts",
+    "db:start": "docker compose -f ../../docker-compose.yml up -d",
+    "db:stop": "docker compose -f ../../docker-compose.yml down"
+  },
+  "main": "./dist/index.js",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    },
+    "./schema": {
+      "types": "./dist/schema/index.d.ts",
+      "import": "./dist/schema/index.js"
+    },
+    "./utils": {
+      "types": "./dist/utils/index.d.ts",
+      "import": "./dist/utils/index.js"
+    }
+  },
+  "files": [
+    "dist",
+    "src"
+  ],
+  "dependencies": {
+    "@neondatabase/serverless": "^0.10.0",
+    "@paralleldrive/cuid2": "^2.2.2",
+    "drizzle-orm": "^0.44.7",
+    "postgres": "^3.4.7"
+  },
+  "devDependencies": {
+    "@eslint/js": "^9.28.0",
+    "@faker-js/faker": "^10.0.0",
+    "@repo/config": "workspace:*",
+    "@types/ws": "^8.5.0",
+    "@vitest/coverage-v8": "^4.0.14",
+    "drizzle-kit": "^0.31.7",
+    "eslint": "^9.39.0",
+    "eslint-import-resolver-typescript": "^4.3.4",
+    "eslint-plugin-import": "^2.31.0",
+    "globals": "^16.2.0",
+    "tsx": "^4.0.0",
+    "typescript": "^5.7.0",
+    "typescript-eslint": "^8.34.0",
+    "vitest": "^4.0.14",
+    "ws": "^8.18.0"
+  }
+}

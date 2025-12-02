@@ -1,9 +1,10 @@
-import { Footer, Layout, Navbar } from "nextra-theme-docs";
 import { Head } from "nextra/components";
 import { getPageMap } from "nextra/page-map";
+import { Footer, Layout, Navbar } from "nextra-theme-docs";
+
 import "nextra-theme-docs/style.css";
-import type { ReactNode } from "react";
 import type { Metadata } from "next";
+import type { ReactNode } from "react";
 
 const GITHUB_REPO =
   process.env.NEXT_PUBLIC_DOCS_GITHUB_REPO ?? "https://github.com/mikerkeating/next-js-01";

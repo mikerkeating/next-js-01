@@ -1,0 +1,55 @@
+# Docker Compose Configuration for Local Development Database
+#
+# This configuration provides a local PostgreSQL 16 database for development,
+# matching the version used by Neon in production for consistency.
+#
+# Usage:
+#   Start:  pnpm run db:start (or docker compose up -d)
+#   Stop:   pnpm run db:stop  (or docker compose down)
+#   Logs:   docker compose logs -f postgres
+#   Shell:  docker compose exec postgres psql -U postgres
+#
+# Data is persisted in a named volume (postgres-data) that survives container restarts.
+# To reset data: docker volume rm next-js-01_postgres-data
+#
+# Connection string for local development:
+#   DATABASE_URL=postgres://postgres:postgres@localhost:5432/postgres
+
+services:
+  postgres:
+    # PostgreSQL 16 to match Neon production (per canonical-versions.md)
+    image: postgres:16-alpine
+
+    # Unique container name for this project
+    container_name: next-js-01-postgres
+
+    # Default credentials for local development only
+    # NEVER use these in production!
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: postgres
+
+    # Expose standard PostgreSQL port
+    ports:
+      - "5432:5432"
+
+    # Persist data between container restarts
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+
+    # Health check to verify database is ready
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+      start_period: 10s
+
+    # Restart on failure during development
+    restart: unless-stopped
+
+# Named volume for persistent data
+volumes:
+  postgres-data:
+    name: next-js-01-postgres-data

@@ -27,10 +27,16 @@
     "test:watch": "vitest"
   },
   "devDependencies": {
+    "@eslint/js": "^9.28.0",
     "@repo/config": "workspace:*",
     "@types/node": "^24.10.1",
+    "eslint": "^9.39.0",
+    "eslint-import-resolver-typescript": "^4.3.4",
+    "eslint-plugin-import": "^2.31.0",
+    "globals": "^16.2.0",
     "next": "^16.0.6",
     "typescript": "^5.9.3",
+    "typescript-eslint": "^8.34.0",
     "vitest": "^4.0.14"
   },
   "peerDependencies": {

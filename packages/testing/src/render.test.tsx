@@ -4,9 +4,9 @@
  * Verifies that the custom render function correctly wraps components
  * with test providers and returns all screen utilities.
  */
+import { screen } from "@testing-library/react";
 import React from "react";
 import { describe, it, expect } from "vitest";
-import { screen } from "@testing-library/react";
 
 import { renderWithProviders } from "./render";
 

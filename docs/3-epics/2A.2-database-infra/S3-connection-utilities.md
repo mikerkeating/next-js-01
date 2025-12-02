@@ -17,14 +17,14 @@
 
 ## Acceptance Criteria
 
-- [ ] Connection health check utility returns connection status with latency measurement
-- [ ] Retry logic wrapper handles transient connection failures with exponential backoff
-- [ ] Connection utilities work in both serverless (Node.js) and edge (Vercel Edge) runtimes
-- [ ] Health check includes basic query execution to verify database accessibility
-- [ ] Connection errors provide actionable error messages for debugging
-- [ ] Utilities handle missing DATABASE_URL gracefully with clear error messages
-- [ ] Connection timing metrics available for performance monitoring
-- [ ] All utilities are exported from package entry point
+- [x] Connection health check utility returns connection status with latency measurement
+- [x] Retry logic wrapper handles transient connection failures with exponential backoff
+- [x] Connection utilities work in both serverless (Node.js) and edge (Vercel Edge) runtimes
+- [x] Health check includes basic query execution to verify database accessibility
+- [x] Connection errors provide actionable error messages for debugging
+- [x] Utilities handle missing DATABASE_URL gracefully with clear error messages
+- [x] Connection timing metrics available for performance monitoring
+- [x] All utilities are exported from package entry point
 
 ## Technical Requirements
 
@@ -291,27 +291,58 @@ The following items are explicitly NOT part of this story:
 
 **Pre-Verification:**
 
-- [ ] S1 and S2 completed
-- [ ] Local environment matches [canonical versions](/docs/2-technical/references/canonical-versions.md)
-- [ ] DATABASE_URL environment variable configured
+- [x] S1 and S2 completed
+- [x] Local environment matches [canonical versions](/docs/2-technical/references/canonical-versions.md)
+- [x] DATABASE_URL environment variable configured
 
 **Implementation Quality:**
 
-- [ ] All acceptance criteria met
-- [ ] [Coding standards](/docs/2-technical/references/coding-standards.md) followed
-- [ ] No lint errors
-- [ ] Types compile successfully
-- [ ] Tests written and passing
-- [ ] Coverage > 80% for connection utilities
+- [x] All acceptance criteria met
+- [x] [Coding standards](/docs/2-technical/references/coding-standards.md) followed
+- [x] No lint errors
+- [x] Types compile successfully
+- [x] Tests written and passing
+- [x] Coverage > 80% for connection utilities (81.63% achieved)
 
 **Documentation & Git:**
 
-- [ ] Code comments for health check and retry logic
-- [ ] README.md updated with connection utilities usage
-- [ ] Commit: `feat(2A.2.S3): implement connection utilities with health checks and retry logic`
+- [x] Code comments for health check and retry logic
+- [ ] README.md updated with connection utilities usage - deferred, index.ts contains usage examples
+- [x] Commit: `feat(2A.2.S3): implement connection utilities with health checks and retry logic`
 
 ## Status
 
-- **State**: Not Started
+- **State**: Complete
+- **Completed**: 2025-12-01
 - **PR**: -
-- **Completed**: -
+
+## Completion Notes
+
+### Summary
+
+Implemented connection health check and retry utilities for the @repo/database package. The `checkDatabaseHealth()` function executes a `SELECT 1` query to verify database connectivity and measure latency. The `withRetry()` wrapper provides exponential backoff retry logic for any async database operation. Custom `ConnectionError` class provides typed error codes for programmatic error handling.
+
+### Test Results
+
+| Test       | Command              | Result          |
+| ---------- | -------------------- | --------------- |
+| Lint       | `pnpm lint`          | Pass            |
+| Types      | `pnpm type-check`    | Pass            |
+| Unit Tests | `pnpm test`          | Pass (17 tests) |
+| Coverage   | `pnpm test:coverage` | Pass (81.63%)   |
+| Build      | `pnpm build`         | Pass            |
+
+### Files Changed
+
+Beyond planned files:
+
+- `packages/database/vitest.config.ts` - Added Vitest configuration for the package
+
+### Known Issues
+
+None.
+
+### Lessons Learned
+
+- Vitest's `vi.mock()` factory cannot reference external variables due to hoisting. Use dynamic imports within tests to access mocked modules.
+- When testing with fake timers and rejected promises, use `mockImplementation()` that returns `Promise.reject()` inside the function rather than `mockRejectedValue()` to avoid unhandled promise rejection warnings.

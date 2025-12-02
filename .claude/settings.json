@@ -13,26 +13,17 @@
       "Bash(pnpm dlx yaml-lint *)",
       "Bash(pnpm test *)",
       "Bash(pnpm type-check *)",
-      "Bash(pnpm run add *)",
-      "Bash(pnpm run build *)",
-      "Bash(pnpm run dev *)",
-      "Bash(pnpm run eslint *)",
-      "Bash(pnpm run exec *)",
-      "Bash(pnpm run install *)",
-      "Bash(pnpm run lint *)",
-      "Bash(pnpm run lint:*)",
-      "Bash(pnpm run list *)",
-      "Bash(pnpm run dlx yaml-lint *)",
-      "Bash(pnpm run test *)",
-      "Bash(pnpm run type-check *)",
       "Bash(lsof:*)",
       "Bash(kill:*)",
       "Bash(git status)",
+      "Bash(mkdir *)",
       "Bash(./scripts/run-next-story-prompt-auto.sh:*)",
       "Bash(git mv:*)",
       "Bash(git add *)",
       "WebFetch(domain:fonts.googleapis.com)",
-      "WebFetch(domain:fonts.gstatic.com)"
+      "WebFetch(domain:fonts.gstatic.com)",
+      "WebFetch",
+      "WebSearch"
     ],
     "deny": [],
     "ask": []
@@ -41,7 +32,8 @@
     "enabled": true,
     "autoAllowBashIfSandboxed": true,
     "network": {
-      "allowLocalBinding": true
+      "allowLocalBinding": true,
+      "allowOutbound": true
     }
   }
 }

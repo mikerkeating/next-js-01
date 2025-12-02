@@ -93,11 +93,11 @@ export const handlers = [
    * GET /api/users/:id - Returns a single mock user by ID
    */
   http.get("/api/users/:id", ({ params }) => {
-    const { id } = params;
+    const id = String(params.id);
     const response: ApiResponse<MockUser> = {
       success: true,
       data: {
-        id: String(id),
+        id,
         email: `user-${id}@example.com`,
         name: `Test User ${id}`,
         createdAt: "2024-01-01T00:00:00.000Z",
@@ -195,11 +195,11 @@ export const handlers = [
    * GET /api/organizations/:id - Returns a single mock organization by ID
    */
   http.get("/api/organizations/:id", ({ params }) => {
-    const { id } = params;
+    const id = String(params.id);
     const response: ApiResponse<MockOrganization> = {
       success: true,
       data: {
-        id: String(id),
+        id,
         name: `Test Organization ${id}`,
         slug: `test-org-${id}`,
         createdAt: "2024-01-01T00:00:00.000Z",
