@@ -22,8 +22,13 @@ export default mergeConfig(
       // Test file patterns
       include: ["src/**/*.test.ts"],
 
-      // Exclude scripts tests from default runs
-      exclude: ["**/node_modules/**", "**/dist/**", "scripts/**/*.test.ts"],
+      // Exclude scripts tests and integration tests from default unit test runs
+      exclude: [
+        "**/node_modules/**",
+        "**/dist/**",
+        "scripts/**/*.test.ts",
+        "src/__tests__/integration/**",
+      ],
 
       // Test timeouts
       testTimeout: 10000, // 10s for integration tests

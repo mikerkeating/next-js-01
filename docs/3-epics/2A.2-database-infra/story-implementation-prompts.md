@@ -99,3 +99,17 @@ use @.claude/agents/engineer-devops.md to execute @docs/0-process/references/sto
 ```markdown
 use @.claude/agents/engineer-backend.md to execute @docs/0-process/references/story-dev-prompt.md for docs/3-epics/2A.2-database-infra/S9-local-docker-database.md
 ```
+
+### S10
+
+**Primary (Backend):**
+
+```markdown
+use @.claude/agents/engineer-backend.md to execute @docs/0-process/references/story-dev-prompt.md for docs/3-epics/2A.2-database-infra/S10-integration-tests.md. Implement the code and then then devops engineer will implement the cicd.
+```
+
+**Primary (Devops):**
+
+```markdown
+use @.claude/agents/engineer-devops.md to execute @docs/0-process/references/story-dev-prompt.md for docs/3-epics/2A.2-database-infra/S10-integration-tests.md. The backend engineer has implemented the test code, complete the implementation of the story.
+```

@@ -18,4 +18,18 @@ export default [
       "*.config.js", // ESLint config itself
     ],
   },
+  // Allow console.log in CLI scripts (they output to terminal)
+  {
+    files: ["scripts/**/*.ts"],
+    rules: {
+      "no-console": "off",
+    },
+  },
+  // Allow console.log in integration tests (for debugging/observability)
+  {
+    files: ["src/__tests__/integration/**/*.ts"],
+    rules: {
+      "no-console": "off",
+    },
+  },
 ];
