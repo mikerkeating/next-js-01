@@ -19,7 +19,8 @@
     "db:studio": "drizzle-kit studio",
     "db:apply-migrations": "tsx scripts/apply-migrations.ts",
     "db:rollback": "tsx scripts/rollback-migration.ts",
-    "db:reset": "tsx scripts/reset-database.ts"
+    "db:reset": "tsx scripts/reset-database.ts",
+    "db:seed": "tsx src/seed/run.ts"
   },
   "main": "./dist/index.js",
   "module": "./dist/index.js",
@@ -43,6 +44,7 @@
     "@neondatabase/serverless": "^0.10.0"
   },
   "devDependencies": {
+    "@faker-js/faker": "^10.0.0",
     "@eslint/js": "^9.28.0",
     "@repo/config": "workspace:*",
     "@vitest/coverage-v8": "^4.0.14",

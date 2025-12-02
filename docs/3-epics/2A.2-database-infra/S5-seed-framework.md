@@ -17,14 +17,14 @@
 
 ## Acceptance Criteria
 
-- [ ] Seed script entry point (`seed.ts`) is created and executable via `pnpm run db:seed`
-- [ ] Framework supports environment-based seeding (dev, test, staging)
-- [ ] Seed data can be cleared and re-seeded idempotently
-- [ ] Factory pattern is implemented for generating test data with @faker-js/faker
-- [ ] Generic seed utilities are available for use in product-specific seeds (Epic 2B.1)
-- [ ] Seed script logs progress and completion status
-- [ ] Seeds work with transaction rollback for test isolation
-- [ ] Documentation includes examples of creating seed functions
+- [x] Seed script entry point (`seed.ts`) is created and executable via `pnpm run db:seed`
+- [x] Framework supports environment-based seeding (dev, test, staging)
+- [x] Seed data can be cleared and re-seeded idempotently
+- [x] Factory pattern is implemented for generating test data with @faker-js/faker
+- [x] Generic seed utilities are available for use in product-specific seeds (Epic 2B.1)
+- [x] Seed script logs progress and completion status
+- [x] Seeds work with transaction rollback for test isolation
+- [x] Documentation includes examples of creating seed functions
 
 ## Technical Requirements
 
@@ -83,9 +83,9 @@ Environment-based seeding enables different data volumes for different contexts.
 
 ### Automated Tests
 
-- [ ] Unit: `seed/utils.test.ts` - Verify seed utility functions work correctly
-- [ ] Unit: `seed/factories.test.ts` - Verify factory functions generate valid data structures
-- [ ] Integration: `seed/index.test.ts` - Verify complete seed process in test database
+- [x] Unit: `seed/utils.test.ts` - Verify seed utility functions work correctly
+- [x] Unit: `seed/factories.test.ts` - Verify factory functions generate valid data structures
+- [x] Integration: `seed/index.test.ts` - Verify complete seed process in test database
 
 ### Integration Tests
 
@@ -306,27 +306,96 @@ The following items are explicitly NOT part of this story:
 
 ### Implementation Quality
 
-- [ ] All acceptance criteria met
-- [ ] [Coding standards](/docs/2-technical/references/coding-standards.md) followed
-- [ ] No lint errors
-- [ ] Types compile successfully
-- [ ] Tests written and passing
-- [ ] Coverage > 80% for new code
+- [x] All acceptance criteria met
+- [x] [Coding standards](/docs/2-technical/references/coding-standards.md) followed
+- [x] No lint errors
+- [x] Types compile successfully
+- [x] Tests written and passing (99 tests)
+- [x] Coverage > 80% for new code
 
 ### Documentation
 
-- [ ] Code comments where logic isn't self-evident
-- [ ] Seed usage examples documented in package README
-- [ ] Architecture decisions documented
+- [x] Code comments where logic isn't self-evident
+- [x] Seed usage examples documented in package README
+- [x] Architecture decisions documented
 
 ### Git Hygiene
 
-- [ ] Conventional commit message used
-- [ ] No unrelated changes included
+- [x] Conventional commit message used
+- [x] No unrelated changes included
 - [ ] PR description complete
 
 ## Status
 
-- **State**: Not Started
+- **State**: Complete
 - **PR**: -
-- **Completed**: -
+- **Completed**: 2025-12-02
+
+## Completion Notes
+
+### Summary
+
+Implemented the seed script framework for the database package with environment-based configuration, factory pattern using @faker-js/faker, progress logging, and a reusable seed runner API. The framework is designed to be generic and extensible, ready for product-specific seeds in Epic 2B.1.
+
+### Test Results
+
+| Test       | Command           | Result            |
+| ---------- | ----------------- | ----------------- |
+| Lint       | `pnpm lint`       | Pass (0 errors)   |
+| Types      | `pnpm type-check` | Pass (0 errors)   |
+| Unit Tests | `pnpm test`       | Pass (99 tests)   |
+| Build      | `pnpm build`      | Pass              |
+
+### Files Changed
+
+All planned files created:
+
+- `packages/database/src/seed/config.ts` - Environment-based seed configuration (135 lines)
+- `packages/database/src/seed/factories.ts` - Factory utilities with faker integration (217 lines)
+- `packages/database/src/seed/utils.ts` - Logger and progress tracker utilities (210 lines)
+- `packages/database/src/seed/index.ts` - Seed runner and orchestration (284 lines)
+- `packages/database/src/seed/run.ts` - CLI entry point script (64 lines)
+- `packages/database/src/seed/config.test.ts` - Config tests (113 lines)
+- `packages/database/src/seed/factories.test.ts` - Factory tests (181 lines)
+- `packages/database/src/seed/utils.test.ts` - Utils tests (222 lines)
+- `packages/database/src/seed/index.test.ts` - Runner tests (219 lines)
+
+Modified files:
+
+- `packages/database/package.json` - Added @faker-js/faker dependency and db:seed script
+- `packages/database/src/index.ts` - Exported all seed utilities
+
+### Key Features Implemented
+
+1. **Environment-Based Configuration** (`config.ts`)
+   - Supports development, test, and staging environments
+   - Configurable seed counts per environment
+   - Verbose logging control per environment
+
+2. **Factory Pattern** (`factories.ts`)
+   - Generic `createFactory()` for building type-safe factories
+   - `createUserData()` and `createOrganizationData()` generic factories
+   - `setFakerSeed()` for reproducible test data
+   - Support for batch generation via `_count` option
+   - Partial overrides for customizing generated data
+
+3. **Seed Utilities** (`utils.ts`)
+   - `createSeedLogger()` with verbose control and progress messaging
+   - `createProgressTracker()` for tracking seed completion
+   - `SeedError` custom error class with error codes
+
+4. **Seed Runner** (`index.ts`)
+   - `runSeed()` for one-time seed execution
+   - `createSeedRunner()` for reusable seed configuration
+   - Ordered seed execution with fail-fast behavior
+   - Duration tracking and record counting
+
+### Known Issues
+
+- **Placeholder Seed**: The `run.ts` contains a demo placeholder seed since no actual schema tables exist yet (deferred to Epic 2B.1)
+
+### Lessons Learned
+
+- Factory pattern with optional `_count` parameter provides flexible API for both single and batch data generation
+- Using faker seed values enables deterministic test data which is valuable for reproducible tests
+- Environment-based configuration with preset counts simplifies seed management across environments

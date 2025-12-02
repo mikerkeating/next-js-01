@@ -58,3 +58,40 @@ export {
   type MigrationOptions,
   type MigrationErrorCode,
 } from "./migrate";
+
+// Export seed utilities
+export {
+  // Config
+  getSeedConfig,
+  getSeedEnvironment,
+  type SeedConfig,
+  type SeedEnvironment,
+  type SeedCounts,
+  // Factories
+  createFactory,
+  createUserData,
+  createOrganizationData,
+  setFakerSeed,
+  type FactoryOptions,
+  type UserData,
+  type OrganizationData,
+  // Utils
+  createSeedLogger,
+  createProgressTracker,
+  SeedError,
+  type SeedLogger,
+  type ProgressTracker,
+  type SeedProgress,
+  type SeedLoggerOptions,
+  type SeedErrorCode,
+  // Runner
+  runSeed,
+  createSeedRunner,
+  main as runSeedMain,
+  type SeedFunction,
+  type SeedFunctionResult,
+  type SeedDefinition,
+  type SeedResult,
+  type SeedOptions,
+  type SeedRunner,
+} from "./seed/index";
