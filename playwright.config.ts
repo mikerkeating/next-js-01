@@ -7,9 +7,16 @@
  * @see https://playwright.dev/docs/test-configuration
  */
 import { existsSync, readFileSync } from "node:fs";
-import { resolve } from "node:path";
+import { dirname, resolve } from "node:path";
+import { fileURLToPath } from "node:url";
 
 import { defineConfig, devices } from "@playwright/test";
+
+/**
+ * ES module equivalent of __dirname
+ */
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
 
 /**
  * Load environment variables from .env.local if it exists.
