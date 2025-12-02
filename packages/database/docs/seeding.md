@@ -92,10 +92,10 @@ interface SeedCounts {
 
 ### Default Counts by Environment
 
-| Entity        | Development | Test | Production |
-| ------------- | ----------- | ---- | ---------- |
-| users         | 20          | 5    | 0          |
-| organizations | 5           | 2    | 0          |
+| Entity        | Development | Test | Staging |
+| ------------- | ----------- | ---- | ------- |
+| users         | 20          | 3    | 50      |
+| organizations | 5           | 1    | 10      |
 
 ### Custom Configuration
 

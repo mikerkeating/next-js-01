@@ -125,6 +125,7 @@ describe("shouldSkipDatabaseTests (from setup)", () => {
   beforeEach(() => {
     process.env = { ...originalEnv };
     delete process.env.DATABASE_URL_TEST;
+    delete process.env.DATABASE_URL;
     delete process.env.SKIP_DB_TESTS;
   });
 
@@ -132,12 +133,18 @@ describe("shouldSkipDatabaseTests (from setup)", () => {
     process.env = originalEnv;
   });
 
-  it("returns true when no test database configured", () => {
+  it("returns true when no database URL configured", () => {
     expect(shouldSkipDatabaseTests()).toBe(true);
   });
 
   it("returns false when DATABASE_URL_TEST is configured", () => {
     process.env.DATABASE_URL_TEST = "postgresql://test@localhost/test";
+
+    expect(shouldSkipDatabaseTests()).toBe(false);
+  });
+
+  it("returns false when DATABASE_URL is configured (fallback)", () => {
+    process.env.DATABASE_URL = "postgresql://test@localhost/test";
 
     expect(shouldSkipDatabaseTests()).toBe(false);
   });

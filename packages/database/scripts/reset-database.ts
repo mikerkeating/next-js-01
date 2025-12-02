@@ -114,6 +114,8 @@ async function dropAllTables(verbose: boolean): Promise<void> {
   }
 
   // Drop all tables with CASCADE to handle dependencies
+  // Safety: Table names come from pg_tables system catalog, not user input.
+  // Using sql.raw() is safe here as tablename is a trusted system value.
   for (const table of tables) {
     if (verbose) {
       console.log(`  Dropping table: ${table}`);

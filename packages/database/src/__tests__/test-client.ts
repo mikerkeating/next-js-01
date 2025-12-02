@@ -57,14 +57,17 @@ let testDb: TestDatabase | null = null;
 /**
  * Gets the test database URL from environment.
  *
- * @throws Error if DATABASE_URL_TEST is not configured
+ * Checks DATABASE_URL_TEST first, then falls back to DATABASE_URL.
+ * This allows CI environments to use a single DATABASE_URL variable.
+ *
+ * @throws Error if neither DATABASE_URL_TEST nor DATABASE_URL is configured
  */
 function getTestDatabaseUrl(): string {
-  const testUrl = process.env.DATABASE_URL_TEST;
+  const testUrl = process.env.DATABASE_URL_TEST ?? process.env.DATABASE_URL;
 
   if (!testUrl) {
     throw new Error(
-      "DATABASE_URL_TEST environment variable is required for integration tests. " +
+      "DATABASE_URL_TEST or DATABASE_URL environment variable is required for integration tests. " +
         "Either configure it or set SKIP_DB_TESTS=true to skip database tests."
     );
   }
@@ -77,14 +80,14 @@ function getTestDatabaseUrl(): string {
  *
  * Returns true if:
  * - SKIP_DB_TESTS is set to 'true'
- * - DATABASE_URL_TEST is not configured
+ * - Neither DATABASE_URL_TEST nor DATABASE_URL is configured
  */
 export function shouldSkipDatabaseTests(): boolean {
   if (process.env.SKIP_DB_TESTS === "true") {
     return true;
   }
 
-  return !process.env.DATABASE_URL_TEST;
+  return !process.env.DATABASE_URL_TEST && !process.env.DATABASE_URL;
 }
 
 /**

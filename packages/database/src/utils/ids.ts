@@ -9,7 +9,7 @@
  * import { createId, isValidId } from '@repo/database';
  *
  * // Generate a new ID
- * const id = createId(); // e.g., "clh3am1x70000qw39ugwx0abcd"
+ * const id = createId(); // e.g., "zk8f3h2j9m1n4p6q7r0s5tuv"
  *
  * // Validate an ID
  * if (isValidId(userInput)) {
