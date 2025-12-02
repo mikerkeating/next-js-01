@@ -68,7 +68,7 @@ The seed framework automatically detects the environment from `NODE_ENV`:
 import { getSeedConfig, getSeedEnvironment } from "@repo/database";
 
 const env = getSeedEnvironment();
-// Returns: 'development' | 'test' | 'production'
+// Returns: 'development' | 'test' | 'staging'
 
 const config = getSeedConfig(env);
 // Returns environment-specific configuration
@@ -544,11 +544,12 @@ try {
 
 ### Error Codes
 
-| Code             | Description               |
-| ---------------- | ------------------------- |
-| `SEED_FAILED`    | General seed failure      |
-| `INVALID_CONFIG` | Configuration error       |
-| `DATABASE_ERROR` | Database operation failed |
+| Code               | Description                   |
+| ------------------ | ----------------------------- |
+| `SEED_FAILED`      | General seed failure          |
+| `CLEAR_FAILED`     | Failed to clear existing data |
+| `INVALID_CONFIG`   | Configuration error           |
+| `CONNECTION_ERROR` | Database connection failed    |
 
 ## Related Documentation
 

@@ -102,6 +102,15 @@ function createDatabaseClient(): Database {
     return createLocalClient(databaseUrl) as unknown as Database;
   }
 
+  // Log warning for unknown URL patterns to help diagnose configuration issues
+  if (dbType === "unknown") {
+    console.warn(
+      "[database] Unknown DATABASE_URL pattern detected. Falling back to Neon HTTP driver. " +
+        "If this is unexpected, verify your DATABASE_URL is correct. " +
+        "Recognized patterns: *.neon.tech (Neon), localhost/127.0.0.1 (local)"
+    );
+  }
+
   // Use Neon HTTP driver for Neon URLs and unknown URLs
   // Unknown URLs default to Neon as it works with standard PostgreSQL
   return createNeonClient(databaseUrl);

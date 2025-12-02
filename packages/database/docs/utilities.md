@@ -29,8 +29,9 @@ const userId = createId();
 
 - **Collision-resistant**: < 0.001% collision probability
 - **URL-safe**: Lowercase alphanumeric only
-- **Sortable**: Contains timestamp prefix for chronological ordering
 - **Compact**: 24 characters (shorter than UUID's 36)
+
+> **Note:** Unlike cuid v1, cuid2 IDs are NOT timestamp-sortable and do not contain a timestamp prefix. They are random and not chronologically ordered.
 
 ### Usage in Schema
 
