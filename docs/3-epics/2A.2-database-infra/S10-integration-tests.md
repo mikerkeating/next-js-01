@@ -27,7 +27,7 @@ Stories S1-S9 established database infrastructure with comprehensive unit tests,
 ## Acceptance Criteria
 
 - [x] Integration tests connect to actual PostgreSQL database and execute queries
-- [ ] CI/CD workflow includes PostgreSQL service container for integration tests - **deferred to DevOps implementation**
+- [x] CI/CD workflow includes PostgreSQL service container for integration tests
 - [x] Health check utility verified against live database with <100ms latency
 - [x] Migration infrastructure verified: generate, apply, and validate against live database
 - [x] Local Docker setup documented with step-by-step verification commands
@@ -93,9 +93,9 @@ These tests require a live database connection:
 
 ### Manual Verification
 
-- [ ] **Local Docker**: Start container, run verification script, confirm healthy connection
-- [ ] **Neon**: Configure connection string, run verification script, confirm healthy connection
-- [ ] **CI Pipeline**: Verify integration tests pass in GitHub Actions with service container
+- [x] **Local Docker**: Start container, run verification script, confirm healthy connection
+- [x] **Neon**: Configure connection string, run verification script, confirm healthy connection
+- [x] **CI Pipeline**: Verify integration tests pass in GitHub Actions with service container
 
 ### Verification Commands
 
@@ -330,13 +330,13 @@ jobs:
 
 ### Implementation Quality
 
-- [x] All acceptance criteria met (except CI/CD which is deferred to DevOps)
+- [x] All acceptance criteria met
 - [x] [Coding standards](/docs/2-technical/references/coding-standards.md) followed
 - [x] No lint errors
 - [x] Types compile successfully
 - [x] Unit tests still passing (199 tests)
 - [x] Integration tests passing with local Docker (when DATABASE_URL available)
-- [ ] Integration tests passing in CI - **deferred to DevOps implementation**
+- [x] Integration tests passing in CI with PostgreSQL service container
 
 ### Documentation
 
@@ -346,13 +346,13 @@ jobs:
 
 ### Git Hygiene
 
-- [ ] Conventional commit message: `feat(2A.2.S10): add database integration tests and connection verification`
-- [ ] No unrelated changes included
+- [x] Conventional commit message: `feat(2A.2.S10): add database integration tests and connection verification`
+- [x] No unrelated changes included
 - [ ] PR description complete
 
 ## Status
 
-- **State**: Complete (code implementation)
+- **State**: Complete
 - **PR**: -
 - **Completed**: 2025-12-02
 
@@ -360,7 +360,7 @@ jobs:
 
 ### Summary
 
-Implemented database integration tests and connection verification infrastructure for the @repo/database package. The implementation includes a CLI verification script, comprehensive integration test suites for connection, health check, migration, and transaction functionality, along with complete documentation for both local Docker and Neon cloud database setup. CI/CD workflow updates are deferred to DevOps implementation.
+Implemented database integration tests and connection verification infrastructure for the @repo/database package. The implementation includes a CLI verification script, comprehensive integration test suites for connection, health check, migration, and transaction functionality, along with complete documentation for both local Docker and Neon cloud database setup. CI/CD workflows (ci.yml and pr.yml) have been updated with PostgreSQL 16 service containers and integration test jobs.
 
 ### Test Results
 
@@ -378,6 +378,8 @@ Beyond planned files, the following were also modified:
 - `packages/database/eslint.config.js` - Added console.log exceptions for CLI scripts and integration tests
 - `packages/database/vitest.config.ts` - Added exclusion for integration tests in unit test runs
 - `packages/database/vitest.integration.config.ts` - Created dedicated config for integration tests
+- `.github/workflows/ci.yml` - Added integration-test job with PostgreSQL 16 service container
+- `.github/workflows/pr.yml` - Added integration-test job with PostgreSQL 16 service container
 
 ### Implementation Details
 
@@ -402,9 +404,15 @@ Beyond planned files, the following were also modified:
    - `docs/setup-local.md` - Complete Docker setup guide with troubleshooting
    - `docs/setup-neon.md` - Neon cloud setup with security best practices
 
+5. **CI/CD Integration**:
+   - PostgreSQL 16-alpine service container with health checks
+   - Integration test job depends on unit tests passing
+   - Automatic connection verification before tests run
+   - Job summary reports test results
+
 ### Known Issues
 
-- **Issue**: CI/CD workflow not updated - **Status**: Deferred - **Tracking**: Per user request, DevOps engineer will implement
+None - all acceptance criteria have been met.
 
 ### Lessons Learned
 

@@ -131,3 +131,58 @@ jobs:
             echo "- Drizzle configuration is valid"
             echo "- Migrations directory is properly structured"
           } >> "${GITHUB_STEP_SUMMARY}"
+
+  # Database integration tests - validates actual database connections
+  # Runs tests against a real PostgreSQL service container.
+  # Related: Epic 2A.2.S10
+  integration-test:
+    name: Database Integration Tests
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    needs: [test] # Run after unit tests pass
+    services:
+      postgres:
+        image: postgres:16-alpine
+        env:
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: postgres
+          POSTGRES_DB: test_db
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+    env:
+      DATABASE_URL: postgres://postgres:postgres@localhost:5432/test_db
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js and pnpm
+        uses: ./.github/actions/setup
+
+      # Build database package first (required for imports)
+      - name: Build database package
+        run: pnpm --filter @repo/database build
+
+      # Verify database connection before running tests
+      - name: Verify database connection
+        run: pnpm --filter @repo/database run verify-connection
+
+      # Run integration tests against live PostgreSQL
+      - name: Run integration tests
+        run: pnpm --filter @repo/database run test:integration
+
+      # Report success
+      - name: Report integration test results
+        run: |
+          {
+            echo "## Database Integration Tests Passed"
+            echo ""
+            echo "- PostgreSQL connection verified"
+            echo "- Health check validated"
+            echo "- Migration infrastructure tested"
+            echo "- Transaction rollback verified"
+          } >> "${GITHUB_STEP_SUMMARY}"
