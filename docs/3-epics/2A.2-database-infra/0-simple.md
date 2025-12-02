@@ -42,15 +42,27 @@ For the stories listed in `## Resourcing Table` of `docs/3-epics/2A.2-database-i
 
 `execute @docs/0-process/references/epic-story-check-prompt-template.md for Epic 2A.2`
 
-Review each item in docs/3-epics/2A.2-database-infra/epic-cloudrabbit-1.md and determine if valid. Where valid, make a plan and implement the fixes. Mark items as done or ignored.
+## CodeRabbit
 
-"I'm ready to create the diff between this branch and development. Please use pr-review-toolkit to do the following. Output the analysis into a new markdown file: `docs/3-epics/2A.2-database-infra/epic-pr-claude.md`.
+`coderabbit --prompt-only --base development &> testing/code-review/code-rabbit-3.txt`
+
+## Claude PR
+
+"I'm ready to create the diff between this branch and development. Please use pr-review-toolkit to do the following. Output the analysis into a new markdown file: `testing/code-review/claude-1.txt`.
 
 1. Review test coverage
 1. Check for silent failures
 1. Verify code comments are accurate
 1. Review any new types
 1. General code review"
+
+## CodeRabbit Fixes
+
+Review each item in `testing/code-review/code-rabbit-3.txt` and determine if valid. If nitpicks are valid, then they are low cost to fix and should be included. Where valid, make a plan and implement the fixes. Mark items as done or ignored.
+
+## other
+
+Run linting, type-check and build to verify all works
 
 ### things
 

@@ -339,12 +339,12 @@ Implemented the seed script framework for the database package with environment-
 
 ### Test Results
 
-| Test       | Command           | Result            |
-| ---------- | ----------------- | ----------------- |
-| Lint       | `pnpm lint`       | Pass (0 errors)   |
-| Types      | `pnpm type-check` | Pass (0 errors)   |
-| Unit Tests | `pnpm test`       | Pass (99 tests)   |
-| Build      | `pnpm build`      | Pass              |
+| Test       | Command           | Result          |
+| ---------- | ----------------- | --------------- |
+| Lint       | `pnpm lint`       | Pass (0 errors) |
+| Types      | `pnpm type-check` | Pass (0 errors) |
+| Unit Tests | `pnpm test`       | Pass (99 tests) |
+| Build      | `pnpm build`      | Pass            |
 
 ### Files Changed
 

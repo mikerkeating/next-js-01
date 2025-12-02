@@ -33,6 +33,14 @@ export type DatabaseType = "neon" | "local" | "unknown";
 const NEON_URL_PATTERN = /\.neon\.tech/i;
 
 /**
+ * Pattern to match Neon pooler URLs.
+ * Pooler URLs have `-pooler` suffix before the region in the hostname.
+ *
+ * Example: ep-example-123-pooler.eu-west-2.aws.neon.tech
+ */
+const NEON_POOLER_PATTERN = /-pooler\./i;
+
+/**
  * Patterns to match local PostgreSQL URLs.
  * Matches localhost, loopback IPs, and Docker internal host.
  */
@@ -128,4 +136,65 @@ export function getDatabaseType(url: string): DatabaseType {
 
   // Unrecognized URL pattern
   return "unknown";
+}
+
+/**
+ * Checks if a Neon URL is using the connection pooler.
+ *
+ * Neon pooler URLs have `-pooler` in the hostname. The pooler is optimized
+ * for serverless environments but has limitations:
+ * - No session-mode operations (DDL, transactions, prepared statements)
+ * - Read-only mode may be enforced for certain operations
+ *
+ * @param url - The database connection URL to check
+ * @returns true if the URL uses the Neon pooler
+ *
+ * @example
+ * ```typescript
+ * isNeonPoolerUrl('postgres://user:pass@ep-example-pooler.neon.tech/db'); // true
+ * isNeonPoolerUrl('postgres://user:pass@ep-example.neon.tech/db'); // false
+ * ```
+ */
+export function isNeonPoolerUrl(url: string): boolean {
+  return isNeonUrl(url) && NEON_POOLER_PATTERN.test(url);
+}
+
+/**
+ * Converts a Neon pooler URL to a direct connection URL.
+ *
+ * Neon pooler URLs have limitations for session-based operations like
+ * transactions and DDL statements. This function transforms a pooler URL
+ * to a direct connection URL that supports all PostgreSQL features.
+ *
+ * Use this for operations that require:
+ * - Transactions with rollback capability
+ * - DDL statements (CREATE TABLE, ALTER TABLE, etc.)
+ * - Prepared statements
+ *
+ * @param url - The Neon database URL (pooler or direct)
+ * @returns The direct connection URL (pooler suffix removed if present)
+ *
+ * @example
+ * ```typescript
+ * // Pooler URL gets converted to direct
+ * toNeonDirectUrl('postgres://user:pass@ep-example-pooler.eu-west-2.aws.neon.tech/db');
+ * // Returns: 'postgres://user:pass@ep-example.eu-west-2.aws.neon.tech/db'
+ *
+ * // Direct URLs pass through unchanged
+ * toNeonDirectUrl('postgres://user:pass@ep-example.us-east-1.aws.neon.tech/db');
+ * // Returns: 'postgres://user:pass@ep-example.us-east-1.aws.neon.tech/db'
+ *
+ * // Non-Neon URLs pass through unchanged
+ * toNeonDirectUrl('postgres://postgres:postgres@localhost:5432/postgres');
+ * // Returns: 'postgres://postgres:postgres@localhost:5432/postgres'
+ * ```
+ */
+export function toNeonDirectUrl(url: string): string {
+  if (!isNeonUrl(url)) {
+    return url;
+  }
+
+  // Remove the -pooler suffix from the hostname
+  // e.g., ep-example-123-pooler.eu-west-2.aws.neon.tech -> ep-example-123.eu-west-2.aws.neon.tech
+  return url.replace(/-pooler\./i, ".");
 }

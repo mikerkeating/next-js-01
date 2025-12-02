@@ -32,7 +32,7 @@ import { drizzle as drizzleNeon } from "drizzle-orm/neon-serverless";
 import { drizzle as drizzlePostgres } from "drizzle-orm/postgres-js";
 import postgres from "postgres";
 
-import { getDatabaseType } from "../client-factory";
+import { getDatabaseType, isNeonPoolerUrl, toNeonDirectUrl } from "../client-factory";
 import * as schema from "../schema/index";
 
 import type { NeonDatabase } from "drizzle-orm/neon-serverless";
@@ -78,6 +78,12 @@ let cachedDbType: "neon" | "local" | "unknown" | null = null;
  * Checks DATABASE_URL_TEST first, then falls back to DATABASE_URL.
  * This allows CI environments to use a single DATABASE_URL variable.
  *
+ * For Neon URLs, automatically converts pooler URLs to direct URLs because
+ * the pooler doesn't support session-mode operations required for:
+ * - Transactions with rollback (needed for test isolation)
+ * - DDL statements (CREATE TABLE, etc.)
+ * - Prepared statements
+ *
  * @throws Error if neither DATABASE_URL_TEST nor DATABASE_URL is configured
  */
 function getTestDatabaseUrl(): string {
@@ -88,6 +94,14 @@ function getTestDatabaseUrl(): string {
       "DATABASE_URL_TEST or DATABASE_URL environment variable is required for integration tests. " +
         "Either configure it or set SKIP_DB_TESTS=true to skip database tests."
     );
+  }
+
+  // Convert Neon pooler URLs to direct URLs for full PostgreSQL feature support
+  // The pooler doesn't support transactions/DDL which are needed for integration tests
+  if (isNeonPoolerUrl(testUrl)) {
+    const directUrl = toNeonDirectUrl(testUrl);
+    console.warn("  ⚠️  Converting Neon pooler URL to direct connection for transaction support");
+    return directUrl;
   }
 
   return testUrl;

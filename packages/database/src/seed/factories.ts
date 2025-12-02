@@ -35,9 +35,7 @@ export type FactoryOptions<T> = Partial<T> & {
  * Return type for factory functions.
  * Returns a single item or array based on _count option.
  */
-type FactoryResult<T, O extends FactoryOptions<T>> = O extends { _count: number }
-  ? T[]
-  : T;
+type FactoryResult<T, O extends FactoryOptions<T>> = O extends { _count: number } ? T[] : T;
 
 /**
  * Sets the faker seed for reproducible test data generation.
