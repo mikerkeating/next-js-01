@@ -36,7 +36,7 @@ export const ID_LENGTH = 24;
  * Regular expression pattern for valid cuid2 IDs
  * Matches lowercase alphanumeric strings of exactly ID_LENGTH characters
  */
-export const ID_PATTERN = /^[a-z0-9]{24}$/;
+export const ID_PATTERN = new RegExp(`^[a-z0-9]{${ID_LENGTH}}$`);
 
 /**
  * Generates a globally unique, URL-safe identifier using cuid2.
@@ -44,8 +44,10 @@ export const ID_PATTERN = /^[a-z0-9]{24}$/;
  * Properties:
  * - Collision-resistant: < 0.001% collision probability
  * - URL-safe: Contains only lowercase alphanumeric characters
- * - Sortable: Contains timestamp prefix for chronological ordering
  * - Compact: 24 characters (shorter than UUID's 36 characters)
+ *
+ * Note: Unlike cuid v1, cuid2 IDs are NOT timestamp-sortable and do not
+ * contain a timestamp prefix. They are random and not chronologically ordered.
  *
  * @returns A unique 24-character lowercase alphanumeric string
  *

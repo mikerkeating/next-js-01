@@ -66,7 +66,9 @@ export function createMockDbClient(): MockDbClient {
     insert: vi.fn().mockReturnThis(),
     update: vi.fn().mockReturnThis(),
     delete: vi.fn().mockReturnThis(),
-    transaction: vi.fn((callback: (tx: MockDbClient) => unknown) => callback(createMockDbClient())),
+    transaction: vi.fn(async (callback: (tx: MockDbClient) => unknown) => {
+      return await callback(createMockDbClient());
+    }),
     query: {
       users: createQueryMethods(),
       organizations: createQueryMethods(),
@@ -218,9 +220,9 @@ export function createTestOrganizations(
  * @param seed - Optional seed for deterministic generation
  * @returns A valid UUID string
  */
-export function createTestUuid(seed?: number): string {
-  // Deterministic UUID based on seed
-  const hex = (seed ?? Date.now()).toString(16).padStart(32, "0").slice(0, 32);
+export function createTestUuid(seed: number = 0): string {
+  // Deterministic UUID based on seed (default 0 for reproducible tests)
+  const hex = seed.toString(16).padStart(32, "0").slice(0, 32);
   return `${hex.slice(0, 8)}-${hex.slice(8, 12)}-4${hex.slice(13, 16)}-${hex.slice(16, 20)}-${hex.slice(20, 32)}`;
 }
 

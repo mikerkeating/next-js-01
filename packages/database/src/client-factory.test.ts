@@ -27,7 +27,7 @@ describe("isNeonUrl", () => {
     expect(isNeonUrl(url)).toBe(true);
   });
 
-  it("returns true for URLs with @neon prefix pattern", () => {
+  it("returns false for URLs that merely contain 'neon' in hostname", () => {
     const url = "postgres://user:pass@neon.host.example.com/db";
     // This is NOT a Neon URL - it just has neon in the hostname
     // We should only match actual neon.tech domains

@@ -28,8 +28,7 @@ import { runMigrations, type MigrationResult } from "../src/migrate";
 /**
  * Parses command-line arguments.
  */
-function parseArgs(): { verbose: boolean } {
-  const args = process.argv.slice(2);
+export function parseArgs(args: string[] = process.argv.slice(2)): { verbose: boolean } {
   return {
     verbose: args.includes("--verbose") || args.includes("-v"),
   };
@@ -38,7 +37,7 @@ function parseArgs(): { verbose: boolean } {
 /**
  * Formats the migration result for console output.
  */
-function formatResult(result: MigrationResult): string {
+export function formatResult(result: MigrationResult): string {
   if (result.success) {
     return `✓ Migrations applied successfully in ${result.durationMs}ms`;
   }

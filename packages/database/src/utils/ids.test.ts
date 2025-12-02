@@ -79,13 +79,17 @@ describe("ids", () => {
 
   describe("ID_PATTERN", () => {
     it("matches lowercase alphanumeric strings of correct length", () => {
-      expect("abcdefghijklmnopqrstuvwx").toMatch(ID_PATTERN);
-      expect("abc123def456ghi789jkl012").toMatch(ID_PATTERN);
+      expect("a".repeat(ID_LENGTH)).toMatch(ID_PATTERN);
+      expect("abc123def456ghi789jkl012".slice(0, ID_LENGTH)).toMatch(ID_PATTERN);
     });
 
     it("does not match strings with invalid characters", () => {
-      expect("ABC123def456ghi789jkl012").not.toMatch(ID_PATTERN);
-      expect("abc-123-def-456-ghi-789!").not.toMatch(ID_PATTERN);
+      // Test uppercase characters in an ID_LENGTH string
+      const uppercaseId = "A" + "a".repeat(ID_LENGTH - 1);
+      expect(uppercaseId).not.toMatch(ID_PATTERN);
+      // Test special characters in an ID_LENGTH string
+      const specialCharId = "-" + "a".repeat(ID_LENGTH - 1);
+      expect(specialCharId).not.toMatch(ID_PATTERN);
     });
   });
 });

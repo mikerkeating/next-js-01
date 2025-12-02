@@ -6,6 +6,8 @@
  */
 import { describe, expect, it, vi, beforeEach } from "vitest";
 
+import { parseArgs, formatResult } from "./apply-migrations";
+
 // Mock the migrate module before importing anything that uses it
 vi.mock("../src/migrate", () => ({
   runMigrations: vi.fn(),
@@ -67,22 +69,12 @@ describe("apply-migrations script", () => {
     });
   });
 
-  describe("result formatting", () => {
-    const formatResult = (result: {
-      success: boolean;
-      durationMs: number;
-      error?: string;
-    }): string => {
-      if (result.success) {
-        return `✓ Migrations applied successfully in ${result.durationMs}ms`;
-      }
-      return `✗ Migration failed: ${result.error}`;
-    };
-
+  describe("formatResult", () => {
     it("formats successful result correctly", () => {
       const successResult = formatResult({
         success: true,
         durationMs: 100,
+        migrationsPath: "/path/to/migrations",
       });
 
       expect(successResult).toBe("✓ Migrations applied successfully in 100ms");
@@ -92,6 +84,7 @@ describe("apply-migrations script", () => {
       const failureResult = formatResult({
         success: false,
         durationMs: 50,
+        migrationsPath: "/path/to/migrations",
         error: "Connection refused",
       });
 
@@ -99,16 +92,16 @@ describe("apply-migrations script", () => {
     });
   });
 
-  describe("argument parsing", () => {
+  describe("parseArgs", () => {
     it("parses verbose flag from --verbose", () => {
-      const parseArgs = (args: string[]): { verbose: boolean } => {
-        return {
-          verbose: args.includes("--verbose") || args.includes("-v"),
-        };
-      };
-
       expect(parseArgs(["--verbose"]).verbose).toBe(true);
+    });
+
+    it("parses verbose flag from -v", () => {
       expect(parseArgs(["-v"]).verbose).toBe(true);
+    });
+
+    it("returns false for verbose when no flag provided", () => {
       expect(parseArgs([]).verbose).toBe(false);
     });
   });

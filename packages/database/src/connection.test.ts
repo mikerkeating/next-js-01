@@ -165,38 +165,40 @@ describe("withRetry", () => {
   it("uses exponential backoff between retries", async () => {
     vi.useFakeTimers();
 
-    const callTimes: number[] = [];
-    const mockOperation = vi.fn().mockImplementation(() => {
-      callTimes.push(Date.now());
-      if (callTimes.length < 3) {
-        return Promise.reject(new Error(`Fail ${callTimes.length}`));
-      }
-      return Promise.resolve("success");
-    });
+    try {
+      const callTimes: number[] = [];
+      const mockOperation = vi.fn().mockImplementation(() => {
+        callTimes.push(Date.now());
+        if (callTimes.length < 3) {
+          return Promise.reject(new Error(`Fail ${callTimes.length}`));
+        }
+        return Promise.resolve("success");
+      });
 
-    const options: RetryOptions = {
-      maxAttempts: 3,
-      baseDelayMs: 100,
-    };
+      const options: RetryOptions = {
+        maxAttempts: 3,
+        baseDelayMs: 100,
+      };
 
-    const resultPromise = withRetry(mockOperation, options);
+      const resultPromise = withRetry(mockOperation, options);
 
-    // First call happens immediately
-    await vi.advanceTimersByTimeAsync(0);
-    expect(mockOperation).toHaveBeenCalledTimes(1);
+      // First call happens immediately
+      await vi.advanceTimersByTimeAsync(0);
+      expect(mockOperation).toHaveBeenCalledTimes(1);
 
-    // After 100ms (first retry delay), second call
-    await vi.advanceTimersByTimeAsync(100);
-    expect(mockOperation).toHaveBeenCalledTimes(2);
+      // After 100ms (first retry delay), second call
+      await vi.advanceTimersByTimeAsync(100);
+      expect(mockOperation).toHaveBeenCalledTimes(2);
 
-    // After 200ms more (second retry delay = 100 * 2), third call
-    await vi.advanceTimersByTimeAsync(200);
-    expect(mockOperation).toHaveBeenCalledTimes(3);
+      // After 200ms more (second retry delay = 100 * 2), third call
+      await vi.advanceTimersByTimeAsync(200);
+      expect(mockOperation).toHaveBeenCalledTimes(3);
 
-    const result = await resultPromise;
-    expect(result).toBe("success");
-
-    vi.useRealTimers();
+      const result = await resultPromise;
+      expect(result).toBe("success");
+    } finally {
+      vi.useRealTimers();
+    }
   });
 
   it("respects custom retry options", async () => {

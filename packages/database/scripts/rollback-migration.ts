@@ -46,8 +46,13 @@ async function getAppliedMigrations(): Promise<MigrationRecord[]> {
       sql`SELECT id, hash, created_at FROM drizzle.__drizzle_migrations ORDER BY created_at DESC`
     );
     return result.rows;
-  } catch {
+  } catch (error) {
     // Table might not exist if no migrations have been applied
+    // Log the error for debugging purposes
+    console.debug(
+      "Failed to read drizzle migrations table (may not exist yet):",
+      error instanceof Error ? error.message : String(error)
+    );
     return [];
   }
 }

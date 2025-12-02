@@ -373,11 +373,13 @@ jobs:
       # Report success
       - name: Report migration check results
         run: |
-          echo "## Migration Check Passed" >> $GITHUB_STEP_SUMMARY
-          echo "" >> $GITHUB_STEP_SUMMARY
-          echo "- Database schema compiles successfully" >> $GITHUB_STEP_SUMMARY
-          echo "- Drizzle configuration is valid" >> $GITHUB_STEP_SUMMARY
-          echo "- Migrations directory is properly structured" >> $GITHUB_STEP_SUMMARY
+          {
+            echo "## Migration Check Passed"
+            echo ""
+            echo "- Database schema compiles successfully"
+            echo "- Drizzle configuration is valid"
+            echo "- Migrations directory is properly structured"
+          } >> "${GITHUB_STEP_SUMMARY}"
 
   # E2E Smoke Test job - validates preview deployment
   # Runs after all quality checks pass, waits for Vercel preview, then runs smoke tests

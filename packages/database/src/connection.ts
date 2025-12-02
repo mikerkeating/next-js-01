@@ -86,6 +86,10 @@ export class ConnectionError extends Error {
     this.name = "ConnectionError";
     this.code = code;
     this.cause = cause;
+    // Capture stack trace for V8 environments (Node.js, Chrome)
+    if (typeof Error.captureStackTrace === "function") {
+      Error.captureStackTrace(this, ConnectionError);
+    }
   }
 }
 
@@ -128,10 +132,12 @@ export async function checkDatabaseHealth(
   const { timeoutMs = DEFAULT_TIMEOUT_MS } = options;
   const startTime = Date.now();
 
+  let timeoutId: ReturnType<typeof setTimeout> | undefined;
+
   try {
     // Create a promise that rejects after the timeout
     const timeoutPromise = new Promise<never>((_, reject) => {
-      setTimeout(() => {
+      timeoutId = setTimeout(() => {
         reject(new ConnectionError("Health check timeout exceeded", "CONNECTION_TIMEOUT"));
       }, timeoutMs);
     });
@@ -160,6 +166,10 @@ export async function checkDatabaseHealth(
       timestamp: new Date().toISOString(),
       error: errorMessage,
     };
+  } finally {
+    if (timeoutId !== undefined) {
+      clearTimeout(timeoutId);
+    }
   }
 }
 

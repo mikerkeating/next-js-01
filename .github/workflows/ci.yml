@@ -124,8 +124,10 @@ jobs:
       # Report success
       - name: Report migration check results
         run: |
-          echo "## Migration Check Passed" >> $GITHUB_STEP_SUMMARY
-          echo "" >> $GITHUB_STEP_SUMMARY
-          echo "- Database schema compiles successfully" >> $GITHUB_STEP_SUMMARY
-          echo "- Drizzle configuration is valid" >> $GITHUB_STEP_SUMMARY
-          echo "- Migrations directory is properly structured" >> $GITHUB_STEP_SUMMARY
+          {
+            echo "## Migration Check Passed"
+            echo ""
+            echo "- Database schema compiles successfully"
+            echo "- Drizzle configuration is valid"
+            echo "- Migrations directory is properly structured"
+          } >> "${GITHUB_STEP_SUMMARY}"
