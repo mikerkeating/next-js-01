@@ -5,12 +5,7 @@
  */
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 
-import {
-  getSeedConfig,
-  getSeedEnvironment,
-  type SeedConfig,
-  type SeedEnvironment,
-} from "./config";
+import { getSeedConfig, getSeedEnvironment, type SeedConfig, type SeedEnvironment } from "./config";
 
 describe("getSeedEnvironment", () => {
   const originalEnv = process.env.NODE_ENV;
