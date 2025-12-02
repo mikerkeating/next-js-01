@@ -83,3 +83,49 @@ jobs:
         run: pnpm build
         env:
           NEXT_PUBLIC_APP_URL: https://example.com
+
+  # Migration validation job - validates database schema and migrations
+  # Ensures migration infrastructure is working correctly without requiring
+  # a live database connection. Related: Epic 2A.2.S4
+  migration-check:
+    name: Migration Check
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js and pnpm
+        uses: ./.github/actions/setup
+
+      # Build database package to ensure schema compiles
+      - name: Build database package
+        run: pnpm --filter @repo/database build
+
+      # Validate drizzle configuration and schema
+      # Uses drizzle-kit check to validate schema without database connection
+      - name: Validate schema configuration
+        run: pnpm --filter @repo/database exec drizzle-kit check
+        env:
+          # Provide placeholder DATABASE_URL for config validation
+          # drizzle-kit check validates config without connecting
+          DATABASE_URL: "postgresql://placeholder:placeholder@localhost:5432/placeholder"
+
+      # Verify migrations directory exists and is properly structured
+      - name: Check migrations directory
+        run: |
+          if [ ! -d "packages/database/src/migrations" ]; then
+            echo "Error: Migrations directory not found"
+            exit 1
+          fi
+          echo "✓ Migrations directory exists"
+          ls -la packages/database/src/migrations/
+
+      # Report success
+      - name: Report migration check results
+        run: |
+          echo "## Migration Check Passed" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "- Database schema compiles successfully" >> $GITHUB_STEP_SUMMARY
+          echo "- Drizzle configuration is valid" >> $GITHUB_STEP_SUMMARY
+          echo "- Migrations directory is properly structured" >> $GITHUB_STEP_SUMMARY

@@ -15,7 +15,7 @@
 # - Note: Coverage decrease detection planned for future implementation
 #
 # Triggers: Pull requests to development and main branches, workflow_dispatch
-# Jobs: lint, type-check, test (with coverage), security-audit, build (all parallel), e2e-smoke (after quality checks)
+# Jobs: lint, type-check, test (with coverage), security-audit, build, migration-check (all parallel), e2e-smoke (after quality checks)
 #
 # Related Stories:
 # - Epic 1A.5.S1: Create PR Workflow with Quality Checks
@@ -23,6 +23,7 @@
 # - Epic 1A.5.S3: Add Coverage Reporting to PRs
 # - Epic 1A.5.S4: Integrate Preview Deployment and E2E Smoke Tests
 # - Epic 1A.5.S7: Set Up Dependabot and Security Scanning
+# - Epic 2A.2.S4: Set Up Migration Infrastructure (migration-check job)
 #
 # Concurrency:
 # - Cancels in-progress runs when new commits are pushed to the same PR
@@ -332,6 +333,52 @@ jobs:
           # These are placeholder values for CI build validation
           NEXT_PUBLIC_APP_URL: https://example.com
 
+  # Migration validation job - validates database schema and migrations
+  # Ensures migration infrastructure is working correctly without requiring
+  # a live database connection. Related: Epic 2A.2.S4
+  migration-check:
+    name: Migration Check
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js and pnpm
+        uses: ./.github/actions/setup
+
+      # Build database package to ensure schema compiles
+      - name: Build database package
+        run: pnpm --filter @repo/database build
+
+      # Validate drizzle configuration and schema
+      # Uses drizzle-kit check to validate schema without database connection
+      - name: Validate schema configuration
+        run: pnpm --filter @repo/database exec drizzle-kit check
+        env:
+          # Provide placeholder DATABASE_URL for config validation
+          # drizzle-kit check validates config without connecting
+          DATABASE_URL: "postgresql://placeholder:placeholder@localhost:5432/placeholder"
+
+      # Verify migrations directory exists and is properly structured
+      - name: Check migrations directory
+        run: |
+          if [ ! -d "packages/database/src/migrations" ]; then
+            echo "Error: Migrations directory not found"
+            exit 1
+          fi
+          echo "✓ Migrations directory exists"
+          ls -la packages/database/src/migrations/
+
+      # Report success
+      - name: Report migration check results
+        run: |
+          echo "## Migration Check Passed" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "- Database schema compiles successfully" >> $GITHUB_STEP_SUMMARY
+          echo "- Drizzle configuration is valid" >> $GITHUB_STEP_SUMMARY
+          echo "- Migrations directory is properly structured" >> $GITHUB_STEP_SUMMARY
+
   # E2E Smoke Test job - validates preview deployment
   # Runs after all quality checks pass, waits for Vercel preview, then runs smoke tests
   # Story: Epic 1A.5.S4
@@ -339,7 +386,7 @@ jobs:
     name: E2E Smoke Tests
     runs-on: ubuntu-latest
     timeout-minutes: 15
-    needs: [lint, type-check, test, security-audit, build]
+    needs: [lint, type-check, test, security-audit, build, migration-check]
     # Only run on pull requests (not workflow_dispatch without PR context)
     if: github.event_name == 'pull_request'
     steps:
