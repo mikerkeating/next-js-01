@@ -266,7 +266,7 @@ jobs:
       # Upload HTML coverage report as artifact
       - name: Upload coverage artifacts
         if: github.event_name == 'pull_request'
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v5
         with:
           name: coverage-report
           path: |
@@ -477,7 +477,7 @@ jobs:
       # Upload test report on failure
       - name: Upload Playwright report
         if: failure()
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v5
         with:
           name: playwright-smoke-report
           path: |
@@ -488,7 +488,7 @@ jobs:
       # Upload test traces for debugging failures
       - name: Upload Playwright traces
         if: failure()
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v5
         with:
           name: playwright-smoke-traces
           path: testing/e2e/results/**/*.zip

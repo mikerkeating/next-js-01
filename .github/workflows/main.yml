@@ -242,7 +242,7 @@ jobs:
       # Upload test report on failure
       - name: Upload Playwright report
         if: failure()
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v5
         with:
           name: playwright-staging-smoke-report
           path: |
@@ -253,7 +253,7 @@ jobs:
       # Upload test traces for debugging failures
       - name: Upload Playwright traces
         if: failure()
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v5
         with:
           name: playwright-staging-smoke-traces
           path: testing/e2e/results/**/*.zip
