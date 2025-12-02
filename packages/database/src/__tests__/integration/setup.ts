@@ -105,3 +105,31 @@ beforeAll(() => {
  */
 export { createTestDatabase, createTestTransaction, shouldSkipDatabaseTests } from "../test-client";
 export type { TestDatabase, TestTransactionClient, TestTransactionResult } from "../test-client";
+
+/**
+ * Extracts rows from a database execute result.
+ *
+ * Handles both Neon (returns { rows: T[] }) and postgres.js (returns T[] directly) formats.
+ * This is needed because the TestDatabase type is a union of both driver types.
+ *
+ * @param result - The result from db.execute() or tx.execute()
+ * @returns The rows array
+ *
+ * @example
+ * ```typescript
+ * const result = await db.execute(sql`SELECT * FROM users`);
+ * const rows = extractRows<{ id: string; name: string }>(result);
+ * ```
+ */
+export function extractRows<T>(result: unknown): T[] {
+  // Handle Neon format: { rows: T[] }
+  if (result && typeof result === "object" && "rows" in result && Array.isArray(result.rows)) {
+    return result.rows as T[];
+  }
+  // Handle postgres.js format: T[] (array directly)
+  if (Array.isArray(result)) {
+    return result as T[];
+  }
+  // Fallback to empty array
+  return [];
+}

@@ -18,7 +18,12 @@
 import { sql } from "drizzle-orm";
 import { beforeAll, describe, expect, it } from "vitest";
 
-import { createTestDatabase, describeIntegration, shouldSkipDatabaseTests } from "./setup";
+import {
+  createTestDatabase,
+  describeIntegration,
+  extractRows,
+  shouldSkipDatabaseTests,
+} from "./setup";
 
 import type { TestDatabase } from "./setup";
 
@@ -65,7 +70,7 @@ describeIntegration("Migration Integration Tests", () => {
         ) as exists
       `);
 
-      const rows = (result.rows || result) as Array<{ exists: boolean }>;
+      const rows = extractRows<{ exists: boolean }>(result);
 
       // The table may or may not exist depending on whether migrations have been run
       // This test just verifies we can query the information schema
@@ -86,11 +91,11 @@ describeIntegration("Migration Integration Tests", () => {
           LIMIT 10
         `);
 
-        const rows = (result.rows || result) as Array<{
+        const rows = extractRows<{
           id: number;
           hash: string;
           created_at: number;
-        }>;
+        }>(result);
 
         console.log(`  Found ${rows.length} migration(s) in history`);
 
@@ -119,7 +124,7 @@ describeIntegration("Migration Integration Tests", () => {
         ORDER BY table_name
       `);
 
-      const rows = (result.rows || result) as Array<{ table_name: string }>;
+      const rows = extractRows<{ table_name: string }>(result);
       const tableNames = rows.map((r) => r.table_name);
 
       console.log(`  Tables in public schema: ${tableNames.length}`);
@@ -136,7 +141,7 @@ describeIntegration("Migration Integration Tests", () => {
     it("should verify database version is compatible", async () => {
       const result = await db.execute(sql`SELECT version() as version`);
 
-      const rows = (result.rows || result) as Array<{ version: string }>;
+      const rows = extractRows<{ version: string }>(result);
       const version = rows[0]?.version ?? "";
 
       // Extract PostgreSQL version number
@@ -167,11 +172,11 @@ describeIntegration("Migration Integration Tests", () => {
       // All queries should succeed and return consistent results
       expect(results).toHaveLength(3);
 
-      const firstResult = ((results[0]?.rows || results[0]) as Array<{ schema_exists: boolean }>)[0]
-        ?.schema_exists;
+      const firstRows = extractRows<{ schema_exists: boolean }>(results[0]);
+      const firstResult = firstRows[0]?.schema_exists;
 
       results.forEach((result) => {
-        const rows = (result.rows || result) as Array<{ schema_exists: boolean }>;
+        const rows = extractRows<{ schema_exists: boolean }>(result);
         expect(rows[0]?.schema_exists).toBe(firstResult);
       });
     });
@@ -185,7 +190,7 @@ describeIntegration("Migration Integration Tests", () => {
         ORDER BY extname
       `);
 
-      const rows = (result.rows || result) as Array<{ extname: string; extversion: string }>;
+      const rows = extractRows<{ extname: string; extversion: string }>(result);
 
       console.log(`  Installed extensions: ${rows.length}`);
 

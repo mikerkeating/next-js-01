@@ -2,7 +2,9 @@
  * Test Database Client
  *
  * Provides a transaction-capable database client for integration tests.
- * Uses Neon Pool API (WebSocket) instead of HTTP for transaction support.
+ * Automatically selects the appropriate driver based on DATABASE_URL:
+ * - Neon URLs: Uses Neon Pool API (WebSocket) for transaction support
+ * - Local URLs: Uses postgres.js for direct PostgreSQL connection
  *
  * Key features:
  * - Separate test database connection via DATABASE_URL_TEST
@@ -26,16 +28,21 @@
  * @packageDocumentation
  */
 import { Pool, neonConfig } from "@neondatabase/serverless";
-import { drizzle } from "drizzle-orm/neon-serverless";
+import { drizzle as drizzleNeon } from "drizzle-orm/neon-serverless";
+import { drizzle as drizzlePostgres } from "drizzle-orm/postgres-js";
+import postgres from "postgres";
 
+import { getDatabaseType } from "../client-factory";
 import * as schema from "../schema/index";
 
 import type { NeonDatabase } from "drizzle-orm/neon-serverless";
+import type { PostgresJsDatabase } from "drizzle-orm/postgres-js";
 
 /**
  * Type for the test database instance with transaction support.
+ * Uses a union type to support both Neon and postgres.js drivers.
  */
-export type TestDatabase = NeonDatabase<typeof schema>;
+export type TestDatabase = NeonDatabase<typeof schema> | PostgresJsDatabase<typeof schema>;
 
 /**
  * Type for a transaction client that can be used within test transactions.
@@ -43,16 +50,27 @@ export type TestDatabase = NeonDatabase<typeof schema>;
 export type TestTransactionClient = Parameters<Parameters<TestDatabase["transaction"]>[0]>[0];
 
 /**
- * Shared pool instance for test connections.
+ * Shared pool instance for Neon test connections.
  * Lazily initialized on first use.
  */
-let testPool: Pool | null = null;
+let neonTestPool: Pool | null = null;
+
+/**
+ * Shared postgres.js client for local test connections.
+ * Lazily initialized on first use.
+ */
+let postgresTestClient: ReturnType<typeof postgres> | null = null;
 
 /**
  * Test database instance.
  * Lazily initialized on first use.
  */
 let testDb: TestDatabase | null = null;
+
+/**
+ * Cached database type to avoid re-parsing URL.
+ */
+let cachedDbType: "neon" | "local" | "unknown" | null = null;
 
 /**
  * Gets the test database URL from environment.
@@ -110,43 +128,60 @@ async function loadWebSocket(): Promise<WebSocketLike> {
     return wsModule.default;
   } catch {
     throw new Error(
-      "The 'ws' package is required for test database transactions. " +
+      "The 'ws' package is required for Neon test database transactions. " +
         "Install it with: pnpm add -D ws @types/ws --filter @repo/database"
     );
   }
 }
 
 /**
- * Creates or returns the shared test database connection pool.
- *
- * Uses WebSocket mode for transaction support (HTTP driver doesn't support transactions).
- *
- * @returns The shared connection pool
+ * Creates a Neon database client with WebSocket support.
+ * Used for Neon URLs (*.neon.tech).
  */
-async function getTestPool(): Promise<Pool> {
-  if (testPool) {
-    return testPool;
+async function createNeonTestClient(): Promise<NeonDatabase<typeof schema>> {
+  if (!neonTestPool) {
+    // Enable WebSocket for transaction support
+    const wsConstructor = await loadWebSocket();
+    // Cast to expected type - neonConfig expects typeof WebSocket but ws is compatible
+    neonConfig.webSocketConstructor = wsConstructor as unknown as typeof WebSocket;
+
+    neonTestPool = new Pool({
+      connectionString: getTestDatabaseUrl(),
+      // Use small pool size for tests
+      max: 5,
+    });
   }
 
-  // Enable WebSocket for transaction support
-  const wsConstructor = await loadWebSocket();
-  // Cast to expected type - neonConfig expects typeof WebSocket but ws is compatible
-  neonConfig.webSocketConstructor = wsConstructor as unknown as typeof WebSocket;
+  return drizzleNeon({ client: neonTestPool, schema });
+}
 
-  testPool = new Pool({
-    connectionString: getTestDatabaseUrl(),
-    // Use small pool size for tests
-    max: 5,
-  });
+/**
+ * Creates a postgres.js database client.
+ * Used for local URLs (localhost, 127.0.0.1, etc.).
+ */
+function createLocalTestClient(): PostgresJsDatabase<typeof schema> {
+  if (!postgresTestClient) {
+    postgresTestClient = postgres(getTestDatabaseUrl(), {
+      // Use small pool size for tests
+      max: 5,
+      // Enable prepared statements
+      prepare: true,
+      // Connect timeout - fail fast if DB is not available
+      connect_timeout: 10,
+      // Idle timeout
+      idle_timeout: 20,
+    });
+  }
 
-  return testPool;
+  return drizzlePostgres({ client: postgresTestClient, schema });
 }
 
 /**
  * Creates or returns the shared test database client.
  *
- * This client uses the Pool driver (WebSocket) instead of HTTP,
- * enabling transaction support for test isolation.
+ * Automatically selects the appropriate driver based on DATABASE_URL:
+ * - Neon URLs use the Neon WebSocket driver for transaction support
+ * - Local URLs use postgres.js for direct PostgreSQL connection
  *
  * @returns A promise resolving to the test database client
  *
@@ -161,8 +196,16 @@ export async function createTestDatabase(): Promise<TestDatabase> {
     return testDb;
   }
 
-  const pool = await getTestPool();
-  testDb = drizzle({ client: pool, schema });
+  const databaseUrl = getTestDatabaseUrl();
+  cachedDbType = getDatabaseType(databaseUrl);
+
+  if (cachedDbType === "neon") {
+    testDb = await createNeonTestClient();
+  } else {
+    // Use postgres.js for local and unknown URLs
+    // Unknown URLs default to postgres.js as it works with standard PostgreSQL
+    testDb = createLocalTestClient();
+  }
 
   return testDb;
 }
@@ -368,9 +411,16 @@ export function createTestTransactionContext(): TestTransactionContext {
  * Call this in a global teardown to clean up connections.
  */
 export async function closeTestDatabase(): Promise<void> {
-  if (testPool) {
-    await testPool.end();
-    testPool = null;
-    testDb = null;
+  if (neonTestPool) {
+    await neonTestPool.end();
+    neonTestPool = null;
   }
+
+  if (postgresTestClient) {
+    await postgresTestClient.end();
+    postgresTestClient = null;
+  }
+
+  testDb = null;
+  cachedDbType = null;
 }

@@ -15,7 +15,7 @@
 import { sql } from "drizzle-orm";
 import { describe, expect, it } from "vitest";
 
-import { createTestDatabase, describeIntegration } from "./setup";
+import { createTestDatabase, describeIntegration, extractRows } from "./setup";
 import { getDatabaseType } from "../../client-factory";
 
 describeIntegration("Connection Integration Tests", () => {
@@ -28,7 +28,8 @@ describeIntegration("Connection Integration Tests", () => {
 
       expect(result).toBeDefined();
       // The result format varies by driver, but should contain our value
-      expect(result.rows || result).toBeDefined();
+      const rows = extractRows<{ value: number }>(result);
+      expect(rows).toBeDefined();
     });
 
     it("should establish connection in under 100ms after warm-up", async () => {
@@ -61,7 +62,7 @@ describeIntegration("Connection Integration Tests", () => {
       expect(result).toBeDefined();
 
       // Extract the timestamp from result
-      const rows = (result.rows || result) as Array<{ server_time: unknown }>;
+      const rows = extractRows<{ server_time: unknown }>(result);
       expect(rows.length).toBeGreaterThan(0);
       expect(rows[0]?.server_time).toBeDefined();
     });
@@ -103,7 +104,7 @@ describeIntegration("Connection Integration Tests", () => {
       // The client should work regardless of whether it's Neon or local
       const result = await db.execute(sql`SELECT version() as pg_version`);
 
-      const rows = (result.rows || result) as Array<{ pg_version: string }>;
+      const rows = extractRows<{ pg_version: string }>(result);
       expect(rows.length).toBeGreaterThan(0);
       expect(rows[0]?.pg_version).toContain("PostgreSQL");
 

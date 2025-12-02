@@ -17,7 +17,12 @@
 import { sql } from "drizzle-orm";
 import { afterEach, beforeEach, describe, expect, it } from "vitest";
 
-import { createTestDatabase, createTestTransaction, describeIntegration } from "./setup";
+import {
+  createTestDatabase,
+  createTestTransaction,
+  describeIntegration,
+  extractRows,
+} from "./setup";
 
 import type { TestDatabase } from "./setup";
 
@@ -70,7 +75,7 @@ describeIntegration("Transaction Integration Tests", () => {
         WHERE value = ${testValue}
       `);
 
-      const rows = (result.rows || result) as Array<{ value: string }>;
+      const rows = extractRows<{ value: string }>(result);
       expect(rows).toHaveLength(1);
       expect(rows[0]?.value).toBe(testValue);
     });
@@ -93,7 +98,7 @@ describeIntegration("Transaction Integration Tests", () => {
         WHERE value = ${testValue}
       `);
 
-      const rows = (result.rows || result) as Array<{ value: string }>;
+      const rows = extractRows<{ value: string }>(result);
       expect(rows).toHaveLength(1);
       expect(rows[0]?.value).toBe(testValue);
     });
@@ -124,7 +129,7 @@ describeIntegration("Transaction Integration Tests", () => {
         WHERE value = ${testValue}
       `);
 
-      const rows = (result.rows || result) as Array<{ value: string }>;
+      const rows = extractRows<{ value: string }>(result);
       expect(rows).toHaveLength(0);
     });
 
@@ -158,7 +163,7 @@ describeIntegration("Transaction Integration Tests", () => {
         WHERE value LIKE 'multi-rollback-%'
       `);
 
-      const rows = (result.rows || result) as Array<{ value: string }>;
+      const rows = extractRows<{ value: string }>(result);
       expect(rows).toHaveLength(0);
     });
   });
@@ -180,7 +185,7 @@ describeIntegration("Transaction Integration Tests", () => {
           WHERE value = ${testValue}
         `);
 
-        const rows = (checkResult.rows || checkResult) as Array<{ value: string }>;
+        const rows = extractRows<{ value: string }>(checkResult);
         expect(rows).toHaveLength(1);
 
         return rows[0]?.value;
@@ -196,7 +201,7 @@ describeIntegration("Transaction Integration Tests", () => {
         WHERE value = ${testValue}
       `);
 
-      const persistedRows = (persistCheck.rows || persistCheck) as Array<{ value: string }>;
+      const persistedRows = extractRows<{ value: string }>(persistCheck);
       expect(persistedRows).toHaveLength(0);
     });
 
@@ -226,7 +231,7 @@ describeIntegration("Transaction Integration Tests", () => {
         WHERE value LIKE 'isolation-%'
       `);
 
-      const rows = (result.rows || result) as Array<{ value: string }>;
+      const rows = extractRows<{ value: string }>(result);
       expect(rows).toHaveLength(0);
     });
 
@@ -275,7 +280,7 @@ describeIntegration("Transaction Integration Tests", () => {
           WHERE value = ${testValue + "-updated"}
         `);
 
-        const rows = (result.rows || result) as Array<{ value: string }>;
+        const rows = extractRows<{ value: string }>(result);
         expect(rows).toHaveLength(1);
         expect(rows[0]?.value).toBe(testValue + "-updated");
       });
@@ -320,7 +325,7 @@ describeIntegration("Transaction Integration Tests", () => {
         WHERE value = ${duplicateValue}
       `);
 
-      const rows = (result.rows || result) as Array<{ count: string | number }>;
+      const rows = extractRows<{ count: string | number }>(result);
       expect(Number(rows[0]?.count)).toBe(1);
 
       // Clean up the unique index
