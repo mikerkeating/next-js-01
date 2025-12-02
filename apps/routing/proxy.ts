@@ -14,10 +14,20 @@
 
 import { createBasicAuthProxy } from '@repo/middleware/basic-auth';
 
-const { proxy, shouldBypassAuth } = createBasicAuthProxy({
+const { proxy: proxyHandler } = createBasicAuthProxy({
   realm: 'Secure Area',
-  bypassPaths: ['/api/health', '/_next/*', '/favicon.ico'],
+  bypassPaths: ['/api/health', '/api/debug-env', '/_next/*', '/favicon.ico'],
   bypassStaticFiles: true,
 });
 
-export { proxy, shouldBypassAuth };
+export function proxy(request: import('next/server').NextRequest) {
+  return proxyHandler(request);
+}
+
+// Config must be statically defined - cannot be re-exported from factory
+export const config = {
+  matcher: [
+    // Match all paths except bypassed ones
+    '/((?!api/health|api/debug-env|_next/static|_next/image|favicon\\.ico|.*\\.(?:svg|png|jpg|jpeg|gif|webp|ico|css|js|woff|woff2)).*)',
+  ],
+};
