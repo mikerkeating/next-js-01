@@ -2,6 +2,100 @@
 
 Database schema, client, and utilities for the monorepo using Drizzle ORM with PostgreSQL (Neon serverless).
 
+## Features
+
+- **Type-Safe Queries**: Full TypeScript inference with Drizzle ORM
+- **Multi-Environment Support**: Automatic driver selection for Neon (cloud) and postgres.js (local)
+- **Organization Scoping**: Multi-tenant utilities for organization-isolated data access
+- **Schema Helpers**: `createId()`, `timestamps()`, `softDelete()` for consistent patterns
+- **Migration Workflow**: Generate, apply, and rollback database migrations
+- **Seed Framework**: Configurable data seeding with factories and progress tracking
+- **Connection Resilience**: Health checks and retry logic with exponential backoff
+- **Edge-Compatible**: Neon HTTP driver works in serverless and edge runtimes
+
+## Quick Start
+
+```typescript
+import { db, createId, timestamps, withOrgFilter, isNotDeleted } from "@repo/database";
+import { pgTable, text } from "drizzle-orm/pg-core";
+import { eq, and } from "drizzle-orm";
+
+// Define a type-safe schema
+const posts = pgTable("posts", {
+  id: text("id")
+    .primaryKey()
+    .$defaultFn(() => createId()),
+  title: text("title").notNull(),
+  organizationId: text("organization_id").notNull(),
+  ...timestamps(),
+});
+
+// Query with organization filtering
+const orgPosts = await db
+  .select()
+  .from(posts)
+  .where(and(eq(posts.organizationId, currentOrgId), isNotDeleted(posts)));
+```
+
+## Documentation
+
+| Guide                                        | Description                                                  |
+| -------------------------------------------- | ------------------------------------------------------------ |
+| [Connections Guide](./docs/connections.md)   | Environment setup, pooling, and edge runtime configuration   |
+| [Migrations Guide](./docs/migrations.md)     | Full migration workflow: generate, apply, rollback           |
+| [Utilities Guide](./docs/utilities.md)       | ID generation, timestamps, soft delete, organization context |
+| [Seeding Guide](./docs/seeding.md)           | Seed framework usage and custom seed creation                |
+| [Troubleshooting](./docs/troubleshooting.md) | Common issues and solutions                                  |
+
+## API Overview
+
+### Core Exports
+
+| Export     | Description                             |
+| ---------- | --------------------------------------- |
+| `db`       | Pre-configured Drizzle database client  |
+| `Database` | TypeScript type for the database client |
+
+### Connection Utilities
+
+| Export                  | Description                                              |
+| ----------------------- | -------------------------------------------------------- |
+| `checkDatabaseHealth()` | Verify database connectivity with latency measurement    |
+| `withRetry()`           | Wrap operations with retry logic and exponential backoff |
+| `ConnectionError`       | Error class with codes for programmatic handling         |
+
+### Migration Utilities
+
+| Export                | Description                                   |
+| --------------------- | --------------------------------------------- |
+| `runMigrations()`     | Apply pending migrations programmatically     |
+| `getMigrationsPath()` | Get the migrations folder path                |
+| `MigrationError`      | Error class with codes for migration failures |
+
+### Schema Utilities
+
+| Export                                 | Description                                    |
+| -------------------------------------- | ---------------------------------------------- |
+| `createId()`                           | Generate URL-safe cuid2 identifiers            |
+| `isValidId()`                          | Validate cuid2 ID format                       |
+| `timestamps()`                         | Add `createdAt` and `updatedAt` columns        |
+| `softDelete()`                         | Add `deletedAt` column for soft delete pattern |
+| `isNotDeleted()` / `isDeleted()`       | Query filters for soft delete                  |
+| `markAsDeleted()` / `markAsRestored()` | Update helpers for soft delete                 |
+| `organizationId()` / `orgId()`         | Multi-tenant organization column               |
+| `withOrgFilter()`                      | Query filter by organization                   |
+| `withoutOrgChange()`                   | Prevent org ID changes in updates              |
+
+### Seed Utilities
+
+| Export                                          | Description                                   |
+| ----------------------------------------------- | --------------------------------------------- |
+| `runSeed()`                                     | Execute seed functions with progress tracking |
+| `createSeedRunner()`                            | Create reusable seed runner instance          |
+| `createFactory()`                               | Build data factories with faker.js            |
+| `createUserData()` / `createOrganizationData()` | Built-in data factories                       |
+| `setFakerSeed()`                                | Set seed for reproducible test data           |
+
 ## Installation
 
 This package is part of the monorepo and is automatically linked via pnpm workspaces.
@@ -372,14 +466,21 @@ const result = await withRetry(() => db.query.users.findFirst({ where: eq(users.
 
 ## Implementation Status
 
-This package is being built incrementally across multiple stories:
+This package is fully implemented with all core functionality:
 
-- **S1**: Package structure - Basic setup and configuration
-- **S2**: Configure Drizzle ORM and Client - Database client setup
-- **S3**: Implement Connection Utilities - Health check and retry logic
-- **S4**: Set Up Migration Infrastructure - Migration workflow (current)
-- **S5-S6**: Schema definitions and utilities
-- **S7**: Comprehensive testing
+- **Client**: Auto-selecting Drizzle client (Neon HTTP / postgres.js)
+- **Utilities**: ID generation, timestamps, soft delete, organization context
+- **Migrations**: Generate, apply, and rollback workflow
+- **Seeding**: Factory-based seed framework with progress tracking
+- **Testing**: Comprehensive test suite with transaction rollback helpers
+
+## Examples
+
+See the [examples/](./examples/) directory for runnable code samples:
+
+- [basic-query.ts](./examples/basic-query.ts) - Type-safe database queries
+- [organization-scoped.ts](./examples/organization-scoped.ts) - Multi-tenant data access patterns
+- [migration-workflow.ts](./examples/migration-workflow.ts) - Programmatic migration execution
 
 ## License
 
