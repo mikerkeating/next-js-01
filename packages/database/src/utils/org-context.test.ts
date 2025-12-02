@@ -7,7 +7,13 @@
 import { pgTable, text, getTableConfig } from "drizzle-orm/pg-core";
 import { describe, it, expect } from "vitest";
 
-import { organizationId, orgId, withOrgFilter, ORG_COLUMN_NAMES } from "./org-context";
+import {
+  organizationId,
+  orgId,
+  withOrgFilter,
+  withoutOrgChange,
+  ORG_COLUMN_NAMES,
+} from "./org-context";
 
 // Create test tables with different org column naming conventions
 const tableWithOrganizationId = pgTable("table_org_id", {
@@ -94,6 +100,83 @@ describe("org-context", () => {
 
     it("has exactly 2 column names", () => {
       expect(ORG_COLUMN_NAMES).toHaveLength(2);
+    });
+  });
+
+  describe("withoutOrgChange()", () => {
+    it("removes organizationId from update data", () => {
+      const updateData = {
+        title: "New Title",
+        organizationId: "attacker-org-id",
+        updatedAt: new Date(),
+      };
+
+      const result = withoutOrgChange(updateData);
+
+      expect(result).toHaveProperty("title", "New Title");
+      expect(result).toHaveProperty("updatedAt");
+      expect(result).not.toHaveProperty("organizationId");
+    });
+
+    it("removes orgId from update data", () => {
+      const updateData = {
+        name: "Updated Name",
+        orgId: "attacker-org-id",
+        status: "active",
+      };
+
+      const result = withoutOrgChange(updateData);
+
+      expect(result).toHaveProperty("name", "Updated Name");
+      expect(result).toHaveProperty("status", "active");
+      expect(result).not.toHaveProperty("orgId");
+    });
+
+    it("removes both organizationId and orgId if present", () => {
+      const updateData = {
+        value: 42,
+        organizationId: "org-1",
+        orgId: "org-2",
+      };
+
+      const result = withoutOrgChange(updateData);
+
+      expect(result).toHaveProperty("value", 42);
+      expect(result).not.toHaveProperty("organizationId");
+      expect(result).not.toHaveProperty("orgId");
+    });
+
+    it("returns data unchanged when no org fields present", () => {
+      const updateData = {
+        title: "Title",
+        content: "Content",
+        status: "published",
+      };
+
+      const result = withoutOrgChange(updateData);
+
+      expect(result).toEqual(updateData);
+    });
+
+    it("preserves all non-org fields in the result", () => {
+      const updateData = {
+        field1: "value1",
+        field2: 123,
+        field3: true,
+        field4: null,
+        field5: ["a", "b"],
+        organizationId: "should-be-removed",
+      };
+
+      const result = withoutOrgChange(updateData);
+
+      expect(result).toEqual({
+        field1: "value1",
+        field2: 123,
+        field3: true,
+        field4: null,
+        field5: ["a", "b"],
+      });
     });
   });
 });
