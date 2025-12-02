@@ -34,6 +34,17 @@
 // Export database client and types
 export { db, type Database } from "./client";
 
+// Export client factory utilities for URL detection
+export {
+  isNeonUrl,
+  isLocalPostgresUrl,
+  getDatabaseType,
+  type DatabaseType,
+} from "./client-factory";
+
+// Export local client factory for advanced use cases
+export { createLocalClient, type LocalDatabase } from "./client-local";
+
 // Re-export schema definitions for convenience
 // Consumers can also use '@repo/database/schema' for explicit schema imports
 export * from "./schema/index";

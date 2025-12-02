@@ -31,6 +31,79 @@ if (result.success) {
 }
 ```
 
+## Local Development Setup
+
+For local development without requiring a Neon account or internet connection, you can use Docker PostgreSQL:
+
+### Prerequisites
+
+- Docker installed and running ([Install Docker](https://docs.docker.com/get-docker/))
+
+### Quick Start
+
+1. **Start the local database:**
+
+```bash
+cd packages/database
+pnpm run db:start
+```
+
+1. **Configure your environment:**
+
+```bash
+# In your .env.local file (root of monorepo)
+DATABASE_URL=postgres://postgres:postgres@localhost:5432/postgres
+```
+
+1. **Run migrations:**
+
+```bash
+pnpm run db:migrate
+```
+
+1. **Stop the database when done:**
+
+```bash
+pnpm run db:stop
+```
+
+### Local vs Neon: When to Use Which
+
+| Scenario                   | Recommended                         |
+| -------------------------- | ----------------------------------- |
+| Offline development        | Local Docker                        |
+| Quick prototyping          | Local Docker                        |
+| CI/CD pipelines            | Neon (or GitHub Actions PostgreSQL) |
+| Production                 | Neon                                |
+| Team collaboration         | Neon                                |
+| Edge/serverless deployment | Neon                                |
+
+### Auto-Detection
+
+The database client automatically detects which driver to use based on your `DATABASE_URL`:
+
+- **Neon URLs** (contain `.neon.tech`): Uses Neon HTTP driver (edge-compatible)
+- **Local URLs** (localhost, 127.0.0.1): Uses postgres.js driver
+
+No code changes needed - just update your `DATABASE_URL` to switch environments.
+
+### Data Persistence
+
+Local PostgreSQL data is stored in a Docker volume (`next-js-01-postgres-data`).
+Data persists between container restarts. To reset:
+
+```bash
+# Stop container
+pnpm run db:stop
+
+# Remove data volume
+docker volume rm next-js-01-postgres-data
+
+# Start fresh
+pnpm run db:start
+pnpm run db:migrate
+```
+
 ## Package Structure
 
 ```
@@ -61,6 +134,8 @@ packages/database/
 | `pnpm build`               | Compile TypeScript to JavaScript            |
 | `pnpm type-check`          | Run TypeScript type checking                |
 | `pnpm test`                | Run unit tests                              |
+| `pnpm db:start`            | Start local Docker PostgreSQL               |
+| `pnpm db:stop`             | Stop local Docker PostgreSQL                |
 | `pnpm db:generate`         | Generate migrations from schema changes     |
 | `pnpm db:migrate`          | Apply migrations using Drizzle Kit          |
 | `pnpm db:apply-migrations` | Apply migrations programmatically           |

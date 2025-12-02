@@ -20,7 +20,9 @@
     "db:apply-migrations": "tsx scripts/apply-migrations.ts",
     "db:rollback": "tsx scripts/rollback-migration.ts",
     "db:reset": "tsx scripts/reset-database.ts",
-    "db:seed": "tsx src/seed/run.ts"
+    "db:seed": "tsx src/seed/run.ts",
+    "db:start": "docker compose -f ../../docker-compose.yml up -d",
+    "db:stop": "docker compose -f ../../docker-compose.yml down"
   },
   "main": "./dist/index.js",
   "module": "./dist/index.js",
@@ -44,13 +46,14 @@
     "src"
   ],
   "dependencies": {
+    "@neondatabase/serverless": "^0.10.0",
     "@paralleldrive/cuid2": "^2.2.2",
     "drizzle-orm": "^0.29.0",
-    "@neondatabase/serverless": "^0.10.0"
+    "postgres": "^3.4.7"
   },
   "devDependencies": {
-    "@faker-js/faker": "^10.0.0",
     "@eslint/js": "^9.28.0",
+    "@faker-js/faker": "^10.0.0",
     "@repo/config": "workspace:*",
     "@types/ws": "^8.5.0",
     "@vitest/coverage-v8": "^4.0.14",
