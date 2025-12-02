@@ -18,6 +18,19 @@ import { expect, vi, type Mock } from "vitest";
 import { setFakerSeed, createUserData, createOrganizationData } from "../seed/factories";
 import { createId } from "../utils/ids";
 
+// Counters for deterministic but unique seeds per invocation
+let userSeedCounter = 0;
+let orgSeedCounter = 0;
+
+/**
+ * Resets the seed counters for test helpers.
+ * Call this in beforeEach/beforeAll to reset state between test runs.
+ */
+export function resetTestHelperCounters(): void {
+  userSeedCounter = 0;
+  orgSeedCounter = 0;
+}
+
 /**
  * Mock database client interface for testing.
  *
@@ -119,7 +132,8 @@ export interface TestOrgFixture {
  * ```
  */
 export function createTestUser(overrides?: Partial<TestUserFixture>): TestUserFixture {
-  setFakerSeed(12345); // Deterministic seed
+  // Use incrementing seed for unique but deterministic data per call
+  setFakerSeed(12345 + userSeedCounter++);
   const userData = createUserData();
   return {
     id: createId(),
@@ -175,7 +189,8 @@ export function createTestUsers(
  * ```
  */
 export function createTestOrganization(overrides?: Partial<TestOrgFixture>): TestOrgFixture {
-  setFakerSeed(67890); // Different seed from users
+  // Use incrementing seed for unique but deterministic data per call
+  setFakerSeed(67890 + orgSeedCounter++);
   const orgData = createOrganizationData();
   return {
     id: createId(),

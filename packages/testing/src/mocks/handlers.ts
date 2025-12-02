@@ -97,9 +97,9 @@ export const handlers = [
     const response: ApiResponse<MockUser> = {
       success: true,
       data: {
-        id: String(id),
-        email: `user-${String(id)}@example.com`,
-        name: `Test User ${String(id)}`,
+        id: `${id}`,
+        email: `user-${id}@example.com`,
+        name: `Test User ${id}`,
         createdAt: "2024-01-01T00:00:00.000Z",
       },
     };
@@ -199,9 +199,9 @@ export const handlers = [
     const response: ApiResponse<MockOrganization> = {
       success: true,
       data: {
-        id: String(id),
-        name: `Test Organization ${String(id)}`,
-        slug: `test-org-${String(id)}`,
+        id: `${id}`,
+        name: `Test Organization ${id}`,
+        slug: `test-org-${id}`,
         createdAt: "2024-01-01T00:00:00.000Z",
       },
     };

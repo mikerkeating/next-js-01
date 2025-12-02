@@ -27,6 +27,7 @@ vi.mock("../client", () => ({
 describe("runSeed", () => {
   beforeEach(() => {
     vi.clearAllMocks();
+    vi.spyOn(console, "log").mockImplementation(() => {});
     vi.spyOn(console, "warn").mockImplementation(() => {});
   });
 
@@ -89,7 +90,7 @@ describe("runSeed", () => {
       verbose: true,
     });
 
-    expect(console.warn).toHaveBeenCalled();
+    expect(console.log).toHaveBeenCalled();
   });
 
   it("tracks seeded table counts in result", async () => {
@@ -207,7 +208,9 @@ describe("SeedOptions type", () => {
 describe("SeedRunner type", () => {
   it("has correct interface shape", () => {
     const runner: SeedRunner = {
-      run: vi.fn().mockResolvedValue({ success: true, durationMs: 0, tablesSeeded: [], totalRecords: 0 }),
+      run: vi
+        .fn()
+        .mockResolvedValue({ success: true, durationMs: 0, tablesSeeded: [], totalRecords: 0 }),
       addSeed: vi.fn(),
       getConfig: vi.fn().mockReturnValue({ environment: "test", counts: {}, verbose: false }),
     };

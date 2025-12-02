@@ -29,14 +29,14 @@ describe("createSeedLogger", () => {
     const logger = createSeedLogger({ verbose: true });
     logger.info("Test message");
 
-    expect(console.warn).toHaveBeenCalledWith(expect.stringContaining("Test message"));
+    expect(console.log).toHaveBeenCalledWith(expect.stringContaining("Test message"));
   });
 
   it("does not log info messages when verbose is false", () => {
     const logger = createSeedLogger({ verbose: false });
     logger.info("Test message");
 
-    expect(console.warn).not.toHaveBeenCalled();
+    expect(console.log).not.toHaveBeenCalled();
   });
 
   it("always logs error messages regardless of verbose setting", () => {
@@ -50,31 +50,31 @@ describe("createSeedLogger", () => {
     const logger = createSeedLogger({ verbose: true });
     logger.success("Success message");
 
-    expect(console.warn).toHaveBeenCalledWith(expect.stringContaining("Success message"));
+    expect(console.log).toHaveBeenCalledWith(expect.stringContaining("Success message"));
   });
 
   it("includes prefix in log messages", () => {
     const logger = createSeedLogger({ verbose: true, prefix: "[SEED]" });
     logger.info("Test");
 
-    expect(console.warn).toHaveBeenCalledWith(expect.stringContaining("[SEED]"));
+    expect(console.log).toHaveBeenCalledWith(expect.stringContaining("[SEED]"));
   });
 
   it("logs table name in seeding message", () => {
     const logger = createSeedLogger({ verbose: true });
     logger.seeding("users", 10);
 
-    expect(console.warn).toHaveBeenCalledWith(expect.stringContaining("users"));
-    expect(console.warn).toHaveBeenCalledWith(expect.stringContaining("10"));
+    expect(console.log).toHaveBeenCalledWith(expect.stringContaining("users"));
+    expect(console.log).toHaveBeenCalledWith(expect.stringContaining("10"));
   });
 
   it("logs table name in seeded message", () => {
     const logger = createSeedLogger({ verbose: true });
     logger.seeded("users", 10, 150);
 
-    expect(console.warn).toHaveBeenCalledWith(expect.stringContaining("users"));
-    expect(console.warn).toHaveBeenCalledWith(expect.stringContaining("10"));
-    expect(console.warn).toHaveBeenCalledWith(expect.stringContaining("150"));
+    expect(console.log).toHaveBeenCalledWith(expect.stringContaining("users"));
+    expect(console.log).toHaveBeenCalledWith(expect.stringContaining("10"));
+    expect(console.log).toHaveBeenCalledWith(expect.stringContaining("150"));
   });
 });
 

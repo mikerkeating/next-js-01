@@ -33,6 +33,17 @@ log() {
     echo "[$(date '+%Y-%m-%d %H:%M:%S')] $*"
 }
 
+# Mark a prompt line as done (cross-platform sed)
+mark_prompt_as_done() {
+    local line_num="$1"
+    local file_path="$2"
+    if [[ "$OSTYPE" == "darwin"* ]]; then
+        sed -i '' "${line_num}s/$/ - DONE/" "$file_path"
+    else
+        sed -i "${line_num}s/$/ - DONE/" "$file_path"
+    fi
+}
+
 # Parse arguments
 while [[ "$#" -gt 0 ]]; do
     case $1 in
@@ -136,11 +147,7 @@ while [ $EPICS_COMPLETED -lt $MAX_EPICS ]; do
         echo "$PROMPT_CONTENT" | tee -a "$LOG_FILE"
         log "================================" | tee -a "$LOG_FILE"
         # Mark as DONE in dry-run mode to prevent infinite loop
-        if [[ "$OSTYPE" == "darwin"* ]]; then
-            sed -i '' "${LINE_NUM}s/$/ - DONE/" "$PROMPTS_FILE"
-        else
-            sed -i "${LINE_NUM}s/$/ - DONE/" "$PROMPTS_FILE"
-        fi
+        mark_prompt_as_done "$LINE_NUM" "$PROMPTS_FILE"
         log "=== DRY RUN: Marked as DONE ===" | tee -a "$LOG_FILE"
         EPICS_COMPLETED=$((EPICS_COMPLETED + 1))
         continue
@@ -182,11 +189,7 @@ while [ $EPICS_COMPLETED -lt $MAX_EPICS ]; do
     # Check if claude command succeeded
     if [ $EXIT_CODE -eq 0 ]; then
         # Update the heading to append "- DONE"
-        if [[ "$OSTYPE" == "darwin"* ]]; then
-            sed -i '' "${LINE_NUM}s/$/ - DONE/" "$PROMPTS_FILE"
-        else
-            sed -i "${LINE_NUM}s/$/ - DONE/" "$PROMPTS_FILE"
-        fi
+        mark_prompt_as_done "$LINE_NUM" "$PROMPTS_FILE"
         log "=== SUCCESS: Marked as DONE ===" | tee -a "$LOG_FILE"
         log "Heading: $HEADING" | tee -a "$LOG_FILE"
         EPICS_COMPLETED=$((EPICS_COMPLETED + 1))
