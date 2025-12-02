@@ -1,5 +1,5 @@
 #!/usr/bin/env npx tsx
-/* eslint-disable no-console */
+
 /**
  * Reset Database Script
  *
@@ -43,7 +43,10 @@ const ALLOWED_ENVIRONMENTS = ["development", "test", "local"] as const;
 function validateEnvironment(): void {
   const nodeEnv = process.env.NODE_ENV;
 
-  if (!nodeEnv || !ALLOWED_ENVIRONMENTS.includes(nodeEnv as (typeof ALLOWED_ENVIRONMENTS)[number])) {
+  if (
+    !nodeEnv ||
+    !ALLOWED_ENVIRONMENTS.includes(nodeEnv as (typeof ALLOWED_ENVIRONMENTS)[number])
+  ) {
     console.error("✗ ERROR: Database reset is only allowed in: " + ALLOWED_ENVIRONMENTS.join(", "));
     console.error(`  Current NODE_ENV: ${nodeEnv ?? "(not set)"}`);
     console.error("  Set NODE_ENV to an allowed value to proceed.");

@@ -8,7 +8,7 @@
 
 ## Task
 
-Evaluate whether the stories for the specified Epic fully deliver the epic's acceptance criteria. Create a `epic-eval.md` file documenting the analysis.
+Evaluate whether the implementation of the stories for the specified Epic has fully delivered the epic's acceptance criteria. Create a `epic-eval.md` file documenting the analysis.
 
 ## Input Documents
 

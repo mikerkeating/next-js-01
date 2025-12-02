@@ -1,5 +1,5 @@
 #!/usr/bin/env npx tsx
-/* eslint-disable no-console */
+
 /**
  * Rollback Migration Script
  *

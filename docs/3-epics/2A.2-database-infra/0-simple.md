@@ -42,4 +42,16 @@ For the stories listed in `## Resourcing Table` of `docs/3-epics/2A.2-database-i
 
 `execute @docs/0-process/references/epic-story-check-prompt-template.md for Epic 2A.2`
 
-review each item in testing/code-review/code-rabbit-2025-12-01-20.txt and determine if valid. Where valid, make a plan and implement the fixes. Mark items as done or ignored.
+Review each item in docs/3-epics/2A.2-database-infra/epic-cloudrabbit-1.md and determine if valid. Where valid, make a plan and implement the fixes. Mark items as done or ignored.
+
+"I'm ready to create the diff between this branch and development. Please use pr-review-toolkit to
+
+1. Review test coverage
+1. Check for silent failures
+1. Verify code comments are accurate
+1. Review any new types
+1. General code review"
+
+Review each item in docs/3-epics/2A.2-database-infra/epic-pr-claude-1.txt and determine if valid. Where valid, make a plan and implement the fixes. Mark items as done or ignored.
+
+use docs/0-process/references/epic-completion-guide.md and evaluate the completion of docs/3-epics/2A.2-database-infra/EPIC.md. Output your findings into a new doc: docs/3-epics/2A.2-database-infra/epic-completion.md

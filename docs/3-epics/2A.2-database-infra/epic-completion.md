@@ -165,7 +165,9 @@ S10 provides automated verification via the `verify-connection` script and integ
 
 ```bash
 # 1. Start the Docker PostgreSQL container
-pnpm run db:start
+# pnpm run db:start
+# from root
+docker compose up -d
 
 # 2. Wait for container to be healthy
 docker compose ps
@@ -179,12 +181,14 @@ DATABASE_URL="postgres://postgres:postgres@localhost:5432/postgres" \
   pnpm --filter @repo/database run test:integration
 
 # 5. Stop when done
-pnpm run db:stop
+#pnpm run db:stop
+pnpm --filter @repo/database run db:stop
+#docker compose down
 ```
 
 ### Option 2: Neon Serverless PostgreSQL
 
-```bash
+````bash
 # 1. Create Neon account at https://console.neon.tech
 # 2. Create a project and get the connection string
 # 3. Verify connection using the automated script
@@ -192,9 +196,12 @@ DATABASE_URL="postgres://user:pass@ep-example.neon.tech/neondb?sslmode=require" 
   pnpm --filter @repo/database run verify-connection
 
 # 4. Run integration tests against Neon
+`export $(cat .env.local | grep DATABASE_URL_TEST) && pnpm --filter @repo/database run test:integration`
+
+```text
 DATABASE_URL="postgres://user:pass@ep-example.neon.tech/neondb?sslmode=require" \
   pnpm --filter @repo/database run test:integration
-```
+````
 
 ### CI/CD Verification
 
