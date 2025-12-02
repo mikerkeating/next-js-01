@@ -59,6 +59,43 @@ export {
   type MigrationErrorCode,
 } from "./migrate";
 
+// Export utility functions (ID generation, timestamps, soft delete, org context)
+export {
+  // ID generation
+  createId,
+  isValidId,
+  ID_LENGTH,
+  ID_PATTERN,
+  type CuidId,
+  // Timestamps
+  timestamps,
+  createdAt,
+  updatedAt,
+  TIMESTAMP_COLUMNS,
+  type TimestampColumnName,
+  type TimestampColumns,
+  // Soft delete
+  softDelete,
+  deletedAt,
+  isNotDeleted,
+  isDeleted,
+  markAsDeleted,
+  markAsRestored,
+  SOFT_DELETE_COLUMN,
+  type SoftDeleteColumnName,
+  type SoftDeletable,
+  type SoftDeleteColumns,
+  // Organization context
+  organizationId,
+  orgId,
+  withOrgFilter,
+  withoutOrgChange,
+  ORG_COLUMN_NAMES,
+  type OrgColumnName,
+  type OrgScopedTable,
+  type OrganizationId,
+} from "./utils/index";
+
 // Export seed utilities
 export {
   // Config

@@ -17,14 +17,14 @@
 
 ## Acceptance Criteria
 
-- [ ] `createId()` generates globally unique, URL-safe identifiers using cuid2
-- [ ] `timestamps()` helper provides consistent createdAt/updatedAt column definitions
-- [ ] `softDelete()` helper provides deletedAt column with related query utilities
-- [ ] `withOrgContext()` helper enables organization-scoped query filtering
-- [ ] Query helper functions (`isNotDeleted()`, `isDeleted()`) work with soft delete pattern
-- [ ] All utilities are type-safe and work with Drizzle's type inference
-- [ ] Utilities are exported from package entry point for use in product schemas (Epic 2B.1)
-- [ ] Helper functions work correctly in both Node.js and Edge runtimes
+- [x] `createId()` generates globally unique, URL-safe identifiers using cuid2
+- [x] `timestamps()` helper provides consistent createdAt/updatedAt column definitions
+- [x] `softDelete()` helper provides deletedAt column with related query utilities
+- [x] `withOrgFilter()` helper enables organization-scoped query filtering (renamed from `withOrgContext()` for clarity)
+- [x] Query helper functions (`isNotDeleted()`, `isDeleted()`) work with soft delete pattern
+- [x] All utilities are type-safe and work with Drizzle's type inference
+- [x] Utilities are exported from package entry point for use in product schemas (Epic 2B.1)
+- [x] Helper functions work correctly in both Node.js and Edge runtimes
 
 ## Technical Requirements
 
@@ -366,36 +366,76 @@ The following items are explicitly NOT part of this story:
 
 ### Pre-Verification
 
-- [ ] S3 (Connection Utilities) completed and tested
-- [ ] S4 (Migration Infrastructure) completed and functional
-- [ ] S5 (Seed Framework) completed and available for test data
-- [ ] Local environment matches [canonical versions](/docs/2-technical/references/canonical-versions.md)
-- [ ] DATABASE_URL configured for test database
+- [x] S3 (Connection Utilities) completed and tested
+- [x] S4 (Migration Infrastructure) completed and functional
+- [x] S5 (Seed Framework) completed and available for test data
+- [x] Local environment matches [canonical versions](/docs/2-technical/references/canonical-versions.md)
+- [x] DATABASE_URL configured for test database
 
 ### Implementation Quality
 
-- [ ] All acceptance criteria met
-- [ ] [Coding standards](/docs/2-technical/references/coding-standards.md) followed
-- [ ] No lint errors (`pnpm lint`)
-- [ ] Types compile successfully (`pnpm tsc --noEmit`)
-- [ ] All tests passing (`pnpm test`)
-- [ ] Coverage > 80% for utility functions (`pnpm test --coverage`)
+- [x] All acceptance criteria met
+- [x] [Coding standards](/docs/2-technical/references/coding-standards.md) followed
+- [x] No lint errors (`pnpm lint`)
+- [x] Types compile successfully (`pnpm tsc --noEmit`)
+- [x] All tests passing (`pnpm test`)
+- [x] Coverage > 80% for utility functions (`pnpm test --coverage`)
 
 ### Documentation
 
-- [ ] JSDoc comments on all exported functions
-- [ ] Type definitions exported for utility return values
-- [ ] Usage examples in code comments
+- [x] JSDoc comments on all exported functions
+- [x] Type definitions exported for utility return values
+- [x] Usage examples in code comments
 - [ ] README updated with utility function overview (deferred to S8 for full docs)
 
 ### Git Hygiene
 
-- [ ] Conventional commit message used
-- [ ] No unrelated changes included
+- [x] Conventional commit message used
+- [x] No unrelated changes included
 - [ ] PR description references this story
 
 ## Status
 
-- **State**: Not Started
+- **State**: Complete
+- **Completed**: 2025-12-02
 - **PR**: -
-- **Completed**: -
+
+## Completion Notes
+
+### Summary
+
+Implemented generic database utility functions for the `@repo/database` package, providing reusable patterns for ID generation (cuid2), timestamp columns, soft deletes, and organization-scoped queries. All utilities are type-safe, work with Drizzle ORM, and are exported from the package entry point for use in product schemas.
+
+### Test Results
+
+| Test       | Command           | Result                      |
+| ---------- | ----------------- | --------------------------- |
+| Lint       | `pnpm lint`       | Pass (0 errors, 0 warnings) |
+| Types      | `pnpm type-check` | Pass                        |
+| Unit Tests | `pnpm test`       | Pass (145 tests, 46 new)    |
+| Build      | `pnpm build`      | Pass                        |
+
+### Files Changed
+
+All files created as specified in the story:
+
+- `packages/database/src/utils/ids.ts` - ID generation with cuid2
+- `packages/database/src/utils/ids.test.ts` - 13 tests
+- `packages/database/src/utils/timestamps.ts` - Timestamp column helpers
+- `packages/database/src/utils/timestamps.test.ts` - 9 tests
+- `packages/database/src/utils/soft-delete.ts` - Soft delete column and query helpers
+- `packages/database/src/utils/soft-delete.test.ts` - 14 tests
+- `packages/database/src/utils/org-context.ts` - Organization-scoped query utilities
+- `packages/database/src/utils/org-context.test.ts` - 10 tests
+- `packages/database/src/utils/index.ts` - Barrel export for all utilities
+- `packages/database/src/index.ts` - Updated to export utilities
+- `packages/database/package.json` - Added `@paralleldrive/cuid2` dependency and utils export path
+
+### Known Issues
+
+None.
+
+### Lessons Learned
+
+- Drizzle column builders have different types than columns in pgTable definitions. Interface types for query helpers (like `SoftDeletable` and `OrgScopedTable`) should use `PgColumn` types rather than builder return types.
+- Using `getTableConfig()` from drizzle-orm/pg-core provides access to column metadata for testing schema definitions.
