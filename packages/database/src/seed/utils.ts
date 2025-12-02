@@ -98,7 +98,7 @@ export function createSeedLogger(options: SeedLoggerOptions = {}): SeedLogger {
   return {
     info(message: string): void {
       if (verbose) {
-        console.log(formatMessage(message));
+        console.warn(formatMessage(message));
       }
     },
 
@@ -108,19 +108,19 @@ export function createSeedLogger(options: SeedLoggerOptions = {}): SeedLogger {
 
     success(message: string): void {
       if (verbose) {
-        console.log(formatMessage(`✓ ${message}`));
+        console.warn(formatMessage(`✓ ${message}`));
       }
     },
 
     seeding(tableName: string, count: number): void {
       if (verbose) {
-        console.log(formatMessage(`Seeding ${tableName} with ${count} records...`));
+        console.warn(formatMessage(`Seeding ${tableName} with ${count} records...`));
       }
     },
 
     seeded(tableName: string, count: number, durationMs: number): void {
       if (verbose) {
-        console.log(formatMessage(`✓ Seeded ${tableName}: ${count} records in ${durationMs}ms`));
+        console.warn(formatMessage(`✓ Seeded ${tableName}: ${count} records in ${durationMs}ms`));
       }
     },
   };

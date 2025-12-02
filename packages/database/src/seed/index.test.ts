@@ -27,7 +27,6 @@ vi.mock("../client", () => ({
 describe("runSeed", () => {
   beforeEach(() => {
     vi.clearAllMocks();
-    vi.spyOn(console, "log").mockImplementation(() => {});
     vi.spyOn(console, "warn").mockImplementation(() => {});
   });
 
@@ -90,7 +89,7 @@ describe("runSeed", () => {
       verbose: true,
     });
 
-    expect(console.log).toHaveBeenCalled();
+    expect(console.warn).toHaveBeenCalled();
   });
 
   it("tracks seeded table counts in result", async () => {
