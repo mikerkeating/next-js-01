@@ -367,7 +367,7 @@ The following items are explicitly NOT part of this story:
 
 ### Summary
 
-Implemented comprehensive test suite for the database package achieving 99%+ test coverage (exceeding the 80% target). Created test infrastructure including setup/teardown utilities, shared test helpers with mock factories, and configured Vitest with package-specific coverage thresholds. All 144 tests pass consistently with lint and type-check verification.
+Implemented comprehensive test suite for the database package achieving 99%+ test coverage (exceeding the 80% target). Created test infrastructure including setup/teardown utilities, shared test helpers with mock factories, and configured Vitest with package-specific coverage thresholds. All 175 tests pass consistently with lint and type-check verification. Subsequently added test database setup and transaction rollback helpers for integration test isolation.
 
 ### Test Results
 
@@ -375,7 +375,7 @@ Implemented comprehensive test suite for the database package achieving 99%+ tes
 | ---------- | -------------------- | ------------------- |
 | Lint       | `pnpm lint`          | Pass                |
 | Types      | `pnpm type-check`    | Pass                |
-| Unit Tests | `pnpm test`          | Pass (144 tests)    |
+| Unit Tests | `pnpm test`          | Pass (175 tests)    |
 | Coverage   | `pnpm test:coverage` | Pass (99.38% stmts) |
 
 ### Files Changed
@@ -405,8 +405,47 @@ All files        |   99.38 |    94.11 |     100 |   99.36
 - **Issue**: CI workflow update not included - **Status**: Deferred - **Tracking**: Tests already run via monorepo turbo pipeline
 - **Issue**: README not updated with test instructions - **Status**: Minor - **Tracking**: Package.json scripts are self-documenting
 
+### Additional Implementation: Test Database Setup and Transaction Rollback Helpers
+
+**Completed**: 2025-12-02 (Backend Engineer)
+
+Added concrete implementations for test database setup and transaction rollback helpers:
+
+**New Files Created**:
+
+- `packages/database/src/__tests__/test-client.ts` - Test database client with transaction support using Neon Pool (WebSocket driver)
+
+**Key Features Added**:
+
+1. **Test Database Client**: Uses Neon Pool API (WebSocket) instead of HTTP driver to enable transaction support
+2. **Transaction Rollback Helpers**:
+   - `createTestTransaction()` - Wraps operations in auto-rollback transactions
+   - `createTestTransactionContext()` - Provides transaction context via beforeEach/afterEach hooks
+3. **Integration Test Support**:
+   - `getTestDatabase()` - Creates test database client
+   - `withTestTransaction()` - Recommended pattern for isolated integration tests
+   - `useTransactionIsolation()` - Hook-based transaction isolation for test suites
+4. **Lazy WebSocket Loading**: Dynamic import of `ws` package prevents breaking tests when not installed
+5. **Environment Detection**: `shouldSkipDatabaseTests()` checks for DATABASE_URL_TEST availability
+
+**Dependencies Added**:
+
+- `ws: ^8.18.0` (dev)
+- `@types/ws: ^8.5.0` (dev)
+
+**Test Results After Changes**:
+
+| Test       | Command              | Result              |
+| ---------- | -------------------- | ------------------- |
+| Lint       | `pnpm lint`          | Pass (0 errors)     |
+| Types      | `pnpm type-check`    | Pass (0 errors)     |
+| Unit Tests | `pnpm test`          | Pass (175 tests)    |
+| Coverage   | `pnpm test:coverage` | Pass (99.38% stmts) |
+
 ### Lessons Learned
 
 - Most test files were already created in S5/S6 with comprehensive coverage
 - The story primarily required adding test infrastructure (setup.ts, helpers.ts) and enforcing coverage thresholds
 - The `withoutOrgChange` function was the only utility missing test coverage
+- Neon HTTP driver doesn't support transactions; WebSocket driver (Pool API) is required for transaction-based test isolation
+- Dynamic imports with string variables prevent TypeScript from resolving modules at compile time

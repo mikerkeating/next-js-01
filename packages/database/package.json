@@ -52,6 +52,7 @@
     "@faker-js/faker": "^10.0.0",
     "@eslint/js": "^9.28.0",
     "@repo/config": "workspace:*",
+    "@types/ws": "^8.5.0",
     "@vitest/coverage-v8": "^4.0.14",
     "drizzle-kit": "^0.29.0",
     "eslint": "^9.39.0",
@@ -61,6 +62,7 @@
     "tsx": "^4.0.0",
     "typescript": "^5.7.0",
     "typescript-eslint": "^8.34.0",
-    "vitest": "^4.0.14"
+    "vitest": "^4.0.14",
+    "ws": "^8.18.0"
   }
 }
