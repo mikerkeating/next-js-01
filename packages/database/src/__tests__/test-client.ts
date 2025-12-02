@@ -100,7 +100,7 @@ function getTestDatabaseUrl(): string {
   // The pooler doesn't support transactions/DDL which are needed for integration tests
   if (isNeonPoolerUrl(testUrl)) {
     const directUrl = toNeonDirectUrl(testUrl);
-    console.log("  ⚠️  Converting Neon pooler URL to direct connection for transaction support");
+    console.warn("  ⚠️  Converting Neon pooler URL to direct connection for transaction support");
     return directUrl;
   }
 
