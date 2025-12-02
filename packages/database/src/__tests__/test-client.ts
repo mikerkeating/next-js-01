@@ -162,7 +162,7 @@ export async function createTestDatabase(): Promise<TestDatabase> {
   }
 
   const pool = await getTestPool();
-  testDb = drizzle(pool, { schema });
+  testDb = drizzle({ client: pool, schema });
 
   return testDb;
 }

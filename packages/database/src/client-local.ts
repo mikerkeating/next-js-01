@@ -54,7 +54,7 @@ export function createLocalClient(databaseUrl: string): ReturnType<typeof drizzl
   });
 
   // Create and return Drizzle instance with schema for relational queries
-  return drizzle(client, { schema });
+  return drizzle({ client, schema });
 }
 
 /**

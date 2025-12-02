@@ -167,7 +167,7 @@ export async function runMigrations(options: MigrationOptions = {}): Promise<Mig
   const startTime = Date.now();
 
   if (verbose) {
-    console.log(`Starting migration from: ${migrationsPath}`);
+    console.warn(`Starting migration from: ${migrationsPath}`);
   }
 
   try {
@@ -176,7 +176,7 @@ export async function runMigrations(options: MigrationOptions = {}): Promise<Mig
     const durationMs = Date.now() - startTime;
 
     if (verbose) {
-      console.log(`Migration completed successfully in ${durationMs}ms`);
+      console.warn(`Migration completed successfully in ${durationMs}ms`);
     }
 
     return {

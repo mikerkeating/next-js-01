@@ -25,8 +25,6 @@ import { getDatabaseType } from "./client-factory";
 import { createLocalClient } from "./client-local";
 import * as schema from "./schema/index";
 
-import type { NeonQueryFunction } from "@neondatabase/serverless";
-
 /**
  * Unified database type that works with both Neon and local clients.
  * Both drivers provide the same Drizzle API surface.
@@ -74,13 +72,12 @@ function createNeonClient(databaseUrl: string): Database {
   // Configure Neon-specific settings
   configureNeonConnection();
 
-  // Create the Neon SQL client with explicit type annotation
-  // The type assertion is required due to variance mismatch between
-  // @neondatabase/serverless and drizzle-orm/neon-http generic types
-  const sql: NeonQueryFunction<boolean, boolean> = neon(databaseUrl);
+  // Create the Neon SQL client
+  const sql = neon(databaseUrl);
 
   // Create and return Drizzle instance with schema for relational queries
-  return drizzleNeon(sql, { schema });
+  // Type assertion needed to unify Database type across client implementations
+  return drizzleNeon({ client: sql, schema }) as unknown as Database;
 }
 
 /**

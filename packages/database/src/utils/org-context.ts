@@ -30,8 +30,8 @@
  * @packageDocumentation
  */
 
-import { eq, type SQL } from "drizzle-orm";
-import { uuid, type PgColumn } from "drizzle-orm/pg-core";
+import { eq, type Column, type SQL } from "drizzle-orm";
+import { uuid } from "drizzle-orm/pg-core";
 
 /**
  * Supported column names for organization ID
@@ -44,33 +44,19 @@ export const ORG_COLUMN_NAMES = ["organizationId", "orgId"] as const;
 export type OrgColumnName = (typeof ORG_COLUMN_NAMES)[number];
 
 /**
- * Base type for UUID columns in tables
- */
-type UuidColumn = PgColumn<{
-  name: string;
-  tableName: string;
-  dataType: "string";
-  columnType: "PgUUID";
-  data: string;
-  driverParam: string;
-  notNull: boolean;
-  hasDefault: boolean;
-  enumValues: undefined;
-  baseColumn: never;
-}>;
-
-/**
- * Interface for tables with organizationId column
+ * Interface for tables with organizationId column.
+ * Uses generic Column type for forward compatibility with drizzle-orm versions.
  */
 interface HasOrganizationId {
-  organizationId: UuidColumn;
+  organizationId: Column;
 }
 
 /**
- * Interface for tables with orgId column
+ * Interface for tables with orgId column.
+ * Uses generic Column type for forward compatibility with drizzle-orm versions.
  */
 interface HasOrgId {
-  orgId: UuidColumn;
+  orgId: Column;
 }
 
 /**

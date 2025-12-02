@@ -37,8 +37,8 @@
  * @packageDocumentation
  */
 
-import { isNull, isNotNull, type SQL } from "drizzle-orm";
-import { timestamp, type PgColumn } from "drizzle-orm/pg-core";
+import { isNull, isNotNull, type Column, type SQL } from "drizzle-orm";
+import { timestamp } from "drizzle-orm/pg-core";
 
 /**
  * The column name for soft delete timestamp
@@ -53,20 +53,10 @@ export type SoftDeleteColumnName = typeof SOFT_DELETE_COLUMN;
 /**
  * Interface for tables that support soft delete.
  * Tables must have a deletedAt column that is a nullable timestamp.
+ * Uses generic Column type for forward compatibility with drizzle-orm versions.
  */
 export interface SoftDeletable {
-  deletedAt: PgColumn<{
-    name: string;
-    tableName: string;
-    dataType: "date";
-    columnType: "PgTimestamp";
-    data: Date;
-    driverParam: string;
-    notNull: false;
-    hasDefault: boolean;
-    enumValues: undefined;
-    baseColumn: never;
-  }>;
+  deletedAt: Column;
 }
 
 /**

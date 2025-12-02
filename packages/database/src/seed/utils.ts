@@ -98,7 +98,7 @@ export function createSeedLogger(options: SeedLoggerOptions = {}): SeedLogger {
   return {
     info(message: string): void {
       if (verbose) {
-        console.log(formatMessage(message));
+        console.warn(formatMessage(message));
       }
     },
 
@@ -108,7 +108,7 @@ export function createSeedLogger(options: SeedLoggerOptions = {}): SeedLogger {
 
     success(message: string): void {
       if (verbose) {
-        console.log(formatMessage(`✓ ${message}`));
+        console.warn(formatMessage(`✓ ${message}`));
       }
     },
 

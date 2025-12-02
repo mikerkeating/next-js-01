@@ -127,7 +127,7 @@ describe("runMigrations", () => {
     const mockMigrate = await getMockedMigrate();
     mockMigrate.mockResolvedValueOnce(undefined);
 
-    const consoleSpy = vi.spyOn(console, "log").mockImplementation(() => {});
+    const consoleSpy = vi.spyOn(console, "warn").mockImplementation(() => {});
 
     await runMigrations({ verbose: true });
 
@@ -139,7 +139,7 @@ describe("runMigrations", () => {
     const mockMigrate = await getMockedMigrate();
     mockMigrate.mockResolvedValueOnce(undefined);
 
-    const consoleSpy = vi.spyOn(console, "log").mockImplementation(() => {});
+    const consoleSpy = vi.spyOn(console, "warn").mockImplementation(() => {});
 
     await runMigrations({ verbose: true });
 

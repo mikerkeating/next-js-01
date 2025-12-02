@@ -50,7 +50,7 @@
   "dependencies": {
     "@neondatabase/serverless": "^0.10.0",
     "@paralleldrive/cuid2": "^2.2.2",
-    "drizzle-orm": "^0.29.0",
+    "drizzle-orm": "^0.44.7",
     "postgres": "^3.4.7"
   },
   "devDependencies": {
@@ -59,7 +59,7 @@
     "@repo/config": "workspace:*",
     "@types/ws": "^8.5.0",
     "@vitest/coverage-v8": "^4.0.14",
-    "drizzle-kit": "^0.29.0",
+    "drizzle-kit": "^0.31.7",
     "eslint": "^9.39.0",
     "eslint-import-resolver-typescript": "^4.3.4",
     "eslint-plugin-import": "^2.31.0",
