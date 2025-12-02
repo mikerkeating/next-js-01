@@ -50,13 +50,14 @@ describeIntegration("Health Check Integration Tests", () => {
       const result = await checkDatabaseHealth();
 
       expect(result.status).toBe("healthy");
-      expect(result.latencyMs).toBeGreaterThan(0);
+      // Latency can be 0 for sub-millisecond queries (integer truncation)
+      expect(result.latencyMs).toBeGreaterThanOrEqual(0);
 
       // After warm-up, latency should be well under target
       // Using 200ms threshold to reduce flakiness
       expect(result.latencyMs).toBeLessThan(200);
 
-      console.log(`  Health check latency: ${result.latencyMs.toFixed(2)}ms`);
+      console.warn(`  Health check latency: ${result.latencyMs.toFixed(2)}ms`);
     });
 
     it("should measure latency accurately (within 10ms tolerance)", async () => {
