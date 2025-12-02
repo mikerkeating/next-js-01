@@ -54,15 +54,15 @@ This epic establishes the database infrastructure layer using Drizzle ORM with P
 
 > **Note**: Epic acceptance criteria should be high-level outcomes. Story-level criteria provide the detailed verification.
 
-- [ ] Developers can import `@repo/database` and execute type-safe queries against PostgreSQL
-- [ ] Database migrations can be generated, applied, and rolled back via CLI commands
-- [ ] Connection pooling maintains <100ms connection times under normal load
-- [ ] Environment-specific database URLs work correctly (dev, staging, production)
-- [ ] Generic utility functions are available and documented for use in product schemas
-- [ ] Seed scripts can populate test data in any environment
-- [ ] Test suite achieves 80% coverage for database utilities
-- [ ] All stories complete and verified
-- [ ] Documentation updated with usage examples
+- [x] Developers can import `@repo/database` and execute type-safe queries against PostgreSQL
+- [x] Database migrations can be generated, applied, and rolled back via CLI commands
+- [x] Connection pooling maintains <100ms connection times under normal load
+- [x] Environment-specific database URLs work correctly (dev, staging, production)
+- [x] Generic utility functions are available and documented for use in product schemas
+- [x] Seed scripts can populate test data in any environment
+- [x] Test suite achieves 80% coverage for database utilities
+- [x] All stories complete and verified
+- [x] Documentation updated with usage examples
 
 ## Stories
 
@@ -218,4 +218,4 @@ The following items are explicitly NOT part of this epic:
 - **Completed**: 2025-12-02
 - **Stories Complete**: 10/10
 
-**Note**: All stories complete with unit tests (199 tests, 98%+ coverage) and integration tests. CI/CD workflow updates for integration tests are deferred to DevOps implementation but infrastructure code is complete.
+**Note**: All stories complete with unit tests (199 tests, 98%+ coverage) and integration tests (45 tests). CI/CD workflows (ci.yml and pr.yml) include PostgreSQL 16 service containers for automated integration testing.
