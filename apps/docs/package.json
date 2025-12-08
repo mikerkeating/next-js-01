@@ -24,7 +24,7 @@
   },
   "devDependencies": {
     "@eslint/js": "^9.28.0",
-    "@next/eslint-plugin-next": "^15.3.4",
+    "@next/eslint-plugin-next": "^16.0.7",
     "@repo/config": "workspace:*",
     "@types/node": "^24.10.1",
     "@types/react": "^19.2.7",

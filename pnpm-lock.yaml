@@ -94,8 +94,8 @@ importers:
         specifier: ^9.28.0
         version: 9.39.1
       '@next/eslint-plugin-next':
-        specifier: ^15.3.4
-        version: 15.5.6
+        specifier: ^16.0.7
+        version: 16.0.7
       '@repo/config':
         specifier: workspace:*
         version: link:../../packages/config
@@ -158,8 +158,8 @@ importers:
         specifier: ^9.28.0
         version: 9.39.1
       '@next/eslint-plugin-next':
-        specifier: ^15.3.4
-        version: 15.5.6
+        specifier: ^16.0.7
+        version: 16.0.7
       '@playwright/test':
         specifier: ^1.57.0
         version: 1.57.0
@@ -252,8 +252,8 @@ importers:
         specifier: ^9.28.0
         version: 9.39.1
       '@next/eslint-plugin-next':
-        specifier: ^15.3.4
-        version: 15.5.6
+        specifier: ^16.0.7
+        version: 16.0.7
       '@testing-library/jest-dom':
         specifier: ^6.8.0
         version: 6.9.1
@@ -1457,8 +1457,8 @@ packages:
   '@next/env@16.0.6':
     resolution: {integrity: sha512-PFTK/G/vM3UJwK5XDYMFOqt8QW42mmhSgdKDapOlCqBUAOfJN2dyOnASR/xUR/JRrro0pLohh/zOJ77xUQWQAg==}
 
-  '@next/eslint-plugin-next@15.5.6':
-    resolution: {integrity: sha512-YxDvsT2fwy1j5gMqk3ppXlsgDopHnkM4BoxSVASbvvgh5zgsK8lvWerDzPip8k3WVzsTZ1O7A7si1KNfN4OZfQ==}
+  '@next/eslint-plugin-next@16.0.7':
+    resolution: {integrity: sha512-hFrTNZcMEG+k7qxVxZJq3F32Kms130FAhG8lvw2zkKBgAcNOJIxlljNiCjGygvBshvaGBdf88q2CqWtnqezDHA==}
 
   '@next/swc-darwin-arm64@16.0.6':
     resolution: {integrity: sha512-AGzKiPlDiui+9JcPRHLI4V9WFTTcKukhJTfK9qu3e0tz+Y/88B7vo5yZoO7UaikplJEHORzG3QaBFQfkjhnL0Q==}
@@ -4411,6 +4411,7 @@ packages:
   next@16.0.6:
     resolution: {integrity: sha512-2zOZ/4FdaAp5hfCU/RnzARlZzBsjaTZ/XjNQmuyYLluAPM7kcrbIkdeO2SL0Ysd1vnrSgU+GwugfeWX1cUCgCg==}
     engines: {node: '>=20.9.0'}
+    deprecated: This version has a security vulnerability. Please upgrade to a patched version. See https://nextjs.org/blog/CVE-2025-66478 for more details.
     hasBin: true
     peerDependencies:
       '@opentelemetry/api': ^1.1.0
@@ -6551,7 +6552,7 @@ snapshots:
 
   '@next/env@16.0.6': {}
 
-  '@next/eslint-plugin-next@15.5.6':
+  '@next/eslint-plugin-next@16.0.7':
     dependencies:
       fast-glob: 3.3.1
 
