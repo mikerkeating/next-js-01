@@ -27,7 +27,7 @@
     "zod": "^3.22.0"
   },
   "devDependencies": {
-    "@eslint/js": "^9.28.0",
+    "@eslint/js": "^9.39.2",
     "@next/eslint-plugin-next": "^15.3.4",
     "@playwright/test": "^1.57.0",
     "@repo/config": "workspace:*",
@@ -41,7 +41,7 @@
     "@types/react": "^19.2.7",
     "@types/react-dom": "^19.2.3",
     "autoprefixer": "^10.4.22",
-    "eslint": "^9.39.0",
+    "eslint": "^9.39.2",
     "eslint-import-resolver-typescript": "^4.3.4",
     "eslint-plugin-import": "^2.31.0",
     "eslint-plugin-jsx-a11y": "^6.10.2",
@@ -50,7 +50,7 @@
     "globals": "^16.2.0",
     "happy-dom": "^20.0.11",
     "postcss": "^8.5.6",
-    "prettier": "^3.7.3",
+    "prettier": "^3.7.4",
     "prettier-plugin-tailwindcss": "^0.6.12",
     "tailwindcss": "^4.1.17",
     "typescript": "^5.9.3",
